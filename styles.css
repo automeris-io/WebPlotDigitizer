@@ -1,0 +1,128 @@
+/*
+	HTML5 Plot Data Extracter
+
+	Copyright 2010 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+
+	This file is part of HTML5 Plot Data Extracter.
+
+    HTML5 Plot Data Extracter is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Foobar is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with HTML5 Plot Data Extracter.  If not, see <http://www.gnu.org/licenses/>.
+
+
+*/
+
+/* CSS Reset */
+{
+	margin: 0;
+	padding: 0;
+}
+
+html
+{
+		height:100%;
+}
+body
+{
+		margin: 0 auto;
+		width: 100%;
+		height:100%;
+		font: 13px/22px Verdana, sans; 
+		background: #ffffff; 
+}
+
+h1
+{
+		font-size: 16px;
+		padding: 5px 15px;
+		color: grey;
+}
+tr,td
+{
+		margin:0;
+		padding:0;
+}
+
+#bodyTable
+{
+		width:100%;
+		height:100%;
+		margin:0;
+		padding:0;
+}
+
+footer p
+{
+		font-size: 10px;
+		padding: 0px 10px;
+}
+
+#mainSection
+{
+		height:100%;
+}
+aside p
+{
+		padding:0;
+		margin:0;
+}
+#buttonTD
+{
+		height:5%;
+		margin:0;
+		padding:0;
+}
+
+#canvasTD
+{
+		height:95%;
+		margin:0;
+		padding:0;
+}
+#canvasTable
+{
+		height:100%;
+		width:100%;
+		padding:0px 5px;
+}
+#canvasDiv
+{
+		height:100%;
+}
+#mainCanvas
+{
+		border: thin black solid;
+}
+#axesStatus
+{
+		padding-left:10px;
+}
+#pointsStatus
+{
+		padding-left:10px;
+}
+#helpNote
+{
+	font-size:10px;
+}
+#xyRangeForm
+{
+		padding:0px 0;
+		margin:0;
+		border: thin black solid;
+}
+#xyRangeForm p
+{
+		padding:0px 0;
+		margin:0px;
+		text-align:center;
+}

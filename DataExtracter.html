@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<!-- 
+	HTML5 Plot Data Extracter
+
+	Copyright 2010 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+
+	This file is part of HTML5 Plot Data Extracter.
+
+    HTML5 Plot Data Extracter is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Foobar is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with HTML5 Plot Data Extracter.  If not, see <http://www.gnu.org/licenses/>.
+
+-->
+<html>
+
+<head>
+<title>HTML5 Plot Data Extracter - Copyright 2010 Ankit Rohatgi</title>
+<link rel="stylesheet" href="styles.css" type="text/css" media="screen" />
+<script src="js_scripts.js" language="JavaScript"></script>
+</head>
+
+<body onLoad="javascript:init();">
+<table width="100%" id="bodyTable">
+<tr height="5%"><td colspan="2">
+<header>
+	<h1>HTML5 Plot Data Extracter v1.0</h1>
+</header>
+</td></tr>
+<tr height="90%"><td width="80%" valign="top">
+<section id="mainSection">
+	<table id="canvasTable">
+		<tr><td id="buttonTD">
+		<!-- Image editing buttons go here -->
+			<input type="button" value="Crop" id="cropBtn" onMouseOver="javascript:toolTip('Crop image.');" onMouseOut="javascript:toolTip('');" onClick="javascript:cropPlot();">
+			<input type="button" value="Original" id="originalBtn" onMouseOver="javascript:toolTip('Revert to original image.');" onMouseOut="javascript:toolTip('');" onClick="javascript:originalPlot();"> |
+			<input type="button" value="Set Axes" id="axesBtn" onMouseOver="javascript:toolTip('Specify axes corners.');" onMouseOut="javascript:toolTip('');" onClick="javascript:setAxes();">
+			<input type="button" value="Pick Points" id="pointsBtn" onMouseOver="javascript:toolTip('Select data points.');" onMouseOut="javascript:toolTip('');" onClick="javascript:pickPoints();">
+			<input type="button" value="Clear Points" id="clearBtn" onMouseOver="javascript:toolTip('Clear selected points.');" onMouseOut="javascript:toolTip('');" onClick="clearPoints();">
+			<input type="button" value="Save" id="saveBtn" onMouseOver="javascript:toolTip('Generate .CSV file');" onMouseOut="javascript:toolTip('');" onClick="saveData();"> |
+			<span id="toolTip"></span>
+		</td></tr>
+		<tr><td id="canvasTD">
+			<!-- the main canvas goes here -->
+			<div id="canvasDiv" style="position:relative;" onMouseOver="this.style.cursor='crosshair';">
+				<canvas id="mainCanvas">
+				</canvas>
+			</div>
+		</td></tr>
+	</table>
+</section>
+</td><td valign="top" width="20%">
+<aside>
+	<p><b>Work Status</b></p>
+	<p>Axes: <span id="axesStatus">DEFINED</span></p>
+	<p>Points Picked: <span id="pointsStatus">0</span></p>
+
+	<div id="xyRangeForm">
+	<p><b>X Range</b> <!-- <input type="checkbox" id="xlog"> Log Scale --></p>
+	<p>Min: <input type="text" size="6" id="xmin" value="0"></p>
+	<p>Max: <input type="text" size="6" id="xmax" value="1"></p>
+	<p><b>Y Range</b> <!-- <input type="checkbox" id="ylog"> Log Scale --></p>
+	<p>Min: <input type="text" size="6" id="ymin" value="0"></p>
+	<p>Max: <input type="text" size="6" id="ymax" value="1"></p>
+	<p><input type="button" id="xybtn" value="OK" onClick="setXYRange();"></p>
+	</div>
+	<p>CSV Data</p>
+	<p align="center"><textarea rows="6" cols="25" id="tarea"></textarea>
+	</p>
+
+</aside>
+</td></tr>
+</table>
+</body>
+</html>
