@@ -63,6 +63,16 @@
 	<p>Axes: <span id="axesStatus">DEFINED</span></p>
 	<p>Points Picked: <span id="pointsStatus">0</span></p>
 
+	<div>
+		<canvas id="zoomCanvas" width=100 height=100></canvas>
+	</div>
+
+</aside>
+</td></tr>
+</table>
+
+<!-- popup windows go here -->
+
 	<div id="xyRangeForm">
 	<p><b>X Range</b> <!-- <input type="checkbox" id="xlog"> Log Scale --></p>
 	<p>Min: <input type="text" size="6" id="xmin" value="0"></p>
@@ -72,12 +82,12 @@
 	<p>Max: <input type="text" size="6" id="ymax" value="1"></p>
 	<p><input type="button" id="xybtn" value="OK" onClick="setXYRange();"></p>
 	</div>
-	<p>CSV Data</p>
-	<p align="center"><textarea rows="6" cols="25" id="tarea"></textarea>
-	</p>
 
-</aside>
-</td></tr>
-</table>
+	<div id="csvWindow">
+	<p align="center">Copy Paste to a .CSV file</p>
+	<p align="center"><textarea id="tarea" rows="10" cols="50"></textarea></p>
+	<p align="center"><input type="button" id="closeCSVbtn" value="done" onClick="closeCSV();"></p>
+	</div>
+
 </body>
 </html>

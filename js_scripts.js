@@ -112,8 +112,30 @@ function init() // This is run when the page loads.
 	cmode = 0;
 	axesPicked = 0;
 	rangePicked = 0;
+
 }
 
+function showPopup(popupid)
+{
+		var pWindow = document.getElementById(popupid);
+		var screenWidth = parseInt(window.innerWidth);
+		var screenHeight = parseInt(window.innerHeight);
+		var pWidth = parseInt(pWindow.offsetWidth);
+		var pHeight = parseInt(pWindow.offsetHeight);
+		var xPos = (screenWidth - pWidth)/2;
+		var yPos = (screenHeight - pHeight)/2;
+		pWindow.style.left = xPos + 'px';
+		pWindow.style.top = yPos + 'px';
+		pWindow.style.visibility = "visible";
+}
+
+function closePopup(popupid)
+{
+
+		var pWindow = document.getElementById(popupid);
+		pWindow.style.visibility = "hidden";
+
+}
 
 function toolTip(tn) // changes the tooltip text.
 {
@@ -188,6 +210,7 @@ function pickCorners(ev)
 					ctx.drawImage(currentImage, 0, 0, currentImageWidth, currentImageHeight);
 					if (rangePicked == 1)
 							axesStatus(1);
+					showPopup('xyRangeForm');
 			}
 		}
 		
@@ -213,6 +236,7 @@ function setXYRange() // set the X-Y data range.
 	rangePicked = 1;
 	if (axesPicked == 1)
 		axesStatus(1);
+	closePopup('xyRangeForm');
 }
 
 function pickPoints() // select data points.
@@ -256,6 +280,11 @@ function clearPoints() // clear all markings.
 		pointsStatus(pointsPicked);
 }
 
+function closeCSV()
+{
+		closePopup('csvWindow');
+}
+
 function saveData() // generate the .CSV file
 {
 		// check if everything was specified
@@ -263,6 +292,7 @@ function saveData() // generate the .CSV file
 		// save data as CSV.
 		if(rangePicked == 1 && axesPicked ==1 && pointsPicked >= 1) 
 		{
+			showPopup('csvWindow');
 			tarea = document.getElementById('tarea');
 			tarea.value = '';
 
