@@ -195,8 +195,8 @@ function setAxes() // specify 4 corners and data range.
 			xyAxes = [];
 		else
 		    xyAxes = new Array();
-		
-		alert('Select the four corners of the plot starting from the origin and going clockwise.');
+
+		showPopup('axesInfo');
 }
 
 function pickCorners(ev)
@@ -217,7 +217,6 @@ function pickCorners(ev)
 
 			if (axesN == 4)
 			{
-					alert('You have chosen 4 points, now make sure you set the range.');
 					axesPicked = 1;
 					ctx.drawImage(currentImage, 0, 0, currentImageWidth, currentImageHeight);
 					if (rangePicked == 1)

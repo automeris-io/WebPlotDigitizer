@@ -133,6 +133,22 @@ aside p
 		visibility:hidden;
 
 }
+
+#axesInfo
+{
+		padding:0px 20px;
+		margin:0;
+		border: thin black solid;
+		background:white;
+		width:300px;
+		z-index:100;
+		position:absolute;
+		top:20px;
+		left:20px;
+		visibility:hidden;
+
+}
+
 #xyRangeForm p
 {
 		padding:0px 0;
