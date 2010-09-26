@@ -26,6 +26,10 @@ var pointsPicked;
 var ctx;
 var cmode;
 var xyData;
+var zCanvas;
+var zctx;
+var tempCanvas;
+var tctx;
 
 var axesPicked;
 var axesN;
@@ -56,7 +60,14 @@ function init() // This is run when the page loads.
 {
 	canvas = document.getElementById('mainCanvas');
 	var canvasDiv = document.getElementById('canvasDiv');
-	
+		
+	zCanvas = document.getElementById('zoomCanvas');
+	zctx = zCanvas.getContext('2d');
+
+	tempCanvas = document.createElement('canvas');
+	tctx = tempCanvas.getContext('2d');
+	tempCanvas.width=20;
+	tempCanvas.height=20;
 	// Set canvas dimensions
 	cwidth = canvasDiv.offsetWidth;
 	cheight = canvasDiv.offsetHeight;
@@ -101,6 +112,7 @@ function init() // This is run when the page loads.
 	
 	// specify mouseover function
 	canvas.addEventListener('mousedown',clickHandler,false);
+	canvas.addEventListener('mousemove',mouseOverHandler,false);
 
 	// Image dropping capabilities
 	canvas.addEventListener('dragover',function(event) {event.preventDefault();}, true);
@@ -342,7 +354,34 @@ function clickHandler(ev)
 		}
 		
 }
+function mouseOverHandler(ev)
+{
+	xpos = ev.layerX;
+	ypos = ev.layerY;
+	
+	dx = 20;
+	dy = 20;
+    
+	if((xpos-dx/2)>0 && (ypos-dy/2)>0 && (xpos+dx/2)<cwidth && (ypos+dy/2)<cheight)
+	{
+		var zoomImage = ctx.getImageData(xpos-dx/2,ypos-dy/2,dx,dy);
+		tctx.putImageData(zoomImage,0,0);
+		var imgdata = tempCanvas.toDataURL();
+		var zImage = new Image();
+		zImage.onload = function() 
+			{ 
+					zctx.drawImage(zImage,0,0,200,200); 
+					zctx.beginPath();
+					zctx.moveTo(100,0);
+					zctx.lineTo(100,200);
+					zctx.moveTo(0,100);
+					zctx.lineTo(200,100);
+					zctx.stroke();
 
+			}
+		zImage.src = imgdata;
+	}
+}
 function dropHandler(ev)
 {
 	allDrop = ev.dataTransfer.files;

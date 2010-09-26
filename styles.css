@@ -102,6 +102,11 @@ aside p
 {
 		border: thin black solid;
 }
+
+#zoomCanvas
+{
+		border: thin black solid;
+}
 #axesStatus
 {
 		padding-left:10px;
