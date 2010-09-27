@@ -42,5 +42,9 @@ Known Issues
 	- Screen resolution: Some display issues might arise on small screens as this
 	  program has not been tested on low resolutions.
 
-	For other problems, feel free to drop the author an email.
+	- Offline Usage: getImageData() function in the JavaScript will throw a  
+	  security error when this is used in offline mode in Firefox 3.6. 
+	  Just select "remember" and "allow". This is just the javascript trying to
+	  access the image file from your hard disk. Nothing malicious is going on here.
+
 
