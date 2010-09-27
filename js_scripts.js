@@ -117,7 +117,7 @@ function init() // This is run when the page loads.
 	
 	// specify mouseover function
 	canvas.addEventListener('mousedown',clickHandler,false);
-	canvas.addEventListener('mousemove',mouseOverHandler,false);
+	canvas.addEventListener('mousemove',updateZoom,false);
 
 	// Image dropping capabilities
 	canvas.addEventListener('dragover',function(event) {event.preventDefault();}, true);
@@ -136,6 +136,12 @@ function setDefaultState()
 		axesStatus(0);
 		var pointsWin = document.getElementById('pointsWindow');
 		pointsWin.style.visibility = 'hidden';
+		zctx.beginPath();
+  		zctx.moveTo(zWindowWidth/2, 0);
+		zctx.lineTo(zWindowWidth/2, zWindowHeight);
+		zctx.moveTo(0, zWindowHeight/2);
+		zctx.lineTo(zWindowWidth, zWindowHeight/2);
+		zctx.stroke();
 }
 
 function showPopup(popupid)
@@ -292,6 +298,7 @@ function clickPoints(ev)
 	ctx.fill();
 
 	pointsStatus(pointsPicked);
+	updateZoom(ev);
 
 }
 
@@ -304,6 +311,7 @@ function clearPoints() // clear all markings.
 		pointsStatus(pointsPicked);
 		var pointsWin = document.getElementById('pointsWindow');
 		pointsWin.style.visibility = 'hidden';
+		cmode = 0;
 }
 
 function undoPointSelection()
@@ -389,7 +397,9 @@ function clickHandler(ev)
 		}
 		
 }
-function mouseOverHandler(ev)
+
+
+function updateZoom(ev)
 {
 	xpos = ev.layerX;
 	ypos = ev.layerY;
@@ -399,7 +409,25 @@ function mouseOverHandler(ev)
     
 	if((xpos-dx/2)>0 && (ypos-dy/2)>0 && (xpos+dx/2)<cwidth && (ypos+dy/2)<cheight)
 	{
-		var zoomImage = ctx.getImageData(xpos-dx/2,ypos-dy/2,dx,dy);
+		try
+		{
+				try
+				{
+						var zoomImage = ctx.getImageData(xpos-dx/2,ypos-dy/2,dx,dy);
+				} 
+				catch(e)
+				{
+						netscape.security.PrivilegeManager.enablePrivilege("UniversalBrowserRead");
+						var zoomImage = ctx.getImageData(xpos-dx/2,ypos-dy/2,dx,dy);
+
+
+				}
+		}
+		catch(e)
+		{
+				throw new Error("Unable to access image data: " + e);
+		}
+
 		tctx.putImageData(zoomImage,0,0);
 		var imgdata = tempCanvas.toDataURL();
 		var zImage = new Image();
@@ -417,6 +445,8 @@ function mouseOverHandler(ev)
 		zImage.src = imgdata;
 	}
 }
+
+
 function dropHandler(ev)
 {
 	allDrop = ev.dataTransfer.files;
@@ -454,6 +484,7 @@ function dropHandler(ev)
 							oriWidth = newWidth;
 
 			     			ctx.drawImage(newimg,0,0,newWidth,newHeight);
+							setDefaultState();
 						}
 				newimg.src = imageInfo;
 		}
