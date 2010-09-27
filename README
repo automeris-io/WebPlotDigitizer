@@ -1,0 +1,46 @@
+WebPlotDigitizer v1.0 - A Web Based Plot Digitizer
+
+http://www.arohatgi.info/WebPlotDigitizer
+
+Copyright 2010 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+
+This program is distributed under the GNU General Public License Version 3.
+
+
+Introduction
+
+	WebPlotDigitizer is a HTML5 and JavaScript based tool to enable extraction
+	of data from plot images. To retrieve data from a plot, just drag and drop
+	the image on the plot area of the interface. You then have to specify the four
+	corners of the axes to establish the coordinate system. Once the axes are
+	specified, you can select points on the curves where you want the data.
+	The program can convert the data into a Comma Separated Values (CSV) format
+	which can be imported easily into most data analysis programs.  
+
+
+
+Known Issues
+
+	This is the first version of WebPlotDigitizer so there are a number of
+	issues with the program. Some of these might be addressed to in the
+	future.
+
+	- Browser compatibility: This has been tested only on Firefox and Chrome.
+	  Chrome works slightly better than Firefox. I have no immediate
+	  intention of testing this out on other browsers.
+
+	- Zoom feature does not work when the mouse is 10 pixels from the border.
+
+	- Drag and Drop feature does not test if the dropped file was a valid
+	  image. Dropping a non-image file can potentially crash the browser.
+
+	- Log scale axes don't seem to be supported, but you can still get the
+	  exponent values if you specify the powers as the axis range. Ex: For log
+	  scale X-axis ranging from 10^1 to 10^100, specify xmin as 1 and xmax as
+	  100 and the X axis data will then be given by 10^{first column data}.
+
+	- Screen resolution: Some display issues might arise on small screens as this
+	  program has not been tested on low resolutions.
+
+	For other problems, feel free to drop the author an email.
+
