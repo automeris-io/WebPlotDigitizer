@@ -26,10 +26,15 @@ var pointsPicked;
 var ctx;
 var cmode;
 var xyData;
+
 var zCanvas;
 var zctx;
 var tempCanvas;
 var tctx;
+var zoom_dx = 20;
+var zoom_dy = 20;
+var zWindowWidth = 200;
+var zWindowHeight = 200;
 
 var axesPicked;
 var axesN;
@@ -66,8 +71,8 @@ function init() // This is run when the page loads.
 
 	tempCanvas = document.createElement('canvas');
 	tctx = tempCanvas.getContext('2d');
-	tempCanvas.width=20;
-	tempCanvas.height=20;
+	tempCanvas.width = zoom_dx;
+	tempCanvas.height = zoom_dy;
 	// Set canvas dimensions
 	cwidth = canvasDiv.offsetWidth;
 	cheight = canvasDiv.offsetHeight;
@@ -119,12 +124,18 @@ function init() // This is run when the page loads.
 	canvas.addEventListener("drop",function(event) {event.preventDefault(); dropHandler(event);},true);
 	
 	// Set defaults everywhere.
-	axesStatus(0);
 	toolTip('Drag plot image below.');
-	cmode = 0;
-	axesPicked = 0;
-	rangePicked = 0;
+	setDefaultState();
+}
 
+function setDefaultState()
+{
+		cmode = 0;
+		axesPicked = 0;
+		rangePicked = 0;
+		axesStatus(0);
+		var pointsWin = document.getElementById('pointsWindow');
+		pointsWin.style.visibility = 'hidden';
 }
 
 function showPopup(popupid)
@@ -262,6 +273,8 @@ function pickPoints() // select data points.
 				xyData = new Array();
 
 		ctx.drawImage(currentImage, 0, 0, currentImageWidth, currentImageHeight);
+		var pointsWin = document.getElementById('pointsWindow');
+		pointsWin.style.visibility="visible";
 }
 
 function clickPoints(ev)
@@ -289,6 +302,29 @@ function clearPoints() // clear all markings.
 			xyData = [];
 		ctx.drawImage(currentImage,0,0,currentImageWidth,currentImageHeight);
 		pointsStatus(pointsPicked);
+		var pointsWin = document.getElementById('pointsWindow');
+		pointsWin.style.visibility = 'hidden';
+}
+
+function undoPointSelection()
+{
+		if (pointsPicked >= 1)
+		{
+				pointsPicked = pointsPicked - 1;
+				pointsStatus(pointsPicked);
+				ctx.drawImage(currentImage,0,0,currentImageWidth,currentImageHeight);
+				for(ii = 0; ii < pointsPicked; ii++)
+				{
+					xi = xyData[ii][0];	
+					yi = xyData[ii][1];
+
+					ctx.beginPath();
+					ctx.fillStyle = "rgb(200,0,0)";
+					ctx.arc(xi,yi,3,0,2.0*Math.PI,true);
+					ctx.fill();
+				}
+
+		}
 }
 
 function closeCSV()
@@ -358,8 +394,8 @@ function mouseOverHandler(ev)
 	xpos = ev.layerX;
 	ypos = ev.layerY;
 	
-	dx = 20;
-	dy = 20;
+	dx = zoom_dx;
+	dy = zoom_dy;
     
 	if((xpos-dx/2)>0 && (ypos-dy/2)>0 && (xpos+dx/2)<cwidth && (ypos+dy/2)<cheight)
 	{
@@ -369,12 +405,12 @@ function mouseOverHandler(ev)
 		var zImage = new Image();
 		zImage.onload = function() 
 			{ 
-					zctx.drawImage(zImage,0,0,200,200); 
+					zctx.drawImage(zImage,0,0,zWindowWidth,zWindowHeight); 
 					zctx.beginPath();
-					zctx.moveTo(100,0);
-					zctx.lineTo(100,200);
-					zctx.moveTo(0,100);
-					zctx.lineTo(200,100);
+					zctx.moveTo(zWindowWidth/2, 0);
+					zctx.lineTo(zWindowWidth/2, zWindowHeight);
+					zctx.moveTo(0, zWindowHeight/2);
+					zctx.lineTo(zWindowWidth, zWindowHeight/2);
 					zctx.stroke();
 
 			}
@@ -384,7 +420,7 @@ function mouseOverHandler(ev)
 function dropHandler(ev)
 {
 	allDrop = ev.dataTransfer.files;
-	if (allDrop.length == 1)
+	if (allDrop.length == 1) // also check if it's a valid image
 	{
 		var droppedFile = new FileReader();
 		droppedFile.onload = function() {

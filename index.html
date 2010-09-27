@@ -42,10 +42,11 @@
 		<!-- Image editing buttons go here -->
 			<!--<input type="button" value="Crop" id="cropBtn" onMouseOver="javascript:toolTip('Crop image.');" onMouseOut="javascript:toolTip('');" onClick="javascript:cropPlot();">
 			<input type="button" value="Original" id="originalBtn" onMouseOver="javascript:toolTip('Revert to original image.');" onMouseOut="javascript:toolTip('');" onClick="javascript:originalPlot();"> | -->
-			<input type="button" value="Set Axes" id="axesBtn" onMouseOver="javascript:toolTip('Specify axes corners.');" onMouseOut="javascript:toolTip('');" onClick="javascript:setAxes();">
-			<input type="button" value="Pick Points" id="pointsBtn" onMouseOver="javascript:toolTip('Select data points.');" onMouseOut="javascript:toolTip('');" onClick="javascript:pickPoints();">
-			<input type="button" value="Clear Points" id="clearBtn" onMouseOver="javascript:toolTip('Clear selected points.');" onMouseOut="javascript:toolTip('');" onClick="clearPoints();">
-			<input type="button" value=".CSV" id="saveBtn" onMouseOver="javascript:toolTip('Generate .CSV file');" onMouseOut="javascript:toolTip('');" onClick="saveData();"> |
+			<input type="button" value="1. Set Axes" id="axesBtn" onMouseOver="javascript:toolTip('Specify axes corners.');" onMouseOut="javascript:toolTip('');" onClick="javascript:setAxes();">
+			<input type="button" value="2. Pick Points" id="pointsBtn" onMouseOver="javascript:toolTip('Select data points.');" onMouseOut="javascript:toolTip('');" onClick="javascript:pickPoints();">
+			<input type="button" value="About" id="aboutBtn" onMouseOver="javascript:toolTip('Information about this program.');" onMouseOut="javascript:toolTip('');" onClick="showPopup('aboutNote');">
+
+			 |
 			<span id="toolTip"></span>
 		</td></tr>
 		<tr><td id="canvasTD">
@@ -59,12 +60,17 @@
 </section>
 </td><td valign="top" width="25%">
 <aside>
-	<p><b>Work Status</b></p>
-	<p>Axes: <span id="axesStatus">DEFINED</span></p>
-	<p>Points Picked: <span id="pointsStatus">0</span></p>
-
 	<div style="position:relative;">
 		<canvas id="zoomCanvas" width=200 height=200></canvas>
+	</div>
+
+	<div id="pointsWindow">
+	<p align="center"><b>Select Data</b></p>
+	<p align="center">Axes:<span id="axesStatus">DEFINED</span></p>
+	<p align="center">Points Picked:<span id="pointsStatus">0</span></p>
+	<p align="center"><input id="removeLastBtn" type="button" value="Undo" onClick="undoPointSelection();" style="width: 150px;"></p>
+	<p align="center"><input id="clearAllBtn" type="button" value="Clear All" onCLick="clearPoints();" style="width: 150px;"></p>
+	<p align="center"><input type="button" value="Create .CSV" id="saveBtn" onClick="saveData();" style="width:150px;"></p>
 	</div>
 
 </aside>
@@ -84,7 +90,7 @@
 	</div>
 
 	<div id="csvWindow">
-	<p align="center">Copy Paste to a .CSV file</p>
+	<p align="center">Copy and Paste to a .CSV file</p>
 	<p align="center"><textarea id="tarea" rows="10" cols="50"></textarea></p>
 	<p align="center"><input type="button" id="closeCSVbtn" value="done" onClick="closeCSV();"></p>
 	</div>
@@ -94,6 +100,13 @@
 	<p align="center">Select four corners of the axes starting with the origin and going clockwise.</p>
 	<p align="center"><input type="button" value="Proceed" onClick="closePopup('axesInfo')"></p>
 	</div>
+
+	<div id="aboutNote">
+	<p align="center"><b>WebPlotDigitizer v1.0</b> - Web based Plot Digitizer</p>
+	<p align="center">This program is distributed under the GNU General Public License Version 3.</p>
+	<p align="center">Copyright 2010 Ankit Rohatgi &lt;ankitrohatgi@hotmail.com&gt;</p>
+	<p align="center"><a href="">http://www.arohatgi.info/WebPlotDigitizer</a></p>
+	<p align="center"><input type="button" value="Close" onClick="closePopup('aboutNote');"></p>
 
 </body>
 </html>
