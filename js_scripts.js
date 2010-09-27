@@ -231,6 +231,8 @@ function pickCorners(ev)
 			ctx.fillStyle = "rgb(0,0,200)";
 			ctx.arc(xi,yi,3,0,2.0*Math.PI,true);
 			ctx.fill();
+			
+			updateZoom(ev);
 
 			if (axesN == 4)
 			{
