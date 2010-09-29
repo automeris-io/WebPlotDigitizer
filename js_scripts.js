@@ -1,6 +1,8 @@
 /*
 	WebPlotDigitizer
 
+	Version 1.1
+
 	Copyright 2010 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
