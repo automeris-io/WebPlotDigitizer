@@ -43,6 +43,10 @@ var axesN;
 var xyAxes;
 var rangePicked;
 
+var cx0;
+var cy0;
+var canvasWidth;
+var canvasHeight;
 var cwidth;
 var cheight;
 var caspectratio;
@@ -75,11 +79,23 @@ function init() // This is run when the page loads.
 	tctx = tempCanvas.getContext('2d');
 	tempCanvas.width = zoom_dx;
 	tempCanvas.height = zoom_dy;
+
+	// Position to paste new plots at
+	cx0 = zoom_dx/2;
+	cy0 = zoom_dy/2;
+
 	// Set canvas dimensions
-	cwidth = canvasDiv.offsetWidth;
-	cheight = canvasDiv.offsetHeight;
-	canvas.height = cheight;
-	canvas.width = cwidth;
+	canvasWidth = parseFloat(canvasDiv.offsetWidth);
+	canvasHeight = parseFloat(canvasDiv.offsetHeight);
+	
+	// resize canvas.
+	canvas.height = canvasHeight;
+	canvas.width = canvasWidth;
+
+	// Needed to fix the zoom problem.
+	cheight = canvasHeight - zoom_dy;
+	cwidth = canvasWidth - zoom_dx;
+
 	caspectratio = cheight/cwidth;
 
 	ctx = canvas.getContext('2d');
@@ -91,7 +107,7 @@ function init() // This is run when the page loads.
 				var swidth = img.width;
 				var newHeight = sheight;
 				var newWidth = swidth;
-				if ((sheight > cheight) || (swidth < cwidth)) 
+				if ((sheight > cheight) || (swidth > cwidth)) 
 				{
 						var iar = sheight/swidth;
 						if (iar > caspectratio)
@@ -112,8 +128,11 @@ function init() // This is run when the page loads.
 				oriImage = img;
 				oriHeight = newHeight;
 				oriWidth = newWidth;
+				
+				ctx.fillStyle = "rgb(255,255,255)";
+				ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
-				ctx.drawImage(img,0,0,newWidth,newHeight); 
+				ctx.drawImage(img,cx0,cy0,newWidth,newHeight); 
 			}
 	img.src = "start.png";
 	
@@ -144,6 +163,13 @@ function setDefaultState()
 		zctx.moveTo(0, zWindowHeight/2);
 		zctx.lineTo(zWindowWidth, zWindowHeight/2);
 		zctx.stroke();
+}
+
+function reloadPlot()
+{
+		ctx.fillStyle = "rgb(255,255,255)";
+		ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+		ctx.drawImage(currentImage, cx0, cy0, currentImageWidth, currentImageHeight);
 }
 
 function showPopup(popupid)
@@ -200,11 +226,6 @@ function cropPlot() // crop image
 }
 
 
-function originalPlot() // recover the original image.
-{
-		ctx.drawImage(oriImage,0,0,oriWidth,oriHeight);
-}
-
 function setAxes() // specify 4 corners and data range.
 {
 		cmode = 2;
@@ -239,10 +260,10 @@ function pickCorners(ev)
 			if (axesN == 4)
 			{
 					axesPicked = 1;
-					ctx.drawImage(currentImage, 0, 0, currentImageWidth, currentImageHeight);
 					if (rangePicked == 1)
 							axesStatus(1);
 					showPopup('xyRangeForm');
+					reloadPlot();
 			}
 		}
 		
@@ -282,7 +303,7 @@ function pickPoints() // select data points.
 		else
 				xyData = new Array();
 
-		ctx.drawImage(currentImage, 0, 0, currentImageWidth, currentImageHeight);
+		reloadPlot();
 		var pointsWin = document.getElementById('pointsWindow');
 		pointsWin.style.visibility="visible";
 }
@@ -311,7 +332,7 @@ function clearPoints() // clear all markings.
 		pointsPicked = 0;
 		if (xyData instanceof Array)
 			xyData = [];
-		ctx.drawImage(currentImage,0,0,currentImageWidth,currentImageHeight);
+		reloadPlot();
 		pointsStatus(pointsPicked);
 		var pointsWin = document.getElementById('pointsWindow');
 		pointsWin.style.visibility = 'hidden';
@@ -324,7 +345,9 @@ function undoPointSelection()
 		{
 				pointsPicked = pointsPicked - 1;
 				pointsStatus(pointsPicked);
-				ctx.drawImage(currentImage,0,0,currentImageWidth,currentImageHeight);
+				
+				reloadPlot();
+
 				for(ii = 0; ii < pointsPicked; ii++)
 				{
 					xi = xyData[ii][0];	
@@ -411,7 +434,8 @@ function updateZoom(ev)
 	dx = zoom_dx;
 	dy = zoom_dy;
     
-	if((xpos-dx/2)>0 && (ypos-dy/2)>0 && (xpos+dx/2)<cwidth && (ypos+dy/2)<cheight)
+
+	if((xpos-dx/2) >= 0 && (ypos-dy/2) >= 0 && (xpos+dx/2) <= canvasWidth && (ypos+dy/2) <= canvasHeight)
 	{
 		try
 		{
@@ -465,7 +489,7 @@ function dropHandler(ev)
 							var swidth = newimg.width;
 							var newHeight = sheight;
 							var newWidth = swidth;
-							if ((sheight > cheight) || (swidth < cwidth)) 
+							if ((sheight > cheight) || (swidth > cwidth)) 
 							{
 								var iar = sheight/swidth;
 								if (iar > caspectratio)
@@ -486,8 +510,10 @@ function dropHandler(ev)
 							oriImage = newimg;
 							oriHeight = newHeight;
 							oriWidth = newWidth;
-
-			     			ctx.drawImage(newimg,0,0,newWidth,newHeight);
+							
+							ctx.fillStyle = "rgb(255,255,255)";
+							ctx.fillRect(0,0,canvasWidth,canvasHeight);
+			     			ctx.drawImage(newimg, cx0, cy0, newWidth, newHeight);
 							setDefaultState();
 						}
 				newimg.src = imageInfo;
