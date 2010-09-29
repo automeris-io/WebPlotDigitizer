@@ -1,4 +1,4 @@
-WebPlotDigitizer v1.0 - A Web Based Plot Digitizer
+WebPlotDigitizer v1.1 - A Web Based Plot Digitizer
 
 http://www.arohatgi.info/WebPlotDigitizer
 
@@ -26,8 +26,7 @@ Known Issues
 	future.
 
 	- Browser compatibility: This has been tested only on Firefox and Chrome.
-	  Chrome works slightly better than Firefox. I have no immediate
-	  intention of testing this out on other browsers.
+	  Chrome works slightly better than Firefox. 
 
 	- Zoom feature does not work when the mouse is 10 pixels from the border.
 
