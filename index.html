@@ -2,7 +2,7 @@
 <!-- 
 	WebPlotDigitizer
 
-	Version 1.1
+	Version 2.0
 
 	Copyright 2010 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
@@ -31,42 +31,56 @@
 </head>
 
 <body onLoad="javascript:init();">
-<table width="100%" id="bodyTable">
-<tr height="5%"><td colspan="2">
-<header>
-	<h1>WebPlotDigitizer v1.1 - Web Based Plot Digitizer</h1>
-</header>
-</td></tr>
-<tr height="90%"><td width="75%" valign="top">
-<section id="mainSection">
-	<table id="canvasTable">
-		<tr><td id="buttonTD">
-		<!-- Image editing buttons go here -->
-			<!--<input type="button" value="Crop" id="cropBtn" onMouseOver="javascript:toolTip('Crop image.');" onMouseOut="javascript:toolTip('');" onClick="javascript:cropPlot();">
-			<input type="button" value="Original" id="originalBtn" onMouseOver="javascript:toolTip('Revert to original image.');" onMouseOut="javascript:toolTip('');" onClick="javascript:originalPlot();"> | -->
-			<input type="button" value="1. Set Axes" id="axesBtn" onMouseOver="javascript:toolTip('Specify axes corners.');" onMouseOut="javascript:toolTip('');" onClick="javascript:setAxes();">
-			<input type="button" value="2. Pick Points" id="pointsBtn" onMouseOver="javascript:toolTip('Select data points.');" onMouseOut="javascript:toolTip('');" onClick="javascript:pickPoints();">
-			<input type="button" value="About" id="aboutBtn" onMouseOver="javascript:toolTip('Information about this program.');" onMouseOut="javascript:toolTip('');" onClick="showPopup('aboutNote');">
+<table id="bodyTable" style="height:100%; width:100%; padding:0; margin:0;">
+<tr height="60"><td colspan="2">
+<!-- tool bar goes here -->
+<table id="toolbarTable" style="padding:0; margin:0;">
+<tr style="padding:0; margin:0;">
+	
+	<td class="toolbar" onClick="showSidebar('editImageToolbar');">
+	Edit Image
+	</td>
 
-			 |
-			<span id="toolTip"></span>
-		</td></tr>
-		<tr><td id="canvasTD">
-			<!-- the main canvas goes here -->
-			<div id="canvasDiv" style="position:relative;" onMouseOver="this.style.cursor='crosshair';">
-				<canvas id="mainCanvas">
-				</canvas>
-			</div>
-		</td></tr>
-	</table>
-</section>
-</td><td valign="top" width="25%">
+	<td class="toolbar" onClick="showSidebar('setAxesToolbar');">
+	Define Axes
+	</td>
+
+	<td class="toolbar" onClick="showPopup('selectDataMode');"> 
+	Select Data
+	</td>
+
+	<td class="toolbar" onClick="showPopup('aboutNote');">
+	About
+	</td>
+	
+	<td>
+	<!-- Extra toolbars go here -->
+	<h1>WebPlotDigitizer v2.0</h1>
+	
+	</td>
+	
+</tr>
+</table>
+</td>
+</tr>
+
+<tr><td valign="top" id="canvasTD">
+<!-- the main canvas goes here -->
+	<div id="canvasDiv" style="position:relative;" onMouseOver="this.style.cursor='crosshair';">
+		<canvas id="mainCanvas">
+		</canvas>
+	</div>
+</td>
+
+<td valign="top" width="220">
 <aside>
 	<div style="position:relative;">
 		<canvas id="zoomCanvas" width=200 height=200></canvas>
 	</div>
+	
+	<div style="position:relative;">
 
-	<div id="pointsWindow">
+	<div id="pointsWindow" class="sidebar">
 	<p align="center"><b>Select Data</b></p>
 	<p align="center">Axes:<span id="axesStatus">DEFINED</span></p>
 	<p align="center">Points Picked:<span id="pointsStatus">0</span></p>
@@ -75,40 +89,72 @@
 	<p align="center"><input type="button" value="Create .CSV" id="saveBtn" onClick="saveData();" style="width:150px;"></p>
 	</div>
 
+	<div id="editImageToolbar" class="sidebar">
+	<p align="center"><b>Edit Image</b></p>
+	<p align="center"><input type="button" value="Crop" style="width: 150px;" onClick="cropPlot();"></p>
+	<p align="center"><input type="button" value="Rotate 90" style="width: 150px;" onClick="showPopup('na');"></p>
+	</div>
+
+	<div id="setAxesToolbar" class="sidebar">
+	<p align="center"><b>Plot Type</b></p>
+	<p align="center"><input type="button" value="X-Y" style="width: 150px;" onClick="setAxes();"></p>
+	<p align="center"><input type="button" value="Bar" style="width: 150px;" onClick="setAxes();"></p>
+	<p align="center"><input type="button" value="Polar" style="width: 150px;" onClick="showPopup('na');"></p>
+	<p align="center"><input type="button" value="Ternary" style="width: 150px;" onClick="showPopup('na');"></p>
+	</div>
+
+	
 </aside>
 </td></tr>
 </table>
 
 <!-- popup windows go here -->
 
-	<div id="xyRangeForm">
-	<p><b>X Range</b> <!-- <input type="checkbox" id="xlog"> Log Scale --></p>
-	<p>Min: <input type="text" size="6" id="xmin" value="0"></p>
-	<p>Max: <input type="text" size="6" id="xmax" value="1"></p>
-	<p><b>Y Range</b> <!-- <input type="checkbox" id="ylog"> Log Scale --></p>
-	<p>Min: <input type="text" size="6" id="ymin" value="0"></p>
-	<p>Max: <input type="text" size="6" id="ymax" value="1"></p>
-	<p><input type="button" id="xybtn" value="OK" onClick="setXYRange();"></p>
+	<div id="xyRangeForm" class="popup" style="width: 200px;">
+	<p align="center"><b>X Range</b> <!-- <input type="checkbox" id="xlog"> Log Scale --></p>
+	<p align="center">Min: <input type="text" size="6" id="xmin" value="0"></p>
+	<p align="center">Max: <input type="text" size="6" id="xmax" value="1"></p>
+	<p align="center"><b>Y Range</b> <!-- <input type="checkbox" id="ylog"> Log Scale --></p>
+	<p align="center">Min: <input type="text" size="6" id="ymin" value="0"></p>
+	<p align="center">Max: <input type="text" size="6" id="ymax" value="1"></p>
+	<p align="center"><input type="button" id="xybtn" value="OK" onClick="setXYRange();"></p>
 	</div>
 
-	<div id="csvWindow">
+	<div id="csvWindow" class="popup" style="width: 500px; height: 300px;">
 	<p align="center">Copy and Paste to a .CSV file</p>
 	<p align="center"><textarea id="tarea" rows="10" cols="50"></textarea></p>
-	<p align="center"><input type="button" id="closeCSVbtn" value="done" onClick="closeCSV();"></p>
+	<p align="center"><input type="button" id="closeCSVbtn" value="Done" onClick="closePopup('csvWindow');"></p>
 	</div>
 
-	<div id="axesInfo">
+	<div id="axesInfo" class="popup" style="width: 350px;">
 	<p align="center"><b>Specify Axes</b></p>
 	<p align="center">Select four corners of the axes starting with the origin and going clockwise.</p>
 	<p align="center"><input type="button" value="Proceed" onClick="closePopup('axesInfo')"></p>
 	</div>
 
-	<div id="aboutNote">
-	<p align="center"><b>WebPlotDigitizer v1.1</b> - Web based Plot Digitizer</p>
+	<div id="aboutNote" class="popup" style="width: 550px;">
+	<p align="center"><b>WebPlotDigitizer v2.0</b> - Web based Plot Digitizer</p>
 	<p align="center">This program is distributed under the GNU General Public License Version 3.</p>
 	<p align="center">Copyright 2010 Ankit Rohatgi &lt;ankitrohatgi@hotmail.com&gt;</p>
 	<p align="center"><a href="http://www.arohatgi.info/WebPlotDigitizer" target="website">http://www.arohatgi.info/WebPlotDigitizer</a></p>
 	<p align="center"><input type="button" value="Close" onClick="closePopup('aboutNote');"></p>
+	</div>
+
+	<div id="selectDataMode" class="popup" style="width:500px;">
+	<p align="center"><b>Select Data</b></p>
+	<table><tr><td><p><input type="button" value="Manual" style="width: 150px;" onClick="closePopup('selectDataMode'); pickPoints();"></p></td>
+		   <td><p>Select data points manually. Takes more effort, but works everytime.</p></td>
+	      </tr><tr><td><p><input type="button" style="width: 150px;" value="Automatic" onClick="closePopup('selectDataMode'); showPopup('na');"></td>
+		       <td><p>Autodetect curves (Experimental).</p></td></tr>
+	</table>
+      	<p align="center"><input type="button" value="Cancel" onClick="closePopup('selectDataMode');"></p>
+	</div>
+
+	<div id="na" class="popup" style="width:500px;">
+	<p align="center"><b>This feature is not yet available!</b></p>
+	<p align="center">Sorry, this has yet to be implemented. This might be fixed in future versions.</p>
+	<p align="center"><input type="button" value="Close" onClick="closePopup('na');"></p>
+	</div>
 
 </body>
 </html>

@@ -1,4 +1,4 @@
-WebPlotDigitizer v1.1 - A Web Based Plot Digitizer
+WebPlotDigitizer v2.0 - A Web Based Plot Digitizer
 
 http://www.arohatgi.info/WebPlotDigitizer
 
@@ -17,11 +17,13 @@ Introduction
 	The program can convert the data into a Comma Separated Values (CSV) format
 	which can be imported easily into most data analysis programs.  
 
-Version 1.1 Updates
+Version 2.0 Updates
 
-	- Zoom bugs fixed.
-	- Auto resize for very wide images which was not working in 
-	  version 1.0 has been fixed.
+	- User interface is slightly improved.
+	- Basic image editing tools.
+	- Automatic detection of plots. This feature is still experimental.
+	- Support for polar and ternary plots.
+	- Several minor additions.
 
 
 Known Issues
@@ -33,20 +35,10 @@ Known Issues
 	- Browser compatibility: This has been tested only on Firefox and Chrome.
 	  Chrome works slightly better than Firefox. 
 
-	- Drag and Drop feature does not test if the dropped file was a valid
-	  image. Dropping a non-image file can potentially crash the browser.
-
-	- Log scale axes don't seem to be supported, but you can still get the
-	  exponent values if you specify the powers as the axis range. Ex: For log
-	  scale X-axis ranging from 10^1 to 10^100, specify xmin as 1 and xmax as
-	  100 and the X axis data will then be given by 10^{first column data}.
-
-	- Screen resolution: Some display issues might arise on small screens as this
-	  program has not been tested on low resolutions.
-
 	- Offline Usage: getImageData() function in the JavaScript will throw a  
 	  security error when this is used in offline mode in Firefox 3.6. 
 	  Just select "remember" and "allow". This is just the javascript trying to
 	  access the image file from your hard disk. Nothing malicious is going on here.
-
+	  Offline mode does not work with Chrome. The best way to test this offline is to
+	  host this on a local HTTP server.
 

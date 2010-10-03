@@ -1,7 +1,7 @@
 /*
 	WebPlotDigitizer
 
-	Version 1.1
+	Version 2.0
 
 	Copyright 2010 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
@@ -23,13 +23,24 @@
 
 */
 
-var canvas;
-var pointsPicked;
-var ctx;
-var cmode;
-var xyData;
+/* Main Canvas Variables */
+var canvas; // holds the canvas element
+var cx0; // x-location where plot image is drawn
+var cy0; // y-location where plot image is drawn
+var canvasWidth; // Actual canvas width
+var canvasHeight; // Actual canvas height
+var cwidth; // Available canvas width
+var cheight; // Available canvas height
+var caspectratio; // Aspect ratio of the image
+var currentImage; // current full plot image element
+var originalCanvas; // canvas in clean state.
+var currentImageHeight; 
+var currentImageWidth;
+var cImageData; // data from getImageData
+var ctx; 
 
-var zCanvas;
+/* Zoomed-in view variables */
+var zCanvas; 
 var zctx;
 var tempCanvas;
 var tctx;
@@ -38,26 +49,17 @@ var zoom_dy = 20;
 var zWindowWidth = 200;
 var zWindowHeight = 200;
 
-var axesPicked;
-var axesN;
-var xyAxes;
-var rangePicked;
+/* State of the system */
+var cmode; // click mode of the canvas.
+var axesPicked; // axes picked?
+var rangePicked; // axes range specified?
 
-var cx0;
-var cy0;
-var canvasWidth;
-var canvasHeight;
-var cwidth;
-var cheight;
-var caspectratio;
+/* Selected Data Variables */
+var xyData; // Raw data
+var pointsPicked; // number of data points picked.
 
-var currentImage;
-var currentImageHeight;
-var currentImageWidth;
-
-var oriImage;
-var oriHeight;
-var oriWidth;
+var axesN; // number of axes points picked
+var xyAxes; // axes data
 
 var xmin;
 var xmax;
@@ -66,6 +68,16 @@ var ymax;
 var xlog;
 var ylog;
 
+/* UI variables */
+var sidebarList = ['pointsWindow','editImageToolbar','setAxesToolbar']; 
+// Click Modes
+CLK_DEFAULT = 0;
+CLK_CROP = 1;
+CLK_AXES = 2;
+CLK_DATA = 3;
+
+cropStatus = 0;
+cropCoordinates = [0,0,0,0];
 
 function init() // This is run when the page loads.
 {
@@ -102,42 +114,11 @@ function init() // This is run when the page loads.
 
 	// Set canvas default state
 	img = new Image();
-	img.onload = function() { 
-				var sheight = img.height;
-				var swidth = img.width;
-				var newHeight = sheight;
-				var newWidth = swidth;
-				if ((sheight > cheight) || (swidth > cwidth)) 
-				{
-						var iar = sheight/swidth;
-						if (iar > caspectratio)
-						{
-								newHeight = cheight;
-								newWidth = cheight/iar;
-						}
-						else
-						{
-								newWidth = cwidth;
-								newHeight = cwidth*iar;
-						}
-				}
-				currentImage = img;
-				currentImageHeight = newHeight;
-				currentImageWidth = newWidth;
-
-				oriImage = img;
-				oriHeight = newHeight;
-				oriWidth = newWidth;
-				
-				ctx.fillStyle = "rgb(255,255,255)";
-				ctx.fillRect(0, 0, canvasWidth, canvasHeight);
-
-				ctx.drawImage(img,cx0,cy0,newWidth,newHeight); 
-			}
+	img.onload = function() { loadImage(img); }
 	img.src = "start.png";
 	
 	// specify mouseover function
-	canvas.addEventListener('mousedown',clickHandler,false);
+	canvas.addEventListener('click',clickHandler,false);
 	canvas.addEventListener('mousemove',updateZoom,false);
 
 	// Image dropping capabilities
@@ -145,128 +126,254 @@ function init() // This is run when the page loads.
 	canvas.addEventListener("drop",function(event) {event.preventDefault(); dropHandler(event);},true);
 	
 	// Set defaults everywhere.
-	toolTip('Drag plot image below.');
 	setDefaultState();
 }
 
 function setDefaultState()
 {
-		cmode = 0;
-		axesPicked = 0;
-		rangePicked = 0;
-		axesStatus(0);
-		var pointsWin = document.getElementById('pointsWindow');
-		pointsWin.style.visibility = 'hidden';
-		zctx.beginPath();
-  		zctx.moveTo(zWindowWidth/2, 0);
-		zctx.lineTo(zWindowWidth/2, zWindowHeight);
-		zctx.moveTo(0, zWindowHeight/2);
-		zctx.lineTo(zWindowWidth, zWindowHeight/2);
-		zctx.stroke();
+	cmode = CLK_DEFAULT;
+	axesPicked = 0;
+	rangePicked = 0;
+	axesStatus(0);
+	var pointsWin = document.getElementById('pointsWindow');
+	pointsWin.style.visibility = 'hidden';
+	zctx.beginPath();
+	zctx.moveTo(zWindowWidth/2, 0);
+	zctx.lineTo(zWindowWidth/2, zWindowHeight);
+	zctx.moveTo(0, zWindowHeight/2);
+	zctx.lineTo(zWindowWidth, zWindowHeight/2);
+	zctx.stroke();
+}
+
+function loadImage(imgel)
+{
+	var sheight = imgel.height;
+	var swidth = imgel.width;
+	var iar = sheight/swidth;
+	
+	var newHeight = sheight;
+	var newWidth = swidth;
+		
+	if (iar > caspectratio)
+	{
+		newHeight = cheight;
+		newWidth = cheight/iar;
+	}
+	else
+	{
+		newWidth = cwidth;
+		newHeight = cwidth*iar;
+	}
+	
+	currentImage = imgel;
+	currentImageHeight = newHeight;
+	currentImageWidth = newWidth;
+			
+	ctx.fillStyle = "rgb(255,255,255)";
+	ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+	ctx.drawImage(imgel,cx0,cy0,newWidth,newHeight); 
+
+        originalCanvas = canvas;
 }
 
 function reloadPlot()
 {
-		ctx.fillStyle = "rgb(255,255,255)";
-		ctx.fillRect(0, 0, canvasWidth, canvasHeight);
-		ctx.drawImage(currentImage, cx0, cy0, currentImageWidth, currentImageHeight);
+	canvas.width = canvas.width; // resets canvas.
+	ctx.drawImage(currentImage, cx0, cy0, currentImageWidth, currentImageHeight); // redraw image.
+}
+
+function redrawCanvas()
+{
+	// Figure out a faster way to do this.
+	reloadPlot();
 }
 
 function showPopup(popupid)
 {
-		var pWindow = document.getElementById(popupid);
-		var screenWidth = parseInt(window.innerWidth);
-		var screenHeight = parseInt(window.innerHeight);
-		var pWidth = parseInt(pWindow.offsetWidth);
-		var pHeight = parseInt(pWindow.offsetHeight);
-		var xPos = (screenWidth - pWidth)/2;
-		var yPos = (screenHeight - pHeight)/2;
-		pWindow.style.left = xPos + 'px';
-		pWindow.style.top = yPos + 'px';
-		pWindow.style.visibility = "visible";
+	var pWindow = document.getElementById(popupid);
+	var screenWidth = parseInt(window.innerWidth);
+	var screenHeight = parseInt(window.innerHeight);
+	var pWidth = parseInt(pWindow.offsetWidth);
+	var pHeight = parseInt(pWindow.offsetHeight);
+	var xPos = (screenWidth - pWidth)/2;
+	var yPos = (screenHeight - pHeight)/2;
+	pWindow.style.left = xPos + 'px';
+	pWindow.style.top = yPos + 'px';
+	pWindow.style.visibility = "visible";
 }
 
 function closePopup(popupid)
 {
 
-		var pWindow = document.getElementById(popupid);
-		pWindow.style.visibility = "hidden";
+	var pWindow = document.getElementById(popupid);
+	pWindow.style.visibility = "hidden";
 
+}
+
+function showToolbar(tbid)
+{
+	var tb = document.getElementById(tbid);
+	tb.style.visibility = "visible";
+}
+
+function closeToolbar(tbid)
+{
+	var tb = document.getElementById(tbid);
+	tb.style.visibility = "hidden";
+    
+}
+
+function showSidebar(sbid) // Shows a specific sidebar
+{
+	clearSidebar();
+	var sb = document.getElementById(sbid);
+	sb.style.visibility = "visible";
+}
+
+function clearSidebar() // Clears all open sidebars
+{
+      for (ii = 0; ii < sidebarList.length; ii ++)
+      {
+	  var sbv = document.getElementById(sidebarList[ii]);
+	  sbv.style.visibility="hidden";
+      }
+	
 }
 
 function toolTip(tn) // changes the tooltip text.
 {
-		var toolTip = document.getElementById('toolTip');
-		toolTip.innerHTML = tn;
+	var toolTip = document.getElementById('toolTip');
+	toolTip.innerHTML = tn;
 }
 
 function pointsStatus(pn) // displays the number of points picked.
 {
-		var points = document.getElementById('pointsStatus');
-		points.innerHTML = pn;
+	var points = document.getElementById('pointsStatus');
+	points.innerHTML = pn;
 }
 
 function axesStatus(st) // displays whether axes have been defined.
 {
-		var axes = document.getElementById('axesStatus');
-		if(st == 0)
-		{
-				axes.innerHTML = "<font color='red'>UNDEFINED</font>";
-		}
-		else if(st == 1)
-		{
-				axes.innerHTML = "<font color='green'>DEFINED</font>";
-		}
+	var axes = document.getElementById('axesStatus');
+	if(st == 0)
+	{
+		axes.innerHTML = "<font color='red'>UNDEFINED</font>";
+	}
+	else if(st == 1)
+	{
+		axes.innerHTML = "<font color='green'>DEFINED</font>";
+	}
 }
 
 function cropPlot() // crop image
 {
-		cmode = 1;
-		alert('This is not implemented yet.');
+	redrawCanvas();
+	canvas.addEventListener('mousedown',cropMousedown,true);
+	canvas.addEventListener('mouseup',cropMouseup,true);
+	canvas.addEventListener('mousemove',cropMousemove,true);
 }
 
+function cropMousedown(ev)
+{
+	cropCoordinates[0] = parseInt(ev.layerX);
+	cropCoordinates[1] = parseInt(ev.layerY);
+	cropStatus = 1;
+}
+
+function cropMouseup(ev)
+{
+      cropCoordinates[2] = parseInt(ev.layerX);
+      cropCoordinates[3] = parseInt(ev.layerY);
+      cropStatus = 0;
+      
+      canvas.removeEventListener('mousedown',cropMousedown,true);
+      canvas.removeEventListener('mouseup',cropMouseup,true);
+      canvas.removeEventListener('mousemove',cropMousemove,true);
+      
+      redrawCanvas();
+      
+      cropWidth = cropCoordinates[2]-cropCoordinates[0];
+      cropHeight = cropCoordinates[3]-cropCoordinates[1];
+      if ((cropWidth > 0) && (cropHeight > 0))
+      {
+	var tcan = document.createElement('canvas');
+	var tcontext = tcan.getContext('2d');
+	
+	tcan.width = cropWidth;
+	tcan.height = cropHeight;
+	
+	try
+	{
+		try { var cropImageData = ctx.getImageData(cropCoordinates[0],cropCoordinates[1],cropWidth,cropHeight); } 
+		catch(e) 
+		{   	
+		    netscape.security.PrivilegeManager.enablePrivilege("UniversalBrowserRead");
+		    var cropImageData = ctx.getImageData(cropCoordinates[0],cropCoordinates[1],cropWidth,cropHeight);
+		}
+	}
+	catch(e) { throw new Error("Unable to access image data: " + e); }
+	
+	tcontext.putImageData(cropImageData,0,0);
+	cropSrc = tcan.toDataURL();
+	cropImg = new Image();
+	cropImg.src = cropSrc;
+	cropImg.onload = function() { loadImage(cropImg); }
+      }
+      
+}
+
+function cropMousemove(ev)
+{
+      // this paints a rectangle as the mouse moves
+      if(cropStatus == 1)
+      {
+	redrawCanvas();
+	ctx.strokeStyle = "rgb(0,0,0)";
+	ctx.strokeRect(cropCoordinates[0],cropCoordinates[1],parseInt(ev.layerX)-cropCoordinates[0],parseInt(ev.layerY)-cropCoordinates[1]);
+      }
+}
 
 function setAxes() // specify 4 corners and data range.
 {
-		cmode = 2;
+	cmode = CLK_AXES;
 
-		axesN = 0;
-		if (xyAxes instanceof Array)
-			xyAxes = [];
-		else
-		    xyAxes = new Array();
+	axesN = 0;
+	if (xyAxes instanceof Array)
+		xyAxes = [];
+	else
+	    xyAxes = new Array();
 
-		showPopup('axesInfo');
+	showPopup('axesInfo');
 }
 
 function pickCorners(ev)
 {
-		if (axesN < 4)
-		{
-			xi = ev.layerX;
-			yi = ev.layerY;
-			xyAxes[axesN] = new Array();
-			xyAxes[axesN][0] = parseFloat(xi);
-			xyAxes[axesN][1] = parseFloat(yi);
-			axesN = axesN + 1;	
+	if (axesN < 4)
+	{
+		xi = ev.layerX;
+		yi = ev.layerY;
+		xyAxes[axesN] = new Array();
+		xyAxes[axesN][0] = parseFloat(xi);
+		xyAxes[axesN][1] = parseFloat(yi);
+		axesN = axesN + 1;	
 
-			ctx.beginPath();
-			ctx.fillStyle = "rgb(0,0,200)";
-			ctx.arc(xi,yi,3,0,2.0*Math.PI,true);
-			ctx.fill();
-			
-			updateZoom(ev);
-
-			if (axesN == 4)
-			{
-					axesPicked = 1;
-					if (rangePicked == 1)
-							axesStatus(1);
-					showPopup('xyRangeForm');
-					reloadPlot();
-			}
-		}
+		ctx.beginPath();
+		ctx.fillStyle = "rgb(0,0,200)";
+		ctx.arc(xi,yi,3,0,2.0*Math.PI,true);
+		ctx.fill();
 		
+		updateZoom(ev);
+
+		if (axesN == 4)
+		{
+				axesPicked = 1;
+				if (rangePicked == 1)
+						axesStatus(1);
+				showPopup('xyRangeForm');
+				redrawCanvas();
+		}
+	}
+	
 }
 
 
@@ -276,14 +383,14 @@ function setXYRange() // set the X-Y data range.
 	var xmaxEl = document.getElementById('xmax');
 	var yminEl = document.getElementById('ymin');
 	var ymaxEl = document.getElementById('ymax');
-    // var xlogEl = document.getElementById('xlog');
+        // var xlogEl = document.getElementById('xlog');
 	// var ylogEl = document.getElementById('ylog');
 	
 	xmin = parseFloat(xminEl.value);
 	xmax = parseFloat(xmaxEl.value);
 	ymin = parseFloat(yminEl.value);
 	ymax = parseFloat(ymaxEl.value);
-    //	xlog = xlogEl.checked;
+        //  xlog = xlogEl.checked;
 	//  ylog = ylogEl.checked;
 	
 	rangePicked = 1;
@@ -294,18 +401,13 @@ function setXYRange() // set the X-Y data range.
 
 function pickPoints() // select data points.
 {
-		cmode = 3;
+	cmode = CLK_DATA;
 
-		pointsPicked = 0;
-
-		if (xyData instanceof Array)
-			    xyData = [];
-		else
-				xyData = new Array();
-
-		reloadPlot();
-		var pointsWin = document.getElementById('pointsWindow');
-		pointsWin.style.visibility="visible";
+	pointsPicked = 0;
+	xyData = [];
+	pointsStatus(pointsPicked);
+	redrawCanvas();
+	showSidebar('pointsWindow');
 }
 
 function clickPoints(ev)
@@ -329,43 +431,37 @@ function clickPoints(ev)
 
 function clearPoints() // clear all markings.
 {
-		pointsPicked = 0;
-		if (xyData instanceof Array)
-			xyData = [];
-		reloadPlot();
-		pointsStatus(pointsPicked);
-		var pointsWin = document.getElementById('pointsWindow');
-		pointsWin.style.visibility = 'hidden';
-		cmode = 0;
+	pointsPicked = 0;
+	if (xyData instanceof Array)
+		xyData = [];
+	redrawCanvas();
+	clearSidebar();
+	cmode = CLK_DEFAULT;
 }
 
 function undoPointSelection()
 {
-		if (pointsPicked >= 1)
+	if (pointsPicked >= 1)
+	{
+		pointsPicked = pointsPicked - 1;
+		pointsStatus(pointsPicked);
+		
+		redrawCanvas();
+
+		for(ii = 0; ii < pointsPicked; ii++)
 		{
-				pointsPicked = pointsPicked - 1;
-				pointsStatus(pointsPicked);
-				
-				reloadPlot();
+			xi = xyData[ii][0];	
+			yi = xyData[ii][1];
 
-				for(ii = 0; ii < pointsPicked; ii++)
-				{
-					xi = xyData[ii][0];	
-					yi = xyData[ii][1];
-
-					ctx.beginPath();
-					ctx.fillStyle = "rgb(200,0,0)";
-					ctx.arc(xi,yi,3,0,2.0*Math.PI,true);
-					ctx.fill();
-				}
-
+			ctx.beginPath();
+			ctx.fillStyle = "rgb(200,0,0)";
+			ctx.arc(xi,yi,3,0,2.0*Math.PI,true);
+			ctx.fill();
 		}
+
+	}
 }
 
-function closeCSV()
-{
-		closePopup('csvWindow');
-}
 
 function saveData() // generate the .CSV file
 {
@@ -407,21 +503,19 @@ function saveData() // generate the .CSV file
 
 function clickHandler(ev)
 {
-		switch(cmode)
-		{
-				case 0: // default mode
-					//alert('default mode');
-					break;
-				case 1: // crop mode
-					break;
-				case 2: // set axes
-					pickCorners(ev);
-					break;
-				case 3: // select points
-					clickPoints(ev);
-					break;
-				default: // don't know where I am.
-		}
+	switch(cmode)
+	{
+		case CLK_DEFAULT: // default mode
+			//alert('default mode');
+			break;
+		case CLK_AXES: // set axes
+			pickCorners(ev);
+			break;
+		case CLK_DATA: // select points
+			clickPoints(ev);
+			break;
+		default: // don't know where I am.
+	}
 		
 }
 
@@ -439,21 +533,21 @@ function updateZoom(ev)
 	{
 		try
 		{
-				try
-				{
-						var zoomImage = ctx.getImageData(xpos-dx/2,ypos-dy/2,dx,dy);
-				} 
-				catch(e)
-				{
-						netscape.security.PrivilegeManager.enablePrivilege("UniversalBrowserRead");
-						var zoomImage = ctx.getImageData(xpos-dx/2,ypos-dy/2,dx,dy);
+			try
+			{
+					var zoomImage = ctx.getImageData(xpos-dx/2,ypos-dy/2,dx,dy);
+			} 
+			catch(e)
+			{
+					netscape.security.PrivilegeManager.enablePrivilege("UniversalBrowserRead");
+					var zoomImage = ctx.getImageData(xpos-dx/2,ypos-dy/2,dx,dy);
 
 
-				}
+			}
 		}
 		catch(e)
 		{
-				throw new Error("Unable to access image data: " + e);
+			throw new Error("Unable to access image data: " + e);
 		}
 
 		tctx.putImageData(zoomImage,0,0);
@@ -461,13 +555,13 @@ function updateZoom(ev)
 		var zImage = new Image();
 		zImage.onload = function() 
 			{ 
-					zctx.drawImage(zImage,0,0,zWindowWidth,zWindowHeight); 
-					zctx.beginPath();
-					zctx.moveTo(zWindowWidth/2, 0);
-					zctx.lineTo(zWindowWidth/2, zWindowHeight);
-					zctx.moveTo(0, zWindowHeight/2);
-					zctx.lineTo(zWindowWidth, zWindowHeight/2);
-					zctx.stroke();
+				zctx.drawImage(zImage,0,0,zWindowWidth,zWindowHeight); 
+				zctx.beginPath();
+				zctx.moveTo(zWindowWidth/2, 0);
+				zctx.lineTo(zWindowWidth/2, zWindowHeight);
+				zctx.moveTo(0, zWindowHeight/2);
+				zctx.lineTo(zWindowWidth, zWindowHeight/2);
+				zctx.stroke();
 
 			}
 		zImage.src = imgdata;
@@ -478,45 +572,14 @@ function updateZoom(ev)
 function dropHandler(ev)
 {
 	allDrop = ev.dataTransfer.files;
-	if (allDrop.length == 1) // also check if it's a valid image
+	if (allDrop.length == 1) // :TODO: also check if it's a valid image
 	{
 		var droppedFile = new FileReader();
 		droppedFile.onload = function() {
-				var imageInfo = droppedFile.result;
-				var newimg = new Image();
-				newimg.onload = function() {
-							var sheight = newimg.height;
-							var swidth = newimg.width;
-							var newHeight = sheight;
-							var newWidth = swidth;
-							if ((sheight > cheight) || (swidth > cwidth)) 
-							{
-								var iar = sheight/swidth;
-								if (iar > caspectratio)
-								{
-									newHeight = cheight;
-									newWidth = cheight/iar;
-								}
-								else
-								{
-									newWidth = cwidth;
-									newHeight = cwidth*iar;
-								}	
-							}
-							currentImage = newimg;
-							currentImageHeight = newHeight;
-							currentImageWidth = newWidth;
-
-							oriImage = newimg;
-							oriHeight = newHeight;
-							oriWidth = newWidth;
-							
-							ctx.fillStyle = "rgb(255,255,255)";
-							ctx.fillRect(0,0,canvasWidth,canvasHeight);
-			     			ctx.drawImage(newimg, cx0, cy0, newWidth, newHeight);
-							setDefaultState();
-						}
-				newimg.src = imageInfo;
+			var imageInfo = droppedFile.result;
+			var newimg = new Image();
+			newimg.onload = function() { loadImage(newimg); }
+			newimg.src = imageInfo;
 		}
 		droppedFile.readAsDataURL(allDrop[0]);
 	}
