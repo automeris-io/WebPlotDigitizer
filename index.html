@@ -32,31 +32,20 @@
 
 <body onLoad="javascript:init();">
 <table id="bodyTable" style="height:100%; width:100%; padding:0; margin:0;">
-<tr height="60"><td colspan="2">
+<tr height="30"><td colspan="2">
 <!-- tool bar goes here -->
 <table id="toolbarTable" style="padding:0; margin:0;" cellspacing="5">
 <tr style="padding:0; margin:0;">
 	
-	<td class="toolbar" onClick="showSidebar('editImageToolbar');">
-	Edit Image
-	</td>
+	<td class="toolbar" onClick="showSidebar('editImageToolbar');">Edit Image</td>
 
-	<td class="toolbar" onClick="showSidebar('setAxesToolbar');">
-	Define Axes
-	</td>
+	<td class="toolbar" onClick="showSidebar('setAxesToolbar');">Define Axes</td>
 
-	<td class="toolbar" onClick="showPopup('selectDataMode');"> 
-	Select Data
-	</td>
+	<td class="toolbar" onClick="showPopup('selectDataMode');">Select Data</td>
 
-	<td class="toolbar" onClick="showPopup('aboutNote');">
-	About
-	</td>
+	<td class="toolbar" onClick="showPopup('aboutNote');">About</td>
 	
 	<td>
-	<!-- Extra toolbars go here -->
-	<h1>WebPlotDigitizer v2.0</h1>
-	
 	</td>
 	
 </tr>
@@ -81,12 +70,26 @@
 	
 	<div style="position:relative;">
 
-	<div id="pointsWindow" class="sidebar">
-	<p align="center"><b>Select Data</b></p>
-	<p align="center">Points Picked:<span id="pointsStatus">0</span></p>
+	<div id="pointsWindow" class="sidebar"> <!-- rename to manualMode -->
+	<p align="center"><b>Manual Mode</b></p>
+	<p align="center"><input type="button" value="Auto Mode" style="width: 150px;" ></p>
 	<p align="center"><input id="removeLastBtn" type="button" value="Undo" onClick="undoPointSelection();" style="width: 150px;"></p>
 	<p align="center"><input id="clearAllBtn" type="button" value="Clear All" onCLick="clearPoints();" style="width: 150px;"></p>
 	<p align="center"><input type="button" value="Create .CSV" id="saveBtn" onClick="saveData();" style="width:150px;"></p>
+	<p align="center">Points Picked:<span id="pointsStatus">0</span></p>
+	</div>
+
+	<div id="autoMode" class="sidebar">
+	<p align="center"><b>Autodetect Mode</b></p>
+	<p align="center"><input type="button" value="Manual Mode" style="width: 150px;" ></p>
+	<hr />
+	<p align="center"><input type="button" id="autoFGbtn" value="FG" style="width:75px;"><input type="button" id="autoBGbtn" value="BG" style="width:75px;"></p>
+	<p align="center"><input type="button" value="Box" style="width:50px;"><input type="button" value="Pen" style="width:50px;"><input type="button" value="Erase" style="width:50px;"></p>
+	<p align="center"><input type="button" value="Autodetect!" style="width: 150px;" ></p>
+	<hr />
+	<p align="center"><input id="removeLastBtn" type="button" value="Delete" onClick="undoPointSelection();" style="width: 75px;"><input id="clearAllBtn" type="button" value="Clear All" onCLick="clearPoints();" style="width: 75px;"></p>
+	<p align="center"><input type="button" value="Save Data" id="saveBtn" onClick="saveData();" style="width:150px;"></p>
+	<p align="center">Points Picked:<span id="pointsStatus">0</span></p>
 	</div>
 
 	<div id="editImageToolbar" class="sidebar">
@@ -126,7 +129,7 @@
 	<p align="center"><input type="button" id="closeCSVbtn" value="Done" onClick="closePopup('csvWindow');"></p>
 	</div>
 
-	<div id="axesInfo" class="popup" style="width: 350px;">
+	<div id="axesInfo" class="popup" style="width: 350px;"> <!-- :TODO: rename this -->
 	<p align="center"><b>Specify Axes</b></p>
 	<p align="center">Select four corners of the axes starting with the origin and going clockwise.</p>
 	<p align="center"><input type="button" value="Proceed" onClick="closePopup('axesInfo')"></p>
