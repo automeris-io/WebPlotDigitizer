@@ -1,5 +1,5 @@
 /*
-	WebPlotDigitizer
+	WebPlotDigitizer - http://arohatgi.info/WebPlotdigitizer
 
 	Version 2.0
 
@@ -50,9 +50,7 @@ var zWindowWidth = 200;
 var zWindowHeight = 200;
 
 /* State of the system */
-var cmode; // click mode of the canvas.
 var axesPicked; // axes picked?
-var rangePicked; // axes range specified?
 
 /* Selected Data Variables */
 var xyData; // Raw data
@@ -128,12 +126,7 @@ function init() // This is run when the page loads.
 
 function setDefaultState()
 {
-	cmode = CLK_DEFAULT;
 	axesPicked = 0;
-	rangePicked = 0;
-	axesStatus(0);
-	var pointsWin = document.getElementById('pointsWindow');
-	pointsWin.style.visibility = 'hidden';
 	zctx.beginPath();
 	zctx.moveTo(zWindowWidth/2, 0);
 	zctx.lineTo(zWindowWidth/2, zWindowHeight);
@@ -237,30 +230,12 @@ function clearSidebar() // Clears all open sidebars
 	
 }
 
-function toolTip(tn) // changes the tooltip text.
-{
-	var toolTip = document.getElementById('toolTip');
-	toolTip.innerHTML = tn;
-}
-
 function pointsStatus(pn) // displays the number of points picked.
 {
 	var points = document.getElementById('pointsStatus');
 	points.innerHTML = pn;
 }
 
-function axesStatus(st) // displays whether axes have been defined.
-{
-	var axes = document.getElementById('axesStatus');
-	if(st == 0)
-	{
-		axes.innerHTML = "<font color='red'>UNDEFINED</font>";
-	}
-	else if(st == 1)
-	{
-		axes.innerHTML = "<font color='green'>DEFINED</font>";
-	}
-}
 
 function cropPlot() // crop image
 {
@@ -330,24 +305,33 @@ function cropMousemove(ev)
       }
 }
 
-function setAxes() // specify 4 corners and data range. :TODO: accept plotType as a parameter
+function setAxes(ax_mode) // specify 4 corners and data range. :TODO: accept plotType as a parameter
 {
-	clearClickEvents();
-	
-	canvas.addEventListener('click',pickCorners,true);
-	
-	axesN = 0;
-	if (xyAxes instanceof Array)
-		xyAxes = [];
-	else
-	    xyAxes = new Array();
 
-	showPopup('axesInfo');
+	plotType = ax_mode;
+	clearClickEvents();
+	canvas.addEventListener('click',pickCorners,true);
+	axesN = 0;
+	xyAxes = [];
+
+	if ((plotType == 'XY')||(plotType == 'bar'))
+	{
+		axesNmax = 4;
+		showPopup('axesInfo');
+	}
+	else if (plotType == 'polar')
+	{
+		axesNmax = 4;
+	}
+	else if (plotType == 'ternary')
+	{
+		axesNmax = 3;
+	}
 }
 
 function pickCorners(ev)
 {
-	if (axesN < 4)
+	if (axesN < axesNmax)
 	{
 		xi = ev.layerX;
 		yi = ev.layerY;
@@ -363,15 +347,23 @@ function pickCorners(ev)
 		
 		updateZoom(ev);
 
-		if (axesN == 4)
+		if (axesN == axesNmax)
 		{
 				axesPicked = 1;
 				
 				canvas.removeEventListener('click',pickCorners,true);
 				
-				if (rangePicked == 1)
-						axesStatus(1);
-				showPopup('xyRangeForm');
+				if (plotType == 'XY')
+				{
+					showPopup('xyRangeForm');
+				}
+				else if (plotType == 'polar')
+				{
+				}
+				else if (plotType == 'ternary')
+				{
+				}
+
 				redrawCanvas();
 		}
 	}
@@ -389,33 +381,35 @@ function setXYRange() // set the X-Y data range.
 	var xmaxEl = document.getElementById('xmax');
 	var yminEl = document.getElementById('ymin');
 	var ymaxEl = document.getElementById('ymax');
-        // var xlogEl = document.getElementById('xlog');
+    // var xlogEl = document.getElementById('xlog');
 	// var ylogEl = document.getElementById('ylog');
 	
 	xmin = parseFloat(xminEl.value);
 	xmax = parseFloat(xmaxEl.value);
 	ymin = parseFloat(yminEl.value);
 	ymax = parseFloat(ymaxEl.value);
-        //  xlog = xlogEl.checked;
+    //  xlog = xlogEl.checked;
 	//  ylog = ylogEl.checked;
-	
-	rangePicked = 1;
-	if (axesPicked == 1)
-		axesStatus(1);
+	//
 	closePopup('xyRangeForm');
 }
 
 function pickPoints() // select data points.
 {
-	clearClickEvents();
-	
-	canvas.addEventListener('click',clickPoints,true);
-	
-	pointsPicked = 0;
-	xyData = [];
-	pointsStatus(pointsPicked);
-	redrawCanvas();
-	showSidebar('pointsWindow');
+	if (axesPicked == 0)
+	{
+		alert('Define the axes first!');
+	}
+	else
+	{
+		clearClickEvents();
+		canvas.addEventListener('click',clickPoints,true);
+		pointsPicked = 0;
+		xyData = [];
+		pointsStatus(pointsPicked);
+		redrawCanvas();
+		showSidebar('pointsWindow');
+	}
 }
 
 function clickPoints(ev)
@@ -487,7 +481,7 @@ function saveData() // generate the .CSV file
 		// check if everything was specified
 		// transform to proper numbers
 		// save data as CSV.
-		if(rangePicked == 1 && axesPicked ==1 && pointsPicked >= 1) 
+		if(axesPicked ==1 && pointsPicked >= 1) 
 		{
 			showPopup('csvWindow');
 			tarea = document.getElementById('tarea');
