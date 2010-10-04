@@ -1,6 +1,6 @@
 /*
-	WebPlotDigitizer
-
+	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
+	
 	Version 2.0
 
 	Copyright 2010 Ankit Rohatgi <ankitrohatgi@hotmail.com>
@@ -25,8 +25,8 @@
 
 html
 {
-	height:97%;
-	width:97%;
+	height:98%;
+	width:98%;
 	padding:0;
 	margin:0 auto;
 }
@@ -91,11 +91,6 @@ tr,td
 	-webkit-box-shadow: 0px 0px 10px #888;
 
 }
-
-#axesStatus {  padding-left:10px; }
-
-#pointsStatus { padding-left:10px; }
-
 
 .toolbar 
 {

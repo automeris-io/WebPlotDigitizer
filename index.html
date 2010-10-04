@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- 
-	WebPlotDigitizer
+	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
 	Version 2.0
 
@@ -83,7 +83,6 @@
 
 	<div id="pointsWindow" class="sidebar">
 	<p align="center"><b>Select Data</b></p>
-	<p align="center">Axes:<span id="axesStatus">DEFINED</span></p>
 	<p align="center">Points Picked:<span id="pointsStatus">0</span></p>
 	<p align="center"><input id="removeLastBtn" type="button" value="Undo" onClick="undoPointSelection();" style="width: 150px;"></p>
 	<p align="center"><input id="clearAllBtn" type="button" value="Clear All" onCLick="clearPoints();" style="width: 150px;"></p>
@@ -98,10 +97,10 @@
 
 	<div id="setAxesToolbar" class="sidebar">
 	<p align="center"><b>Plot Type</b></p>
-	<p align="center"><input type="button" value="X-Y" style="width: 150px;" onClick="setAxes();"></p>
-	<p align="center"><input type="button" value="Bar" style="width: 150px;" onClick="setAxes();"></p>
-	<p align="center"><input type="button" value="Polar" style="width: 150px;" onClick="showPopup('na');"></p>
-	<p align="center"><input type="button" value="Ternary" style="width: 150px;" onClick="showPopup('na');"></p>
+	<p align="center"><input type="button" value="X-Y" style="width: 150px;" onClick="setAxes('XY');"></p>
+	<p align="center"><input type="button" value="Bar" style="width: 150px;" onClick="setAxes('bar');"></p>
+	<p align="center"><input type="button" value="Polar" style="width: 150px;" onClick="setAxes('polar')"></p>
+	<p align="center"><input type="button" value="Ternary" style="width: 150px;" onClick="setAxes('ternary');"></p>
 	</div>
 
 	
