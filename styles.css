@@ -35,14 +35,13 @@ body
 	margin: 0 0;
 	width: 100%;
 	height:100%;
-	font: 13px/22px Verdana, sans; 
+	font: 12px/22px Verdana, sans; 
 	background: #ffffff; 
 }
 
 h1
 {
-	font-size: 16px;
-	padding: 5px 15px;
+	font-size: 12px;
 	color: grey;
 }
 tr,td
@@ -94,12 +93,13 @@ tr,td
 
 .toolbar 
 {
-	height:50px;
-	width:60px;
+	height:30px;
+	width:100px;
 	border: thin grey solid;
 	text-align:center;
 	font-family:Verdana,Sans;
-	padding: 0 5px;
+	font-size:12px;
+	padding: 0 0px;
 	margin: 0 0px;
 	-moz-box-shadow: 0px 0px 5px green;
 	-webkit-box-shadow: 0px 0px 5px green;
@@ -143,8 +143,9 @@ tr,td
         -moz-box-shadow: 0px 0px 10px #888;
 	-webkit-box-shadow: 0px 0px 10px #888;
 	visibility: hidden;
+	font-size:12px;
 }
 
-.sidebar p { padding: 0; margin: 5px 5px; }
-
+.sidebar p { padding: 0; margin: 5px 5px; font-size:12px;}
+.sidebar input.btn {font-size:12px;}
 
