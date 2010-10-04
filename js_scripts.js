@@ -59,6 +59,7 @@ var xyData; // Raw data
 var pointsPicked; // number of data points picked.
 
 var axesN; // number of axes points picked
+var axesNmax; // total points needed to align axes.
 var xyAxes; // axes data
 
 var xmin;
@@ -70,14 +71,10 @@ var ylog;
 
 /* UI variables */
 var sidebarList = ['pointsWindow','editImageToolbar','setAxesToolbar']; 
-// Click Modes
-CLK_DEFAULT = 0;
-CLK_CROP = 1;
-CLK_AXES = 2;
-CLK_DATA = 3;
+var plotType; // Options: 'XY', 'bar', 'polar', 'ternary'
 
-cropStatus = 0;
-cropCoordinates = [0,0,0,0];
+var cropStatus = 0;
+var cropCoordinates = [0,0,0,0];
 
 function init() // This is run when the page loads.
 {
@@ -118,7 +115,7 @@ function init() // This is run when the page loads.
 	img.src = "start.png";
 	
 	// specify mouseover function
-	canvas.addEventListener('click',clickHandler,false);
+	//canvas.addEventListener('click',clickHandler,false);
 	canvas.addEventListener('mousemove',updateZoom,false);
 
 	// Image dropping capabilities
@@ -333,10 +330,12 @@ function cropMousemove(ev)
       }
 }
 
-function setAxes() // specify 4 corners and data range.
+function setAxes() // specify 4 corners and data range. :TODO: accept plotType as a parameter
 {
-	cmode = CLK_AXES;
-
+	clearClickEvents();
+	
+	canvas.addEventListener('click',pickCorners,true);
+	
 	axesN = 0;
 	if (xyAxes instanceof Array)
 		xyAxes = [];
@@ -367,6 +366,9 @@ function pickCorners(ev)
 		if (axesN == 4)
 		{
 				axesPicked = 1;
+				
+				canvas.removeEventListener('click',pickCorners,true);
+				
 				if (rangePicked == 1)
 						axesStatus(1);
 				showPopup('xyRangeForm');
@@ -376,6 +378,10 @@ function pickCorners(ev)
 	
 }
 
+function finishAxesAlignment()
+{
+      canvas.removeEventListener('click',pickCorners,true);
+}
 
 function setXYRange() // set the X-Y data range.
 {
@@ -401,8 +407,10 @@ function setXYRange() // set the X-Y data range.
 
 function pickPoints() // select data points.
 {
-	cmode = CLK_DATA;
-
+	clearClickEvents();
+	
+	canvas.addEventListener('click',clickPoints,true);
+	
 	pointsPicked = 0;
 	xyData = [];
 	pointsStatus(pointsPicked);
@@ -429,6 +437,17 @@ function clickPoints(ev)
 
 }
 
+function finishDataCollection()
+{
+      canvas.removeEventListener('click',clickPoints,true);
+}
+
+function clearClickEvents()
+{
+      finishDataCollection();
+      finishAxesAlignment();
+}
+
 function clearPoints() // clear all markings.
 {
 	pointsPicked = 0;
@@ -436,7 +455,7 @@ function clearPoints() // clear all markings.
 		xyData = [];
 	redrawCanvas();
 	clearSidebar();
-	cmode = CLK_DEFAULT;
+	finishDataCollection();
 }
 
 function undoPointSelection()
@@ -473,7 +492,9 @@ function saveData() // generate the .CSV file
 			showPopup('csvWindow');
 			tarea = document.getElementById('tarea');
 			tarea.value = '';
-
+			
+			// :TODO: Move data transformation to pickPoints() function so that it's done on the fly.
+			
 			x1 = xyAxes[1][0] - xyAxes[0][0];
 			y1 = -(xyAxes[1][1] - xyAxes[0][1]) ;
 
@@ -500,25 +521,6 @@ function saveData() // generate the .CSV file
 			}
 		}
 }
-
-function clickHandler(ev)
-{
-	switch(cmode)
-	{
-		case CLK_DEFAULT: // default mode
-			//alert('default mode');
-			break;
-		case CLK_AXES: // set axes
-			pickCorners(ev);
-			break;
-		case CLK_DATA: // select points
-			clickPoints(ev);
-			break;
-		default: // don't know where I am.
-	}
-		
-}
-
 
 function updateZoom(ev)
 {
@@ -583,4 +585,60 @@ function dropHandler(ev)
 		}
 		droppedFile.readAsDataURL(allDrop[0]);
 	}
+}
+
+/*********** Matrix operations ***********/
+function matrixInverse22(A) // Inverse of a 2x2 matrix
+{
+  a11 = parseFloat(A[0][0]);
+  a12 = parseFloat(A[0][1]);
+  a21 = parseFloat(A[1][0]);
+  a22 = parseFloat(A[1][1]);
+  
+  var Ai = new Array();
+  Ai[0] = new Array();
+  Ai[0][0] = 0.0; Ai[0][1] = 0.0; Ai[1][0] = 0.0; Ai[1][1] = 0.0; 
+  
+  det = a11*a22 - a12*a21;
+  
+  if (det != 0)
+  {
+    Ai[0][0] = a22/det;
+    Ai[0][1] = -a12/det;
+    Ai[1][0] = -a21/det;
+    Ai[1][1] = a22/det;
+  }
+  
+  return Ai;
+}
+
+function multiplyAB(A,r1,c1,B,r2,c2) // Multiply two matrices
+{
+  var P = new Array();
+  
+  var sumrow = 0;
+  
+  if(c1 == r2)
+  {
+    for (var ii = 0; ii < r1; ii++)
+    {
+      P[ii] = new Array();
+      for(var jj = 0; jj < c2; jj++)
+      {
+	 P[ii][jj] = 0.0;
+	 for(var kk = 0; kk < c1; kk++)
+	 {
+	    P[ii][jj] = P[ii][jj] + parseFloat(A[ii][kk])*parseFloat(B[kk][jj]); // P_ij = A_ik.B_kj in index notation.
+	 }
+      }
+    }
+  }
+  
+  return P;
+}
+
+// :TODO: Array and Vector multiplication functions.
+
+function sortMatrix(A,sc) // sort matrix A by column sc
+{
 }
