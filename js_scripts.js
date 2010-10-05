@@ -180,6 +180,10 @@ function redrawCanvas()
 
 function showPopup(popupid)
 {
+	// Dim lights :)
+	var shadowDiv = document.getElementById('shadow');
+	shadowDiv.style.visibility = "visible";
+
 	var pWindow = document.getElementById(popupid);
 	var screenWidth = parseInt(window.innerWidth);
 	var screenHeight = parseInt(window.innerHeight);
@@ -194,6 +198,8 @@ function showPopup(popupid)
 
 function closePopup(popupid)
 {
+	var shadowDiv = document.getElementById('shadow');
+	shadowDiv.style.visibility = "hidden";
 
 	var pWindow = document.getElementById(popupid);
 	pWindow.style.visibility = "hidden";
