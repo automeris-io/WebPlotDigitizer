@@ -68,7 +68,7 @@ var xlog;
 var ylog;
 
 /* UI variables */
-var sidebarList = ['pointsWindow','editImageToolbar','setAxesToolbar']; 
+var sidebarList = ['editImageToolbar','manualMode','autoMode']; 
 var plotType; // Options: 'XY', 'bar', 'polar', 'ternary'
 
 var cropStatus = 0;
@@ -414,7 +414,7 @@ function pickPoints() // select data points.
 		xyData = [];
 		pointsStatus(pointsPicked);
 		redrawCanvas();
-		showSidebar('pointsWindow');
+		showSidebar('manualMode');
 	}
 }
 
