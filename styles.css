@@ -39,11 +39,6 @@ body
 	background: white;
 }
 
-h1
-{
-	font-size: 12px;
-	color: grey;
-}
 tr,td
 {
 	margin:0;
@@ -134,8 +129,8 @@ input[type="text"]
 	position:absolute;
 	top:0;
 	left:0;
-	-moz-box-shadow: 0px 0px 10px orange;
-	-webkit-box-shadow: 0px 0px 10px orange;
+	-moz-box-shadow: 0px 0px 10px black;
+	-webkit-box-shadow: 0px 0px 10px black;
 	visibility:hidden;
 
 }
@@ -152,12 +147,11 @@ input[type="text"]
 	position:absolute; 
 	width:200px;
 	top:0px;
-        -moz-box-shadow: 0px 0px 10px #888;
+    -moz-box-shadow: 0px 0px 10px #888;
 	-webkit-box-shadow: 0px 0px 10px #888;
 	visibility: hidden;
 	font-size:12px;
 }
 
 .sidebar p { padding: 0; margin: 5px 5px; font-size:12px;}
-.sidebar input.btn {font-size:12px;}
 
