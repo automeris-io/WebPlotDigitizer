@@ -33,23 +33,24 @@
 <body onLoad="javascript:init();">
 <table id="bodyTable" style="height:100%; width:100%; padding:0; margin:0;">
 <tr height="30"><td colspan="2">
+
 <!-- tool bar goes here -->
 <table id="toolbarTable" style="padding:0; margin:0;" cellspacing="5">
 <tr style="padding:0; margin:0;">
 	
-	<td class="toolbar" onClick="showSidebar('editImageToolbar');">Edit Image</td>
-
-	<td class="toolbar" onClick="showSidebar('setAxesToolbar');">Define Axes</td>
-
-	<td class="toolbar" onClick="showPopup('selectDataMode');">Select Data</td>
-
-	<td class="toolbar" onClick="showPopup('aboutNote');">About</td>
-	
-	<td>
+	<td class="toolbar"> 
+		<input type="button" onClick="showSidebar('editImageToolbar');" value="Edit Image" style="margin: 0 5px;">
+		<input type="button" id="xybtn" value="X-Y" onClick="setAxes('XY');" style="margin: 0 5px;">
+		<input type="button" id="barbtn" value="Bar" onClick="setAxes('bar');" style="margin: 0 5px;">
+		<input type="button" id="polarbtn" value="Polar" onClick="setAxes('polar')" style="margin: 0 5px;">
+		<input type="button" id="ternarybtn" value="Ternary" onClick="setAxes('ternary');" style="margin: 0 5px;">
+		<input type="button" onClick="showSidebar('manualMode');" value="Acquire Data" style="margin: 0 5px;">
+		<input type="button" onClick="showPopup('aboutNote');" value="About" style="margin: 0 5px;">
 	</td>
 	
 </tr>
 </table>
+
 </td>
 
 </tr>
@@ -70,40 +71,36 @@
 	
 	<div style="position:relative;">
 
-	<div id="pointsWindow" class="sidebar"> <!-- rename to manualMode -->
+	<div id="manualMode" class="sidebar">
 	<p align="center"><b>Manual Mode</b></p>
-	<p align="center"><input type="button" value="Auto Mode" style="width: 150px;" ></p>
-	<p align="center"><input id="removeLastBtn" type="button" value="Undo" onClick="undoPointSelection();" style="width: 150px;"></p>
-	<p align="center"><input id="clearAllBtn" type="button" value="Clear All" onCLick="clearPoints();" style="width: 150px;"></p>
+	<p align="center"><input type="button" value="Switch to Auto" onClick="showSidebar('autoMode');" style="width: 150px;" ></p>
+	<hr />
+	<p align="center"><input type="button" value="Start" onClick="pickPoints();" style="width: 75px;"><input type="button" value="Stop" onCLick="" style="width: 75px;"></p>
+	<p align="center"><input type="button" value="Undo" onClick="undoPointSelection();" style="width: 75px;"><input id="clearAllBtn" type="button" value="Clear All" onCLick="clearPoints();" style="width: 75px;"></p>
+	<p align="center"><input type="button" value="Delete Point" onClick="" style="width:150px;"></p>
 	<p align="center"><input type="button" value="Create .CSV" id="saveBtn" onClick="saveData();" style="width:150px;"></p>
 	<p align="center">Points Picked:<span id="pointsStatus">0</span></p>
 	</div>
 
 	<div id="autoMode" class="sidebar">
 	<p align="center"><b>Autodetect Mode</b></p>
-	<p align="center"><input type="button" value="Manual Mode" style="width: 150px;" ></p>
+	<p align="center"><input type="button" value="Switch to Manual" onClick="showSidebar('manualMode');" style="width: 150px;" ></p>
 	<hr />
 	<p align="center"><input type="button" id="autoFGbtn" value="FG" style="width:75px;"><input type="button" id="autoBGbtn" value="BG" style="width:75px;"></p>
 	<p align="center"><input type="button" value="Box" style="width:50px;"><input type="button" value="Pen" style="width:50px;"><input type="button" value="Erase" style="width:50px;"></p>
-	<p align="center"><input type="button" value="Autodetect!" style="width: 150px;" ></p>
+	<p align="center"><input type="button" value="Settings" style="width: 75px;"><input type="button" value="SCAN!" style="width: 75px;" ></p>
 	<hr />
 	<p align="center"><input id="removeLastBtn" type="button" value="Delete" onClick="undoPointSelection();" style="width: 75px;"><input id="clearAllBtn" type="button" value="Clear All" onCLick="clearPoints();" style="width: 75px;"></p>
-	<p align="center"><input type="button" value="Save Data" id="saveBtn" onClick="saveData();" style="width:150px;"></p>
+	<p align="center"><input type="button" value="Create .CSV" id="saveBtn" onClick="saveData();" style="width:150px;"></p>
 	<p align="center">Points Picked:<span id="pointsStatus">0</span></p>
 	</div>
 
 	<div id="editImageToolbar" class="sidebar">
 	<p align="center"><b>Edit Image</b></p>
+	<p align="center"><input type="button" value="H. Flip" style="width: 75px;" onClick=""><input type="button" value="V. Flip" style="width: 75px;" onClick=""></p>
 	<p align="center"><input type="button" value="Crop" style="width: 150px;" onClick="cropPlot();"></p>
-	<p align="center"><input type="button" value="Rotate 90" style="width: 150px;" onClick="showPopup('na');"></p>
-	</div>
-
-	<div id="setAxesToolbar" class="sidebar">
-	<p align="center"><b>Plot Type</b></p>
-	<p align="center"><input type="button" value="X-Y" style="width: 150px;" onClick="setAxes('XY');"></p>
-	<p align="center"><input type="button" value="Bar" style="width: 150px;" onClick="setAxes('bar');"></p>
-	<p align="center"><input type="button" value="Polar" style="width: 150px;" onClick="setAxes('polar')"></p>
-	<p align="center"><input type="button" value="Ternary" style="width: 150px;" onClick="setAxes('ternary');"></p>
+	<p align="center"><input type="text" value="90.0" style="width: 75px;"><input type="button" value="Rotate" style="width: 75px;" onClick="showPopup('na');"></p>
+	<p align="center"><input type="button" value="Restore" style="width: 150px;" onClick=""></p>
 	</div>
 
 	
@@ -127,33 +124,28 @@
 	</div>
 
 	<div id="csvWindow" class="popup" style="width: 500px; height: 300px;">
+	<p align="center"><b>Acquired Data</b></p>
 	<p align="center">Copy and Paste to a .CSV file</p>
 	<p align="center"><textarea id="tarea" rows="10" cols="50"></textarea></p>
-	<p align="center"><input type="button" id="closeCSVbtn" value="Done" onClick="closePopup('csvWindow');"></p>
+	<p align="center"><input type="button" value="Copy to Clipboard" onClick="closePopup('csvWindow');"> <input type="button" id="closeCSVbtn" value="Done" onClick="closePopup('csvWindow');"></p>
 	</div>
 
 	<div id="axesInfo" class="popup" style="width: 350px;"> <!-- :TODO: rename this -->
 	<p align="center"><b>Specify Axes</b></p>
+	<p>&nbsp;</p>
 	<p align="center">Select four corners of the axes starting with the origin and going clockwise.</p>
+	<p>&nbsp;</p>
 	<p align="center"><input type="button" value="Proceed" onClick="closePopup('axesInfo')"></p>
 	</div>
 
 	<div id="aboutNote" class="popup" style="width: 550px;">
 	<p align="center"><b>WebPlotDigitizer v2.0</b> - Web based Plot Digitizer</p>
+	<p>&nbsp;</p>
 	<p align="center">This program is distributed under the GNU General Public License Version 3.</p>
 	<p align="center">Copyright 2010 Ankit Rohatgi &lt;ankitrohatgi@hotmail.com&gt;</p>
 	<p align="center"><a href="http://www.arohatgi.info/WebPlotDigitizer" target="website">http://www.arohatgi.info/WebPlotDigitizer</a></p>
+	<p>&nbsp;</p>
 	<p align="center"><input type="button" value="Close" onClick="closePopup('aboutNote');"></p>
-	</div>
-
-	<div id="selectDataMode" class="popup" style="width:500px;">
-	<p align="center"><b>Select Data</b></p>
-	<table><tr><td><p><input type="button" value="Manual" style="width: 150px;" onClick="closePopup('selectDataMode'); pickPoints();"></p></td>
-		   <td><p>Select data points manually. Takes more effort, but works everytime.</p></td>
-	      </tr><tr><td><p><input type="button" style="width: 150px;" value="Automatic" onClick="closePopup('selectDataMode'); showPopup('na');"></td>
-		       <td><p>Autodetect curves (Experimental).</p></td></tr>
-	</table>
-      	<p align="center"><input type="button" value="Cancel" onClick="closePopup('selectDataMode');"></p>
 	</div>
 
 	<div id="na" class="popup" style="width:500px;">
