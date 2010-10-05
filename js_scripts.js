@@ -454,7 +454,6 @@ function clearPoints() // clear all markings.
 	if (xyData instanceof Array)
 		xyData = [];
 	redrawCanvas();
-	clearSidebar();
 	finishDataCollection();
 }
 
