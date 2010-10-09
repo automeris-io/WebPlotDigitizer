@@ -40,7 +40,7 @@
 	
 	<td class="toolbar"> 
 		<input type="button" onClick="showSidebar('editImageToolbar');" value="Edit Image" style="margin: 0 5px;">
-		<input type="button" id="xybtn" value="X-Y" onClick="setAxes('XY');" style="margin: 0 5px;">
+		<input type="button" id="xybtn" value="X-Y" onClick="setAxes('XY');" style="margin: 0 5px; background:#ffffee;">
 		<input type="button" id="polarbtn" value="Polar" onClick="setAxes('polar')" style="margin: 0 5px;">
 		<input type="button" id="ternarybtn" value="Ternary" onClick="setAxes('ternary');" style="margin: 0 5px;">
 		<input type="button" onClick="showSidebar('manualMode');" value="Acquire Data" style="margin: 0 5px;">
@@ -96,10 +96,10 @@
 
 	<div id="editImageToolbar" class="sidebar">
 	<p align="center"><b>Edit Image</b></p>
-	<p align="center"><input type="button" value="H. Flip" style="width: 75px;" onClick=""><input type="button" value="V. Flip" style="width: 75px;" onClick=""></p>
+	<p align="center"><input type="button" value="H. Flip" style="width: 75px;" onClick="hflip();"><input type="button" value="V. Flip" style="width: 75px;" onClick="vflip();"></p>
 	<p align="center"><input type="button" value="Crop" style="width: 150px;" onClick="cropPlot();"></p>
-	<p align="center"><input type="text" value="90.0" style="width: 75px;"><input type="button" value="Rotate" style="width: 75px;" onClick="showPopup('na');"></p>
-	<p align="center"><input type="button" value="Restore" style="width: 150px;" onClick=""></p>
+	<!--<p align="center"><input type="text" value="90.0" style="width: 75px;"><input type="button" value="Rotate" style="width: 75px;" onClick="showPopup('na');"></p> -->
+	<p align="center"><input type="button" value="Restore" style="width: 150px;" onClick="restoreOriginalImage();"></p>
 	</div>
 
 	

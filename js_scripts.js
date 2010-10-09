@@ -34,6 +34,7 @@ var cheight; // Available canvas height
 var caspectratio; // Aspect ratio of the image
 var currentImage; // current full plot image element
 var originalCanvas; // canvas in clean state.
+var originalImage;
 var currentImageHeight; 
 var currentImageWidth;
 var cImageData; // data from getImageData
@@ -109,7 +110,7 @@ function init() // This is run when the page loads.
 
 	// Set canvas default state
 	img = new Image();
-	img.onload = function() { loadImage(img); }
+	img.onload = function() { loadImage(img); originalImage = img; }
 	img.src = "start.png";
 	
 	// specify mouseover function
@@ -134,6 +135,8 @@ function setDefaultState()
 	zctx.lineTo(zWindowWidth, zWindowHeight/2);
 	zctx.stroke();
 }
+
+/**************************************************** Canvas Image Handling **************************************/
 
 function loadImage(imgel)
 {
@@ -163,7 +166,23 @@ function loadImage(imgel)
 	ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 	ctx.drawImage(imgel,cx0,cy0,newWidth,newHeight); 
 
-        originalCanvas = canvas;
+   originalCanvas = canvas;
+}
+
+function getCurrentImage()
+{
+	var nimagedata = ctx.getImageData(cx0,cy0,currentImageWidth,currentImageHeight);
+	var tCanvas = document.createElement('canvas');
+	
+	tCanvas.width = currentImageWidth;
+	tCanvas.height=  currentImageHeight;
+
+	tCanvasContext = tCanvas.getContext('2d');
+	tCanvasContext.putImageData(nimagedata,0,0);
+
+	newImage = new Image();
+	newImage.src = tCanvas.toDataURL();
+	newImage.onload = function() { currentImage = newImage; }
 }
 
 function reloadPlot()
@@ -178,6 +197,7 @@ function redrawCanvas()
 	reloadPlot();
 }
 
+/******************************************************** Popup Handling *****************************************/
 function showPopup(popupid)
 {
 	// Dim lights :)
@@ -206,18 +226,7 @@ function closePopup(popupid)
 
 }
 
-function showToolbar(tbid)
-{
-	var tb = document.getElementById(tbid);
-	tb.style.visibility = "visible";
-}
-
-function closeToolbar(tbid)
-{
-	var tb = document.getElementById(tbid);
-	tb.style.visibility = "hidden";
-    
-}
+/****************************************** Sidebar handling ************************************************/
 
 function showSidebar(sbid) // Shows a specific sidebar
 {
@@ -242,6 +251,53 @@ function pointsStatus(pn) // displays the number of points picked.
 	points.innerHTML = pn;
 }
 
+/**************************************** Image Editing Functions ******************************************/
+
+function hflip()
+{
+	var iData = ctx.getImageData(cx0,cy0,currentImageWidth,currentImageHeight);
+
+	for (var rowi = 0; rowi < currentImageHeight; rowi++)
+	{
+		for(var coli = 0; coli < currentImageWidth/2; coli++)
+		{
+			var index = rowi*4*parseInt(currentImageWidth) + coli*4;
+			var mindex = (rowi+1)*4*parseInt(currentImageWidth) - (coli+1)*4;
+			for(var p = 0; p < 4; p++)
+			{
+				var tt = iData.data[index + p];
+				iData.data[index + p] = iData.data[mindex + p];
+				iData.data[mindex + p] = tt;
+			}
+		}
+	}
+	
+	ctx.putImageData(iData,cx0,cy0);
+	getCurrentImage();
+}
+
+function vflip()
+{
+	var iData = ctx.getImageData(cx0,cy0,currentImageWidth,currentImageHeight);
+
+	for (var coli = 0; coli < currentImageWidth; coli++)
+	{
+		for(var rowi = 0; rowi < currentImageHeight/2; rowi++)
+		{
+			var index = rowi*4*parseInt(currentImageWidth) + coli*4;
+			var mindex = (parseInt(currentImageHeight) - (rowi+2))*4*parseInt(currentImageWidth) + coli*4;
+			for(var p = 0; p < 4; p++)
+			{
+				var tt = iData.data[index + p];
+				iData.data[index + p] = iData.data[mindex + p];
+				iData.data[mindex + p] = tt;
+			}
+		}
+	}
+	
+	ctx.putImageData(iData,cx0,cy0);
+	getCurrentImage();
+}
 
 function cropPlot() // crop image
 {
@@ -274,28 +330,19 @@ function cropMouseup(ev)
       cropHeight = cropCoordinates[3]-cropCoordinates[1];
       if ((cropWidth > 0) && (cropHeight > 0))
       {
-	var tcan = document.createElement('canvas');
-	var tcontext = tcan.getContext('2d');
-	
-	tcan.width = cropWidth;
-	tcan.height = cropHeight;
-	
-	try
-	{
-		try { var cropImageData = ctx.getImageData(cropCoordinates[0],cropCoordinates[1],cropWidth,cropHeight); } 
-		catch(e) 
-		{   	
-		    netscape.security.PrivilegeManager.enablePrivilege("UniversalBrowserRead");
-		    var cropImageData = ctx.getImageData(cropCoordinates[0],cropCoordinates[1],cropWidth,cropHeight);
-		}
-	}
-	catch(e) { throw new Error("Unable to access image data: " + e); }
-	
-	tcontext.putImageData(cropImageData,0,0);
-	cropSrc = tcan.toDataURL();
-	cropImg = new Image();
-	cropImg.src = cropSrc;
-	cropImg.onload = function() { loadImage(cropImg); }
+		var tcan = document.createElement('canvas');
+		var tcontext = tcan.getContext('2d');
+		
+		tcan.width = cropWidth;
+		tcan.height = cropHeight;
+		
+		var cropImageData = ctx.getImageData(cropCoordinates[0],cropCoordinates[1],cropWidth,cropHeight);  
+		
+		tcontext.putImageData(cropImageData,0,0);
+		cropSrc = tcan.toDataURL();
+		cropImg = new Image();
+		cropImg.src = cropSrc;
+		cropImg.onload = function() { loadImage(cropImg); }
       }
       
 }
@@ -305,16 +352,28 @@ function cropMousemove(ev)
       // this paints a rectangle as the mouse moves
       if(cropStatus == 1)
       {
-	redrawCanvas();
-	ctx.strokeStyle = "rgb(0,0,0)";
-	ctx.strokeRect(cropCoordinates[0],cropCoordinates[1],parseInt(ev.layerX)-cropCoordinates[0],parseInt(ev.layerY)-cropCoordinates[1]);
+		redrawCanvas();
+		ctx.strokeStyle = "rgb(0,0,0)";
+		ctx.strokeRect(cropCoordinates[0],cropCoordinates[1],parseInt(ev.layerX)-cropCoordinates[0],parseInt(ev.layerY)-cropCoordinates[1]);
       }
 }
 
-function setAxes(ax_mode) // specify 4 corners and data range. :TODO: accept plotType as a parameter
+function restoreOriginalImage()
+{
+	loadImage(originalImage);
+}
+
+function rotateCanvas() // Rotate by a specified amount.
+{
+}
+
+/*********************************************** Define Axes *****************************************************/
+
+function setAxes(ax_mode) 
 {
 
 	plotType = ax_mode;
+	clearSidebar();
 	clearClickEvents();
 	canvas.addEventListener('click',pickCorners,true);
 	axesN = 0;
@@ -400,6 +459,9 @@ function setXYRange() // set the X-Y data range.
 	closePopup('xyRangeForm');
 }
 
+
+/********************************************** Data Selection *************************************/
+
 function pickPoints() // select data points.
 {
 	if (axesPicked == 0)
@@ -480,6 +542,7 @@ function undoPointSelection()
 	}
 }
 
+/************************************************ Save Data ******************************************************/
 
 function saveData() // generate the .CSV file
 {
@@ -521,6 +584,8 @@ function saveData() // generate the .CSV file
 		}
 }
 
+
+/***************************************************** Zoom Window Handling ********************************************/
 function updateZoom(ev)
 {
 	xpos = ev.layerX;
@@ -532,25 +597,8 @@ function updateZoom(ev)
 
 	if((xpos-dx/2) >= 0 && (ypos-dy/2) >= 0 && (xpos+dx/2) <= canvasWidth && (ypos+dy/2) <= canvasHeight)
 	{
-		try
-		{
-			try
-			{
-					var zoomImage = ctx.getImageData(xpos-dx/2,ypos-dy/2,dx,dy);
-			} 
-			catch(e)
-			{
-					netscape.security.PrivilegeManager.enablePrivilege("UniversalBrowserRead");
-					var zoomImage = ctx.getImageData(xpos-dx/2,ypos-dy/2,dx,dy);
-
-
-			}
-		}
-		catch(e)
-		{
-			throw new Error("Unable to access image data: " + e);
-		}
-
+		var zoomImage = ctx.getImageData(xpos-dx/2,ypos-dy/2,dx,dy);
+	
 		tctx.putImageData(zoomImage,0,0);
 		var imgdata = tempCanvas.toDataURL();
 		var zImage = new Image();
@@ -569,7 +617,7 @@ function updateZoom(ev)
 	}
 }
 
-
+/************************************************** Drag & Drop Handler ************************************************/
 function dropHandler(ev)
 {
 	allDrop = ev.dataTransfer.files;
@@ -579,14 +627,14 @@ function dropHandler(ev)
 		droppedFile.onload = function() {
 			var imageInfo = droppedFile.result;
 			var newimg = new Image();
-			newimg.onload = function() { loadImage(newimg); }
+			newimg.onload = function() { loadImage(newimg); originalImage = newimg; }
 			newimg.src = imageInfo;
 		}
 		droppedFile.readAsDataURL(allDrop[0]);
 	}
 }
 
-/*********** Matrix operations ***********/
+/***************************************************** Matrix operations ******************************************/
 function matrixInverse22(A) // Inverse of a 2x2 matrix
 {
   a11 = parseFloat(A[0][0]);
