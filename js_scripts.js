@@ -68,6 +68,11 @@ var ymax;
 var xlog;
 var ylog;
 
+/* Autodetection variables */
+var fg_color = [0,0,0];
+var bg_color = [255,255,255];
+var colorPickerMode = 'fg';
+
 /* UI variables */
 var sidebarList = ['editImageToolbar','manualMode','autoMode','autoSettings']; 
 var plotType; // Options: 'XY', 'bar', 'polar', 'ternary'
@@ -555,6 +560,93 @@ function undoPointSelection()
 
 	}
 }
+
+/************************************************ Autodetect Curves **********************************************/
+function pickColor(cmode)
+{
+	colorPickerMode = cmode;
+	clearClickEvents();
+	canvas.addEventListener('click',colorPicker,true);
+}
+
+function colorPicker(ev)
+{
+	xi = ev.layerX;
+	yi = ev.layerY;
+	
+	iData = ctx.getImageData(cx0,cy0,currentImageWidth,currentImageHeight);
+	if ((xi < currentImageWidth+cx0) && (yi < currentImageHeight+cy0) && (xi > cx0) && (yi > cy0))
+	{
+		ii = xi - cx0;
+		jj = yi - cy0;
+
+		var index = jj*4*currentImageWidth + ii*4;
+		var PickedColor = [iData.data[index], iData.data[index+1], iData.data[index+2]];
+		alert(PickedColor);
+		canvas.removeEventListener('click',colorPicker,true);
+		if(colorPickerMode == 'fg')
+		{
+			fg_color = PickedColor;
+			var fgbtn = document.getElementById('autoFGBtn');
+			fgbtn.style.borderColor = "rgb(" + fg_color[0] +"," + fg_color[1] +"," + fg_color[2] +")";
+		}
+		else if (colorPickerMode == 'bg')
+		{
+			bg_color = PickedColor;
+			var bgbtn = document.getElementById('autoBGBtn');
+			bgbtn.style.borderColor = "rgb(" + bg_color[0] +"," + bg_color[1] +"," + bg_color[2] +")";
+		}
+	}	
+}
+
+function boxPaint()
+{
+	clearClickEvents();
+	canvas.addEventListener('mousedown',boxPaintMousedown,true);
+	canvas.addEventListener('mouseup',boxPaintMouseup,true);
+	canvas.addEventListener('drag',boxPaintMousedrag,true);
+
+}
+
+function boxPaintMousedown(ev)
+{
+}
+
+function boxPaintMouseup(ev)
+{
+}
+
+function boxPaintMousedrag(ev)
+{
+}
+
+function penPaint()
+{
+	clearClickEvents();
+	canvas.addEventListener('mousedown',boxPaintMousedown,true);
+	canvas.addEventListener('mouseup',boxPaintMouseup,true);
+	canvas.addEventListener('drag',boxPaintMousedrag,true);
+
+}
+
+function penPaintMousedown(ev)
+{
+}
+
+function penPaintMouseup(ev)
+{
+}
+
+function penPaintMousedrag(ev)
+{
+}
+
+// Erase will be based off of penPaint.
+
+function autodetectCurves()
+{
+}
+
 
 /************************************************ Save Data ******************************************************/
 
