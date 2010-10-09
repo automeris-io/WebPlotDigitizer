@@ -94,6 +94,13 @@
 	<p align="center">Points Picked:<span id="pointsStatus">0</span></p>
 	</div>
 
+	<div id='autoSettings' class="sidebar">
+	<p align="center"><b>Settings</b></p>
+	<p align="center"><input type="checkbox" id="bgonly"> Use BG only</p>
+	<p align="center"><input type="button" value="Set Range" style="width:150px;"></p>
+	<p align="center"><input type="button" value="Save" onClick="showSidebar('autoMode');" style="width:150px;"></p>
+	</div>
+
 	<div id="editImageToolbar" class="sidebar">
 	<p align="center"><b>Edit Image</b></p>
 	<p align="center"><input type="button" value="H. Flip" style="width: 75px;" onClick="hflip();"><input type="button" value="V. Flip" style="width: 75px;" onClick="vflip();"></p>
@@ -130,12 +137,26 @@
 	</div>
 
 	<div id="axesInfo" class="popup" style="width: 350px;"> <!-- :TODO: rename this -->
-	<p align="center"><b>Specify Axes</b></p>
+	<p align="center"><b>Specify X-Y Axes</b></p>
 	<p>&nbsp;</p>
 	<p align="center">Select four corners of the axes starting with the origin and going clockwise.</p>
 	<p>&nbsp;</p>
 	<p align="center"><input type="button" value="Proceed" onClick="closePopup('axesInfo')"></p>
 	</div>
+
+	<div id="polarAxesInfo" class="popup" style="width: 350px;">
+
+	</div>
+
+	<div id="ternaryAxesInfo" class="popup" style="width: 350px;">
+
+	</div>
+
+	<div id="autoSetRange" class="popup" style="width: 350px;">
+	Specify Xmin, Xmax, dX or Number of points overall.
+	</div>
+
+
 
 	<div id="aboutNote" class="popup" style="width: 550px;">
 	<p align="center"><b>WebPlotDigitizer v2.0</b> - Web based Plot Digitizer</p>
