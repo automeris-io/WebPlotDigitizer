@@ -140,8 +140,8 @@ function setDefaultState()
 
 function loadImage(imgel)
 {
-	var sheight = imgel.height;
-	var swidth = imgel.width;
+	var sheight = parseInt(imgel.height);
+	var swidth = parseInt(imgel.width);
 	var iar = sheight/swidth;
 	
 	var newHeight = sheight;
@@ -159,8 +159,8 @@ function loadImage(imgel)
 	}
 	
 	currentImage = imgel;
-	currentImageHeight = newHeight;
-	currentImageWidth = newWidth;
+	currentImageHeight = parseInt(newHeight);
+	currentImageWidth = parseInt(newWidth);
 			
 	ctx.fillStyle = "rgb(255,255,255)";
 	ctx.fillRect(0, 0, canvasWidth, canvasHeight);
@@ -261,8 +261,8 @@ function hflip()
 	{
 		for(var coli = 0; coli < currentImageWidth/2; coli++)
 		{
-			var index = rowi*4*parseInt(currentImageWidth) + coli*4;
-			var mindex = (rowi+1)*4*parseInt(currentImageWidth) - (coli+1)*4;
+			var index = rowi*4*currentImageWidth + coli*4;
+			var mindex = (rowi+1)*4*currentImageWidth - (coli+1)*4;
 			for(var p = 0; p < 4; p++)
 			{
 				var tt = iData.data[index + p];
@@ -284,8 +284,8 @@ function vflip()
 	{
 		for(var rowi = 0; rowi < currentImageHeight/2; rowi++)
 		{
-			var index = rowi*4*parseInt(currentImageWidth) + coli*4;
-			var mindex = (parseInt(currentImageHeight) - (rowi+2))*4*parseInt(currentImageWidth) + coli*4;
+			var index = rowi*4*currentImageWidth + coli*4;
+			var mindex = (currentImageHeight - (rowi+2))*4*currentImageWidth + coli*4;
 			for(var p = 0; p < 4; p++)
 			{
 				var tt = iData.data[index + p];
