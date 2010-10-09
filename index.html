@@ -85,7 +85,7 @@
 	<p align="center"><b>Autodetect Mode</b></p>
 	<p align="center"><input type="button" value="Switch to Manual" onClick="showSidebar('manualMode');" style="width: 150px;" ></p>
 	<hr />
-	<p align="center"><input type="button" id="autoFGbtn" value="FG" style="width:75px;"><input type="button" id="autoBGbtn" value="BG" style="width:75px;"></p>
+	<p align="center"><input type="button" id="autoFGBtn" value="FG" style="width:75px;" onClick="pickColor('fg');"><input type="button" id="autoBGBtn" value="BG" style="width:75px;" onClick="pickColor('bg');"></p>
 	<p align="center"><input type="button" value="Box" style="width:50px;"><input type="button" value="Pen" style="width:50px;"><input type="button" value="Erase" style="width:50px;"></p>
 	<p align="center"><input type="button" value="Settings" style="width: 75px;"><input type="button" value="SCAN!" style="width: 75px;" ></p>
 	<hr />
@@ -177,6 +177,12 @@
 	<p align="center"><a href="http://www.arohatgi.info/WebPlotDigitizer" target="website">http://www.arohatgi.info/WebPlotDigitizer</a></p>
 	<p>&nbsp;</p>
 	<p align="center"><input type="button" value="Close" onClick="closePopup('aboutNote');"></p>
+	</div>
+
+	<div id="testImageWindow" class="popup">
+	<p align="center"><b>Test Window</b></p>
+	<p align="center"><img src="" /><p>
+	<p align="center"><input type="button" value="Close" onClick="closePopup('testImageWindow');"></p>
 	</div>
 
 	<div id="na" class="popup" style="width:500px;">
