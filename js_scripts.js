@@ -69,7 +69,7 @@ var xlog;
 var ylog;
 
 /* UI variables */
-var sidebarList = ['editImageToolbar','manualMode','autoMode']; 
+var sidebarList = ['editImageToolbar','manualMode','autoMode','autoSettings']; 
 var plotType; // Options: 'XY', 'bar', 'polar', 'ternary'
 
 var cropStatus = 0;
