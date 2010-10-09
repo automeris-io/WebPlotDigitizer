@@ -25,6 +25,11 @@
 
 /* This file contains functions to handle image editing functions */
 
+
+var cropStatus = 0;
+var cropCoordinates = [0,0,0,0];
+
+
 function hflip()
 {
 	var iData = ctx.getImageData(cx0,cy0,currentImageWidth,currentImageHeight);

@@ -25,6 +25,17 @@
 
 /* This file contains zoom window handling functions */
 
+/* Zoomed-in view variables */
+var zCanvas; 
+var zctx;
+var tempCanvas;
+var tctx;
+var zoom_dx = 20;
+var zoom_dy = 20;
+var zWindowWidth = 200;
+var zWindowHeight = 200;
+
+
 function updateZoom(ev)
 {
 	xpos = ev.layerX;

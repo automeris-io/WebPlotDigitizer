@@ -23,7 +23,24 @@
 
 */
 
-/* This file contains autodetections functions */
+/* This file contains axes alignment functions */
+
+var axesPicked; // axes picked?
+
+var xmin;
+var xmax;
+var ymin;
+var ymax;
+var xlog;
+var ylog;
+
+var axesN; // number of axes points picked
+var axesNmax; // total points needed to align axes.
+var xyAxes; // axes data
+
+var plotType; // Options: 'XY', 'bar', 'polar', 'ternary'
+
+
 
 function setAxes(ax_mode) 
 {
