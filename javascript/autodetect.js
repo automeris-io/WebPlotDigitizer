@@ -25,7 +25,12 @@
 
 /* This file contains autodetections functions */
 
-/************************************************ Autodetect Curves **********************************************/
+/* Autodetection variables */
+var fg_color = [0,0,0];
+var bg_color = [255,255,255];
+var colorPickerMode = 'fg';
+
+
 function pickColor(cmode)
 {
 	colorPickerMode = cmode;

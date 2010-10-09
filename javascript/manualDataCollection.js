@@ -23,7 +23,11 @@
 
 */
 
-/* This file contains autodetections functions */
+/* This file contains manual data collection functions */
+
+/* Selected Data Variables */
+var xyData; // Raw data
+var pointsPicked; // number of data points picked.
 
 
 function acquireData()

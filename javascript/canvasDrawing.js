@@ -25,6 +25,22 @@
 
 /* This file contains canvas drawing functions */
 
+/* Main Canvas Variables */
+var canvas; // holds the canvas element
+var cx0; // x-location where plot image is drawn
+var cy0; // y-location where plot image is drawn
+var canvasWidth; // Actual canvas width
+var canvasHeight; // Actual canvas height
+var cwidth; // Available canvas width
+var cheight; // Available canvas height
+var caspectratio; // Aspect ratio of the image
+var currentImage; // current full plot image element
+var originalCanvas; // canvas in clean state.
+var originalImage;
+var currentImageHeight; 
+var currentImageWidth;
+var cImageData; // data from getImageData
+var ctx; 
 
 function loadImage(imgel)
 {
