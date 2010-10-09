@@ -43,7 +43,7 @@
 		<input type="button" id="xybtn" value="X-Y" onClick="setAxes('XY');" style="margin: 0 5px; background:#ffffee;">
 		<input type="button" id="polarbtn" value="Polar" onClick="setAxes('polar')" style="margin: 0 5px;">
 		<input type="button" id="ternarybtn" value="Ternary" onClick="setAxes('ternary');" style="margin: 0 5px;">
-		<input type="button" onClick="showSidebar('manualMode');" value="Acquire Data" style="margin: 0 5px;">
+		<input type="button" onClick="acquireData();" value="Acquire Data" style="margin: 0 5px;">
 		<input type="button" onClick="showPopup('aboutNote');" value="About" style="margin: 0 5px;">
 	</td>
 	
@@ -136,27 +136,38 @@
 	<p align="center"><input type="button" value="Copy to Clipboard" onClick="closePopup('csvWindow');"> <input type="button" id="closeCSVbtn" value="Done" onClick="closePopup('csvWindow');"></p>
 	</div>
 
-	<div id="axesInfo" class="popup" style="width: 350px;"> <!-- :TODO: rename this -->
-	<p align="center"><b>Specify X-Y Axes</b></p>
-	<p>&nbsp;</p>
+	<div id="xyAxesInfo" class="popup" style="width: 350px;"> 
+	<p align="center"><b>Align X-Y Axes</b></p>
+	<p align="center"><img src="images/xyaxes.png" /></p>
 	<p align="center">Select four corners of the axes starting with the origin and going clockwise.</p>
-	<p>&nbsp;</p>
-	<p align="center"><input type="button" value="Proceed" onClick="closePopup('axesInfo')"></p>
+	<p align="center"><input type="button" value="Proceed" onClick="closePopup('xyAxesInfo')"></p>
 	</div>
 
 	<div id="polarAxesInfo" class="popup" style="width: 350px;">
-
+	<p align="center"><b>Align Polar Axes</b></p>
+	<p align="center"<img src="images/polaraxes.png" /></p>
+	<p align="center">Select four points as shown to align the axes.</p>
+	<p align="center"><input type="button" value="Proceed" onClick="closePopup('polarAxesInfo')"></p>
 	</div>
 
 	<div id="ternaryAxesInfo" class="popup" style="width: 350px;">
-
+	<p align="center"><b>Align Ternary Axes</b></p>
+	<p align="center"<img src="images/ternaryaxes.png" /></p>
+	<p align="center">Select four points as shown to align the axes.</p>
+	<p align="center"><input type="button" value="Proceed" onClick="closePopup('ternaryAxesInfo')"></p>
 	</div>
 
 	<div id="autoSetRange" class="popup" style="width: 350px;">
 	Specify Xmin, Xmax, dX or Number of points overall.
 	</div>
 
-
+	<div id="alignAxes" class="popup" style="width:300px;">
+	<p align="center"><b>Acquire Data</b></p>
+	<p align="center">&nbsp;</p>
+	<p align="center">Please align the axes before acquiring data.</p>
+	<p align="center">&nbsp;</p>
+	<p align="center"><input type="button" value="Ok" onClick="closePopup('alignAxes')"></p>
+	</div>
 
 	<div id="aboutNote" class="popup" style="width: 550px;">
 	<p align="center"><b>WebPlotDigitizer v2.0</b> - Web based Plot Digitizer</p>

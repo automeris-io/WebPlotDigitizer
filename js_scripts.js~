@@ -1,5 +1,5 @@
 /*
-	WebPlotDigitizer - http://arohatgi.info/WebPlotdigitizer
+	WebPlotDigitizer
 
 	Version 2.0
 
@@ -34,7 +34,6 @@ var cheight; // Available canvas height
 var caspectratio; // Aspect ratio of the image
 var currentImage; // current full plot image element
 var originalCanvas; // canvas in clean state.
-var originalImage;
 var currentImageHeight; 
 var currentImageWidth;
 var cImageData; // data from getImageData
@@ -51,7 +50,9 @@ var zWindowWidth = 200;
 var zWindowHeight = 200;
 
 /* State of the system */
+var cmode; // click mode of the canvas.
 var axesPicked; // axes picked?
+var rangePicked; // axes range specified?
 
 /* Selected Data Variables */
 var xyData; // Raw data
@@ -69,7 +70,7 @@ var xlog;
 var ylog;
 
 /* UI variables */
-var sidebarList = ['editImageToolbar','manualMode','autoMode','autoSettings']; 
+var sidebarList = ['pointsWindow','editImageToolbar','setAxesToolbar']; 
 var plotType; // Options: 'XY', 'bar', 'polar', 'ternary'
 
 var cropStatus = 0;
@@ -110,7 +111,7 @@ function init() // This is run when the page loads.
 
 	// Set canvas default state
 	img = new Image();
-	img.onload = function() { loadImage(img); originalImage = img; }
+	img.onload = function() { loadImage(img); }
 	img.src = "start.png";
 	
 	// specify mouseover function
@@ -127,7 +128,12 @@ function init() // This is run when the page loads.
 
 function setDefaultState()
 {
+	cmode = CLK_DEFAULT;
 	axesPicked = 0;
+	rangePicked = 0;
+	axesStatus(0);
+	var pointsWin = document.getElementById('pointsWindow');
+	pointsWin.style.visibility = 'hidden';
 	zctx.beginPath();
 	zctx.moveTo(zWindowWidth/2, 0);
 	zctx.lineTo(zWindowWidth/2, zWindowHeight);
@@ -136,12 +142,10 @@ function setDefaultState()
 	zctx.stroke();
 }
 
-/**************************************************** Canvas Image Handling **************************************/
-
 function loadImage(imgel)
 {
-	var sheight = parseInt(imgel.height);
-	var swidth = parseInt(imgel.width);
+	var sheight = imgel.height;
+	var swidth = imgel.width;
 	var iar = sheight/swidth;
 	
 	var newHeight = sheight;
@@ -159,30 +163,14 @@ function loadImage(imgel)
 	}
 	
 	currentImage = imgel;
-	currentImageHeight = parseInt(newHeight);
-	currentImageWidth = parseInt(newWidth);
+	currentImageHeight = newHeight;
+	currentImageWidth = newWidth;
 			
 	ctx.fillStyle = "rgb(255,255,255)";
 	ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 	ctx.drawImage(imgel,cx0,cy0,newWidth,newHeight); 
 
-   originalCanvas = canvas;
-}
-
-function getCurrentImage()
-{
-	var nimagedata = ctx.getImageData(cx0,cy0,currentImageWidth,currentImageHeight);
-	var tCanvas = document.createElement('canvas');
-	
-	tCanvas.width = currentImageWidth;
-	tCanvas.height=  currentImageHeight;
-
-	tCanvasContext = tCanvas.getContext('2d');
-	tCanvasContext.putImageData(nimagedata,0,0);
-
-	newImage = new Image();
-	newImage.src = tCanvas.toDataURL();
-	newImage.onload = function() { currentImage = newImage; }
+        originalCanvas = canvas;
 }
 
 function reloadPlot()
@@ -197,13 +185,8 @@ function redrawCanvas()
 	reloadPlot();
 }
 
-/******************************************************** Popup Handling *****************************************/
 function showPopup(popupid)
 {
-	// Dim lights :)
-	var shadowDiv = document.getElementById('shadow');
-	shadowDiv.style.visibility = "visible";
-
 	var pWindow = document.getElementById(popupid);
 	var screenWidth = parseInt(window.innerWidth);
 	var screenHeight = parseInt(window.innerHeight);
@@ -218,15 +201,24 @@ function showPopup(popupid)
 
 function closePopup(popupid)
 {
-	var shadowDiv = document.getElementById('shadow');
-	shadowDiv.style.visibility = "hidden";
 
 	var pWindow = document.getElementById(popupid);
 	pWindow.style.visibility = "hidden";
 
 }
 
-/****************************************** Sidebar handling ************************************************/
+function showToolbar(tbid)
+{
+	var tb = document.getElementById(tbid);
+	tb.style.visibility = "visible";
+}
+
+function closeToolbar(tbid)
+{
+	var tb = document.getElementById(tbid);
+	tb.style.visibility = "hidden";
+    
+}
 
 function showSidebar(sbid) // Shows a specific sidebar
 {
@@ -245,58 +237,29 @@ function clearSidebar() // Clears all open sidebars
 	
 }
 
+function toolTip(tn) // changes the tooltip text.
+{
+	var toolTip = document.getElementById('toolTip');
+	toolTip.innerHTML = tn;
+}
+
 function pointsStatus(pn) // displays the number of points picked.
 {
 	var points = document.getElementById('pointsStatus');
 	points.innerHTML = pn;
 }
 
-/**************************************** Image Editing Functions ******************************************/
-
-function hflip()
+function axesStatus(st) // displays whether axes have been defined.
 {
-	var iData = ctx.getImageData(cx0,cy0,currentImageWidth,currentImageHeight);
-
-	for (var rowi = 0; rowi < currentImageHeight; rowi++)
+	var axes = document.getElementById('axesStatus');
+	if(st == 0)
 	{
-		for(var coli = 0; coli < currentImageWidth/2; coli++)
-		{
-			var index = rowi*4*currentImageWidth + coli*4;
-			var mindex = (rowi+1)*4*currentImageWidth - (coli+1)*4;
-			for(var p = 0; p < 4; p++)
-			{
-				var tt = iData.data[index + p];
-				iData.data[index + p] = iData.data[mindex + p];
-				iData.data[mindex + p] = tt;
-			}
-		}
+		axes.innerHTML = "<font color='red'>UNDEFINED</font>";
 	}
-	
-	ctx.putImageData(iData,cx0,cy0);
-	getCurrentImage();
-}
-
-function vflip()
-{
-	var iData = ctx.getImageData(cx0,cy0,currentImageWidth,currentImageHeight);
-
-	for (var coli = 0; coli < currentImageWidth; coli++)
+	else if(st == 1)
 	{
-		for(var rowi = 0; rowi < currentImageHeight/2; rowi++)
-		{
-			var index = rowi*4*currentImageWidth + coli*4;
-			var mindex = (currentImageHeight - (rowi+2))*4*currentImageWidth + coli*4;
-			for(var p = 0; p < 4; p++)
-			{
-				var tt = iData.data[index + p];
-				iData.data[index + p] = iData.data[mindex + p];
-				iData.data[mindex + p] = tt;
-			}
-		}
+		axes.innerHTML = "<font color='green'>DEFINED</font>";
 	}
-	
-	ctx.putImageData(iData,cx0,cy0);
-	getCurrentImage();
 }
 
 function cropPlot() // crop image
@@ -330,19 +293,28 @@ function cropMouseup(ev)
       cropHeight = cropCoordinates[3]-cropCoordinates[1];
       if ((cropWidth > 0) && (cropHeight > 0))
       {
-		var tcan = document.createElement('canvas');
-		var tcontext = tcan.getContext('2d');
-		
-		tcan.width = cropWidth;
-		tcan.height = cropHeight;
-		
-		var cropImageData = ctx.getImageData(cropCoordinates[0],cropCoordinates[1],cropWidth,cropHeight);  
-		
-		tcontext.putImageData(cropImageData,0,0);
-		cropSrc = tcan.toDataURL();
-		cropImg = new Image();
-		cropImg.src = cropSrc;
-		cropImg.onload = function() { loadImage(cropImg); }
+	var tcan = document.createElement('canvas');
+	var tcontext = tcan.getContext('2d');
+	
+	tcan.width = cropWidth;
+	tcan.height = cropHeight;
+	
+	try
+	{
+		try { var cropImageData = ctx.getImageData(cropCoordinates[0],cropCoordinates[1],cropWidth,cropHeight); } 
+		catch(e) 
+		{   	
+		    netscape.security.PrivilegeManager.enablePrivilege("UniversalBrowserRead");
+		    var cropImageData = ctx.getImageData(cropCoordinates[0],cropCoordinates[1],cropWidth,cropHeight);
+		}
+	}
+	catch(e) { throw new Error("Unable to access image data: " + e); }
+	
+	tcontext.putImageData(cropImageData,0,0);
+	cropSrc = tcan.toDataURL();
+	cropImg = new Image();
+	cropImg.src = cropSrc;
+	cropImg.onload = function() { loadImage(cropImg); }
       }
       
 }
@@ -352,53 +324,30 @@ function cropMousemove(ev)
       // this paints a rectangle as the mouse moves
       if(cropStatus == 1)
       {
-		redrawCanvas();
-		ctx.strokeStyle = "rgb(0,0,0)";
-		ctx.strokeRect(cropCoordinates[0],cropCoordinates[1],parseInt(ev.layerX)-cropCoordinates[0],parseInt(ev.layerY)-cropCoordinates[1]);
+	redrawCanvas();
+	ctx.strokeStyle = "rgb(0,0,0)";
+	ctx.strokeRect(cropCoordinates[0],cropCoordinates[1],parseInt(ev.layerX)-cropCoordinates[0],parseInt(ev.layerY)-cropCoordinates[1]);
       }
 }
 
-function restoreOriginalImage()
+function setAxes() // specify 4 corners and data range. :TODO: accept plotType as a parameter
 {
-	loadImage(originalImage);
-}
-
-function rotateCanvas() // Rotate by a specified amount.
-{
-}
-
-/*********************************************** Define Axes *****************************************************/
-
-function setAxes(ax_mode) 
-{
-
-	plotType = ax_mode;
-	clearSidebar();
 	clearClickEvents();
+	
 	canvas.addEventListener('click',pickCorners,true);
+	
 	axesN = 0;
-	xyAxes = [];
+	if (xyAxes instanceof Array)
+		xyAxes = [];
+	else
+	    xyAxes = new Array();
 
-	if ((plotType == 'XY')||(plotType == 'bar'))
-	{
-		axesNmax = 4;
-		showPopup('xyAxesInfo');
-	}
-	else if (plotType == 'polar')
-	{
-		axesNmax = 4;
-		showPopup('polarAxesInfo');
-	}
-	else if (plotType == 'ternary')
-	{
-		axesNmax = 3;
-		showPopup('ternaryAxesInfo');
-	}
+	showPopup('axesInfo');
 }
 
 function pickCorners(ev)
 {
-	if (axesN < axesNmax)
+	if (axesN < 4)
 	{
 		xi = ev.layerX;
 		yi = ev.layerY;
@@ -414,23 +363,15 @@ function pickCorners(ev)
 		
 		updateZoom(ev);
 
-		if (axesN == axesNmax)
+		if (axesN == 4)
 		{
 				axesPicked = 1;
 				
 				canvas.removeEventListener('click',pickCorners,true);
 				
-				if (plotType == 'XY')
-				{
-					showPopup('xyRangeForm');
-				}
-				else if (plotType == 'polar')
-				{
-				}
-				else if (plotType == 'ternary')
-				{
-				}
-
+				if (rangePicked == 1)
+						axesStatus(1);
+				showPopup('xyRangeForm');
 				redrawCanvas();
 		}
 	}
@@ -448,50 +389,33 @@ function setXYRange() // set the X-Y data range.
 	var xmaxEl = document.getElementById('xmax');
 	var yminEl = document.getElementById('ymin');
 	var ymaxEl = document.getElementById('ymax');
-    // var xlogEl = document.getElementById('xlog');
+        // var xlogEl = document.getElementById('xlog');
 	// var ylogEl = document.getElementById('ylog');
 	
 	xmin = parseFloat(xminEl.value);
 	xmax = parseFloat(xmaxEl.value);
 	ymin = parseFloat(yminEl.value);
 	ymax = parseFloat(ymaxEl.value);
-    //  xlog = xlogEl.checked;
+        //  xlog = xlogEl.checked;
 	//  ylog = ylogEl.checked;
-	//
+	
+	rangePicked = 1;
+	if (axesPicked == 1)
+		axesStatus(1);
 	closePopup('xyRangeForm');
-}
-
-
-/********************************************** Data Selection *************************************/
-
-function acquireData()
-{
-	if(axesPicked == 0)
-	{
-		showPopup('alignAxes');
-	}
-	else
-	{
-		showSidebar('manualMode');
-	}
 }
 
 function pickPoints() // select data points.
 {
-	if (axesPicked == 0)
-	{
-		alert('Define the axes first!');
-	}
-	else
-	{
-		clearClickEvents();
-		canvas.addEventListener('click',clickPoints,true);
-		pointsPicked = 0;
-		xyData = [];
-		pointsStatus(pointsPicked);
-		redrawCanvas();
-		showSidebar('manualMode');
-	}
+	clearClickEvents();
+	
+	canvas.addEventListener('click',clickPoints,true);
+	
+	pointsPicked = 0;
+	xyData = [];
+	pointsStatus(pointsPicked);
+	redrawCanvas();
+	showSidebar('pointsWindow');
 }
 
 function clickPoints(ev)
@@ -530,6 +454,7 @@ function clearPoints() // clear all markings.
 	if (xyData instanceof Array)
 		xyData = [];
 	redrawCanvas();
+	clearSidebar();
 	finishDataCollection();
 }
 
@@ -556,14 +481,13 @@ function undoPointSelection()
 	}
 }
 
-/************************************************ Save Data ******************************************************/
 
 function saveData() // generate the .CSV file
 {
 		// check if everything was specified
 		// transform to proper numbers
 		// save data as CSV.
-		if(axesPicked ==1 && pointsPicked >= 1) 
+		if(rangePicked == 1 && axesPicked ==1 && pointsPicked >= 1) 
 		{
 			showPopup('csvWindow');
 			tarea = document.getElementById('tarea');
@@ -598,8 +522,6 @@ function saveData() // generate the .CSV file
 		}
 }
 
-
-/***************************************************** Zoom Window Handling ********************************************/
 function updateZoom(ev)
 {
 	xpos = ev.layerX;
@@ -611,8 +533,25 @@ function updateZoom(ev)
 
 	if((xpos-dx/2) >= 0 && (ypos-dy/2) >= 0 && (xpos+dx/2) <= canvasWidth && (ypos+dy/2) <= canvasHeight)
 	{
-		var zoomImage = ctx.getImageData(xpos-dx/2,ypos-dy/2,dx,dy);
-	
+		try
+		{
+			try
+			{
+					var zoomImage = ctx.getImageData(xpos-dx/2,ypos-dy/2,dx,dy);
+			} 
+			catch(e)
+			{
+					netscape.security.PrivilegeManager.enablePrivilege("UniversalBrowserRead");
+					var zoomImage = ctx.getImageData(xpos-dx/2,ypos-dy/2,dx,dy);
+
+
+			}
+		}
+		catch(e)
+		{
+			throw new Error("Unable to access image data: " + e);
+		}
+
 		tctx.putImageData(zoomImage,0,0);
 		var imgdata = tempCanvas.toDataURL();
 		var zImage = new Image();
@@ -631,7 +570,7 @@ function updateZoom(ev)
 	}
 }
 
-/************************************************** Drag & Drop Handler ************************************************/
+
 function dropHandler(ev)
 {
 	allDrop = ev.dataTransfer.files;
@@ -641,14 +580,14 @@ function dropHandler(ev)
 		droppedFile.onload = function() {
 			var imageInfo = droppedFile.result;
 			var newimg = new Image();
-			newimg.onload = function() { loadImage(newimg); originalImage = newimg; }
+			newimg.onload = function() { loadImage(newimg); }
 			newimg.src = imageInfo;
 		}
 		droppedFile.readAsDataURL(allDrop[0]);
 	}
 }
 
-/***************************************************** Matrix operations ******************************************/
+/*********** Matrix operations ***********/
 function matrixInverse22(A) // Inverse of a 2x2 matrix
 {
   a11 = parseFloat(A[0][0]);
@@ -697,8 +636,6 @@ function multiplyAB(A,r1,c1,B,r2,c2) // Multiply two matrices
   
   return P;
 }
-
-// :TODO: Array and Vector multiplication functions.
 
 function sortMatrix(A,sc) // sort matrix A by column sc
 {
