@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   version="1.1"
+   width="300"
+   height="250"
+   id="svg2">
+  <defs
+     id="defs4">
+    <marker
+       refX="0"
+       refY="0"
+       orient="auto"
+       id="EmptyTriangleInL"
+       style="overflow:visible">
+      <path
+         d="m 5.77,0 -8.65,5 0,-10 8.65,5 z"
+         transform="matrix(-0.8,0,0,-0.8,4.8,0)"
+         id="path4222"
+         style="fill:#ffffff;fill-rule:evenodd;stroke:#000000;stroke-width:1pt;marker-start:none" />
+    </marker>
+    <marker
+       refX="0"
+       refY="0"
+       orient="auto"
+       id="EmptyTriangleOutM"
+       style="overflow:visible">
+      <path
+         d="m 5.77,0 -8.65,5 0,-10 8.65,5 z"
+         transform="matrix(0.4,0,0,0.4,-1.8,0)"
+         id="path4234"
+         style="fill:#ffffff;fill-rule:evenodd;stroke:#000000;stroke-width:1pt;marker-start:none" />
+    </marker>
+    <marker
+       refX="0"
+       refY="0"
+       orient="auto"
+       id="Arrow1Mend"
+       style="overflow:visible">
+      <path
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         transform="matrix(-0.4,0,0,-0.4,-4,0)"
+         id="path4079"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt;marker-start:none" />
+    </marker>
+    <marker
+       refX="0"
+       refY="0"
+       orient="auto"
+       id="Arrow2Lstart"
+       style="overflow:visible">
+      <path
+         d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
+         transform="matrix(1.1,0,0,1.1,1.1,0)"
+         id="path4088"
+         style="font-size:12px;fill-rule:evenodd;stroke-width:0.625;stroke-linejoin:round" />
+    </marker>
+    <marker
+       refX="0"
+       refY="0"
+       orient="auto"
+       id="Arrow1Lstart"
+       style="overflow:visible">
+      <path
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         transform="matrix(0.8,0,0,0.8,10,0)"
+         id="path4070"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt;marker-start:none" />
+    </marker>
+    <marker
+       refX="0"
+       refY="0"
+       orient="auto"
+       id="Arrow1Send"
+       style="overflow:visible">
+      <path
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         transform="matrix(-0.2,0,0,-0.2,-1.2,0)"
+         id="path4085"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt;marker-start:none" />
+    </marker>
+  </defs>
+  <g
+     transform="translate(0,-802.36218)"
+     id="layer1">
+    <path
+       d="m 47.816038,1010.4721 196.131522,0 L 145.8818,843.57965 47.816038,1010.4721 z"
+       id="path8314"
+       style="fill:none;stroke:#000000;stroke-width:3.88827324" />
+    <path
+       d="m 53.465348,179.70297 a 5.9405942,5.4455447 0 1 1 -11.881189,0 5.9405942,5.4455447 0 1 1 11.881189,0 z"
+       transform="translate(195.0495,829.09486)"
+       id="path3096-7"
+       style="fill:#ff0000;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       d="m 53.465348,179.70297 a 5.9405942,5.4455447 0 1 1 -11.881189,0 5.9405942,5.4455447 0 1 1 11.881189,0 z"
+       transform="translate(-0.99009346,830.08495)"
+       id="path3096-2"
+       style="fill:#ff0000;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       d="m 53.465348,179.70297 a 5.9405942,5.4455447 0 1 1 -11.881189,0 5.9405942,5.4455447 0 1 1 11.881189,0 z"
+       transform="translate(99.999997,663.74831)"
+       id="path3096-3"
+       style="fill:#ff0000;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <flowRoot
+       transform="matrix(1,0,0,1.1234685,150.49505,646.68129)"
+       id="flowRoot3138"
+       xml:space="preserve"
+       style="font-size:22px;font-style:normal;font-weight:normal;fill:#ff0000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"><flowRegion
+         id="flowRegion3140"><rect
+           width="23.762377"
+           height="36.633663"
+           x="9.9009905"
+           y="160.39604"
+           id="rect3142"
+           style="font-size:22px;fill:#ff0000" /></flowRegion><flowPara
+         id="flowPara3144">1</flowPara></flowRoot>    <flowRoot
+       transform="translate(13.594922,851.31382)"
+       id="flowRoot3138-4"
+       xml:space="preserve"
+       style="font-size:22px;font-style:normal;font-weight:normal;fill:#ff0000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"><flowRegion
+         id="flowRegion3140-6"><rect
+           width="23.762377"
+           height="36.633663"
+           x="9.9009905"
+           y="160.39604"
+           id="rect3142-7"
+           style="font-size:22px;fill:#ff0000" /></flowRegion><flowPara
+         id="flowPara3144-6">2</flowPara></flowRoot>    <flowRoot
+       transform="translate(244.288,846.36332)"
+       id="flowRoot3138-5"
+       xml:space="preserve"
+       style="font-size:22px;font-style:normal;font-weight:normal;fill:#ff0000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"><flowRegion
+         id="flowRegion3140-9"><rect
+           width="23.762377"
+           height="36.633663"
+           x="9.9009905"
+           y="160.39604"
+           id="rect3142-78"
+           style="font-size:22px;fill:#ff0000" /></flowRegion><flowPara
+         id="flowPara3144-5">3</flowPara></flowRoot>    <g
+       transform="matrix(0.05978435,0.40566446,0.6121041,-0.15381742,-414.83357,914.61878)"
+       id="g6239"
+       style="fill-rule:nonzero">
+      <path
+         d="m 505.25966,931.95078 c 44.35314,-28.66755 43.93068,-77.25208 -0.80333,-108.48003 -44.73402,-31.22796 -116.99318,-33.38107 -161.34632,-4.71356 -44.35314,28.6675 -43.93068,77.25203 0.80334,108.47999 l 2.39905,-1.5506 c -43.54527,-30.39813 -43.88403,-77.5314 -0.89394,-105.31791 42.99009,-27.78651 113.09355,-25.74542 156.63881,4.65269 43.54527,30.39812 43.88404,77.53139 0.89395,105.31792 l 2.30844,1.6115 z"
+         id="path3285"
+         style="font-size:medium;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;color:#000000;fill:#eb0f0f;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:3.87833333;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Andale Mono;-inkscape-font-specification:Andale Mono" />
+      <path
+         d="m 486.71585,939.77137 7.37399,-17.19101 18.48345,12.90291 -25.85744,4.2881 z"
+         id="path6245"
+         style="fill:#dc2929;fill-opacity:1;fill-rule:nonzero;stroke:#d51f1f;stroke-width:2.18479996pt;stroke-opacity:1;marker-start:none" />
+    </g>
+    <text
+       x="179.20792"
+       y="209.90099"
+       transform="translate(0,752.36218)"
+       id="text6925"
+       xml:space="preserve"
+       style="font-size:18px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"><tspan
+         x="179.20792"
+         y="209.90099"
+         id="tspan6927" /></text>
+    <text
+       x="209.90099"
+       y="918.69879"
+       id="text8360"
+       xml:space="preserve"
+       style="font-size:18px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"><tspan
+         x="209.90099"
+         y="918.69879"
+         id="tspan8362">a</tspan></text>
+    <text
+       x="65.346535"
+       y="922.65924"
+       id="text8364"
+       xml:space="preserve"
+       style="font-size:18px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"><tspan
+         x="65.346535"
+         y="922.65924"
+         id="tspan8366">b</tspan></text>
+    <text
+       x="141.58415"
+       y="1033.5503"
+       id="text8368"
+       xml:space="preserve"
+       style="font-size:18px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"><tspan
+         x="141.58415"
+         y="1033.5503"
+         id="tspan8370">c</tspan></text>
+  </g>
+</svg>
