@@ -39,26 +39,30 @@ function addMouseEvent(mouseEv, functionName, tf)
 		if ((mouseEv == mouseEventType[ii]) && (functionName == mouseEventFunction[ii]) && (tf == mouseEventCapture[ii]))
 		eventExists = true;
 	}
+
 	if(eventExists == false)
 	{
 		canvas.addEventListener(mouseEv, functionName, tf);
-		mouseEvents = mouseEvents + 1;
 		mouseEventType[mouseEvents] = mouseEv;
 		mouseEventFunction[mouseEvents] = functionName;
 		mouseEventCapture[mouseEvents] = tf;
+		mouseEvents = mouseEvents + 1;
 	}
 }
 
 function removeAllMouseEvents()
 {
-	for (var ii = 0; ii < mouseEvents; ii++)
+	if(mouseEvents > 0)
 	{
-		canvas.removeEventListener(mouseEventType[ii],mouseEventFunction[ii],mouseEventCapture[ii]);
+		for (var kk = 0; kk < mouseEvents; kk++)
+		{
+			canvas.removeEventListener(mouseEventType[kk],mouseEventFunction[kk],mouseEventCapture[kk]);
+		}
+		mouseEvents = 0;
+		mouseEventType = [];
+		moueEventFunction = [];
+		mouseEventCapture = [];
 	}
-	mouseEvents = 0;
-	mouseEventType = [];
-	moueEventFunction = [];
-	mouseEventCapture = [];
 }
 
 function removeMouseEvent(mouseEv, functionName, tf)
