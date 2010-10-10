@@ -30,12 +30,16 @@ var fg_color = [0,0,0];
 var bg_color = [255,255,255];
 var colorPickerMode = 'fg';
 
+var boxCoordinates = [0,0,1,1];
+var drawingBox = 0;
+var drawingPen = 0;
+var penCoordinates;
 
 function pickColor(cmode)
 {
 	colorPickerMode = cmode;
-	clearClickEvents();
-	canvas.addEventListener('click',colorPicker,true);
+	removeAllMouseEvents();
+	addMouseEvent('click',colorPicker,true);
 }
 
 function colorPicker(ev)
@@ -70,31 +74,53 @@ function colorPicker(ev)
 
 function boxPaint()
 {
-	clearClickEvents();
-	canvas.addEventListener('mousedown',boxPaintMousedown,true);
-	canvas.addEventListener('mouseup',boxPaintMouseup,true);
-	canvas.addEventListener('drag',boxPaintMousedrag,true);
+	removeAllMouseEvents();
+	addMouseEvent('mousedown',boxPaintMousedown,true);
+	addMouseEvent('mouseup',boxPaintMouseup,true);
+	addMouseEvent('mousemove',boxPaintMousedrag,true);
 
 }
 
 function boxPaintMousedown(ev)
 {
+	boxCoordinates[0] = parseInt(ev.layerX);
+	boxCoordinates[1] = parseInt(ev.layerY);
+	drawingBox = 1;
 }
 
 function boxPaintMouseup(ev)
 {
+	boxCoordinates[2] = parseInt(ev.layerX);
+	boxCoordinates[3] = parseInt(ev.layerY);
+
+	putCanvasData(canvasDataState);
+
+	ctx.fillStyle = "rgba(255,255,0,0.5)";
+	ctx.fillRect(boxCoordinates[0], boxCoordinates[1], boxCoordinates[2]-boxCoordinates[0], boxCoordinates[3]-boxCoordinates[1]);
+	canvasDataState = getCanvasData();
+
+	drawingBox = 0;
 }
 
 function boxPaintMousedrag(ev)
 {
+	if(drawingBox == 1)
+	{
+		xt = parseInt(ev.layerX);
+		yt = parseInt(ev.layerY);
+		
+		putCanvasData(canvasDataState);
+		ctx.strokeStyle = "rgb(0,0,0)";
+		ctx.strokeRect(boxCoordinates[0], boxCoordinates[1], xt-boxCoordinates[0], yt-boxCoordinates[1]);
+	}
 }
 
 function penPaint()
 {
-	clearClickEvents();
-	canvas.addEventListener('mousedown',boxPaintMousedown,true);
-	canvas.addEventListener('mouseup',boxPaintMouseup,true);
-	canvas.addEventListener('drag',boxPaintMousedrag,true);
+	removeAllMouseEvents();
+	addMouseEvent('mousedown',boxPaintMousedown,true);
+	addMouseEvent('mouseup',boxPaintMouseup,true);
+	addMouseEvent('mousemove',boxPaintMousedrag,true);
 
 }
 

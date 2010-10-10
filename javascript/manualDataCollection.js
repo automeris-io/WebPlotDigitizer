@@ -28,7 +28,7 @@
 /* Selected Data Variables */
 var xyData; // Raw data
 var pointsPicked; // number of data points picked.
-
+var canvasDataState; // canvas state during data acquisition. 
 
 function acquireData()
 {
@@ -39,6 +39,8 @@ function acquireData()
 	else
 	{
 		showSidebar('manualMode');
+		canvasDataState = getCanvasData();
+		removeAllMouseEvents();
 	}
 }
 
@@ -50,8 +52,8 @@ function pickPoints() // select data points.
 	}
 	else
 	{
-		clearClickEvents();
-		canvas.addEventListener('click',clickPoints,true);
+		removeAllMouseEvents();
+		addMouseEvent('click',clickPoints,true);
 		pointsPicked = 0;
 		xyData = [];
 		pointsStatus(pointsPicked);
@@ -79,16 +81,6 @@ function clickPoints(ev)
 
 }
 
-function finishDataCollection()
-{
-      canvas.removeEventListener('click',clickPoints,true);
-}
-
-function clearClickEvents()
-{
-      canvas.removeEventListener('click',clickPoints,true);
-	  canvas.removeEventListener('click',deleteSpecificPointHandler,true);
-}
 
 function clearPoints() // clear all markings.
 {
@@ -96,7 +88,7 @@ function clearPoints() // clear all markings.
 	if (xyData instanceof Array)
 		xyData = [];
 	redrawCanvas();
-	clearClickEvents();
+	removeAllMouseEvents();
 }
 
 function undoPointSelection()
@@ -130,8 +122,8 @@ function pointsStatus(pn) // displays the number of points picked.
 
 function deleteSpecificPoint()
 {
-	clearClickEvents();
-	canvas.addEventListener('click',deleteSpecificPointHandler,true);
+	removeAllMouseEvents();
+	addMouseEvent('click',deleteSpecificPointHandler,true);
 }
 
 function deleteSpecificPointHandler(ev)

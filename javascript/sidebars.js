@@ -25,7 +25,7 @@
 
 /* This file contains functions to handle sidebars */
 
-var sidebarList = ['editImageToolbar','manualMode','autoMode','autoSettings']; 
+var sidebarList = ['editImageToolbar','manualMode','autoMode']; 
 
 function showSidebar(sbid) // Shows a specific sidebar
 {

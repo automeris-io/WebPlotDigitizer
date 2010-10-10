@@ -47,8 +47,8 @@ function setAxes(ax_mode)
 
 	plotType = ax_mode;
 	clearSidebar();
-	clearClickEvents();
-	canvas.addEventListener('click',pickCorners,true);
+	removeAllMouseEvents();
+	addMouseEvent('click',pickCorners,true);
 	axesN = 0;
 	xyAxes = [];
 
@@ -91,7 +91,7 @@ function pickCorners(ev)
 		{
 				axesPicked = 1;
 				
-				canvas.removeEventListener('click',pickCorners,true);
+				removeMouseEvent('click',pickCorners,true);
 				
 				if (plotType == 'XY')
 				{
@@ -110,10 +110,6 @@ function pickCorners(ev)
 	
 }
 
-function finishAxesAlignment()
-{
-      canvas.removeEventListener('click',pickCorners,true);
-}
 
 function setXYRange() // set the X-Y data range.
 {
