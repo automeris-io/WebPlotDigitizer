@@ -86,8 +86,8 @@ function finishDataCollection()
 
 function clearClickEvents()
 {
-      finishDataCollection();
-      finishAxesAlignment();
+      canvas.removeEventListener('click',clickPoints,true);
+	  canvas.removeEventListener('click',deleteSpecificPointHandler,true);
 }
 
 function clearPoints() // clear all markings.
@@ -96,7 +96,7 @@ function clearPoints() // clear all markings.
 	if (xyData instanceof Array)
 		xyData = [];
 	redrawCanvas();
-	finishDataCollection();
+	clearClickEvents();
 }
 
 function undoPointSelection()
@@ -126,4 +126,56 @@ function pointsStatus(pn) // displays the number of points picked.
 {
 	var points = document.getElementById('pointsStatus');
 	points.innerHTML = pn;
+}
+
+function deleteSpecificPoint()
+{
+	clearClickEvents();
+	canvas.addEventListener('click',deleteSpecificPointHandler,true);
+}
+
+function deleteSpecificPointHandler(ev)
+{
+	xi = parseFloat(ev.layerX);
+	yi = parseFloat(ev.layerY);
+	
+	var minDistance = 10.0;
+	var foundPoint = 0;
+	var foundIndex = 0;
+
+	for (var ii = 0; ii < pointsPicked; ii ++)
+	{
+		var xd = parseFloat(xyData[ii][0]);
+		var yd = parseFloat(xyData[ii][1]);
+		var distance = Math.sqrt((xd-xi)*(xd-xi) + (yd-yi)*(yd-yi));
+
+		if (distance < minDistance)
+		{
+			foundPoint = 1;
+			foundIndex = ii;
+		}
+	}
+
+	if (foundPoint == 1)
+	{
+		xyData.splice(foundIndex,1);
+
+		pointsPicked = pointsPicked - 1;
+		pointsStatus(pointsPicked);
+			
+		redrawCanvas();
+
+		for(ii = 0; ii < pointsPicked; ii++)
+		{
+			xp = xyData[ii][0];	
+			yp = xyData[ii][1];
+			ctx.beginPath();
+			ctx.fillStyle = "rgb(200,0,0)";
+			ctx.arc(xp,yp,3,0,2.0*Math.PI,true);
+			ctx.fill();
+		}
+	}
+
+	updateZoom(ev);
+
 }

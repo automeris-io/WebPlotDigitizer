@@ -88,7 +88,7 @@
 	<hr />
 	<p align="center"><input type="button" value="Start" onClick="pickPoints();" style="width: 75px;"><input type="button" value="Stop" onCLick="finishDataCollection();" style="width: 75px;"></p>
 	<p align="center"><input type="button" value="Undo" onClick="undoPointSelection();" style="width: 75px;"><input id="clearAllBtn" type="button" value="Clear All" onCLick="clearPoints();" style="width: 75px;"></p>
-	<p align="center"><input type="button" value="Delete Point" onClick="" style="width:150px;"></p>
+	<p align="center"><input type="button" value="Delete Point" onClick="deleteSpecificPoint();" style="width:150px;"></p>
 	<p align="center"><input type="button" value="Create .CSV" id="saveBtn" onClick="saveData();" style="width:150px;"></p>
 	<p align="center">Points Picked:<span id="pointsStatus">0</span></p>
 	</div>
@@ -101,7 +101,7 @@
 	<p align="center"><input type="button" value="Box" style="width:50px;"><input type="button" value="Pen" style="width:50px;"><input type="button" value="Erase" style="width:50px;"></p>
 	<p align="center"><input type="button" value="Settings" style="width: 75px;"><input type="button" value="SCAN!" style="width: 75px;" ></p>
 	<hr />
-	<p align="center"><input id="removeLastBtn" type="button" value="Delete" onClick="undoPointSelection();" style="width: 75px;"><input id="clearAllBtn" type="button" value="Clear All" onCLick="clearPoints();" style="width: 75px;"></p>
+	<p align="center"><input id="removeLastBtn" type="button" value="Delete" onClick="deleteSpecificPoint();" style="width: 75px;"><input id="clearAllBtn" type="button" value="Clear All" onCLick="clearPoints();" style="width: 75px;"></p>
 	<p align="center"><input type="button" value="Create .CSV" id="saveBtn" onClick="saveData();" style="width:150px;"></p>
 	<p align="center">Points Picked:<span id="pointsStatus">0</span></p>
 	</div>
