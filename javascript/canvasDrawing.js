@@ -73,7 +73,7 @@ function loadImage(imgel)
     originalCanvas = canvas;
 }
 
-function getCurrentImage()
+function saveCanvasImage()
 {
 	var nimagedata = ctx.getImageData(cx0,cy0,currentImageWidth,currentImageHeight);
 	var tCanvas = document.createElement('canvas');

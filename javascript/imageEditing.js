@@ -32,6 +32,8 @@ var cropCoordinates = [0,0,0,0];
 
 function hflip()
 {
+	processingNote(true);
+
 	var iData = ctx.getImageData(cx0,cy0,currentImageWidth,currentImageHeight);
 
 	for (var rowi = 0; rowi < currentImageHeight; rowi++)
@@ -50,11 +52,15 @@ function hflip()
 	}
 	
 	ctx.putImageData(iData,cx0,cy0);
-	getCurrentImage();
+	saveCanvasImage();
+
+	processingNote(false);
 }
 
 function vflip()
 {
+	processingNote(true);
+
 	var iData = ctx.getImageData(cx0,cy0,currentImageWidth,currentImageHeight);
 
 	for (var coli = 0; coli < currentImageWidth; coli++)
@@ -73,7 +79,9 @@ function vflip()
 	}
 	
 	ctx.putImageData(iData,cx0,cy0);
-	getCurrentImage();
+	saveCanvasImage();
+
+	processingNote(false);
 }
 
 function cropPlot() // crop image
