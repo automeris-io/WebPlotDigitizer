@@ -53,3 +53,17 @@ function closePopup(popupid)
 
 }
 
+function processingNote(pmode)
+{
+	var pelem = document.getElementById('wait');
+
+	if(pmode == true)
+	{
+		pelem.style.visibility = 'visible';
+	}
+	else
+	{
+		pelem.style.visibility = 'hidden';
+	}
+
+}
