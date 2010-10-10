@@ -39,7 +39,7 @@ var originalCanvas; // canvas in clean state.
 var originalImage;
 var currentImageHeight; 
 var currentImageWidth;
-var cImageData; // data from getImageData
+var currentImageData; // data from getImageData
 var ctx; 
 
 function loadImage(imgel)
@@ -70,7 +70,7 @@ function loadImage(imgel)
 	ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 	ctx.drawImage(imgel,cx0,cy0,newWidth,newHeight); 
 
-   originalCanvas = canvas;
+    originalCanvas = canvas;
 }
 
 function getCurrentImage()
@@ -87,6 +87,17 @@ function getCurrentImage()
 	newImage = new Image();
 	newImage.src = tCanvas.toDataURL();
 	newImage.onload = function() { currentImage = newImage; }
+}
+
+function getCanvasData()
+{
+	var cImgData = ctx.getImageData(0,0,canvasWidth,canvasHeight);
+	return cImgData;
+}
+
+function putCanvasData(cImgData)
+{
+	ctx.putImageData(cImgData,0,0);
 }
 
 function reloadPlot()
