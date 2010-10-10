@@ -30,6 +30,7 @@
 
 <script src="javascript/main.js" language="JavaScript"></script>
 <script src="javascript/canvasDrawing.js" language="JavaScript"></script>
+<script src="javascript/mouseEvents.js" language="JavaScript"></script>
 <script src="javascript/zoom.js" language="JavaScript"></script>
 <script src="javascript/sidebars.js" language="JavaScript"></script>
 <script src="javascript/popups.js" language="JavaScript"></script>
@@ -98,19 +99,12 @@
 	<p align="center"><input type="button" value="Switch to Manual" onClick="showSidebar('manualMode');" style="width: 150px;" ></p>
 	<hr />
 	<p align="center"><input type="button" id="autoFGBtn" value="FG" style="width:75px;" onClick="pickColor('fg');"><input type="button" id="autoBGBtn" value="BG" style="width:75px;" onClick="pickColor('bg');"></p>
-	<p align="center"><input type="button" value="Box" style="width:50px;"><input type="button" value="Pen" style="width:50px;"><input type="button" value="Erase" style="width:50px;"></p>
-	<p align="center"><input type="button" value="Settings" style="width: 75px;"><input type="button" value="SCAN!" style="width: 75px;" ></p>
+	<p align="center"><input type="button" value="Box" style="width:50px;" onClick="boxPaint();"><input type="button" value="Pen" style="width:50px;" onClick="penPaint();"><input type="button" value="Erase" style="width:50px;"></p>
+	<p align="center"><input type="button" value="Settings" style="width: 75px;" onClick="showPopup('autoSettings');"><input type="button" value="SCAN!" style="width: 75px;" ></p>
 	<hr />
 	<p align="center"><input id="removeLastBtn" type="button" value="Delete" onClick="deleteSpecificPoint();" style="width: 75px;"><input id="clearAllBtn" type="button" value="Clear All" onCLick="clearPoints();" style="width: 75px;"></p>
 	<p align="center"><input type="button" value="Create .CSV" id="saveBtn" onClick="saveData();" style="width:150px;"></p>
 	<p align="center">Points Picked:<span id="pointsStatus">0</span></p>
-	</div>
-
-	<div id='autoSettings' class="sidebar">
-	<p align="center"><b>Settings</b></p>
-	<p align="center"><input type="checkbox" id="bgonly"> Use BG only</p>
-	<p align="center"><input type="button" value="Set Range" style="width:150px;"></p>
-	<p align="center"><input type="button" value="Save" onClick="showSidebar('autoMode');" style="width:150px;"></p>
 	</div>
 
 	<div id="editImageToolbar" class="sidebar">
@@ -189,6 +183,31 @@
 	<p align="center"><a href="http://www.arohatgi.info/WebPlotDigitizer" target="website">http://www.arohatgi.info/WebPlotDigitizer</a></p>
 	<p>&nbsp;</p>
 	<p align="center"><input type="button" value="Close" onClick="closePopup('aboutNote');"></p>
+	</div>
+
+	<div id="autoSettings" class="popup">
+	<p align="center"><b>Autodetection Settings</b></p>
+	<table>
+	<tr>
+		<td><p align="center"><input type="radio" name="colorChoice" value="FG" id="fgSelect"> Match FG color only</p></td>
+		<td><p align="center"><input type="radio" name="colorChoice" value="BG" id="bgSelect"> Distinguish from BG color</p></td>
+	</tr>
+	<tr><td><p align="center">Foreground (RGB)</p></td><td><p align="center">Background (RGB)</p></td></tr>
+	<tr>
+		<td><p align="center"><input type="text" value="255" id="fgr" size="3"><input type="text" value="255" id="fgg" size="3"><input type="text" value="255" id="fgb" size="3"></p></td>
+		<td><p align="center"><input type="text" value="255" id="bgr" size="3"><input type="text" value="255" id="bgg" size="3"><input type="text" value="255" id="bgb" size="3"></p></td>
+	</tr>
+	<tr>
+		<td><p align="center">Threshold <input type="text" id="fgcolorThreshold" value="10" size="5"></p></td><td><p align="center">Threshold <input type="text" id="bgcolorThreshold" value="10" size="5"></p></td>
+	</tr>
+	<tr><td><p align="center">Minimum X <input type="text" size="6" id="autoXmin"></p></td><td><p align="center">Maximum X <input type="text" size="6" id="autoXmax"></p></td></tr>
+	<tr>
+		<td><p align="center"><input type="radio" name="numberChoice" value="fixedN"> Fixed number of points</p></td>
+		<td><p align="center"><input type="radio" name="numberChoice" value="fixedN"> Fixed step size</p></td>
+	</tr>
+	<tr><td colspan="2"><p align="center">Specify number of points or step size <input type="text" value="10" size="5"></p></td></tr>
+	</table>
+	<p align="center"><input type="button" value="Test Settings"> <input type="button" value="Save" onClick="closePopup('autoSettings');"></p>
 	</div>
 
 	<div id="testImageWindow" class="popup">

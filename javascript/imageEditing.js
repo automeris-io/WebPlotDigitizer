@@ -87,9 +87,10 @@ function vflip()
 function cropPlot() // crop image
 {
 	redrawCanvas();
-	canvas.addEventListener('mousedown',cropMousedown,true);
-	canvas.addEventListener('mouseup',cropMouseup,true);
-	canvas.addEventListener('mousemove',cropMousemove,true);
+	removeAllMouseEvents();
+	addMouseEvent('mousedown',cropMousedown,true);
+	addMouseEvent('mouseup',cropMouseup,true);
+	addMouseEvent('mousemove',cropMousemove,true);
 }
 
 function cropMousedown(ev)
@@ -104,10 +105,6 @@ function cropMouseup(ev)
       cropCoordinates[2] = parseInt(ev.layerX);
       cropCoordinates[3] = parseInt(ev.layerY);
       cropStatus = 0;
-      
-      canvas.removeEventListener('mousedown',cropMousedown,true);
-      canvas.removeEventListener('mouseup',cropMouseup,true);
-      canvas.removeEventListener('mousemove',cropMousemove,true);
       
       redrawCanvas();
       

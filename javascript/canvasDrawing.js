@@ -42,6 +42,7 @@ var currentImageWidth;
 var currentImageData; // data from getImageData
 var ctx; 
 
+
 function loadImage(imgel)
 {
 	var sheight = parseInt(imgel.height);
