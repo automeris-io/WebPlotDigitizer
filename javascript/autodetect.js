@@ -126,10 +126,14 @@ function penPaint()
 
 function penPaintMousedown(ev)
 {
+	penCoordinates[0] = parseInt(ev.layerX);
+	penCoordinates[1] = parseInt(ev.layerY);
+	drawingPen = 1;
 }
 
 function penPaintMouseup(ev)
 {
+
 }
 
 function penPaintMousedrag(ev)

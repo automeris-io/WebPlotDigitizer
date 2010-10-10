@@ -85,8 +85,7 @@ function clickPoints(ev)
 function clearPoints() // clear all markings.
 {
 	pointsPicked = 0;
-	if (xyData instanceof Array)
-		xyData = [];
+	pointsStatus(pointsPicked);
 	redrawCanvas();
 	removeAllMouseEvents();
 }
