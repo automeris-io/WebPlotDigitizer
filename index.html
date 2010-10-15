@@ -68,7 +68,7 @@
 		<div style="position:relative;">
 		
 		<div id="paintToolbar" class="toolbar" style="width:350px;">
-		<p> Stroke Width <input type="range" style="width:200px;"></p>
+		<p> Stroke Width <input type="range" id="paintThickness" min="1" max="150" value="20" style="width:200px;"></p>
 		</div>
 		
 		<div id="colorPickerToolbar" class="toolbar" style="width:500px;">
@@ -117,7 +117,7 @@
 	<p align="center"><input type="button" value="Switch to Manual" onClick="showSidebar('manualMode');" style="width: 150px;" ></p>
 	<hr />
 	<p align="center"><input type="button" id="autoFGBtn" value="FG" style="width:75px;" onClick="pickColor('fg');"><input type="button" id="autoBGBtn" value="BG" style="width:75px;" onClick="pickColor('bg');"></p>
-	<p align="center"><input type="button" value="Box" style="width:50px;" onClick="boxPaint();"><input type="button" value="Pen" style="width:50px;" onClick="penPaint();"><input type="button" value="Erase" style="width:50px;"></p>
+	<p align="center"><input type="button" value="Box" style="width:50px;" onClick="boxPaint();"><input type="button" value="Pen" style="width:50px;" onClick="penPaint();"><input type="button" value="Erase" style="width:50px;" onClick="eraser();"></p>
 	<p align="center"><input type="button" value="Settings" style="width: 75px;" onClick="showPopup('autoSettings');"><input type="button" value="SCAN!" style="width: 75px;" ></p>
 	<hr />
 	<p align="center"><input id="removeLastBtn" type="button" value="Delete" onClick="deleteSpecificPoint();" style="width: 75px;"><input id="clearAllBtn" type="button" value="Clear All" onCLick="clearPoints();" style="width: 75px;"></p>
