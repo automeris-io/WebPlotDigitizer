@@ -35,12 +35,17 @@ var cwidth; // Available canvas width
 var cheight; // Available canvas height
 var caspectratio; // Aspect ratio of the image
 var currentImage; // current full plot image element
-var originalCanvas; // canvas in clean state.
 var originalImage;
 var currentImageHeight; 
 var currentImageWidth;
 var currentImageData; // data from getImageData
 var ctx; 
+
+// Different canvas states. They are all of type ImageData
+var originalScreen;
+var markedScreen;
+var currentScreen;
+var instantScreen;
 
 
 function loadImage(imgel)
@@ -70,8 +75,8 @@ function loadImage(imgel)
 	ctx.fillStyle = "rgb(255,255,255)";
 	ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 	ctx.drawImage(imgel,cx0,cy0,newWidth,newHeight); 
-
-    originalCanvas = canvas;
+	
+	currentScreen = getCanvasData();
 }
 
 function saveCanvasImage()
@@ -87,7 +92,7 @@ function saveCanvasImage()
 
 	newImage = new Image();
 	newImage.src = tCanvas.toDataURL();
-	newImage.onload = function() { currentImage = newImage; }
+	newImage.onload = function() { currentImage = newImage; currentScreen = getCanvasData(); }
 }
 
 function getCanvasData()
@@ -98,6 +103,7 @@ function getCanvasData()
 
 function putCanvasData(cImgData)
 {
+	canvas.width = canvas.width;
 	ctx.putImageData(cImgData,0,0);
 }
 
@@ -109,8 +115,8 @@ function reloadPlot()
 
 function redrawCanvas()
 {
-	// Figure out a faster way to do this.
-	reloadPlot();
+	canvas.width = canvas.width;
+	putCanvasData(currentScreen);
 }
 
 function dropHandler(ev)
@@ -122,7 +128,7 @@ function dropHandler(ev)
 		droppedFile.onload = function() {
 			var imageInfo = droppedFile.result;
 			var newimg = new Image();
-			newimg.onload = function() { loadImage(newimg); originalImage = newimg; }
+			newimg.onload = function() { loadImage(newimg); originalScreen = getCanvasData(); }
 			newimg.src = imageInfo;
 		}
 		droppedFile.readAsDataURL(allDrop[0]);

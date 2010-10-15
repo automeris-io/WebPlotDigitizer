@@ -28,7 +28,6 @@
 /* Selected Data Variables */
 var xyData; // Raw data
 var pointsPicked; // number of data points picked.
-var canvasDataState; // canvas state during data acquisition. 
 
 function acquireData()
 {
@@ -39,7 +38,7 @@ function acquireData()
 	else
 	{
 		showSidebar('manualMode');
-		canvasDataState = getCanvasData();
+		markedScreen = getCanvasData();
 		removeAllMouseEvents();
 	}
 }

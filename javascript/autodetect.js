@@ -31,9 +31,9 @@ var bg_color = [255,255,255];
 var colorPickerMode = 'fg';
 
 var boxCoordinates = [0,0,1,1];
-var drawingBox = 0;
-var drawingPen = 0;
-var drawingEraser = 0;
+var drawingBox = false;
+var drawingPen = false;
+var drawingEraser = false;
 
 function pickColor(cmode)
 {
@@ -85,7 +85,7 @@ function boxPaintMousedown(ev)
 {
 	boxCoordinates[0] = parseInt(ev.layerX);
 	boxCoordinates[1] = parseInt(ev.layerY);
-	drawingBox = 1;
+	drawingBox = true;
 }
 
 function boxPaintMouseup(ev)
@@ -93,23 +93,23 @@ function boxPaintMouseup(ev)
 	boxCoordinates[2] = parseInt(ev.layerX);
 	boxCoordinates[3] = parseInt(ev.layerY);
 
-	putCanvasData(canvasDataState);
+	putCanvasData(markedScreen);
 
-	ctx.fillStyle = "rgba(255,255,0,0.5)";
+	ctx.fillStyle = "rgba(255,255,0,1)";
 	ctx.fillRect(boxCoordinates[0], boxCoordinates[1], boxCoordinates[2]-boxCoordinates[0], boxCoordinates[3]-boxCoordinates[1]);
-	canvasDataState = getCanvasData();
+	markedScreen = getCanvasData();
 
-	drawingBox = 0;
+	drawingBox = false;
 }
 
 function boxPaintMousedrag(ev)
 {
-	if(drawingBox == 1)
+	if(drawingBox == true)
 	{
 		xt = parseInt(ev.layerX);
 		yt = parseInt(ev.layerY);
 		
-		putCanvasData(canvasDataState);
+		putCanvasData(markedScreen);
 		ctx.strokeStyle = "rgb(0,0,0)";
 		ctx.strokeRect(boxCoordinates[0], boxCoordinates[1], xt-boxCoordinates[0], yt-boxCoordinates[1]);
 	}
@@ -127,41 +127,42 @@ function penPaint()
 
 function penPaintMousedown(ev)
 {
-	xt = parseInt(ev.layerX);
-	yt = parseInt(ev.layerY);
-	drawingPen = 1;
-	ctx.strokeStyle = "rgba(255,255,0,0.5)";
-	
-	thkRange = document.getElementById('paintThickness');
-	
-	ctx.lineWidth = parseInt(thkRange.value);
-	ctx.beginPath();
-	ctx.moveTo(xt,yt);
+	if (drawingPen == false)
+	{
+	    xt = parseInt(ev.layerX);
+	    yt = parseInt(ev.layerY);
+	    drawingPen = true;
+	    ctx.strokeStyle = "rgba(255,255,0,1)";
+	    
+	    thkRange = document.getElementById('paintThickness');
+	    
+	    ctx.lineWidth = parseInt(thkRange.value);
+	    ctx.beginPath();
+	    ctx.moveTo(xt,yt);
+	}
 }
 
 function penPaintMouseup(ev)
 {
     ctx.closePath();
     ctx.lineWidth = 1;
-    drawingPen = 0;
-    canvasDataState = getCanvasData();
+    drawingPen = false;
+    markedScreen = getCanvasData();
 }
 
 function penPaintMousedrag(ev)
 {
-    if(drawingPen == 1)
+    if(drawingPen == true)
     {
 	xt = parseInt(ev.layerX);
 	yt = parseInt(ev.layerY);
-	ctx.strokeStyle = "rgba(255,255,0,0.5)";
+	ctx.strokeStyle = "rgba(255,255,0,1)";
 	ctx.lineTo(xt,yt);
 	ctx.stroke();
     }
 }
 
 
-
-// Erase will be based off of penPaint.
 function eraser()
 {
 	removeAllMouseEvents();
@@ -169,37 +170,48 @@ function eraser()
 	addMouseEvent('mousedown',eraserMousedown,true);
 	addMouseEvent('mouseup',eraserMouseup,true);
 	addMouseEvent('mousemove',eraserMousedrag,true);
-
+	instantScreen = markedScreen;
 }
 
 function eraserMousedown(ev)
 {
+    if(drawingEraser == false)
+    {
 	xt = parseInt(ev.layerX);
 	yt = parseInt(ev.layerY);
-	drawingEraser = 1;
-	ctx.strokeStyle = "rgba(255,0,255,0.5)";
+	drawingEraser = true;
+	ctx.strokeStyle = "rgba(255,0,255,1)";
 	
 	thkRange = document.getElementById('paintThickness');
 	
 	ctx.lineWidth = parseInt(thkRange.value);
 	ctx.beginPath();
 	ctx.moveTo(xt,yt);
+    }
 }
 
 function eraserMouseup(ev)
 {
     ctx.closePath();
     ctx.lineWidth = 1;
-    drawingEraser = 0;
+    drawingEraser = false;
+    processingNote(true);
+    
+    instantScreen = getCanvasData();
+    var diffM = findDifference(instantScreen, markedScreen);
+    markedScreen = copyUsingDifference(markedScreen, currentScreen, diffM);
+    putCanvasData(markedScreen);
+    
+    processingNote(false);
 }
 
 function eraserMousedrag(ev)
 {
-    if(drawingEraser == 1)
+    if(drawingEraser == true)
     {
 	xt = parseInt(ev.layerX);
 	yt = parseInt(ev.layerY);
-	ctx.strokeStyle = "rgba(255,0,255,0.5)";
+	ctx.strokeStyle = "rgba(255,0,255,1)";
 	ctx.lineTo(xt,yt);
 	ctx.stroke();
     }

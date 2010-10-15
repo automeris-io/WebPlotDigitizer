@@ -79,3 +79,11 @@ function multiplyAB(A,r1,c1,B,r2,c2) // Multiply two matrices
 function sortMatrix(A,sc) // sort matrix A by column sc
 {
 }
+
+function pixelToData(pxData)
+{
+}
+
+function dataToPixel(pdata)
+{
+}
