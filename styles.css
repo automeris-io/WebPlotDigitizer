@@ -25,8 +25,8 @@
 
 html
 {
-	height:98%;
-	width:98%;
+	height:99%;
+	width:99%;
 	padding:0;
 	margin:0 auto;
 }
@@ -112,12 +112,37 @@ input[type="text"]
 	-webkit-border-radius: 4px;
 }
 
-.toolbar 
+input[type="range"]
 {
-	height:30px;
+	height: 5px;
+	background: white;
+	border: thin black solid;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	-moz-box-shadow: 0px 0px 4px grey;
+	-webkit-box-shadow: 0px 0px 4px grey;
+}
+
+.standardToolbar 
+{
+	height:25px;
 	padding: 0 0px;
 	margin: 0 0px;
 }
+
+.toolbar
+{
+    padding: 0 10px;
+    margin: 0;
+    height: 25px;
+    position: absolute;
+    top:0px;
+    left:5px;
+    visibility: hidden;
+   
+}
+
+.toolbar p { padding:0; margin:0; }
 
 .popup
 {	
@@ -147,7 +172,7 @@ input[type="text"]
 	position:absolute; 
 	width:200px;
 	top:0px;
-    -moz-box-shadow: 0px 0px 10px #888;
+	-moz-box-shadow: 0px 0px 10px #888;
 	-webkit-box-shadow: 0px 0px 10px #888;
 	visibility: hidden;
 	font-size:12px;

@@ -74,7 +74,7 @@ function init() // This is run when the page loads.
 	
 	// Set defaults everywhere.
 	setDefaultState();
-	
+
 }
 
 function setDefaultState()
