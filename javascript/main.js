@@ -74,12 +74,16 @@ function init() // This is run when the page loads.
 	
 	// Set defaults everywhere.
 	setDefaultState();
-
+	
+	originalScreen = getCanvasData();
+	activeScreen = originalScreen;
 }
 
 function setDefaultState()
 {
 	axesPicked = 0;
+	
+	// :TODO: Move all this to zoomInit() or something
 	zctx.beginPath();
 	zctx.moveTo(zWindowWidth/2, 0);
 	zctx.lineTo(zWindowWidth/2, zWindowHeight);
