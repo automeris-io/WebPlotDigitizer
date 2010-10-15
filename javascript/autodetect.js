@@ -33,7 +33,7 @@ var colorPickerMode = 'fg';
 var boxCoordinates = [0,0,1,1];
 var drawingBox = 0;
 var drawingPen = 0;
-var penCoordinates;
+var drawingEraser = 0;
 
 function pickColor(cmode)
 {
@@ -118,29 +118,94 @@ function boxPaintMousedrag(ev)
 function penPaint()
 {
 	removeAllMouseEvents();
-	addMouseEvent('mousedown',boxPaintMousedown,true);
-	addMouseEvent('mouseup',boxPaintMouseup,true);
-	addMouseEvent('mousemove',boxPaintMousedrag,true);
+	showToolbar('paintToolbar');
+	addMouseEvent('mousedown',penPaintMousedown,true);
+	addMouseEvent('mouseup',penPaintMouseup,true);
+	addMouseEvent('mousemove',penPaintMousedrag,true);
 
 }
 
 function penPaintMousedown(ev)
 {
-	penCoordinates[0] = parseInt(ev.layerX);
-	penCoordinates[1] = parseInt(ev.layerY);
+	xt = parseInt(ev.layerX);
+	yt = parseInt(ev.layerY);
 	drawingPen = 1;
+	ctx.strokeStyle = "rgba(255,255,0,0.5)";
+	
+	thkRange = document.getElementById('paintThickness');
+	
+	ctx.lineWidth = parseInt(thkRange.value);
+	ctx.beginPath();
+	ctx.moveTo(xt,yt);
 }
 
 function penPaintMouseup(ev)
 {
-
+    ctx.closePath();
+    ctx.lineWidth = 1;
+    drawingPen = 0;
+    canvasDataState = getCanvasData();
 }
 
 function penPaintMousedrag(ev)
 {
+    if(drawingPen == 1)
+    {
+	xt = parseInt(ev.layerX);
+	yt = parseInt(ev.layerY);
+	ctx.strokeStyle = "rgba(255,255,0,0.5)";
+	ctx.lineTo(xt,yt);
+	ctx.stroke();
+    }
 }
 
+
+
 // Erase will be based off of penPaint.
+function eraser()
+{
+	removeAllMouseEvents();
+	showToolbar('paintToolbar');
+	addMouseEvent('mousedown',eraserMousedown,true);
+	addMouseEvent('mouseup',eraserMouseup,true);
+	addMouseEvent('mousemove',eraserMousedrag,true);
+
+}
+
+function eraserMousedown(ev)
+{
+	xt = parseInt(ev.layerX);
+	yt = parseInt(ev.layerY);
+	drawingEraser = 1;
+	ctx.strokeStyle = "rgba(255,0,255,0.5)";
+	
+	thkRange = document.getElementById('paintThickness');
+	
+	ctx.lineWidth = parseInt(thkRange.value);
+	ctx.beginPath();
+	ctx.moveTo(xt,yt);
+}
+
+function eraserMouseup(ev)
+{
+    ctx.closePath();
+    ctx.lineWidth = 1;
+    drawingEraser = 0;
+}
+
+function eraserMousedrag(ev)
+{
+    if(drawingEraser == 1)
+    {
+	xt = parseInt(ev.layerX);
+	yt = parseInt(ev.layerY);
+	ctx.strokeStyle = "rgba(255,0,255,0.5)";
+	ctx.lineTo(xt,yt);
+	ctx.stroke();
+    }
+}
+
+
 
 function autodetectCurves()
 {

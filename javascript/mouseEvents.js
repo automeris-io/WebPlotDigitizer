@@ -63,6 +63,7 @@ function removeAllMouseEvents()
 		moueEventFunction = [];
 		mouseEventCapture = [];
 	}
+	clearToolbar();
 }
 
 function removeMouseEvent(mouseEv, functionName, tf)
