@@ -32,6 +32,7 @@
 <script src="javascript/canvasDrawing.js" language="JavaScript"></script>
 <script src="javascript/mouseEvents.js" language="JavaScript"></script>
 <script src="javascript/zoom.js" language="JavaScript"></script>
+<script src="javascript/toolbars.js" language="JavaScript"></script>
 <script src="javascript/sidebars.js" language="JavaScript"></script>
 <script src="javascript/popups.js" language="JavaScript"></script>
 <script src="javascript/imageEditing.js" language="JavaScript"></script>
@@ -51,15 +52,32 @@
 <table id="toolbarTable" style="padding:0; margin:0;" cellspacing="5">
 <tr style="padding:0; margin:0;">
 	
-	<td class="toolbar"> 
+	<td class="standardToolbar" valign="top"> 
+	
+		
 		<input type="button" onClick="showSidebar('editImageToolbar');" value="Edit Image" style="margin: 0 5px;">
 		<input type="button" id="xybtn" value="X-Y" onClick="setAxes('XY');" style="margin: 0 5px;">
 		<input type="button" id="polarbtn" value="Polar" onClick="setAxes('polar')" style="margin: 0 5px;">
 		<input type="button" id="ternarybtn" value="Ternary" onClick="setAxes('ternary');" style="margin: 0 5px;">
 		<input type="button" onClick="acquireData();" value="Acquire Data" style="margin: 0 5px;">
 		<input type="button" onClick="showPopup('aboutNote');" value="About" style="margin: 0 5px;">
+		<!-- Extra toolbars go here -->
 	</td>
-	
+	<td class="standardToolbar" valign="top">
+		
+		<div style="position:relative;">
+		
+		<div id="paintToolbar" class="toolbar" style="width:350px;">
+		<p> Stroke Width <input type="range" style="width:200px;"></p>
+		</div>
+		
+		<div id="colorPickerToolbar" class="toolbar" style="width:500px;">
+		<p align="right"><span id="colorBox" style="height:15px; border: thin black solid; background: blue;">&nbsp;&nbsp;&nbsp;</span><input type="radio" value="fg_chosen" id="fgChosenRadio" name="colorChooser"> FG <input type="radio" id="bgChosenRadio" value="bg_chosen" name="colorChooser"> BG <input type="button" value="Color Picker" onClick="showPopup('colorPicker');"><input type="button" value="RGB"> Threshold <input type="button" value="Test"></p>
+		</div>
+		
+		</div>
+		
+	</td>
 </tr>
 </table>
 
@@ -166,13 +184,21 @@
 	<div id="autoSetRange" class="popup" style="width: 350px;">
 	Specify Xmin, Xmax, dX or Number of points overall.
 	</div>
+	
+	<div id="colorPicker" class="popup" style="width:400px;">
+	<p align="center"><b>Specify RGB Values</b></p>
+	<p align="center">&nbsp;</p>
+	<p align="center">Red <input type="text" value="255" size="3"> Green <input type="text" value="255" size="3"> Blue <input type="text" value="255" size="3"></p>
+	<p align="center">&nbsp;</p>
+	<p align="center"><input type="button" value="Save" onClick="closePopup('colorPicker');"></p>
+	</div>
 
 	<div id="alignAxes" class="popup" style="width:300px;">
 	<p align="center"><b>Acquire Data</b></p>
 	<p align="center">&nbsp;</p>
 	<p align="center">Please align the axes before acquiring data.</p>
 	<p align="center">&nbsp;</p>
-	<p align="center"><input type="button" value="Ok" onClick="closePopup('alignAxes')"></p>
+	<p align="center"><input type="button" value="Ok" onClick="closePopup('alignAxes');"></p>
 	</div>
 
 	<div id="aboutNote" class="popup" style="width: 550px;">
@@ -188,18 +214,6 @@
 	<div id="autoSettings" class="popup">
 	<p align="center"><b>Autodetection Settings</b></p>
 	<table>
-	<tr>
-		<td><p align="center"><input type="radio" name="colorChoice" value="FG" id="fgSelect"> Match FG color only</p></td>
-		<td><p align="center"><input type="radio" name="colorChoice" value="BG" id="bgSelect"> Distinguish from BG color</p></td>
-	</tr>
-	<tr><td><p align="center">Foreground (RGB)</p></td><td><p align="center">Background (RGB)</p></td></tr>
-	<tr>
-		<td><p align="center"><input type="text" value="255" id="fgr" size="3"><input type="text" value="255" id="fgg" size="3"><input type="text" value="255" id="fgb" size="3"></p></td>
-		<td><p align="center"><input type="text" value="255" id="bgr" size="3"><input type="text" value="255" id="bgg" size="3"><input type="text" value="255" id="bgb" size="3"></p></td>
-	</tr>
-	<tr>
-		<td><p align="center">Threshold <input type="text" id="fgcolorThreshold" value="10" size="5"></p></td><td><p align="center">Threshold <input type="text" id="bgcolorThreshold" value="10" size="5"></p></td>
-	</tr>
 	<tr><td><p align="center">Minimum X <input type="text" size="6" id="autoXmin"></p></td><td><p align="center">Maximum X <input type="text" size="6" id="autoXmax"></p></td></tr>
 	<tr>
 		<td><p align="center"><input type="radio" name="numberChoice" value="fixedN"> Fixed number of points</p></td>
