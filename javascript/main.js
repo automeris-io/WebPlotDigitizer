@@ -23,8 +23,12 @@
 
 */
 
+/**
+ * @fileoverview This is the main entry point
+ * @version 2.0
+ * @author Ankit Rohatgi ankitrohatgi@hotmail.com
+ */
 
-/* This is the main entry point */
 
 function init() // This is run when the page loads.
 {
