@@ -145,11 +145,11 @@ DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor
       <TD>
 	 <CODE>
 	    <B>
-	       <A HREF="#!s!addMouseEvent">addMouseEvent</A></B>(mouseEv, functionName, tf)
+	       <A HREF="#!s!addMouseEvent">addMouseEvent</A></B>(&lt;String&gt; mouseEv, &lt;function&gt; functionName, &lt;boolean&gt; tf)
 	 </CODE>
 	 <BR>
 	 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	 
+	 Add a mouse event.
       </TD>
    </TR>
 
@@ -332,11 +332,11 @@ DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor
       <TD>
 	 <CODE>
 	    <B>
-	       <A HREF="#!s!closePopup">closePopup</A></B>(popupid)
+	       <A HREF="#!s!closePopup">closePopup</A></B>(&lt;String&gt; popupid)
 	 </CODE>
 	 <BR>
 	 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	 
+	 Hide a popup window.
       </TD>
    </TR>
 
@@ -676,7 +676,7 @@ DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor
 	 </CODE>
 	 <BR>
 	 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	 
+	 This is the entry point and is executed when the page is loaded.
       </TD>
    </TR>
 
@@ -893,11 +893,11 @@ DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor
       <TD>
 	 <CODE>
 	    <B>
-	       <A HREF="#!s!processingNote">processingNote</A></B>(pmode)
+	       <A HREF="#!s!processingNote">processingNote</A></B>(&lt;boolean&gt; pmode)
 	 </CODE>
 	 <BR>
 	 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	 
+	 Show a 'processing' note on the top right corner.
       </TD>
    </TR>
 
@@ -965,7 +965,7 @@ DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor
 	 </CODE>
 	 <BR>
 	 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	 
+	 Clear the entire list of active mouse events.
       </TD>
    </TR>
 
@@ -978,11 +978,11 @@ DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor
       <TD>
 	 <CODE>
 	    <B>
-	       <A HREF="#!s!removeMouseEvent">removeMouseEvent</A></B>(mouseEv, functionName, tf)
+	       <A HREF="#!s!removeMouseEvent">removeMouseEvent</A></B>(&lt;String&gt; mouseEv, &lt;function&gt; functionName, &lt;boolean&gt; tf)
 	 </CODE>
 	 <BR>
 	 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	 
+	 Remove a particular mouse event.
       </TD>
    </TR>
 
@@ -1084,7 +1084,7 @@ DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor
 	 </CODE>
 	 <BR>
 	 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	 
+	 Reset canvas and zoom window to initial state.
       </TD>
    </TR>
 
@@ -1114,11 +1114,11 @@ DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor
       <TD>
 	 <CODE>
 	    <B>
-	       <A HREF="#!s!showPopup">showPopup</A></B>(popupid)
+	       <A HREF="#!s!showPopup">showPopup</A></B>(&lt;String&gt; popupid)
 	 </CODE>
 	 <BR>
 	 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	 
+	 Display a popup window.
       </TD>
    </TR>
 
@@ -1284,10 +1284,26 @@ DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor
 
    <A NAME="!s!addMouseEvent"><!-- --></A>
    <H3>addMouseEvent</H3>
-   <PRE>&lt;static&gt; void <B>addMouseEvent</B>(mouseEv, functionName, tf)</PRE>
+   <PRE>&lt;static&gt; void <B>addMouseEvent</B>(&lt;String&gt; mouseEv, &lt;function&gt; functionName, &lt;boolean&gt; tf)</PRE>
+   
+      <UL>Add a mouse event.</UL>
    
 
    <!-- METHOD PARAMETERS START -->
+   
+   <UL>
+   <B>Parameters:</B>
+   
+     <UL><CODE>mouseEv</CODE> -  Type of mouse event.  
+      </UL> 
+   
+     <UL><CODE>functionName</CODE> -  Name of the method associated   
+      </UL> 
+   
+     <UL><CODE>tf</CODE> -  Capture value.    
+      </UL> 
+   
+   </UL>
    
    <!-- METHOD PARAMETERS END -->
 
@@ -1460,10 +1476,20 @@ DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor
 
    <A NAME="!s!closePopup"><!-- --></A>
    <H3>closePopup</H3>
-   <PRE>&lt;static&gt; void <B>closePopup</B>(popupid)</PRE>
+   <PRE>&lt;static&gt; void <B>closePopup</B>(&lt;String&gt; popupid)</PRE>
+   
+      <UL>Hide a popup window.</UL>
    
 
    <!-- METHOD PARAMETERS START -->
+   
+   <UL>
+   <B>Parameters:</B>
+   
+     <UL><CODE>popupid</CODE> -  ID of the DIV element containing the popup block.    
+      </UL> 
+   
+   </UL>
    
    <!-- METHOD PARAMETERS END -->
 
@@ -1782,6 +1808,8 @@ DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor
    <H3>init</H3>
    <PRE>&lt;static&gt; void <B>init</B>()</PRE>
    
+      <UL>This is the entry point and is executed when the page is loaded.</UL>
+   
 
    <!-- METHOD PARAMETERS START -->
    
@@ -1790,10 +1818,6 @@ DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor
    
 
    <!-- ADDITIONAL ATTRIBUTES START -->
-   
-   <UL>   
-   <B>Version: </B>2.0  <BR/><BR/><B>Author:</B> Ankit Rohatgi ankitrohatgi@hotmail.com    <BR/>
-   </UL>
    
    <!-- ADDITIONAL ATTRIBUTES  END -->
 <HR>
@@ -1992,10 +2016,20 @@ DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor
 
    <A NAME="!s!processingNote"><!-- --></A>
    <H3>processingNote</H3>
-   <PRE>&lt;static&gt; void <B>processingNote</B>(pmode)</PRE>
+   <PRE>&lt;static&gt; void <B>processingNote</B>(&lt;boolean&gt; pmode)</PRE>
+   
+      <UL>Show a 'processing' note on the top right corner.</UL>
    
 
    <!-- METHOD PARAMETERS START -->
+   
+   <UL>
+   <B>Parameters:</B>
+   
+     <UL><CODE>pmode</CODE> -  set to 'true' to diplay, 'false' to hide.    
+      </UL> 
+   
+   </UL>
    
    <!-- METHOD PARAMETERS END -->
 
@@ -2058,6 +2092,8 @@ DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor
    <H3>removeAllMouseEvents</H3>
    <PRE>&lt;static&gt; void <B>removeAllMouseEvents</B>()</PRE>
    
+      <UL>Clear the entire list of active mouse events.</UL>
+   
 
    <!-- METHOD PARAMETERS START -->
    
@@ -2072,10 +2108,26 @@ DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor
 
    <A NAME="!s!removeMouseEvent"><!-- --></A>
    <H3>removeMouseEvent</H3>
-   <PRE>&lt;static&gt; void <B>removeMouseEvent</B>(mouseEv, functionName, tf)</PRE>
+   <PRE>&lt;static&gt; void <B>removeMouseEvent</B>(&lt;String&gt; mouseEv, &lt;function&gt; functionName, &lt;boolean&gt; tf)</PRE>
+   
+      <UL>Remove a particular mouse event.</UL>
    
 
    <!-- METHOD PARAMETERS START -->
+   
+   <UL>
+   <B>Parameters:</B>
+   
+     <UL><CODE>mouseEv</CODE> -  Type of mouse event.  
+      </UL> 
+   
+     <UL><CODE>functionName</CODE> -  Name of the method associated   
+      </UL> 
+   
+     <UL><CODE>tf</CODE> -  Capture value.    
+      </UL> 
+   
+   </UL>
    
    <!-- METHOD PARAMETERS END -->
 
@@ -2170,6 +2222,8 @@ DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor
    <H3>setDefaultState</H3>
    <PRE>&lt;static&gt; void <B>setDefaultState</B>()</PRE>
    
+      <UL>Reset canvas and zoom window to initial state.</UL>
+   
 
    <!-- METHOD PARAMETERS START -->
    
@@ -2200,10 +2254,20 @@ DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor
 
    <A NAME="!s!showPopup"><!-- --></A>
    <H3>showPopup</H3>
-   <PRE>&lt;static&gt; void <B>showPopup</B>(popupid)</PRE>
+   <PRE>&lt;static&gt; void <B>showPopup</B>(&lt;String&gt; popupid)</PRE>
+   
+      <UL>Display a popup window.</UL>
    
 
    <!-- METHOD PARAMETERS START -->
+   
+   <UL>
+   <B>Parameters:</B>
+   
+     <UL><CODE>popupid</CODE> -  ID of the DIV element containing the popup block.    
+      </UL> 
+   
+   </UL>
    
    <!-- METHOD PARAMETERS END -->
 
@@ -2376,6 +2440,6 @@ DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor
 <FONT SIZE="-1">
 
 </FONT>
-<div class="jsdoc_ctime">Documentation generated by <a href="http://jsdoc.sourceforge.net/" target="_parent">JSDoc</a> on Sat Dec  4 23:14:37 2010</div>
+<div class="jsdoc_ctime">Documentation generated by <a href="http://jsdoc.sourceforge.net/" target="_parent">JSDoc</a> on Thu Dec 16 05:52:48 2010</div>
 </BODY>
 </HTML>

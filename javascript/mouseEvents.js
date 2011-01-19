@@ -23,14 +23,40 @@
 
 */
 
-/* This file contains mouse event handling functions */
 
+/**
+ * @fileoverview This file contains the mouse event handling methods.
+ * @version 2.0
+ * @author Ankit Rohatgi
+ */
+
+/**
+ * List of mouse event types.
+ */
 var mouseEventType = new Array();
+
+/**
+ * List of mouse event functions.
+ */
 var mouseEventFunction = new Array();
+
+/**
+ * To capture or not.
+ */
 var mouseEventCapture = new Array();
+
+/**
+ * Total number of active mouse events.
+ */
 var mouseEvents = 0;
 
 
+/**
+ * Add a mouse event.
+ * @param {String} mouseEv Type of mouse event.
+ * @param {function} functionName Name of the method associated 
+ * @param {boolean} tf Capture value.
+ */
 function addMouseEvent(mouseEv, functionName, tf)
 {
 	var eventExists = false;
@@ -50,6 +76,9 @@ function addMouseEvent(mouseEv, functionName, tf)
 	}
 }
 
+/**
+ * Clear the entire list of active mouse events.
+ */
 function removeAllMouseEvents()
 {
 	if(mouseEvents > 0)
@@ -66,6 +95,12 @@ function removeAllMouseEvents()
 	clearToolbar();
 }
 
+/**
+ * Remove a particular mouse event.
+ * @param {String} mouseEv Type of mouse event.
+ * @param {function} functionName Name of the method associated 
+ * @param {boolean} tf Capture value.
+ */
 function removeMouseEvent(mouseEv, functionName, tf)
 {
 	var eventExists = false;

@@ -23,8 +23,16 @@
 
 */
 
-/* This file contains functions to handle popup windows */
+/**
+ * @fileoverview Methods to handle popup windows.
+ * @version 2.0
+ * @author Ankit Rohatgi
+ */
 
+/**
+ * Display a popup window.
+ * @param {String} popupid ID of the DIV element containing the popup block.
+ */
 function showPopup(popupid)
 {
 	// Dim lights :)
@@ -43,6 +51,10 @@ function showPopup(popupid)
 	pWindow.style.visibility = "visible";
 }
 
+/**
+ * Hide a popup window.
+ * @param {String} popupid ID of the DIV element containing the popup block.
+ */
 function closePopup(popupid)
 {
 	var shadowDiv = document.getElementById('shadow');
@@ -53,6 +65,10 @@ function closePopup(popupid)
 
 }
 
+/**
+ * Show a 'processing' note on the top right corner.
+ * @param {boolean} pmode set to 'true' to diplay, 'false' to hide.
+ */
 function processingNote(pmode)
 {
 	var pelem = document.getElementById('wait');
