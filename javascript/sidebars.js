@@ -23,6 +23,7 @@
 
 */
 
+
 /* This file contains functions to handle sidebars */
 
 var sidebarList = ['editImageToolbar','manualMode','autoMode']; 

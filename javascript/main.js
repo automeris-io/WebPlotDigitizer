@@ -30,6 +30,10 @@
  */
 
 
+/**
+ * This is the entry point and is executed when the page is loaded.
+ */
+
 function init() // This is run when the page loads.
 {
 	canvas = document.getElementById('mainCanvas');
@@ -83,6 +87,10 @@ function init() // This is run when the page loads.
 	activeScreen = originalScreen;
 }
 
+
+/**
+ * Reset canvas and zoom window to initial state.
+ */
 function setDefaultState()
 {
 	axesPicked = 0;
