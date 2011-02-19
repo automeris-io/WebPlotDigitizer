@@ -90,74 +90,96 @@ function asd() {
 
 <!-- ========== METHOD SUMMARY =========== -->
 
-	<a name="method_summary"><!-- --></a>
-	<table border="1" cellpadding="3" cellspacing="0" width="100%">
-		<tr bgcolor="#CCCCFF" class="TableHeadingColor">
-			<td colspan=2>
-				<font size="+2">
-					<b>Method Summary</b>
-				</font>
-			</td>
-		</tr>
-	
-		
-		   <tr bgcolor="white" class="TableRowColor">
-		      <td align="right" valign="top" width="1%">
-			 <font size="-1">
-			    <code>static&nbsp;void</code>
-			 </font>
-		      </td>
-		      <td>
-			 <code>
-			    <b>
-			       <a href="GLOBALS.html#!s!closePopup">closePopup</a></b>(&lt;String&gt; popupid)
-			 </code>
-			 <br>
-			 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			 Hide a popup window.
-		      </td>
-		   </tr>
-		
-		   <tr bgcolor="white" class="TableRowColor">
-		      <td align="right" valign="top" width="1%">
-			 <font size="-1">
-			    <code>static&nbsp;void</code>
-			 </font>
-		      </td>
-		      <td>
-			 <code>
-			    <b>
-			       <a href="GLOBALS.html#!s!processingNote">processingNote</a></b>(&lt;boolean&gt; pmode)
-			 </code>
-			 <br>
-			 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			 Show a 'processing' note on the top right corner.
-		      </td>
-		   </tr>
-		
-		   <tr bgcolor="white" class="TableRowColor">
-		      <td align="right" valign="top" width="1%">
-			 <font size="-1">
-			    <code>static&nbsp;void</code>
-			 </font>
-		      </td>
-		      <td>
-			 <code>
-			    <b>
-			       <a href="GLOBALS.html#!s!showPopup">showPopup</a></b>(&lt;String&gt; popupid)
-			 </code>
-			 <br>
-			 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			 Display a popup window.
-		      </td>
-		   </tr>
-		
-	
-	</table>
-    <p>
-
 <!-- ========== END METHOD SUMMARY =========== -->
 
+
+        <pre class="sourceview"><span class="comment">/*
+	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
+
+	Version 2.0
+
+	Copyright 2010 Ankit Rohatgi &lt;ankitrohatgi<span class="attrib">@hotmail</span>.com&gt;
+
+	This file is part of WebPlotDigitizer.
+
+    WebPlotDigitizer is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    WebPlotDigitizer is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with WebPlotDigitizer.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
+
+
+*/</span>
+
+<span class="comment">/**
+ * <span class="attrib">@fileoverview</span> Methods to handle popup windows.
+ * <span class="attrib">@version</span> 2.0
+ * <span class="attrib">@author</span> Ankit Rohatgi
+ */</span>
+
+<span class="comment">/**
+ * Display a popup window.
+ * <span class="attrib">@param</span> {String} popupid ID of the DIV element containing the popup block.
+ */</span>
+<span class="reserved">function</span> showPopup(popupid)
+{
+	<span class="comment">// Dim lights :)</span>
+	var shadowDiv = document.getElementById(<span class="literal">'shadow'</span>);
+	shadowDiv.style.visibility = <span class="literal">"visible"</span>;
+
+	var pWindow = document.getElementById(popupid);
+	var screenWidth = parseInt(window.innerWidth);
+	var screenHeight = parseInt(window.innerHeight);
+	var pWidth = parseInt(pWindow.offsetWidth);
+	var pHeight = parseInt(pWindow.offsetHeight);
+	var xPos = (screenWidth - pWidth)/2;
+	var yPos = (screenHeight - pHeight)/2;
+	pWindow.style.left = xPos + <span class="literal">'px'</span>;
+	pWindow.style.top = yPos + <span class="literal">'px'</span>;
+	pWindow.style.visibility = <span class="literal">"visible"</span>;
+}
+
+<span class="comment">/**
+ * Hide a popup window.
+ * <span class="attrib">@param</span> {String} popupid ID of the DIV element containing the popup block.
+ */</span>
+<span class="reserved">function</span> closePopup(popupid)
+{
+	var shadowDiv = document.getElementById(<span class="literal">'shadow'</span>);
+	shadowDiv.style.visibility = <span class="literal">"hidden"</span>;
+
+	var pWindow = document.getElementById(popupid);
+	pWindow.style.visibility = <span class="literal">"hidden"</span>;
+
+}
+
+<span class="comment">/**
+ * Show a 'processing' note on the top right corner.
+ * <span class="attrib">@param</span> {boolean} pmode set to 'true' to diplay, 'false' to hide.
+ */</span>
+<span class="reserved">function</span> processingNote(pmode)
+{
+	var pelem = document.getElementById(<span class="literal">'wait'</span>);
+
+	<span class="reserved">if</span>(pmode == true)
+	{
+		pelem.style.visibility = <span class="literal">'visible'</span>;
+	}
+	<span class="reserved">else</span>
+	{
+		pelem.style.visibility = <span class="literal">'hidden'</span>;
+	}
+
+}
+</pre>
+	<hr>
 
 
 
@@ -214,6 +236,6 @@ function asd() {
 <font size="-1">
 
 </font>
-<div class="jsdoc_ctime">Documentation generated by <a href="http://jsdoc.sourceforge.net/" target="_parent">JSDoc</a> on Thu Dec 16 05:52:48 2010</div>
+<div class="jsdoc_ctime">Documentation generated by <a href="http://jsdoc.sourceforge.net/" target="_parent">JSDoc</a> on Thu Feb  3 20:38:40 2011</div>
 </body>
 </html>

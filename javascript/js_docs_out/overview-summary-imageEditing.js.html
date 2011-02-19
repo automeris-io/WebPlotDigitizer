@@ -242,6 +242,160 @@ function asd() {
 <!-- ========== END METHOD SUMMARY =========== -->
 
 
+        <pre class="sourceview"><span class="comment">/*
+	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
+
+	Version 2.0
+
+	Copyright 2010 Ankit Rohatgi &lt;ankitrohatgi<span class="attrib">@hotmail</span>.com&gt;
+
+	This file is part of WebPlotDigitizer.
+
+    WebPlotDigitizer is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    WebPlotDigitizer is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with WebPlotDigitizer.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
+
+
+*/</span>
+
+<span class="comment">/* This file contains functions to handle image editing functions */</span>
+
+
+var cropStatus = 0;
+var cropCoordinates = [0,0,0,0];
+
+
+<span class="reserved">function</span> hflip()
+{
+	processingNote(true);
+
+	var iData = ctx.getImageData(cx0,cy0,currentImageWidth,currentImageHeight);
+
+	<span class="reserved">for</span> (var rowi = 0; rowi &lt; currentImageHeight; rowi++)
+	{
+		<span class="reserved">for</span>(var coli = 0; coli &lt; currentImageWidth/2; coli++)
+		{
+			var index = rowi*4*currentImageWidth + coli*4;
+			var mindex = (rowi+1)*4*currentImageWidth - (coli+1)*4;
+			<span class="reserved">for</span>(var p = 0; p &lt; 4; p++)
+			{
+				var tt = iData.data[index + p];
+				iData.data[index + p] = iData.data[mindex + p];
+				iData.data[mindex + p] = tt;
+			}
+		}
+	}
+	
+	ctx.putImageData(iData,cx0,cy0);
+	saveCanvasImage();
+
+	processingNote(false);
+}
+
+<span class="reserved">function</span> vflip()
+{
+	processingNote(true);
+
+	var iData = ctx.getImageData(cx0,cy0,currentImageWidth,currentImageHeight);
+
+	<span class="reserved">for</span> (var coli = 0; coli &lt; currentImageWidth; coli++)
+	{
+		<span class="reserved">for</span>(var rowi = 0; rowi &lt; currentImageHeight/2; rowi++)
+		{
+			var index = rowi*4*currentImageWidth + coli*4;
+			var mindex = (currentImageHeight - (rowi+2))*4*currentImageWidth + coli*4;
+			<span class="reserved">for</span>(var p = 0; p &lt; 4; p++)
+			{
+				var tt = iData.data[index + p];
+				iData.data[index + p] = iData.data[mindex + p];
+				iData.data[mindex + p] = tt;
+			}
+		}
+	}
+	
+	ctx.putImageData(iData,cx0,cy0);
+	saveCanvasImage();
+
+	processingNote(false);
+}
+
+<span class="reserved">function</span> cropPlot() <span class="comment">// crop image</span>
+{
+	redrawCanvas();
+	removeAllMouseEvents();
+	addMouseEvent(<span class="literal">'mousedown'</span>,cropMousedown,true);
+	addMouseEvent(<span class="literal">'mouseup'</span>,cropMouseup,true);
+	addMouseEvent(<span class="literal">'mousemove'</span>,cropMousemove,true);
+}
+
+<span class="reserved">function</span> cropMousedown(ev)
+{
+	cropCoordinates[0] = parseInt(ev.layerX);
+	cropCoordinates[1] = parseInt(ev.layerY);
+	cropStatus = 1;
+}
+
+<span class="reserved">function</span> cropMouseup(ev)
+{
+      cropCoordinates[2] = parseInt(ev.layerX);
+      cropCoordinates[3] = parseInt(ev.layerY);
+      cropStatus = 0;
+      
+      redrawCanvas();
+      
+      cropWidth = cropCoordinates[2]-cropCoordinates[0];
+      cropHeight = cropCoordinates[3]-cropCoordinates[1];
+      <span class="reserved">if</span> ((cropWidth &gt; 0) &amp;&amp; (cropHeight &gt; 0))
+      {
+		var tcan = document.createElement(<span class="literal">'canvas'</span>);
+		var tcontext = tcan.getContext(<span class="literal">'2d'</span>);
+		
+		tcan.width = cropWidth;
+		tcan.height = cropHeight;
+		
+		var cropImageData = ctx.getImageData(cropCoordinates[0],cropCoordinates[1],cropWidth,cropHeight);  
+		
+		tcontext.putImageData(cropImageData,0,0);
+		cropSrc = tcan.toDataURL();
+		cropImg = new Image();
+		cropImg.src = cropSrc;
+		cropImg.onload = <span class="reserved">function</span>() { loadImage(cropImg); }
+      }
+      
+}
+
+<span class="reserved">function</span> cropMousemove(ev)
+{
+      <span class="comment">// this paints a rectangle as the mouse moves</span>
+      <span class="reserved">if</span>(cropStatus == 1)
+      {
+		redrawCanvas();
+		ctx.strokeStyle = <span class="literal">"rgb(0,0,0)"</span>;
+		ctx.strokeRect(cropCoordinates[0],cropCoordinates[1],parseInt(ev.layerX)-cropCoordinates[0],parseInt(ev.layerY)-cropCoordinates[1]);
+      }
+}
+
+<span class="reserved">function</span> restoreOriginalImage()
+{
+	loadImage(originalImage);
+}
+
+<span class="reserved">function</span> rotateCanvas() <span class="comment">// Rotate by a specified amount.</span>
+{
+}
+
+</pre>
+	<hr>
+
 
 
 <!-- ========== START OF NAVBAR ========== -->
@@ -297,6 +451,6 @@ function asd() {
 <font size="-1">
 
 </font>
-<div class="jsdoc_ctime">Documentation generated by <a href="http://jsdoc.sourceforge.net/" target="_parent">JSDoc</a> on Thu Dec 16 05:52:48 2010</div>
+<div class="jsdoc_ctime">Documentation generated by <a href="http://jsdoc.sourceforge.net/" target="_parent">JSDoc</a> on Thu Feb  3 20:38:40 2011</div>
 </body>
 </html>
