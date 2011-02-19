@@ -24,58 +24,40 @@
 */
 
 /**
- * @fileoverview  Contains axes alignment functions.
+ * @fileoverview  Axes alignment functions.
  * @version 2.0
  * @author Ankit Rohatgi ankitrohatgi@hotmail.com
  */
 
 
-/**
- * Have the axes been picked? true/false.
- */
+/** Have the axes been picked? true/false. */
 var axesPicked; // axes picked?
 
-/**
- * Minimum x-axis value.
- */
+/** Minimum x-axis value. */
 var xmin;
 
-/**
- * Maximum x-axis value.
- */
+/** Maximum x-axis value. */
 var xmax;
 
-/**
- * Minimum y-axis value.
- */
+/** Minimum y-axis value. */
 var ymin;
 
-/**
- * Maximum y-axis value.
- */
+/** Maximum y-axis value. */
 var ymax;
 
 var xlog;
 var ylog;
 
-/**
- * Number of axes points picked.
- */
+/** Number of axes points picked. */
 var axesN; 
 
-/**
- * Total number of axes points needed to align.
- */
-var axesNmax; // total points needed to align axes.
+/** Total number of axes points needed to align. */
+var axesNmax;
 
-/**
- * XY-Axes data.
- */
+/** XY-Axes data. */
 var xyAxes;
 
-/**
- * Plot type. Options: 'XY', 'bar', 'polar', 'ternary'
- */
+/** Plot type. Options: 'XY', 'bar', 'polar', 'ternary' */
 var plotType; 
 
 /**

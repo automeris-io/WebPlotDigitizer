@@ -23,7 +23,13 @@
 
 */
 
-/* This file contains zoom window handling functions */
+
+/**
+ * @fileoverview Manage the live zoom window.
+ * @version 2.0
+ * @author Ankit Rohatgi ankitrohatgi@hotmail.com
+ */
+
 
 /* Zoomed-in view variables */
 var zCanvas; 
@@ -35,7 +41,9 @@ var zoom_dy = 20;
 var zWindowWidth = 200;
 var zWindowHeight = 200;
 
-
+/**
+ * Update view.
+ */
 function updateZoom(ev)
 {
 	xpos = ev.layerX;

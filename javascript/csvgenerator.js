@@ -23,9 +23,16 @@
 
 */
 
-/* This file contains function to generate CSV */
+/**
+ * @fileoverview Generate CSV.
+ * @version 2.0
+ * @author Ankit Rohatgi ankitrohatgi@hotmail.com
+ */
 
-function saveData() // generate the .CSV file
+/**
+ * Generate the .CSV output.
+ */
+function saveData() 
 {
 		// check if everything was specified
 		// transform to proper numbers

@@ -23,31 +23,54 @@
 
 */
 
-/* This file contains canvas drawing functions */
+/**
+ * @fileoverview Manage the main canvas.
+ * @version 2.0
+ * @author Ankit Rohatgi ankitrohatgi@hotmail.com
+ */
+
 
 /* Main Canvas Variables */
-var canvas; // holds the canvas element
-var cx0; // x-location where plot image is drawn
-var cy0; // y-location where plot image is drawn
-var canvasWidth; // Actual canvas width
-var canvasHeight; // Actual canvas height
-var cwidth; // Available canvas width
-var cheight; // Available canvas height
-var caspectratio; // Aspect ratio of the image
-var currentImage; // current full plot image element
+
+/** Holds the canvas element. */
+var canvas; 
+/** X-Location of the origin where plot image is drawn. */
+var cx0; 
+/** Y-Location of the origin where plot image is drawn. */
+var cy0;
+/** Actual canvas width. */
+var canvasWidth;
+/** Actual canvas height. */
+var canvasHeight;
+/** Available canvas width. */
+var cwidth;
+/** Available canvas height. */
+var cheight;
+/** Aspect ratio of the image. */
+var caspectratio;
+/** Current image element. */
+var currentImage; 
+/** Original image element. */
 var originalImage;
+/** Current image height. */
 var currentImageHeight; 
+/** Current image width. */
 var currentImageWidth;
-var currentImageData; // data from getImageData
+/** canvas data from getImageData */
+var currentImageData; 
 var ctx; 
 
 // Different canvas states. They are all of type ImageData
+
 var originalScreen;
 var markedScreen;
 var currentScreen;
 var instantScreen;
 
-
+/**
+ * Load an image on the main canvas.
+ * @param {Image} imgel Image to load.
+ */
 function loadImage(imgel)
 {
 	var sheight = parseInt(imgel.height);
@@ -79,6 +102,9 @@ function loadImage(imgel)
 	currentScreen = getCanvasData();
 }
 
+/**
+ * Save the current state.
+ */
 function saveCanvasImage()
 {
 	var nimagedata = ctx.getImageData(cx0,cy0,currentImageWidth,currentImageHeight);
@@ -95,30 +121,47 @@ function saveCanvasImage()
 	newImage.onload = function() { currentImage = newImage; currentScreen = getCanvasData(); }
 }
 
+/**
+ * Returns getImageData from the main canvas.
+ * @returns {ImageData} Current ImageData.
+ */
 function getCanvasData()
 {
 	var cImgData = ctx.getImageData(0,0,canvasWidth,canvasHeight);
 	return cImgData;
 }
 
+/**
+ * Load image on the main canvas
+ * @param {ImageData} cImgData ImageData.
+ */
 function putCanvasData(cImgData)
 {
 	canvas.width = canvas.width;
 	ctx.putImageData(cImgData,0,0);
 }
 
+/**
+ * Redraw/Reset canvas.
+ */
 function reloadPlot()
 {
 	canvas.width = canvas.width; // resets canvas.
 	ctx.drawImage(currentImage, cx0, cy0, currentImageWidth, currentImageHeight); // redraw image.
 }
 
+/**
+ * Redraw/Reset canvas.
+ */
 function redrawCanvas()
 {
 	canvas.width = canvas.width;
 	putCanvasData(currentScreen);
 }
 
+/**
+ * Handle dropped file on canvas.
+ */
 function dropHandler(ev)
 {
 	allDrop = ev.dataTransfer.files;

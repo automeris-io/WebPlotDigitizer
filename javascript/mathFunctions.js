@@ -23,8 +23,16 @@
 
 */
 
-/* This file contains math functions */
 
+/**
+ * @fileoverview Some math functions.
+ * @version 2.0
+ * @author Ankit Rohatgi ankitrohatgi@hotmail.com
+ */
+
+/**
+ * Find inverse of a 2x2 matrix.
+ */
 function matrixInverse22(A) // Inverse of a 2x2 matrix
 {
   a11 = parseFloat(A[0][0]);
@@ -49,6 +57,9 @@ function matrixInverse22(A) // Inverse of a 2x2 matrix
   return Ai;
 }
 
+/**
+ * Multiply two matrices
+ */
 function multiplyAB(A,r1,c1,B,r2,c2) // Multiply two matrices
 {
   var P = new Array();

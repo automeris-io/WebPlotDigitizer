@@ -78,7 +78,9 @@ function asd() {
 <h4>Summary</h4>
 <p>
 	
-		No overview generated for 'canvasDrawing.js'<BR/><BR/>
+		Manage the main canvas.
+ <BR/><BR/><B>Version: </B>2.0
+ <BR/><BR/><B>Author:</B> Ankit Rohatgi ankitrohatgi@hotmail.com<BR/>
 	
 </p>
 
@@ -102,7 +104,24 @@ function asd() {
 		   <tr bgcolor="white" class="TableRowColor">
 		      <td align="right" valign="top" width="1%">
 			 <font size="-1">
-			    <code>static&nbsp;Object</code>
+			    <code>static&nbsp;void</code>
+			 </font>
+		      </td>
+		      <td>
+			 <code>
+			    <b>
+			       <a href="GLOBALS.html#!s!dropHandler">dropHandler</a></b>(ev)
+			 </code>
+			 <br>
+			 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			 Handle dropped file on canvas.
+		      </td>
+		   </tr>
+		
+		   <tr bgcolor="white" class="TableRowColor">
+		      <td align="right" valign="top" width="1%">
+			 <font size="-1">
+			    <code>static&nbsp;ImageData</code>
 			 </font>
 		      </td>
 		      <td>
@@ -112,7 +131,92 @@ function asd() {
 			 </code>
 			 <br>
 			 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			 
+			 Returns getImageData from the main canvas.
+		      </td>
+		   </tr>
+		
+		   <tr bgcolor="white" class="TableRowColor">
+		      <td align="right" valign="top" width="1%">
+			 <font size="-1">
+			    <code>static&nbsp;void</code>
+			 </font>
+		      </td>
+		      <td>
+			 <code>
+			    <b>
+			       <a href="GLOBALS.html#!s!loadImage">loadImage</a></b>(&lt;Image&gt; imgel)
+			 </code>
+			 <br>
+			 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			 Load an image on the main canvas.
+		      </td>
+		   </tr>
+		
+		   <tr bgcolor="white" class="TableRowColor">
+		      <td align="right" valign="top" width="1%">
+			 <font size="-1">
+			    <code>static&nbsp;void</code>
+			 </font>
+		      </td>
+		      <td>
+			 <code>
+			    <b>
+			       <a href="GLOBALS.html#!s!putCanvasData">putCanvasData</a></b>(&lt;ImageData&gt; cImgData)
+			 </code>
+			 <br>
+			 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			 Load image on the main canvas
+		      </td>
+		   </tr>
+		
+		   <tr bgcolor="white" class="TableRowColor">
+		      <td align="right" valign="top" width="1%">
+			 <font size="-1">
+			    <code>static&nbsp;void</code>
+			 </font>
+		      </td>
+		      <td>
+			 <code>
+			    <b>
+			       <a href="GLOBALS.html#!s!redrawCanvas">redrawCanvas</a></b>()
+			 </code>
+			 <br>
+			 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			 Redraw/Reset canvas.
+		      </td>
+		   </tr>
+		
+		   <tr bgcolor="white" class="TableRowColor">
+		      <td align="right" valign="top" width="1%">
+			 <font size="-1">
+			    <code>static&nbsp;void</code>
+			 </font>
+		      </td>
+		      <td>
+			 <code>
+			    <b>
+			       <a href="GLOBALS.html#!s!reloadPlot">reloadPlot</a></b>()
+			 </code>
+			 <br>
+			 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			 Redraw/Reset canvas.
+		      </td>
+		   </tr>
+		
+		   <tr bgcolor="white" class="TableRowColor">
+		      <td align="right" valign="top" width="1%">
+			 <font size="-1">
+			    <code>static&nbsp;void</code>
+			 </font>
+		      </td>
+		      <td>
+			 <code>
+			    <b>
+			       <a href="GLOBALS.html#!s!saveCanvasImage">saveCanvasImage</a></b>()
+			 </code>
+			 <br>
+			 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			 Save the current state.
 		      </td>
 		   </tr>
 		
@@ -122,146 +226,6 @@ function asd() {
 
 <!-- ========== END METHOD SUMMARY =========== -->
 
-
-        <pre class="sourceview"><span class="comment">/*
-	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
-
-	Version 2.0
-
-	Copyright 2010 Ankit Rohatgi &lt;ankitrohatgi<span class="attrib">@hotmail</span>.com&gt;
-
-	This file is part of WebPlotDigitizer.
-
-    WebPlotDigitizer is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    WebPlotDigitizer is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with WebPlotDigitizer.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
-
-
-*/</span>
-
-<span class="comment">/* This file contains canvas drawing functions */</span>
-
-<span class="comment">/* Main Canvas Variables */</span>
-var canvas; <span class="comment">// holds the canvas element</span>
-var cx0; <span class="comment">// x-location where plot image is drawn</span>
-var cy0; <span class="comment">// y-location where plot image is drawn</span>
-var canvasWidth; <span class="comment">// Actual canvas width</span>
-var canvasHeight; <span class="comment">// Actual canvas height</span>
-var cwidth; <span class="comment">// Available canvas width</span>
-var cheight; <span class="comment">// Available canvas height</span>
-var caspectratio; <span class="comment">// Aspect ratio of the image</span>
-var currentImage; <span class="comment">// current full plot image element</span>
-var originalImage;
-var currentImageHeight; 
-var currentImageWidth;
-var currentImageData; <span class="comment">// data from getImageData</span>
-var ctx; 
-
-<span class="comment">// Different canvas states. They are all of type ImageData</span>
-var originalScreen;
-var markedScreen;
-var currentScreen;
-var instantScreen;
-
-
-<span class="reserved">function</span> loadImage(imgel)
-{
-	var sheight = parseInt(imgel.height);
-	var swidth = parseInt(imgel.width);
-	var iar = sheight/swidth;
-	
-	var newHeight = sheight;
-	var newWidth = swidth;
-		
-	<span class="reserved">if</span> (iar &gt; caspectratio)
-	{
-		newHeight = cheight;
-		newWidth = cheight/iar;
-	}
-	<span class="reserved">else</span>
-	{
-		newWidth = cwidth;
-		newHeight = cwidth*iar;
-	}
-	
-	currentImage = imgel;
-	currentImageHeight = parseInt(newHeight);
-	currentImageWidth = parseInt(newWidth);
-			
-	ctx.fillStyle = <span class="literal">"rgb(255,255,255)"</span>;
-	ctx.fillRect(0, 0, canvasWidth, canvasHeight);
-	ctx.drawImage(imgel,cx0,cy0,newWidth,newHeight); 
-	
-	currentScreen = getCanvasData();
-}
-
-<span class="reserved">function</span> saveCanvasImage()
-{
-	var nimagedata = ctx.getImageData(cx0,cy0,currentImageWidth,currentImageHeight);
-	var tCanvas = document.createElement(<span class="literal">'canvas'</span>);
-	
-	tCanvas.width = currentImageWidth;
-	tCanvas.height=  currentImageHeight;
-
-	tCanvasContext = tCanvas.getContext(<span class="literal">'2d'</span>);
-	tCanvasContext.putImageData(nimagedata,0,0);
-
-	newImage = new Image();
-	newImage.src = tCanvas.toDataURL();
-	newImage.onload = <span class="reserved">function</span>() { currentImage = newImage; currentScreen = getCanvasData(); }
-}
-
-<span class="reserved">function</span> getCanvasData()
-{
-	var cImgData = ctx.getImageData(0,0,canvasWidth,canvasHeight);
-	<span class="reserved">return</span> cImgData;
-}
-
-<span class="reserved">function</span> putCanvasData(cImgData)
-{
-	canvas.width = canvas.width;
-	ctx.putImageData(cImgData,0,0);
-}
-
-<span class="reserved">function</span> reloadPlot()
-{
-	canvas.width = canvas.width; <span class="comment">// resets canvas.</span>
-	ctx.drawImage(currentImage, cx0, cy0, currentImageWidth, currentImageHeight); <span class="comment">// redraw image.</span>
-}
-
-<span class="reserved">function</span> redrawCanvas()
-{
-	canvas.width = canvas.width;
-	putCanvasData(currentScreen);
-}
-
-<span class="reserved">function</span> dropHandler(ev)
-{
-	allDrop = ev.dataTransfer.files;
-	<span class="reserved">if</span> (allDrop.length == 1) <span class="comment">// :TODO: also check if it's a valid image</span>
-	{
-		var droppedFile = new FileReader();
-		droppedFile.onload = <span class="reserved">function</span>() {
-			var imageInfo = droppedFile.result;
-			var newimg = new Image();
-			newimg.onload = <span class="reserved">function</span>() { loadImage(newimg); originalScreen = getCanvasData(); }
-			newimg.src = imageInfo;
-		}
-		droppedFile.readAsDataURL(allDrop[0]);
-	}
-}
-
-</pre>
-	<hr>
 
 
 
@@ -318,6 +282,6 @@ var instantScreen;
 <font size="-1">
 
 </font>
-<div class="jsdoc_ctime">Documentation generated by <a href="http://jsdoc.sourceforge.net/" target="_parent">JSDoc</a> on Thu Feb  3 20:38:40 2011</div>
+<div class="jsdoc_ctime">Documentation generated by <a href="http://jsdoc.sourceforge.net/" target="_parent">JSDoc</a> on Sat Feb 19 12:28:46 2011</div>
 </body>
 </html>
