@@ -23,25 +23,65 @@
 
 */
 
-/* This file contains axes alignment functions */
+/**
+ * @fileoverview  Contains axes alignment functions.
+ * @version 2.0
+ * @author Ankit Rohatgi ankitrohatgi@hotmail.com
+ */
 
+
+/**
+ * Have the axes been picked? true/false.
+ */
 var axesPicked; // axes picked?
 
+/**
+ * Minimum x-axis value.
+ */
 var xmin;
+
+/**
+ * Maximum x-axis value.
+ */
 var xmax;
+
+/**
+ * Minimum y-axis value.
+ */
 var ymin;
+
+/**
+ * Maximum y-axis value.
+ */
 var ymax;
+
 var xlog;
 var ylog;
 
-var axesN; // number of axes points picked
+/**
+ * Number of axes points picked.
+ */
+var axesN; 
+
+/**
+ * Total number of axes points needed to align.
+ */
 var axesNmax; // total points needed to align axes.
-var xyAxes; // axes data
 
-var plotType; // Options: 'XY', 'bar', 'polar', 'ternary'
+/**
+ * XY-Axes data.
+ */
+var xyAxes;
 
+/**
+ * Plot type. Options: 'XY', 'bar', 'polar', 'ternary'
+ */
+var plotType; 
 
-
+/**
+ * Entry point for Axes alignment. 
+ * @param {String} ax_mode Plot Type. Options: 'XY', 'bar', 'polar', 'ternary'
+ */
 function setAxes(ax_mode) 
 {
 
@@ -69,6 +109,10 @@ function setAxes(ax_mode)
 	}
 }
 
+/**
+ * Handles mouseclick in axis alignment mode. Axes point are defined using this.
+ * @param {Event} ev Mouse event.
+ */
 function pickCorners(ev)
 {
 	if (axesN < axesNmax)
@@ -110,7 +154,9 @@ function pickCorners(ev)
 	
 }
 
-
+/**
+ * Sets the X-Y Range in a 'XY' Plot.
+ */
 function setXYRange() // set the X-Y data range.
 {
 	var xminEl = document.getElementById('xmin');

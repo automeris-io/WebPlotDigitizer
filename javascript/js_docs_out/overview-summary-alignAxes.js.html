@@ -78,7 +78,9 @@ function asd() {
 <h4>Summary</h4>
 <p>
 	
-		No overview generated for 'alignAxes.js'<BR/><BR/>
+		Contains axes alignment functions.
+ <BR/><BR/><B>Version: </B>2.0
+ <BR/><BR/><B>Author:</B> Ankit Rohatgi ankitrohatgi@hotmail.com<BR/>
 	
 </p>
 
@@ -108,11 +110,11 @@ function asd() {
 		      <td>
 			 <code>
 			    <b>
-			       <a href="GLOBALS.html#!s!pickCorners">pickCorners</a></b>(ev)
+			       <a href="GLOBALS.html#!s!pickCorners">pickCorners</a></b>(&lt;Event&gt; ev)
 			 </code>
 			 <br>
 			 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			 
+			 Handles mouseclick in axis alignment mode.
 		      </td>
 		   </tr>
 		
@@ -125,11 +127,11 @@ function asd() {
 		      <td>
 			 <code>
 			    <b>
-			       <a href="GLOBALS.html#!s!setAxes">setAxes</a></b>(ax_mode)
+			       <a href="GLOBALS.html#!s!setAxes">setAxes</a></b>(&lt;String&gt; ax_mode)
 			 </code>
 			 <br>
 			 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			 
+			 Entry point for Axes alignment.
 		      </td>
 		   </tr>
 		
@@ -146,7 +148,7 @@ function asd() {
 			 </code>
 			 <br>
 			 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			 
+			 Sets the X-Y Range in a 'XY' Plot.
 		      </td>
 		   </tr>
 		
@@ -156,6 +158,187 @@ function asd() {
 
 <!-- ========== END METHOD SUMMARY =========== -->
 
+
+        <pre class="sourceview"><span class="comment">/*
+	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
+
+	Version 2.0
+
+	Copyright 2010 Ankit Rohatgi &lt;ankitrohatgi<span class="attrib">@hotmail</span>.com&gt;
+
+	This file is part of WebPlotDigitizer.
+
+    WebPlotDigitizer is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    WebPlotDigitizer is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with WebPlotDigitizer.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
+
+
+*/</span>
+
+<span class="comment">/**
+ * <span class="attrib">@fileoverview</span>  Contains axes alignment functions.
+ * <span class="attrib">@version</span> 2.0
+ * <span class="attrib">@author</span> Ankit Rohatgi ankitrohatgi<span class="attrib">@hotmail</span>.com
+ */</span>
+
+
+<span class="comment">/**
+ * Have the axes been picked? true/false.
+ */</span>
+var axesPicked; <span class="comment">// axes picked?</span>
+
+<span class="comment">/**
+ * Minimum x-axis value.
+ */</span>
+var xmin;
+
+<span class="comment">/**
+ * Maximum x-axis value.
+ */</span>
+var xmax;
+
+<span class="comment">/**
+ * Minimum y-axis value.
+ */</span>
+var ymin;
+
+<span class="comment">/**
+ * Maximum y-axis value.
+ */</span>
+var ymax;
+
+var xlog;
+var ylog;
+
+<span class="comment">/**
+ * Number of axes points picked.
+ */</span>
+var axesN; 
+
+<span class="comment">/**
+ * Total number of axes points needed to align.
+ */</span>
+var axesNmax; <span class="comment">// total points needed to align axes.</span>
+
+<span class="comment">/**
+ * XY-Axes data.
+ */</span>
+var xyAxes;
+
+<span class="comment">/**
+ * Plot type. Options: 'XY', 'bar', 'polar', 'ternary'
+ */</span>
+var plotType; 
+
+<span class="comment">/**
+ * Entry point for Axes alignment. 
+ * <span class="attrib">@param</span> {String} ax_mode Plot Type. Options: 'XY', 'bar', 'polar', 'ternary'
+ */</span>
+<span class="reserved">function</span> setAxes(ax_mode) 
+{
+
+	plotType = ax_mode;
+	clearSidebar();
+	removeAllMouseEvents();
+	addMouseEvent(<span class="literal">'click'</span>,pickCorners,true);
+	axesN = 0;
+	xyAxes = [];
+
+	<span class="reserved">if</span> ((plotType == <span class="literal">'XY'</span>)||(plotType == <span class="literal">'bar'</span>))
+	{
+		axesNmax = 4;
+		showPopup(<span class="literal">'xyAxesInfo'</span>);
+	}
+	<span class="reserved">else</span> <span class="reserved">if</span> (plotType == <span class="literal">'polar'</span>)
+	{
+		axesNmax = 4;
+		showPopup(<span class="literal">'polarAxesInfo'</span>);
+	}
+	<span class="reserved">else</span> <span class="reserved">if</span> (plotType == <span class="literal">'ternary'</span>)
+	{
+		axesNmax = 3;
+		showPopup(<span class="literal">'ternaryAxesInfo'</span>);
+	}
+}
+
+<span class="comment">/**
+ * Handles mouseclick in axis alignment mode. Axes point are defined using this.
+ * <span class="attrib">@param</span> {Event} ev Mouse event.
+ */</span>
+<span class="reserved">function</span> pickCorners(ev)
+{
+	<span class="reserved">if</span> (axesN &lt; axesNmax)
+	{
+		xi = ev.layerX;
+		yi = ev.layerY;
+		xyAxes[axesN] = new Array();
+		xyAxes[axesN][0] = parseFloat(xi);
+		xyAxes[axesN][1] = parseFloat(yi);
+		axesN = axesN + 1;	
+
+		ctx.beginPath();
+		ctx.fillStyle = <span class="literal">"rgb(0,0,200)"</span>;
+		ctx.arc(xi,yi,3,0,2.0*Math.PI,true);
+		ctx.fill();
+		
+		updateZoom(ev);
+
+		<span class="reserved">if</span> (axesN == axesNmax)
+		{
+				axesPicked = 1;
+				
+				removeMouseEvent(<span class="literal">'click'</span>,pickCorners,true);
+				
+				<span class="reserved">if</span> (plotType == <span class="literal">'XY'</span>)
+				{
+					showPopup(<span class="literal">'xyRangeForm'</span>);
+				}
+				<span class="reserved">else</span> <span class="reserved">if</span> (plotType == <span class="literal">'polar'</span>)
+				{
+				}
+				<span class="reserved">else</span> <span class="reserved">if</span> (plotType == <span class="literal">'ternary'</span>)
+				{
+				}
+
+				redrawCanvas();
+		}
+	}
+	
+}
+
+<span class="comment">/**
+ * Sets the X-Y Range in a 'XY' Plot.
+ */</span>
+<span class="reserved">function</span> setXYRange() <span class="comment">// set the X-Y data range.</span>
+{
+	var xminEl = document.getElementById(<span class="literal">'xmin'</span>);
+	var xmaxEl = document.getElementById(<span class="literal">'xmax'</span>);
+	var yminEl = document.getElementById(<span class="literal">'ymin'</span>);
+	var ymaxEl = document.getElementById(<span class="literal">'ymax'</span>);
+    <span class="comment">// var xlogEl = document.getElementById('xlog');</span>
+	<span class="comment">// var ylogEl = document.getElementById('ylog');</span>
+	
+	xmin = parseFloat(xminEl.value);
+	xmax = parseFloat(xmaxEl.value);
+	ymin = parseFloat(yminEl.value);
+	ymax = parseFloat(ymaxEl.value);
+    <span class="comment">//  xlog = xlogEl.checked;</span>
+	<span class="comment">//  ylog = ylogEl.checked;</span>
+	<span class="comment">//</span>
+	closePopup(<span class="literal">'xyRangeForm'</span>);
+}
+
+</pre>
+	<hr>
 
 
 
@@ -212,6 +395,6 @@ function asd() {
 <font size="-1">
 
 </font>
-<div class="jsdoc_ctime">Documentation generated by <a href="http://jsdoc.sourceforge.net/" target="_parent">JSDoc</a> on Thu Dec 16 05:52:48 2010</div>
+<div class="jsdoc_ctime">Documentation generated by <a href="http://jsdoc.sourceforge.net/" target="_parent">JSDoc</a> on Thu Feb  3 20:38:40 2011</div>
 </body>
 </html>
