@@ -91,6 +91,234 @@ function asd() {
 <!-- ========== END METHOD SUMMARY =========== -->
 
 
+        <pre class="sourceview"><span class="comment">/*
+	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
+
+	Version 2.0
+
+	Copyright 2010 Ankit Rohatgi &lt;ankitrohatgi<span class="attrib">@hotmail</span>.com&gt;
+
+	This file is part of WebPlotDigitizer.
+
+    WebPlotDigitizer is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    WebPlotDigitizer is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with WebPlotDigitizer.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
+
+
+*/</span>
+
+<span class="comment">/* This file contains autodetections functions */</span>
+
+<span class="comment">/* Autodetection variables */</span>
+var fg_color = [0,0,0];
+var bg_color = [255,255,255];
+var colorPickerMode = <span class="literal">'fg'</span>;
+
+var boxCoordinates = [0,0,1,1];
+var drawingBox = false;
+var drawingPen = false;
+var drawingEraser = false;
+
+<span class="reserved">function</span> pickColor(cmode)
+{
+	colorPickerMode = cmode;
+	removeAllMouseEvents();
+	addMouseEvent(<span class="literal">'click'</span>,colorPicker,true);
+}
+
+<span class="reserved">function</span> colorPicker(ev)
+{
+	xi = ev.layerX;
+	yi = ev.layerY;
+	
+	iData = ctx.getImageData(cx0,cy0,currentImageWidth,currentImageHeight);
+	<span class="reserved">if</span> ((xi &lt; currentImageWidth+cx0) &amp;&amp; (yi &lt; currentImageHeight+cy0) &amp;&amp; (xi &gt; cx0) &amp;&amp; (yi &gt; cy0))
+	{
+		ii = xi - cx0;
+		jj = yi - cy0;
+
+		var index = jj*4*currentImageWidth + ii*4;
+		var PickedColor = [iData.data[index], iData.data[index+1], iData.data[index+2]];
+		alert(PickedColor);
+		canvas.removeEventListener(<span class="literal">'click'</span>,colorPicker,true);
+		<span class="reserved">if</span>(colorPickerMode == <span class="literal">'fg'</span>)
+		{
+			fg_color = PickedColor;
+			var fgbtn = document.getElementById(<span class="literal">'autoFGBtn'</span>);
+			fgbtn.style.borderColor = <span class="literal">"rgb("</span> + fg_color[0] +<span class="literal">","</span> + fg_color[1] +<span class="literal">","</span> + fg_color[2] +<span class="literal">")"</span>;
+		}
+		<span class="reserved">else</span> <span class="reserved">if</span> (colorPickerMode == <span class="literal">'bg'</span>)
+		{
+			bg_color = PickedColor;
+			var bgbtn = document.getElementById(<span class="literal">'autoBGBtn'</span>);
+			bgbtn.style.borderColor = <span class="literal">"rgb("</span> + bg_color[0] +<span class="literal">","</span> + bg_color[1] +<span class="literal">","</span> + bg_color[2] +<span class="literal">")"</span>;
+		}
+	}	
+}
+
+<span class="reserved">function</span> boxPaint()
+{
+	removeAllMouseEvents();
+	addMouseEvent(<span class="literal">'mousedown'</span>,boxPaintMousedown,true);
+	addMouseEvent(<span class="literal">'mouseup'</span>,boxPaintMouseup,true);
+	addMouseEvent(<span class="literal">'mousemove'</span>,boxPaintMousedrag,true);
+
+}
+
+<span class="reserved">function</span> boxPaintMousedown(ev)
+{
+	boxCoordinates[0] = parseInt(ev.layerX);
+	boxCoordinates[1] = parseInt(ev.layerY);
+	drawingBox = true;
+}
+
+<span class="reserved">function</span> boxPaintMouseup(ev)
+{
+	boxCoordinates[2] = parseInt(ev.layerX);
+	boxCoordinates[3] = parseInt(ev.layerY);
+
+	putCanvasData(markedScreen);
+
+	ctx.fillStyle = <span class="literal">"rgba(255,255,0,1)"</span>;
+	ctx.fillRect(boxCoordinates[0], boxCoordinates[1], boxCoordinates[2]-boxCoordinates[0], boxCoordinates[3]-boxCoordinates[1]);
+	markedScreen = getCanvasData();
+
+	drawingBox = false;
+}
+
+<span class="reserved">function</span> boxPaintMousedrag(ev)
+{
+	<span class="reserved">if</span>(drawingBox == true)
+	{
+		xt = parseInt(ev.layerX);
+		yt = parseInt(ev.layerY);
+		
+		putCanvasData(markedScreen);
+		ctx.strokeStyle = <span class="literal">"rgb(0,0,0)"</span>;
+		ctx.strokeRect(boxCoordinates[0], boxCoordinates[1], xt-boxCoordinates[0], yt-boxCoordinates[1]);
+	}
+}
+
+<span class="reserved">function</span> penPaint()
+{
+	removeAllMouseEvents();
+	showToolbar(<span class="literal">'paintToolbar'</span>);
+	addMouseEvent(<span class="literal">'mousedown'</span>,penPaintMousedown,true);
+	addMouseEvent(<span class="literal">'mouseup'</span>,penPaintMouseup,true);
+	addMouseEvent(<span class="literal">'mousemove'</span>,penPaintMousedrag,true);
+
+}
+
+<span class="reserved">function</span> penPaintMousedown(ev)
+{
+	<span class="reserved">if</span> (drawingPen == false)
+	{
+	    xt = parseInt(ev.layerX);
+	    yt = parseInt(ev.layerY);
+	    drawingPen = true;
+	    ctx.strokeStyle = <span class="literal">"rgba(255,255,0,1)"</span>;
+	    
+	    thkRange = document.getElementById(<span class="literal">'paintThickness'</span>);
+	    
+	    ctx.lineWidth = parseInt(thkRange.value);
+	    ctx.beginPath();
+	    ctx.moveTo(xt,yt);
+	}
+}
+
+<span class="reserved">function</span> penPaintMouseup(ev)
+{
+    ctx.closePath();
+    ctx.lineWidth = 1;
+    drawingPen = false;
+    markedScreen = getCanvasData();
+}
+
+<span class="reserved">function</span> penPaintMousedrag(ev)
+{
+    <span class="reserved">if</span>(drawingPen == true)
+    {
+	xt = parseInt(ev.layerX);
+	yt = parseInt(ev.layerY);
+	ctx.strokeStyle = <span class="literal">"rgba(255,255,0,1)"</span>;
+	ctx.lineTo(xt,yt);
+	ctx.stroke();
+    }
+}
+
+
+<span class="reserved">function</span> eraser()
+{
+	removeAllMouseEvents();
+	showToolbar(<span class="literal">'paintToolbar'</span>);
+	addMouseEvent(<span class="literal">'mousedown'</span>,eraserMousedown,true);
+	addMouseEvent(<span class="literal">'mouseup'</span>,eraserMouseup,true);
+	addMouseEvent(<span class="literal">'mousemove'</span>,eraserMousedrag,true);
+	instantScreen = markedScreen;
+}
+
+<span class="reserved">function</span> eraserMousedown(ev)
+{
+    <span class="reserved">if</span>(drawingEraser == false)
+    {
+	xt = parseInt(ev.layerX);
+	yt = parseInt(ev.layerY);
+	drawingEraser = true;
+	ctx.strokeStyle = <span class="literal">"rgba(255,0,255,1)"</span>;
+	
+	thkRange = document.getElementById(<span class="literal">'paintThickness'</span>);
+	
+	ctx.lineWidth = parseInt(thkRange.value);
+	ctx.beginPath();
+	ctx.moveTo(xt,yt);
+    }
+}
+
+<span class="reserved">function</span> eraserMouseup(ev)
+{
+    ctx.closePath();
+    ctx.lineWidth = 1;
+    drawingEraser = false;
+    processingNote(true);
+    
+    instantScreen = getCanvasData();
+    var diffM = findDifference(instantScreen, markedScreen);
+    markedScreen = copyUsingDifference(markedScreen, currentScreen, diffM);
+    putCanvasData(markedScreen);
+    
+    processingNote(false);
+}
+
+<span class="reserved">function</span> eraserMousedrag(ev)
+{
+    <span class="reserved">if</span>(drawingEraser == true)
+    {
+	xt = parseInt(ev.layerX);
+	yt = parseInt(ev.layerY);
+	ctx.strokeStyle = <span class="literal">"rgba(255,0,255,1)"</span>;
+	ctx.lineTo(xt,yt);
+	ctx.stroke();
+    }
+}
+
+
+
+<span class="reserved">function</span> autodetectCurves()
+{
+}
+
+</pre>
+	<hr>
+
 
 
 <!-- ========== START OF NAVBAR ========== -->
@@ -146,6 +374,6 @@ function asd() {
 <font size="-1">
 
 </font>
-<div class="jsdoc_ctime">Documentation generated by <a href="http://jsdoc.sourceforge.net/" target="_parent">JSDoc</a> on Sat Feb 19 12:28:46 2011</div>
+<div class="jsdoc_ctime">Documentation generated by <a href="http://jsdoc.sourceforge.net/" target="_parent">JSDoc</a> on Sat Feb 19 12:31:54 2011</div>
 </body>
 </html>
