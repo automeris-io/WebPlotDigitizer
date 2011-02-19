@@ -242,6 +242,180 @@ function asd() {
 <!-- ========== END METHOD SUMMARY =========== -->
 
 
+        <pre class="sourceview"><span class="comment">/*
+	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
+
+	Version 2.0
+
+	Copyright 2010 Ankit Rohatgi &lt;ankitrohatgi<span class="attrib">@hotmail</span>.com&gt;
+
+	This file is part of WebPlotDigitizer.
+
+    WebPlotDigitizer is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    WebPlotDigitizer is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with WebPlotDigitizer.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
+
+
+*/</span>
+
+<span class="comment">/* This file contains manual data collection functions */</span>
+
+<span class="comment">/* Selected Data Variables */</span>
+var xyData; <span class="comment">// Raw data</span>
+var pointsPicked; <span class="comment">// number of data points picked.</span>
+
+<span class="reserved">function</span> acquireData()
+{
+	<span class="reserved">if</span>(axesPicked == 0)
+	{
+		showPopup(<span class="literal">'alignAxes'</span>);
+	}
+	<span class="reserved">else</span>
+	{
+		showSidebar(<span class="literal">'manualMode'</span>);
+		markedScreen = getCanvasData();
+		removeAllMouseEvents();
+	}
+}
+
+<span class="reserved">function</span> pickPoints() <span class="comment">// select data points.</span>
+{
+	<span class="reserved">if</span> (axesPicked == 0)
+	{
+		alert(<span class="literal">'Define the axes first!'</span>);
+	}
+	<span class="reserved">else</span>
+	{
+		removeAllMouseEvents();
+		addMouseEvent(<span class="literal">'click'</span>,clickPoints,true);
+		pointsPicked = 0;
+		xyData = [];
+		pointsStatus(pointsPicked);
+		redrawCanvas();
+		showSidebar(<span class="literal">'manualMode'</span>);
+	}
+}
+
+<span class="reserved">function</span> clickPoints(ev)
+{
+	xi = ev.layerX;
+	yi = ev.layerY;
+	xyData[pointsPicked] = new Array();
+	xyData[pointsPicked][0] = parseFloat(xi);
+	xyData[pointsPicked][1] = parseFloat(yi);
+	pointsPicked = pointsPicked + 1;	
+
+	ctx.beginPath();
+	ctx.fillStyle = <span class="literal">"rgb(200,0,0)"</span>;
+	ctx.arc(xi,yi,3,0,2.0*Math.PI,true);
+	ctx.fill();
+
+	pointsStatus(pointsPicked);
+	updateZoom(ev);
+
+}
+
+
+<span class="reserved">function</span> clearPoints() <span class="comment">// clear all markings.</span>
+{
+	pointsPicked = 0;
+	pointsStatus(pointsPicked);
+	redrawCanvas();
+	removeAllMouseEvents();
+}
+
+<span class="reserved">function</span> undoPointSelection()
+{
+	<span class="reserved">if</span> (pointsPicked &gt;= 1)
+	{
+		pointsPicked = pointsPicked - 1;
+		pointsStatus(pointsPicked);
+		
+		redrawCanvas();
+
+		<span class="reserved">for</span>(ii = 0; ii &lt; pointsPicked; ii++)
+		{
+			xi = xyData[ii][0];	
+			yi = xyData[ii][1];
+
+			ctx.beginPath();
+			ctx.fillStyle = <span class="literal">"rgb(200,0,0)"</span>;
+			ctx.arc(xi,yi,3,0,2.0*Math.PI,true);
+			ctx.fill();
+		}
+
+	}
+}
+
+<span class="reserved">function</span> pointsStatus(pn) <span class="comment">// displays the number of points picked.</span>
+{
+	var points = document.getElementById(<span class="literal">'pointsStatus'</span>);
+	points.innerHTML = pn;
+}
+
+<span class="reserved">function</span> deleteSpecificPoint()
+{
+	removeAllMouseEvents();
+	addMouseEvent(<span class="literal">'click'</span>,deleteSpecificPointHandler,true);
+}
+
+<span class="reserved">function</span> deleteSpecificPointHandler(ev)
+{
+	xi = parseFloat(ev.layerX);
+	yi = parseFloat(ev.layerY);
+	
+	var minDistance = 10.0;
+	var foundPoint = 0;
+	var foundIndex = 0;
+
+	<span class="reserved">for</span> (var ii = 0; ii &lt; pointsPicked; ii ++)
+	{
+		var xd = parseFloat(xyData[ii][0]);
+		var yd = parseFloat(xyData[ii][1]);
+		var distance = Math.sqrt((xd-xi)*(xd-xi) + (yd-yi)*(yd-yi));
+
+		<span class="reserved">if</span> (distance &lt; minDistance)
+		{
+			foundPoint = 1;
+			foundIndex = ii;
+		}
+	}
+
+	<span class="reserved">if</span> (foundPoint == 1)
+	{
+		xyData.splice(foundIndex,1);
+
+		pointsPicked = pointsPicked - 1;
+		pointsStatus(pointsPicked);
+			
+		redrawCanvas();
+
+		<span class="reserved">for</span>(ii = 0; ii &lt; pointsPicked; ii++)
+		{
+			xp = xyData[ii][0];	
+			yp = xyData[ii][1];
+			ctx.beginPath();
+			ctx.fillStyle = <span class="literal">"rgb(200,0,0)"</span>;
+			ctx.arc(xp,yp,3,0,2.0*Math.PI,true);
+			ctx.fill();
+		}
+	}
+
+	updateZoom(ev);
+
+}
+</pre>
+	<hr>
+
 
 
 <!-- ========== START OF NAVBAR ========== -->
@@ -297,6 +471,6 @@ function asd() {
 <font size="-1">
 
 </font>
-<div class="jsdoc_ctime">Documentation generated by <a href="http://jsdoc.sourceforge.net/" target="_parent">JSDoc</a> on Sat Feb 19 12:28:46 2011</div>
+<div class="jsdoc_ctime">Documentation generated by <a href="http://jsdoc.sourceforge.net/" target="_parent">JSDoc</a> on Sat Feb 19 12:31:54 2011</div>
 </body>
 </html>
