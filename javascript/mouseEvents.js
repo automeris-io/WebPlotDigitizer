@@ -25,7 +25,7 @@
 
 
 /**
- * @fileoverview This file contains the mouse event handling methods.
+ * @fileoverview Handle Mouse Events.
  * @version 2.0
  * @author Ankit Rohatgi
  */

@@ -24,7 +24,7 @@
 */
 
 /**
- * @fileoverview Methods to handle popup windows.
+ * @fileoverview Handle popups.
  * @version 2.0
  * @author Ankit Rohatgi
  */

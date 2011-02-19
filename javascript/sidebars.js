@@ -24,10 +24,18 @@
 */
 
 
-/* This file contains functions to handle sidebars */
+/**
+ * @fileoverview Handle sidebars.
+ * @version 2.0
+ * @author Ankit Rohatgi ankitrohatgi@hotmail.com
+ */
 
 var sidebarList = ['editImageToolbar','manualMode','autoMode']; 
 
+/**
+ * Show a specific sidebar
+ * @param {String} sbid Sidebar ID.
+ */
 function showSidebar(sbid) // Shows a specific sidebar
 {
 	clearSidebar();
@@ -35,6 +43,9 @@ function showSidebar(sbid) // Shows a specific sidebar
 	sb.style.visibility = "visible";
 }
 
+/**
+ * Hide all sidebars.
+ */
 function clearSidebar() // Clears all open sidebars
 {
       for (ii = 0; ii < sidebarList.length; ii ++)

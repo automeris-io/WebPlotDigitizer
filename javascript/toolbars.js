@@ -23,10 +23,18 @@
 
 */
 
-/* This file contains functions to handle toolbars */
+/**
+ * @fileoverview Handle toolbars.
+ * @version 2.0
+ * @author Ankit Rohatgi ankitrohatgi@hotmail.com
+ */
 
 var toolbarList = ['paintToolbar','colorPickerToolbar']; 
 
+/**
+ * Show a specific toolbar
+ * @param {String} sbid Sidebar ID.
+ */
 function showToolbar(sbid) // Shows a specific sidebar
 {
 	clearToolbar();
@@ -34,6 +42,9 @@ function showToolbar(sbid) // Shows a specific sidebar
 	sb.style.visibility = "visible";
 }
 
+/**
+ * Clear the toolbar area.
+ */
 function clearToolbar() // Clears all open sidebars
 {
       for (ii = 0; ii < toolbarList.length; ii ++)
