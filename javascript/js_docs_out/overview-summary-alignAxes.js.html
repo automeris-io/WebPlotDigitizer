@@ -110,6 +110,23 @@ function asd() {
 		      <td>
 			 <code>
 			    <b>
+			       <a href="GLOBALS.html#!s!alignAxes">alignAxes</a></b>()
+			 </code>
+			 <br>
+			 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			 Store the alignment data.
+		      </td>
+		   </tr>
+		
+		   <tr bgcolor="white" class="TableRowColor">
+		      <td align="right" valign="top" width="1%">
+			 <font size="-1">
+			    <code>static&nbsp;void</code>
+			 </font>
+		      </td>
+		      <td>
+			 <code>
+			    <b>
 			       <a href="GLOBALS.html#!s!pickCorners">pickCorners</a></b>(&lt;Event&gt; ev)
 			 </code>
 			 <br>
@@ -132,23 +149,6 @@ function asd() {
 			 <br>
 			 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 			 Entry point for Axes alignment.
-		      </td>
-		   </tr>
-		
-		   <tr bgcolor="white" class="TableRowColor">
-		      <td align="right" valign="top" width="1%">
-			 <font size="-1">
-			    <code>static&nbsp;void</code>
-			 </font>
-		      </td>
-		      <td>
-			 <code>
-			    <b>
-			       <a href="GLOBALS.html#!s!setXYRange">setXYRange</a></b>()
-			 </code>
-			 <br>
-			 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			 Sets the X-Y Range in a 'XY' Plot.
 		      </td>
 		   </tr>
 		
@@ -194,21 +194,6 @@ function asd() {
 <span class="comment">/** Have the axes been picked? true/false. */</span>
 var axesPicked; <span class="comment">// axes picked?</span>
 
-<span class="comment">/** Minimum x-axis value. */</span>
-var xmin;
-
-<span class="comment">/** Maximum x-axis value. */</span>
-var xmax;
-
-<span class="comment">/** Minimum y-axis value. */</span>
-var ymin;
-
-<span class="comment">/** Maximum y-axis value. */</span>
-var ymax;
-
-var xlog;
-var ylog;
-
 <span class="comment">/** Number of axes points picked. */</span>
 var axesN; 
 
@@ -217,6 +202,9 @@ var axesNmax;
 
 <span class="comment">/** XY-Axes data. */</span>
 var xyAxes;
+
+<span class="comment">/** Axes alignment data */</span>
+var axesAlignmentData = [];
 
 <span class="comment">/** Plot type. Options: 'XY', 'bar', 'polar', 'ternary' */</span>
 var plotType; 
@@ -242,7 +230,7 @@ var plotType;
 	}
 	<span class="reserved">else</span> <span class="reserved">if</span> (plotType == <span class="literal">'polar'</span>)
 	{
-		axesNmax = 4;
+		axesNmax = 2;
 		showPopup(<span class="literal">'polarAxesInfo'</span>);
 	}
 	<span class="reserved">else</span> <span class="reserved">if</span> (plotType == <span class="literal">'ternary'</span>)
@@ -282,13 +270,15 @@ var plotType;
 				
 				<span class="reserved">if</span> (plotType == <span class="literal">'XY'</span>)
 				{
-					showPopup(<span class="literal">'xyRangeForm'</span>);
+					showPopup(<span class="literal">'xyAlignment'</span>);
 				}
 				<span class="reserved">else</span> <span class="reserved">if</span> (plotType == <span class="literal">'polar'</span>)
 				{
+					showPopup(<span class="literal">'polarAlignment'</span>);
 				}
 				<span class="reserved">else</span> <span class="reserved">if</span> (plotType == <span class="literal">'ternary'</span>)
 				{
+					showPopup(<span class="literal">'ternaryAlignment'</span>);
 				}
 
 				redrawCanvas();
@@ -297,28 +287,56 @@ var plotType;
 	
 }
 
+
 <span class="comment">/**
- * Sets the X-Y Range in a 'XY' Plot.
+ * Store the alignment data.
  */</span>
-<span class="reserved">function</span> setXYRange() <span class="comment">// set the X-Y data range.</span>
+<span class="reserved">function</span> alignAxes()
 {
+    <span class="reserved">if</span> (plotType == <span class="literal">'XY'</span>)
+    {
 	var xminEl = document.getElementById(<span class="literal">'xmin'</span>);
 	var xmaxEl = document.getElementById(<span class="literal">'xmax'</span>);
 	var yminEl = document.getElementById(<span class="literal">'ymin'</span>);
 	var ymaxEl = document.getElementById(<span class="literal">'ymax'</span>);
-    <span class="comment">// var xlogEl = document.getElementById('xlog');</span>
-	<span class="comment">// var ylogEl = document.getElementById('ylog');</span>
+    
+	axesAlignmentData[0] = parseFloat(xminEl.value);
+	axesAlignmentData[1] = parseFloat(xmaxEl.value);
+	axesAlignmentData[2] = parseFloat(yminEl.value);
+	axesAlignmentData[3] = parseFloat(ymaxEl.value);
 	
-	xmin = parseFloat(xminEl.value);
-	xmax = parseFloat(xmaxEl.value);
-	ymin = parseFloat(yminEl.value);
-	ymax = parseFloat(ymaxEl.value);
-    <span class="comment">//  xlog = xlogEl.checked;</span>
-	<span class="comment">//  ylog = ylogEl.checked;</span>
-	<span class="comment">//</span>
-	closePopup(<span class="literal">'xyRangeForm'</span>);
+	closePopup(<span class="literal">'xyAlignment'</span>);
+    }
+    <span class="reserved">else</span> <span class="reserved">if</span> (plotType == <span class="literal">'polar'</span>)
+    {
+	var rEl = document.getElementById(<span class="literal">'rpoint'</span>);
+	var thetaEl = document.getElementById(<span class="literal">'thetapoint'</span>);
+	var degreesEl = document.getElementById(<span class="literal">'degrees'</span>);
+	var radiansEl = document.getElementById(<span class="literal">'radians'</span>);
+	var orientationEl = document.getElementById(<span class="literal">'clockwise'</span>);
+	
+	axesAlignmentData[0] = parseFloat(rEl.value);
+	axesAlignmentData[1] = parseFloat(thetaEl.value);
+	
+	<span class="reserved">if</span> (degreesEl.checked == true)
+	    axesAlignmentData[2] = 1;
+	<span class="reserved">else</span>
+	    axesAlignmentData[2] = 0;
+	
+	<span class="reserved">if</span> (orientationEl.checked == true)
+	    axesAlignmentData[3] = 1;
+	<span class="reserved">else</span>
+	    axesAlignmentData[3] = 0;
+	
+	
+	closePopup(<span class="literal">'polarAlignment'</span>);
+    }
+    <span class="reserved">else</span> <span class="reserved">if</span> (plotType == <span class="literal">'ternary'</span>)
+    {
+	closePopup(<span class="literal">'ternaryAlignment'</span>);
+    }
+    
 }
-
 </pre>
 	<hr>
 
@@ -377,6 +395,6 @@ var plotType;
 <font size="-1">
 
 </font>
-<div class="jsdoc_ctime">Documentation generated by <a href="http://jsdoc.sourceforge.net/" target="_parent">JSDoc</a> on Sat Feb 19 12:31:54 2011</div>
+<div class="jsdoc_ctime">Documentation generated by <a href="http://jsdoc.sourceforge.net/" target="_parent">JSDoc</a> on Sun Feb 27 19:51:40 2011</div>
 </body>
 </html>

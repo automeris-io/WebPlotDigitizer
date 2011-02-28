@@ -43,31 +43,107 @@ function saveData()
 			tarea = document.getElementById('tarea');
 			tarea.value = '';
 			
-			// :TODO: Move data transformation to pickPoints() function so that it's done on the fly.
-			
-			x1 = xyAxes[1][0] - xyAxes[0][0];
-			y1 = -(xyAxes[1][1] - xyAxes[0][1]) ;
-
-			x3 = xyAxes[3][0] - xyAxes[0][0];
-			y3 = -(xyAxes[3][1] - xyAxes[0][1]);
-
-			xm = xmax - xmin;
-			ym = ymax - ymin;
-			
-			det = x1*y3 - y1*x3;
-
-			x0 = xmin;
-			y0 = ymin;
-
-			for(ii = 0; ii<pointsPicked; ii++)
+			if (plotType == 'XY')
 			{
-					xr = xyData[ii][0] - xyAxes[0][0];
-					yr = - (xyData[ii][1] - xyAxes[0][1]);
-					// find the transform
-					xf = (-y1*xm*xr + x1*xm*yr)/det + x0;
-					yf = (y3*ym*xr - x3*ym*yr)/det + y0;
+			    x1 = xyAxes[1][0] - xyAxes[0][0];
+			    y1 = -(xyAxes[1][1] - xyAxes[0][1]) ;
 
-					tarea.value = tarea.value + xf + ',' + yf + '\n';
+			    x3 = xyAxes[3][0] - xyAxes[0][0];
+			    y3 = -(xyAxes[3][1] - xyAxes[0][1]);
+			    
+			    xmin = axesAlignmentData[0];
+			    xmax = axesAlignmentData[1];
+			    ymin = axesAlignmentData[2];
+			    ymax = axesAlignmentData[3];
+
+			    xm = xmax - xmin;
+			    ym = ymax - ymin;
+			
+			    det = x1*y3 - y1*x3;
+
+			    x0 = xmin;
+			    y0 = ymin;
+
+			    for(ii = 0; ii<pointsPicked; ii++)
+			    {
+				xr = xyData[ii][0] - xyAxes[0][0];
+				yr = - (xyData[ii][1] - xyAxes[0][1]);
+				// find the transform
+				xf = (-y1*xm*xr + x1*xm*yr)/det + x0;
+				yf = (y3*ym*xr - x3*ym*yr)/det + y0;
+				tarea.value = tarea.value + xf + ',' + yf + '\n';
+			    }
+			}
+			else if (plotType == 'polar')
+			{
+			    // Center: 0
+			    x0 = xyAxes[0][0];
+			    y0 = xyAxes[0][1];
+			    
+			    // Known Point: 1
+			    x1 = xyAxes[1][0];
+			    y1 = xyAxes[1][1];
+			    
+			    r1 = axesAlignmentData[0];
+			    theta1 = axesAlignmentData[1]; // assuming radians right now.
+			    
+			    // Distance between 0 and 1.
+			    dist10 = Math.sqrt((x0-x1)*(x0-x1) + (y0-y1)*(y0-y1));
+			    
+			    phi0 = Math.atan2(y1-y0,x1-x0);
+			    
+			    alpha0 = phi0 - theta1;
+			    
+			    for(ii = 0; ii<pointsPicked; ii++)
+			    {
+				xp = xyData[ii][0];
+				yp = xyData[ii][1];
+				
+			        rp = (r1/dist10)*Math.sqrt((xp-x0)*(xp-x0)+(yp-y0)*(yp-y0));
+				
+				thetap = Math.atan2(yp-y0,xp-x0) - alpha0;
+				
+				tarea.value = tarea.value + rp + ',' + thetap + '\n';
+			    }
+			    
+			}
+			else if(plotType == 'ternary')
+			{
+			    x0 = xyAxes[0][0];
+			    y0 = xyAxes[0][1];
+			    
+			    x1 = xyAxes[1][0];
+			    y1 = xyAxes[1][1];
+			    
+			    x2 = xyAxes[2][0];
+			    y2 = xyAxes[2][1];
+			    
+			    L = Math.sqrt((x0-x1)*(x0-x1) + (y0-y1)*(y0-y1));
+			    
+			    phi0 = Math.atan2(y1-y0,x1-x0);
+			    
+			    root3 = Math.sqrt(3);
+			    
+			    		    
+			    for(ii = 0; ii<pointsPicked; ii++)
+			    {
+				xp = xyData[ii][0];
+				yp = xyData[ii][1];
+				
+			        rp = (r1/dist10)*Math.sqrt((xp-x0)*(xp-x0)+(yp-y0)*(yp-y0));
+				
+				thetap = Math.atan2(yp-y0,xp-x0) - phi0;
+				
+				xx = (x0 + rp*Math.cos(thetap))/L;
+				yy = (y0 + rp*Math.sin(thetap))/L;
+				
+				ap = 1.0 - xx - yy/root3;
+				bp = xx - yy/root3;
+				cp = 2.0*yy/root3;
+								
+				tarea.value = tarea.value + ap + ',' + bp + ',' + cp + '\n';
+			    }
+			    
 			}
 		}
 }
