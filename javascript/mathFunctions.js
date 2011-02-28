@@ -105,9 +105,12 @@ function dataToPixel(pdata)
 function taninverse(y,x)
 {
   var inv_ans;
-  if (y>=0) // First & Second quadrant
+  if (y>0) // I & II
     inv_ans = Math.atan2(y,x);
-  else if (y<0) // Third & Fourth quadrant
-    inv_ans = Math.atan2(y,x) + Math.PI;
+  else if (y<=0) // III & IV
+    inv_ans = Math.atan2(y,x) + 2*Math.PI;
+  
+  if(inv_ans >= 2*Math.PI)
+    inv_ans = 0.0;
   return inv_ans;
 }

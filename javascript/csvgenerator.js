@@ -84,13 +84,30 @@ function saveData()
 			    x1 = xyAxes[1][0];
 			    y1 = xyAxes[1][1];
 			    
+			    // Known Point: 2
+			    x2 = xyAxes[2][0];
+			    y2 = xyAxes[2][1];
+			    			    
 			    r1 = axesAlignmentData[0];
-			    theta1 = axesAlignmentData[1]; // assuming radians right now.
+			    theta1 = axesAlignmentData[1]; 
 			    
-			    // Distance between 0 and 1.
-			    dist10 = Math.sqrt((x0-x1)*(x0-x1) + (y0-y1)*(y0-y1));
+			    r2 = axesAlignmentData[2];
+			    theta2 = axesAlignmentData[3]; 
 			    
-			    phi0 = Math.atan2(y1-y0,x1-x0);
+			    isDegrees = axesAlignmentData[4];
+			    
+			    isClockwise = axesAlignmentData[5];
+			    
+			    if (isDegrees == true) // if degrees
+			    {
+			        theta1 = (Math.PI/180.0)*theta1;
+				theta2 = (Math.PI/180.0)*theta2;
+			    }
+			    			    
+			    // Distance between 1 and 2.
+			    dist12 = Math.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2));
+			    
+			    phi0 = taninverse(-(y1-y0),x1-x0);
 			    
 			    alpha0 = phi0 - theta1;
 			    
@@ -99,9 +116,12 @@ function saveData()
 				xp = xyData[ii][0];
 				yp = xyData[ii][1];
 				
-			        rp = (r1/dist10)*Math.sqrt((xp-x0)*(xp-x0)+(yp-y0)*(yp-y0));
+			        rp = ((r2-r1)/dist12 + r1)*Math.sqrt((xp-x0)*(xp-x0)+(yp-y0)*(yp-y0));
 				
-				thetap = Math.atan2(yp-y0,xp-x0) - alpha0;
+				thetap = taninverse(-(yp-y0),xp-x0) - alpha0;
+				
+				if(isDegrees == true)
+				  thetap = 180.0*thetap/Math.PI;
 				
 				tarea.value = tarea.value + rp + ',' + thetap + '\n';
 			    }
@@ -120,27 +140,33 @@ function saveData()
 			    
 			    L = Math.sqrt((x0-x1)*(x0-x1) + (y0-y1)*(y0-y1));
 			    
-			    phi0 = Math.atan2(y1-y0,x1-x0);
+			    phi0 = taninverse(-(y1-y0),x1-x0);
 			    
 			    root3 = Math.sqrt(3);
 			    
+			    isRange0to100 = axesAlignmentData[0];
 			    		    
 			    for(ii = 0; ii<pointsPicked; ii++)
 			    {
 				xp = xyData[ii][0];
 				yp = xyData[ii][1];
 				
-			        rp = (r1/dist10)*Math.sqrt((xp-x0)*(xp-x0)+(yp-y0)*(yp-y0));
+			        rp = Math.sqrt((xp-x0)*(xp-x0)+(yp-y0)*(yp-y0));
 				
-				thetap = Math.atan2(yp-y0,xp-x0) - phi0;
+				thetap = taninverse(-(yp-y0),xp-x0) - phi0;
 				
-				xx = (x0 + rp*Math.cos(thetap))/L;
-				yy = (y0 + rp*Math.sin(thetap))/L;
+				xx = (rp*Math.cos(thetap))/L;
+				yy = (rp*Math.sin(thetap))/L;
 				
 				ap = 1.0 - xx - yy/root3;
 				bp = xx - yy/root3;
 				cp = 2.0*yy/root3;
-								
+				
+				if (isRange0to100 == true)
+				{
+				  ap = ap*100; bp = bp*100; cp = cp*100;
+				}
+				
 				tarea.value = tarea.value + ap + ',' + bp + ',' + cp + '\n';
 			    }
 			    
