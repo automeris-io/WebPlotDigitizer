@@ -124,7 +124,7 @@
 	<hr />
 	<p align="center"><input type="button" id="autoFGBtn" value="FG" style="width:75px;" onClick="pickColor('fg');"><input type="button" id="autoBGBtn" value="BG" style="width:75px;" onClick="pickColor('bg');"></p>
 	<p align="center"><input type="button" value="Box" style="width:50px;" onClick="boxPaint();"><input type="button" value="Pen" style="width:50px;" onClick="penPaint();"><input type="button" value="Erase" style="width:50px;" onClick="eraser();"></p>
-	<p align="center"><input type="button" value="Settings" style="width: 75px;" onClick="showPopup('autoSettings');"><input type="button" value="SCAN!" style="width: 75px;" ></p>
+	<p align="center"><input type="button" value="Test" style="width: 75px;"><input type="button" value="SCAN!" style="width: 75px;" onClick="showPopup('autoSettings');"></p>
 	<hr />
 	<p align="center"><input id="removeLastBtn" type="button" value="Delete" onClick="deleteSpecificPoint();" style="width: 75px;"><input id="clearAllBtn" type="button" value="Clear All" onCLick="clearPoints();" style="width: 75px;"></p>
 	<p align="center"><input type="button" value="Create .CSV" id="saveBtn" onClick="saveData();" style="width:150px;"></p>
@@ -160,15 +160,21 @@
 	</div>
 
 	<div id="polarAlignment" class="popup" style="width: 200px;">
-	<p align="center"><b>Known Point Location</b> <!-- <input type="checkbox" id="xlog"> Log Scale --></p>
-	<p align="center">R: <input type="text" size="6" id="rpoint" value="1"></p>
-	<p align="center">Θ: <input type="text" size="6" id="thetapoint" value="1"></p>
-	<p align="center"><input type="radio" id="degrees" name="angleUnits"> Degrees <input type="radio" id="radians" name="angleUnits"> Radians</p>
+	<p align="center"><b>Point 1</b> <!-- <input type="checkbox" id="xlog"> Log Scale --></p>
+	<p align="center">R<sub>1</sub>: <input type="text" size="6" id="rpoint1" value="1"></p>
+	<p align="center">Θ<sub>1</sub>: <input type="text" size="6" id="thetapoint1" value="1"></p>
+	<p align="center"><b>Point 2</b> <!-- <input type="checkbox" id="xlog"> Log Scale --></p>
+	<p align="center">R<sub>2</sub>: <input type="text" size="6" id="rpoint2" value="1"></p>
+	<p align="center">Θ<sub>2</sub>: <input type="text" size="6" id="thetapoint2" value="1"></p>
+	<p align="center"><input type="radio" id="degrees" name="angleUnits"> Degrees <input type="radio" id="radians" name="angleUnits" checked> Radians</p>
 	<p align="center"><input type="checkbox" id="clockwise"> Clockwise</p>
 	<p align="center"><input type="button" value="OK" onClick="alignAxes();"></p>
 	</div>
 
 	<div id="ternaryAlignment" class="popup" style="width: 200px;">
+	<p align="left"><b>Select Range of Variables</b></p>
+	<p align="left"><input type="radio" id="range0to1" name="ternaryRange" checked> 0 to 1 </p>
+	<p align="left"><input type="radio" id="range0to100" name="ternaryRange"> 0 to 100</p>
 	<p align="center"><input type="button" value="OK" onClick="alignAxes();"></p>
 	</div>
 
@@ -231,16 +237,11 @@
 	</div>
 
 	<div id="autoSettings" class="popup">
-	<p align="center"><b>Autodetection Settings</b></p>
-	<table>
-	<tr><td><p align="center">Minimum X <input type="text" size="6" id="autoXmin"></p></td><td><p align="center">Maximum X <input type="text" size="6" id="autoXmax"></p></td></tr>
-	<tr>
-		<td><p align="center"><input type="radio" name="numberChoice" value="fixedN"> Fixed number of points</p></td>
-		<td><p align="center"><input type="radio" name="numberChoice" value="fixedN"> Fixed step size</p></td>
-	</tr>
-	<tr><td colspan="2"><p align="center">Specify number of points or step size <input type="text" value="10" size="5"></p></td></tr>
-	</table>
-	<p align="center"><input type="button" value="Test Settings"> <input type="button" value="Save" onClick="closePopup('autoSettings');"></p>
+	<p align="center"><b>Number of Points to Pick</b></p>
+	<p>&nbsp;</p>
+	<p align="center"><input type="text" value="5" size="3" id="numberOfPointsToScan"></p>
+	<p>&nbsp;</p>
+	<p align="center"><input type="button" value="Scan" onClick="closePopup('autoSettings');"></p>
 	</div>
 
 	<div id="testImageWindow" class="popup">

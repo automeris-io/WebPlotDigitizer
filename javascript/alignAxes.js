@@ -69,7 +69,7 @@ function setAxes(ax_mode)
 	}
 	else if (plotType == 'polar')
 	{
-		axesNmax = 2;
+		axesNmax = 3;
 		showPopup('polarAxesInfo');
 	}
 	else if (plotType == 'ternary')
@@ -148,30 +148,42 @@ function alignAxes()
     }
     else if (plotType == 'polar')
     {
-	var rEl = document.getElementById('rpoint');
-	var thetaEl = document.getElementById('thetapoint');
+	var r1El = document.getElementById('rpoint1');
+	var theta1El = document.getElementById('thetapoint1');
+	var r2El = document.getElementById('rpoint2');
+	var theta2El = document.getElementById('thetapoint2');
+	
 	var degreesEl = document.getElementById('degrees');
 	var radiansEl = document.getElementById('radians');
 	var orientationEl = document.getElementById('clockwise');
 	
-	axesAlignmentData[0] = parseFloat(rEl.value);
-	axesAlignmentData[1] = parseFloat(thetaEl.value);
+	axesAlignmentData[0] = parseFloat(r1El.value);
+	axesAlignmentData[1] = parseFloat(theta1El.value);
+	axesAlignmentData[2] = parseFloat(r2El.value);
+	axesAlignmentData[3] = parseFloat(theta2El.value);
 	
 	if (degreesEl.checked == true)
-	    axesAlignmentData[2] = 1;
+	    axesAlignmentData[4] = 1;
 	else
-	    axesAlignmentData[2] = 0;
+	    axesAlignmentData[4] = 0;
 	
 	if (orientationEl.checked == true)
-	    axesAlignmentData[3] = 1;
+	    axesAlignmentData[5] = 1;
 	else
-	    axesAlignmentData[3] = 0;
+	    axesAlignmentData[5] = 0;
 	
 	
 	closePopup('polarAlignment');
     }
     else if (plotType == 'ternary')
     {
+	var range1El = document.getElementById('range0to1');
+	var range100El = document.getElementById('range0to100');
+	if (range100El.checked == true)
+	  axesAlignmentData[0] = true;
+	else
+	  axesAlignmentData[0] = false;
+	
 	closePopup('ternaryAlignment');
     }
     
