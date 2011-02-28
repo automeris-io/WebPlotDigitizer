@@ -33,21 +33,6 @@
 /** Have the axes been picked? true/false. */
 var axesPicked; // axes picked?
 
-/** Minimum x-axis value. */
-var xmin;
-
-/** Maximum x-axis value. */
-var xmax;
-
-/** Minimum y-axis value. */
-var ymin;
-
-/** Maximum y-axis value. */
-var ymax;
-
-var xlog;
-var ylog;
-
 /** Number of axes points picked. */
 var axesN; 
 
@@ -56,6 +41,9 @@ var axesNmax;
 
 /** XY-Axes data. */
 var xyAxes;
+
+/** Axes alignment data */
+var axesAlignmentData = [];
 
 /** Plot type. Options: 'XY', 'bar', 'polar', 'ternary' */
 var plotType; 
@@ -81,7 +69,7 @@ function setAxes(ax_mode)
 	}
 	else if (plotType == 'polar')
 	{
-		axesNmax = 4;
+		axesNmax = 2;
 		showPopup('polarAxesInfo');
 	}
 	else if (plotType == 'ternary')
@@ -121,13 +109,15 @@ function pickCorners(ev)
 				
 				if (plotType == 'XY')
 				{
-					showPopup('xyRangeForm');
+					showPopup('xyAlignment');
 				}
 				else if (plotType == 'polar')
 				{
+					showPopup('polarAlignment');
 				}
 				else if (plotType == 'ternary')
 				{
+					showPopup('ternaryAlignment');
 				}
 
 				redrawCanvas();
@@ -136,25 +126,53 @@ function pickCorners(ev)
 	
 }
 
+
 /**
- * Sets the X-Y Range in a 'XY' Plot.
+ * Store the alignment data.
  */
-function setXYRange() // set the X-Y data range.
+function alignAxes()
 {
+    if (plotType == 'XY')
+    {
 	var xminEl = document.getElementById('xmin');
 	var xmaxEl = document.getElementById('xmax');
 	var yminEl = document.getElementById('ymin');
 	var ymaxEl = document.getElementById('ymax');
-    // var xlogEl = document.getElementById('xlog');
-	// var ylogEl = document.getElementById('ylog');
+    
+	axesAlignmentData[0] = parseFloat(xminEl.value);
+	axesAlignmentData[1] = parseFloat(xmaxEl.value);
+	axesAlignmentData[2] = parseFloat(yminEl.value);
+	axesAlignmentData[3] = parseFloat(ymaxEl.value);
 	
-	xmin = parseFloat(xminEl.value);
-	xmax = parseFloat(xmaxEl.value);
-	ymin = parseFloat(yminEl.value);
-	ymax = parseFloat(ymaxEl.value);
-    //  xlog = xlogEl.checked;
-	//  ylog = ylogEl.checked;
-	//
-	closePopup('xyRangeForm');
+	closePopup('xyAlignment');
+    }
+    else if (plotType == 'polar')
+    {
+	var rEl = document.getElementById('rpoint');
+	var thetaEl = document.getElementById('thetapoint');
+	var degreesEl = document.getElementById('degrees');
+	var radiansEl = document.getElementById('radians');
+	var orientationEl = document.getElementById('clockwise');
+	
+	axesAlignmentData[0] = parseFloat(rEl.value);
+	axesAlignmentData[1] = parseFloat(thetaEl.value);
+	
+	if (degreesEl.checked == true)
+	    axesAlignmentData[2] = 1;
+	else
+	    axesAlignmentData[2] = 0;
+	
+	if (orientationEl.checked == true)
+	    axesAlignmentData[3] = 1;
+	else
+	    axesAlignmentData[3] = 0;
+	
+	
+	closePopup('polarAlignment');
+    }
+    else if (plotType == 'ternary')
+    {
+	closePopup('ternaryAlignment');
+    }
+    
 }
-

@@ -98,3 +98,16 @@ function pixelToData(pxData)
 function dataToPixel(pdata)
 {
 }
+
+/** 
+ * Calculate inverse tan with range between 0, 2*pi.
+ */
+function taninverse(y,x)
+{
+  var inv_ans;
+  if (y>=0) // First & Second quadrant
+    inv_ans = Math.atan2(y,x);
+  else if (y<0) // Third & Fourth quadrant
+    inv_ans = Math.atan2(y,x) + Math.PI;
+  return inv_ans;
+}

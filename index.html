@@ -25,6 +25,7 @@
 <html>
 
 <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/> 
 <title>WebPlotDigitizer - Copyright 2010 Ankit Rohatgi</title>
 <link rel="stylesheet" href="styles.css" type="text/css" media="screen" />
 
@@ -148,14 +149,27 @@
 	<div id="shadow" style="width:100%; height:100%; background-color: rgba(0,0,0,0.3); position:absolute; top:0px; left:0px; z-index:50; visibility:hidden;">
 	</div>
 
-	<div id="xyRangeForm" class="popup" style="width: 200px;">
+	<div id="xyAlignment" class="popup" style="width: 200px;">
 	<p align="center"><b>X Range</b> <!-- <input type="checkbox" id="xlog"> Log Scale --></p>
 	<p align="center">Min: <input type="text" size="6" id="xmin" value="0"></p>
 	<p align="center">Max: <input type="text" size="6" id="xmax" value="1"></p>
 	<p align="center"><b>Y Range</b> <!-- <input type="checkbox" id="ylog"> Log Scale --></p>
 	<p align="center">Min: <input type="text" size="6" id="ymin" value="0"></p>
 	<p align="center">Max: <input type="text" size="6" id="ymax" value="1"></p>
-	<p align="center"><input type="button" id="xybtn" value="OK" onClick="setXYRange();"></p>
+	<p align="center"><input type="button" id="xybtn" value="OK" onClick="alignAxes();"></p>
+	</div>
+
+	<div id="polarAlignment" class="popup" style="width: 200px;">
+	<p align="center"><b>Known Point Location</b> <!-- <input type="checkbox" id="xlog"> Log Scale --></p>
+	<p align="center">R: <input type="text" size="6" id="rpoint" value="1"></p>
+	<p align="center">Θ: <input type="text" size="6" id="thetapoint" value="1"></p>
+	<p align="center"><input type="radio" id="degrees" name="angleUnits"> Degrees <input type="radio" id="radians" name="angleUnits"> Radians</p>
+	<p align="center"><input type="checkbox" id="clockwise"> Clockwise</p>
+	<p align="center"><input type="button" value="OK" onClick="alignAxes();"></p>
+	</div>
+
+	<div id="ternaryAlignment" class="popup" style="width: 200px;">
+	<p align="center"><input type="button" value="OK" onClick="alignAxes();"></p>
 	</div>
 
 	<div id="csvWindow" class="popup" style="width: 500px; height: 300px;">
