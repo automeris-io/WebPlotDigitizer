@@ -35,9 +35,23 @@ var drawingBox = false;
 var drawingPen = false;
 var drawingEraser = false;
 
-function pickColor(cmode)
+
+function colorPickerWindow(cmode)
 {
-	colorPickerMode = cmode;
+    colorPickerMode = cmode;
+    if(cmode == 'fg')
+    {    
+      showPopup('colorPickerFG');
+    }
+    else if(cmode == 'bg')
+    {
+       showPopup('colorPickerBG');
+    }
+}
+
+function pickColor()
+{
+	//colorPickerMode = cmode;
 	removeAllMouseEvents();
 	addMouseEvent('click',colorPicker,true);
 }
@@ -55,20 +69,36 @@ function colorPicker(ev)
 
 		var index = jj*4*currentImageWidth + ii*4;
 		var PickedColor = [iData.data[index], iData.data[index+1], iData.data[index+2]];
-		alert(PickedColor);
+		redEl = document.getElementById('color_red');
+		greenEl = document.getElementById('color_green');
+		blueEl = document.getElementById('color_blue');
+				
 		canvas.removeEventListener('click',colorPicker,true);
+		
 		if(colorPickerMode == 'fg')
 		{
 			fg_color = PickedColor;
 			var fgbtn = document.getElementById('autoFGBtn');
 			fgbtn.style.borderColor = "rgb(" + fg_color[0] +"," + fg_color[1] +"," + fg_color[2] +")";
+			redEl = document.getElementById('color_red_fg');
+			greenEl = document.getElementById('color_green_fg');
+			blueEl = document.getElementById('color_blue_fg');
+			showPopup('colorPickerFG');
 		}
 		else if (colorPickerMode == 'bg')
 		{
 			bg_color = PickedColor;
 			var bgbtn = document.getElementById('autoBGBtn');
 			bgbtn.style.borderColor = "rgb(" + bg_color[0] +"," + bg_color[1] +"," + bg_color[2] +")";
+			redEl = document.getElementById('color_red_bg');
+			greenEl = document.getElementById('color_green_bg');
+			blueEl = document.getElementById('color_blue_bg');
+			showPopup('colorPickerBG');
 		}
+		
+		redEl.value = PickedColor[0];
+		greenEl.value = PickedColor[1];
+		blueEl.value = PickedColor[2];
 	}	
 }
 

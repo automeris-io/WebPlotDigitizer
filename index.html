@@ -122,9 +122,9 @@
 	<p align="center"><b>Autodetect Mode</b></p>
 	<p align="center"><input type="button" value="Switch to Manual" onClick="showSidebar('manualMode');" style="width: 150px;" ></p>
 	<hr />
-	<p align="center"><input type="button" id="autoFGBtn" value="FG" style="width:75px;" onClick="pickColor('fg');"><input type="button" id="autoBGBtn" value="BG" style="width:75px;" onClick="pickColor('bg');"></p>
+	<p align="center"><input type="button" id="autoFGBtn" value="FG" style="width:75px;" onClick="colorPickerWindow('fg');"><input type="button" id="autoBGBtn" value="BG" style="width:75px;" onClick="colorPickerWindow('bg');"></p>
 	<p align="center"><input type="button" value="Box" style="width:50px;" onClick="boxPaint();"><input type="button" value="Pen" style="width:50px;" onClick="penPaint();"><input type="button" value="Erase" style="width:50px;" onClick="eraser();"></p>
-	<p align="center"><input type="button" value="Test" style="width: 75px;"><input type="button" value="SCAN!" style="width: 75px;" onClick="showPopup('autoSettings');"></p>
+	<p align="center"><input type="button" value="Test" style="width: 75px;" onClick="showPopup('testImageWindow');"><input type="button" value="SCAN!" style="width: 75px;" onClick="showPopup('autoSettings');"></p>
 	<hr />
 	<p align="center"><input id="removeLastBtn" type="button" value="Delete" onClick="deleteSpecificPoint();" style="width: 75px;"><input id="clearAllBtn" type="button" value="Clear All" onCLick="clearPoints();" style="width: 75px;"></p>
 	<p align="center"><input type="button" value="Create .CSV" id="saveBtn" onClick="saveData();" style="width:150px;"></p>
@@ -210,12 +210,24 @@
 	Specify Xmin, Xmax, dX or Number of points overall.
 	</div>
 	
-	<div id="colorPicker" class="popup" style="width:400px;">
-	<p align="center"><b>Specify RGB Values</b></p>
+	<div id="colorPickerFG" class="popup" style="width:400px;">
+	<p align="center"><b>Specify Plot (Foreground) Color</b></p>
 	<p align="center">&nbsp;</p>
-	<p align="center">Red <input type="text" value="255" size="3"> Green <input type="text" value="255" size="3"> Blue <input type="text" value="255" size="3"></p>
+	<p align="center">R:<input type="text" value="255" id="color_red_fg" size="3">&nbsp;
+	G:<input type="text" id="color_green_fg" value="255" size="3">&nbsp; B:<input type="text" id="color_blue_fg" value="255" size="3">
+	 <input type="button" value="Color Picker" onClick="closePopup('colorPickerFG');pickColor();"></p>
 	<p align="center">&nbsp;</p>
-	<p align="center"><input type="button" value="Save" onClick="closePopup('colorPicker');"></p>
+	<p align="center"><input type="button" value="Done" onClick="closePopup('colorPickerFG');"></p>
+	</div>
+
+	<div id="colorPickerBG" class="popup" style="width:400px;">
+	<p align="center"><b>Specify Background Color</b></p>
+	<p align="center">&nbsp;</p>
+	<p align="center">R:<input type="text" value="255" id="color_red_bg" size="3">&nbsp;
+	G:<input type="text" id="color_green_bg" value="255" size="3">&nbsp; B:<input type="text" id="color_blue_bg" value="255" size="3">
+	 <input type="button" value="Color Picker" onClick="closePopup('colorPickerBG');pickColor();"></p>
+	<p align="center">&nbsp;</p>
+	<p align="center"><input type="button" value="Done" onClick="closePopup('colorPickerBG');"></p>
 	</div>
 
 	<div id="alignAxes" class="popup" style="width:300px;">
