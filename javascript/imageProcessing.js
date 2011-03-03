@@ -93,10 +93,10 @@ function colorSelect(imgd, mode, colorRGB, tol)
     
     var seldata = new Array();
     
-    for (var rowi; rowi < dh; rowi++)
+    for (var rowi=0; rowi < dh; rowi++)
     {
 	seldata[rowi] = new Array();
-	for(var coli; coli < dw; coli++)
+	for(var coli=0; coli < dw; coli++)
 	{
 	    index = rowi*4*dw + coli*4;
 	    ir = imgd.data[index];
@@ -139,17 +139,17 @@ function colorSelectDiff(imgd, mode, colorRGB, tol, diff)
     
     var seldata = new Array();
     
-    for (var rowi; rowi < dh; rowi++)
+    for (var rowi=0; rowi < dh; rowi++)
     {
 	seldata[rowi] = new Array();
-	for(var coli; coli < dw; coli++)
+	for(var coli=0; coli < dw; coli++)
 	{
 	    index = rowi*4*dw + coli*4;
 	    ir = imgd.data[index];
 	    ig = imgd.data[index+1];
 	    ib = imgd.data[index+2];
 	    
-	    dist = Math.sqrt((ir-redv)*(ir-redv) + (ig-greenv)*(ig-greenv) + (ib+bluev)*(ib+bluev));
+	    dist = Math.sqrt((ir-redv)*(ir-redv) + (ig-greenv)*(ig-greenv) + (ib-bluev)*(ib-bluev));
 	    
 	    seldata[rowi][coli] = false;
 	    
@@ -183,17 +183,18 @@ function binaryToImageData(bwdata,imgd)
 	for(var coli = 0; coli < dw; coli++)
 	{
 	    index = rowi*4*dw + coli*4;
-	    if (bwdata[rowi][coli] == true)
+	    if (bwdata[rowi][coli] == false)
 	    {
-		imgd.data[index] = 255; imgd.data[index+1] = 255; imgd.data[index+2] = 255; imgd.data[index+3] = 1;
+		imgd.data[index] = 255; imgd.data[index+1] = 255; imgd.data[index+2] = 255; imgd.data[index+3] = 255;
 	    }
 	    else
 	    {
-		imgd.data[index] = 0; imgd.data[index+1] = 0; imgd.data[index+2] = 0; imgd.data[index+3] = 1;
+		imgd.data[index] = 0; imgd.data[index+1] = 0; imgd.data[index+2] = 0; imgd.data[index+3] = 255;
 	    }
 	}
     }
     
     return imgd;
 }
+
 

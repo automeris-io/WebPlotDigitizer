@@ -72,6 +72,12 @@ function init() // This is run when the page loads.
 	img.onload = function() { loadImage(img); originalImage = img; }
 	img.src = "start.png";
 	
+	// testing area for autodetection
+	testImgCanvas = document.getElementById('testImg');
+	testImgCanvas.width = canvasWidth/2;
+	testImgCanvas.height = canvasHeight/2;
+	testImgContext = testImgCanvas.getContext('2d');
+		
 	// specify mouseover function
 	//canvas.addEventListener('click',clickHandler,false);
 	canvas.addEventListener('mousemove',updateZoom,false);

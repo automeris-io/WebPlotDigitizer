@@ -25,10 +25,14 @@
 
 /* This file contains autodetections functions */
 
+
 /* Autodetection variables */
 var fg_color = [0,0,0];
 var bg_color = [255,255,255];
 var colorPickerMode = 'fg';
+
+var testImgCanvas;
+var testImgContext;
 
 var boxCoordinates = [0,0,1,1];
 var drawingBox = false;
@@ -247,6 +251,55 @@ function eraserMousedrag(ev)
     }
 }
 
+function updateTestWindow()
+{
+  colorModeEl = document.getElementById('colorModeFG');
+  colorDistanceEl = document.getElementById('colorDistance');
+  if (colorModeEl.checked == true)
+  {
+    colmode = 'fg';
+    chosenColor = fg_color;
+  }
+  else
+  {
+    colmode = 'bg';
+    chosenColor = bg_color;
+  }
+  
+  cdistance = parseInt(colorDistanceEl.value);
+  
+  differenceMatrix = findDifference(currentScreen, markedScreen);
+  binaryData = colorSelectDiff(currentScreen, colmode, chosenColor, cdistance, differenceMatrix);
+  
+  tempImgCanvas = document.createElement('canvas');
+  tempImgCanvas.width = canvasWidth;
+  tempImgCanvas.height = canvasHeight;
+  
+  tempImgContext = tempImgCanvas.getContext('2d');
+  
+  timgData = tempImgContext.getImageData(0,0,canvasWidth,canvasHeight);
+  
+  //timgData = currentScreen;
+  
+  timgData = binaryToImageData(binaryData,timgData);
+  
+  
+  tempImgContext.putImageData(timgData,0,0);
+  
+  testImage = tempImgCanvas.toDataURL();
+  
+  var displayImage = new Image();
+  displayImage.onload = function() {testImgContext.drawImage(displayImage,0,0,canvasWidth/2,canvasHeight/2); processingNote(false);}
+  displayImage.src = testImage;
+  
+}
+
+
+function launchTestWindow()
+{
+  processingNote(true);
+  setTimeout("updateTestWindow();showPopup('testImageWindow');",100);
+}
 
 
 function autodetectCurves()
