@@ -124,7 +124,7 @@
 	<hr />
 	<p align="center"><input type="button" id="autoFGBtn" value="FG" style="width:75px;" onClick="colorPickerWindow('fg');"><input type="button" id="autoBGBtn" value="BG" style="width:75px;" onClick="colorPickerWindow('bg');"></p>
 	<p align="center"><input type="button" value="Box" style="width:50px;" onClick="boxPaint();"><input type="button" value="Pen" style="width:50px;" onClick="penPaint();"><input type="button" value="Erase" style="width:50px;" onClick="eraser();"></p>
-	<p align="center"><input type="button" value="Test" style="width: 75px;" onClick="showPopup('testImageWindow');"><input type="button" value="SCAN!" style="width: 75px;" onClick="showPopup('autoSettings');"></p>
+	<p align="center"><input type="button" value="Test" style="width: 75px;" onClick="launchTestWindow();"><input type="button" value="SCAN!" style="width: 75px;" onClick="showPopup('autoSettings');"></p>
 	<hr />
 	<p align="center"><input id="removeLastBtn" type="button" value="Delete" onClick="deleteSpecificPoint();" style="width: 75px;"><input id="clearAllBtn" type="button" value="Clear All" onCLick="clearPoints();" style="width: 75px;"></p>
 	<p align="center"><input type="button" value="Create .CSV" id="saveBtn" onClick="saveData();" style="width:150px;"></p>
@@ -257,9 +257,12 @@
 	</div>
 
 	<div id="testImageWindow" class="popup">
-	<p align="center"><b>Test Window</b></p>
-	<p align="center"><img src="" /><p>
-	<p align="center"><input type="button" value="Close" onClick="closePopup('testImageWindow');"></p>
+	<p align="center"><b>Fine Tuning</b></p>
+	<p>&nbsp;</p>
+	<p align="center">Detection Mode: <input type="radio" name="colorSelectionMode" id="colorModeFG" checked>Foreground <input type="radio" name="colorSelectionMode" id="colorModeBG"> Background</p>
+	<p align="center"> Color Distance: <input type="text" value="10" id="colorDistance" size="3">&nbsp;&nbsp;<input type="button" value="Re-scan" onclick="processingNote(true); setTimeout('updateTestWindow();',100);"></p>
+	<p align="center"><canvas id="testImg" width="400" height="300"></canvas></p>
+	<p align="center">Number of Points:<input type="text" id="numberOfPointsToScan" size="3"> <input type="button" value="Get Points" onClick="">&nbsp;&nbsp;<input type="button" value="Cancel" onClick="closePopup('testImageWindow');"></p>
 	</div>
 
 	<div id="na" class="popup" style="width:500px;">
