@@ -57,10 +57,9 @@
 	<td class="standardToolbar" valign="top"> 
 	
 		<!-- Permanent set of tools -->
+		
 		<input type="button" onClick="showSidebar('editImageToolbar');" value="Edit Image" style="margin: 0 5px;">
-		<input type="button" id="xybtn" value="X-Y" onClick="setAxes('XY');" style="margin: 0 5px;">
-		<input type="button" id="polarbtn" value="Polar" onClick="setAxes('polar')" style="margin: 0 5px;">
-		<input type="button" id="ternarybtn" value="Ternary" onClick="setAxes('ternary');" style="margin: 0 5px;">
+		<input type="button" id="plottypebtn" value="Define Axes" onClick="showPopup('axesList');" style="margin: 0 5px;">
 		<input type="button" onClick="acquireData();" value="Acquire Data" style="margin: 0 5px;">
 		<input type="button" onClick="showPopup('aboutNote');" value="About" style="margin: 0 5px;">
 		
@@ -147,6 +146,21 @@
 <!-- popup windows go here -->
 
 	<div id="shadow" style="width:100%; height:100%; background-color: rgba(0,0,0,0.3); position:absolute; top:0px; left:0px; z-index:50; visibility:hidden;">
+	</div>
+
+	<div id="axesList" class="popup" style="width: 200px;">
+	<p align="center"><b>Choose Plot Type</b></p>
+	<p>&nbsp;</p>
+	<center>
+	<table>
+	<tr><td><input type="radio" name="plotlisting" id="r_xy" checked></td><td>X-Y</td></tr>
+	<tr><td><input type="radio" name="plotlisting" id="r_polar"></td><td>Polar</td></tr>
+	<tr><td><input type="radio" name="plotlisting" id="r_ternary"></td><td>Ternary</td></tr>
+	<tr><td><input type="radio" name="plotlisting" id="r_map"></td><td>Map</td></tr>
+	</table>
+	</center>
+	<p>&nbsp;</p>
+	<p align="center"><input type="button" value="Align Axes" onClick="initiatePlotAlignment();">&nbsp;<input type="button" value="Cancel" onClick="closePopup('axesList');"></p>
 	</div>
 
 	<div id="xyAlignment" class="popup" style="width: 200px;">
