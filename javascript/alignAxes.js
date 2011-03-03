@@ -48,6 +48,25 @@ var axesAlignmentData = [];
 /** Plot type. Options: 'XY', 'bar', 'polar', 'ternary' */
 var plotType; 
 
+function initiatePlotAlignment()
+{
+  xyEl = document.getElementById('r_xy');
+  polarEl = document.getElementById('r_polar');
+  ternaryEl = document.getElementById('r_ternary');
+  mapEl = document.getElementById('r_map');
+  
+  closePopup('axesList');
+  
+  if (xyEl.checked == true)
+    setAxes('XY');
+  else if(polarEl.checked == true)
+    setAxes('polar');
+  else if(ternaryEl.checked == true)
+    setAxes('ternary');
+  else if(mapEl.checked == true)
+    setAxes('map');
+}
+
 /**
  * Entry point for Axes alignment. 
  * @param {String} ax_mode Plot Type. Options: 'XY', 'bar', 'polar', 'ternary'
