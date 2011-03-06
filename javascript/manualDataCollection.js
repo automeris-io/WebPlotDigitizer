@@ -27,7 +27,7 @@
 
 /* Selected Data Variables */
 var xyData; // Raw data
-var pointsPicked; // number of data points picked.
+var pointsPicked = 0; // number of data points picked.
 
 function acquireData()
 {
@@ -53,10 +53,10 @@ function pickPoints() // select data points.
 	{
 		removeAllMouseEvents();
 		addMouseEvent('click',clickPoints,true);
-		pointsPicked = 0;
-		xyData = [];
+		//pointsPicked = 0;
+		//xyData = [];
 		pointsStatus(pointsPicked);
-		redrawCanvas();
+		//redrawCanvas();
 		showSidebar('manualMode');
 	}
 }
@@ -86,6 +86,8 @@ function clearPoints() // clear all markings.
 	pointsPicked = 0;
 	pointsStatus(pointsPicked);
 	redrawCanvas();
+	markedScreen = currentScreen;
+	
 	removeAllMouseEvents();
 }
 
@@ -115,7 +117,9 @@ function undoPointSelection()
 function pointsStatus(pn) // displays the number of points picked.
 {
 	var points = document.getElementById('pointsStatus');
+	var autoPoints = document.getElementById('autoPointsStatus');
 	points.innerHTML = pn;
+	autoPoints.innerHTML = pn;
 }
 
 function deleteSpecificPoint()
