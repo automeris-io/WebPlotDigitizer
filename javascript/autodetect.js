@@ -39,6 +39,8 @@ var drawingBox = false;
 var drawingPen = false;
 var drawingEraser = false;
 
+var binaryData;
+
 
 function colorPickerWindow(cmode)
 {
@@ -302,7 +304,69 @@ function launchTestWindow()
 }
 
 
-function autodetectCurves()
+function scanPlot()
 {
+  closePopup("testImageWindow");
+  /* This is only a brute forced algorithm */
+  xyData = [];
+  pointsPicked = 0;
+  redrawCanvas();
+  markedScreen = currentScreen;
+  
+  lineThicknessEl = document.getElementById("lineThickness");
+  lineThickness = parseInt(lineThicknessEl.value);
+  
+  dw = canvasWidth;
+  dh = canvasHeight;
+  
+  blobAvg = new Array();
+  
+  for(var coli = 0; coli < dw; coli++)
+  {
+    blobs = -1;
+    firstbloby = -2.0*lineThickness;
+    bi = 0;
+       
+    for(var rowi = 0; rowi < dh; rowi++)
+    {
+	if (binaryData[rowi][coli] == true)
+	{
+	  if (rowi > firstbloby + lineThickness)
+	  {
+	    blobs = blobs + 1;
+	    bi = 1;
+	    blobAvg[blobs] = rowi;
+	    firstbloby = rowi;
+	  }
+	  else
+	  {
+	    bi = bi + 1;
+	    blobAvg[blobs] = parseFloat((blobAvg[blobs]*(bi-1.0) + rowi)/parseFloat(bi));
+	  }
+	}
+	
+    }
+    if (blobs >= 0)
+    {
+	xi = coli;
+	for (var blbi = 0; blbi <= blobs; blbi++)
+	{
+	  yi = blobAvg[blbi];
+	  xyData[pointsPicked] = new Array();
+	  xyData[pointsPicked][0] = parseFloat(xi);
+	  xyData[pointsPicked][1] = parseFloat(yi);
+	  pointsPicked = pointsPicked + 1;	
+  
+	  ctx.beginPath();
+	  ctx.fillStyle = "rgb(200,0,200)";
+	  ctx.arc(xi,yi,3,0,2.0*Math.PI,true);
+	  ctx.fill();
+	  
+	}
+    }
+    
+  }
+	
+  pointsStatus(pointsPicked);  
 }
 
