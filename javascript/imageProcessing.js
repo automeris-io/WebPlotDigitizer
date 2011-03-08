@@ -25,11 +25,16 @@
 
 /* This file contains image processing functions */
 
+/**
+ * @fileoverview Image Processing functions.
+ * @version 2.0
+ * @author Ankit Rohatgi ankitrohatgi@hotmail.com
+ */
 
-/* Finds differences between two sets of ImageData and returns a difference matrix
- * The difference matrix is zero for similar pixels, but 1 where pixels don't match
- * 
- * The height and width of the data is assumed to be that of the canvas.
+/** 
+ * Finds differences between two sets of ImageData and returns a difference matrix. 'true' where unmatched, 'false' where pixels match.
+ * @params {ImageData} d1 first ImageData
+ * @params {ImageData} d2 second ImageData
  */
 function findDifference(d1,d2)
 {
@@ -59,7 +64,9 @@ function findDifference(d1,d2)
     return diff;
 }
 
-/* Copies pixels based on the difference matrix. */
+/**
+ * Copies pixels based on the difference matrix. 
+ */
 function copyUsingDifference(copyTo, copyFrom, diff)
 {
     var dw = canvasWidth;
@@ -81,7 +88,9 @@ function copyUsingDifference(copyTo, copyFrom, diff)
     return copyTo;
 }
 
-// create BW image based on the colors specified.
+/** 
+ * create BW image based on the colors specified.
+ */
 function colorSelect(imgd, mode, colorRGB, tol)
 {
     dw = canvasWidth;
@@ -127,7 +136,9 @@ function colorSelect(imgd, mode, colorRGB, tol)
     return seldata;
 }
 
-// create BW image based on the colors but only in valid region of difference matrix.
+/**
+ * create BW image based on the colors but only in valid region of difference matrix.
+ */
 function colorSelectDiff(imgd, mode, colorRGB, tol, diff)
 {
     dw = canvasWidth;
@@ -173,6 +184,9 @@ function colorSelectDiff(imgd, mode, colorRGB, tol, diff)
     return seldata;
 }
 
+/**
+ * Populate an ImageData array based on a binary data matrix.
+ */
 function binaryToImageData(bwdata,imgd)
 {
     dw = canvasWidth;
@@ -196,5 +210,4 @@ function binaryToImageData(bwdata,imgd)
     
     return imgd;
 }
-
 

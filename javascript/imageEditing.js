@@ -23,13 +23,17 @@
 
 */
 
-/* This file contains functions to handle image editing functions */
-
-
+/**
+ * @fileoverview Image Editing functions.
+ * @version 2.0
+ * @author Ankit Rohatgi ankitrohatgi@hotmail.com
+ */
 var cropStatus = 0;
 var cropCoordinates = [0,0,0,0];
 
-
+/**
+ * Flip picture horizontally
+ */
 function hflip()
 {
 	processingNote(true);
@@ -57,6 +61,9 @@ function hflip()
 	processingNote(false);
 }
 
+/**
+ * Flip picture vertically
+ */
 function vflip()
 {
 	processingNote(true);
@@ -84,6 +91,9 @@ function vflip()
 	processingNote(false);
 }
 
+/**
+ * Enable crop mode
+ */
 function cropPlot() // crop image
 {
 	redrawCanvas();
@@ -93,6 +103,9 @@ function cropPlot() // crop image
 	addMouseEvent('mousemove',cropMousemove,true);
 }
 
+/**
+ * Crop mode - mouse down
+ */
 function cropMousedown(ev)
 {
 	cropCoordinates[0] = parseInt(ev.layerX);
@@ -100,6 +113,9 @@ function cropMousedown(ev)
 	cropStatus = 1;
 }
 
+/**
+ * Crop mode - mouse up
+ */
 function cropMouseup(ev)
 {
       cropCoordinates[2] = parseInt(ev.layerX);
@@ -129,6 +145,9 @@ function cropMouseup(ev)
       
 }
 
+/**
+ * Crop mode - mouse move
+ */
 function cropMousemove(ev)
 {
       // this paints a rectangle as the mouse moves
@@ -140,11 +159,17 @@ function cropMousemove(ev)
       }
 }
 
+/**
+ * Restore to original image
+ */
 function restoreOriginalImage()
 {
 	loadImage(originalImage);
 }
 
+/**
+ * Rotate image by a certain specified angle. Not implemented yet.
+ */
 function rotateCanvas() // Rotate by a specified amount.
 {
 }
