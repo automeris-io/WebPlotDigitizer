@@ -45,7 +45,7 @@ var xyAxes;
 /** Axes alignment data */
 var axesAlignmentData = [];
 
-/** Plot type. Options: 'XY', 'bar', 'polar', 'ternary' */
+/** Plot type. Options: 'XY', 'bar', 'polar', 'ternary' or 'map' */
 var plotType; 
 
 function initiatePlotAlignment()
@@ -96,6 +96,11 @@ function setAxes(ax_mode)
 		axesNmax = 3;
 		showPopup('ternaryAxesInfo');
 	}
+	else if (plotType == 'map')
+	{
+		axesNmax = 2;
+		showPopup('mapAxesInfo');
+	}
 }
 
 /**
@@ -137,6 +142,10 @@ function pickCorners(ev)
 				else if (plotType == 'ternary')
 				{
 					showPopup('ternaryAlignment');
+				}
+				else if (plotType == 'map')
+				{
+					showPopup('mapAlignment');
 				}
 
 				redrawCanvas();
@@ -198,12 +207,21 @@ function alignAxes()
     {
 	var range1El = document.getElementById('range0to1');
 	var range100El = document.getElementById('range0to100');
+	
 	if (range100El.checked == true)
 	  axesAlignmentData[0] = true;
 	else
 	  axesAlignmentData[0] = false;
 	
 	closePopup('ternaryAlignment');
+    }
+    else if (plotType == 'map')
+    {
+	var scaleLength = document.getElementById('scaleLength');
+	
+	axesAlignmentData[0] = parseFloat(scaleLength.value);
+	
+	closePopup('mapAlignment');
     }
     
 }

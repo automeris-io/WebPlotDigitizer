@@ -26,7 +26,7 @@
 /* This file contains manual data collection functions */
 
 /* Selected Data Variables */
-var xyData; // Raw data
+var xyData = new Array(); // Raw data
 var pointsPicked = 0; // number of data points picked.
 
 function acquireData()
