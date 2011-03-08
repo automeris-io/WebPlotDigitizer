@@ -2,14 +2,59 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    version="1.1"
    width="300"
    height="250"
-   id="svg2">
+   id="svg2"
+   inkscape:version="0.47 r22583"
+   sodipodi:docname="ternaryaxes.svg">
+  <metadata
+     id="metadata5497">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1440"
+     inkscape:window-height="845"
+     id="namedview5495"
+     showgrid="false"
+     inkscape:zoom="0.956"
+     inkscape:cx="150"
+     inkscape:cy="125"
+     inkscape:window-x="-4"
+     inkscape:window-y="-3"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
   <defs
      id="defs4">
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 125 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="300 : 125 : 1"
+       inkscape:persp3d-origin="150 : 83.333333 : 1"
+       id="perspective5499" />
     <marker
        refX="0"
        refY="0"
@@ -84,29 +129,29 @@
     </marker>
   </defs>
   <g
-     transform="translate(0,-802.36218)"
+     transform="translate(0,-815.96051)"
      id="layer1">
     <path
        d="m 47.816038,1010.4721 196.131522,0 L 145.8818,843.57965 47.816038,1010.4721 z"
        id="path8314"
        style="fill:none;stroke:#000000;stroke-width:3.88827324" />
     <path
-       d="m 53.465348,179.70297 a 5.9405942,5.4455447 0 1 1 -11.881189,0 5.9405942,5.4455447 0 1 1 11.881189,0 z"
+       d="m 53.465348,179.70297 a 5.9405945,5.445545 0 1 1 -11.881189,0 5.9405945,5.445545 0 1 1 11.881189,0 z"
        transform="translate(195.0495,829.09486)"
        id="path3096-7"
        style="fill:#ff0000;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
     <path
-       d="m 53.465348,179.70297 a 5.9405942,5.4455447 0 1 1 -11.881189,0 5.9405942,5.4455447 0 1 1 11.881189,0 z"
+       d="m 53.465348,179.70297 a 5.9405945,5.445545 0 1 1 -11.881189,0 5.9405945,5.445545 0 1 1 11.881189,0 z"
        transform="translate(-0.99009346,830.08495)"
        id="path3096-2"
        style="fill:#ff0000;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
     <path
-       d="m 53.465348,179.70297 a 5.9405942,5.4455447 0 1 1 -11.881189,0 5.9405942,5.4455447 0 1 1 11.881189,0 z"
+       d="m 53.465348,179.70297 a 5.9405945,5.445545 0 1 1 -11.881189,0 5.9405945,5.445545 0 1 1 11.881189,0 z"
        transform="translate(99.999997,663.74831)"
        id="path3096-3"
        style="fill:#ff0000;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
     <flowRoot
-       transform="matrix(1,0,0,1.1234685,150.49505,646.68129)"
+       transform="matrix(1,0,0,1.1234685,19.741912,832.87376)"
        id="flowRoot3138"
        xml:space="preserve"
        style="font-size:22px;font-style:normal;font-weight:normal;fill:#ff0000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"><flowRegion
@@ -118,7 +163,7 @@
            id="rect3142"
            style="font-size:22px;fill:#ff0000" /></flowRegion><flowPara
          id="flowPara3144">1</flowPara></flowRoot>    <flowRoot
-       transform="translate(13.594922,851.31382)"
+       transform="translate(226.98404,854.4519)"
        id="flowRoot3138-4"
        xml:space="preserve"
        style="font-size:22px;font-style:normal;font-weight:normal;fill:#ff0000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"><flowRegion
@@ -130,7 +175,7 @@
            id="rect3142-7"
            style="font-size:22px;fill:#ff0000" /></flowRegion><flowPara
          id="flowPara3144-6">2</flowPara></flowRoot>    <flowRoot
-       transform="translate(244.288,846.36332)"
+       transform="translate(154.32984,661.21688)"
        id="flowRoot3138-5"
        xml:space="preserve"
        style="font-size:22px;font-style:normal;font-weight:normal;fill:#ff0000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"><flowRegion
@@ -165,31 +210,31 @@
          y="209.90099"
          id="tspan6927" /></text>
     <text
-       x="209.90099"
-       y="918.69879"
+       x="69.73362"
+       y="924.97498"
        id="text8360"
        xml:space="preserve"
        style="font-size:18px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"><tspan
-         x="209.90099"
-         y="918.69879"
+         x="69.73362"
+         y="924.97498"
          id="tspan8362">a</tspan></text>
     <text
-       x="65.346535"
-       y="922.65924"
+       x="142.7524"
+       y="1034.584"
        id="text8364"
        xml:space="preserve"
        style="font-size:18px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"><tspan
-         x="65.346535"
-         y="922.65924"
+         x="142.7524"
+         y="1034.584"
          id="tspan8366">b</tspan></text>
     <text
-       x="141.58415"
-       y="1033.5503"
+       x="206.4377"
+       y="920.57959"
        id="text8368"
        xml:space="preserve"
        style="font-size:18px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"><tspan
-         x="141.58415"
-         y="1033.5503"
+         x="206.4377"
+         y="920.57959"
          id="tspan8370">c</tspan></text>
   </g>
 </svg>

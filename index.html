@@ -193,9 +193,8 @@
 	<p align="center"><b>Point 2</b> <!-- <input type="checkbox" id="xlog"> Log Scale --></p>
 	<p align="center">R<sub>2</sub>: <input type="text" size="6" id="rpoint2" value="1"></p>
 	<p align="center">Θ<sub>2</sub>: <input type="text" size="6" id="thetapoint2" value="1"></p>
-	<p align="center"><input type="radio" id="degrees" name="angleUnits"> Degrees <input type="radio" id="radians" name="angleUnits" checked> Radians</p>
-	<p align="center"><input type="checkbox" id="clockwise"> Clockwise</p>
-	<p>&nbsp;</p>
+	<p align="center"><input type="radio" id="degrees" name="angleUnits" checked> Degrees <input type="radio" id="radians" name="angleUnits"> Radians</p>
+	<p align="center" style="visibility:hidden;"><input type="checkbox" id="clockwise"> Clockwise</p>
 	<p align="center"><input type="button" value="OK" onClick="alignAxes();"></p>
 	</div>
 
@@ -219,7 +218,7 @@
 	<p align="center"><b>Align X-Y Axes</b></p>
 	<p>&nbsp;</p>
 	<p align="center"><img src="images/xyaxes.png" /></p>
-	<p align="center">Select four corners of the axes starting with the origin and going clockwise.</p>
+	<p align="center">Click four corners of the axes starting with the origin and going clockwise.</p>
 	<p>&nbsp;</p>
 	<p align="center"><input type="button" value="Proceed" onClick="closePopup('xyAxesInfo')"></p>
 	</div>
@@ -237,7 +236,7 @@
 	<p align="center"><b>Align Polar Axes</b></p>
 	<p>&nbsp;</p>
 	<p align="center"><img src="images/polaraxes.png" /></p>
-	<p align="center">Select four points as shown to align the axes.</p>
+	<p align="center">Click on the center, followed by two known points.</p>
 	<p>&nbsp;</p>
 	<p align="center"><input type="button" value="Proceed" onClick="closePopup('polarAxesInfo')"></p>
 	</div>
@@ -246,7 +245,7 @@
 	<p align="center"><b>Align Ternary Axes</b></p>
 	<p>&nbsp;</p>
 	<p align="center"><img src="images/ternaryaxes.png" /></p>
-	<p align="center">Select four points as shown to align the axes.</p>
+	<p align="center">Click on the three corners in the order shown above.</p>
 	<p>&nbsp;</p>
 	<p align="center"><input type="button" value="Proceed" onClick="closePopup('ternaryAxesInfo')"></p>
 	</div>
