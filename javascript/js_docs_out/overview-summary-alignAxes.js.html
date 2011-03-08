@@ -127,6 +127,23 @@ function asd() {
 		      <td>
 			 <code>
 			    <b>
+			       <a href="GLOBALS.html#!s!initiatePlotAlignment">initiatePlotAlignment</a></b>()
+			 </code>
+			 <br>
+			 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			 Start the alignment process here.
+		      </td>
+		   </tr>
+		
+		   <tr bgcolor="white" class="TableRowColor">
+		      <td align="right" valign="top" width="1%">
+			 <font size="-1">
+			    <code>static&nbsp;void</code>
+			 </font>
+		      </td>
+		      <td>
+			 <code>
+			    <b>
 			       <a href="GLOBALS.html#!s!pickCorners">pickCorners</a></b>(&lt;Event&gt; ev)
 			 </code>
 			 <br>
@@ -206,8 +223,30 @@ var xyAxes;
 <span class="comment">/** Axes alignment data */</span>
 var axesAlignmentData = [];
 
-<span class="comment">/** Plot type. Options: 'XY', 'bar', 'polar', 'ternary' */</span>
+<span class="comment">/** Plot type. Options: 'XY', 'bar', 'polar', 'ternary' or 'map' */</span>
 var plotType; 
+
+<span class="comment">/**
+ * Start the alignment process here. Called from the Plot Type option popup.
+ */</span> 
+<span class="reserved">function</span> initiatePlotAlignment()
+{
+  xyEl = document.getElementById(<span class="literal">'r_xy'</span>);
+  polarEl = document.getElementById(<span class="literal">'r_polar'</span>);
+  ternaryEl = document.getElementById(<span class="literal">'r_ternary'</span>);
+  mapEl = document.getElementById(<span class="literal">'r_map'</span>);
+  
+  closePopup(<span class="literal">'axesList'</span>);
+  
+  <span class="reserved">if</span> (xyEl.checked == true)
+    setAxes(<span class="literal">'XY'</span>);
+  <span class="reserved">else</span> <span class="reserved">if</span>(polarEl.checked == true)
+    setAxes(<span class="literal">'polar'</span>);
+  <span class="reserved">else</span> <span class="reserved">if</span>(ternaryEl.checked == true)
+    setAxes(<span class="literal">'ternary'</span>);
+  <span class="reserved">else</span> <span class="reserved">if</span>(mapEl.checked == true)
+    setAxes(<span class="literal">'map'</span>);
+}
 
 <span class="comment">/**
  * Entry point for Axes alignment. 
@@ -230,13 +269,18 @@ var plotType;
 	}
 	<span class="reserved">else</span> <span class="reserved">if</span> (plotType == <span class="literal">'polar'</span>)
 	{
-		axesNmax = 2;
+		axesNmax = 3;
 		showPopup(<span class="literal">'polarAxesInfo'</span>);
 	}
 	<span class="reserved">else</span> <span class="reserved">if</span> (plotType == <span class="literal">'ternary'</span>)
 	{
 		axesNmax = 3;
 		showPopup(<span class="literal">'ternaryAxesInfo'</span>);
+	}
+	<span class="reserved">else</span> <span class="reserved">if</span> (plotType == <span class="literal">'map'</span>)
+	{
+		axesNmax = 2;
+		showPopup(<span class="literal">'mapAxesInfo'</span>);
 	}
 }
 
@@ -280,6 +324,10 @@ var plotType;
 				{
 					showPopup(<span class="literal">'ternaryAlignment'</span>);
 				}
+				<span class="reserved">else</span> <span class="reserved">if</span> (plotType == <span class="literal">'map'</span>)
+				{
+					showPopup(<span class="literal">'mapAlignment'</span>);
+				}
 
 				redrawCanvas();
 		}
@@ -309,31 +357,52 @@ var plotType;
     }
     <span class="reserved">else</span> <span class="reserved">if</span> (plotType == <span class="literal">'polar'</span>)
     {
-	var rEl = document.getElementById(<span class="literal">'rpoint'</span>);
-	var thetaEl = document.getElementById(<span class="literal">'thetapoint'</span>);
+	var r1El = document.getElementById(<span class="literal">'rpoint1'</span>);
+	var theta1El = document.getElementById(<span class="literal">'thetapoint1'</span>);
+	var r2El = document.getElementById(<span class="literal">'rpoint2'</span>);
+	var theta2El = document.getElementById(<span class="literal">'thetapoint2'</span>);
+	
 	var degreesEl = document.getElementById(<span class="literal">'degrees'</span>);
 	var radiansEl = document.getElementById(<span class="literal">'radians'</span>);
 	var orientationEl = document.getElementById(<span class="literal">'clockwise'</span>);
 	
-	axesAlignmentData[0] = parseFloat(rEl.value);
-	axesAlignmentData[1] = parseFloat(thetaEl.value);
+	axesAlignmentData[0] = parseFloat(r1El.value);
+	axesAlignmentData[1] = parseFloat(theta1El.value);
+	axesAlignmentData[2] = parseFloat(r2El.value);
+	axesAlignmentData[3] = parseFloat(theta2El.value);
 	
 	<span class="reserved">if</span> (degreesEl.checked == true)
-	    axesAlignmentData[2] = 1;
+	    axesAlignmentData[4] = 1;
 	<span class="reserved">else</span>
-	    axesAlignmentData[2] = 0;
+	    axesAlignmentData[4] = 0;
 	
 	<span class="reserved">if</span> (orientationEl.checked == true)
-	    axesAlignmentData[3] = 1;
+	    axesAlignmentData[5] = 1;
 	<span class="reserved">else</span>
-	    axesAlignmentData[3] = 0;
+	    axesAlignmentData[5] = 0;
 	
 	
 	closePopup(<span class="literal">'polarAlignment'</span>);
     }
     <span class="reserved">else</span> <span class="reserved">if</span> (plotType == <span class="literal">'ternary'</span>)
     {
+	var range1El = document.getElementById(<span class="literal">'range0to1'</span>);
+	var range100El = document.getElementById(<span class="literal">'range0to100'</span>);
+	
+	<span class="reserved">if</span> (range100El.checked == true)
+	  axesAlignmentData[0] = true;
+	<span class="reserved">else</span>
+	  axesAlignmentData[0] = false;
+	
 	closePopup(<span class="literal">'ternaryAlignment'</span>);
+    }
+    <span class="reserved">else</span> <span class="reserved">if</span> (plotType == <span class="literal">'map'</span>)
+    {
+	var scaleLength = document.getElementById(<span class="literal">'scaleLength'</span>);
+	
+	axesAlignmentData[0] = parseFloat(scaleLength.value);
+	
+	closePopup(<span class="literal">'mapAlignment'</span>);
     }
     
 }
@@ -395,6 +464,6 @@ var plotType;
 <font size="-1">
 
 </font>
-<div class="jsdoc_ctime">Documentation generated by <a href="http://jsdoc.sourceforge.net/" target="_parent">JSDoc</a> on Sun Feb 27 19:51:40 2011</div>
+<div class="jsdoc_ctime">Documentation generated by <a href="http://jsdoc.sourceforge.net/" target="_parent">JSDoc</a> on Mon Mar  7 23:54:38 2011</div>
 </body>
 </html>

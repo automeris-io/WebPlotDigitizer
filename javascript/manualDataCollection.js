@@ -23,12 +23,19 @@
 
 */
 
-/* This file contains manual data collection functions */
+/**
+ * @fileoverview Manual data collection
+ * @version 2.0
+ * @author Ankit Rohatgi ankitrohatgi@hotmail.com
+ */
 
 /* Selected Data Variables */
 var xyData = new Array(); // Raw data
 var pointsPicked = 0; // number of data points picked.
 
+/**
+ * Called when the 'acquire data' button is pressed. 
+ */
 function acquireData()
 {
 	if(axesPicked == 0)
@@ -43,6 +50,9 @@ function acquireData()
 	}
 }
 
+/**
+ * Initiate Manual data acquisition. Enables data capture on the canvas.
+ */ 
 function pickPoints() // select data points.
 {
 	if (axesPicked == 0)
@@ -61,6 +71,9 @@ function pickPoints() // select data points.
 	}
 }
 
+/**
+ * Triggered by clicking on canvas, stores position in xyData global array.
+ */
 function clickPoints(ev)
 {
 	xi = ev.layerX;
@@ -80,7 +93,9 @@ function clickPoints(ev)
 
 }
 
-
+/**
+ * Called when 'clear all' is hit. Clears data collected, redraws canvas. 
+ */
 function clearPoints() // clear all markings.
 {
 	pointsPicked = 0;
@@ -91,6 +106,9 @@ function clearPoints() // clear all markings.
 	removeAllMouseEvents();
 }
 
+/**
+ * Deletes the last point picked.
+ */
 function undoPointSelection()
 {
 	if (pointsPicked >= 1)
@@ -114,6 +132,9 @@ function undoPointSelection()
 	}
 }
 
+/**
+ * Updates the displayed number of points on the sidebar.
+ */
 function pointsStatus(pn) // displays the number of points picked.
 {
 	var points = document.getElementById('pointsStatus');
@@ -122,12 +143,18 @@ function pointsStatus(pn) // displays the number of points picked.
 	autoPoints.innerHTML = pn;
 }
 
+/**
+ * Delete specific point close to clicked position.
+ */
 function deleteSpecificPoint()
 {
 	removeAllMouseEvents();
 	addMouseEvent('click',deleteSpecificPointHandler,true);
 }
 
+/**
+ * Handle clicks when in specific point deletion mode
+ */
 function deleteSpecificPointHandler(ev)
 {
 	xi = parseFloat(ev.layerX);

@@ -23,8 +23,11 @@
 
 */
 
-/* This file contains autodetections functions */
-
+/**
+ * @fileoverview Automatic extraction mode functions.
+ * @version 2.0
+ * @author Ankit Rohatgi ankitrohatgi@hotmail.com
+ */
 
 /* Autodetection variables */
 var fg_color = [0,0,0];
@@ -41,7 +44,10 @@ var drawingEraser = false;
 
 var binaryData;
 
-
+/**
+ * Opens the color picker.
+ * @params {String} cmode 'fg' or 'bg'
+ */
 function colorPickerWindow(cmode)
 {
     colorPickerMode = cmode;
@@ -55,6 +61,9 @@ function colorPickerWindow(cmode)
     }
 }
 
+/**
+ * Initiate color picking on canvas.
+ */
 function pickColor()
 {
 	//colorPickerMode = cmode;
@@ -62,6 +71,9 @@ function pickColor()
 	addMouseEvent('click',colorPicker,true);
 }
 
+/**
+ * Handle clicks when picking color.
+ */
 function colorPicker(ev)
 {
 	xi = ev.layerX;
@@ -108,6 +120,9 @@ function colorPicker(ev)
 	}	
 }
 
+/**
+ * Enable Box painting on canvas.
+ */ 
 function boxPaint()
 {
 	removeAllMouseEvents();
@@ -117,6 +132,9 @@ function boxPaint()
 
 }
 
+/**
+ * Handle mouse clicks when painting boxes - Mouse down
+ */
 function boxPaintMousedown(ev)
 {
 	boxCoordinates[0] = parseInt(ev.layerX);
@@ -124,6 +142,9 @@ function boxPaintMousedown(ev)
 	drawingBox = true;
 }
 
+/**
+ * Handle mouse clicks when painting boxes - Mouse up
+ */
 function boxPaintMouseup(ev)
 {
 	boxCoordinates[2] = parseInt(ev.layerX);
@@ -138,6 +159,9 @@ function boxPaintMouseup(ev)
 	drawingBox = false;
 }
 
+/**
+ * Handle mouse clicks when painting boxes - Mouse drag
+ */
 function boxPaintMousedrag(ev)
 {
 	if(drawingBox == true)
@@ -151,6 +175,9 @@ function boxPaintMousedrag(ev)
 	}
 }
 
+/**
+ * Enable pen like painting on screen.
+ */
 function penPaint()
 {
 	removeAllMouseEvents();
@@ -161,6 +188,9 @@ function penPaint()
 
 }
 
+/**
+ * Manage clicks when painting with pen tool - Mouse down
+ */
 function penPaintMousedown(ev)
 {
 	if (drawingPen == false)
@@ -178,6 +208,9 @@ function penPaintMousedown(ev)
 	}
 }
 
+/**
+ * Manage clicks when painting with pen tool - Mouse up
+ */
 function penPaintMouseup(ev)
 {
     ctx.closePath();
@@ -186,6 +219,9 @@ function penPaintMouseup(ev)
     markedScreen = getCanvasData();
 }
 
+/**
+ * Manage clicks when painting with pen tool - Mouse drag
+ */
 function penPaintMousedrag(ev)
 {
     if(drawingPen == true)
@@ -198,7 +234,9 @@ function penPaintMousedrag(ev)
     }
 }
 
-
+/**
+ * Initiate the eraser.
+ */
 function eraser()
 {
 	removeAllMouseEvents();
@@ -209,6 +247,9 @@ function eraser()
 	instantScreen = markedScreen;
 }
 
+/**
+ * Manage mouse events when erasing - Mouse down
+ */
 function eraserMousedown(ev)
 {
     if(drawingEraser == false)
@@ -226,6 +267,9 @@ function eraserMousedown(ev)
     }
 }
 
+/**
+ * Manage mouse events when erasing - Mouse up - this is slow!
+ */
 function eraserMouseup(ev)
 {
     ctx.closePath();
@@ -241,6 +285,9 @@ function eraserMouseup(ev)
     processingNote(false);
 }
 
+/**
+ * Manage mouse events when erasing - Mouse drag
+ */
 function eraserMousedrag(ev)
 {
     if(drawingEraser == true)
@@ -253,6 +300,9 @@ function eraserMousedrag(ev)
     }
 }
 
+/**
+ * Filter based on color and display a test image on the scan settings dialog.
+ */
 function updateTestWindow()
 {
   colorModeEl = document.getElementById('colorModeFG');
@@ -303,7 +353,9 @@ function launchTestWindow()
   setTimeout("updateTestWindow();showPopup('testImageWindow');",100);
 }
 
-
+/**
+ * Automatic curve extraction algorithm.
+ */
 function scanPlot()
 {
   closePopup("testImageWindow");
