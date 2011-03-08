@@ -173,6 +173,14 @@
 	<p align="center"><input type="button" id="xybtn" value="OK" onClick="alignAxes();"></p>
 	</div>
 
+	<div id="mapAlignment" class="popup" style="width: 200px;">
+	<p align="center"><b>Scale Size</b></p>
+	<p>&nbsp;</p>
+	<p align="center"><input type="text" size="6" id="scaleLength" value="1"> Units</p>
+	<p>&nbsp;</p>
+	<p align="center"><input type="button" id="xybtn" value="OK" onClick="alignAxes();"></p>
+	</div>
+
 	<div id="polarAlignment" class="popup" style="width: 200px;">
 	<p align="center"><b>Point 1</b> <!-- <input type="checkbox" id="xlog"> Log Scale --></p>
 	<p align="center">R<sub>1</sub>: <input type="text" size="6" id="rpoint1" value="1"></p>
@@ -206,6 +214,13 @@
 	<p align="center"><input type="button" value="Proceed" onClick="closePopup('xyAxesInfo')"></p>
 	</div>
 
+	<div id="mapAxesInfo" class="popup" style="width: 350px;"> 
+	<p align="center"><b>Align Map To Scale Bar</b></p>
+	<p align="center"><img src="images/map.png" /></p>
+	<p align="center">Click on the two ends of the scale bar on the map.</p>
+	<p align="center"><input type="button" value="Proceed" onClick="closePopup('mapAxesInfo')"></p>
+	</div>
+
 	<div id="polarAxesInfo" class="popup" style="width: 350px;">
 	<p align="center"><b>Align Polar Axes</b></p>
 	<p align="center"><img src="images/polaraxes.png" /></p>
@@ -227,8 +242,8 @@
 	<div id="colorPickerFG" class="popup" style="width:400px;">
 	<p align="center"><b>Specify Plot (Foreground) Color</b></p>
 	<p align="center">&nbsp;</p>
-	<p align="center">R:<input type="text" value="255" id="color_red_fg" size="3">&nbsp;
-	G:<input type="text" id="color_green_fg" value="255" size="3">&nbsp; B:<input type="text" id="color_blue_fg" value="255" size="3">
+	<p align="center">R:<input type="text" value="0" id="color_red_fg" size="3">&nbsp;
+	G:<input type="text" id="color_green_fg" value="0" size="3">&nbsp; B:<input type="text" id="color_blue_fg" value="0" size="3">
 	 <input type="button" value="Color Picker" onClick="closePopup('colorPickerFG');pickColor();"></p>
 	<p align="center">&nbsp;</p>
 	<p align="center"><input type="button" value="Done" onClick="closePopup('colorPickerFG');"></p>
@@ -266,18 +281,13 @@
 	<p align="center"><b>Fine Tuning</b></p>
 	<p>&nbsp;</p>
 	<p align="center">Detection Mode: <input type="radio" name="colorSelectionMode" id="colorModeFG" checked>Foreground <input type="radio" name="colorSelectionMode" id="colorModeBG"> Background</p>
-	<p align="center"> Color Distance: <input type="text" value="10" id="colorDistance" size="3">&nbsp;&nbsp;<input type="button" value="Re-scan" onclick="processingNote(true); setTimeout('updateTestWindow();',100);"></p>
+	<p align="center"> Color Distance: <input type="text" value="40" id="colorDistance" size="3">&nbsp;&nbsp;<input type="button" value="Re-scan" onclick="processingNote(true); setTimeout('updateTestWindow();',100);"></p>
 	<p align="center"><canvas id="testImg" width="400" height="300"></canvas></p>
-	<p align="center">Step Size [ΔX,ΔY] = [<input type="text" size="3" id="xStep" value="3">,<input type="text" size="3" id="yStep" value="3">] Pixels</p>
+	<p align="center">Step Size [ΔX,ΔY] = [<input type="text" size="3" id="xStep" value="5">,<input type="text" size="3" id="yStep" value="5">] Pixels</p>
 	<p align="center"><input type="button" value="Get Points" onClick="scanPlot();">&nbsp;&nbsp;<input type="button" value="Cancel" onClick="closePopup('testImageWindow');"></p>
 	</div>
 
-	<div id="na" class="popup" style="width:500px;">
-	<p align="center"><b>This feature is not yet available!</b></p>
-	<p align="center">Sorry, this has yet to be implemented. This might be fixed in future versions.</p>
-	<p align="center"><input type="button" value="Close" onClick="closePopup('na');"></p>
-	</div>
-
+	
 	<div id="wait" style="position:absolute; top:0px; right: 30px; border: thin white solid; background: black; color: white; width:200px; margin: 0px 0px; padding: 0px 0px; -moz-border-radius: 20px; visibility:hidden;">
 	<p align="center" style="padding:0px 0px; margin: 0px 0px;"><b>Processing...</b></p>
 	</div>

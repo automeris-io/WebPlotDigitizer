@@ -74,6 +74,54 @@ function saveData()
 				tarea.value = tarea.value + xf + ',' + yf + '\n';
 			    }
 			}
+			else if (plotType == 'map')
+			{
+			    
+			    mx0 = 0.0; my0 = canvasHeight;
+			    mx1 = 0.0; my1 = 0.0;
+			    mx2 = canvasWidth; my2 = 0;
+			    mx3 = canvasWidth; my3 = canvasHeight;
+			    
+			    x1 = mx1 - mx0;
+			    y1 = -(my1 - my0);
+			    
+			    x3 = mx3 - mx0;
+			    y3 = -(my3 - my0);
+			    		
+			    scaleSize = axesAlignmentData[0];
+			    
+			    sx1 = xyAxes[0][0];
+			    sy1 = xyAxes[0][1];
+			    sx2 = xyAxes[1][0];
+			    sy2 = xyAxes[1][1];
+			    
+			    scaleLength = scaleSize/Math.sqrt((sx1-sx2)*(sx1-sx2) + (sy1-sy2)*(sy1-sy2));
+			    		    
+			    xmin = 0;
+			    xmax = canvasWidth*scaleLength;
+			    
+			    ymin = 0;
+			    ymax = canvasHeight*scaleLength;
+
+			    xm = xmax - xmin;
+			    ym = ymax - ymin;
+			
+			    det = x1*y3 - y1*x3;
+
+			    x0 = xmin;
+			    y0 = ymin;
+
+			    for(ii = 0; ii<pointsPicked; ii++)
+			    {
+				xr = xyData[ii][0] - mx0;
+				yr = - (xyData[ii][1] - my0);
+				// find the transform
+				xf = (-y1*xm*xr + x1*xm*yr)/det + x0;
+				yf = (y3*ym*xr - x3*ym*yr)/det + y0;
+				tarea.value = tarea.value + xf + ',' + yf + '\n';
+			    }
+			    
+			}
 			else if (plotType == 'polar')
 			{
 			    // Center: 0
