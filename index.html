@@ -44,6 +44,10 @@
 <script src="javascript/imageProcessing.js" language="JavaScript"></script>
 <script src="javascript/csvgenerator.js" language="JavaScript"></script>
 
+<!--
+<script src="combined.js" language="JavaScript"></script>
+-->
+
 </head>
 
 <body onLoad="javascript:init();">
@@ -170,6 +174,7 @@
 	<p align="center"><b>Y Range</b> <!-- <input type="checkbox" id="ylog"> Log Scale --></p>
 	<p align="center">Min: <input type="text" size="6" id="ymin" value="0"></p>
 	<p align="center">Max: <input type="text" size="6" id="ymax" value="1"></p>
+	<p>&nbsp;</p>
 	<p align="center"><input type="button" id="xybtn" value="OK" onClick="alignAxes();"></p>
 	</div>
 
@@ -190,13 +195,16 @@
 	<p align="center">Θ<sub>2</sub>: <input type="text" size="6" id="thetapoint2" value="1"></p>
 	<p align="center"><input type="radio" id="degrees" name="angleUnits"> Degrees <input type="radio" id="radians" name="angleUnits" checked> Radians</p>
 	<p align="center"><input type="checkbox" id="clockwise"> Clockwise</p>
+	<p>&nbsp;</p>
 	<p align="center"><input type="button" value="OK" onClick="alignAxes();"></p>
 	</div>
 
 	<div id="ternaryAlignment" class="popup" style="width: 200px;">
 	<p align="left"><b>Select Range of Variables</b></p>
+	<p>&nbsp;</p>
 	<p align="left"><input type="radio" id="range0to1" name="ternaryRange" checked> 0 to 1 </p>
 	<p align="left"><input type="radio" id="range0to100" name="ternaryRange"> 0 to 100</p>
+	<p>&nbsp;</p>
 	<p align="center"><input type="button" value="OK" onClick="alignAxes();"></p>
 	</div>
 
@@ -209,36 +217,40 @@
 
 	<div id="xyAxesInfo" class="popup" style="width: 350px;"> 
 	<p align="center"><b>Align X-Y Axes</b></p>
+	<p>&nbsp;</p>
 	<p align="center"><img src="images/xyaxes.png" /></p>
 	<p align="center">Select four corners of the axes starting with the origin and going clockwise.</p>
+	<p>&nbsp;</p>
 	<p align="center"><input type="button" value="Proceed" onClick="closePopup('xyAxesInfo')"></p>
 	</div>
 
 	<div id="mapAxesInfo" class="popup" style="width: 350px;"> 
 	<p align="center"><b>Align Map To Scale Bar</b></p>
+	<p>&nbsp;</p>
 	<p align="center"><img src="images/map.png" /></p>
 	<p align="center">Click on the two ends of the scale bar on the map.</p>
+	<p>&nbsp;</p>
 	<p align="center"><input type="button" value="Proceed" onClick="closePopup('mapAxesInfo')"></p>
 	</div>
 
 	<div id="polarAxesInfo" class="popup" style="width: 350px;">
 	<p align="center"><b>Align Polar Axes</b></p>
+	<p>&nbsp;</p>
 	<p align="center"><img src="images/polaraxes.png" /></p>
 	<p align="center">Select four points as shown to align the axes.</p>
+	<p>&nbsp;</p>
 	<p align="center"><input type="button" value="Proceed" onClick="closePopup('polarAxesInfo')"></p>
 	</div>
 
 	<div id="ternaryAxesInfo" class="popup" style="width: 350px;">
 	<p align="center"><b>Align Ternary Axes</b></p>
+	<p>&nbsp;</p>
 	<p align="center"><img src="images/ternaryaxes.png" /></p>
 	<p align="center">Select four points as shown to align the axes.</p>
+	<p>&nbsp;</p>
 	<p align="center"><input type="button" value="Proceed" onClick="closePopup('ternaryAxesInfo')"></p>
 	</div>
 
-	<div id="autoSetRange" class="popup" style="width: 350px;">
-	Specify Xmin, Xmax, dX or Number of points overall.
-	</div>
-	
 	<div id="colorPickerFG" class="popup" style="width:400px;">
 	<p align="center"><b>Specify Plot (Foreground) Color</b></p>
 	<p align="center">&nbsp;</p>
@@ -286,7 +298,6 @@
 	<p align="center">Step Size [ΔX,ΔY] = [<input type="text" size="3" id="xStep" value="5">,<input type="text" size="3" id="yStep" value="5">] Pixels</p>
 	<p align="center"><input type="button" value="Get Points" onClick="scanPlot();">&nbsp;&nbsp;<input type="button" value="Cancel" onClick="closePopup('testImageWindow');"></p>
 	</div>
-
 	
 	<div id="wait" style="position:absolute; top:0px; right: 30px; border: thin white solid; background: black; color: white; width:200px; margin: 0px 0px; padding: 0px 0px; -moz-border-radius: 20px; visibility:hidden;">
 	<p align="center" style="padding:0px 0px; margin: 0px 0px;"><b>Processing...</b></p>

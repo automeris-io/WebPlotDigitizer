@@ -48,6 +48,9 @@ var axesAlignmentData = [];
 /** Plot type. Options: 'XY', 'bar', 'polar', 'ternary' or 'map' */
 var plotType; 
 
+/**
+ * Start the alignment process here. Called from the Plot Type option popup.
+ */ 
 function initiatePlotAlignment()
 {
   xyEl = document.getElementById('r_xy');

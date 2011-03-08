@@ -78,7 +78,9 @@ function asd() {
 <h4>Summary</h4>
 <p>
 	
-		No overview generated for 'manualDataCollection.js'<BR/><BR/>
+		Manual data collection
+ <BR/><BR/><B>Version: </B>2.0
+ <BR/><BR/><B>Author:</B> Ankit Rohatgi ankitrohatgi@hotmail.com<BR/>
 	
 </p>
 
@@ -112,7 +114,7 @@ function asd() {
 			 </code>
 			 <br>
 			 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			 
+			 Called when the 'acquire data' button is pressed.
 		      </td>
 		   </tr>
 		
@@ -129,7 +131,7 @@ function asd() {
 			 </code>
 			 <br>
 			 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			 
+			 Called when 'clear all' is hit.
 		      </td>
 		   </tr>
 		
@@ -146,7 +148,7 @@ function asd() {
 			 </code>
 			 <br>
 			 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			 
+			 Triggered by clicking on canvas, stores position in xyData global array.
 		      </td>
 		   </tr>
 		
@@ -163,7 +165,7 @@ function asd() {
 			 </code>
 			 <br>
 			 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			 
+			 Delete specific point close to clicked position.
 		      </td>
 		   </tr>
 		
@@ -180,7 +182,7 @@ function asd() {
 			 </code>
 			 <br>
 			 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			 
+			 Handle clicks when in specific point deletion mode
 		      </td>
 		   </tr>
 		
@@ -197,7 +199,7 @@ function asd() {
 			 </code>
 			 <br>
 			 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			 
+			 Initiate Manual data acquisition.
 		      </td>
 		   </tr>
 		
@@ -214,7 +216,7 @@ function asd() {
 			 </code>
 			 <br>
 			 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			 
+			 Updates the displayed number of points on the sidebar.
 		      </td>
 		   </tr>
 		
@@ -231,7 +233,7 @@ function asd() {
 			 </code>
 			 <br>
 			 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			 
+			 Deletes the last point picked.
 		      </td>
 		   </tr>
 		
@@ -267,12 +269,19 @@ function asd() {
 
 */</span>
 
-<span class="comment">/* This file contains manual data collection functions */</span>
+<span class="comment">/**
+ * <span class="attrib">@fileoverview</span> Manual data collection
+ * <span class="attrib">@version</span> 2.0
+ * <span class="attrib">@author</span> Ankit Rohatgi ankitrohatgi<span class="attrib">@hotmail</span>.com
+ */</span>
 
 <span class="comment">/* Selected Data Variables */</span>
-var xyData; <span class="comment">// Raw data</span>
-var pointsPicked; <span class="comment">// number of data points picked.</span>
+var xyData = new Array(); <span class="comment">// Raw data</span>
+var pointsPicked = 0; <span class="comment">// number of data points picked.</span>
 
+<span class="comment">/**
+ * Called when the 'acquire data' button is pressed. 
+ */</span>
 <span class="reserved">function</span> acquireData()
 {
 	<span class="reserved">if</span>(axesPicked == 0)
@@ -287,6 +296,9 @@ var pointsPicked; <span class="comment">// number of data points picked.</span>
 	}
 }
 
+<span class="comment">/**
+ * Initiate Manual data acquisition. Enables data capture on the canvas.
+ */</span> 
 <span class="reserved">function</span> pickPoints() <span class="comment">// select data points.</span>
 {
 	<span class="reserved">if</span> (axesPicked == 0)
@@ -297,14 +309,17 @@ var pointsPicked; <span class="comment">// number of data points picked.</span>
 	{
 		removeAllMouseEvents();
 		addMouseEvent(<span class="literal">'click'</span>,clickPoints,true);
-		pointsPicked = 0;
-		xyData = [];
+		<span class="comment">//pointsPicked = 0;</span>
+		<span class="comment">//xyData = [];</span>
 		pointsStatus(pointsPicked);
-		redrawCanvas();
+		<span class="comment">//redrawCanvas();</span>
 		showSidebar(<span class="literal">'manualMode'</span>);
 	}
 }
 
+<span class="comment">/**
+ * Triggered by clicking on canvas, stores position in xyData global array.
+ */</span>
 <span class="reserved">function</span> clickPoints(ev)
 {
 	xi = ev.layerX;
@@ -324,15 +339,22 @@ var pointsPicked; <span class="comment">// number of data points picked.</span>
 
 }
 
-
+<span class="comment">/**
+ * Called when 'clear all' is hit. Clears data collected, redraws canvas. 
+ */</span>
 <span class="reserved">function</span> clearPoints() <span class="comment">// clear all markings.</span>
 {
 	pointsPicked = 0;
 	pointsStatus(pointsPicked);
 	redrawCanvas();
+	markedScreen = currentScreen;
+	
 	removeAllMouseEvents();
 }
 
+<span class="comment">/**
+ * Deletes the last point picked.
+ */</span>
 <span class="reserved">function</span> undoPointSelection()
 {
 	<span class="reserved">if</span> (pointsPicked &gt;= 1)
@@ -356,18 +378,29 @@ var pointsPicked; <span class="comment">// number of data points picked.</span>
 	}
 }
 
+<span class="comment">/**
+ * Updates the displayed number of points on the sidebar.
+ */</span>
 <span class="reserved">function</span> pointsStatus(pn) <span class="comment">// displays the number of points picked.</span>
 {
 	var points = document.getElementById(<span class="literal">'pointsStatus'</span>);
+	var autoPoints = document.getElementById(<span class="literal">'autoPointsStatus'</span>);
 	points.innerHTML = pn;
+	autoPoints.innerHTML = pn;
 }
 
+<span class="comment">/**
+ * Delete specific point close to clicked position.
+ */</span>
 <span class="reserved">function</span> deleteSpecificPoint()
 {
 	removeAllMouseEvents();
 	addMouseEvent(<span class="literal">'click'</span>,deleteSpecificPointHandler,true);
 }
 
+<span class="comment">/**
+ * Handle clicks when in specific point deletion mode
+ */</span>
 <span class="reserved">function</span> deleteSpecificPointHandler(ev)
 {
 	xi = parseFloat(ev.layerX);
@@ -471,6 +504,6 @@ var pointsPicked; <span class="comment">// number of data points picked.</span>
 <font size="-1">
 
 </font>
-<div class="jsdoc_ctime">Documentation generated by <a href="http://jsdoc.sourceforge.net/" target="_parent">JSDoc</a> on Sun Feb 27 19:51:40 2011</div>
+<div class="jsdoc_ctime">Documentation generated by <a href="http://jsdoc.sourceforge.net/" target="_parent">JSDoc</a> on Mon Mar  7 23:54:38 2011</div>
 </body>
 </html>
