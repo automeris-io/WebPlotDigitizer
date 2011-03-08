@@ -48,6 +48,9 @@ var axesAlignmentData = [];
 /** Plot type. Options: 'XY', 'bar', 'polar', 'ternary' or 'map' */
 var plotType; 
 
+/**
+ * Start the alignment process here. Called from the Plot Type option popup.
+ */ 
 function initiatePlotAlignment()
 {
   xyEl = document.getElementById('r_xy');
@@ -250,8 +253,11 @@ function alignAxes()
 
 */
 
-/* This file contains autodetections functions */
-
+/**
+ * @fileoverview Automatic extraction mode functions.
+ * @version 2.0
+ * @author Ankit Rohatgi ankitrohatgi@hotmail.com
+ */
 
 /* Autodetection variables */
 var fg_color = [0,0,0];
@@ -268,7 +274,10 @@ var drawingEraser = false;
 
 var binaryData;
 
-
+/**
+ * Opens the color picker.
+ * @params {String} cmode 'fg' or 'bg'
+ */
 function colorPickerWindow(cmode)
 {
     colorPickerMode = cmode;
@@ -282,6 +291,9 @@ function colorPickerWindow(cmode)
     }
 }
 
+/**
+ * Initiate color picking on canvas.
+ */
 function pickColor()
 {
 	//colorPickerMode = cmode;
@@ -289,6 +301,9 @@ function pickColor()
 	addMouseEvent('click',colorPicker,true);
 }
 
+/**
+ * Handle clicks when picking color.
+ */
 function colorPicker(ev)
 {
 	xi = ev.layerX;
@@ -335,6 +350,9 @@ function colorPicker(ev)
 	}	
 }
 
+/**
+ * Enable Box painting on canvas.
+ */ 
 function boxPaint()
 {
 	removeAllMouseEvents();
@@ -344,6 +362,9 @@ function boxPaint()
 
 }
 
+/**
+ * Handle mouse clicks when painting boxes - Mouse down
+ */
 function boxPaintMousedown(ev)
 {
 	boxCoordinates[0] = parseInt(ev.layerX);
@@ -351,6 +372,9 @@ function boxPaintMousedown(ev)
 	drawingBox = true;
 }
 
+/**
+ * Handle mouse clicks when painting boxes - Mouse up
+ */
 function boxPaintMouseup(ev)
 {
 	boxCoordinates[2] = parseInt(ev.layerX);
@@ -365,6 +389,9 @@ function boxPaintMouseup(ev)
 	drawingBox = false;
 }
 
+/**
+ * Handle mouse clicks when painting boxes - Mouse drag
+ */
 function boxPaintMousedrag(ev)
 {
 	if(drawingBox == true)
@@ -378,6 +405,9 @@ function boxPaintMousedrag(ev)
 	}
 }
 
+/**
+ * Enable pen like painting on screen.
+ */
 function penPaint()
 {
 	removeAllMouseEvents();
@@ -388,6 +418,9 @@ function penPaint()
 
 }
 
+/**
+ * Manage clicks when painting with pen tool - Mouse down
+ */
 function penPaintMousedown(ev)
 {
 	if (drawingPen == false)
@@ -405,6 +438,9 @@ function penPaintMousedown(ev)
 	}
 }
 
+/**
+ * Manage clicks when painting with pen tool - Mouse up
+ */
 function penPaintMouseup(ev)
 {
     ctx.closePath();
@@ -413,6 +449,9 @@ function penPaintMouseup(ev)
     markedScreen = getCanvasData();
 }
 
+/**
+ * Manage clicks when painting with pen tool - Mouse drag
+ */
 function penPaintMousedrag(ev)
 {
     if(drawingPen == true)
@@ -425,7 +464,9 @@ function penPaintMousedrag(ev)
     }
 }
 
-
+/**
+ * Initiate the eraser.
+ */
 function eraser()
 {
 	removeAllMouseEvents();
@@ -436,6 +477,9 @@ function eraser()
 	instantScreen = markedScreen;
 }
 
+/**
+ * Manage mouse events when erasing - Mouse down
+ */
 function eraserMousedown(ev)
 {
     if(drawingEraser == false)
@@ -453,6 +497,9 @@ function eraserMousedown(ev)
     }
 }
 
+/**
+ * Manage mouse events when erasing - Mouse up - this is slow!
+ */
 function eraserMouseup(ev)
 {
     ctx.closePath();
@@ -468,6 +515,9 @@ function eraserMouseup(ev)
     processingNote(false);
 }
 
+/**
+ * Manage mouse events when erasing - Mouse drag
+ */
 function eraserMousedrag(ev)
 {
     if(drawingEraser == true)
@@ -480,6 +530,9 @@ function eraserMousedrag(ev)
     }
 }
 
+/**
+ * Filter based on color and display a test image on the scan settings dialog.
+ */
 function updateTestWindow()
 {
   colorModeEl = document.getElementById('colorModeFG');
@@ -530,7 +583,9 @@ function launchTestWindow()
   setTimeout("updateTestWindow();showPopup('testImageWindow');",100);
 }
 
-
+/**
+ * Automatic curve extraction algorithm.
+ */
 function scanPlot()
 {
   closePopup("testImageWindow");
@@ -653,9 +708,7 @@ function scanPlot()
   return pointsPicked;
 }
 
-
-
-function $(x) { return document.getElementById(x); }/*
+/*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
 	Version 2.0
@@ -1086,13 +1139,17 @@ function saveData()
 
 */
 
-/* This file contains functions to handle image editing functions */
-
-
+/**
+ * @fileoverview Image Editing functions.
+ * @version 2.0
+ * @author Ankit Rohatgi ankitrohatgi@hotmail.com
+ */
 var cropStatus = 0;
 var cropCoordinates = [0,0,0,0];
 
-
+/**
+ * Flip picture horizontally
+ */
 function hflip()
 {
 	processingNote(true);
@@ -1120,6 +1177,9 @@ function hflip()
 	processingNote(false);
 }
 
+/**
+ * Flip picture vertically
+ */
 function vflip()
 {
 	processingNote(true);
@@ -1147,6 +1207,9 @@ function vflip()
 	processingNote(false);
 }
 
+/**
+ * Enable crop mode
+ */
 function cropPlot() // crop image
 {
 	redrawCanvas();
@@ -1156,6 +1219,9 @@ function cropPlot() // crop image
 	addMouseEvent('mousemove',cropMousemove,true);
 }
 
+/**
+ * Crop mode - mouse down
+ */
 function cropMousedown(ev)
 {
 	cropCoordinates[0] = parseInt(ev.layerX);
@@ -1163,6 +1229,9 @@ function cropMousedown(ev)
 	cropStatus = 1;
 }
 
+/**
+ * Crop mode - mouse up
+ */
 function cropMouseup(ev)
 {
       cropCoordinates[2] = parseInt(ev.layerX);
@@ -1192,6 +1261,9 @@ function cropMouseup(ev)
       
 }
 
+/**
+ * Crop mode - mouse move
+ */
 function cropMousemove(ev)
 {
       // this paints a rectangle as the mouse moves
@@ -1203,11 +1275,17 @@ function cropMousemove(ev)
       }
 }
 
+/**
+ * Restore to original image
+ */
 function restoreOriginalImage()
 {
 	loadImage(originalImage);
 }
 
+/**
+ * Rotate image by a certain specified angle. Not implemented yet.
+ */
 function rotateCanvas() // Rotate by a specified amount.
 {
 }
@@ -1239,11 +1317,16 @@ function rotateCanvas() // Rotate by a specified amount.
 
 /* This file contains image processing functions */
 
+/**
+ * @fileoverview Image Processing functions.
+ * @version 2.0
+ * @author Ankit Rohatgi ankitrohatgi@hotmail.com
+ */
 
-/* Finds differences between two sets of ImageData and returns a difference matrix
- * The difference matrix is zero for similar pixels, but 1 where pixels don't match
- * 
- * The height and width of the data is assumed to be that of the canvas.
+/** 
+ * Finds differences between two sets of ImageData and returns a difference matrix. 'true' where unmatched, 'false' where pixels match.
+ * @params {ImageData} d1 first ImageData
+ * @params {ImageData} d2 second ImageData
  */
 function findDifference(d1,d2)
 {
@@ -1273,7 +1356,9 @@ function findDifference(d1,d2)
     return diff;
 }
 
-/* Copies pixels based on the difference matrix. */
+/**
+ * Copies pixels based on the difference matrix. 
+ */
 function copyUsingDifference(copyTo, copyFrom, diff)
 {
     var dw = canvasWidth;
@@ -1295,7 +1380,9 @@ function copyUsingDifference(copyTo, copyFrom, diff)
     return copyTo;
 }
 
-// create BW image based on the colors specified.
+/** 
+ * create BW image based on the colors specified.
+ */
 function colorSelect(imgd, mode, colorRGB, tol)
 {
     dw = canvasWidth;
@@ -1341,7 +1428,9 @@ function colorSelect(imgd, mode, colorRGB, tol)
     return seldata;
 }
 
-// create BW image based on the colors but only in valid region of difference matrix.
+/**
+ * create BW image based on the colors but only in valid region of difference matrix.
+ */
 function colorSelectDiff(imgd, mode, colorRGB, tol, diff)
 {
     dw = canvasWidth;
@@ -1387,6 +1476,9 @@ function colorSelectDiff(imgd, mode, colorRGB, tol, diff)
     return seldata;
 }
 
+/**
+ * Populate an ImageData array based on a binary data matrix.
+ */
 function binaryToImageData(bwdata,imgd)
 {
     dw = canvasWidth;
@@ -1410,7 +1502,6 @@ function binaryToImageData(bwdata,imgd)
     
     return imgd;
 }
-
 
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotdigitizer
@@ -1551,12 +1642,19 @@ function setDefaultState()
 
 */
 
-/* This file contains manual data collection functions */
+/**
+ * @fileoverview Manual data collection
+ * @version 2.0
+ * @author Ankit Rohatgi ankitrohatgi@hotmail.com
+ */
 
 /* Selected Data Variables */
 var xyData = new Array(); // Raw data
 var pointsPicked = 0; // number of data points picked.
 
+/**
+ * Called when the 'acquire data' button is pressed. 
+ */
 function acquireData()
 {
 	if(axesPicked == 0)
@@ -1571,6 +1669,9 @@ function acquireData()
 	}
 }
 
+/**
+ * Initiate Manual data acquisition. Enables data capture on the canvas.
+ */ 
 function pickPoints() // select data points.
 {
 	if (axesPicked == 0)
@@ -1589,6 +1690,9 @@ function pickPoints() // select data points.
 	}
 }
 
+/**
+ * Triggered by clicking on canvas, stores position in xyData global array.
+ */
 function clickPoints(ev)
 {
 	xi = ev.layerX;
@@ -1608,7 +1712,9 @@ function clickPoints(ev)
 
 }
 
-
+/**
+ * Called when 'clear all' is hit. Clears data collected, redraws canvas. 
+ */
 function clearPoints() // clear all markings.
 {
 	pointsPicked = 0;
@@ -1619,6 +1725,9 @@ function clearPoints() // clear all markings.
 	removeAllMouseEvents();
 }
 
+/**
+ * Deletes the last point picked.
+ */
 function undoPointSelection()
 {
 	if (pointsPicked >= 1)
@@ -1642,6 +1751,9 @@ function undoPointSelection()
 	}
 }
 
+/**
+ * Updates the displayed number of points on the sidebar.
+ */
 function pointsStatus(pn) // displays the number of points picked.
 {
 	var points = document.getElementById('pointsStatus');
@@ -1650,12 +1762,18 @@ function pointsStatus(pn) // displays the number of points picked.
 	autoPoints.innerHTML = pn;
 }
 
+/**
+ * Delete specific point close to clicked position.
+ */
 function deleteSpecificPoint()
 {
 	removeAllMouseEvents();
 	addMouseEvent('click',deleteSpecificPointHandler,true);
 }
 
+/**
+ * Handle clicks when in specific point deletion mode
+ */
 function deleteSpecificPointHandler(ev)
 {
 	xi = parseFloat(ev.layerX);
