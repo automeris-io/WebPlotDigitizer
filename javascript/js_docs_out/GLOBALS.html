@@ -183,7 +183,7 @@ DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor
 	 </CODE>
 	 <BR>
 	 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	 
+	 Populate an ImageData array based on a binary data matrix.
       </TD>
    </TR>
 
@@ -387,7 +387,7 @@ DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor
 	 </CODE>
 	 <BR>
 	 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	 
+	 create BW image based on the colors specified.
       </TD>
    </TR>
 
@@ -404,7 +404,7 @@ DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor
 	 </CODE>
 	 <BR>
 	 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	 
+	 create BW image based on the colors but only in valid region of difference matrix.
       </TD>
    </TR>
 
@@ -421,7 +421,7 @@ DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor
 	 </CODE>
 	 <BR>
 	 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	 
+	 Copies pixels based on the difference matrix.
       </TD>
    </TR>
 
@@ -438,7 +438,7 @@ DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor
 	 </CODE>
 	 <BR>
 	 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	 
+	 Crop mode - mouse down
       </TD>
    </TR>
 
@@ -455,7 +455,7 @@ DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor
 	 </CODE>
 	 <BR>
 	 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	 
+	 Crop mode - mouse move
       </TD>
    </TR>
 
@@ -472,7 +472,7 @@ DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor
 	 </CODE>
 	 <BR>
 	 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	 
+	 Crop mode - mouse up
       </TD>
    </TR>
 
@@ -489,7 +489,7 @@ DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor
 	 </CODE>
 	 <BR>
 	 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	 
+	 Enable crop mode
       </TD>
    </TR>
 
@@ -642,7 +642,7 @@ DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor
 	 </CODE>
 	 <BR>
 	 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	 
+	 Finds differences between two sets of ImageData and returns a difference matrix.
       </TD>
    </TR>
 
@@ -676,7 +676,7 @@ DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor
 	 </CODE>
 	 <BR>
 	 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	 
+	 Flip picture horizontally
       </TD>
    </TR>
 
@@ -1050,7 +1050,7 @@ DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor
 	 </CODE>
 	 <BR>
 	 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	 
+	 Restore to original image
       </TD>
    </TR>
 
@@ -1067,7 +1067,7 @@ DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor
 	 </CODE>
 	 <BR>
 	 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	 
+	 Rotate image by a certain specified angle.
       </TD>
    </TR>
 
@@ -1305,7 +1305,7 @@ DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor
 	 </CODE>
 	 <BR>
 	 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	 
+	 Flip picture vertically
       </TD>
    </TR>
 
@@ -1422,6 +1422,8 @@ DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor
    <A NAME="!s!binaryToImageData"><!-- --></A>
    <H3>binaryToImageData</H3>
    <PRE>&lt;static&gt; Object <B>binaryToImageData</B>(bwdata,imgd)</PRE>
+   
+      <UL>Populate an ImageData array based on a binary data matrix.</UL>
    
 
    <!-- METHOD PARAMETERS START -->
@@ -1645,6 +1647,8 @@ DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor
    <H3>colorSelect</H3>
    <PRE>&lt;static&gt; Object <B>colorSelect</B>(imgd, mode, colorRGB, tol)</PRE>
    
+      <UL>create BW image based on the colors specified.</UL>
+   
 
    <!-- METHOD PARAMETERS START -->
    
@@ -1660,6 +1664,8 @@ DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor
    <A NAME="!s!colorSelectDiff"><!-- --></A>
    <H3>colorSelectDiff</H3>
    <PRE>&lt;static&gt; Object <B>colorSelectDiff</B>(imgd, mode, colorRGB, tol, diff)</PRE>
+   
+      <UL>create BW image based on the colors but only in valid region of difference matrix.</UL>
    
 
    <!-- METHOD PARAMETERS START -->
@@ -1677,6 +1683,8 @@ DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor
    <H3>copyUsingDifference</H3>
    <PRE>&lt;static&gt; Object <B>copyUsingDifference</B>(copyTo, copyFrom, diff)</PRE>
    
+      <UL>Copies pixels based on the difference matrix.</UL>
+   
 
    <!-- METHOD PARAMETERS START -->
    
@@ -1692,6 +1700,8 @@ DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor
    <A NAME="!s!cropMousedown"><!-- --></A>
    <H3>cropMousedown</H3>
    <PRE>&lt;static&gt; void <B>cropMousedown</B>(ev)</PRE>
+   
+      <UL>Crop mode - mouse down</UL>
    
 
    <!-- METHOD PARAMETERS START -->
@@ -1709,6 +1719,8 @@ DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor
    <H3>cropMousemove</H3>
    <PRE>&lt;static&gt; void <B>cropMousemove</B>(ev)</PRE>
    
+      <UL>Crop mode - mouse move</UL>
+   
 
    <!-- METHOD PARAMETERS START -->
    
@@ -1725,6 +1737,8 @@ DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor
    <H3>cropMouseup</H3>
    <PRE>&lt;static&gt; void <B>cropMouseup</B>(ev)</PRE>
    
+      <UL>Crop mode - mouse up</UL>
+   
 
    <!-- METHOD PARAMETERS START -->
    
@@ -1740,6 +1754,8 @@ DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor
    <A NAME="!s!cropPlot"><!-- --></A>
    <H3>cropPlot</H3>
    <PRE>&lt;static&gt; void <B>cropPlot</B>()</PRE>
+   
+      <UL>Enable crop mode</UL>
    
 
    <!-- METHOD PARAMETERS START -->
@@ -1899,6 +1915,8 @@ DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor
    <H3>findDifference</H3>
    <PRE>&lt;static&gt; Object <B>findDifference</B>(d1,d2)</PRE>
    
+      <UL>Finds differences between two sets of ImageData and returns a difference matrix. 'true' where unmatched, 'false' where pixels match.</UL>
+   
 
    <!-- METHOD PARAMETERS START -->
    
@@ -1939,6 +1957,8 @@ DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor
    <A NAME="!s!hflip"><!-- --></A>
    <H3>hflip</H3>
    <PRE>&lt;static&gt; void <B>hflip</B>()</PRE>
+   
+      <UL>Flip picture horizontally</UL>
    
 
    <!-- METHOD PARAMETERS START -->
@@ -2376,6 +2396,8 @@ DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor
    <H3>restoreOriginalImage</H3>
    <PRE>&lt;static&gt; void <B>restoreOriginalImage</B>()</PRE>
    
+      <UL>Restore to original image</UL>
+   
 
    <!-- METHOD PARAMETERS START -->
    
@@ -2391,6 +2413,8 @@ DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor
    <A NAME="!s!rotateCanvas"><!-- --></A>
    <H3>rotateCanvas</H3>
    <PRE>&lt;static&gt; void <B>rotateCanvas</B>()</PRE>
+   
+      <UL>Rotate image by a certain specified angle. Not implemented yet.</UL>
    
 
    <!-- METHOD PARAMETERS START -->
@@ -2672,6 +2696,8 @@ DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor
    <H3>vflip</H3>
    <PRE>&lt;static&gt; void <B>vflip</B>()</PRE>
    
+      <UL>Flip picture vertically</UL>
+   
 
    <!-- METHOD PARAMETERS START -->
    
@@ -2750,6 +2776,6 @@ DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor
 <FONT SIZE="-1">
 
 </FONT>
-<div class="jsdoc_ctime">Documentation generated by <a href="http://jsdoc.sourceforge.net/" target="_parent">JSDoc</a> on Mon Mar  7 23:54:38 2011</div>
+<div class="jsdoc_ctime">Documentation generated by <a href="http://jsdoc.sourceforge.net/" target="_parent">JSDoc</a> on Tue Mar  8 00:07:12 2011</div>
 </BODY>
 </HTML>
