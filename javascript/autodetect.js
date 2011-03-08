@@ -308,30 +308,35 @@ function scanPlot()
 {
   closePopup("testImageWindow");
   /* This is only a brute forced algorithm */
+  var xPoints = new Array();
+  var xPointsPicked = 0;
   xyData = [];
   pointsPicked = 0;
+  
   redrawCanvas();
   markedScreen = currentScreen;
   
-  lineThicknessEl = document.getElementById("lineThickness");
-  lineThickness = parseInt(lineThicknessEl.value);
+  var xStepEl = document.getElementById("xStep");
+  var xStep = parseFloat(xStepEl.value);
+  var yStepEl = document.getElementById("yStep");
+  var yStep = parseFloat(yStepEl.value);
   
-  dw = canvasWidth;
-  dh = canvasHeight;
+  var dw = canvasWidth;
+  var dh = canvasHeight;
   
-  blobAvg = new Array();
+  var blobAvg = new Array();
   
   for(var coli = 0; coli < dw; coli++)
   {
     blobs = -1;
-    firstbloby = -2.0*lineThickness;
+    firstbloby = -2.0*yStep;
     bi = 0;
        
     for(var rowi = 0; rowi < dh; rowi++)
     {
 	if (binaryData[rowi][coli] == true)
 	{
-	  if (rowi > firstbloby + lineThickness)
+	  if (rowi > firstbloby + yStep)
 	  {
 	    blobs = blobs + 1;
 	    bi = 1;
@@ -352,21 +357,72 @@ function scanPlot()
 	for (var blbi = 0; blbi <= blobs; blbi++)
 	{
 	  yi = blobAvg[blbi];
-	  xyData[pointsPicked] = new Array();
-	  xyData[pointsPicked][0] = parseFloat(xi);
-	  xyData[pointsPicked][1] = parseFloat(yi);
-	  pointsPicked = pointsPicked + 1;	
-  
-	  ctx.beginPath();
-	  ctx.fillStyle = "rgb(200,0,200)";
-	  ctx.arc(xi,yi,3,0,2.0*Math.PI,true);
-	  ctx.fill();
 	  
+	  xPoints[xPointsPicked] = new Array();
+	  xPoints[xPointsPicked][0] = parseFloat(xi);
+	  xPoints[xPointsPicked][1] = parseFloat(yi);
+	  xPoints[xPointsPicked][2] = 1; // 1 if not filtered, 0 if processed already
+	  xPointsPicked = xPointsPicked + 1;
 	}
     }
     
   }
+  
+  if (xPointsPicked == 0)
+    return 0;
+  
+  for(var pi = 0; pi < xPointsPicked; pi++)
+  {
+    if(xPoints[pi][2] == 1) // if still available
+    {
+      var inRange = 1;
+      var xxi = pi+1;
+      
+      var oldX = xPoints[pi][0];
+      var oldY = xPoints[pi][1];
+      
+      var avgX = oldX;
+      var avgY = oldY;
+      
+      var matches = 1;
+      
+      while((inRange == 1) && (xxi < xPointsPicked))
+      {
+	var newX = xPoints[xxi][0];
+	var newY = xPoints[xxi][1];
 	
+	if( (Math.abs(newX-oldX) <= xStep/2.0) && (Math.abs(newY-oldY) <= yStep/2.0) && (xPoints[xxi][2] == 1))
+	{
+	  avgX = (avgX*matches + newX)/(matches+1.0);
+	  avgY = (avgY*matches + newY)/(matches+1.0);
+	  matches = matches + 1;
+	  
+	  xPoints[xxi][2] = 0;
+	}
+	if (newX > oldX + xStep/2.0)
+	  inRange = 0;
+	
+	xxi = xxi + 1;
+      }
+      
+      xPoints[pi][2] = 0; 
+      
+      xyData[pointsPicked] = new Array();
+      xyData[pointsPicked][0] = parseFloat(avgX);
+      xyData[pointsPicked][1] = parseFloat(avgY);
+      pointsPicked = pointsPicked + 1;	
+  
+      ctx.beginPath();
+      ctx.fillStyle = "rgb(200,0,200)";
+      ctx.arc(parseInt(avgX),parseInt(avgY),3,0,2.0*Math.PI,true);
+      ctx.fill();
+
+      
+    }
+    
+  }
+  xPoints = [];	
   pointsStatus(pointsPicked);  
+  return pointsPicked;
 }
 
