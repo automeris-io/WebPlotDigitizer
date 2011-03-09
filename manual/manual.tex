@@ -1,0 +1,110 @@
+\documentclass[letterpaper, 11pt]{article}
+\usepackage{amsmath}
+\usepackage{palatino}
+\usepackage{mathpazo}
+\usepackage{hyperref}
+\usepackage[textwidth=6in,textheight=8in,top=1.5in]{geometry}
+\usepackage{graphicx}
+%\usepackage[pdftex]{graphicx,color}
+%\DeclareGraphicsRule{.pdftex}{pdf}{*}{}
+\renewcommand{\baselinestretch}{1.2}
+
+\title{WebPlotDigitizer v2.0 User Manual}
+\author{Ankit Rohatgi $<$ankitrohatgi@hotmail.com$>$}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\newpage
+
+\section{Introduction}
+
+A lot of published data is available only in the form of plots and it is often difficult to extract numerical data accurately out of these pictures. There are several programs available on the internet but most are either paid or poorly written. Also, most of the existing programs require Microsoft Windows to work and support only 2D X-Y plots.
+
+Due to these limitations, WebPlotDigitizer has been developed to facilitate easy and accurate data extraction from a variety of plot types and also maps. This program is built using HTML5, Javascript and CSS3 which allows it to run within a browser and requires no installation on to the user’s hard drive. The latest and the most stable versions of this program can be run directly from the main website for this project: 
+
+\hspace{1.5in}{http://arohatgi.info/WebPlotDigitizer}
+
+This program is distributed under the GNU GPL v3 license and is therefore free to use and distribute.
+
+\section{Distinctive Features}
+
+There are many other programs available for this exact purpose, but there are several features that sets this particular project apart from all the others.
+
+\begin{itemize}
+\item{Open source, Free to use.}
+\item{Web based. Runs within the browser therefore no installation is needed.}
+\item{Supports X-Y plots, polar diagrams, ternary diagrams and also maps.}
+\item{Automatic data extraction makes it extremely easy to extract large amounts of accurate data.}
+\item{The numerical data that is generated is in the CSV format which can be easily imported into any mathematical software like Matlab, Excel etc.}
+\end{itemize}
+
+\section{Supported Browsers}
+As this software requires a browser with a very good HTML5 support, {\bf only Google Chrome 6+ and  Firefox 3.6+ are supported}. This programs runs best on Google Chrome, but looks best on Firefox. It is possible that in the future other browsers like Opera and Safari have a better support for the HTML5 API and are able to run this program.
+
+\section{Quick Instructions}
+Make sure you are using Google Chrome 6+ or Firefox 3.6+ to access this program.
+
+\begin{enumerate}
+\item{Drag and Drop your picture from the file manager to the plot area of the screen.}
+\item{Crop or flip image as needed by hitting the ``Edit Image'' button on the top.}
+\item{Click ``Define Axes'' button to start the alignment process. Select the plot type as appropriate and follow instructions on the screen.}
+\item{Once the axes have been defined, click ``Acquire Data'' to start the data acquisition process. You can choose to stay in the ``Manual mode'' or click ``Switch to Auto'' to switch to auto. You can switch back and forth.}
+\item{{\bf Manual Mode}
+\begin{enumerate}
+\item{Click ``Select Points'' and start clicking on the places where you need data.}
+\item{``Undo'' deletes the last clicked point.}
+\item{``Clear All'' clears all the points.}
+\item{``Delete Point'' will delete a specific data point close to where you click.}
+\item{Ultimately, click ``Create .CSV'' for the CSV formatted output.}
+\end{enumerate}
+}
+
+\item{{\bf Auto Mode}
+\begin{enumerate}
+\item{Click ``FG'' and either type the RGB values of the curve or use the color picker to click on the curve at a point which represents the color of the curve reasonably well. }
+\item{Click ``BG'' and select the overall background color of the image. }
+\item{Use either the ``Box'' or the ``Pen'' paint tool to mark the region of interest on the screen. It is within this yellow painted region that the algorithm will look for data.}
+\item{Use ``Erase'' to clear any unwanted regions that you might have accidentally painted over.}
+\item{Finally, click ``Autodetect''. This will open a popup displaying the black \& white (binary) image of the extracted region. Use the ``Foreground'' mode to select based on the foreground color or use ``Background'' mode to select based on the background color. }
+\item{``Color Distance'' is the acceptable difference from the chosen color. Increase or Decrease this value and click ``Re-scan'' till you get the exact region you want.}
+\item{Choose ``Step Size'' X and Y values based on the thickness of lines. This value is in pixels so try different values till you see correct detection. }
+\item{Click ``Get Points'' when done and purple points should appear on the desired curve. Re-paint region using ``Box'' or ``Pen'' tools and click ``Autodetect'' if results are not satisfactory. Tweak numbers as needed.}
+\item{Click ``Create .CSV'' to save data.}
+\end{enumerate}
+}
+\item{To work on another plot, reload the page by hitting ``Reload'' on your browser and start with step 1.}
+\end{enumerate}
+
+\section{Detailed Instructions}
+
+\subsection{Edit Image}
+
+\subsection{Define Axes}
+
+\subsection{Manual Mode}
+
+\subsection{Auto Mode}
+
+\subsection{CSV Data}
+
+\section{Examples}
+
+\section{Development}
+
+\section{Offline Usage}
+
+\section{Google Chrome Extension}
+
+\section{Known Issues}
+
+There are some known issues with this version. Feel free to report other major problems or suggestions by emailing ankitrohatgi@hotmail.com.
+
+\begin{itemize}
+\item{No explicit support for 2D contour plots, 3D plots, Pie Charts.}
+\item{Auto Extraction is not very useful with bar charts or while extracting data points.}
+\item{Program needs to be reloaded for every new plot.}
+\item{Google Chrome 6+ and Firefox 3.6+ are the only supported browsers.}
+\end{itemize}
+
+\end{document}
