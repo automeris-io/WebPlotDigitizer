@@ -95,9 +95,8 @@ function colorPicker(ev)
 		
 		if(colorPickerMode == 'fg')
 		{
-			fg_color = PickedColor;
-			var fgbtn = document.getElementById('autoFGBtn');
-			fgbtn.style.borderColor = "rgb(" + fg_color[0] +"," + fg_color[1] +"," + fg_color[2] +")";
+			assignColor('fg',PickedColor);
+			
 			redEl = document.getElementById('color_red_fg');
 			greenEl = document.getElementById('color_green_fg');
 			blueEl = document.getElementById('color_blue_fg');
@@ -105,9 +104,8 @@ function colorPicker(ev)
 		}
 		else if (colorPickerMode == 'bg')
 		{
-			bg_color = PickedColor;
-			var bgbtn = document.getElementById('autoBGBtn');
-			bgbtn.style.borderColor = "rgb(" + bg_color[0] +"," + bg_color[1] +"," + bg_color[2] +")";
+		  	assignColor('bg',PickedColor);
+			
 			redEl = document.getElementById('color_red_bg');
 			greenEl = document.getElementById('color_green_bg');
 			blueEl = document.getElementById('color_blue_bg');
@@ -118,6 +116,46 @@ function colorPicker(ev)
 		greenEl.value = PickedColor[1];
 		blueEl.value = PickedColor[2];
 	}	
+}
+
+/**
+ * This function assigns the color to the global variables.
+ */
+function assignColor(color_mode, color_value)
+{
+  if(color_mode == 'fg')
+  {
+    if(!color_value)
+    {
+      redEl = document.getElementById('color_red_fg');
+      greenEl = document.getElementById('color_green_fg');
+      blueEl = document.getElementById('color_blue_fg');
+      color_value = new Array();
+      color_value[0] = redEl.value;
+      color_value[1] = greenEl.value;
+      color_value[2] = blueEl.value;
+    }
+    fg_color = color_value;
+    var fgbtn = document.getElementById('autoFGBtn');
+    fgbtn.style.borderColor = "rgb(" + fg_color[0] +"," + fg_color[1] +"," + fg_color[2] +")";
+  }
+  else if(color_mode=='bg')
+  {
+    if(!color_value)
+    {
+      redEl = document.getElementById('color_red_bg');
+      greenEl = document.getElementById('color_green_bg');
+      blueEl = document.getElementById('color_blue_bg');
+      color_value = new Array();
+      color_value[0] = redEl.value;
+      color_value[1] = greenEl.value;
+      color_value[2] = blueEl.value;
+    }
+    bg_color = color_value;
+    var bgbtn = document.getElementById('autoBGBtn');
+    bgbtn.style.borderColor = "rgb(" + bg_color[0] +"," + bg_color[1] +"," + bg_color[2] +")";
+    
+  }
 }
 
 /**
