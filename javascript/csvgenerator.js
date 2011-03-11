@@ -125,22 +125,22 @@ function saveData()
 			else if (plotType == 'polar')
 			{
 			    // Center: 0
-			    x0 = xyAxes[0][0];
-			    y0 = xyAxes[0][1];
+			    x0 = parseFloat(xyAxes[0][0]);
+			    y0 = parseFloat(xyAxes[0][1]);
 			    
 			    // Known Point: 1
-			    x1 = xyAxes[1][0];
-			    y1 = xyAxes[1][1];
+			    x1 = parseFloat(xyAxes[1][0]);
+			    y1 = parseFloat(xyAxes[1][1]);
 			    
 			    // Known Point: 2
-			    x2 = xyAxes[2][0];
-			    y2 = xyAxes[2][1];
+			    x2 = parseFloat(xyAxes[2][0]);
+			    y2 = parseFloat(xyAxes[2][1]);
 			    			    
-			    r1 = axesAlignmentData[0];
-			    theta1 = axesAlignmentData[1]; 
+			    r1 = parseFloat(axesAlignmentData[0]);
+			    theta1 = parseFloat(axesAlignmentData[1]); 
 			    
-			    r2 = axesAlignmentData[2];
-			    theta2 = axesAlignmentData[3]; 
+			    r2 = parseFloat(axesAlignmentData[2]);
+			    theta2 = parseFloat(axesAlignmentData[3]); 
 			    
 			    isDegrees = axesAlignmentData[4];
 			    
@@ -152,8 +152,16 @@ function saveData()
 				theta2 = (Math.PI/180.0)*theta2;
 			    }
 			    			    
-			    // Distance between 1 and 2.
-			    dist12 = Math.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2));
+			    
+			    
+			    // Distance between 1 and 0.
+			    dist10 = Math.sqrt((x1-x0)*(x1-x0) + (y1-y0)*(y1-y0)); 
+			    
+			    // Distance between 2 and 0
+			    dist20 = Math.sqrt((x2-x0)*(x2-x0) + (y2-y0)*(y2-y0)); 
+			    
+			    // Radial Distance between 1 and 2.
+			    dist12 = dist20 - dist10;
 			    
 			    phi0 = taninverse(-(y1-y0),x1-x0);
 			    
@@ -164,7 +172,7 @@ function saveData()
 				xp = xyData[ii][0];
 				yp = xyData[ii][1];
 				
-			        rp = ((r2-r1)/dist12 + r1)*Math.sqrt((xp-x0)*(xp-x0)+(yp-y0)*(yp-y0));
+			        rp = ((r2-r1)/dist12)*(Math.sqrt((xp-x0)*(xp-x0)+(yp-y0)*(yp-y0))-dist10) + r1;
 				
 				thetap = taninverse(-(yp-y0),xp-x0) - alpha0;
 				
