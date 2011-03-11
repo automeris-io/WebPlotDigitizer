@@ -110,6 +110,23 @@ function asd() {
 		      <td>
 			 <code>
 			    <b>
+			       <a href="GLOBALS.html#!s!assignColor">assignColor</a></b>(color_mode, color_value)
+			 </code>
+			 <br>
+			 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			 This function assigns the color to the global variables.
+		      </td>
+		   </tr>
+		
+		   <tr bgcolor="white" class="TableRowColor">
+		      <td align="right" valign="top" width="1%">
+			 <font size="-1">
+			    <code>static&nbsp;void</code>
+			 </font>
+		      </td>
+		      <td>
+			 <code>
+			    <b>
 			       <a href="GLOBALS.html#!s!boxPaint">boxPaint</a></b>()
 			 </code>
 			 <br>
@@ -511,9 +528,8 @@ var binaryData;
 		
 		<span class="reserved">if</span>(colorPickerMode == <span class="literal">'fg'</span>)
 		{
-			fg_color = PickedColor;
-			var fgbtn = document.getElementById(<span class="literal">'autoFGBtn'</span>);
-			fgbtn.style.borderColor = <span class="literal">"rgb("</span> + fg_color[0] +<span class="literal">","</span> + fg_color[1] +<span class="literal">","</span> + fg_color[2] +<span class="literal">")"</span>;
+			assignColor(<span class="literal">'fg'</span>,PickedColor);
+			
 			redEl = document.getElementById(<span class="literal">'color_red_fg'</span>);
 			greenEl = document.getElementById(<span class="literal">'color_green_fg'</span>);
 			blueEl = document.getElementById(<span class="literal">'color_blue_fg'</span>);
@@ -521,9 +537,8 @@ var binaryData;
 		}
 		<span class="reserved">else</span> <span class="reserved">if</span> (colorPickerMode == <span class="literal">'bg'</span>)
 		{
-			bg_color = PickedColor;
-			var bgbtn = document.getElementById(<span class="literal">'autoBGBtn'</span>);
-			bgbtn.style.borderColor = <span class="literal">"rgb("</span> + bg_color[0] +<span class="literal">","</span> + bg_color[1] +<span class="literal">","</span> + bg_color[2] +<span class="literal">")"</span>;
+		  	assignColor(<span class="literal">'bg'</span>,PickedColor);
+			
 			redEl = document.getElementById(<span class="literal">'color_red_bg'</span>);
 			greenEl = document.getElementById(<span class="literal">'color_green_bg'</span>);
 			blueEl = document.getElementById(<span class="literal">'color_blue_bg'</span>);
@@ -534,6 +549,46 @@ var binaryData;
 		greenEl.value = PickedColor[1];
 		blueEl.value = PickedColor[2];
 	}	
+}
+
+<span class="comment">/**
+ * This function assigns the color to the global variables.
+ */</span>
+<span class="reserved">function</span> assignColor(color_mode, color_value)
+{
+  <span class="reserved">if</span>(color_mode == <span class="literal">'fg'</span>)
+  {
+    <span class="reserved">if</span>(!color_value)
+    {
+      redEl = document.getElementById(<span class="literal">'color_red_fg'</span>);
+      greenEl = document.getElementById(<span class="literal">'color_green_fg'</span>);
+      blueEl = document.getElementById(<span class="literal">'color_blue_fg'</span>);
+      color_value = new Array();
+      color_value[0] = redEl.value;
+      color_value[1] = greenEl.value;
+      color_value[2] = blueEl.value;
+    }
+    fg_color = color_value;
+    var fgbtn = document.getElementById(<span class="literal">'autoFGBtn'</span>);
+    fgbtn.style.borderColor = <span class="literal">"rgb("</span> + fg_color[0] +<span class="literal">","</span> + fg_color[1] +<span class="literal">","</span> + fg_color[2] +<span class="literal">")"</span>;
+  }
+  <span class="reserved">else</span> <span class="reserved">if</span>(color_mode==<span class="literal">'bg'</span>)
+  {
+    <span class="reserved">if</span>(!color_value)
+    {
+      redEl = document.getElementById(<span class="literal">'color_red_bg'</span>);
+      greenEl = document.getElementById(<span class="literal">'color_green_bg'</span>);
+      blueEl = document.getElementById(<span class="literal">'color_blue_bg'</span>);
+      color_value = new Array();
+      color_value[0] = redEl.value;
+      color_value[1] = greenEl.value;
+      color_value[2] = blueEl.value;
+    }
+    bg_color = color_value;
+    var bgbtn = document.getElementById(<span class="literal">'autoBGBtn'</span>);
+    bgbtn.style.borderColor = <span class="literal">"rgb("</span> + bg_color[0] +<span class="literal">","</span> + bg_color[1] +<span class="literal">","</span> + bg_color[2] +<span class="literal">")"</span>;
+    
+  }
 }
 
 <span class="comment">/**
@@ -568,7 +623,7 @@ var binaryData;
 
 	putCanvasData(markedScreen);
 
-	ctx.fillStyle = <span class="literal">"rgba(255,255,0,1)"</span>;
+	ctx.fillStyle = <span class="literal">"rgba(254,253,0,0.99)"</span>;
 	ctx.fillRect(boxCoordinates[0], boxCoordinates[1], boxCoordinates[2]-boxCoordinates[0], boxCoordinates[3]-boxCoordinates[1]);
 	markedScreen = getCanvasData();
 
@@ -614,7 +669,7 @@ var binaryData;
 	    xt = parseInt(ev.layerX);
 	    yt = parseInt(ev.layerY);
 	    drawingPen = true;
-	    ctx.strokeStyle = <span class="literal">"rgba(255,255,0,1)"</span>;
+	    ctx.strokeStyle = <span class="literal">"rgba(254,253,0,0.99)"</span>;
 	    
 	    thkRange = document.getElementById(<span class="literal">'paintThickness'</span>);
 	    
@@ -644,7 +699,7 @@ var binaryData;
     {
 	xt = parseInt(ev.layerX);
 	yt = parseInt(ev.layerY);
-	ctx.strokeStyle = <span class="literal">"rgba(255,255,0,1)"</span>;
+	ctx.strokeStyle = <span class="literal">"rgba(254,253,0,0.99)"</span>;
 	ctx.lineTo(xt,yt);
 	ctx.stroke();
     }
@@ -673,7 +728,7 @@ var binaryData;
 	xt = parseInt(ev.layerX);
 	yt = parseInt(ev.layerY);
 	drawingEraser = true;
-	ctx.strokeStyle = <span class="literal">"rgba(255,0,255,1)"</span>;
+	ctx.strokeStyle = <span class="literal">"rgba(253,0,254,0.99)"</span>;
 	
 	thkRange = document.getElementById(<span class="literal">'paintThickness'</span>);
 	
@@ -710,7 +765,7 @@ var binaryData;
     {
 	xt = parseInt(ev.layerX);
 	yt = parseInt(ev.layerY);
-	ctx.strokeStyle = <span class="literal">"rgba(255,0,255,1)"</span>;
+	ctx.strokeStyle = <span class="literal">"rgba(253,0,254,0.99)"</span>;
 	ctx.lineTo(xt,yt);
 	ctx.stroke();
     }
@@ -952,6 +1007,6 @@ var binaryData;
 <font size="-1">
 
 </font>
-<div class="jsdoc_ctime">Documentation generated by <a href="http://jsdoc.sourceforge.net/" target="_parent">JSDoc</a> on Tue Mar  8 00:07:12 2011</div>
+<div class="jsdoc_ctime">Documentation generated by <a href="http://jsdoc.sourceforge.net/" target="_parent">JSDoc</a> on Fri Mar 11 03:31:51 2011</div>
 </body>
 </html>
