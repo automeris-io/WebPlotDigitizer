@@ -45,6 +45,8 @@ tr,td
 	padding:0;
 }
 
+textarea { resize: none; }
+
 #bodyTable
 {
 	width:100%;
