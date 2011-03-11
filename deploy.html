@@ -28,6 +28,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/> 
 <title>WebPlotDigitizer - Copyright 2010 Ankit Rohatgi</title>
 <link rel="stylesheet" href="styles.css" type="text/css" media="screen" />
+
 <!--
 <script src="javascript/main.js" language="JavaScript"></script>
 <script src="javascript/canvasDrawing.js" language="JavaScript"></script>
@@ -45,8 +46,8 @@
 <script src="javascript/csvgenerator.js" language="JavaScript"></script>
 -->
 
-<script src="combined.js" language="JavaScript"></script>
 
+<script src="combined.js" language="JavaScript"></script>
 
 </head>
 
@@ -65,7 +66,7 @@
 		<input type="button" onClick="showSidebar('editImageToolbar');" value="Edit Image" style="margin: 0 5px;">
 		<input type="button" id="plottypebtn" value="Define Axes" onClick="showPopup('axesList');" style="margin: 0 5px;">
 		<input type="button" onClick="acquireData();" value="Acquire Data" style="margin: 0 5px;">
-		<input type="button" onClick="showPopup('aboutNote');" value="About" style="margin: 0 5px;">
+		<input type="button" onClick="showPopup('helpWindow');" value="Help" style="margin: 0 5px;">
 		
 	</td>
 	<td class="standardToolbar" valign="top">
@@ -193,9 +194,8 @@
 	<p align="center"><b>Point 2</b> <!-- <input type="checkbox" id="xlog"> Log Scale --></p>
 	<p align="center">R<sub>2</sub>: <input type="text" size="6" id="rpoint2" value="1"></p>
 	<p align="center">Θ<sub>2</sub>: <input type="text" size="6" id="thetapoint2" value="1"></p>
-	<p align="center"><input type="radio" id="degrees" name="angleUnits"> Degrees <input type="radio" id="radians" name="angleUnits" checked> Radians</p>
-	<p align="center"><input type="checkbox" id="clockwise"> Clockwise</p>
-	<p>&nbsp;</p>
+	<p align="center"><input type="radio" id="degrees" name="angleUnits" checked> Degrees <input type="radio" id="radians" name="angleUnits"> Radians</p>
+	<p align="center" style="visibility:hidden;"><input type="checkbox" id="clockwise"> Clockwise</p>
 	<p align="center"><input type="button" value="OK" onClick="alignAxes();"></p>
 	</div>
 
@@ -210,16 +210,16 @@
 
 	<div id="csvWindow" class="popup" style="width: 500px; height: 300px;">
 	<p align="center"><b>Acquired Data</b></p>
-	<p align="center">Copy and Paste to a .CSV file</p>
+	<p align="center">Copy and Paste to a file with .CSV extension</p>
 	<p align="center"><textarea id="tarea" rows="10" cols="50"></textarea></p>
-	<p align="center"><input type="button" value="Copy to Clipboard" onClick="closePopup('csvWindow');"> <input type="button" id="closeCSVbtn" value="Done" onClick="closePopup('csvWindow');"></p>
+	<p align="center"><input type="button" id="closeCSVbtn" value="Done" onClick="closePopup('csvWindow');"></p>
 	</div>
 
 	<div id="xyAxesInfo" class="popup" style="width: 350px;"> 
 	<p align="center"><b>Align X-Y Axes</b></p>
 	<p>&nbsp;</p>
 	<p align="center"><img src="images/xyaxes.png" /></p>
-	<p align="center">Select four corners of the axes starting with the origin and going clockwise.</p>
+	<p align="center">Click four corners of the axes starting with the origin and going clockwise.</p>
 	<p>&nbsp;</p>
 	<p align="center"><input type="button" value="Proceed" onClick="closePopup('xyAxesInfo')"></p>
 	</div>
@@ -237,7 +237,7 @@
 	<p align="center"><b>Align Polar Axes</b></p>
 	<p>&nbsp;</p>
 	<p align="center"><img src="images/polaraxes.png" /></p>
-	<p align="center">Select four points as shown to align the axes.</p>
+	<p align="center">Click on the center, followed by two known points.</p>
 	<p>&nbsp;</p>
 	<p align="center"><input type="button" value="Proceed" onClick="closePopup('polarAxesInfo')"></p>
 	</div>
@@ -246,7 +246,7 @@
 	<p align="center"><b>Align Ternary Axes</b></p>
 	<p>&nbsp;</p>
 	<p align="center"><img src="images/ternaryaxes.png" /></p>
-	<p align="center">Select four points as shown to align the axes.</p>
+	<p align="center">Click on the three corners in the order shown above.</p>
 	<p>&nbsp;</p>
 	<p align="center"><input type="button" value="Proceed" onClick="closePopup('ternaryAxesInfo')"></p>
 	</div>
@@ -258,7 +258,7 @@
 	G:<input type="text" id="color_green_fg" value="0" size="3">&nbsp; B:<input type="text" id="color_blue_fg" value="0" size="3">
 	 <input type="button" value="Color Picker" onClick="closePopup('colorPickerFG');pickColor();"></p>
 	<p align="center">&nbsp;</p>
-	<p align="center"><input type="button" value="Done" onClick="closePopup('colorPickerFG');"></p>
+	<p align="center"><input type="button" value="Done" onClick="assignColor('fg');closePopup('colorPickerFG');"></p>
 	</div>
 
 	<div id="colorPickerBG" class="popup" style="width:400px;">
@@ -268,7 +268,7 @@
 	G:<input type="text" id="color_green_bg" value="255" size="3">&nbsp; B:<input type="text" id="color_blue_bg" value="255" size="3">
 	 <input type="button" value="Color Picker" onClick="closePopup('colorPickerBG');pickColor();"></p>
 	<p align="center">&nbsp;</p>
-	<p align="center"><input type="button" value="Done" onClick="closePopup('colorPickerBG');"></p>
+	<p align="center"><input type="button" value="Done" onClick="assignColor('bg');closePopup('colorPickerBG');"></p>
 	</div>
 
 	<div id="alignAxes" class="popup" style="width:300px;">
@@ -279,14 +279,20 @@
 	<p align="center"><input type="button" value="Ok" onClick="closePopup('alignAxes');"></p>
 	</div>
 
-	<div id="aboutNote" class="popup" style="width: 550px;">
+	<div id="helpWindow" class="popup" style="width: 550px;">
 	<p align="center"><b>WebPlotDigitizer v2.0</b> - Web based Plot Digitizer</p>
 	<p>&nbsp;</p>
+	<p align="center"><b>Online Tutorial</b></p>
+	<p align="center"><a href="http://arohatgi.info/WebPlotDigitizer/manual" target="manual">http://arohatgi.info/WebPlotDigitizer/manual</a></p>
+	<hr/>
+	<p align="center"><b>Report Bugs/Issues</b></p>
+	<p align="center"><a href="https://github.com/ankitrohatgi/WebPlotDigitizer/issues" target="bugs">https://github.com/ankitrohatgi/WebPlotDigitizer/issues</a></p>
+	<hr/>
 	<p align="center">This program is distributed under the GNU General Public License Version 3.</p>
 	<p align="center">Copyright 2010 Ankit Rohatgi &lt;ankitrohatgi@hotmail.com&gt;</p>
 	<p align="center"><a href="http://www.arohatgi.info/WebPlotDigitizer" target="website">http://www.arohatgi.info/WebPlotDigitizer</a></p>
 	<p>&nbsp;</p>
-	<p align="center"><input type="button" value="Close" onClick="closePopup('aboutNote');"></p>
+	<p align="center"><input type="button" value="Close" onClick="closePopup('helpWindow');"></p>
 	</div>
 
 	<div id="testImageWindow" class="popup">
