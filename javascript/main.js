@@ -36,6 +36,7 @@
 
 function init() // This is run when the page loads.
 {
+	checkBrowser();
 	canvas = document.getElementById('mainCanvas');
 	var canvasDiv = document.getElementById('canvasDiv');
 		
@@ -109,6 +110,14 @@ function setDefaultState()
 	zctx.moveTo(0, zWindowHeight/2);
 	zctx.lineTo(zWindowWidth, zWindowHeight/2);
 	zctx.stroke();
+}
+
+function checkBrowser()
+{
+  if(!window.FileReader)
+  {
+    alert('\tWARNING!\nYou are using an unsupported browser. Please use Google Chrome 6+ or Firefox 3.6+.\n Sorry for the inconvenience.');
+  }
 }
 
 

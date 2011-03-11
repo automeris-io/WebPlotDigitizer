@@ -165,16 +165,19 @@ function redrawCanvas()
 function dropHandler(ev)
 {
 	allDrop = ev.dataTransfer.files;
-	if (allDrop.length == 1) // :TODO: also check if it's a valid image
+	if (allDrop.length == 1) 
 	{
-		var droppedFile = new FileReader();
-		droppedFile.onload = function() {
-			var imageInfo = droppedFile.result;
-			var newimg = new Image();
-			newimg.onload = function() { loadImage(newimg); originalScreen = getCanvasData(); }
-			newimg.src = imageInfo;
+		if(allDrop[0].type.match("image.*")) // only load images
+		{
+		    var droppedFile = new FileReader();
+		    droppedFile.onload = function() {
+			    var imageInfo = droppedFile.result;
+			    var newimg = new Image();
+			    newimg.onload = function() { loadImage(newimg); originalScreen = getCanvasData(); }
+			    newimg.src = imageInfo;
+		    }
+		    droppedFile.readAsDataURL(allDrop[0]);
 		}
-		droppedFile.readAsDataURL(allDrop[0]);
 	}
 }
 
