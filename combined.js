@@ -325,9 +325,8 @@ function colorPicker(ev)
 		
 		if(colorPickerMode == 'fg')
 		{
-			fg_color = PickedColor;
-			var fgbtn = document.getElementById('autoFGBtn');
-			fgbtn.style.borderColor = "rgb(" + fg_color[0] +"," + fg_color[1] +"," + fg_color[2] +")";
+			assignColor('fg',PickedColor);
+			
 			redEl = document.getElementById('color_red_fg');
 			greenEl = document.getElementById('color_green_fg');
 			blueEl = document.getElementById('color_blue_fg');
@@ -335,9 +334,8 @@ function colorPicker(ev)
 		}
 		else if (colorPickerMode == 'bg')
 		{
-			bg_color = PickedColor;
-			var bgbtn = document.getElementById('autoBGBtn');
-			bgbtn.style.borderColor = "rgb(" + bg_color[0] +"," + bg_color[1] +"," + bg_color[2] +")";
+		  	assignColor('bg',PickedColor);
+			
 			redEl = document.getElementById('color_red_bg');
 			greenEl = document.getElementById('color_green_bg');
 			blueEl = document.getElementById('color_blue_bg');
@@ -348,6 +346,46 @@ function colorPicker(ev)
 		greenEl.value = PickedColor[1];
 		blueEl.value = PickedColor[2];
 	}	
+}
+
+/**
+ * This function assigns the color to the global variables.
+ */
+function assignColor(color_mode, color_value)
+{
+  if(color_mode == 'fg')
+  {
+    if(!color_value)
+    {
+      redEl = document.getElementById('color_red_fg');
+      greenEl = document.getElementById('color_green_fg');
+      blueEl = document.getElementById('color_blue_fg');
+      color_value = new Array();
+      color_value[0] = redEl.value;
+      color_value[1] = greenEl.value;
+      color_value[2] = blueEl.value;
+    }
+    fg_color = color_value;
+    var fgbtn = document.getElementById('autoFGBtn');
+    fgbtn.style.borderColor = "rgb(" + fg_color[0] +"," + fg_color[1] +"," + fg_color[2] +")";
+  }
+  else if(color_mode=='bg')
+  {
+    if(!color_value)
+    {
+      redEl = document.getElementById('color_red_bg');
+      greenEl = document.getElementById('color_green_bg');
+      blueEl = document.getElementById('color_blue_bg');
+      color_value = new Array();
+      color_value[0] = redEl.value;
+      color_value[1] = greenEl.value;
+      color_value[2] = blueEl.value;
+    }
+    bg_color = color_value;
+    var bgbtn = document.getElementById('autoBGBtn');
+    bgbtn.style.borderColor = "rgb(" + bg_color[0] +"," + bg_color[1] +"," + bg_color[2] +")";
+    
+  }
 }
 
 /**
@@ -382,7 +420,7 @@ function boxPaintMouseup(ev)
 
 	putCanvasData(markedScreen);
 
-	ctx.fillStyle = "rgba(255,255,0,1)";
+	ctx.fillStyle = "rgba(254,253,0,0.99)";
 	ctx.fillRect(boxCoordinates[0], boxCoordinates[1], boxCoordinates[2]-boxCoordinates[0], boxCoordinates[3]-boxCoordinates[1]);
 	markedScreen = getCanvasData();
 
@@ -428,7 +466,7 @@ function penPaintMousedown(ev)
 	    xt = parseInt(ev.layerX);
 	    yt = parseInt(ev.layerY);
 	    drawingPen = true;
-	    ctx.strokeStyle = "rgba(255,255,0,1)";
+	    ctx.strokeStyle = "rgba(254,253,0,0.99)";
 	    
 	    thkRange = document.getElementById('paintThickness');
 	    
@@ -458,7 +496,7 @@ function penPaintMousedrag(ev)
     {
 	xt = parseInt(ev.layerX);
 	yt = parseInt(ev.layerY);
-	ctx.strokeStyle = "rgba(255,255,0,1)";
+	ctx.strokeStyle = "rgba(254,253,0,0.99)";
 	ctx.lineTo(xt,yt);
 	ctx.stroke();
     }
@@ -487,7 +525,7 @@ function eraserMousedown(ev)
 	xt = parseInt(ev.layerX);
 	yt = parseInt(ev.layerY);
 	drawingEraser = true;
-	ctx.strokeStyle = "rgba(255,0,255,1)";
+	ctx.strokeStyle = "rgba(253,0,254,0.99)";
 	
 	thkRange = document.getElementById('paintThickness');
 	
@@ -524,7 +562,7 @@ function eraserMousedrag(ev)
     {
 	xt = parseInt(ev.layerX);
 	yt = parseInt(ev.layerY);
-	ctx.strokeStyle = "rgba(255,0,255,1)";
+	ctx.strokeStyle = "rgba(253,0,254,0.99)";
 	ctx.lineTo(xt,yt);
 	ctx.stroke();
     }
@@ -875,16 +913,19 @@ function redrawCanvas()
 function dropHandler(ev)
 {
 	allDrop = ev.dataTransfer.files;
-	if (allDrop.length == 1) // :TODO: also check if it's a valid image
+	if (allDrop.length == 1) 
 	{
-		var droppedFile = new FileReader();
-		droppedFile.onload = function() {
-			var imageInfo = droppedFile.result;
-			var newimg = new Image();
-			newimg.onload = function() { loadImage(newimg); originalScreen = getCanvasData(); }
-			newimg.src = imageInfo;
+		if(allDrop[0].type.match("image.*")) // only load images
+		{
+		    var droppedFile = new FileReader();
+		    droppedFile.onload = function() {
+			    var imageInfo = droppedFile.result;
+			    var newimg = new Image();
+			    newimg.onload = function() { loadImage(newimg); originalScreen = getCanvasData(); }
+			    newimg.src = imageInfo;
+		    }
+		    droppedFile.readAsDataURL(allDrop[0]);
 		}
-		droppedFile.readAsDataURL(allDrop[0]);
 	}
 }
 
@@ -1541,6 +1582,7 @@ function binaryToImageData(bwdata,imgd)
 
 function init() // This is run when the page loads.
 {
+	checkBrowser();
 	canvas = document.getElementById('mainCanvas');
 	var canvasDiv = document.getElementById('canvasDiv');
 		
@@ -1614,6 +1656,14 @@ function setDefaultState()
 	zctx.moveTo(0, zWindowHeight/2);
 	zctx.lineTo(zWindowWidth, zWindowHeight/2);
 	zctx.stroke();
+}
+
+function checkBrowser()
+{
+  if(!window.FileReader)
+  {
+    alert('\tWARNING!\nYou are using an unsupported browser. Please use Google Chrome 6+ or Firefox 3.6+.\n Sorry for the inconvenience.');
+  }
 }
 
 
