@@ -384,7 +384,18 @@ function updateTestWindow()
   
 }
 
+/**
+ * Save the test canvas as a new image
+ */
+function saveTest()
+{
+  var testImageWin = window.open();
+  testImageWin.location = testImgCanvas.toDataURL();
+}
 
+/**
+ * Launches the test window and initiates a color based detection.
+ */
 function launchTestWindow()
 {
   processingNote(true);
@@ -481,7 +492,7 @@ function scanPlot()
 	var newX = xPoints[xxi][0];
 	var newY = xPoints[xxi][1];
 	
-	if( (Math.abs(newX-oldX) <= xStep/2.0) && (Math.abs(newY-oldY) <= yStep/2.0) && (xPoints[xxi][2] == 1))
+	if( (Math.abs(newX-oldX) <= xStep) && (Math.abs(newY-oldY) <= yStep/2.0) && (xPoints[xxi][2] == 1))
 	{
 	  avgX = (avgX*matches + newX)/(matches+1.0);
 	  avgY = (avgY*matches + newY)/(matches+1.0);
