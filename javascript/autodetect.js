@@ -190,7 +190,7 @@ function boxPaintMouseup(ev)
 
 	putCanvasData(markedScreen);
 
-	ctx.fillStyle = "rgba(255,255,0,1)";
+	ctx.fillStyle = "rgba(254,253,0,0.99)";
 	ctx.fillRect(boxCoordinates[0], boxCoordinates[1], boxCoordinates[2]-boxCoordinates[0], boxCoordinates[3]-boxCoordinates[1]);
 	markedScreen = getCanvasData();
 
@@ -236,7 +236,7 @@ function penPaintMousedown(ev)
 	    xt = parseInt(ev.layerX);
 	    yt = parseInt(ev.layerY);
 	    drawingPen = true;
-	    ctx.strokeStyle = "rgba(255,255,0,1)";
+	    ctx.strokeStyle = "rgba(254,253,0,0.99)";
 	    
 	    thkRange = document.getElementById('paintThickness');
 	    
@@ -266,7 +266,7 @@ function penPaintMousedrag(ev)
     {
 	xt = parseInt(ev.layerX);
 	yt = parseInt(ev.layerY);
-	ctx.strokeStyle = "rgba(255,255,0,1)";
+	ctx.strokeStyle = "rgba(254,253,0,0.99)";
 	ctx.lineTo(xt,yt);
 	ctx.stroke();
     }
@@ -295,7 +295,7 @@ function eraserMousedown(ev)
 	xt = parseInt(ev.layerX);
 	yt = parseInt(ev.layerY);
 	drawingEraser = true;
-	ctx.strokeStyle = "rgba(255,0,255,1)";
+	ctx.strokeStyle = "rgba(253,0,254,0.99)";
 	
 	thkRange = document.getElementById('paintThickness');
 	
@@ -332,7 +332,7 @@ function eraserMousedrag(ev)
     {
 	xt = parseInt(ev.layerX);
 	yt = parseInt(ev.layerY);
-	ctx.strokeStyle = "rgba(255,0,255,1)";
+	ctx.strokeStyle = "rgba(253,0,254,0.99)";
 	ctx.lineTo(xt,yt);
 	ctx.stroke();
     }
