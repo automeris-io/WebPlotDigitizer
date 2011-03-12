@@ -4,7 +4,7 @@
 
 	Version 2.0
 
-	Copyright 2010 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of HTML5 Plot Data Extracter.
 
@@ -26,7 +26,10 @@
 
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/> 
-<title>WebPlotDigitizer - Copyright 2010 Ankit Rohatgi</title>
+<meta name="Description" content="WebPlotDigitizer v2.0 - Web based tool to extract numerical data from plots and graph images."/>
+<meta name="Keywords" content="Plot, Digitizer, WebPlotDigitizer, Ankit Rohatgi, Extract Data, Convert Plots, XY, Polar, Ternary, Map, HTML5"/>
+<meta name="Author" content="Ankit Rohatgi"/>
+<title>WebPlotDigitizer - Copyright 2011 Ankit Rohatgi</title>
 <link rel="stylesheet" href="styles.css" type="text/css" media="screen" />
 
 <script src="javascript/main.js" language="JavaScript"></script>
@@ -198,11 +201,20 @@
 	<p align="center"><input type="button" value="OK" onClick="alignAxes();"></p>
 	</div>
 
-	<div id="ternaryAlignment" class="popup" style="width: 200px;">
-	<p align="left"><b>Select Range of Variables</b></p>
+	<div id="ternaryAlignment" class="popup">
+	<p align="center"><b>Select Range of Variables</b></p>
 	<p>&nbsp;</p>
-	<p align="left"><input type="radio" id="range0to1" name="ternaryRange" checked> 0 to 1 </p>
-	<p align="left"><input type="radio" id="range0to100" name="ternaryRange"> 0 to 100</p>
+	<p align="center">Axes Orientation</p>
+	<center>
+	<table>
+	  <tr><td><img src="images/ternarynormal.png" width="200"></td><td><img src="images/ternaryreverse.png" width="200"></td></tr>
+	  <tr><td><p align="center"><input type="radio" name="ternaryOrientation" id="ternarynormal" checked> Normal</p></td><td><p align="center"><input type="radio" name="ternaryOrientation" id="ternaryreverse"> Reverse</p></td></tr>
+	</table>
+	</center>
+	<p align="center">Range of Variables</p>
+	<center>
+	<table><tr><td><p align="center"><input type="radio" id="range0to1" name="ternaryRange" checked> 0 to 1&nbsp;&nbsp;</p></td><td><p align="center">&nbsp;&nbsp;<input type="radio" id="range0to100" name="ternaryRange"> 0 to 100</p></td></tr></table>
+	</center>
 	<p>&nbsp;</p>
 	<p align="center"><input type="button" value="OK" onClick="alignAxes();"></p>
 	</div>
