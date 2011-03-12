@@ -200,7 +200,8 @@ function saveData()
 			    
 			    root3 = Math.sqrt(3);
 			    
-			    isRange0to100 = axesAlignmentData[0];
+			    var isRange0to100 = axesAlignmentData[0];
+			    var isOrientationNormal = axesAlignmentData[1];
 			    		    
 			    for(ii = 0; ii<pointsPicked; ii++)
 			    {
@@ -217,6 +218,16 @@ function saveData()
 				ap = 1.0 - xx - yy/root3;
 				bp = xx - yy/root3;
 				cp = 2.0*yy/root3;
+				
+				if(isOrientationNormal == false)
+				{
+				  // reverse axes orientation
+				  var bpt = bp;
+				  bp = ap;
+				  ap = cp;
+				  cp = bpt;
+				  				  
+				}
 				
 				if (isRange0to100 == true)
 				{

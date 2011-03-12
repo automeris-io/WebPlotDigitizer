@@ -210,12 +210,18 @@ function alignAxes()
     {
 	var range1El = document.getElementById('range0to1');
 	var range100El = document.getElementById('range0to100');
+	var ternaryNormalEl = document.getElementById('ternarynormal');
 	
 	if (range100El.checked == true)
 	  axesAlignmentData[0] = true;
 	else
 	  axesAlignmentData[0] = false;
 	
+	if (ternaryNormalEl.checked == true)
+	  axesAlignmentData[1] = true;
+	else
+	  axesAlignmentData[1] = false;
+		
 	closePopup('ternaryAlignment');
     }
     else if (plotType == 'map')
