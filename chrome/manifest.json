@@ -1,0 +1,12 @@
+{
+  "name": "WebPlotDigitizer",
+  "description": "Extract numerical data out of plot pictures.",
+  "version": "2.0",
+  "app": {
+    "urls": ["http://71.229.86.124/WebPlotDigitizer"],
+    "launch": {"web_url": "http://71.229.86.124/WebPlotDigitizer"}
+  },
+  "icons": {
+    "128": "icon.png"
+  }
+}
