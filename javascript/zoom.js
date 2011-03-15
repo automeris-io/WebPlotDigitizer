@@ -42,6 +42,19 @@ var zWindowWidth = 200;
 var zWindowHeight = 200;
 
 /**
+ * Initialize Zoom Window
+ */
+function initZoom()
+{
+	zctx.beginPath();
+	zctx.moveTo(zWindowWidth/2, 0);
+	zctx.lineTo(zWindowWidth/2, zWindowHeight);
+	zctx.moveTo(0, zWindowHeight/2);
+	zctx.lineTo(zWindowWidth, zWindowHeight/2);
+	zctx.stroke();
+}
+
+/**
  * Update view.
  */
 function updateZoom(ev)

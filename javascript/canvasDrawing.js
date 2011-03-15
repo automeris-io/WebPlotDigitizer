@@ -100,6 +100,7 @@ function loadImage(imgel)
 	ctx.drawImage(imgel,cx0,cy0,newWidth,newHeight); 
 	
 	currentScreen = getCanvasData();
+	
 }
 
 /**
@@ -173,7 +174,7 @@ function dropHandler(ev)
 		    droppedFile.onload = function() {
 			    var imageInfo = droppedFile.result;
 			    var newimg = new Image();
-			    newimg.onload = function() { loadImage(newimg); originalScreen = getCanvasData(); }
+			    newimg.onload = function() { loadImage(newimg); originalScreen = getCanvasData(); originalImage = newimg; setDefaultState(); }
 			    newimg.src = imageInfo;
 		    }
 		    droppedFile.readAsDataURL(allDrop[0]);
