@@ -865,6 +865,7 @@ function loadImage(imgel)
 	ctx.drawImage(imgel,cx0,cy0,newWidth,newHeight); 
 	
 	currentScreen = getCanvasData();
+	
 }
 
 /**
@@ -938,7 +939,7 @@ function dropHandler(ev)
 		    droppedFile.onload = function() {
 			    var imageInfo = droppedFile.result;
 			    var newimg = new Image();
-			    newimg.onload = function() { loadImage(newimg); originalScreen = getCanvasData(); }
+			    newimg.onload = function() { loadImage(newimg); originalScreen = getCanvasData(); originalImage = newimg; setDefaultState(); }
 			    newimg.src = imageInfo;
 		    }
 		    droppedFile.readAsDataURL(allDrop[0]);
@@ -1672,6 +1673,8 @@ function init() // This is run when the page loads.
 	// Set defaults everywhere.
 	setDefaultState();
 	
+	initZoom();
+	
 	originalScreen = getCanvasData();
 	activeScreen = originalScreen;
 	
@@ -1684,14 +1687,10 @@ function init() // This is run when the page loads.
 function setDefaultState()
 {
 	axesPicked = 0;
-	
-	// :TODO: Move all this to zoomInit() or something
-	zctx.beginPath();
-	zctx.moveTo(zWindowWidth/2, 0);
-	zctx.lineTo(zWindowWidth/2, zWindowHeight);
-	zctx.moveTo(0, zWindowHeight/2);
-	zctx.lineTo(zWindowWidth, zWindowHeight/2);
-	zctx.stroke();
+	pointsPicked = 0;
+	xyData = [];
+	axesAlignmentData = [];
+			
 }
 
 function checkBrowser()
@@ -2389,6 +2388,19 @@ var zoom_dx = 20;
 var zoom_dy = 20;
 var zWindowWidth = 200;
 var zWindowHeight = 200;
+
+/**
+ * Initialize Zoom Window
+ */
+function initZoom()
+{
+	zctx.beginPath();
+	zctx.moveTo(zWindowWidth/2, 0);
+	zctx.lineTo(zWindowWidth/2, zWindowHeight);
+	zctx.moveTo(0, zWindowHeight/2);
+	zctx.lineTo(zWindowWidth, zWindowHeight/2);
+	zctx.stroke();
+}
 
 /**
  * Update view.

@@ -90,6 +90,8 @@ function init() // This is run when the page loads.
 	// Set defaults everywhere.
 	setDefaultState();
 	
+	initZoom();
+	
 	originalScreen = getCanvasData();
 	activeScreen = originalScreen;
 	
@@ -102,14 +104,10 @@ function init() // This is run when the page loads.
 function setDefaultState()
 {
 	axesPicked = 0;
-	
-	// :TODO: Move all this to zoomInit() or something
-	zctx.beginPath();
-	zctx.moveTo(zWindowWidth/2, 0);
-	zctx.lineTo(zWindowWidth/2, zWindowHeight);
-	zctx.moveTo(0, zWindowHeight/2);
-	zctx.lineTo(zWindowWidth, zWindowHeight/2);
-	zctx.stroke();
+	pointsPicked = 0;
+	xyData = [];
+	axesAlignmentData = [];
+			
 }
 
 function checkBrowser()
