@@ -1,7 +1,10 @@
 WebPlotDigitizer
 ================
 
-A web based tool to extract numerical data from plot images. Supports XY, Polar, Ternary diagrams and Maps. 
+A web based tool to extract numerical data from plot images. Supports XY, Polar, Ternary diagrams and Maps.
+
+This tool has been developed using HTML5, CSS3 and Javascript and therefore run from within the browser and requires no installation.
+
 
 Homepage
 --------
@@ -17,6 +20,11 @@ Source
 ------
 
 The source documentation is available at [http://arohatgi.info/WebPlotDigitizer/app/javascript/js_doc_out/](http://arohatgi.info/WebPlotDigitizer/app/javascript/js_doc_out/).
+
+Offline Development/Usage
+-------------------------
+
+This tool has to hosted on a HTTP server for some javascript features to function correctly. Therefore, host this on a server (ex: Apache) while developing or using offline.
 
 Contact
 -------
