@@ -19,7 +19,7 @@ Instructions and video tutorials are available at [http://arohatgi.info/WebPlotD
 Source
 ------
 
-The source documentation is available at [http://arohatgi.info/WebPlotDigitizer/app/javascript/js_doc_out/](http://arohatgi.info/WebPlotDigitizer/app/javascript/js_doc_out/).
+The source documentation is available at [http://arohatgi.info/WebPlotDigitizer/app/javascript/js_docs_out/](http://arohatgi.info/WebPlotDigitizer/app/javascript/js_docs_out/).
 
 Offline Development/Usage
 -------------------------
