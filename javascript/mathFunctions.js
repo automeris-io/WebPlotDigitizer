@@ -1,7 +1,7 @@
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.0
+	Version 2.1
 
 	Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
@@ -26,7 +26,7 @@
 
 /**
  * @fileoverview Some math functions.
- * @version 2.0
+ * @version 2.1
  * @author Ankit Rohatgi ankitrohatgi@hotmail.com
  */
 
