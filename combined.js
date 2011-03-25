@@ -1,7 +1,7 @@
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.0
+	Version 2.1
 
 	Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
@@ -25,7 +25,7 @@
 
 /**
  * @fileoverview  Axes alignment functions.
- * @version 2.0
+ * @version 2.1
  * @author Ankit Rohatgi ankitrohatgi@hotmail.com
  */
 
@@ -237,7 +237,7 @@ function alignAxes()
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.0
+	Version 2.1
 
 	Copyright 2010 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
@@ -261,7 +261,7 @@ function alignAxes()
 
 /**
  * @fileoverview Automatic extraction mode functions.
- * @version 2.0
+ * @version 2.1
  * @author Ankit Rohatgi ankitrohatgi@hotmail.com
  */
 
@@ -766,7 +766,7 @@ function scanPlot()
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.0
+	Version 2.1
 
 	Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
@@ -790,7 +790,7 @@ function scanPlot()
 
 /**
  * @fileoverview Manage the main canvas.
- * @version 2.0
+ * @version 2.1
  * @author Ankit Rohatgi ankitrohatgi@hotmail.com
  */
 
@@ -950,7 +950,7 @@ function dropHandler(ev)
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.0
+	Version 2.1
 
 	Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
@@ -974,7 +974,7 @@ function dropHandler(ev)
 
 /**
  * @fileoverview Generate CSV.
- * @version 2.0
+ * @version 2.1
  * @author Ankit Rohatgi ankitrohatgi@hotmail.com
  */
 
@@ -1195,7 +1195,7 @@ function saveData()
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.0
+	Version 2.1
 
 	Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
@@ -1219,7 +1219,7 @@ function saveData()
 
 /**
  * @fileoverview Image Editing functions.
- * @version 2.0
+ * @version 2.1
  * @author Ankit Rohatgi ankitrohatgi@hotmail.com
  */
 var cropStatus = 0;
@@ -1371,7 +1371,7 @@ function rotateCanvas() // Rotate by a specified amount.
 /*
     WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-    Version 2.0
+    Version 2.1
 
     Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
@@ -1397,7 +1397,7 @@ function rotateCanvas() // Rotate by a specified amount.
 
 /**
  * @fileoverview Image Processing functions.
- * @version 2.0
+ * @version 2.1
  * @author Ankit Rohatgi ankitrohatgi@hotmail.com
  */
 
@@ -1584,7 +1584,7 @@ function binaryToImageData(bwdata,imgd)
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotdigitizer
 
-	Version 2.0
+	Version 2.1
 
 	Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
@@ -1608,7 +1608,7 @@ function binaryToImageData(bwdata,imgd)
 
 /**
  * @fileoverview This is the main entry point
- * @version 2.0
+ * @version 2.1
  * @author Ankit Rohatgi ankitrohatgi@hotmail.com
  */
 
@@ -1705,7 +1705,7 @@ function checkBrowser()
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.0
+	Version 2.1
 
 	Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
@@ -1729,7 +1729,7 @@ function checkBrowser()
 
 /**
  * @fileoverview Manual data collection
- * @version 2.0
+ * @version 2.1
  * @author Ankit Rohatgi ankitrohatgi@hotmail.com
  */
 
@@ -1907,7 +1907,7 @@ function deleteSpecificPointHandler(ev)
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.0
+	Version 2.1
 
 	Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
@@ -1932,7 +1932,7 @@ function deleteSpecificPointHandler(ev)
 
 /**
  * @fileoverview Some math functions.
- * @version 2.0
+ * @version 2.1
  * @author Ankit Rohatgi ankitrohatgi@hotmail.com
  */
 
@@ -2023,7 +2023,7 @@ function taninverse(y,x)
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.0
+	Version 2.1
 
 	Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
@@ -2048,7 +2048,7 @@ function taninverse(y,x)
 
 /**
  * @fileoverview Handle Mouse Events.
- * @version 2.0
+ * @version 2.1
  * @author Ankit Rohatgi
  */
 
@@ -2150,7 +2150,7 @@ function removeMouseEvent(mouseEv, functionName, tf)
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.0
+	Version 2.1
 
 	Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
@@ -2174,7 +2174,7 @@ function removeMouseEvent(mouseEv, functionName, tf)
 
 /**
  * @fileoverview Handle popups.
- * @version 2.0
+ * @version 2.1
  * @author Ankit Rohatgi
  */
 
@@ -2236,7 +2236,7 @@ function processingNote(pmode)
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.0
+	Version 2.1
 
 	Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
@@ -2261,7 +2261,7 @@ function processingNote(pmode)
 
 /**
  * @fileoverview Handle sidebars.
- * @version 2.0
+ * @version 2.1
  * @author Ankit Rohatgi ankitrohatgi@hotmail.com
  */
 
@@ -2293,7 +2293,7 @@ function clearSidebar() // Clears all open sidebars
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.0
+	Version 2.1
 
 	Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
@@ -2317,7 +2317,7 @@ function clearSidebar() // Clears all open sidebars
 
 /**
  * @fileoverview Handle toolbars.
- * @version 2.0
+ * @version 2.1
  * @author Ankit Rohatgi ankitrohatgi@hotmail.com
  */
 
@@ -2349,7 +2349,7 @@ function clearToolbar() // Clears all open sidebars
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.0
+	Version 2.1
 
 	Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
@@ -2374,7 +2374,7 @@ function clearToolbar() // Clears all open sidebars
 
 /**
  * @fileoverview Manage the live zoom window.
- * @version 2.0
+ * @version 2.1
  * @author Ankit Rohatgi ankitrohatgi@hotmail.com
  */
 
