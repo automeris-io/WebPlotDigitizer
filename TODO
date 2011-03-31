@@ -1,5 +1,13 @@
 This is a brief TODO list for this project.
 
-- Change license info and move to 2.1
-- Wait for bug reports.
+Features:
+
+* Include ability to process bar codes.
+* 3D plots.
+* Circular particle or arbitrary shape recognition. Just calculate the location of the centroid of the shape.
+* Upload images even in the absence of FileReader API (IE, Safari).
+
+Bugs: 
+
+* Deleting a specific point is off by a few pixels.
 
