@@ -2,12 +2,14 @@ This is a brief TODO list for this project.
 
 Features:
 
-* Include ability to process bar codes.
-* 3D plots.
 * Circular particle or arbitrary shape recognition. Just calculate the location of the centroid of the shape.
-* Upload images even in the absence of FileReader API (IE, Safari).
+* Upload images even in the absence of FileReader API (IE, Safari, Opera) - this will require PHP/Flash :(
 
-Bugs: 
+User Interface:
 
-* Deleting a specific point is off by a few pixels.
+* Use drop down menu for Help.
+* Convert top row of buttons to a better looking menu.
+* Reduce the number of "popup" messages.
+* Edit help section and provide an index to the video tutorials.
+* Make things more intuitive.
 
