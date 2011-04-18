@@ -3,6 +3,10 @@ This is a brief TODO list for this project.
 Features:
 
 * Circular particle or arbitrary shape recognition. Just calculate the location of the centroid of the shape.
+* Distance measurement tool.
+* Edge detect filter.
+* Save editied image.
+* Live view of coordinates.
 * Upload images even in the absence of FileReader API (IE, Safari, Opera) - this will require PHP/Flash :(
 
 User Interface:
@@ -12,4 +16,5 @@ User Interface:
 * Reduce the number of "popup" messages.
 * Edit help section and provide an index to the video tutorials.
 * Make things more intuitive.
+
 
