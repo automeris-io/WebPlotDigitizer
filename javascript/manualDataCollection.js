@@ -157,8 +157,8 @@ function deleteSpecificPoint()
  */
 function deleteSpecificPointHandler(ev)
 {
-	xi = parseFloat(ev.layerX);
-	yi = parseFloat(ev.layerY);
+	var xi = parseFloat(ev.layerX);
+	var yi = parseFloat(ev.layerY);
 	
 	var minDistance = 10.0;
 	var foundPoint = 0;
@@ -174,6 +174,7 @@ function deleteSpecificPointHandler(ev)
 		{
 			foundPoint = 1;
 			foundIndex = ii;
+			minDistance = distance;
 		}
 	}
 
