@@ -5,7 +5,6 @@ Features:
 * Circular particle or arbitrary shape recognition. Just calculate the location of the centroid of the shape.
 * Distance measurement tool.
 * Edge detect filter.
-* Save editied image.
 * Live view of coordinates.
 * Upload images even in the absence of FileReader API (IE, Safari, Opera) - this will require PHP/Flash :(
 
