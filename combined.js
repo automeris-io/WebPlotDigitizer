@@ -926,6 +926,15 @@ function redrawCanvas()
 }
 
 /**
+ * Create PNG in a new window
+ */
+function savePNG()
+{
+  var saveImageWin = window.open();
+  saveImageWin.location = canvas.toDataURL();
+}
+
+/**
  * Handle dropped file on canvas.
  */
 function dropHandler(ev)
