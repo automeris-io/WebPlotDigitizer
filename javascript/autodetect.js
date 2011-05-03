@@ -223,7 +223,6 @@ function penPaint()
 	addMouseEvent('mousedown',penPaintMousedown,true);
 	addMouseEvent('mouseup',penPaintMouseup,true);
 	addMouseEvent('mousemove',penPaintMousedrag,true);
-
 }
 
 /**
