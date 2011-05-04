@@ -1,7 +1,7 @@
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.1
+	Version 2.2
 
 	Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
@@ -165,79 +165,91 @@ function alignAxes()
 {
     if (plotType == 'XY')
     {
-	var xminEl = document.getElementById('xmin');
-	var xmaxEl = document.getElementById('xmax');
-	var yminEl = document.getElementById('ymin');
-	var ymaxEl = document.getElementById('ymax');
-    
-	axesAlignmentData[0] = parseFloat(xminEl.value);
-	axesAlignmentData[1] = parseFloat(xmaxEl.value);
-	axesAlignmentData[2] = parseFloat(yminEl.value);
-	axesAlignmentData[3] = parseFloat(ymaxEl.value);
+	    var xminEl = document.getElementById('xmin');
+	    var xmaxEl = document.getElementById('xmax');
+	    var yminEl = document.getElementById('ymin');
+	    var ymaxEl = document.getElementById('ymax');
+	    var xlogEl = document.getElementById('xlog');
+	    var ylogEl = document.getElementById('ylog');
+        
+	    axesAlignmentData[0] = parseFloat(xminEl.value);
+	    axesAlignmentData[1] = parseFloat(xmaxEl.value);
+	    axesAlignmentData[2] = parseFloat(yminEl.value);
+	    axesAlignmentData[3] = parseFloat(ymaxEl.value);
 	
-	closePopup('xyAlignment');
+	    if (xlogEl.checked == true)
+	        axesAlignmentData[4] = true;
+	    else
+	        axesAlignmentData[4] = false;
+	        
+	    if (ylogEl.checked == true)
+	        axesAlignmentData[5] = true;
+	    else
+	        axesAlignmentData[5] = false;
+	
+	    closePopup('xyAlignment');
     }
     else if (plotType == 'polar')
     {
-	var r1El = document.getElementById('rpoint1');
-	var theta1El = document.getElementById('thetapoint1');
-	var r2El = document.getElementById('rpoint2');
-	var theta2El = document.getElementById('thetapoint2');
+	    var r1El = document.getElementById('rpoint1');
+	    var theta1El = document.getElementById('thetapoint1');
+	    var r2El = document.getElementById('rpoint2');
+	    var theta2El = document.getElementById('thetapoint2');
 	
-	var degreesEl = document.getElementById('degrees');
-	var radiansEl = document.getElementById('radians');
-	var orientationEl = document.getElementById('clockwise');
+	    var degreesEl = document.getElementById('degrees');
+	    var radiansEl = document.getElementById('radians');
+	    var orientationEl = document.getElementById('clockwise');
 	
-	axesAlignmentData[0] = parseFloat(r1El.value);
-	axesAlignmentData[1] = parseFloat(theta1El.value);
-	axesAlignmentData[2] = parseFloat(r2El.value);
-	axesAlignmentData[3] = parseFloat(theta2El.value);
+	    axesAlignmentData[0] = parseFloat(r1El.value);
+	    axesAlignmentData[1] = parseFloat(theta1El.value);
+	    axesAlignmentData[2] = parseFloat(r2El.value);
+	    axesAlignmentData[3] = parseFloat(theta2El.value);
 	
-	if (degreesEl.checked == true)
-	    axesAlignmentData[4] = 1;
-	else
-	    axesAlignmentData[4] = 0;
+	    if (degreesEl.checked == true)
+	        axesAlignmentData[4] = true;
+	    else
+	        axesAlignmentData[4] = false;
 	
-	if (orientationEl.checked == true)
-	    axesAlignmentData[5] = 1;
-	else
-	    axesAlignmentData[5] = 0;
+	    if (orientationEl.checked == true)
+	        axesAlignmentData[5] = true;
+	    else
+	        axesAlignmentData[5] = false;
 	
 	
-	closePopup('polarAlignment');
+	    closePopup('polarAlignment');
     }
     else if (plotType == 'ternary')
     {
-	var range1El = document.getElementById('range0to1');
-	var range100El = document.getElementById('range0to100');
-	var ternaryNormalEl = document.getElementById('ternarynormal');
+	    var range1El = document.getElementById('range0to1');
+	    var range100El = document.getElementById('range0to100');
+	    var ternaryNormalEl = document.getElementById('ternarynormal');
 	
-	if (range100El.checked == true)
-	  axesAlignmentData[0] = true;
-	else
-	  axesAlignmentData[0] = false;
+	    if (range100El.checked == true)
+	      axesAlignmentData[0] = true;
+	    else
+	      axesAlignmentData[0] = false;
 	
-	if (ternaryNormalEl.checked == true)
-	  axesAlignmentData[1] = true;
-	else
-	  axesAlignmentData[1] = false;
+	    if (ternaryNormalEl.checked == true)
+	      axesAlignmentData[1] = true;
+	    else
+	      axesAlignmentData[1] = false;
 		
-	closePopup('ternaryAlignment');
-    }
-    else if (plotType == 'map')
-    {
-	var scaleLength = document.getElementById('scaleLength');
+	    closePopup('ternaryAlignment');
+        }
+        else if (plotType == 'map')
+        {
+	    var scaleLength = document.getElementById('scaleLength');
 	
-	axesAlignmentData[0] = parseFloat(scaleLength.value);
+	    axesAlignmentData[0] = parseFloat(scaleLength.value);
 	
-	closePopup('mapAlignment');
+	    closePopup('mapAlignment');
     }
     
 }
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.1
+	Version 2.2
 
 	Copyright 2010 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
@@ -459,7 +471,6 @@ function penPaint()
 	addMouseEvent('mousedown',penPaintMousedown,true);
 	addMouseEvent('mouseup',penPaintMouseup,true);
 	addMouseEvent('mousemove',penPaintMousedrag,true);
-
 }
 
 /**
@@ -766,7 +777,7 @@ function scanPlot()
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.1
+	Version 2.2
 
 	Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
@@ -959,7 +970,7 @@ function dropHandler(ev)
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.1
+	Version 2.2
 
 	Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
@@ -1004,7 +1015,7 @@ function saveData()
 			if (plotType == 'XY')
 			{
 			    x1 = xyAxes[1][0] - xyAxes[0][0];
-			    y1 = -(xyAxes[1][1] - xyAxes[0][1]) ;
+			    y1 = -(xyAxes[1][1] - xyAxes[0][1]);
 
 			    x3 = xyAxes[3][0] - xyAxes[0][0];
 			    y3 = -(xyAxes[3][1] - xyAxes[0][1]);
@@ -1013,6 +1024,20 @@ function saveData()
 			    xmax = axesAlignmentData[1];
 			    ymin = axesAlignmentData[2];
 			    ymax = axesAlignmentData[3];
+			    
+			    // If x-axis is log scale
+			    if (axesAlignmentData[4] == true)
+			    {
+			        xmin = Math.log(xmin)/Math.log(10);
+			        xmax = Math.log(xmax)/Math.log(10);
+			    }
+			    
+   			    // If y-axis is log scale
+			    if (axesAlignmentData[5] == true)
+			    {
+			        ymin = Math.log(ymin)/Math.log(10);
+			        ymax = Math.log(ymax)/Math.log(10);
+			    }
 
 			    xm = xmax - xmin;
 			    ym = ymax - ymin;
@@ -1024,12 +1049,21 @@ function saveData()
 
 			    for(ii = 0; ii<pointsPicked; ii++)
 			    {
-				xr = xyData[ii][0] - xyAxes[0][0];
-				yr = - (xyData[ii][1] - xyAxes[0][1]);
-				// find the transform
-				xf = (-y1*xm*xr + x1*xm*yr)/det + x0;
-				yf = (y3*ym*xr - x3*ym*yr)/det + y0;
-				tarea.value = tarea.value + xf + ',' + yf + '\n';
+				    xr = xyData[ii][0] - xyAxes[0][0];
+				    yr = - (xyData[ii][1] - xyAxes[0][1]);
+				    // find the transform
+				    xf = (-y1*xm*xr + x1*xm*yr)/det + x0;
+				    yf = (y3*ym*xr - x3*ym*yr)/det + y0;
+				    
+				    // if x-axis is log scale
+				    if (axesAlignmentData[4] == true)
+				        xf = Math.pow(10,xf);
+				        
+   				    // if y-axis is log scale
+				    if (axesAlignmentData[5] == true)
+				        yf = Math.pow(10,yf);
+
+				    tarea.value = tarea.value + xf + ',' + yf + '\n';
 			    }
 			}
 			else if (plotType == 'map')
@@ -1204,7 +1238,7 @@ function saveData()
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.1
+	Version 2.2
 
 	Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
@@ -1380,7 +1414,7 @@ function rotateCanvas() // Rotate by a specified amount.
 /*
     WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-    Version 2.1
+    Version 2.2
 
     Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
@@ -1593,7 +1627,7 @@ function binaryToImageData(bwdata,imgd)
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotdigitizer
 
-	Version 2.1
+	Version 2.2
 
 	Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
@@ -1714,7 +1748,7 @@ function checkBrowser()
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.1
+	Version 2.2
 
 	Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
@@ -1917,7 +1951,7 @@ function deleteSpecificPointHandler(ev)
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.1
+	Version 2.2
 
 	Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
@@ -2033,7 +2067,7 @@ function taninverse(y,x)
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.1
+	Version 2.2
 
 	Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
@@ -2160,7 +2194,7 @@ function removeMouseEvent(mouseEv, functionName, tf)
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.1
+	Version 2.2
 
 	Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
@@ -2246,7 +2280,7 @@ function processingNote(pmode)
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.1
+	Version 2.2
 
 	Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
@@ -2303,7 +2337,7 @@ function clearSidebar() // Clears all open sidebars
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.1
+	Version 2.2
 
 	Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
@@ -2359,7 +2393,7 @@ function clearToolbar() // Clears all open sidebars
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.1
+	Version 2.2
 
 	Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 

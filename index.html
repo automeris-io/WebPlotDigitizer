@@ -2,7 +2,7 @@
 <!-- 
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.1
+	Version 2.2
 
 	Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
@@ -26,7 +26,7 @@
 
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/> 
-<meta name="Description" content="WebPlotDigitizer v2.0 - Web based tool to extract numerical data from plots and graph images."/>
+<meta name="Description" content="WebPlotDigitizer v2.2 - Web based tool to extract numerical data from plots and graph images."/>
 <meta name="Keywords" content="Plot, Digitizer, WebPlotDigitizer, Ankit Rohatgi, Extract Data, Convert Plots, XY, Polar, Ternary, Map, HTML5"/>
 <meta name="Author" content="Ankit Rohatgi"/>
 <title>WebPlotDigitizer - Copyright 2011 Ankit Rohatgi</title>
@@ -49,6 +49,7 @@
 -->
 
 <script src="combined.js" language="JavaScript"></script>
+
 
 <!-- Start of StatCounter Code -->
 <script type="text/javascript">
@@ -186,13 +187,22 @@ alt="tumblr visitor stats"></a></div></noscript>
 	<p align="center"><input type="button" value="Align Axes" onClick="initiatePlotAlignment();">&nbsp;<input type="button" value="Cancel" onClick="closePopup('axesList');"></p>
 	</div>
 
-	<div id="xyAlignment" class="popup" style="width: 200px;">
-	<p align="center"><b>X Range</b> <!-- <input type="checkbox" id="xlog"> Log Scale --></p>
-	<p align="center">Min: <input type="text" size="6" id="xmin" value="0"></p>
-	<p align="center">Max: <input type="text" size="6" id="xmax" value="1"></p>
-	<p align="center"><b>Y Range</b> <!-- <input type="checkbox" id="ylog"> Log Scale --></p>
-	<p align="center">Min: <input type="text" size="6" id="ymin" value="0"></p>
-	<p align="center">Max: <input type="text" size="6" id="ymax" value="1"></p>
+	<div id="xyAlignment" class="popup" style="width: 300px;">
+	<p align="center"><b>Specify Range of Variables</b></p>
+	<p>&nbsp;</p>
+	<center>
+	<table padding="5"><tr><td></td><td align="center">Min.</td><td align="center">Max.</td><td align="center">Log Scale</td></tr>
+	    <tr><td align="center">X-Axis:</td>
+	        <td align="center"><input type="text" size="6" id="xmin" value="0"></td>
+	        <td align="center"><input type="text" size="6" id="xmax" value="1"></td>
+	        <td align="center"><input type="checkbox" id="xlog"></td>
+	    </tr>
+	    <tr><td align="center">Y-Axis:</td>
+	        <td align="center"><input type="text" size="6" id="ymin" value="0"></td>
+	        <td align="center"><input type="text" size="6" id="ymax" value="1"></td>
+	        <td align="center"><input type="checkbox" id="ylog"></td>
+	    </tr>
+	</table>
 	<p>&nbsp;</p>
 	<p align="center"><input type="button" id="xybtn" value="OK" onClick="alignAxes();"></p>
 	</div>
@@ -307,7 +317,7 @@ alt="tumblr visitor stats"></a></div></noscript>
 	</div>
 
 	<div id="helpWindow" class="popup" style="width: 550px;">
-	<p align="center"><b>WebPlotDigitizer v2.1</b> - Web based Plot Digitizer</p>
+	<p align="center"><b>WebPlotDigitizer v2.2</b> - Web based Plot Digitizer</p>
 	<p>&nbsp;</p>
 	<p align="center"><b>Instructions and Video Tutorials</b></p>
 	<p align="center"><a href="http://arohatgi.info/WebPlotDigitizer/?page_id=58" target="manual">http://arohatgi.info/WebPlotDigitizer/?page_id=58</a></p>
