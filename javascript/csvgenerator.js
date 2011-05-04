@@ -1,7 +1,7 @@
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.1
+	Version 2.2
 
 	Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
@@ -46,7 +46,7 @@ function saveData()
 			if (plotType == 'XY')
 			{
 			    x1 = xyAxes[1][0] - xyAxes[0][0];
-			    y1 = -(xyAxes[1][1] - xyAxes[0][1]) ;
+			    y1 = -(xyAxes[1][1] - xyAxes[0][1]);
 
 			    x3 = xyAxes[3][0] - xyAxes[0][0];
 			    y3 = -(xyAxes[3][1] - xyAxes[0][1]);
@@ -55,6 +55,20 @@ function saveData()
 			    xmax = axesAlignmentData[1];
 			    ymin = axesAlignmentData[2];
 			    ymax = axesAlignmentData[3];
+			    
+			    // If x-axis is log scale
+			    if (axesAlignmentData[4] == true)
+			    {
+			        xmin = Math.log(xmin)/Math.log(10);
+			        xmax = Math.log(xmax)/Math.log(10);
+			    }
+			    
+   			    // If y-axis is log scale
+			    if (axesAlignmentData[5] == true)
+			    {
+			        ymin = Math.log(ymin)/Math.log(10);
+			        ymax = Math.log(ymax)/Math.log(10);
+			    }
 
 			    xm = xmax - xmin;
 			    ym = ymax - ymin;
@@ -66,12 +80,21 @@ function saveData()
 
 			    for(ii = 0; ii<pointsPicked; ii++)
 			    {
-				xr = xyData[ii][0] - xyAxes[0][0];
-				yr = - (xyData[ii][1] - xyAxes[0][1]);
-				// find the transform
-				xf = (-y1*xm*xr + x1*xm*yr)/det + x0;
-				yf = (y3*ym*xr - x3*ym*yr)/det + y0;
-				tarea.value = tarea.value + xf + ',' + yf + '\n';
+				    xr = xyData[ii][0] - xyAxes[0][0];
+				    yr = - (xyData[ii][1] - xyAxes[0][1]);
+				    // find the transform
+				    xf = (-y1*xm*xr + x1*xm*yr)/det + x0;
+				    yf = (y3*ym*xr - x3*ym*yr)/det + y0;
+				    
+				    // if x-axis is log scale
+				    if (axesAlignmentData[4] == true)
+				        xf = Math.pow(10,xf);
+				        
+   				    // if y-axis is log scale
+				    if (axesAlignmentData[5] == true)
+				        yf = Math.pow(10,yf);
+
+				    tarea.value = tarea.value + xf + ',' + yf + '\n';
 			    }
 			}
 			else if (plotType == 'map')

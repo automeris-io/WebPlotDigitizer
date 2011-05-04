@@ -1,7 +1,7 @@
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotdigitizer
 
-	Version 2.1
+	Version 2.2
 
 	Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
