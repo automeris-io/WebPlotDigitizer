@@ -1,7 +1,7 @@
 /*
     WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-    Version 2.2
+    Version 2.3
 
     Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
@@ -27,7 +27,7 @@
 
 /**
  * @fileoverview Image Processing functions.
- * @version 2.1
+ * @version 2.3
  * @author Ankit Rohatgi ankitrohatgi@hotmail.com
  */
 
