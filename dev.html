@@ -123,13 +123,14 @@ alt="tumblr visitor stats"></a></div></noscript>
 <td valign="top" width="220">
 <aside>
 	<!-- zoom window goes here -->
-	<div style="position:relative;">
+	<div style="position:relative;" id="zoomDiv">
 		<canvas id="zoomCanvas" width=200 height=200></canvas>
+
+		<div id="cursorPosition">
+       	(x,y) = (<span id="cxPos"></span>,<span id="cyPos"></span>)
+       	</div>
 	</div>
 	
-	<div id="cursorPosition">
-	(x,y) = (<span id="cxPos"></span>,<span id="cyPos"></span>)
-	</div>
 	
 	<div style="position:relative;">
 

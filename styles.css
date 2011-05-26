@@ -86,9 +86,30 @@ textarea { resize: none; }
 	margin: 0;
 	padding: 0;
 	background: white;
+}
+
+#zoomDiv
+{
+	border: thin grey solid;
+	margin:0px;
+	margin-bottom:5px;
+	padding:0px;
+	width:201px;
 	-moz-box-shadow: 0px 0px 10px #888;
 	-webkit-box-shadow: 0px 0px 10px #888;
+	text-align:center;
+}
 
+#cursorPosition
+{
+    padding:0px 0px;
+	margin:0;
+	margin-top:0px;
+	background:white;
+	width:200px;
+	top:0px;
+	font-size:10px;
+	text-align:center;
 }
 
 input[type="button"]
@@ -164,20 +185,6 @@ input[type="range"]
 
 .popup p { padding:0; margin: 5px 5px;}
 
-#cursorPosition
-{
-    padding:0px 0px;
-	margin:0;
-	margin-bottom:5px;
-	border: thin grey solid;
-	background:white;
-	width:200px;
-	top:0px;
-	-moz-box-shadow: 0px 0px 10px #888;
-	-webkit-box-shadow: 0px 0px 10px #888;
-	font-size:10px;
-	text-align:center;
-}
 
 .sidebar
 {
