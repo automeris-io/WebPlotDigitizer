@@ -488,21 +488,21 @@ function scanPlot()
       
       while((inRange == 1) && (xxi < xPointsPicked))
       {
-	var newX = xPoints[xxi][0];
-	var newY = xPoints[xxi][1];
+	    var newX = xPoints[xxi][0];
+	    var newY = xPoints[xxi][1];
 	
-	if( (Math.abs(newX-oldX) <= xStep) && (Math.abs(newY-oldY) <= yStep/2.0) && (xPoints[xxi][2] == 1))
-	{
-	  avgX = (avgX*matches + newX)/(matches+1.0);
-	  avgY = (avgY*matches + newY)/(matches+1.0);
-	  matches = matches + 1;
-	  
-	  xPoints[xxi][2] = 0;
-	}
-	if (newX > oldX + xStep/2.0)
-	  inRange = 0;
+	    if( (Math.abs(newX-oldX) <= xStep) && (Math.abs(newY-oldY) <= yStep) && (xPoints[xxi][2] == 1))
+	    {
+	      avgX = (avgX*matches + newX)/(matches+1.0);
+	      avgY = (avgY*matches + newY)/(matches+1.0);
+	      matches = matches + 1;
+	      
+	      xPoints[xxi][2] = 0;
+	    }
+	    if (newX > oldX + 2*xStep)
+	      inRange = 0;
 	
-	xxi = xxi + 1;
+	    xxi = xxi + 1;
       }
       
       xPoints[pi][2] = 0; 

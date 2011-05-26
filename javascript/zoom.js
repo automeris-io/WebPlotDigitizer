@@ -40,6 +40,8 @@ var zoom_dx = 20;
 var zoom_dy = 20;
 var zWindowWidth = 200;
 var zWindowHeight = 200;
+var cxPosn;
+var cyPosn;
 
 /**
  * Initialize Zoom Window
@@ -65,6 +67,8 @@ function updateZoom(ev)
 	dx = zoom_dx;
 	dy = zoom_dy;
     
+    cxPosn.innerHTML = xpos;
+    cyPosn.innerHTML = ypos;
 
 	if((xpos-dx/2) >= 0 && (ypos-dy/2) >= 0 && (xpos+dx/2) <= canvasWidth && (ypos+dy/2) <= canvasHeight)
 	{
