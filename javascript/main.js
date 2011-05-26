@@ -67,6 +67,10 @@ function init() // This is run when the page loads.
 	caspectratio = cheight/cwidth;
 
 	ctx = canvas.getContext('2d');
+	
+	// get the coordinates panel
+	cxPosn = document.getElementById('cxPos');
+	cyPosn = document.getElementById('cyPos');
 
 	// Set canvas default state
 	img = new Image();

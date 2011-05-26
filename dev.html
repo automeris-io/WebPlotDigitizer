@@ -127,6 +127,10 @@ alt="tumblr visitor stats"></a></div></noscript>
 		<canvas id="zoomCanvas" width=200 height=200></canvas>
 	</div>
 	
+	<div id="cursorPosition">
+	(x,y) = (<span id="cxPos"></span>,<span id="cyPos"></span>)
+	</div>
+	
 	<div style="position:relative;">
 
 	<!-- side bars go here -->
@@ -335,12 +339,26 @@ alt="tumblr visitor stats"></a></div></noscript>
 	</div>
 
 	<div id="testImageWindow" class="popup">
+	<table>
+	<tr><td>
 	<p align="center"><b>Fine Tuning</b></p>
-	<p>&nbsp;</p>
 	<p align="center">Detection Mode: <input type="radio" name="colorSelectionMode" id="colorModeFG" checked>Foreground <input type="radio" name="colorSelectionMode" id="colorModeBG"> Background</p>
 	<p align="center"> Color Distance: <input type="text" value="40" id="colorDistance" size="3">&nbsp;&nbsp;<input type="button" value="Re-scan" onclick="processingNote(true); setTimeout('updateTestWindow();',100);"><input type="button" value="Save Scan" onClick="saveTest();"></p>
 	<p align="center"><canvas id="testImg" width="400" height="300"></canvas></p>
-	<p align="center">Step Size [ΔX,ΔY] = [<input type="text" size="3" id="xStep" value="5">,<input type="text" size="3" id="yStep" value="5">] Pixels</p>
+	</td>
+	<td valign="top" width="220px">
+	<p><b>Choose Algorithm</b></p>
+	<p><input type="radio" name="autoAlgo" id="autostep" checked>Averaging Window:</p>
+	<p align="right">[ΔX,ΔY] = <input type="text" size="3" id="xStep" value="5">,<input type="text" size="3" id="yStep" value="5"> Px</p>
+	<p><input type="radio" name="autoAlgo" id="xstepalgo">X Step:</p>
+	<p align="right">ΔX = <input type="text" size="3" id="xStepDX" value="5"> Px</p>
+	<p align="right">Line Thickness = <input type="text" size="3" id="xStepDY" value="5"> Px</p>
+	<p><input type="radio" name="autoAlgo" id="ystepalgo">Y Step:</p>
+	<p align="right">ΔY = <input type="text" size="3" id="yStepDY" value="5"> Px</p>
+	<p align="right">Line Thickness = <input type="text" size="3" id="yStepDX" value="5"> Px</p>
+	</td>
+	</tr>
+	</table>
 	<p align="center"><input type="button" value="Get Points" onClick="scanPlot();">&nbsp;&nbsp;<input type="button" value="Cancel" onClick="closePopup('testImageWindow');"></p>
 	</div>
 	
