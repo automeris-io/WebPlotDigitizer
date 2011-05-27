@@ -45,17 +45,11 @@ function saveData()
 			
 			if (plotType == 'XY')
 			{
-			    x1 = xyAxes[0][0];
-			    y1 = xyAxes[0][1];
-			    
-			    x2 = xyAxes[1][0];
-			    y2 = xyAxes[1][1];
-			    
-			    x3 = xyAxes[2][0];
-			    y3 = xyAxes[2][1];
+			    x1 = xyAxes[1][0] - xyAxes[0][0];
+			    y1 = -(xyAxes[1][1] - xyAxes[0][1]);
 
-			    x4 = xyAxes[3][0];
-			    y4 = xyAxes[3][1];
+			    x3 = xyAxes[3][0] - xyAxes[0][0];
+			    y3 = -(xyAxes[3][1] - xyAxes[0][1]);
 			    
 			    xmin = axesAlignmentData[0];
 			    xmax = axesAlignmentData[1];
@@ -78,38 +72,19 @@ function saveData()
 
 			    xm = xmax - xmin;
 			    ym = ymax - ymin;
-			    
-			    d12 = Math.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2));
-			    d34 = Math.sqrt((x3-x4)*(x3-x4) + (y3-y4)*(y3-y4));
-			    
-			    Lx = xm/d12; 
-			    Ly = ym/d34;
-			    
-			    thetax = taninverse(-(y2-y1), (x2-x1));
-			    thetay = taninverse(-(y4-y3), (x4-x3));
-			    
-			    theta = thetay-thetax;
-			    
+			
+			    det = x1*y3 - y1*x3;
+
+			    x0 = xmin;
+			    y0 = ymin;
 
 			    for(ii = 0; ii<pointsPicked; ii++)
 			    {
-			    
-			        xp = xyData[ii][0];
-			        yp = xyData[ii][1];
-			        
-			        dP1 = Math.sqrt((xp-x1)*(xp-x1) + (yp-y1)*(yp-y1));
-			        thetaP1 = taninverse(-(yp-y1), (xp-x1)) - thetax;
-			        
-			        dx = dP1*Math.cos(thetaP1) - dP1*Math.sin(thetaP1)/Math.tan(theta);
-			        
-				    xf = dx*Lx + xmin;
-
-				    dP3 = Math.sqrt((xp-x3)*(xp-x3) + (yp-y3)*(yp-y3));				    
-				    thetaP3 = thetay - taninverse(-(yp-y3), (xp-x3));
-
-				    dy = dP3*Math.cos(thetaP3) - dP3*Math.sin(thetaP3)/Math.tan(theta);
-				    
-				    yf = dy*Ly + ymin;
+				    xr = xyData[ii][0] - xyAxes[0][0];
+				    yr = - (xyData[ii][1] - xyAxes[0][1]);
+				    // find the transform
+				    xf = (-y1*xm*xr + x1*xm*yr)/det + x0;
+				    yf = (y3*ym*xr - x3*ym*yr)/det + y0;
 				    
 				    // if x-axis is log scale
 				    if (axesAlignmentData[4] == true)
