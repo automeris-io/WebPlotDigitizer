@@ -1,7 +1,7 @@
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.2
+	Version 2.3
 
 	Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
@@ -25,7 +25,7 @@
 
 /**
  * @fileoverview  Axes alignment functions.
- * @version 2.1
+ * @version 2.3
  * @author Ankit Rohatgi ankitrohatgi@hotmail.com
  */
 
@@ -249,7 +249,7 @@ function alignAxes()
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.2
+	Version 2.3
 
 	Copyright 2010 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
@@ -273,7 +273,7 @@ function alignAxes()
 
 /**
  * @fileoverview Automatic extraction mode functions.
- * @version 2.1
+ * @version 2.3
  * @author Ankit Rohatgi ankitrohatgi@hotmail.com
  */
 
@@ -736,21 +736,21 @@ function scanPlot()
       
       while((inRange == 1) && (xxi < xPointsPicked))
       {
-	var newX = xPoints[xxi][0];
-	var newY = xPoints[xxi][1];
+	    var newX = xPoints[xxi][0];
+	    var newY = xPoints[xxi][1];
 	
-	if( (Math.abs(newX-oldX) <= xStep) && (Math.abs(newY-oldY) <= yStep/2.0) && (xPoints[xxi][2] == 1))
-	{
-	  avgX = (avgX*matches + newX)/(matches+1.0);
-	  avgY = (avgY*matches + newY)/(matches+1.0);
-	  matches = matches + 1;
-	  
-	  xPoints[xxi][2] = 0;
-	}
-	if (newX > oldX + xStep/2.0)
-	  inRange = 0;
+	    if( (Math.abs(newX-oldX) <= xStep) && (Math.abs(newY-oldY) <= yStep) && (xPoints[xxi][2] == 1))
+	    {
+	      avgX = (avgX*matches + newX)/(matches+1.0);
+	      avgY = (avgY*matches + newY)/(matches+1.0);
+	      matches = matches + 1;
+	      
+	      xPoints[xxi][2] = 0;
+	    }
+	    if (newX > oldX + 2*xStep)
+	      inRange = 0;
 	
-	xxi = xxi + 1;
+	    xxi = xxi + 1;
       }
       
       xPoints[pi][2] = 0; 
@@ -777,7 +777,7 @@ function scanPlot()
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.2
+	Version 2.3
 
 	Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
@@ -801,7 +801,7 @@ function scanPlot()
 
 /**
  * @fileoverview Manage the main canvas.
- * @version 2.1
+ * @version 2.3
  * @author Ankit Rohatgi ankitrohatgi@hotmail.com
  */
 
@@ -970,7 +970,7 @@ function dropHandler(ev)
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.2
+	Version 2.3
 
 	Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
@@ -994,7 +994,7 @@ function dropHandler(ev)
 
 /**
  * @fileoverview Generate CSV.
- * @version 2.1
+ * @version 2.3
  * @author Ankit Rohatgi ankitrohatgi@hotmail.com
  */
 
@@ -1014,11 +1014,17 @@ function saveData()
 			
 			if (plotType == 'XY')
 			{
-			    x1 = xyAxes[1][0] - xyAxes[0][0];
-			    y1 = -(xyAxes[1][1] - xyAxes[0][1]);
+			    x1 = xyAxes[0][0];
+			    y1 = xyAxes[0][1];
+			    
+			    x2 = xyAxes[1][0];
+			    y2 = xyAxes[1][1];
+			    
+			    x3 = xyAxes[2][0];
+			    y3 = xyAxes[2][1];
 
-			    x3 = xyAxes[3][0] - xyAxes[0][0];
-			    y3 = -(xyAxes[3][1] - xyAxes[0][1]);
+			    x4 = xyAxes[3][0];
+			    y4 = xyAxes[3][1];
 			    
 			    xmin = axesAlignmentData[0];
 			    xmax = axesAlignmentData[1];
@@ -1041,19 +1047,38 @@ function saveData()
 
 			    xm = xmax - xmin;
 			    ym = ymax - ymin;
-			
-			    det = x1*y3 - y1*x3;
-
-			    x0 = xmin;
-			    y0 = ymin;
+			    
+			    d12 = Math.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2));
+			    d34 = Math.sqrt((x3-x4)*(x3-x4) + (y3-y4)*(y3-y4));
+			    
+			    Lx = xm/d12; 
+			    Ly = ym/d34;
+			    
+			    thetax = taninverse(-(y2-y1), (x2-x1));
+			    thetay = taninverse(-(y4-y3), (x4-x3));
+			    
+			    theta = thetay-thetax;
+			    
 
 			    for(ii = 0; ii<pointsPicked; ii++)
 			    {
-				    xr = xyData[ii][0] - xyAxes[0][0];
-				    yr = - (xyData[ii][1] - xyAxes[0][1]);
-				    // find the transform
-				    xf = (-y1*xm*xr + x1*xm*yr)/det + x0;
-				    yf = (y3*ym*xr - x3*ym*yr)/det + y0;
+			    
+			        xp = xyData[ii][0];
+			        yp = xyData[ii][1];
+			        
+			        dP1 = Math.sqrt((xp-x1)*(xp-x1) + (yp-y1)*(yp-y1));
+			        thetaP1 = taninverse(-(yp-y1), (xp-x1)) - thetax;
+			        
+			        dx = dP1*Math.cos(thetaP1) - dP1*Math.sin(thetaP1)/Math.tan(theta);
+			        
+				    xf = dx*Lx + xmin;
+
+				    dP3 = Math.sqrt((xp-x3)*(xp-x3) + (yp-y3)*(yp-y3));				    
+				    thetaP3 = thetay - taninverse(-(yp-y3), (xp-x3));
+
+				    dy = dP3*Math.cos(thetaP3) - dP3*Math.sin(thetaP3)/Math.tan(theta);
+				    
+				    yf = dy*Ly + ymin;
 				    
 				    // if x-axis is log scale
 				    if (axesAlignmentData[4] == true)
@@ -1105,12 +1130,12 @@ function saveData()
 
 			    for(ii = 0; ii<pointsPicked; ii++)
 			    {
-				xr = xyData[ii][0] - mx0;
-				yr = - (xyData[ii][1] - my0);
-				// find the transform
-				xf = (-y1*xm*xr + x1*xm*yr)/det + x0;
-				yf = (y3*ym*xr - x3*ym*yr)/det + y0;
-				tarea.value = tarea.value + xf + ',' + yf + '\n';
+				    xr = xyData[ii][0] - mx0;
+				    yr = - (xyData[ii][1] - my0);
+				    // find the transform
+				    xf = (-y1*xm*xr + x1*xm*yr)/det + x0;
+				    yf = (y3*ym*xr - x3*ym*yr)/det + y0;
+				    tarea.value = tarea.value + xf + ',' + yf + '\n';
 			    }
 			    
 			}
@@ -1161,17 +1186,17 @@ function saveData()
 			    
 			    for(ii = 0; ii<pointsPicked; ii++)
 			    {
-				xp = xyData[ii][0];
-				yp = xyData[ii][1];
+				    xp = xyData[ii][0];
+				    yp = xyData[ii][1];
 				
 			        rp = ((r2-r1)/dist12)*(Math.sqrt((xp-x0)*(xp-x0)+(yp-y0)*(yp-y0))-dist10) + r1;
 				
-				thetap = taninverse(-(yp-y0),xp-x0) - alpha0;
+				    thetap = taninverse(-(yp-y0),xp-x0) - alpha0;
 				
-				if(isDegrees == true)
-				  thetap = 180.0*thetap/Math.PI;
+				    if(isDegrees == true)
+				      thetap = 180.0*thetap/Math.PI;
 				
-				tarea.value = tarea.value + rp + ',' + thetap + '\n';
+				    tarea.value = tarea.value + rp + ',' + thetap + '\n';
 			    }
 			    
 			}
@@ -1197,36 +1222,36 @@ function saveData()
 			    		    
 			    for(ii = 0; ii<pointsPicked; ii++)
 			    {
-				xp = xyData[ii][0];
-				yp = xyData[ii][1];
+				    xp = xyData[ii][0];
+				    yp = xyData[ii][1];
 				
 			        rp = Math.sqrt((xp-x0)*(xp-x0)+(yp-y0)*(yp-y0));
 				
-				thetap = taninverse(-(yp-y0),xp-x0) - phi0;
+				    thetap = taninverse(-(yp-y0),xp-x0) - phi0;
 				
-				xx = (rp*Math.cos(thetap))/L;
-				yy = (rp*Math.sin(thetap))/L;
+				    xx = (rp*Math.cos(thetap))/L;
+				    yy = (rp*Math.sin(thetap))/L;
 				
-				ap = 1.0 - xx - yy/root3;
-				bp = xx - yy/root3;
-				cp = 2.0*yy/root3;
+				    ap = 1.0 - xx - yy/root3;
+				    bp = xx - yy/root3;
+				    cp = 2.0*yy/root3;
 				
-				if(isOrientationNormal == false)
-				{
-				  // reverse axes orientation
-				  var bpt = bp;
-				  bp = ap;
-				  ap = cp;
-				  cp = bpt;
-				  				  
-				}
+				    if(isOrientationNormal == false)
+				    {
+				      // reverse axes orientation
+				      var bpt = bp;
+				      bp = ap;
+				      ap = cp;
+				      cp = bpt;
+				      				  
+				    }
 				
-				if (isRange0to100 == true)
-				{
-				  ap = ap*100; bp = bp*100; cp = cp*100;
-				}
+				    if (isRange0to100 == true)
+				    {
+				      ap = ap*100; bp = bp*100; cp = cp*100;
+				    }
 				
-				tarea.value = tarea.value + ap + ',' + bp + ',' + cp + '\n';
+				    tarea.value = tarea.value + ap + ',' + bp + ',' + cp + '\n';
 			    }
 			    
 			}
@@ -1238,7 +1263,7 @@ function saveData()
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.2
+	Version 2.3
 
 	Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
@@ -1262,7 +1287,7 @@ function saveData()
 
 /**
  * @fileoverview Image Editing functions.
- * @version 2.1
+ * @version 2.3
  * @author Ankit Rohatgi ankitrohatgi@hotmail.com
  */
 var cropStatus = 0;
@@ -1414,7 +1439,7 @@ function rotateCanvas() // Rotate by a specified amount.
 /*
     WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-    Version 2.2
+    Version 2.3
 
     Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
@@ -1440,7 +1465,7 @@ function rotateCanvas() // Rotate by a specified amount.
 
 /**
  * @fileoverview Image Processing functions.
- * @version 2.1
+ * @version 2.3
  * @author Ankit Rohatgi ankitrohatgi@hotmail.com
  */
 
@@ -1627,7 +1652,7 @@ function binaryToImageData(bwdata,imgd)
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotdigitizer
 
-	Version 2.2
+	Version 2.3
 
 	Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
@@ -1651,7 +1676,7 @@ function binaryToImageData(bwdata,imgd)
 
 /**
  * @fileoverview This is the main entry point
- * @version 2.1
+ * @version 2.3
  * @author Ankit Rohatgi ankitrohatgi@hotmail.com
  */
 
@@ -1693,6 +1718,10 @@ function init() // This is run when the page loads.
 	caspectratio = cheight/cwidth;
 
 	ctx = canvas.getContext('2d');
+	
+	// get the coordinates panel
+	cxPosn = document.getElementById('cxPos');
+	cyPosn = document.getElementById('cyPos');
 
 	// Set canvas default state
 	img = new Image();
@@ -1748,7 +1777,7 @@ function checkBrowser()
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.2
+	Version 2.3
 
 	Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
@@ -1772,7 +1801,7 @@ function checkBrowser()
 
 /**
  * @fileoverview Manual data collection
- * @version 2.1
+ * @version 2.3
  * @author Ankit Rohatgi ankitrohatgi@hotmail.com
  */
 
@@ -1951,7 +1980,7 @@ function deleteSpecificPointHandler(ev)
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.2
+	Version 2.3
 
 	Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
@@ -1976,7 +2005,7 @@ function deleteSpecificPointHandler(ev)
 
 /**
  * @fileoverview Some math functions.
- * @version 2.1
+ * @version 2.3
  * @author Ankit Rohatgi ankitrohatgi@hotmail.com
  */
 
@@ -2067,7 +2096,7 @@ function taninverse(y,x)
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.2
+	Version 2.3
 
 	Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
@@ -2092,7 +2121,7 @@ function taninverse(y,x)
 
 /**
  * @fileoverview Handle Mouse Events.
- * @version 2.1
+ * @version 2.3
  * @author Ankit Rohatgi
  */
 
@@ -2194,7 +2223,7 @@ function removeMouseEvent(mouseEv, functionName, tf)
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.2
+	Version 2.3
 
 	Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
@@ -2218,7 +2247,7 @@ function removeMouseEvent(mouseEv, functionName, tf)
 
 /**
  * @fileoverview Handle popups.
- * @version 2.1
+ * @version 2.3
  * @author Ankit Rohatgi
  */
 
@@ -2280,7 +2309,7 @@ function processingNote(pmode)
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.2
+	Version 2.3
 
 	Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
@@ -2305,7 +2334,7 @@ function processingNote(pmode)
 
 /**
  * @fileoverview Handle sidebars.
- * @version 2.1
+ * @version 2.3
  * @author Ankit Rohatgi ankitrohatgi@hotmail.com
  */
 
@@ -2337,7 +2366,7 @@ function clearSidebar() // Clears all open sidebars
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.2
+	Version 2.3
 
 	Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
@@ -2361,7 +2390,7 @@ function clearSidebar() // Clears all open sidebars
 
 /**
  * @fileoverview Handle toolbars.
- * @version 2.1
+ * @version 2.3
  * @author Ankit Rohatgi ankitrohatgi@hotmail.com
  */
 
@@ -2393,7 +2422,7 @@ function clearToolbar() // Clears all open sidebars
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.2
+	Version 2.3
 
 	Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
@@ -2418,7 +2447,7 @@ function clearToolbar() // Clears all open sidebars
 
 /**
  * @fileoverview Manage the live zoom window.
- * @version 2.1
+ * @version 2.3
  * @author Ankit Rohatgi ankitrohatgi@hotmail.com
  */
 
@@ -2432,6 +2461,8 @@ var zoom_dx = 20;
 var zoom_dy = 20;
 var zWindowWidth = 200;
 var zWindowHeight = 200;
+var cxPosn;
+var cyPosn;
 
 /**
  * Initialize Zoom Window
@@ -2457,6 +2488,8 @@ function updateZoom(ev)
 	dx = zoom_dx;
 	dy = zoom_dy;
     
+    cxPosn.innerHTML = xpos;
+    cyPosn.innerHTML = ypos;
 
 	if((xpos-dx/2) >= 0 && (ypos-dy/2) >= 0 && (xpos+dx/2) <= canvasWidth && (ypos+dy/2) <= canvasHeight)
 	{

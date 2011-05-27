@@ -161,12 +161,12 @@ function saveData()
 
 			    for(ii = 0; ii<pointsPicked; ii++)
 			    {
-				xr = xyData[ii][0] - mx0;
-				yr = - (xyData[ii][1] - my0);
-				// find the transform
-				xf = (-y1*xm*xr + x1*xm*yr)/det + x0;
-				yf = (y3*ym*xr - x3*ym*yr)/det + y0;
-				tarea.value = tarea.value + xf + ',' + yf + '\n';
+				    xr = xyData[ii][0] - mx0;
+				    yr = - (xyData[ii][1] - my0);
+				    // find the transform
+				    xf = (-y1*xm*xr + x1*xm*yr)/det + x0;
+				    yf = (y3*ym*xr - x3*ym*yr)/det + y0;
+				    tarea.value = tarea.value + xf + ',' + yf + '\n';
 			    }
 			    
 			}
@@ -217,17 +217,17 @@ function saveData()
 			    
 			    for(ii = 0; ii<pointsPicked; ii++)
 			    {
-				xp = xyData[ii][0];
-				yp = xyData[ii][1];
+				    xp = xyData[ii][0];
+				    yp = xyData[ii][1];
 				
 			        rp = ((r2-r1)/dist12)*(Math.sqrt((xp-x0)*(xp-x0)+(yp-y0)*(yp-y0))-dist10) + r1;
 				
-				thetap = taninverse(-(yp-y0),xp-x0) - alpha0;
+				    thetap = taninverse(-(yp-y0),xp-x0) - alpha0;
 				
-				if(isDegrees == true)
-				  thetap = 180.0*thetap/Math.PI;
+				    if(isDegrees == true)
+				      thetap = 180.0*thetap/Math.PI;
 				
-				tarea.value = tarea.value + rp + ',' + thetap + '\n';
+				    tarea.value = tarea.value + rp + ',' + thetap + '\n';
 			    }
 			    
 			}
@@ -253,36 +253,36 @@ function saveData()
 			    		    
 			    for(ii = 0; ii<pointsPicked; ii++)
 			    {
-				xp = xyData[ii][0];
-				yp = xyData[ii][1];
+				    xp = xyData[ii][0];
+				    yp = xyData[ii][1];
 				
 			        rp = Math.sqrt((xp-x0)*(xp-x0)+(yp-y0)*(yp-y0));
 				
-				thetap = taninverse(-(yp-y0),xp-x0) - phi0;
+				    thetap = taninverse(-(yp-y0),xp-x0) - phi0;
 				
-				xx = (rp*Math.cos(thetap))/L;
-				yy = (rp*Math.sin(thetap))/L;
+				    xx = (rp*Math.cos(thetap))/L;
+				    yy = (rp*Math.sin(thetap))/L;
 				
-				ap = 1.0 - xx - yy/root3;
-				bp = xx - yy/root3;
-				cp = 2.0*yy/root3;
+				    ap = 1.0 - xx - yy/root3;
+				    bp = xx - yy/root3;
+				    cp = 2.0*yy/root3;
 				
-				if(isOrientationNormal == false)
-				{
-				  // reverse axes orientation
-				  var bpt = bp;
-				  bp = ap;
-				  ap = cp;
-				  cp = bpt;
-				  				  
-				}
+				    if(isOrientationNormal == false)
+				    {
+				      // reverse axes orientation
+				      var bpt = bp;
+				      bp = ap;
+				      ap = cp;
+				      cp = bpt;
+				      				  
+				    }
 				
-				if (isRange0to100 == true)
-				{
-				  ap = ap*100; bp = bp*100; cp = cp*100;
-				}
+				    if (isRange0to100 == true)
+				    {
+				      ap = ap*100; bp = bp*100; cp = cp*100;
+				    }
 				
-				tarea.value = tarea.value + ap + ',' + bp + ',' + cp + '\n';
+				    tarea.value = tarea.value + ap + ',' + bp + ',' + cp + '\n';
 			    }
 			    
 			}
