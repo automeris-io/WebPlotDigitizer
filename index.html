@@ -2,7 +2,7 @@
 <!-- 
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.2
+	Version 2.3
 
 	Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
@@ -26,11 +26,12 @@
 
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/> 
-<meta name="Description" content="WebPlotDigitizer v2.2 - Web based tool to extract numerical data from plots and graph images."/>
+<meta name="Description" content="WebPlotDigitizer v2.3 - Web based tool to extract numerical data from plots and graph images."/>
 <meta name="Keywords" content="Plot, Digitizer, WebPlotDigitizer, Ankit Rohatgi, Extract Data, Convert Plots, XY, Polar, Ternary, Map, HTML5"/>
 <meta name="Author" content="Ankit Rohatgi"/>
 <title>WebPlotDigitizer - Copyright 2011 Ankit Rohatgi</title>
 <link rel="stylesheet" href="styles.css" type="text/css" media="screen" />
+
 <!--
 <script src="javascript/main.js" language="JavaScript"></script>
 <script src="javascript/canvasDrawing.js" language="JavaScript"></script>
@@ -50,8 +51,8 @@
 
 <script src="combined.js" language="JavaScript"></script>
 
-
 <!-- Start of StatCounter Code -->
+<!--
 <script type="text/javascript">
 var sc_project=6711545; 
 var sc_invisible=1; 
@@ -64,6 +65,7 @@ stats" href="http://statcounter.com/tumblr/"
 target="_blank"><img class="statcounter"
 src="http://c.statcounter.com/6711545/0/9c26f4ca/1/"
 alt="tumblr visitor stats"></a></div></noscript>
+-->
 <!-- End of StatCounter Code -->
 
 </head>
@@ -121,9 +123,14 @@ alt="tumblr visitor stats"></a></div></noscript>
 <td valign="top" width="220">
 <aside>
 	<!-- zoom window goes here -->
-	<div style="position:relative;">
+	<div style="position:relative;" id="zoomDiv">
 		<canvas id="zoomCanvas" width=200 height=200></canvas>
+
+		<div id="cursorPosition">
+       	(x,y) = (<span id="cxPos"></span>,<span id="cyPos"></span>)
+       	</div>
 	</div>
+	
 	
 	<div style="position:relative;">
 
@@ -191,7 +198,7 @@ alt="tumblr visitor stats"></a></div></noscript>
 	<p align="center"><b>Specify Range of Variables</b></p>
 	<p>&nbsp;</p>
 	<center>
-	<table padding="5"><tr><td></td><td align="center">Min.</td><td align="center">Max.</td><td align="center">Log Scale</td></tr>
+	<table padding="10"><tr><td></td><td align="center">Low (1)</td><td align="center">High (2)</td><td align="center">Log Scale</td></tr>
 	    <tr><td align="center">X-Axis:</td>
 	        <td align="center"><input type="text" size="6" id="xmin" value="0"></td>
 	        <td align="center"><input type="text" size="6" id="xmax" value="1"></td>
@@ -256,7 +263,7 @@ alt="tumblr visitor stats"></a></div></noscript>
 	<p align="center"><b>Align X-Y Axes</b></p>
 	<p>&nbsp;</p>
 	<p align="center"><img src="images/xyaxes.png" /></p>
-	<p align="center">Click four corners of the axes starting with the bottom left and going clockwise.</p>
+	<p align="center">Click four known points on the axes in the <font color="red">order shown in red</font>. Two on the X axis (X1, X2) and two on the Y axis (Y1, Y2).</p>
 	<p>&nbsp;</p>
 	<p align="center"><input type="button" value="Proceed" onClick="closePopup('xyAxesInfo')"></p>
 	</div>
@@ -317,7 +324,7 @@ alt="tumblr visitor stats"></a></div></noscript>
 	</div>
 
 	<div id="helpWindow" class="popup" style="width: 550px;">
-	<p align="center"><b>WebPlotDigitizer v2.2</b> - Web based Plot Digitizer</p>
+	<p align="center"><b>WebPlotDigitizer v2.3</b> - Web based Plot Digitizer</p>
 	<p>&nbsp;</p>
 	<p align="center"><b>Instructions and Video Tutorials</b></p>
 	<p align="center"><a href="http://arohatgi.info/WebPlotDigitizer/?page_id=58" target="manual">http://arohatgi.info/WebPlotDigitizer/?page_id=58</a></p>
@@ -333,12 +340,26 @@ alt="tumblr visitor stats"></a></div></noscript>
 	</div>
 
 	<div id="testImageWindow" class="popup">
+	<table>
+	<tr><td>
 	<p align="center"><b>Fine Tuning</b></p>
-	<p>&nbsp;</p>
 	<p align="center">Detection Mode: <input type="radio" name="colorSelectionMode" id="colorModeFG" checked>Foreground <input type="radio" name="colorSelectionMode" id="colorModeBG"> Background</p>
 	<p align="center"> Color Distance: <input type="text" value="40" id="colorDistance" size="3">&nbsp;&nbsp;<input type="button" value="Re-scan" onclick="processingNote(true); setTimeout('updateTestWindow();',100);"><input type="button" value="Save Scan" onClick="saveTest();"></p>
 	<p align="center"><canvas id="testImg" width="400" height="300"></canvas></p>
-	<p align="center">Step Size [ΔX,ΔY] = [<input type="text" size="3" id="xStep" value="5">,<input type="text" size="3" id="yStep" value="5">] Pixels</p>
+	</td>
+	<td valign="top" width="220px">
+	<p><b>Choose Algorithm</b></p>
+	<p><input type="radio" name="autoAlgo" id="autostep" checked>Averaging Window:</p>
+	<p align="right">[ΔX,ΔY] = <input type="text" size="3" id="xStep" value="5">,<input type="text" size="3" id="yStep" value="5"> Px</p>
+	<p><input type="radio" name="autoAlgo" id="xstepalgo">X Step:</p>
+	<p align="right">ΔX = <input type="text" size="3" id="xStepDX" value="5"> Px</p>
+	<p align="right">Line Thickness = <input type="text" size="3" id="xStepDY" value="5"> Px</p>
+	<p><input type="radio" name="autoAlgo" id="ystepalgo">Y Step:</p>
+	<p align="right">ΔY = <input type="text" size="3" id="yStepDY" value="5"> Px</p>
+	<p align="right">Line Thickness = <input type="text" size="3" id="yStepDX" value="5"> Px</p>
+	</td>
+	</tr>
+	</table>
 	<p align="center"><input type="button" value="Get Points" onClick="scanPlot();">&nbsp;&nbsp;<input type="button" value="Cancel" onClick="closePopup('testImageWindow');"></p>
 	</div>
 	
