@@ -137,7 +137,7 @@ input[type="text"]
 
 input[type="range"]
 {
-	height: 10px;
+	height: 15px;
 	background: white;
 	border: thin black solid;
 	-moz-border-radius: 4px;
