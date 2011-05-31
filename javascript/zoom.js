@@ -40,8 +40,10 @@ var zoom_dx = 20;
 var zoom_dy = 20;
 var zWindowWidth = 200;
 var zWindowHeight = 200;
-var cxPosn;
-var cyPosn;
+var mPosn;
+var extendedCrosshair = false;
+var pix = [];
+pix[0] = new Array();
 
 /**
  * Initialize Zoom Window
@@ -67,9 +69,33 @@ function updateZoom(ev)
 	dx = zoom_dx;
 	dy = zoom_dy;
     
-    cxPosn.innerHTML = xpos;
-    cyPosn.innerHTML = ypos;
+    if (axesPicked != 1)
+    {
+        mPosn.innerHTML = xpos + ', ' + ypos;
+    }
+    else if(axesPicked == 1)
+    {
+        pix[0][0] = parseFloat(xpos);
+        pix[0][1] = parseFloat(ypos);
+        var rpix = pixelToData(pix, 1, plotType);
+        mPosn.innerHTML = parseFloat(rpix[0][0]).toExponential(3) + ', ' + parseFloat(rpix[0][1]).toExponential(3);
+        if (plotType == 'ternary')
+            mPosn.innerHTML += ', ' + parseFloat(rpix[0][2]).toExponential(3);
+    }
+    
+  	if (extendedCrosshair == true)
+	{
+	    redrawCanvas();
+	    ctx.strokeStyle = "rgba(0,0,0, 0.5)";
+	    ctx.beginPath();
+	    ctx.moveTo(xpos, 0);
+	    ctx.lineTo(xpos, canvasHeight);
+	    ctx.moveTo(0, ypos);
+	    ctx.lineTo(canvasWidth, ypos);
+	    ctx.stroke();
+	}
 
+    
 	if((xpos-dx/2) >= 0 && (ypos-dy/2) >= 0 && (xpos+dx/2) <= canvasWidth && (ypos+dy/2) <= canvasHeight)
 	{
 		var zoomImage = ctx.getImageData(xpos-dx/2,ypos-dy/2,dx,dy);
@@ -90,5 +116,19 @@ function updateZoom(ev)
 			}
 		zImage.src = imgdata;
 	}
+	
+}
+
+function toggleCrosshair(ev)
+{
+    ev.preventDefault();
+    if (ev.keyCode == 9)
+    {
+        //extendedCrosshair = !(extendedCrosshair);
+        extendedCrosshair = false; // keep it off for now.
+        redrawCanvas();
+        
+    }
+    return;
 }
 

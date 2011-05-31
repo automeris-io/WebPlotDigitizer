@@ -1,7 +1,7 @@
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.3
+	Version 2.4
 
 	Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
@@ -25,7 +25,7 @@
 
 /**
  * @fileoverview  Axes alignment functions.
- * @version 2.3
+ * @version 2.4
  * @author Ankit Rohatgi ankitrohatgi@hotmail.com
  */
 
@@ -53,6 +53,7 @@ var plotType;
  */ 
 function initiatePlotAlignment()
 {
+  axesPicked = 0;
   xyEl = document.getElementById('r_xy');
   polarEl = document.getElementById('r_polar');
   ternaryEl = document.getElementById('r_ternary');
