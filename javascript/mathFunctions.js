@@ -1,7 +1,7 @@
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.3
+	Version 2.4
 
 	Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
@@ -26,78 +26,9 @@
 
 /**
  * @fileoverview Some math functions.
- * @version 2.3
+ * @version 2.4
  * @author Ankit Rohatgi ankitrohatgi@hotmail.com
  */
-
-/**
- * Find inverse of a 2x2 matrix.
- */
-function matrixInverse22(A) // Inverse of a 2x2 matrix
-{
-  a11 = parseFloat(A[0][0]);
-  a12 = parseFloat(A[0][1]);
-  a21 = parseFloat(A[1][0]);
-  a22 = parseFloat(A[1][1]);
-  
-  var Ai = new Array();
-  Ai[0] = new Array();
-  Ai[0][0] = 0.0; Ai[0][1] = 0.0; Ai[1][0] = 0.0; Ai[1][1] = 0.0; 
-  
-  det = a11*a22 - a12*a21;
-  
-  if (det != 0)
-  {
-    Ai[0][0] = a22/det;
-    Ai[0][1] = -a12/det;
-    Ai[1][0] = -a21/det;
-    Ai[1][1] = a22/det;
-  }
-  
-  return Ai;
-}
-
-/**
- * Multiply two matrices
- */
-function multiplyAB(A,r1,c1,B,r2,c2) // Multiply two matrices
-{
-  var P = new Array();
-  
-  var sumrow = 0;
-  
-  if(c1 == r2)
-  {
-    for (var ii = 0; ii < r1; ii++)
-    {
-      P[ii] = new Array();
-      for(var jj = 0; jj < c2; jj++)
-      {
-	 P[ii][jj] = 0.0;
-	 for(var kk = 0; kk < c1; kk++)
-	 {
-	    P[ii][jj] = P[ii][jj] + parseFloat(A[ii][kk])*parseFloat(B[kk][jj]); // P_ij = A_ik.B_kj in index notation.
-	 }
-      }
-    }
-  }
-  
-  return P;
-}
-
-// :TODO: Array and Vector multiplication functions.
-
-function sortMatrix(A,sc) // sort matrix A by column sc
-{
-}
-
-function pixelToData(pxData)
-{
-}
-
-function dataToPixel(pdata)
-{
-}
 
 /** 
  * Calculate inverse tan with range between 0, 2*pi.

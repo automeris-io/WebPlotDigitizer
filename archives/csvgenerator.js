@@ -1,7 +1,7 @@
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.3
+	Version 2.4
 
 	Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
@@ -25,7 +25,7 @@
 
 /**
  * @fileoverview Generate CSV.
- * @version 2.3
+ * @version 2.4
  * @author Ankit Rohatgi ankitrohatgi@hotmail.com
  */
 
@@ -45,11 +45,17 @@ function saveData()
 			
 			if (plotType == 'XY')
 			{
-			    x1 = xyAxes[1][0] - xyAxes[0][0];
-			    y1 = -(xyAxes[1][1] - xyAxes[0][1]);
+			    x1 = xyAxes[0][0];
+			    y1 = xyAxes[0][1];
+			    
+			    x2 = xyAxes[1][0];
+			    y2 = xyAxes[1][1];
+			    
+			    x3 = xyAxes[2][0];
+			    y3 = xyAxes[2][1];
 
-			    x3 = xyAxes[3][0] - xyAxes[0][0];
-			    y3 = -(xyAxes[3][1] - xyAxes[0][1]);
+			    x4 = xyAxes[3][0];
+			    y4 = xyAxes[3][1];
 			    
 			    xmin = axesAlignmentData[0];
 			    xmax = axesAlignmentData[1];
@@ -72,19 +78,38 @@ function saveData()
 
 			    xm = xmax - xmin;
 			    ym = ymax - ymin;
-			
-			    det = x1*y3 - y1*x3;
-
-			    x0 = xmin;
-			    y0 = ymin;
+			    
+			    d12 = Math.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2));
+			    d34 = Math.sqrt((x3-x4)*(x3-x4) + (y3-y4)*(y3-y4));
+			    
+			    Lx = xm/d12; 
+			    Ly = ym/d34;
+			    
+			    thetax = taninverse(-(y2-y1), (x2-x1));
+			    thetay = taninverse(-(y4-y3), (x4-x3));
+			    
+			    theta = thetay-thetax;
+			    
 
 			    for(ii = 0; ii<pointsPicked; ii++)
 			    {
-				    xr = xyData[ii][0] - xyAxes[0][0];
-				    yr = - (xyData[ii][1] - xyAxes[0][1]);
-				    // find the transform
-				    xf = (-y1*xm*xr + x1*xm*yr)/det + x0;
-				    yf = (y3*ym*xr - x3*ym*yr)/det + y0;
+			    
+			        xp = xyData[ii][0];
+			        yp = xyData[ii][1];
+			        
+			        dP1 = Math.sqrt((xp-x1)*(xp-x1) + (yp-y1)*(yp-y1));
+			        thetaP1 = taninverse(-(yp-y1), (xp-x1)) - thetax;
+			        
+			        dx = dP1*Math.cos(thetaP1) - dP1*Math.sin(thetaP1)/Math.tan(theta);
+			        
+				    xf = dx*Lx + xmin;
+
+				    dP3 = Math.sqrt((xp-x3)*(xp-x3) + (yp-y3)*(yp-y3));				    
+				    thetaP3 = thetay - taninverse(-(yp-y3), (xp-x3));
+
+				    dy = dP3*Math.cos(thetaP3) - dP3*Math.sin(thetaP3)/Math.tan(theta);
+				    
+				    yf = dy*Ly + ymin;
 				    
 				    // if x-axis is log scale
 				    if (axesAlignmentData[4] == true)
@@ -136,12 +161,12 @@ function saveData()
 
 			    for(ii = 0; ii<pointsPicked; ii++)
 			    {
-				xr = xyData[ii][0] - mx0;
-				yr = - (xyData[ii][1] - my0);
-				// find the transform
-				xf = (-y1*xm*xr + x1*xm*yr)/det + x0;
-				yf = (y3*ym*xr - x3*ym*yr)/det + y0;
-				tarea.value = tarea.value + xf + ',' + yf + '\n';
+				    xr = xyData[ii][0] - mx0;
+				    yr = - (xyData[ii][1] - my0);
+				    // find the transform
+				    xf = (-y1*xm*xr + x1*xm*yr)/det + x0;
+				    yf = (y3*ym*xr - x3*ym*yr)/det + y0;
+				    tarea.value = tarea.value + xf + ',' + yf + '\n';
 			    }
 			    
 			}
@@ -192,17 +217,17 @@ function saveData()
 			    
 			    for(ii = 0; ii<pointsPicked; ii++)
 			    {
-				xp = xyData[ii][0];
-				yp = xyData[ii][1];
+				    xp = xyData[ii][0];
+				    yp = xyData[ii][1];
 				
 			        rp = ((r2-r1)/dist12)*(Math.sqrt((xp-x0)*(xp-x0)+(yp-y0)*(yp-y0))-dist10) + r1;
 				
-				thetap = taninverse(-(yp-y0),xp-x0) - alpha0;
+				    thetap = taninverse(-(yp-y0),xp-x0) - alpha0;
 				
-				if(isDegrees == true)
-				  thetap = 180.0*thetap/Math.PI;
+				    if(isDegrees == true)
+				      thetap = 180.0*thetap/Math.PI;
 				
-				tarea.value = tarea.value + rp + ',' + thetap + '\n';
+				    tarea.value = tarea.value + rp + ',' + thetap + '\n';
 			    }
 			    
 			}
@@ -228,41 +253,71 @@ function saveData()
 			    		    
 			    for(ii = 0; ii<pointsPicked; ii++)
 			    {
-				xp = xyData[ii][0];
-				yp = xyData[ii][1];
+				    xp = xyData[ii][0];
+				    yp = xyData[ii][1];
 				
 			        rp = Math.sqrt((xp-x0)*(xp-x0)+(yp-y0)*(yp-y0));
 				
-				thetap = taninverse(-(yp-y0),xp-x0) - phi0;
+				    thetap = taninverse(-(yp-y0),xp-x0) - phi0;
 				
-				xx = (rp*Math.cos(thetap))/L;
-				yy = (rp*Math.sin(thetap))/L;
+				    xx = (rp*Math.cos(thetap))/L;
+				    yy = (rp*Math.sin(thetap))/L;
 				
-				ap = 1.0 - xx - yy/root3;
-				bp = xx - yy/root3;
-				cp = 2.0*yy/root3;
+				    ap = 1.0 - xx - yy/root3;
+				    bp = xx - yy/root3;
+				    cp = 2.0*yy/root3;
 				
-				if(isOrientationNormal == false)
-				{
-				  // reverse axes orientation
-				  var bpt = bp;
-				  bp = ap;
-				  ap = cp;
-				  cp = bpt;
-				  				  
-				}
+				    if(isOrientationNormal == false)
+				    {
+				      // reverse axes orientation
+				      var bpt = bp;
+				      bp = ap;
+				      ap = cp;
+				      cp = bpt;
+				      				  
+				    }
 				
-				if (isRange0to100 == true)
-				{
-				  ap = ap*100; bp = bp*100; cp = cp*100;
-				}
+				    if (isRange0to100 == true)
+				    {
+				      ap = ap*100; bp = bp*100; cp = cp*100;
+				    }
 				
-				tarea.value = tarea.value + ap + ',' + bp + ',' + cp + '\n';
+				    tarea.value = tarea.value + ap + ',' + bp + ',' + cp + '\n';
 			    }
 			    
 			}
 		}
 }
+
+/*
+ * Generate CSV.
+ */
+ function generateCSV()
+ {
+    if((axesPicked == 1) && (pointsPicked >= 1))
+    {
+        showPopup('csvWindow');
+		var tarea = document.getElementById('tarea');
+		tarea.value = '';
+		
+		var retData = pixelToData(xyData, pointsPicked, plotType);
+		
+		if((plotType == 'XY') || (plotType == 'map') || (plotType == 'polar'))
+		{
+		    for(var ii = 0; ii < pointsPicked; ii++)
+		    {
+                tarea.value = tarea.value + retData[ii][0] + ',' + retData[ii][1] + '\n';
+		    }
+		}
+		else if((plotType == 'ternary'))
+		{
+		    for(var ii = 0; ii < pointsPicked; ii++)
+		    {
+                tarea.value = tarea.value + retData[ii][0] + ',' + retData[ii][1] + ',' + retData[ii][2] + '\n';
+		    }
+		}
+    }
+ }
 
 
 

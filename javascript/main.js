@@ -1,7 +1,7 @@
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotdigitizer
 
-	Version 2.3
+	Version 2.4
 
 	Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
@@ -25,7 +25,7 @@
 
 /**
  * @fileoverview This is the main entry point
- * @version 2.3
+ * @version 2.4
  * @author Ankit Rohatgi ankitrohatgi@hotmail.com
  */
 
@@ -69,8 +69,7 @@ function init() // This is run when the page loads.
 	ctx = canvas.getContext('2d');
 	
 	// get the coordinates panel
-	cxPosn = document.getElementById('cxPos');
-	cyPosn = document.getElementById('cyPos');
+	mPosn = document.getElementById('mousePosition');
 
 	// Set canvas default state
 	img = new Image();
@@ -86,6 +85,9 @@ function init() // This is run when the page loads.
 	// specify mouseover function
 	//canvas.addEventListener('click',clickHandler,false);
 	canvas.addEventListener('mousemove',updateZoom,false);
+	
+	// Add support for extended crosshair
+	document.body.addEventListener('keydown', toggleCrosshair, false);
 
 	// Image dropping capabilities
 	canvas.addEventListener('dragover',function(event) {event.preventDefault();}, true);
