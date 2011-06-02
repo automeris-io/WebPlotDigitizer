@@ -1,7 +1,7 @@
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.3
+	Version 2.4
 
 	Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
@@ -25,7 +25,7 @@
 
 /**
  * @fileoverview  Axes alignment functions.
- * @version 2.3
+ * @version 2.4
  * @author Ankit Rohatgi ankitrohatgi@hotmail.com
  */
 
@@ -53,6 +53,7 @@ var plotType;
  */ 
 function initiatePlotAlignment()
 {
+  axesPicked = 0;
   xyEl = document.getElementById('r_xy');
   polarEl = document.getElementById('r_polar');
   ternaryEl = document.getElementById('r_ternary');
@@ -249,7 +250,7 @@ function alignAxes()
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.3
+	Version 2.4
 
 	Copyright 2010 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
@@ -273,7 +274,7 @@ function alignAxes()
 
 /**
  * @fileoverview Automatic extraction mode functions.
- * @version 2.3
+ * @version 2.4
  * @author Ankit Rohatgi ankitrohatgi@hotmail.com
  */
 
@@ -671,7 +672,7 @@ function scanPlot()
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.3
+	Version 2.4
 
 	Copyright 2010 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
@@ -695,7 +696,7 @@ function scanPlot()
 
 /**
  * @fileoverview Automatic extraction algorithms.
- * @version 2.3
+ * @version 2.4
  * @author Ankit Rohatgi ankitrohatgi@hotmail.com
  */
  
@@ -995,7 +996,7 @@ function AE_ystep()
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.3
+	Version 2.4
 
 	Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
@@ -1019,7 +1020,7 @@ function AE_ystep()
 
 /**
  * @fileoverview Manage the main canvas.
- * @version 2.3
+ * @version 2.4
  * @author Ankit Rohatgi ankitrohatgi@hotmail.com
  */
 
@@ -1188,7 +1189,310 @@ function dropHandler(ev)
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.3
+	Version 2.4
+
+	Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+
+	This file is part of WebPlotDigitizer.
+
+    WebPlotDigitizer is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    WebPlotDigitizer is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
+
+
+*/
+
+/**
+ * @fileoverview Transform coordinates between screen pixels and real data.
+ * @version 2.4
+ * @author Ankit Rohatgi ankitrohatgi@hotmail.com
+ */
+
+/*
+ * Pixel to real coordinate.
+ * @params {Array} pdata Pixel data
+ * @params {Int} pn Number of data points.
+ * @params {String} ptype Plot type
+ */
+ function pixelToData(pdata, pn, ptype)
+ {
+    if((axesPicked == 1) && (pn >= 1))
+    {
+        var rdata = [];
+        
+        if (ptype == 'XY')
+		{
+		    var x1 = xyAxes[0][0];
+		    var y1 = xyAxes[0][1];
+		    
+		    var x2 = xyAxes[1][0];
+		    var y2 = xyAxes[1][1];
+		    
+		    var x3 = xyAxes[2][0];
+		    var y3 = xyAxes[2][1];
+
+		    var x4 = xyAxes[3][0];
+		    var y4 = xyAxes[3][1];
+		    
+		    var xmin = axesAlignmentData[0];
+		    var xmax = axesAlignmentData[1];
+		    var ymin = axesAlignmentData[2];
+		    var ymax = axesAlignmentData[3];
+		    
+		    // If x-axis is log scale
+		    if (axesAlignmentData[4] == true)
+		    {
+		        xmin = Math.log(xmin)/Math.log(10);
+		        xmax = Math.log(xmax)/Math.log(10);
+		    }
+		    
+		    // If y-axis is log scale
+		    if (axesAlignmentData[5] == true)
+		    {
+		        ymin = Math.log(ymin)/Math.log(10);
+		        ymax = Math.log(ymax)/Math.log(10);
+		    }
+
+		    var xm = xmax - xmin;
+		    var ym = ymax - ymin;
+		    
+		    var d12 = Math.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2));
+		    var d34 = Math.sqrt((x3-x4)*(x3-x4) + (y3-y4)*(y3-y4));
+		    
+		    var Lx = xm/d12; 
+		    var Ly = ym/d34;
+		    
+		    var thetax = taninverse(-(y2-y1), (x2-x1));
+		    var thetay = taninverse(-(y4-y3), (x4-x3));
+		    
+		    var theta = thetay-thetax;
+		    
+
+		    for(ii = 0; ii<pn; ii++)
+		    {
+		    
+		        var xp = pdata[ii][0];
+		        var yp = pdata[ii][1];
+		        
+		        var dP1 = Math.sqrt((xp-x1)*(xp-x1) + (yp-y1)*(yp-y1));
+		        var thetaP1 = taninverse(-(yp-y1), (xp-x1)) - thetax;
+		        
+		        var dx = dP1*Math.cos(thetaP1) - dP1*Math.sin(thetaP1)/Math.tan(theta);
+		        
+			    var xf = dx*Lx + xmin;
+
+			    var dP3 = Math.sqrt((xp-x3)*(xp-x3) + (yp-y3)*(yp-y3));				    
+			    var thetaP3 = thetay - taninverse(-(yp-y3), (xp-x3));
+
+			    var dy = dP3*Math.cos(thetaP3) - dP3*Math.sin(thetaP3)/Math.tan(theta);
+			    
+			    var yf = dy*Ly + ymin;
+			    
+			    // if x-axis is log scale
+			    if (axesAlignmentData[4] == true)
+			        xf = Math.pow(10,xf);
+			        
+			    // if y-axis is log scale
+			    if (axesAlignmentData[5] == true)
+			        yf = Math.pow(10,yf);
+
+                rdata[ii] = new Array();
+                rdata[ii][0] = xf;
+                rdata[ii][1] = yf;
+		    }
+		}
+		else if (ptype == 'map')
+		{
+		    
+		    var mx0 = 0.0; my0 = canvasHeight;
+		    var mx1 = 0.0; my1 = 0.0;
+		    var mx2 = canvasWidth; my2 = 0;
+		    var mx3 = canvasWidth; my3 = canvasHeight;
+		    
+		    var x1 = mx1 - mx0;
+		    var y1 = -(my1 - my0);
+		    
+		    var x3 = mx3 - mx0;
+		    var y3 = -(my3 - my0);
+		    		
+		    var scaleSize = axesAlignmentData[0];
+		    
+		    var sx1 = xyAxes[0][0];
+		    var sy1 = xyAxes[0][1];
+		    var sx2 = xyAxes[1][0];
+		    var sy2 = xyAxes[1][1];
+		    
+		    var scaleLength = scaleSize/Math.sqrt((sx1-sx2)*(sx1-sx2) + (sy1-sy2)*(sy1-sy2));
+		    		    
+		    var xmin = 0;
+		    var xmax = canvasWidth*scaleLength;
+		    
+		    var ymin = 0;
+		    var ymax = canvasHeight*scaleLength;
+
+		    var xm = xmax - xmin;
+		    var ym = ymax - ymin;
+		
+		    var det = x1*y3 - y1*x3;
+
+		    var x0 = xmin;
+		    var y0 = ymin;
+
+		    for(ii = 0; ii<pn; ii++)
+		    {
+			    var xr = pdata[ii][0] - mx0;
+			    var yr = - (pdata[ii][1] - my0);
+			    // find the transform
+			    var xf = (-y1*xm*xr + x1*xm*yr)/det + x0;
+			    var yf = (y3*ym*xr - x3*ym*yr)/det + y0;
+			    
+			    rdata[ii] = new Array();
+                rdata[ii][0] = xf;
+                rdata[ii][1] = yf;
+		    }
+		    
+		}
+		else if (ptype == 'polar')
+		{
+		    // Center: 0
+		    var x0 = parseFloat(xyAxes[0][0]);
+		    var y0 = parseFloat(xyAxes[0][1]);
+		    
+		    // Known Point: 1
+		    var x1 = parseFloat(xyAxes[1][0]);
+		    var y1 = parseFloat(xyAxes[1][1]);
+		    
+		    // Known Point: 2
+		    var x2 = parseFloat(xyAxes[2][0]);
+		    var y2 = parseFloat(xyAxes[2][1]);
+		    			    
+		    var r1 = parseFloat(axesAlignmentData[0]);
+		    var theta1 = parseFloat(axesAlignmentData[1]); 
+		    
+		    var r2 = parseFloat(axesAlignmentData[2]);
+		    var theta2 = parseFloat(axesAlignmentData[3]); 
+		    
+		    var isDegrees = axesAlignmentData[4];
+		    
+		    var isClockwise = axesAlignmentData[5];
+		    
+		    if (isDegrees == true) // if degrees
+		    {
+		        theta1 = (Math.PI/180.0)*theta1;
+    			theta2 = (Math.PI/180.0)*theta2;
+		    }
+		    			    
+		    // Distance between 1 and 0.
+		    var dist10 = Math.sqrt((x1-x0)*(x1-x0) + (y1-y0)*(y1-y0)); 
+		    
+		    // Distance between 2 and 0
+		    var dist20 = Math.sqrt((x2-x0)*(x2-x0) + (y2-y0)*(y2-y0)); 
+		    
+		    // Radial Distance between 1 and 2.
+		    var dist12 = dist20 - dist10;
+		    
+		    var phi0 = taninverse(-(y1-y0),x1-x0);
+		    
+		    var alpha0 = phi0 - theta1;
+		    
+		    for(ii = 0; ii<pn; ii++)
+		    {
+			    var xp = pdata[ii][0];
+			    var yp = pdata[ii][1];
+			
+		        var rp = ((r2-r1)/dist12)*(Math.sqrt((xp-x0)*(xp-x0)+(yp-y0)*(yp-y0))-dist10) + r1;
+			
+			    var thetap = taninverse(-(yp-y0),xp-x0) - alpha0;
+			
+			    if(isDegrees == true)
+			      thetap = 180.0*thetap/Math.PI;
+			      
+    		    rdata[ii] = new Array();
+                rdata[ii][0] = rp;
+                rdata[ii][1] = thetap;
+			
+		    }
+		    
+		}
+		else if(plotType == 'ternary')
+		{
+		    var x0 = xyAxes[0][0];
+		    var y0 = xyAxes[0][1];
+		    
+		    var x1 = xyAxes[1][0];
+		    var y1 = xyAxes[1][1];
+		    
+		    var x2 = xyAxes[2][0];
+		    var y2 = xyAxes[2][1];
+		    
+		    var L = Math.sqrt((x0-x1)*(x0-x1) + (y0-y1)*(y0-y1));
+		    
+		    var phi0 = taninverse(-(y1-y0),x1-x0);
+		    
+		    var root3 = Math.sqrt(3);
+		    
+		    var isRange0to100 = axesAlignmentData[0];
+		    var isOrientationNormal = axesAlignmentData[1];
+		    		    
+		    for(ii = 0; ii<pn; ii++)
+		    {
+			    var xp = pdata[ii][0];
+			    var yp = pdata[ii][1];
+			
+		        var rp = Math.sqrt((xp-x0)*(xp-x0)+(yp-y0)*(yp-y0));
+			
+			    var thetap = taninverse(-(yp-y0),xp-x0) - phi0;
+			
+			    var xx = (rp*Math.cos(thetap))/L;
+			    var yy = (rp*Math.sin(thetap))/L;
+			
+			    var ap = 1.0 - xx - yy/root3;
+			    var bp = xx - yy/root3;
+			    var cp = 2.0*yy/root3;
+			
+			    if(isOrientationNormal == false)
+			    {
+			      // reverse axes orientation
+			      var bpt = bp;
+			      bp = ap;
+			      ap = cp;
+			      cp = bpt;
+			      				  
+			    }
+			
+			    if (isRange0to100 == true)
+			    {
+			      ap = ap*100; bp = bp*100; cp = cp*100;
+			    }
+    
+    			rdata[ii] = new Array();
+                rdata[ii][0] = ap;
+                rdata[ii][1] = bp;
+                rdata[ii][2] = cp;
+
+		    }
+		    
+		}
+		
+		return rdata;
+
+    }
+    
+    return 0;
+ }
+/*
+	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
+
+	Version 2.4
 
 	Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
@@ -1212,276 +1516,48 @@ function dropHandler(ev)
 
 /**
  * @fileoverview Generate CSV.
- * @version 2.3
+ * @version 2.4
  * @author Ankit Rohatgi ankitrohatgi@hotmail.com
  */
+ 
+/* TODO: Insert data sorting algorithms.  */
 
-/**
- * Generate the .CSV output.
+/*
+ * Generate CSV.
  */
-function saveData() 
-{
-		// check if everything was specified
-		// transform to proper numbers
-		// save data as CSV.
-		if(axesPicked ==1 && pointsPicked >= 1) 
+ function generateCSV()
+ {
+    if((axesPicked == 1) && (pointsPicked >= 1))
+    {
+        showPopup('csvWindow');
+		var tarea = document.getElementById('tarea');
+		tarea.value = '';
+		
+		var retData = pixelToData(xyData, pointsPicked, plotType);
+		
+		if((plotType == 'XY') || (plotType == 'map') || (plotType == 'polar'))
 		{
-			showPopup('csvWindow');
-			tarea = document.getElementById('tarea');
-			tarea.value = '';
-			
-			if (plotType == 'XY')
-			{
-			    x1 = xyAxes[0][0];
-			    y1 = xyAxes[0][1];
-			    
-			    x2 = xyAxes[1][0];
-			    y2 = xyAxes[1][1];
-			    
-			    x3 = xyAxes[2][0];
-			    y3 = xyAxes[2][1];
-
-			    x4 = xyAxes[3][0];
-			    y4 = xyAxes[3][1];
-			    
-			    xmin = axesAlignmentData[0];
-			    xmax = axesAlignmentData[1];
-			    ymin = axesAlignmentData[2];
-			    ymax = axesAlignmentData[3];
-			    
-			    // If x-axis is log scale
-			    if (axesAlignmentData[4] == true)
-			    {
-			        xmin = Math.log(xmin)/Math.log(10);
-			        xmax = Math.log(xmax)/Math.log(10);
-			    }
-			    
-   			    // If y-axis is log scale
-			    if (axesAlignmentData[5] == true)
-			    {
-			        ymin = Math.log(ymin)/Math.log(10);
-			        ymax = Math.log(ymax)/Math.log(10);
-			    }
-
-			    xm = xmax - xmin;
-			    ym = ymax - ymin;
-			    
-			    d12 = Math.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2));
-			    d34 = Math.sqrt((x3-x4)*(x3-x4) + (y3-y4)*(y3-y4));
-			    
-			    Lx = xm/d12; 
-			    Ly = ym/d34;
-			    
-			    thetax = taninverse(-(y2-y1), (x2-x1));
-			    thetay = taninverse(-(y4-y3), (x4-x3));
-			    
-			    theta = thetay-thetax;
-			    
-
-			    for(ii = 0; ii<pointsPicked; ii++)
-			    {
-			    
-			        xp = xyData[ii][0];
-			        yp = xyData[ii][1];
-			        
-			        dP1 = Math.sqrt((xp-x1)*(xp-x1) + (yp-y1)*(yp-y1));
-			        thetaP1 = taninverse(-(yp-y1), (xp-x1)) - thetax;
-			        
-			        dx = dP1*Math.cos(thetaP1) - dP1*Math.sin(thetaP1)/Math.tan(theta);
-			        
-				    xf = dx*Lx + xmin;
-
-				    dP3 = Math.sqrt((xp-x3)*(xp-x3) + (yp-y3)*(yp-y3));				    
-				    thetaP3 = thetay - taninverse(-(yp-y3), (xp-x3));
-
-				    dy = dP3*Math.cos(thetaP3) - dP3*Math.sin(thetaP3)/Math.tan(theta);
-				    
-				    yf = dy*Ly + ymin;
-				    
-				    // if x-axis is log scale
-				    if (axesAlignmentData[4] == true)
-				        xf = Math.pow(10,xf);
-				        
-   				    // if y-axis is log scale
-				    if (axesAlignmentData[5] == true)
-				        yf = Math.pow(10,yf);
-
-				    tarea.value = tarea.value + xf + ',' + yf + '\n';
-			    }
-			}
-			else if (plotType == 'map')
-			{
-			    
-			    mx0 = 0.0; my0 = canvasHeight;
-			    mx1 = 0.0; my1 = 0.0;
-			    mx2 = canvasWidth; my2 = 0;
-			    mx3 = canvasWidth; my3 = canvasHeight;
-			    
-			    x1 = mx1 - mx0;
-			    y1 = -(my1 - my0);
-			    
-			    x3 = mx3 - mx0;
-			    y3 = -(my3 - my0);
-			    		
-			    scaleSize = axesAlignmentData[0];
-			    
-			    sx1 = xyAxes[0][0];
-			    sy1 = xyAxes[0][1];
-			    sx2 = xyAxes[1][0];
-			    sy2 = xyAxes[1][1];
-			    
-			    scaleLength = scaleSize/Math.sqrt((sx1-sx2)*(sx1-sx2) + (sy1-sy2)*(sy1-sy2));
-			    		    
-			    xmin = 0;
-			    xmax = canvasWidth*scaleLength;
-			    
-			    ymin = 0;
-			    ymax = canvasHeight*scaleLength;
-
-			    xm = xmax - xmin;
-			    ym = ymax - ymin;
-			
-			    det = x1*y3 - y1*x3;
-
-			    x0 = xmin;
-			    y0 = ymin;
-
-			    for(ii = 0; ii<pointsPicked; ii++)
-			    {
-				    xr = xyData[ii][0] - mx0;
-				    yr = - (xyData[ii][1] - my0);
-				    // find the transform
-				    xf = (-y1*xm*xr + x1*xm*yr)/det + x0;
-				    yf = (y3*ym*xr - x3*ym*yr)/det + y0;
-				    tarea.value = tarea.value + xf + ',' + yf + '\n';
-			    }
-			    
-			}
-			else if (plotType == 'polar')
-			{
-			    // Center: 0
-			    x0 = parseFloat(xyAxes[0][0]);
-			    y0 = parseFloat(xyAxes[0][1]);
-			    
-			    // Known Point: 1
-			    x1 = parseFloat(xyAxes[1][0]);
-			    y1 = parseFloat(xyAxes[1][1]);
-			    
-			    // Known Point: 2
-			    x2 = parseFloat(xyAxes[2][0]);
-			    y2 = parseFloat(xyAxes[2][1]);
-			    			    
-			    r1 = parseFloat(axesAlignmentData[0]);
-			    theta1 = parseFloat(axesAlignmentData[1]); 
-			    
-			    r2 = parseFloat(axesAlignmentData[2]);
-			    theta2 = parseFloat(axesAlignmentData[3]); 
-			    
-			    isDegrees = axesAlignmentData[4];
-			    
-			    isClockwise = axesAlignmentData[5];
-			    
-			    if (isDegrees == true) // if degrees
-			    {
-			        theta1 = (Math.PI/180.0)*theta1;
-				theta2 = (Math.PI/180.0)*theta2;
-			    }
-			    			    
-			    
-			    
-			    // Distance between 1 and 0.
-			    dist10 = Math.sqrt((x1-x0)*(x1-x0) + (y1-y0)*(y1-y0)); 
-			    
-			    // Distance between 2 and 0
-			    dist20 = Math.sqrt((x2-x0)*(x2-x0) + (y2-y0)*(y2-y0)); 
-			    
-			    // Radial Distance between 1 and 2.
-			    dist12 = dist20 - dist10;
-			    
-			    phi0 = taninverse(-(y1-y0),x1-x0);
-			    
-			    alpha0 = phi0 - theta1;
-			    
-			    for(ii = 0; ii<pointsPicked; ii++)
-			    {
-				    xp = xyData[ii][0];
-				    yp = xyData[ii][1];
-				
-			        rp = ((r2-r1)/dist12)*(Math.sqrt((xp-x0)*(xp-x0)+(yp-y0)*(yp-y0))-dist10) + r1;
-				
-				    thetap = taninverse(-(yp-y0),xp-x0) - alpha0;
-				
-				    if(isDegrees == true)
-				      thetap = 180.0*thetap/Math.PI;
-				
-				    tarea.value = tarea.value + rp + ',' + thetap + '\n';
-			    }
-			    
-			}
-			else if(plotType == 'ternary')
-			{
-			    x0 = xyAxes[0][0];
-			    y0 = xyAxes[0][1];
-			    
-			    x1 = xyAxes[1][0];
-			    y1 = xyAxes[1][1];
-			    
-			    x2 = xyAxes[2][0];
-			    y2 = xyAxes[2][1];
-			    
-			    L = Math.sqrt((x0-x1)*(x0-x1) + (y0-y1)*(y0-y1));
-			    
-			    phi0 = taninverse(-(y1-y0),x1-x0);
-			    
-			    root3 = Math.sqrt(3);
-			    
-			    var isRange0to100 = axesAlignmentData[0];
-			    var isOrientationNormal = axesAlignmentData[1];
-			    		    
-			    for(ii = 0; ii<pointsPicked; ii++)
-			    {
-				    xp = xyData[ii][0];
-				    yp = xyData[ii][1];
-				
-			        rp = Math.sqrt((xp-x0)*(xp-x0)+(yp-y0)*(yp-y0));
-				
-				    thetap = taninverse(-(yp-y0),xp-x0) - phi0;
-				
-				    xx = (rp*Math.cos(thetap))/L;
-				    yy = (rp*Math.sin(thetap))/L;
-				
-				    ap = 1.0 - xx - yy/root3;
-				    bp = xx - yy/root3;
-				    cp = 2.0*yy/root3;
-				
-				    if(isOrientationNormal == false)
-				    {
-				      // reverse axes orientation
-				      var bpt = bp;
-				      bp = ap;
-				      ap = cp;
-				      cp = bpt;
-				      				  
-				    }
-				
-				    if (isRange0to100 == true)
-				    {
-				      ap = ap*100; bp = bp*100; cp = cp*100;
-				    }
-				
-				    tarea.value = tarea.value + ap + ',' + bp + ',' + cp + '\n';
-			    }
-			    
-			}
+		    for(var ii = 0; ii < pointsPicked; ii++)
+		    {
+                tarea.value = tarea.value + retData[ii][0] + ',' + retData[ii][1] + '\n';
+		    }
 		}
-}
+		else if((plotType == 'ternary'))
+		{
+		    for(var ii = 0; ii < pointsPicked; ii++)
+		    {
+                tarea.value = tarea.value + retData[ii][0] + ',' + retData[ii][1] + ',' + retData[ii][2] + '\n';
+		    }
+		}
+    }
+ }
 
 
 
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.3
+	Version 2.4
 
 	Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
@@ -1505,7 +1581,7 @@ function saveData()
 
 /**
  * @fileoverview Image Editing functions.
- * @version 2.3
+ * @version 2.4
  * @author Ankit Rohatgi ankitrohatgi@hotmail.com
  */
 var cropStatus = 0;
@@ -1657,7 +1733,7 @@ function rotateCanvas() // Rotate by a specified amount.
 /*
     WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-    Version 2.3
+    Version 2.4
 
     Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
@@ -1683,7 +1759,7 @@ function rotateCanvas() // Rotate by a specified amount.
 
 /**
  * @fileoverview Image Processing functions.
- * @version 2.3
+ * @version 2.4
  * @author Ankit Rohatgi ankitrohatgi@hotmail.com
  */
 
@@ -1870,7 +1946,7 @@ function binaryToImageData(bwdata,imgd)
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotdigitizer
 
-	Version 2.3
+	Version 2.4
 
 	Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
@@ -1894,7 +1970,7 @@ function binaryToImageData(bwdata,imgd)
 
 /**
  * @fileoverview This is the main entry point
- * @version 2.3
+ * @version 2.4
  * @author Ankit Rohatgi ankitrohatgi@hotmail.com
  */
 
@@ -1938,8 +2014,7 @@ function init() // This is run when the page loads.
 	ctx = canvas.getContext('2d');
 	
 	// get the coordinates panel
-	cxPosn = document.getElementById('cxPos');
-	cyPosn = document.getElementById('cyPos');
+	mPosn = document.getElementById('mousePosition');
 
 	// Set canvas default state
 	img = new Image();
@@ -1955,6 +2030,9 @@ function init() // This is run when the page loads.
 	// specify mouseover function
 	//canvas.addEventListener('click',clickHandler,false);
 	canvas.addEventListener('mousemove',updateZoom,false);
+	
+	// Add support for extended crosshair
+	//document.body.addEventListener('keydown', toggleCrosshair, false);
 
 	// Image dropping capabilities
 	canvas.addEventListener('dragover',function(event) {event.preventDefault();}, true);
@@ -1995,7 +2073,7 @@ function checkBrowser()
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.3
+	Version 2.4
 
 	Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
@@ -2019,7 +2097,7 @@ function checkBrowser()
 
 /**
  * @fileoverview Manual data collection
- * @version 2.3
+ * @version 2.4
  * @author Ankit Rohatgi ankitrohatgi@hotmail.com
  */
 
@@ -2198,7 +2276,7 @@ function deleteSpecificPointHandler(ev)
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.3
+	Version 2.4
 
 	Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
@@ -2223,78 +2301,9 @@ function deleteSpecificPointHandler(ev)
 
 /**
  * @fileoverview Some math functions.
- * @version 2.3
+ * @version 2.4
  * @author Ankit Rohatgi ankitrohatgi@hotmail.com
  */
-
-/**
- * Find inverse of a 2x2 matrix.
- */
-function matrixInverse22(A) // Inverse of a 2x2 matrix
-{
-  a11 = parseFloat(A[0][0]);
-  a12 = parseFloat(A[0][1]);
-  a21 = parseFloat(A[1][0]);
-  a22 = parseFloat(A[1][1]);
-  
-  var Ai = new Array();
-  Ai[0] = new Array();
-  Ai[0][0] = 0.0; Ai[0][1] = 0.0; Ai[1][0] = 0.0; Ai[1][1] = 0.0; 
-  
-  det = a11*a22 - a12*a21;
-  
-  if (det != 0)
-  {
-    Ai[0][0] = a22/det;
-    Ai[0][1] = -a12/det;
-    Ai[1][0] = -a21/det;
-    Ai[1][1] = a22/det;
-  }
-  
-  return Ai;
-}
-
-/**
- * Multiply two matrices
- */
-function multiplyAB(A,r1,c1,B,r2,c2) // Multiply two matrices
-{
-  var P = new Array();
-  
-  var sumrow = 0;
-  
-  if(c1 == r2)
-  {
-    for (var ii = 0; ii < r1; ii++)
-    {
-      P[ii] = new Array();
-      for(var jj = 0; jj < c2; jj++)
-      {
-	 P[ii][jj] = 0.0;
-	 for(var kk = 0; kk < c1; kk++)
-	 {
-	    P[ii][jj] = P[ii][jj] + parseFloat(A[ii][kk])*parseFloat(B[kk][jj]); // P_ij = A_ik.B_kj in index notation.
-	 }
-      }
-    }
-  }
-  
-  return P;
-}
-
-// :TODO: Array and Vector multiplication functions.
-
-function sortMatrix(A,sc) // sort matrix A by column sc
-{
-}
-
-function pixelToData(pxData)
-{
-}
-
-function dataToPixel(pdata)
-{
-}
 
 /** 
  * Calculate inverse tan with range between 0, 2*pi.
@@ -2314,7 +2323,7 @@ function taninverse(y,x)
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.3
+	Version 2.4
 
 	Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
@@ -2339,7 +2348,7 @@ function taninverse(y,x)
 
 /**
  * @fileoverview Handle Mouse Events.
- * @version 2.3
+ * @version 2.4
  * @author Ankit Rohatgi
  */
 
@@ -2441,7 +2450,7 @@ function removeMouseEvent(mouseEv, functionName, tf)
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.3
+	Version 2.4
 
 	Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
@@ -2465,7 +2474,7 @@ function removeMouseEvent(mouseEv, functionName, tf)
 
 /**
  * @fileoverview Handle popups.
- * @version 2.3
+ * @version 2.4
  * @author Ankit Rohatgi
  */
 
@@ -2527,7 +2536,7 @@ function processingNote(pmode)
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.3
+	Version 2.4
 
 	Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
@@ -2552,7 +2561,7 @@ function processingNote(pmode)
 
 /**
  * @fileoverview Handle sidebars.
- * @version 2.3
+ * @version 2.4
  * @author Ankit Rohatgi ankitrohatgi@hotmail.com
  */
 
@@ -2584,7 +2593,7 @@ function clearSidebar() // Clears all open sidebars
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.3
+	Version 2.4
 
 	Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
@@ -2608,7 +2617,7 @@ function clearSidebar() // Clears all open sidebars
 
 /**
  * @fileoverview Handle toolbars.
- * @version 2.3
+ * @version 2.4
  * @author Ankit Rohatgi ankitrohatgi@hotmail.com
  */
 
@@ -2640,7 +2649,7 @@ function clearToolbar() // Clears all open sidebars
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.3
+	Version 2.4
 
 	Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
@@ -2665,7 +2674,7 @@ function clearToolbar() // Clears all open sidebars
 
 /**
  * @fileoverview Manage the live zoom window.
- * @version 2.3
+ * @version 2.4
  * @author Ankit Rohatgi ankitrohatgi@hotmail.com
  */
 
@@ -2679,8 +2688,10 @@ var zoom_dx = 20;
 var zoom_dy = 20;
 var zWindowWidth = 200;
 var zWindowHeight = 200;
-var cxPosn;
-var cyPosn;
+var mPosn;
+var extendedCrosshair = false;
+var pix = [];
+pix[0] = new Array();
 
 /**
  * Initialize Zoom Window
@@ -2706,9 +2717,33 @@ function updateZoom(ev)
 	dx = zoom_dx;
 	dy = zoom_dy;
     
-    cxPosn.innerHTML = xpos;
-    cyPosn.innerHTML = ypos;
+    if (axesPicked != 1)
+    {
+        mPosn.innerHTML = xpos + ', ' + ypos;
+    }
+    else if(axesPicked == 1)
+    {
+        pix[0][0] = parseFloat(xpos);
+        pix[0][1] = parseFloat(ypos);
+        var rpix = pixelToData(pix, 1, plotType);
+        mPosn.innerHTML = parseFloat(rpix[0][0]).toExponential(3) + ', ' + parseFloat(rpix[0][1]).toExponential(3);
+        if (plotType == 'ternary')
+            mPosn.innerHTML += ', ' + parseFloat(rpix[0][2]).toExponential(3);
+    }
+    
+  	if (extendedCrosshair == true)
+	{
+	    redrawCanvas();
+	    ctx.strokeStyle = "rgba(0,0,0, 0.5)";
+	    ctx.beginPath();
+	    ctx.moveTo(xpos, 0);
+	    ctx.lineTo(xpos, canvasHeight);
+	    ctx.moveTo(0, ypos);
+	    ctx.lineTo(canvasWidth, ypos);
+	    ctx.stroke();
+	}
 
+    
 	if((xpos-dx/2) >= 0 && (ypos-dy/2) >= 0 && (xpos+dx/2) <= canvasWidth && (ypos+dy/2) <= canvasHeight)
 	{
 		var zoomImage = ctx.getImageData(xpos-dx/2,ypos-dy/2,dx,dy);
@@ -2729,5 +2764,19 @@ function updateZoom(ev)
 			}
 		zImage.src = imgdata;
 	}
+	
+}
+
+function toggleCrosshair(ev)
+{
+    ev.preventDefault();
+    if (ev.keyCode == 9)
+    {
+        //extendedCrosshair = !(extendedCrosshair);
+        extendedCrosshair = false; // keep it off for now.
+        redrawCanvas();
+        
+    }
+    return;
 }
 

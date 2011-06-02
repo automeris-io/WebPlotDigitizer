@@ -2,7 +2,7 @@
 <!-- 
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.3
+	Version 2.4
 
 	Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
@@ -26,12 +26,12 @@
 
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/> 
-<meta name="Description" content="WebPlotDigitizer v2.3 - Web based tool to extract numerical data from plots and graph images."/>
+<meta name="Description" content="WebPlotDigitizer v2.4 - Web based tool to extract numerical data from plots and graph images."/>
 <meta name="Keywords" content="Plot, Digitizer, WebPlotDigitizer, Ankit Rohatgi, Extract Data, Convert Plots, XY, Polar, Ternary, Map, HTML5"/>
 <meta name="Author" content="Ankit Rohatgi"/>
 <title>WebPlotDigitizer - Copyright 2011 Ankit Rohatgi</title>
 <link rel="stylesheet" href="styles.css" type="text/css" media="screen" />
-<!--
+
 <script src="javascript/main.js" language="JavaScript"></script>
 <script src="javascript/canvasDrawing.js" language="JavaScript"></script>
 <script src="javascript/mouseEvents.js" language="JavaScript"></script>
@@ -46,12 +46,15 @@
 <script src="javascript/autodetect.js" language="JavaScript"></script>
 <script src="javascript/autoextractalgos.js" language="JavaScript"></script>
 <script src="javascript/imageProcessing.js" language="JavaScript"></script>
+<script src="javascript/coordinateTransform.js" language="JavaScript"></script>
 <script src="javascript/csvgenerator.js" language="JavaScript"></script>
+
+<!--
+<script src="combined.js" language="JavaScript"></script>
 -->
 
-<script src="combined.js" language="JavaScript"></script>
-
 <!-- Start of StatCounter Code -->
+<!--
 <script type="text/javascript">
 var sc_project=6711545; 
 var sc_invisible=1; 
@@ -64,6 +67,7 @@ stats" href="http://statcounter.com/tumblr/"
 target="_blank"><img class="statcounter"
 src="http://c.statcounter.com/6711545/0/9c26f4ca/1/"
 alt="tumblr visitor stats"></a></div></noscript>
+-->
 <!-- End of StatCounter Code -->
 
 </head>
@@ -125,7 +129,7 @@ alt="tumblr visitor stats"></a></div></noscript>
 		<canvas id="zoomCanvas" width=200 height=200></canvas>
 
 		<div id="cursorPosition">
-       	(x,y) = (<span id="cxPos"></span>,<span id="cyPos"></span>)
+       	[<span id="mousePosition"></span>]
        	</div>
 	</div>
 	
@@ -140,7 +144,7 @@ alt="tumblr visitor stats"></a></div></noscript>
 	<p align="center"><input type="button" value="Select Points" onClick="pickPoints();" style="width: 150px;"></p>
 	<p align="center"><input type="button" value="Undo" onClick="undoPointSelection();" style="width: 75px;"><input id="clearAllBtn" type="button" value="Clear All" onCLick="clearPoints();" style="width: 75px;"></p>
 	<p align="center"><input type="button" value="Delete Point" onClick="deleteSpecificPoint();" style="width:150px;"></p>
-	<p align="center"><input type="button" value="Create .CSV" id="saveBtn" onClick="saveData();" style="width:150px;"></p>
+	<p align="center"><input type="button" value="Create .CSV" id="saveBtn" onClick="generateCSV();" style="width:150px;"></p>
 	<p align="center">Points Picked:<span id="pointsStatus">0</span></p>
 	</div>
 
@@ -153,7 +157,7 @@ alt="tumblr visitor stats"></a></div></noscript>
 	<p align="center"><input type="button" value="Extract!" style="width: 150px;" onClick="launchTestWindow();"></p>
 	<hr />
 	<p align="center"><input id="removeLastBtn" type="button" value="Delete" onClick="deleteSpecificPoint();" style="width: 75px;"><input id="clearAllBtn" type="button" value="Clear All" onCLick="clearPoints();" style="width: 75px;"></p>
-	<p align="center"><input type="button" value="Create .CSV" id="saveBtn" onClick="saveData();" style="width:150px;"></p>
+	<p align="center"><input type="button" value="Create .CSV" id="saveBtn" onClick="generateCSV();" style="width:150px;"></p>
 	<p align="center">Points Picked:<span id="autoPointsStatus">0</span></p>
 	</div>
 
@@ -322,7 +326,7 @@ alt="tumblr visitor stats"></a></div></noscript>
 	</div>
 
 	<div id="helpWindow" class="popup" style="width: 550px;">
-	<p align="center"><b>WebPlotDigitizer v2.3</b> - Web Based Plot Digitizer</p>
+	<p align="center"><b>WebPlotDigitizer v2.4</b> - Web Based Plot Digitizer</p>
 	<p>&nbsp;</p>
 	<p align="center"><b>Instructions and Video Tutorials</b></p>
 	<p align="center"><a href="http://arohatgi.info/WebPlotDigitizer/?page_id=58" target="manual">http://arohatgi.info/WebPlotDigitizer/?page_id=58</a></p>
