@@ -6,8 +6,11 @@ Features:
 * Distance measurement tool.
 * Edge detect filter.
 * Sort results by variable. Write to new window.
+* Implement a layer manager over the canvas to extend the drawing capabilities of the canvas.
+* AJAX uploader.
+* Plan out user account system.
 
-User Interface:
+Documentation
 
-* Live view of coordinates - show real coordinates.
+* Update JSDoc documentation
 * Edit help section and provide an index to the video tutorials.

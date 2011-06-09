@@ -156,6 +156,57 @@ DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor
    <TR BGCOLOR="white" CLASS="TableRowColor">
       <TD ALIGN="right" VALIGN="top" WIDTH="1%">
 	 <FONT SIZE="-1">
+	    <CODE>&lt;static&gt;&nbsp;Object</CODE>
+	 </FONT>
+      </TD>
+      <TD>
+	 <CODE>
+	    <B>
+	       <A HREF="#!s!AE_averagingWindow">AE_averagingWindow</A></B>()
+	 </CODE>
+	 <BR>
+	 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	 Automatic curve extraction algorithm using an averaging window.
+      </TD>
+   </TR>
+
+   <TR BGCOLOR="white" CLASS="TableRowColor">
+      <TD ALIGN="right" VALIGN="top" WIDTH="1%">
+	 <FONT SIZE="-1">
+	    <CODE>&lt;static&gt;&nbsp;Object</CODE>
+	 </FONT>
+      </TD>
+      <TD>
+	 <CODE>
+	    <B>
+	       <A HREF="#!s!AE_xstep">AE_xstep</A></B>()
+	 </CODE>
+	 <BR>
+	 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	 Auto extraction algorithm with predefined step sizes along X.
+      </TD>
+   </TR>
+
+   <TR BGCOLOR="white" CLASS="TableRowColor">
+      <TD ALIGN="right" VALIGN="top" WIDTH="1%">
+	 <FONT SIZE="-1">
+	    <CODE>&lt;static&gt;&nbsp;Object</CODE>
+	 </FONT>
+      </TD>
+      <TD>
+	 <CODE>
+	    <B>
+	       <A HREF="#!s!AE_ystep">AE_ystep</A></B>()
+	 </CODE>
+	 <BR>
+	 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	 Auto extraction algorithm with predefined step sizes along Y.
+      </TD>
+   </TR>
+
+   <TR BGCOLOR="white" CLASS="TableRowColor">
+      <TD ALIGN="right" VALIGN="top" WIDTH="1%">
+	 <FONT SIZE="-1">
 	    <CODE>&lt;static&gt;&nbsp;void</CODE>
 	 </FONT>
       </TD>
@@ -536,23 +587,6 @@ DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor
       <TD>
 	 <CODE>
 	    <B>
-	       <A HREF="#!s!dataToPixel">dataToPixel</A></B>(pdata)
-	 </CODE>
-	 <BR>
-	 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	 
-      </TD>
-   </TR>
-
-   <TR BGCOLOR="white" CLASS="TableRowColor">
-      <TD ALIGN="right" VALIGN="top" WIDTH="1%">
-	 <FONT SIZE="-1">
-	    <CODE>&lt;static&gt;&nbsp;void</CODE>
-	 </FONT>
-      </TD>
-      <TD>
-	 <CODE>
-	    <B>
 	       <A HREF="#!s!deleteSpecificPoint">deleteSpecificPoint</A></B>()
 	 </CODE>
 	 <BR>
@@ -683,6 +717,23 @@ DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor
    <TR BGCOLOR="white" CLASS="TableRowColor">
       <TD ALIGN="right" VALIGN="top" WIDTH="1%">
 	 <FONT SIZE="-1">
+	    <CODE>&lt;static&gt;&nbsp;void</CODE>
+	 </FONT>
+      </TD>
+      <TD>
+	 <CODE>
+	    <B>
+	       <A HREF="#!s!generateCSV">generateCSV</A></B>()
+	 </CODE>
+	 <BR>
+	 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	 
+      </TD>
+   </TR>
+
+   <TR BGCOLOR="white" CLASS="TableRowColor">
+      <TD ALIGN="right" VALIGN="top" WIDTH="1%">
+	 <FONT SIZE="-1">
 	    <CODE>&lt;static&gt;&nbsp;ImageData</CODE>
 	 </FONT>
       </TD>
@@ -796,40 +847,6 @@ DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor
 	 <BR>
 	 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 	 Load an image on the main canvas.
-      </TD>
-   </TR>
-
-   <TR BGCOLOR="white" CLASS="TableRowColor">
-      <TD ALIGN="right" VALIGN="top" WIDTH="1%">
-	 <FONT SIZE="-1">
-	    <CODE>&lt;static&gt;&nbsp;Object</CODE>
-	 </FONT>
-      </TD>
-      <TD>
-	 <CODE>
-	    <B>
-	       <A HREF="#!s!matrixInverse22">matrixInverse22</A></B>(A)
-	 </CODE>
-	 <BR>
-	 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	 Find inverse of a 2x2 matrix.
-      </TD>
-   </TR>
-
-   <TR BGCOLOR="white" CLASS="TableRowColor">
-      <TD ALIGN="right" VALIGN="top" WIDTH="1%">
-	 <FONT SIZE="-1">
-	    <CODE>&lt;static&gt;&nbsp;Object</CODE>
-	 </FONT>
-      </TD>
-      <TD>
-	 <CODE>
-	    <B>
-	       <A HREF="#!s!multiplyAB">multiplyAB</A></B>(A,r1,c1,B,r2,c2)
-	 </CODE>
-	 <BR>
-	 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	 Multiply two matrices
       </TD>
    </TR>
 
@@ -955,13 +972,13 @@ DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor
    <TR BGCOLOR="white" CLASS="TableRowColor">
       <TD ALIGN="right" VALIGN="top" WIDTH="1%">
 	 <FONT SIZE="-1">
-	    <CODE>&lt;static&gt;&nbsp;void</CODE>
+	    <CODE>&lt;static&gt;&nbsp;Object</CODE>
 	 </FONT>
       </TD>
       <TD>
 	 <CODE>
 	    <B>
-	       <A HREF="#!s!pixelToData">pixelToData</A></B>(pxData)
+	       <A HREF="#!s!pixelToData">pixelToData</A></B>(pdata, pn, ptype)
 	 </CODE>
 	 <BR>
 	 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -1148,11 +1165,11 @@ DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor
       <TD>
 	 <CODE>
 	    <B>
-	       <A HREF="#!s!saveData">saveData</A></B>()
+	       <A HREF="#!s!savePNG">savePNG</A></B>()
 	 </CODE>
 	 <BR>
 	 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	 Generate the .CSV output.
+	 Create PNG in a new window
       </TD>
    </TR>
 
@@ -1176,7 +1193,7 @@ DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor
    <TR BGCOLOR="white" CLASS="TableRowColor">
       <TD ALIGN="right" VALIGN="top" WIDTH="1%">
 	 <FONT SIZE="-1">
-	    <CODE>&lt;static&gt;&nbsp;Object</CODE>
+	    <CODE>&lt;static&gt;&nbsp;void</CODE>
 	 </FONT>
       </TD>
       <TD>
@@ -1186,7 +1203,7 @@ DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor
 	 </CODE>
 	 <BR>
 	 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	 Automatic curve extraction algorithm.
+	 Select which auto extraction curve is to be triggered.
       </TD>
    </TR>
 
@@ -1278,23 +1295,6 @@ DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor
    <TR BGCOLOR="white" CLASS="TableRowColor">
       <TD ALIGN="right" VALIGN="top" WIDTH="1%">
 	 <FONT SIZE="-1">
-	    <CODE>&lt;static&gt;&nbsp;void</CODE>
-	 </FONT>
-      </TD>
-      <TD>
-	 <CODE>
-	    <B>
-	       <A HREF="#!s!sortMatrix">sortMatrix</A></B>(A,sc)
-	 </CODE>
-	 <BR>
-	 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	 
-      </TD>
-   </TR>
-
-   <TR BGCOLOR="white" CLASS="TableRowColor">
-      <TD ALIGN="right" VALIGN="top" WIDTH="1%">
-	 <FONT SIZE="-1">
 	    <CODE>&lt;static&gt;&nbsp;Object</CODE>
 	 </FONT>
       </TD>
@@ -1306,6 +1306,23 @@ DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor
 	 <BR>
 	 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 	 Calculate inverse tan with range between 0, 2*pi.
+      </TD>
+   </TR>
+
+   <TR BGCOLOR="white" CLASS="TableRowColor">
+      <TD ALIGN="right" VALIGN="top" WIDTH="1%">
+	 <FONT SIZE="-1">
+	    <CODE>&lt;static&gt;&nbsp;void</CODE>
+	 </FONT>
+      </TD>
+      <TD>
+	 <CODE>
+	    <B>
+	       <A HREF="#!s!toggleCrosshair">toggleCrosshair</A></B>(ev)
+	 </CODE>
+	 <BR>
+	 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	 
       </TD>
    </TR>
 
@@ -1459,6 +1476,60 @@ DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor
       </UL> 
    
    </UL>
+   
+   <!-- METHOD PARAMETERS END -->
+
+   
+
+   <!-- ADDITIONAL ATTRIBUTES START -->
+   
+   <!-- ADDITIONAL ATTRIBUTES  END -->
+<HR>
+
+   <A NAME="!s!AE_averagingWindow"><!-- --></A>
+   <H3>AE_averagingWindow</H3>
+   <PRE>&lt;static&gt; Object <B>AE_averagingWindow</B>()</PRE>
+   
+      <UL>Automatic curve extraction algorithm using an averaging window.</UL>
+   
+
+   <!-- METHOD PARAMETERS START -->
+   
+   <!-- METHOD PARAMETERS END -->
+
+   
+
+   <!-- ADDITIONAL ATTRIBUTES START -->
+   
+   <!-- ADDITIONAL ATTRIBUTES  END -->
+<HR>
+
+   <A NAME="!s!AE_xstep"><!-- --></A>
+   <H3>AE_xstep</H3>
+   <PRE>&lt;static&gt; Object <B>AE_xstep</B>()</PRE>
+   
+      <UL>Auto extraction algorithm with predefined step sizes along X.</UL>
+   
+
+   <!-- METHOD PARAMETERS START -->
+   
+   <!-- METHOD PARAMETERS END -->
+
+   
+
+   <!-- ADDITIONAL ATTRIBUTES START -->
+   
+   <!-- ADDITIONAL ATTRIBUTES  END -->
+<HR>
+
+   <A NAME="!s!AE_ystep"><!-- --></A>
+   <H3>AE_ystep</H3>
+   <PRE>&lt;static&gt; Object <B>AE_ystep</B>()</PRE>
+   
+      <UL>Auto extraction algorithm with predefined step sizes along Y.</UL>
+   
+
+   <!-- METHOD PARAMETERS START -->
    
    <!-- METHOD PARAMETERS END -->
 
@@ -1871,22 +1942,6 @@ DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor
    <!-- ADDITIONAL ATTRIBUTES  END -->
 <HR>
 
-   <A NAME="!s!dataToPixel"><!-- --></A>
-   <H3>dataToPixel</H3>
-   <PRE>&lt;static&gt; void <B>dataToPixel</B>(pdata)</PRE>
-   
-
-   <!-- METHOD PARAMETERS START -->
-   
-   <!-- METHOD PARAMETERS END -->
-
-   
-
-   <!-- ADDITIONAL ATTRIBUTES START -->
-   
-   <!-- ADDITIONAL ATTRIBUTES  END -->
-<HR>
-
    <A NAME="!s!deleteSpecificPoint"><!-- --></A>
    <H3>deleteSpecificPoint</H3>
    <PRE>&lt;static&gt; void <B>deleteSpecificPoint</B>()</PRE>
@@ -2031,6 +2086,26 @@ DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor
    <!-- ADDITIONAL ATTRIBUTES  END -->
 <HR>
 
+   <A NAME="!s!generateCSV"><!-- --></A>
+   <H3>generateCSV</H3>
+   <PRE>&lt;static&gt; void <B>generateCSV</B>()</PRE>
+   
+
+   <!-- METHOD PARAMETERS START -->
+   
+   <!-- METHOD PARAMETERS END -->
+
+   
+
+   <!-- ADDITIONAL ATTRIBUTES START -->
+   
+   <UL>   
+   <B>Version: </B>2.4  <BR/><BR/><B>Author:</B> Ankit Rohatgi ankitrohatgi@hotmail.com    <BR/>
+   </UL>
+   
+   <!-- ADDITIONAL ATTRIBUTES  END -->
+<HR>
+
    <A NAME="!s!getCanvasData"><!-- --></A>
    <H3>getCanvasData</H3>
    <PRE>&lt;static&gt; ImageData <B>getCanvasData</B>()</PRE>
@@ -2162,42 +2237,6 @@ DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor
       </UL> 
    
    </UL>
-   
-   <!-- METHOD PARAMETERS END -->
-
-   
-
-   <!-- ADDITIONAL ATTRIBUTES START -->
-   
-   <!-- ADDITIONAL ATTRIBUTES  END -->
-<HR>
-
-   <A NAME="!s!matrixInverse22"><!-- --></A>
-   <H3>matrixInverse22</H3>
-   <PRE>&lt;static&gt; Object <B>matrixInverse22</B>(A)</PRE>
-   
-      <UL>Find inverse of a 2x2 matrix.</UL>
-   
-
-   <!-- METHOD PARAMETERS START -->
-   
-   <!-- METHOD PARAMETERS END -->
-
-   
-
-   <!-- ADDITIONAL ATTRIBUTES START -->
-   
-   <!-- ADDITIONAL ATTRIBUTES  END -->
-<HR>
-
-   <A NAME="!s!multiplyAB"><!-- --></A>
-   <H3>multiplyAB</H3>
-   <PRE>&lt;static&gt; Object <B>multiplyAB</B>(A,r1,c1,B,r2,c2)</PRE>
-   
-      <UL>Multiply two matrices</UL>
-   
-
-   <!-- METHOD PARAMETERS START -->
    
    <!-- METHOD PARAMETERS END -->
 
@@ -2344,7 +2383,7 @@ DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor
 
    <A NAME="!s!pixelToData"><!-- --></A>
    <H3>pixelToData</H3>
-   <PRE>&lt;static&gt; void <B>pixelToData</B>(pxData)</PRE>
+   <PRE>&lt;static&gt; Object <B>pixelToData</B>(pdata, pn, ptype)</PRE>
    
 
    <!-- METHOD PARAMETERS START -->
@@ -2354,6 +2393,10 @@ DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor
    
 
    <!-- ADDITIONAL ATTRIBUTES START -->
+   
+   <UL>   
+   <B>Version: </B>2.4  <BR/><BR/><B>Author:</B> Ankit Rohatgi ankitrohatgi@hotmail.com<BR/>
+   </UL>
    
    <!-- ADDITIONAL ATTRIBUTES  END -->
 <HR>
@@ -2568,11 +2611,11 @@ DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor
    <!-- ADDITIONAL ATTRIBUTES  END -->
 <HR>
 
-   <A NAME="!s!saveData"><!-- --></A>
-   <H3>saveData</H3>
-   <PRE>&lt;static&gt; void <B>saveData</B>()</PRE>
+   <A NAME="!s!savePNG"><!-- --></A>
+   <H3>savePNG</H3>
+   <PRE>&lt;static&gt; void <B>savePNG</B>()</PRE>
    
-      <UL>Generate the .CSV output.</UL>
+      <UL>Create PNG in a new window</UL>
    
 
    <!-- METHOD PARAMETERS START -->
@@ -2606,9 +2649,9 @@ DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor
 
    <A NAME="!s!scanPlot"><!-- --></A>
    <H3>scanPlot</H3>
-   <PRE>&lt;static&gt; Object <B>scanPlot</B>()</PRE>
+   <PRE>&lt;static&gt; void <B>scanPlot</B>()</PRE>
    
-      <UL>Automatic curve extraction algorithm.</UL>
+      <UL>Select which auto extraction curve is to be triggered.</UL>
    
 
    <!-- METHOD PARAMETERS START -->
@@ -2744,9 +2787,11 @@ DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor
    <!-- ADDITIONAL ATTRIBUTES  END -->
 <HR>
 
-   <A NAME="!s!sortMatrix"><!-- --></A>
-   <H3>sortMatrix</H3>
-   <PRE>&lt;static&gt; void <B>sortMatrix</B>(A,sc)</PRE>
+   <A NAME="!s!taninverse"><!-- --></A>
+   <H3>taninverse</H3>
+   <PRE>&lt;static&gt; Object <B>taninverse</B>(y,x)</PRE>
+   
+      <UL>Calculate inverse tan with range between 0, 2*pi.</UL>
    
 
    <!-- METHOD PARAMETERS START -->
@@ -2760,11 +2805,9 @@ DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor
    <!-- ADDITIONAL ATTRIBUTES  END -->
 <HR>
 
-   <A NAME="!s!taninverse"><!-- --></A>
-   <H3>taninverse</H3>
-   <PRE>&lt;static&gt; Object <B>taninverse</B>(y,x)</PRE>
-   
-      <UL>Calculate inverse tan with range between 0, 2*pi.</UL>
+   <A NAME="!s!toggleCrosshair"><!-- --></A>
+   <H3>toggleCrosshair</H3>
+   <PRE>&lt;static&gt; void <B>toggleCrosshair</B>(ev)</PRE>
    
 
    <!-- METHOD PARAMETERS START -->
@@ -2916,6 +2959,6 @@ DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor
 <FONT SIZE="-1">
 
 </FONT>
-<div class="jsdoc_ctime">Documentation generated by <a href="http://jsdoc.sourceforge.net/" target="_parent">JSDoc</a> on Tue Mar 15 01:55:05 2011</div>
+<div class="jsdoc_ctime">Documentation generated by <a href="http://jsdoc.sourceforge.net/" target="_parent">JSDoc</a> on Wed Jun  8 20:37:15 2011</div>
 </BODY>
 </HTML>
