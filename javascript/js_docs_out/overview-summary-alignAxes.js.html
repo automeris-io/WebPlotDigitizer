@@ -79,7 +79,7 @@ function asd() {
 <p>
 	
 		Axes alignment functions.
- <BR/><BR/><B>Version: </B>2.0
+ <BR/><BR/><B>Version: </B>2.4
  <BR/><BR/><B>Author:</B> Ankit Rohatgi ankitrohatgi@hotmail.com<BR/>
 	
 </p>
@@ -179,7 +179,7 @@ function asd() {
         <pre class="sourceview"><span class="comment">/*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.0
+	Version 2.4
 
 	Copyright 2011 Ankit Rohatgi &lt;ankitrohatgi<span class="attrib">@hotmail</span>.com&gt;
 
@@ -203,7 +203,7 @@ function asd() {
 
 <span class="comment">/**
  * <span class="attrib">@fileoverview</span>  Axes alignment functions.
- * <span class="attrib">@version</span> 2.0
+ * <span class="attrib">@version</span> 2.4
  * <span class="attrib">@author</span> Ankit Rohatgi ankitrohatgi<span class="attrib">@hotmail</span>.com
  */</span>
 
@@ -231,6 +231,7 @@ var plotType;
  */</span> 
 <span class="reserved">function</span> initiatePlotAlignment()
 {
+  axesPicked = 0;
   xyEl = document.getElementById(<span class="literal">'r_xy'</span>);
   polarEl = document.getElementById(<span class="literal">'r_polar'</span>);
   ternaryEl = document.getElementById(<span class="literal">'r_ternary'</span>);
@@ -343,72 +344,84 @@ var plotType;
 {
     <span class="reserved">if</span> (plotType == <span class="literal">'XY'</span>)
     {
-	var xminEl = document.getElementById(<span class="literal">'xmin'</span>);
-	var xmaxEl = document.getElementById(<span class="literal">'xmax'</span>);
-	var yminEl = document.getElementById(<span class="literal">'ymin'</span>);
-	var ymaxEl = document.getElementById(<span class="literal">'ymax'</span>);
-    
-	axesAlignmentData[0] = parseFloat(xminEl.value);
-	axesAlignmentData[1] = parseFloat(xmaxEl.value);
-	axesAlignmentData[2] = parseFloat(yminEl.value);
-	axesAlignmentData[3] = parseFloat(ymaxEl.value);
+	    var xminEl = document.getElementById(<span class="literal">'xmin'</span>);
+	    var xmaxEl = document.getElementById(<span class="literal">'xmax'</span>);
+	    var yminEl = document.getElementById(<span class="literal">'ymin'</span>);
+	    var ymaxEl = document.getElementById(<span class="literal">'ymax'</span>);
+	    var xlogEl = document.getElementById(<span class="literal">'xlog'</span>);
+	    var ylogEl = document.getElementById(<span class="literal">'ylog'</span>);
+        
+	    axesAlignmentData[0] = parseFloat(xminEl.value);
+	    axesAlignmentData[1] = parseFloat(xmaxEl.value);
+	    axesAlignmentData[2] = parseFloat(yminEl.value);
+	    axesAlignmentData[3] = parseFloat(ymaxEl.value);
 	
-	closePopup(<span class="literal">'xyAlignment'</span>);
+	    <span class="reserved">if</span> (xlogEl.checked == true)
+	        axesAlignmentData[4] = true;
+	    <span class="reserved">else</span>
+	        axesAlignmentData[4] = false;
+	        
+	    <span class="reserved">if</span> (ylogEl.checked == true)
+	        axesAlignmentData[5] = true;
+	    <span class="reserved">else</span>
+	        axesAlignmentData[5] = false;
+	
+	    closePopup(<span class="literal">'xyAlignment'</span>);
     }
     <span class="reserved">else</span> <span class="reserved">if</span> (plotType == <span class="literal">'polar'</span>)
     {
-	var r1El = document.getElementById(<span class="literal">'rpoint1'</span>);
-	var theta1El = document.getElementById(<span class="literal">'thetapoint1'</span>);
-	var r2El = document.getElementById(<span class="literal">'rpoint2'</span>);
-	var theta2El = document.getElementById(<span class="literal">'thetapoint2'</span>);
+	    var r1El = document.getElementById(<span class="literal">'rpoint1'</span>);
+	    var theta1El = document.getElementById(<span class="literal">'thetapoint1'</span>);
+	    var r2El = document.getElementById(<span class="literal">'rpoint2'</span>);
+	    var theta2El = document.getElementById(<span class="literal">'thetapoint2'</span>);
 	
-	var degreesEl = document.getElementById(<span class="literal">'degrees'</span>);
-	var radiansEl = document.getElementById(<span class="literal">'radians'</span>);
-	var orientationEl = document.getElementById(<span class="literal">'clockwise'</span>);
+	    var degreesEl = document.getElementById(<span class="literal">'degrees'</span>);
+	    var radiansEl = document.getElementById(<span class="literal">'radians'</span>);
+	    var orientationEl = document.getElementById(<span class="literal">'clockwise'</span>);
 	
-	axesAlignmentData[0] = parseFloat(r1El.value);
-	axesAlignmentData[1] = parseFloat(theta1El.value);
-	axesAlignmentData[2] = parseFloat(r2El.value);
-	axesAlignmentData[3] = parseFloat(theta2El.value);
+	    axesAlignmentData[0] = parseFloat(r1El.value);
+	    axesAlignmentData[1] = parseFloat(theta1El.value);
+	    axesAlignmentData[2] = parseFloat(r2El.value);
+	    axesAlignmentData[3] = parseFloat(theta2El.value);
 	
-	<span class="reserved">if</span> (degreesEl.checked == true)
-	    axesAlignmentData[4] = 1;
-	<span class="reserved">else</span>
-	    axesAlignmentData[4] = 0;
+	    <span class="reserved">if</span> (degreesEl.checked == true)
+	        axesAlignmentData[4] = true;
+	    <span class="reserved">else</span>
+	        axesAlignmentData[4] = false;
 	
-	<span class="reserved">if</span> (orientationEl.checked == true)
-	    axesAlignmentData[5] = 1;
-	<span class="reserved">else</span>
-	    axesAlignmentData[5] = 0;
+	    <span class="reserved">if</span> (orientationEl.checked == true)
+	        axesAlignmentData[5] = true;
+	    <span class="reserved">else</span>
+	        axesAlignmentData[5] = false;
 	
 	
-	closePopup(<span class="literal">'polarAlignment'</span>);
+	    closePopup(<span class="literal">'polarAlignment'</span>);
     }
     <span class="reserved">else</span> <span class="reserved">if</span> (plotType == <span class="literal">'ternary'</span>)
     {
-	var range1El = document.getElementById(<span class="literal">'range0to1'</span>);
-	var range100El = document.getElementById(<span class="literal">'range0to100'</span>);
-	var ternaryNormalEl = document.getElementById(<span class="literal">'ternarynormal'</span>);
+	    var range1El = document.getElementById(<span class="literal">'range0to1'</span>);
+	    var range100El = document.getElementById(<span class="literal">'range0to100'</span>);
+	    var ternaryNormalEl = document.getElementById(<span class="literal">'ternarynormal'</span>);
 	
-	<span class="reserved">if</span> (range100El.checked == true)
-	  axesAlignmentData[0] = true;
-	<span class="reserved">else</span>
-	  axesAlignmentData[0] = false;
+	    <span class="reserved">if</span> (range100El.checked == true)
+	      axesAlignmentData[0] = true;
+	    <span class="reserved">else</span>
+	      axesAlignmentData[0] = false;
 	
-	<span class="reserved">if</span> (ternaryNormalEl.checked == true)
-	  axesAlignmentData[1] = true;
-	<span class="reserved">else</span>
-	  axesAlignmentData[1] = false;
+	    <span class="reserved">if</span> (ternaryNormalEl.checked == true)
+	      axesAlignmentData[1] = true;
+	    <span class="reserved">else</span>
+	      axesAlignmentData[1] = false;
 		
-	closePopup(<span class="literal">'ternaryAlignment'</span>);
-    }
-    <span class="reserved">else</span> <span class="reserved">if</span> (plotType == <span class="literal">'map'</span>)
-    {
-	var scaleLength = document.getElementById(<span class="literal">'scaleLength'</span>);
+	    closePopup(<span class="literal">'ternaryAlignment'</span>);
+        }
+        <span class="reserved">else</span> <span class="reserved">if</span> (plotType == <span class="literal">'map'</span>)
+        {
+	    var scaleLength = document.getElementById(<span class="literal">'scaleLength'</span>);
 	
-	axesAlignmentData[0] = parseFloat(scaleLength.value);
+	    axesAlignmentData[0] = parseFloat(scaleLength.value);
 	
-	closePopup(<span class="literal">'mapAlignment'</span>);
+	    closePopup(<span class="literal">'mapAlignment'</span>);
     }
     
 }
@@ -470,6 +483,6 @@ var plotType;
 <font size="-1">
 
 </font>
-<div class="jsdoc_ctime">Documentation generated by <a href="http://jsdoc.sourceforge.net/" target="_parent">JSDoc</a> on Tue Mar 15 01:55:05 2011</div>
+<div class="jsdoc_ctime">Documentation generated by <a href="http://jsdoc.sourceforge.net/" target="_parent">JSDoc</a> on Wed Jun  8 20:37:15 2011</div>
 </body>
 </html>

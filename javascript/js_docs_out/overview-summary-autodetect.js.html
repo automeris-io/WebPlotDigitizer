@@ -79,7 +79,7 @@ function asd() {
 <p>
 	
 		Automatic extraction mode functions.
- <BR/><BR/><B>Version: </B>2.0
+ <BR/><BR/><B>Version: </B>2.4
  <BR/><BR/><B>Author:</B> Ankit Rohatgi ankitrohatgi@hotmail.com<BR/>
 	
 </p>
@@ -410,7 +410,7 @@ function asd() {
 		   <tr bgcolor="white" class="TableRowColor">
 		      <td align="right" valign="top" width="1%">
 			 <font size="-1">
-			    <code>static&nbsp;Object</code>
+			    <code>static&nbsp;void</code>
 			 </font>
 		      </td>
 		      <td>
@@ -420,7 +420,7 @@ function asd() {
 			 </code>
 			 <br>
 			 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			 Automatic curve extraction algorithm.
+			 Select which auto extraction curve is to be triggered.
 		      </td>
 		   </tr>
 		
@@ -451,7 +451,7 @@ function asd() {
         <pre class="sourceview"><span class="comment">/*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.0
+	Version 2.4
 
 	Copyright 2010 Ankit Rohatgi &lt;ankitrohatgi<span class="attrib">@hotmail</span>.com&gt;
 
@@ -475,7 +475,7 @@ function asd() {
 
 <span class="comment">/**
  * <span class="attrib">@fileoverview</span> Automatic extraction mode functions.
- * <span class="attrib">@version</span> 2.0
+ * <span class="attrib">@version</span> 2.4
  * <span class="attrib">@author</span> Ankit Rohatgi ankitrohatgi<span class="attrib">@hotmail</span>.com
  */</span>
 
@@ -673,7 +673,6 @@ var binaryData;
 	addMouseEvent(<span class="literal">'mousedown'</span>,penPaintMousedown,true);
 	addMouseEvent(<span class="literal">'mouseup'</span>,penPaintMouseup,true);
 	addMouseEvent(<span class="literal">'mousemove'</span>,penPaintMousedrag,true);
-
 }
 
 <span class="comment">/**
@@ -853,128 +852,22 @@ var binaryData;
 }
 
 <span class="comment">/**
- * Automatic curve extraction algorithm.
+ * Select which auto extraction curve is to be triggered.
  */</span>
 <span class="reserved">function</span> scanPlot()
 {
-  closePopup(<span class="literal">"testImageWindow"</span>);
-  <span class="comment">/* This is only a brute forced algorithm */</span>
-  var xPoints = new Array();
-  var xPointsPicked = 0;
-  xyData = [];
-  pointsPicked = 0;
-  
-  redrawCanvas();
-  markedScreen = currentScreen;
-  
-  var xStepEl = document.getElementById(<span class="literal">"xStep"</span>);
-  var xStep = parseFloat(xStepEl.value);
-  var yStepEl = document.getElementById(<span class="literal">"yStep"</span>);
-  var yStep = parseFloat(yStepEl.value);
-  
-  var dw = canvasWidth;
-  var dh = canvasHeight;
-  
-  var blobAvg = new Array();
-  
-  <span class="reserved">for</span>(var coli = 0; coli &lt; dw; coli++)
-  {
-    blobs = -1;
-    firstbloby = -2.0*yStep;
-    bi = 0;
-       
-    <span class="reserved">for</span>(var rowi = 0; rowi &lt; dh; rowi++)
-    {
-	<span class="reserved">if</span> (binaryData[rowi][coli] == true)
-	{
-	  <span class="reserved">if</span> (rowi &gt; firstbloby + yStep)
-	  {
-	    blobs = blobs + 1;
-	    bi = 1;
-	    blobAvg[blobs] = rowi;
-	    firstbloby = rowi;
-	  }
-	  <span class="reserved">else</span>
-	  {
-	    bi = bi + 1;
-	    blobAvg[blobs] = parseFloat((blobAvg[blobs]*(bi-1.0) + rowi)/parseFloat(bi));
-	  }
-	}
-	
-    }
-    <span class="reserved">if</span> (blobs &gt;= 0)
-    {
-	xi = coli;
-	<span class="reserved">for</span> (var blbi = 0; blbi &lt;= blobs; blbi++)
-	{
-	  yi = blobAvg[blbi];
-	  
-	  xPoints[xPointsPicked] = new Array();
-	  xPoints[xPointsPicked][0] = parseFloat(xi);
-	  xPoints[xPointsPicked][1] = parseFloat(yi);
-	  xPoints[xPointsPicked][2] = 1; <span class="comment">// 1 if not filtered, 0 if processed already</span>
-	  xPointsPicked = xPointsPicked + 1;
-	}
-    }
     
-  }
-  
-  <span class="reserved">if</span> (xPointsPicked == 0)
-    <span class="reserved">return</span> 0;
-  
-  <span class="reserved">for</span>(var pi = 0; pi &lt; xPointsPicked; pi++)
-  {
-    <span class="reserved">if</span>(xPoints[pi][2] == 1) <span class="comment">// if still available</span>
-    {
-      var inRange = 1;
-      var xxi = pi+1;
-      
-      var oldX = xPoints[pi][0];
-      var oldY = xPoints[pi][1];
-      
-      var avgX = oldX;
-      var avgY = oldY;
-      
-      var matches = 1;
-      
-      <span class="reserved">while</span>((inRange == 1) &amp;&amp; (xxi &lt; xPointsPicked))
-      {
-	var newX = xPoints[xxi][0];
-	var newY = xPoints[xxi][1];
-	
-	<span class="reserved">if</span>( (Math.abs(newX-oldX) &lt;= xStep) &amp;&amp; (Math.abs(newY-oldY) &lt;= yStep/2.0) &amp;&amp; (xPoints[xxi][2] == 1))
-	{
-	  avgX = (avgX*matches + newX)/(matches+1.0);
-	  avgY = (avgY*matches + newY)/(matches+1.0);
-	  matches = matches + 1;
-	  
-	  xPoints[xxi][2] = 0;
-	}
-	<span class="reserved">if</span> (newX &gt; oldX + xStep/2.0)
-	  inRange = 0;
-	
-	xxi = xxi + 1;
-      }
-      
-      xPoints[pi][2] = 0; 
-      
-      xyData[pointsPicked] = new Array();
-      xyData[pointsPicked][0] = parseFloat(avgX);
-      xyData[pointsPicked][1] = parseFloat(avgY);
-      pointsPicked = pointsPicked + 1;	
-  
-      ctx.beginPath();
-      ctx.fillStyle = <span class="literal">"rgb(200,0,200)"</span>;
-      ctx.arc(parseInt(avgX),parseInt(avgY),3,0,2.0*Math.PI,true);
-      ctx.fill();
-
-      
-    }
+    autoStepEl = document.getElementById(<span class="literal">'autostepalgo'</span>);
+    xStepEl = document.getElementById(<span class="literal">'xstepalgo'</span>);
+    yStepEl = document.getElementById(<span class="literal">'ystepalgo'</span>);
     
-  }
-  xPoints = [];	
-  pointsStatus(pointsPicked);  
-  <span class="reserved">return</span> pointsPicked;
+    <span class="reserved">if</span>(autoStepEl.checked == true)
+        AE_averagingWindow();
+    <span class="reserved">else</span> <span class="reserved">if</span>(xStepEl.checked == true)
+        AE_xstep();
+    <span class="reserved">else</span> <span class="reserved">if</span>(yStepEl.checked == true)
+        AE_ystep();
+        
 }
 
 </pre>
@@ -1035,6 +928,6 @@ var binaryData;
 <font size="-1">
 
 </font>
-<div class="jsdoc_ctime">Documentation generated by <a href="http://jsdoc.sourceforge.net/" target="_parent">JSDoc</a> on Tue Mar 15 01:55:05 2011</div>
+<div class="jsdoc_ctime">Documentation generated by <a href="http://jsdoc.sourceforge.net/" target="_parent">JSDoc</a> on Wed Jun  8 20:37:15 2011</div>
 </body>
 </html>
