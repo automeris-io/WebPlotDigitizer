@@ -78,9 +78,6 @@ var topCtx;
 // Different canvas states. They are all of type ImageData
 
 var originalScreen;
-var markedScreen;
-var currentScreen;
-var instantScreen;
 
 // Canvas Layers
 var mainScreen;

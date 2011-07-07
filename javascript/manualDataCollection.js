@@ -45,7 +45,6 @@ function acquireData()
 	else
 	{
 		showSidebar('manualMode');
-		markedScreen = getCanvasData();
 		removeAllMouseEvents();
 	}
 }
@@ -101,7 +100,6 @@ function clearPoints() // clear all markings.
 	pointsPicked = 0;
 	pointsStatus(pointsPicked);
     resetLayers();
-	markedScreen = currentScreen;
 	
 	removeAllMouseEvents();
 }

@@ -44,6 +44,8 @@ var drawingEraser = false;
 
 var binaryData;
 
+var compositeMode = dataCtx.globalCompositeOperation;
+
 /**
  * Opens the color picker.
  * @params {String} cmode 'fg' or 'bg'
@@ -91,7 +93,7 @@ function colorPicker(ev)
 		greenEl = document.getElementById('color_green');
 		blueEl = document.getElementById('color_blue');
 				
-		canvas.removeEventListener('click',colorPicker,true);
+		removeMouseEvent('click',colorPicker,true);
 		
 		if(colorPickerMode == 'fg')
 		{
@@ -188,11 +190,9 @@ function boxPaintMouseup(ev)
 	boxCoordinates[2] = parseInt(ev.layerX);
 	boxCoordinates[3] = parseInt(ev.layerY);
 
-	putCanvasData(markedScreen);
-
-	ctx.fillStyle = "rgba(254,253,0,0.99)";
-	ctx.fillRect(boxCoordinates[0], boxCoordinates[1], boxCoordinates[2]-boxCoordinates[0], boxCoordinates[3]-boxCoordinates[1]);
-	markedScreen = getCanvasData();
+    hoverCanvas.width = hoverCanvas.width;
+	dataCtx.fillStyle = "rgba(255,255,0,1)";
+	dataCtx.fillRect(boxCoordinates[0], boxCoordinates[1], boxCoordinates[2]-boxCoordinates[0], boxCoordinates[3]-boxCoordinates[1]);
 
 	drawingBox = false;
 }
@@ -207,9 +207,10 @@ function boxPaintMousedrag(ev)
 		xt = parseInt(ev.layerX);
 		yt = parseInt(ev.layerY);
 		
-		putCanvasData(markedScreen);
-		ctx.strokeStyle = "rgb(0,0,0)";
-		ctx.strokeRect(boxCoordinates[0], boxCoordinates[1], xt-boxCoordinates[0], yt-boxCoordinates[1]);
+		//putCanvasData(markedScreen);
+		hoverCanvas.width = hoverCanvas.width;
+		hoverCtx.strokeStyle = "rgb(0,0,0)";
+		hoverCtx.strokeRect(boxCoordinates[0], boxCoordinates[1], xt-boxCoordinates[0], yt-boxCoordinates[1]);
 	}
 }
 
@@ -235,13 +236,13 @@ function penPaintMousedown(ev)
 	    xt = parseInt(ev.layerX);
 	    yt = parseInt(ev.layerY);
 	    drawingPen = true;
-	    ctx.strokeStyle = "rgba(254,253,0,0.99)";
+	    ctx.strokeStyle = "rgba(255,255,0,1)";
 	    
 	    thkRange = document.getElementById('paintThickness');
 	    
-	    ctx.lineWidth = parseInt(thkRange.value);
-	    ctx.beginPath();
-	    ctx.moveTo(xt,yt);
+	    dataCtx.lineWidth = parseInt(thkRange.value);
+	    dataCtx.beginPath();
+	    dataCtx.moveTo(xt,yt);
 	}
 }
 
@@ -250,10 +251,9 @@ function penPaintMousedown(ev)
  */
 function penPaintMouseup(ev)
 {
-    ctx.closePath();
-    ctx.lineWidth = 1;
+    dataCtx.closePath();
+    dataCtx.lineWidth = 1;
     drawingPen = false;
-    markedScreen = getCanvasData();
 }
 
 /**
@@ -263,11 +263,11 @@ function penPaintMousedrag(ev)
 {
     if(drawingPen == true)
     {
-	xt = parseInt(ev.layerX);
-	yt = parseInt(ev.layerY);
-	ctx.strokeStyle = "rgba(254,253,0,0.99)";
-	ctx.lineTo(xt,yt);
-	ctx.stroke();
+	    xt = parseInt(ev.layerX);
+	    yt = parseInt(ev.layerY);
+	    dataCtx.strokeStyle = "rgba(255,255,0,1)";
+	    dataCtx.lineTo(xt,yt);
+	    dataCtx.stroke();
     }
 }
 
@@ -281,7 +281,7 @@ function eraser()
 	addMouseEvent('mousedown',eraserMousedown,true);
 	addMouseEvent('mouseup',eraserMouseup,true);
 	addMouseEvent('mousemove',eraserMousedrag,true);
-	instantScreen = markedScreen;
+	dataCtx.globalCompositeOperation = "destination-out";
 }
 
 /**
@@ -291,16 +291,17 @@ function eraserMousedown(ev)
 {
     if(drawingEraser == false)
     {
-	xt = parseInt(ev.layerX);
-	yt = parseInt(ev.layerY);
-	drawingEraser = true;
-	ctx.strokeStyle = "rgba(253,0,254,0.99)";
+	    xt = parseInt(ev.layerX);
+	    yt = parseInt(ev.layerY);
+	    drawingEraser = true;
+	    dataCtx.globalCompositeOperation = "destination-out";
+	    dataCtx.strokeStyle = "rgba(0,0,0,1)";
 	
-	thkRange = document.getElementById('paintThickness');
+	    thkRange = document.getElementById('paintThickness');
 	
-	ctx.lineWidth = parseInt(thkRange.value);
-	ctx.beginPath();
-	ctx.moveTo(xt,yt);
+	    dataCtx.lineWidth = parseInt(thkRange.value);
+	    dataCtx.beginPath();
+	    dataCtx.moveTo(xt,yt);
     }
 }
 
@@ -309,17 +310,11 @@ function eraserMousedown(ev)
  */
 function eraserMouseup(ev)
 {
-    ctx.closePath();
-    ctx.lineWidth = 1;
+
+    dataCtx.closePath();
+    dataCtx.lineWidth = 1;
+    dataCtx.globalCompositeOperation = "source-over";
     drawingEraser = false;
-    processingNote(true);
-    
-    instantScreen = getCanvasData();
-    var diffM = findDifference(instantScreen, markedScreen);
-    markedScreen = copyUsingDifference(markedScreen, currentScreen, diffM);
-    putCanvasData(markedScreen);
-    
-    processingNote(false);
 }
 
 /**
@@ -329,11 +324,12 @@ function eraserMousedrag(ev)
 {
     if(drawingEraser == true)
     {
-	xt = parseInt(ev.layerX);
-	yt = parseInt(ev.layerY);
-	ctx.strokeStyle = "rgba(253,0,254,0.99)";
-	ctx.lineTo(xt,yt);
-	ctx.stroke();
+	    xt = parseInt(ev.layerX);
+	    yt = parseInt(ev.layerY);
+	    dataCtx.globalCompositeOperation = "destination-out";
+	    dataCtx.strokeStyle = "rgba(0,0,0,1)";
+	    dataCtx.lineTo(xt,yt);
+	    dataCtx.stroke();
     }
 }
 
@@ -357,8 +353,7 @@ function updateTestWindow()
   
   cdistance = parseInt(colorDistanceEl.value);
   
-  differenceMatrix = findDifference(currentScreen, markedScreen);
-  binaryData = colorSelectDiff(currentScreen, colmode, chosenColor, cdistance, differenceMatrix);
+  binaryData = selectFromMarkedRegion(colmode, chosenColor, cdistance);
   
   tempImgCanvas = document.createElement('canvas');
   tempImgCanvas.width = canvasWidth;

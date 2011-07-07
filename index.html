@@ -31,7 +31,7 @@
 <meta name="Author" content="Ankit Rohatgi"/>
 <title>WebPlotDigitizer - Copyright 2011 Ankit Rohatgi</title>
 <link rel="stylesheet" href="styles.css" type="text/css" media="screen" />
-<!--
+
 <script src="javascript/main.js" language="JavaScript"></script>
 <script src="javascript/canvasDrawing.js" language="JavaScript"></script>
 <script src="javascript/mouseEvents.js" language="JavaScript"></script>
@@ -48,12 +48,13 @@
 <script src="javascript/imageProcessing.js" language="JavaScript"></script>
 <script src="javascript/coordinateTransform.js" language="JavaScript"></script>
 <script src="javascript/csvgenerator.js" language="JavaScript"></script>
+
+<!--
+<script src="combined.js" language="JavaScript"></script>
 -->
 
-<script src="combined.js" language="JavaScript"></script>
-
-
 <!-- Start of StatCounter Code -->
+<!--
 <script type="text/javascript">
 var sc_project=6711545; 
 var sc_invisible=1; 
@@ -66,6 +67,7 @@ stats" href="http://statcounter.com/tumblr/"
 target="_blank"><img class="statcounter"
 src="http://c.statcounter.com/6711545/0/9c26f4ca/1/"
 alt="tumblr visitor stats"></a></div></noscript>
+-->
 <!-- End of StatCounter Code -->
 
 </head>
@@ -115,11 +117,12 @@ alt="tumblr visitor stats"></a></div></noscript>
 <tr><td valign="top" id="canvasTD">
 <!-- the main canvas goes here -->
 	<div id="canvasDiv" style="position:relative;" onMouseOver="this.style.cursor='crosshair';">
-		<canvas id="mainCanvas" class="canvasLayers"></canvas>
-		<canvas id="dataCanvas" class="canvasLayers"></canvas>
-    	<canvas id="drawCanvas" class="canvasLayers"></canvas>
-		<canvas id="hoverCanvas" class="canvasLayers"></canvas>
-    	<canvas id="topCanvas" class="canvasLayers"></canvas>
+		<canvas id="mainCanvas" class="canvasLayers" style="z-index:1;"></canvas>
+		<canvas id="dataCanvas" class="canvasLayers" style="z-index:2;"></canvas>
+    	<canvas id="drawCanvas" class="canvasLayers" style="z-index:3;"></canvas>
+		<canvas id="hoverCanvas" class="canvasLayers" style="z-index:4;"></canvas>
+    	<canvas id="topCanvas" class="canvasLayers" style="z-index:5;"></canvas>
+
 	</div>
 </td>
 
@@ -127,13 +130,12 @@ alt="tumblr visitor stats"></a></div></noscript>
 <aside>
 	<!-- zoom window goes here -->
 	<div style="position:relative;" id="zoomDiv">
-		<canvas id="zoomCanvas" width=200 height=200></canvas>
-
-		<div id="cursorPosition">
+		<canvas id="zoomCanvas" class="zoomLayers" width=200 height=200 style="position:relative; top: 0px; left: 0px; z-index:1;"></canvas>
+		<canvas id="zoomCrossHair" class="zoomLayers" width=200 height=200 style="position:absolute; top: 0px; left: 0px; z-index:2; background:transparent;"></canvas>
+		<div id="cursorPosition" style="position:relative;">
        	[<span id="mousePosition"></span>]
        	</div>
-	</div>
-	
+    </div>
 	
 	<div style="position:relative;">
 

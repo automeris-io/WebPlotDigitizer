@@ -42,9 +42,8 @@ function AE_averagingWindow()
   xyData = [];
   pointsPicked = 0;
   
-  redrawCanvas();
-  markedScreen = currentScreen;
-  
+  resetLayers();
+        
   var xStepEl = document.getElementById("xStep");
   var xStep = parseFloat(xStepEl.value);
   var yStepEl = document.getElementById("yStep");
@@ -142,10 +141,10 @@ function AE_averagingWindow()
       xyData[pointsPicked][1] = parseFloat(avgY);
       pointsPicked = pointsPicked + 1;	
   
-      ctx.beginPath();
-      ctx.fillStyle = "rgb(200,0,200)";
-      ctx.arc(parseInt(avgX),parseInt(avgY),3,0,2.0*Math.PI,true);
-      ctx.fill();
+      dataCtx.beginPath();
+      dataCtx.fillStyle = "rgb(200,0,200)";
+      dataCtx.arc(parseInt(avgX),parseInt(avgY),3,0,2.0*Math.PI,true);
+      dataCtx.fill();
 
       
     }
@@ -167,8 +166,7 @@ function AE_xstep()
       xyData = [];
       pointsPicked = 0;
       
-      redrawCanvas();
-      markedScreen = currentScreen;
+      resetLayers();
       
       var xStepEl = document.getElementById("xStepDX");
       var xStep = parseFloat(xStepEl.value);
@@ -223,10 +221,10 @@ function AE_xstep()
                       xyData[pointsPicked][1] = parseFloat(yi);
                       pointsPicked = pointsPicked + 1;	
                       
-                      ctx.beginPath();
-                      ctx.fillStyle = "rgb(200,0,200)";
-                      ctx.arc(parseInt(xi),parseInt(yi),3,0,2.0*Math.PI,true);
-                      ctx.fill();
+                      dataCtx.beginPath();
+                      dataCtx.fillStyle = "rgb(200,0,200)";
+                      dataCtx.arc(parseInt(xi),parseInt(yi),3,0,2.0*Math.PI,true);
+                      dataCtx.fill();
 	            }
             }
 
@@ -250,9 +248,8 @@ function AE_ystep()
       xyData = [];
       pointsPicked = 0;
       
-      redrawCanvas();
-      markedScreen = currentScreen;
-      
+      resetLayers();
+            
       var yStepEl = document.getElementById("yStepDY");
       var yStep = parseFloat(yStepEl.value);
       
@@ -306,10 +303,10 @@ function AE_ystep()
                       xyData[pointsPicked][1] = parseFloat(yi);
                       pointsPicked = pointsPicked + 1;	
                       
-                      ctx.beginPath();
-                      ctx.fillStyle = "rgb(200,0,200)";
-                      ctx.arc(parseInt(xi),parseInt(yi),3,0,2.0*Math.PI,true);
-                      ctx.fill();
+                      dataCtx.beginPath();
+                      dataCtx.fillStyle = "rgb(200,0,200)";
+                      dataCtx.arc(parseInt(xi),parseInt(yi),3,0,2.0*Math.PI,true);
+                      dataCtx.fill();
 	            }
             }
 

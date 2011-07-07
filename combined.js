@@ -122,10 +122,10 @@ function pickCorners(ev)
 		xyAxes[axesN][1] = parseFloat(yi);
 		axesN = axesN + 1;	
 
-		ctx.beginPath();
-		ctx.fillStyle = "rgb(0,0,200)";
-		ctx.arc(xi,yi,3,0,2.0*Math.PI,true);
-		ctx.fill();
+		dataCtx.beginPath();
+		dataCtx.fillStyle = "rgb(0,0,200)";
+		dataCtx.arc(xi,yi,3,0,2.0*Math.PI,true);
+		dataCtx.fill();
 		
 		updateZoom(ev);
 
@@ -152,7 +152,7 @@ function pickCorners(ev)
 					showPopup('mapAlignment');
 				}
 
-				redrawCanvas();
+				dataCanvas.width = dataCanvas.width;
 		}
 	}
 	
@@ -293,6 +293,8 @@ var drawingEraser = false;
 
 var binaryData;
 
+var compositeMode = dataCtx.globalCompositeOperation;
+
 /**
  * Opens the color picker.
  * @params {String} cmode 'fg' or 'bg'
@@ -340,7 +342,7 @@ function colorPicker(ev)
 		greenEl = document.getElementById('color_green');
 		blueEl = document.getElementById('color_blue');
 				
-		canvas.removeEventListener('click',colorPicker,true);
+		removeMouseEvent('click',colorPicker,true);
 		
 		if(colorPickerMode == 'fg')
 		{
@@ -437,11 +439,9 @@ function boxPaintMouseup(ev)
 	boxCoordinates[2] = parseInt(ev.layerX);
 	boxCoordinates[3] = parseInt(ev.layerY);
 
-	putCanvasData(markedScreen);
-
-	ctx.fillStyle = "rgba(254,253,0,0.99)";
-	ctx.fillRect(boxCoordinates[0], boxCoordinates[1], boxCoordinates[2]-boxCoordinates[0], boxCoordinates[3]-boxCoordinates[1]);
-	markedScreen = getCanvasData();
+    hoverCanvas.width = hoverCanvas.width;
+	dataCtx.fillStyle = "rgba(255,255,0,1)";
+	dataCtx.fillRect(boxCoordinates[0], boxCoordinates[1], boxCoordinates[2]-boxCoordinates[0], boxCoordinates[3]-boxCoordinates[1]);
 
 	drawingBox = false;
 }
@@ -456,9 +456,10 @@ function boxPaintMousedrag(ev)
 		xt = parseInt(ev.layerX);
 		yt = parseInt(ev.layerY);
 		
-		putCanvasData(markedScreen);
-		ctx.strokeStyle = "rgb(0,0,0)";
-		ctx.strokeRect(boxCoordinates[0], boxCoordinates[1], xt-boxCoordinates[0], yt-boxCoordinates[1]);
+		//putCanvasData(markedScreen);
+		hoverCanvas.width = hoverCanvas.width;
+		hoverCtx.strokeStyle = "rgb(0,0,0)";
+		hoverCtx.strokeRect(boxCoordinates[0], boxCoordinates[1], xt-boxCoordinates[0], yt-boxCoordinates[1]);
 	}
 }
 
@@ -484,13 +485,13 @@ function penPaintMousedown(ev)
 	    xt = parseInt(ev.layerX);
 	    yt = parseInt(ev.layerY);
 	    drawingPen = true;
-	    ctx.strokeStyle = "rgba(254,253,0,0.99)";
+	    ctx.strokeStyle = "rgba(255,255,0,1)";
 	    
 	    thkRange = document.getElementById('paintThickness');
 	    
-	    ctx.lineWidth = parseInt(thkRange.value);
-	    ctx.beginPath();
-	    ctx.moveTo(xt,yt);
+	    dataCtx.lineWidth = parseInt(thkRange.value);
+	    dataCtx.beginPath();
+	    dataCtx.moveTo(xt,yt);
 	}
 }
 
@@ -499,10 +500,9 @@ function penPaintMousedown(ev)
  */
 function penPaintMouseup(ev)
 {
-    ctx.closePath();
-    ctx.lineWidth = 1;
+    dataCtx.closePath();
+    dataCtx.lineWidth = 1;
     drawingPen = false;
-    markedScreen = getCanvasData();
 }
 
 /**
@@ -512,11 +512,11 @@ function penPaintMousedrag(ev)
 {
     if(drawingPen == true)
     {
-	xt = parseInt(ev.layerX);
-	yt = parseInt(ev.layerY);
-	ctx.strokeStyle = "rgba(254,253,0,0.99)";
-	ctx.lineTo(xt,yt);
-	ctx.stroke();
+	    xt = parseInt(ev.layerX);
+	    yt = parseInt(ev.layerY);
+	    dataCtx.strokeStyle = "rgba(255,255,0,1)";
+	    dataCtx.lineTo(xt,yt);
+	    dataCtx.stroke();
     }
 }
 
@@ -530,7 +530,7 @@ function eraser()
 	addMouseEvent('mousedown',eraserMousedown,true);
 	addMouseEvent('mouseup',eraserMouseup,true);
 	addMouseEvent('mousemove',eraserMousedrag,true);
-	instantScreen = markedScreen;
+	dataCtx.globalCompositeOperation = "destination-out";
 }
 
 /**
@@ -540,16 +540,17 @@ function eraserMousedown(ev)
 {
     if(drawingEraser == false)
     {
-	xt = parseInt(ev.layerX);
-	yt = parseInt(ev.layerY);
-	drawingEraser = true;
-	ctx.strokeStyle = "rgba(253,0,254,0.99)";
+	    xt = parseInt(ev.layerX);
+	    yt = parseInt(ev.layerY);
+	    drawingEraser = true;
+	    dataCtx.globalCompositeOperation = "destination-out";
+	    dataCtx.strokeStyle = "rgba(0,0,0,1)";
 	
-	thkRange = document.getElementById('paintThickness');
+	    thkRange = document.getElementById('paintThickness');
 	
-	ctx.lineWidth = parseInt(thkRange.value);
-	ctx.beginPath();
-	ctx.moveTo(xt,yt);
+	    dataCtx.lineWidth = parseInt(thkRange.value);
+	    dataCtx.beginPath();
+	    dataCtx.moveTo(xt,yt);
     }
 }
 
@@ -558,17 +559,11 @@ function eraserMousedown(ev)
  */
 function eraserMouseup(ev)
 {
-    ctx.closePath();
-    ctx.lineWidth = 1;
+
+    dataCtx.closePath();
+    dataCtx.lineWidth = 1;
+    dataCtx.globalCompositeOperation = "source-over";
     drawingEraser = false;
-    processingNote(true);
-    
-    instantScreen = getCanvasData();
-    var diffM = findDifference(instantScreen, markedScreen);
-    markedScreen = copyUsingDifference(markedScreen, currentScreen, diffM);
-    putCanvasData(markedScreen);
-    
-    processingNote(false);
 }
 
 /**
@@ -578,11 +573,12 @@ function eraserMousedrag(ev)
 {
     if(drawingEraser == true)
     {
-	xt = parseInt(ev.layerX);
-	yt = parseInt(ev.layerY);
-	ctx.strokeStyle = "rgba(253,0,254,0.99)";
-	ctx.lineTo(xt,yt);
-	ctx.stroke();
+	    xt = parseInt(ev.layerX);
+	    yt = parseInt(ev.layerY);
+	    dataCtx.globalCompositeOperation = "destination-out";
+	    dataCtx.strokeStyle = "rgba(0,0,0,1)";
+	    dataCtx.lineTo(xt,yt);
+	    dataCtx.stroke();
     }
 }
 
@@ -606,8 +602,7 @@ function updateTestWindow()
   
   cdistance = parseInt(colorDistanceEl.value);
   
-  differenceMatrix = findDifference(currentScreen, markedScreen);
-  binaryData = colorSelectDiff(currentScreen, colmode, chosenColor, cdistance, differenceMatrix);
+  binaryData = selectFromMarkedRegion(colmode, chosenColor, cdistance);
   
   tempImgCanvas = document.createElement('canvas');
   tempImgCanvas.width = canvasWidth;
@@ -713,9 +708,8 @@ function AE_averagingWindow()
   xyData = [];
   pointsPicked = 0;
   
-  redrawCanvas();
-  markedScreen = currentScreen;
-  
+  resetLayers();
+        
   var xStepEl = document.getElementById("xStep");
   var xStep = parseFloat(xStepEl.value);
   var yStepEl = document.getElementById("yStep");
@@ -813,10 +807,10 @@ function AE_averagingWindow()
       xyData[pointsPicked][1] = parseFloat(avgY);
       pointsPicked = pointsPicked + 1;	
   
-      ctx.beginPath();
-      ctx.fillStyle = "rgb(200,0,200)";
-      ctx.arc(parseInt(avgX),parseInt(avgY),3,0,2.0*Math.PI,true);
-      ctx.fill();
+      dataCtx.beginPath();
+      dataCtx.fillStyle = "rgb(200,0,200)";
+      dataCtx.arc(parseInt(avgX),parseInt(avgY),3,0,2.0*Math.PI,true);
+      dataCtx.fill();
 
       
     }
@@ -838,8 +832,7 @@ function AE_xstep()
       xyData = [];
       pointsPicked = 0;
       
-      redrawCanvas();
-      markedScreen = currentScreen;
+      resetLayers();
       
       var xStepEl = document.getElementById("xStepDX");
       var xStep = parseFloat(xStepEl.value);
@@ -894,10 +887,10 @@ function AE_xstep()
                       xyData[pointsPicked][1] = parseFloat(yi);
                       pointsPicked = pointsPicked + 1;	
                       
-                      ctx.beginPath();
-                      ctx.fillStyle = "rgb(200,0,200)";
-                      ctx.arc(parseInt(xi),parseInt(yi),3,0,2.0*Math.PI,true);
-                      ctx.fill();
+                      dataCtx.beginPath();
+                      dataCtx.fillStyle = "rgb(200,0,200)";
+                      dataCtx.arc(parseInt(xi),parseInt(yi),3,0,2.0*Math.PI,true);
+                      dataCtx.fill();
 	            }
             }
 
@@ -921,9 +914,8 @@ function AE_ystep()
       xyData = [];
       pointsPicked = 0;
       
-      redrawCanvas();
-      markedScreen = currentScreen;
-      
+      resetLayers();
+            
       var yStepEl = document.getElementById("yStepDY");
       var yStep = parseFloat(yStepEl.value);
       
@@ -977,10 +969,10 @@ function AE_ystep()
                       xyData[pointsPicked][1] = parseFloat(yi);
                       pointsPicked = pointsPicked + 1;	
                       
-                      ctx.beginPath();
-                      ctx.fillStyle = "rgb(200,0,200)";
-                      ctx.arc(parseInt(xi),parseInt(yi),3,0,2.0*Math.PI,true);
-                      ctx.fill();
+                      dataCtx.beginPath();
+                      dataCtx.fillStyle = "rgb(200,0,200)";
+                      dataCtx.arc(parseInt(xi),parseInt(yi),3,0,2.0*Math.PI,true);
+                      dataCtx.fill();
 	            }
             }
 
@@ -1027,8 +1019,17 @@ function AE_ystep()
 
 /* Main Canvas Variables */
 
-/** Holds the canvas element. */
-var canvas; 
+/** Holds the main canvas element where the original picture is displayed. */
+var mainCanvas; 
+/** Holds the canvas layer in which data is presented */
+var dataCanvas;
+/** Holds the canvas layer where drawing is done. */
+var drawCanvas;
+/** Holds the canvas layer where drawing while mouse is hovering is done. */
+var hoverCanvas;
+/** Holds the top level canvas layer. This layer handles the mouse events. */
+var topCanvas;
+
 /** X-Location of the origin where plot image is drawn. */
 var cx0; 
 /** Y-Location of the origin where plot image is drawn. */
@@ -1053,14 +1054,24 @@ var currentImageHeight;
 var currentImageWidth;
 /** canvas data from getImageData */
 var currentImageData; 
+
+// canvas layer contexts.
 var ctx; 
+var dataCtx;
+var drawCtx;
+var hoverCtx;
+var topCtx;
 
 // Different canvas states. They are all of type ImageData
 
 var originalScreen;
-var markedScreen;
-var currentScreen;
-var instantScreen;
+
+// Canvas Layers
+var mainScreen;
+var dataScreen;
+var drawScreen;
+var hoverScreen;
+var topScreen;
 
 /**
  * Load an image on the main canvas.
@@ -1133,7 +1144,7 @@ function getCanvasData()
  */
 function putCanvasData(cImgData)
 {
-	canvas.width = canvas.width;
+	mainCanvas.width = mainCanvas.width;
 	ctx.putImageData(cImgData,0,0);
 }
 
@@ -1142,7 +1153,7 @@ function putCanvasData(cImgData)
  */
 function reloadPlot()
 {
-	canvas.width = canvas.width; // resets canvas.
+	mainCanvas.width = mainCanvas.width; // resets canvas.
 	ctx.drawImage(currentImage, cx0, cy0, currentImageWidth, currentImageHeight); // redraw image.
 }
 
@@ -1151,8 +1162,19 @@ function reloadPlot()
  */
 function redrawCanvas()
 {
-	canvas.width = canvas.width;
+	mainCanvas.width = mainCanvas.width;
 	putCanvasData(currentScreen);
+}
+
+/**
+ * Resets all canvases except the main canvas.
+ */
+function resetLayers()
+{
+    dataCanvas.width = dataCanvas.width;
+    drawCanvas.width = drawCanvas.width;
+    hoverCanvas.width = hoverCanvas.width;
+    topCanvas.width = topCanvas.width;
 }
 
 /**
@@ -1161,7 +1183,7 @@ function redrawCanvas()
 function savePNG()
 {
   var saveImageWin = window.open();
-  saveImageWin.location = canvas.toDataURL();
+  saveImageWin.location = mainCanvas.toDataURL();
 }
 
 /**
@@ -1219,9 +1241,9 @@ function dropHandler(ev)
 
 /*
  * Pixel to real coordinate.
- * @params {Array} pdata Pixel data
- * @params {Int} pn Number of data points.
- * @params {String} ptype Plot type
+ * @param {Array} pdata Pixel data
+ * @param {Int} pn Number of data points.
+ * @param {String} ptype Plot type
  */
  function pixelToData(pdata, pn, ptype)
  {
@@ -1678,8 +1700,8 @@ function cropMouseup(ev)
       cropCoordinates[3] = parseInt(ev.layerY);
       cropStatus = 0;
       
-      redrawCanvas();
-      
+      hoverCanvas.width = hoverCanvas.width;
+            
       cropWidth = cropCoordinates[2]-cropCoordinates[0];
       cropHeight = cropCoordinates[3]-cropCoordinates[1];
       if ((cropWidth > 0) && (cropHeight > 0))
@@ -1709,9 +1731,9 @@ function cropMousemove(ev)
       // this paints a rectangle as the mouse moves
       if(cropStatus == 1)
       {
-		redrawCanvas();
-		ctx.strokeStyle = "rgb(0,0,0)";
-		ctx.strokeRect(cropCoordinates[0],cropCoordinates[1],parseInt(ev.layerX)-cropCoordinates[0],parseInt(ev.layerY)-cropCoordinates[1]);
+        hoverCanvas.width = hoverCanvas.width;
+		hoverCtx.strokeStyle = "rgb(0,0,0)";
+		hoverCtx.strokeRect(cropCoordinates[0],cropCoordinates[1],parseInt(ev.layerX)-cropCoordinates[0],parseInt(ev.layerY)-cropCoordinates[1]);
       }
 }
 
@@ -1888,32 +1910,83 @@ function colorSelectDiff(imgd, mode, colorRGB, tol, diff)
 	for(var coli=0; coli < dw; coli++)
 	{
 	    index = rowi*4*dw + coli*4;
-	    ir = imgd.data[index];
-	    ig = imgd.data[index+1];
-	    ib = imgd.data[index+2];
+	    var ir = imgd.data[index];
+	    var ig = imgd.data[index+1];
+	    var ib = imgd.data[index+2];
 	    
-	    dist = Math.sqrt((ir-redv)*(ir-redv) + (ig-greenv)*(ig-greenv) + (ib-bluev)*(ib-bluev));
+	    var dist = Math.sqrt((ir-redv)*(ir-redv) + (ig-greenv)*(ig-greenv) + (ib-bluev)*(ib-bluev));
 	    
 	    seldata[rowi][coli] = false;
 	    
 	    if ((mode == 'fg') && (diff[rowi][coli] == 1))
 	    {
-		if (dist <= tol)
-		{
-		    seldata[rowi][coli] = true;
-		}
+		    if (dist <= tol)
+		    {
+		        seldata[rowi][coli] = true;
+		    }
 	    }
 	    else if ((mode == 'bg') && (diff[rowi][coli] == 1))
 	    {
-		if (dist > tol)
-		{
-		    seldata[rowi][coli] = true;
-		}
+		    if (dist > tol)
+		    {
+		        seldata[rowi][coli] = true;
+		    }
 	    }
 	}
     }
     
     return seldata;
+}
+
+/**
+ * Select from marked region of interest based on color.
+ */
+function selectFromMarkedRegion(mode, colorRGB, tol)
+{
+    dw = canvasWidth;
+    dh = canvasHeight;
+    
+    redv = colorRGB[0];
+    greenv = colorRGB[1];
+    bluev = colorRGB[2];
+    
+    var markedRegion = dataCtx.getImageData(0,0,canvasWidth,canvasHeight);
+    var imgd = getCanvasData();
+    
+    var seldata = new Array();
+    
+    for (var rowi=0; rowi < dh; rowi++)
+    {
+	    seldata[rowi] = new Array();
+	    for(var coli=0; coli < dw; coli++)
+	    {
+	        index = rowi*4*dw + coli*4;
+	        
+	        // marked region
+	        var mr = markedRegion.data[index];
+	        var mg = markedRegion.data[index+1];
+	        var mb = markedRegion.data[index+2];
+	        
+	        // plot data
+	        var ir = imgd.data[index];
+	        var ig = imgd.data[index+1];
+	        var ib = imgd.data[index+2];
+	        
+       	    seldata[rowi][coli] = false;
+       	    
+       	    if ((mr == 255) && (mg ==  255) && (mb == 0)) // yellow marked region
+       	    {
+       	        var dist = Math.sqrt((ir-redv)*(ir-redv) + (ig-greenv)*(ig-greenv) + (ib-bluev)*(ib-bluev));
+       	        
+       	        if ((mode == 'fg') && (dist <= tol))
+       	            seldata[rowi][coli] = true;
+       	        else if ((mode == 'bg') && (dist > tol))
+       	            seldata[rowi][coli] = true;
+       	    }
+	    }
+	 }
+	 
+	 return seldata;
 }
 
 /**
@@ -1982,7 +2055,13 @@ function binaryToImageData(bwdata,imgd)
 function init() // This is run when the page loads.
 {
 	checkBrowser();
-	canvas = document.getElementById('mainCanvas');
+	
+	mainCanvas = document.getElementById('mainCanvas');
+	dataCanvas = document.getElementById('dataCanvas');
+	drawCanvas = document.getElementById('drawCanvas');
+	hoverCanvas = document.getElementById('hoverCanvas');
+	topCanvas = document.getElementById('topCanvas');
+	
 	var canvasDiv = document.getElementById('canvasDiv');
 		
 	zCanvas = document.getElementById('zoomCanvas');
@@ -2002,8 +2081,21 @@ function init() // This is run when the page loads.
 	canvasHeight = parseFloat(canvasDiv.offsetHeight);
 	
 	// resize canvas.
-	canvas.height = canvasHeight;
-	canvas.width = canvasWidth;
+	mainCanvas.height = canvasHeight;
+	mainCanvas.width = canvasWidth;
+	
+	dataCanvas.height = canvasHeight;
+	dataCanvas.width = canvasWidth;
+
+	drawCanvas.height = canvasHeight;
+	drawCanvas.width = canvasWidth;
+	
+	hoverCanvas.height = canvasHeight;
+	hoverCanvas.width = canvasWidth;
+
+	topCanvas.height = canvasHeight;
+	topCanvas.width = canvasWidth;
+
 
 	// Needed to fix the zoom problem.
 	cheight = canvasHeight - zoom_dy;
@@ -2011,7 +2103,11 @@ function init() // This is run when the page loads.
 
 	caspectratio = cheight/cwidth;
 
-	ctx = canvas.getContext('2d');
+	ctx = mainCanvas.getContext('2d');
+	dataCtx = dataCanvas.getContext('2d');
+	drawCtx = drawCanvas.getContext('2d');
+	hoverCtx = hoverCanvas.getContext('2d');
+	topCtx = topCanvas.getContext('2d');
 	
 	// get the coordinates panel
 	mPosn = document.getElementById('mousePosition');
@@ -2029,14 +2125,14 @@ function init() // This is run when the page loads.
 		
 	// specify mouseover function
 	//canvas.addEventListener('click',clickHandler,false);
-	canvas.addEventListener('mousemove',updateZoom,false);
+	topCanvas.addEventListener('mousemove',updateZoom,false);
 	
 	// Add support for extended crosshair
 	//document.body.addEventListener('keydown', toggleCrosshair, false);
 
 	// Image dropping capabilities
-	canvas.addEventListener('dragover',function(event) {event.preventDefault();}, true);
-	canvas.addEventListener("drop",function(event) {event.preventDefault(); dropHandler(event);},true);
+	topCanvas.addEventListener('dragover',function(event) {event.preventDefault();}, true);
+	topCanvas.addEventListener("drop",function(event) {event.preventDefault(); dropHandler(event);},true);
 	
 	// Set defaults everywhere.
 	setDefaultState();
@@ -2117,7 +2213,6 @@ function acquireData()
 	else
 	{
 		showSidebar('manualMode');
-		markedScreen = getCanvasData();
 		removeAllMouseEvents();
 	}
 }
@@ -2155,10 +2250,10 @@ function clickPoints(ev)
 	xyData[pointsPicked][1] = parseFloat(yi);
 	pointsPicked = pointsPicked + 1;	
 
-	ctx.beginPath();
-	ctx.fillStyle = "rgb(200,0,0)";
-	ctx.arc(xi,yi,3,0,2.0*Math.PI,true);
-	ctx.fill();
+	dataCtx.beginPath();
+	dataCtx.fillStyle = "rgb(200,0,0)";
+	dataCtx.arc(xi,yi,3,0,2.0*Math.PI,true);
+	dataCtx.fill();
 
 	pointsStatus(pointsPicked);
 	updateZoom(ev);
@@ -2172,8 +2267,7 @@ function clearPoints() // clear all markings.
 {
 	pointsPicked = 0;
 	pointsStatus(pointsPicked);
-	redrawCanvas();
-	markedScreen = currentScreen;
+    resetLayers();
 	
 	removeAllMouseEvents();
 }
@@ -2188,17 +2282,17 @@ function undoPointSelection()
 		pointsPicked = pointsPicked - 1;
 		pointsStatus(pointsPicked);
 		
-		redrawCanvas();
+        resetLayers();
 
 		for(ii = 0; ii < pointsPicked; ii++)
 		{
 			xi = xyData[ii][0];	
 			yi = xyData[ii][1];
 
-			ctx.beginPath();
-			ctx.fillStyle = "rgb(200,0,0)";
-			ctx.arc(xi,yi,3,0,2.0*Math.PI,true);
-			ctx.fill();
+			dataCtx.beginPath();
+			dataCtx.fillStyle = "rgb(200,0,0)";
+			dataCtx.arc(xi,yi,3,0,2.0*Math.PI,true);
+			dataCtx.fill();
 		}
 
 	}
@@ -2257,16 +2351,16 @@ function deleteSpecificPointHandler(ev)
 		pointsPicked = pointsPicked - 1;
 		pointsStatus(pointsPicked);
 			
-		redrawCanvas();
+        resetLayers();
 
 		for(ii = 0; ii < pointsPicked; ii++)
 		{
 			xp = xyData[ii][0];	
 			yp = xyData[ii][1];
-			ctx.beginPath();
-			ctx.fillStyle = "rgb(200,0,0)";
-			ctx.arc(xp,yp,3,0,2.0*Math.PI,true);
-			ctx.fill();
+			dataCtx.beginPath();
+			dataCtx.fillStyle = "rgb(200,0,0)";
+			dataCtx.arc(xp,yp,3,0,2.0*Math.PI,true);
+			dataCtx.fill();
 		}
 	}
 
@@ -2390,7 +2484,7 @@ function addMouseEvent(mouseEv, functionName, tf)
 
 	if(eventExists == false)
 	{
-		canvas.addEventListener(mouseEv, functionName, tf);
+		topCanvas.addEventListener(mouseEv, functionName, tf);
 		mouseEventType[mouseEvents] = mouseEv;
 		mouseEventFunction[mouseEvents] = functionName;
 		mouseEventCapture[mouseEvents] = tf;
@@ -2407,7 +2501,7 @@ function removeAllMouseEvents()
 	{
 		for (var kk = 0; kk < mouseEvents; kk++)
 		{
-			canvas.removeEventListener(mouseEventType[kk],mouseEventFunction[kk],mouseEventCapture[kk]);
+			topCanvas.removeEventListener(mouseEventType[kk],mouseEventFunction[kk],mouseEventCapture[kk]);
 		}
 		mouseEvents = 0;
 		mouseEventType = [];
@@ -2438,7 +2532,7 @@ function removeMouseEvent(mouseEv, functionName, tf)
 	}
 	if(eventExists == true)
 	{
-		canvas.removeEventListener(mouseEv, functionName, tf);
+		topCanvas.removeEventListener(mouseEv, functionName, tf);
 		mouseEvents = mouseEvents - 1;
 		mouseEventType.splice(eventIndex,1);
 		mouseEventFunction.splice(eventIndex,1);
@@ -2698,12 +2792,16 @@ pix[0] = new Array();
  */
 function initZoom()
 {
-	zctx.beginPath();
-	zctx.moveTo(zWindowWidth/2, 0);
-	zctx.lineTo(zWindowWidth/2, zWindowHeight);
-	zctx.moveTo(0, zWindowHeight/2);
-	zctx.lineTo(zWindowWidth, zWindowHeight/2);
-	zctx.stroke();
+	var zCrossHair = document.getElementById("zoomCrossHair");
+	var zchCtx = zCrossHair.getContext("2d");
+    zchCtx.strokeStyle = "rgb(0,0,0)";
+	zchCtx.beginPath();
+	zchCtx.moveTo(zWindowWidth/2, 0);
+	zchCtx.lineTo(zWindowWidth/2, zWindowHeight);
+	zchCtx.moveTo(0, zWindowHeight/2);
+	zchCtx.lineTo(zWindowWidth, zWindowHeight/2);
+	zchCtx.stroke();
+	
 }
 
 /**
@@ -2733,36 +2831,43 @@ function updateZoom(ev)
     
   	if (extendedCrosshair == true)
 	{
-	    redrawCanvas();
-	    ctx.strokeStyle = "rgba(0,0,0, 0.5)";
-	    ctx.beginPath();
-	    ctx.moveTo(xpos, 0);
-	    ctx.lineTo(xpos, canvasHeight);
-	    ctx.moveTo(0, ypos);
-	    ctx.lineTo(canvasWidth, ypos);
-	    ctx.stroke();
+        hoverCanvas.width = hoverCanvas.width;
+	    hoverCtx.strokeStyle = "rgba(0,0,0, 0.5)";
+	    hoverCtx.beginPath();
+	    hoverCtx.moveTo(xpos, 0);
+	    hoverCtx.lineTo(xpos, canvasHeight);
+	    hoverCtx.moveTo(0, ypos);
+	    hoverCtx.lineTo(canvasWidth, ypos);
+	    hoverCtx.stroke();
 	}
 
     
 	if((xpos-dx/2) >= 0 && (ypos-dy/2) >= 0 && (xpos+dx/2) <= canvasWidth && (ypos+dy/2) <= canvasHeight)
 	{
 		var zoomImage = ctx.getImageData(xpos-dx/2,ypos-dy/2,dx,dy);
-	
+	    var dataLayerImage = dataCtx.getImageData(xpos-dx/2,ypos-dy/2,dx,dy);
+
+        // merge data from the two layers.
+        for (var zi = 0; zi < dataLayerImage.data.length; zi+=4)
+        {
+            if ((dataLayerImage.data[zi]+dataLayerImage.data[zi+1]+dataLayerImage.data[zi+2]+dataLayerImage.data[zi+3])!=0)
+            {
+                zoomImage.data[zi] = dataLayerImage.data[zi];
+                zoomImage.data[zi+1] = dataLayerImage.data[zi+1];        
+                zoomImage.data[zi+2] = dataLayerImage.data[zi+2];        
+            }
+        }
+        
 		tctx.putImageData(zoomImage,0,0);
+		
 		var imgdata = tempCanvas.toDataURL();
 		var zImage = new Image();
 		zImage.onload = function() 
 			{ 
 				zctx.drawImage(zImage,0,0,zWindowWidth,zWindowHeight); 
-				zctx.beginPath();
-				zctx.moveTo(zWindowWidth/2, 0);
-				zctx.lineTo(zWindowWidth/2, zWindowHeight);
-				zctx.moveTo(0, zWindowHeight/2);
-				zctx.lineTo(zWindowWidth, zWindowHeight/2);
-				zctx.stroke();
-
 			}
 		zImage.src = imgdata;
+
 	}
 	
 }
