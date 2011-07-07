@@ -37,7 +37,13 @@
 function init() // This is run when the page loads.
 {
 	checkBrowser();
-	canvas = document.getElementById('mainCanvas');
+	
+	mainCanvas = document.getElementById('mainCanvas');
+	dataCanvas = document.getElementById('dataCanvas');
+	drawCanvas = document.getElementById('drawCanvas');
+	hoverCanvas = document.getElementById('hoverCanvas');
+	topCanvas = document.getElementById('topCanvas');
+	
 	var canvasDiv = document.getElementById('canvasDiv');
 		
 	zCanvas = document.getElementById('zoomCanvas');
@@ -57,8 +63,21 @@ function init() // This is run when the page loads.
 	canvasHeight = parseFloat(canvasDiv.offsetHeight);
 	
 	// resize canvas.
-	canvas.height = canvasHeight;
-	canvas.width = canvasWidth;
+	mainCanvas.height = canvasHeight;
+	mainCanvas.width = canvasWidth;
+	
+	dataCanvas.height = canvasHeight;
+	dataCanvas.width = canvasWidth;
+
+	drawCanvas.height = canvasHeight;
+	drawCanvas.width = canvasWidth;
+	
+	hoverCanvas.height = canvasHeight;
+	hoverCanvas.width = canvasWidth;
+
+	topCanvas.height = canvasHeight;
+	topCanvas.width = canvasWidth;
+
 
 	// Needed to fix the zoom problem.
 	cheight = canvasHeight - zoom_dy;
@@ -66,7 +85,11 @@ function init() // This is run when the page loads.
 
 	caspectratio = cheight/cwidth;
 
-	ctx = canvas.getContext('2d');
+	ctx = mainCanvas.getContext('2d');
+	dataCtx = dataCanvas.getContext('2d');
+	drawCtx = drawCanvas.getContext('2d');
+	hoverCtx = hoverCanvas.getContext('2d');
+	topCtx = topCanvas.getContext('2d');
 	
 	// get the coordinates panel
 	mPosn = document.getElementById('mousePosition');
@@ -84,14 +107,14 @@ function init() // This is run when the page loads.
 		
 	// specify mouseover function
 	//canvas.addEventListener('click',clickHandler,false);
-	canvas.addEventListener('mousemove',updateZoom,false);
+	topCanvas.addEventListener('mousemove',updateZoom,false);
 	
 	// Add support for extended crosshair
 	//document.body.addEventListener('keydown', toggleCrosshair, false);
 
 	// Image dropping capabilities
-	canvas.addEventListener('dragover',function(event) {event.preventDefault();}, true);
-	canvas.addEventListener("drop",function(event) {event.preventDefault(); dropHandler(event);},true);
+	topCanvas.addEventListener('dragover',function(event) {event.preventDefault();}, true);
+	topCanvas.addEventListener("drop",function(event) {event.preventDefault(); dropHandler(event);},true);
 	
 	// Set defaults everywhere.
 	setDefaultState();

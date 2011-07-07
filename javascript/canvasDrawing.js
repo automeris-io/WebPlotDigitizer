@@ -32,8 +32,17 @@
 
 /* Main Canvas Variables */
 
-/** Holds the canvas element. */
-var canvas; 
+/** Holds the main canvas element where the original picture is displayed. */
+var mainCanvas; 
+/** Holds the canvas layer in which data is presented */
+var dataCanvas;
+/** Holds the canvas layer where drawing is done. */
+var drawCanvas;
+/** Holds the canvas layer where drawing while mouse is hovering is done. */
+var hoverCanvas;
+/** Holds the top level canvas layer. This layer handles the mouse events. */
+var topCanvas;
+
 /** X-Location of the origin where plot image is drawn. */
 var cx0; 
 /** Y-Location of the origin where plot image is drawn. */
@@ -58,7 +67,13 @@ var currentImageHeight;
 var currentImageWidth;
 /** canvas data from getImageData */
 var currentImageData; 
+
+// canvas layer contexts.
 var ctx; 
+var dataCtx;
+var drawCtx;
+var hoverCtx;
+var topCtx;
 
 // Different canvas states. They are all of type ImageData
 
@@ -66,6 +81,13 @@ var originalScreen;
 var markedScreen;
 var currentScreen;
 var instantScreen;
+
+// Canvas Layers
+var mainScreen;
+var dataScreen;
+var drawScreen;
+var hoverScreen;
+var topScreen;
 
 /**
  * Load an image on the main canvas.
@@ -138,7 +160,7 @@ function getCanvasData()
  */
 function putCanvasData(cImgData)
 {
-	canvas.width = canvas.width;
+	mainCanvas.width = mainCanvas.width;
 	ctx.putImageData(cImgData,0,0);
 }
 
@@ -147,7 +169,7 @@ function putCanvasData(cImgData)
  */
 function reloadPlot()
 {
-	canvas.width = canvas.width; // resets canvas.
+	mainCanvas.width = mainCanvas.width; // resets canvas.
 	ctx.drawImage(currentImage, cx0, cy0, currentImageWidth, currentImageHeight); // redraw image.
 }
 
@@ -156,8 +178,19 @@ function reloadPlot()
  */
 function redrawCanvas()
 {
-	canvas.width = canvas.width;
+	mainCanvas.width = mainCanvas.width;
 	putCanvasData(currentScreen);
+}
+
+/**
+ * Resets all canvases except the main canvas.
+ */
+function resetLayers()
+{
+    dataCanvas.width = dataCanvas.width;
+    drawCanvas.width = drawCanvas.width;
+    hoverCanvas.width = hoverCanvas.width;
+    topCanvas.width = topCanvas.width;
 }
 
 /**
@@ -166,7 +199,7 @@ function redrawCanvas()
 function savePNG()
 {
   var saveImageWin = window.open();
-  saveImageWin.location = canvas.toDataURL();
+  saveImageWin.location = mainCanvas.toDataURL();
 }
 
 /**

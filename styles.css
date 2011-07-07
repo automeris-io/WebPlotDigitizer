@@ -73,19 +73,26 @@ textarea { resize: none; }
 
 #mainCanvas
 {
-	border: thin grey solid;
 	background: white;
 	-moz-box-shadow: 0px 0px 10px #888;
-	-webkit-box-shadow: 0px 0px 10px #888;
+    -webkit-box-shadow: 0px 0px 10px #888;
 
 }
 
-#zoomCanvas
+.canvasLayers
 {
 	border: thin grey solid;
-	margin: 0;
-	padding: 0;
-	background: white;
+	background: transparent;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+}
+
+.zoomLayers
+{
+    border: thin grey solid;
+    margin: 0;
+    padding: 0;
 }
 
 #zoomDiv

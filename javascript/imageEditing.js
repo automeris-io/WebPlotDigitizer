@@ -122,8 +122,8 @@ function cropMouseup(ev)
       cropCoordinates[3] = parseInt(ev.layerY);
       cropStatus = 0;
       
-      redrawCanvas();
-      
+      hoverCanvas.width = hoverCanvas.width;
+            
       cropWidth = cropCoordinates[2]-cropCoordinates[0];
       cropHeight = cropCoordinates[3]-cropCoordinates[1];
       if ((cropWidth > 0) && (cropHeight > 0))
@@ -153,9 +153,9 @@ function cropMousemove(ev)
       // this paints a rectangle as the mouse moves
       if(cropStatus == 1)
       {
-		redrawCanvas();
-		ctx.strokeStyle = "rgb(0,0,0)";
-		ctx.strokeRect(cropCoordinates[0],cropCoordinates[1],parseInt(ev.layerX)-cropCoordinates[0],parseInt(ev.layerY)-cropCoordinates[1]);
+        hoverCanvas.width = hoverCanvas.width;
+		hoverCtx.strokeStyle = "rgb(0,0,0)";
+		hoverCtx.strokeRect(cropCoordinates[0],cropCoordinates[1],parseInt(ev.layerX)-cropCoordinates[0],parseInt(ev.layerY)-cropCoordinates[1]);
       }
 }
 

@@ -122,10 +122,10 @@ function pickCorners(ev)
 		xyAxes[axesN][1] = parseFloat(yi);
 		axesN = axesN + 1;	
 
-		ctx.beginPath();
-		ctx.fillStyle = "rgb(0,0,200)";
-		ctx.arc(xi,yi,3,0,2.0*Math.PI,true);
-		ctx.fill();
+		dataCtx.beginPath();
+		dataCtx.fillStyle = "rgb(0,0,200)";
+		dataCtx.arc(xi,yi,3,0,2.0*Math.PI,true);
+		dataCtx.fill();
 		
 		updateZoom(ev);
 
@@ -152,7 +152,7 @@ function pickCorners(ev)
 					showPopup('mapAlignment');
 				}
 
-				redrawCanvas();
+				dataCanvas.width = dataCanvas.width;
 		}
 	}
 	
