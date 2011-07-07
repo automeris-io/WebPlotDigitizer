@@ -156,32 +156,83 @@ function colorSelectDiff(imgd, mode, colorRGB, tol, diff)
 	for(var coli=0; coli < dw; coli++)
 	{
 	    index = rowi*4*dw + coli*4;
-	    ir = imgd.data[index];
-	    ig = imgd.data[index+1];
-	    ib = imgd.data[index+2];
+	    var ir = imgd.data[index];
+	    var ig = imgd.data[index+1];
+	    var ib = imgd.data[index+2];
 	    
-	    dist = Math.sqrt((ir-redv)*(ir-redv) + (ig-greenv)*(ig-greenv) + (ib-bluev)*(ib-bluev));
+	    var dist = Math.sqrt((ir-redv)*(ir-redv) + (ig-greenv)*(ig-greenv) + (ib-bluev)*(ib-bluev));
 	    
 	    seldata[rowi][coli] = false;
 	    
 	    if ((mode == 'fg') && (diff[rowi][coli] == 1))
 	    {
-		if (dist <= tol)
-		{
-		    seldata[rowi][coli] = true;
-		}
+		    if (dist <= tol)
+		    {
+		        seldata[rowi][coli] = true;
+		    }
 	    }
 	    else if ((mode == 'bg') && (diff[rowi][coli] == 1))
 	    {
-		if (dist > tol)
-		{
-		    seldata[rowi][coli] = true;
-		}
+		    if (dist > tol)
+		    {
+		        seldata[rowi][coli] = true;
+		    }
 	    }
 	}
     }
     
     return seldata;
+}
+
+/**
+ * Select from marked region of interest based on color.
+ */
+function selectFromMarkedRegion(mode, colorRGB, tol)
+{
+    dw = canvasWidth;
+    dh = canvasHeight;
+    
+    redv = colorRGB[0];
+    greenv = colorRGB[1];
+    bluev = colorRGB[2];
+    
+    var markedRegion = dataCtx.getImageData(0,0,canvasWidth,canvasHeight);
+    var imgd = getCanvasData();
+    
+    var seldata = new Array();
+    
+    for (var rowi=0; rowi < dh; rowi++)
+    {
+	    seldata[rowi] = new Array();
+	    for(var coli=0; coli < dw; coli++)
+	    {
+	        index = rowi*4*dw + coli*4;
+	        
+	        // marked region
+	        var mr = markedRegion.data[index];
+	        var mg = markedRegion.data[index+1];
+	        var mb = markedRegion.data[index+2];
+	        
+	        // plot data
+	        var ir = imgd.data[index];
+	        var ig = imgd.data[index+1];
+	        var ib = imgd.data[index+2];
+	        
+       	    seldata[rowi][coli] = false;
+       	    
+       	    if ((mr == 255) && (mg ==  255) && (mb == 0)) // yellow marked region
+       	    {
+       	        var dist = Math.sqrt((ir-redv)*(ir-redv) + (ig-greenv)*(ig-greenv) + (ib-bluev)*(ib-bluev));
+       	        
+       	        if ((mode == 'fg') && (dist <= tol))
+       	            seldata[rowi][coli] = true;
+       	        else if ((mode == 'bg') && (dist > tol))
+       	            seldata[rowi][coli] = true;
+       	    }
+	    }
+	 }
+	 
+	 return seldata;
 }
 
 /**
