@@ -122,7 +122,7 @@ function updateZoom(ev)
 		var zImage = new Image();
 		zImage.onload = function() 
 			{ 
-				zctx.drawImage(zImage,0,0,zWindowWidth,zWindowHeight); 
+				zctx.drawImage(zImage,0,0,parseInt(zWindowWidth),parseInt(zWindowHeight)); 
 			}
 		zImage.src = imgdata;
 
@@ -132,13 +132,11 @@ function updateZoom(ev)
 
 function toggleCrosshair(ev)
 {
-    ev.preventDefault();
-    if (ev.keyCode == 9)
+    if (ev.keyCode == 220)
     {
-        //extendedCrosshair = !(extendedCrosshair);
-        extendedCrosshair = false; // keep it off for now.
-        redrawCanvas();
-        
+        ev.preventDefault();
+        extendedCrosshair = !(extendedCrosshair);
+        hoverCanvas.width = hoverCanvas.width;
     }
     return;
 }
