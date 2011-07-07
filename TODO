@@ -5,8 +5,8 @@ Features:
 * Circular particle or arbitrary shape recognition. Just calculate the location of the centroid of the shape.
 * Distance measurement tool.
 * Edge detect filter.
-* Sort results by variable. Write to new window.
-* Implement a layer manager over the canvas to extend the drawing capabilities of the canvas.
+* Sort results by variable.
+* Export data using PHP scripts.
 * AJAX uploader.
 * Plan out user account system.
 
