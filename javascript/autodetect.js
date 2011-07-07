@@ -1,7 +1,7 @@
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.4
+	Version 2.5
 
 	Copyright 2010 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
@@ -25,7 +25,7 @@
 
 /**
  * @fileoverview Automatic extraction mode functions.
- * @version 2.4
+ * @version 2.5
  * @author Ankit Rohatgi ankitrohatgi@hotmail.com
  */
 
@@ -43,8 +43,6 @@ var drawingPen = false;
 var drawingEraser = false;
 
 var binaryData;
-
-var compositeMode = dataCtx.globalCompositeOperation;
 
 /**
  * Opens the color picker.

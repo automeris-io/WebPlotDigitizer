@@ -1,7 +1,7 @@
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.4
+	Version 2.5
 
 	Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
@@ -26,7 +26,7 @@
 
 /**
  * @fileoverview Manage the live zoom window.
- * @version 2.4
+ * @version 2.5
  * @author Ankit Rohatgi ankitrohatgi@hotmail.com
  */
 
