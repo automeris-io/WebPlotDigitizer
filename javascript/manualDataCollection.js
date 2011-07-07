@@ -83,10 +83,10 @@ function clickPoints(ev)
 	xyData[pointsPicked][1] = parseFloat(yi);
 	pointsPicked = pointsPicked + 1;	
 
-	ctx.beginPath();
-	ctx.fillStyle = "rgb(200,0,0)";
-	ctx.arc(xi,yi,3,0,2.0*Math.PI,true);
-	ctx.fill();
+	dataCtx.beginPath();
+	dataCtx.fillStyle = "rgb(200,0,0)";
+	dataCtx.arc(xi,yi,3,0,2.0*Math.PI,true);
+	dataCtx.fill();
 
 	pointsStatus(pointsPicked);
 	updateZoom(ev);
@@ -100,7 +100,7 @@ function clearPoints() // clear all markings.
 {
 	pointsPicked = 0;
 	pointsStatus(pointsPicked);
-	redrawCanvas();
+    resetLayers();
 	markedScreen = currentScreen;
 	
 	removeAllMouseEvents();
@@ -116,17 +116,17 @@ function undoPointSelection()
 		pointsPicked = pointsPicked - 1;
 		pointsStatus(pointsPicked);
 		
-		redrawCanvas();
+        resetLayers();
 
 		for(ii = 0; ii < pointsPicked; ii++)
 		{
 			xi = xyData[ii][0];	
 			yi = xyData[ii][1];
 
-			ctx.beginPath();
-			ctx.fillStyle = "rgb(200,0,0)";
-			ctx.arc(xi,yi,3,0,2.0*Math.PI,true);
-			ctx.fill();
+			dataCtx.beginPath();
+			dataCtx.fillStyle = "rgb(200,0,0)";
+			dataCtx.arc(xi,yi,3,0,2.0*Math.PI,true);
+			dataCtx.fill();
 		}
 
 	}
@@ -185,16 +185,16 @@ function deleteSpecificPointHandler(ev)
 		pointsPicked = pointsPicked - 1;
 		pointsStatus(pointsPicked);
 			
-		redrawCanvas();
+        resetLayers();
 
 		for(ii = 0; ii < pointsPicked; ii++)
 		{
 			xp = xyData[ii][0];	
 			yp = xyData[ii][1];
-			ctx.beginPath();
-			ctx.fillStyle = "rgb(200,0,0)";
-			ctx.arc(xp,yp,3,0,2.0*Math.PI,true);
-			ctx.fill();
+			dataCtx.beginPath();
+			dataCtx.fillStyle = "rgb(200,0,0)";
+			dataCtx.arc(xp,yp,3,0,2.0*Math.PI,true);
+			dataCtx.fill();
 		}
 	}
 

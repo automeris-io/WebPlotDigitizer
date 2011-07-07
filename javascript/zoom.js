@@ -50,12 +50,16 @@ pix[0] = new Array();
  */
 function initZoom()
 {
-	zctx.beginPath();
-	zctx.moveTo(zWindowWidth/2, 0);
-	zctx.lineTo(zWindowWidth/2, zWindowHeight);
-	zctx.moveTo(0, zWindowHeight/2);
-	zctx.lineTo(zWindowWidth, zWindowHeight/2);
-	zctx.stroke();
+	var zCrossHair = document.getElementById("zoomCrossHair");
+	var zchCtx = zCrossHair.getContext("2d");
+    zchCtx.strokeStyle = "rgb(0,0,0)";
+	zchCtx.beginPath();
+	zchCtx.moveTo(zWindowWidth/2, 0);
+	zchCtx.lineTo(zWindowWidth/2, zWindowHeight);
+	zchCtx.moveTo(0, zWindowHeight/2);
+	zchCtx.lineTo(zWindowWidth, zWindowHeight/2);
+	zchCtx.stroke();
+	
 }
 
 /**
@@ -85,36 +89,43 @@ function updateZoom(ev)
     
   	if (extendedCrosshair == true)
 	{
-	    redrawCanvas();
-	    ctx.strokeStyle = "rgba(0,0,0, 0.5)";
-	    ctx.beginPath();
-	    ctx.moveTo(xpos, 0);
-	    ctx.lineTo(xpos, canvasHeight);
-	    ctx.moveTo(0, ypos);
-	    ctx.lineTo(canvasWidth, ypos);
-	    ctx.stroke();
+        hoverCanvas.width = hoverCanvas.width;
+	    hoverCtx.strokeStyle = "rgba(0,0,0, 0.5)";
+	    hoverCtx.beginPath();
+	    hoverCtx.moveTo(xpos, 0);
+	    hoverCtx.lineTo(xpos, canvasHeight);
+	    hoverCtx.moveTo(0, ypos);
+	    hoverCtx.lineTo(canvasWidth, ypos);
+	    hoverCtx.stroke();
 	}
 
     
 	if((xpos-dx/2) >= 0 && (ypos-dy/2) >= 0 && (xpos+dx/2) <= canvasWidth && (ypos+dy/2) <= canvasHeight)
 	{
 		var zoomImage = ctx.getImageData(xpos-dx/2,ypos-dy/2,dx,dy);
-	
+	    var dataLayerImage = dataCtx.getImageData(xpos-dx/2,ypos-dy/2,dx,dy);
+
+        // merge data from the two layers.
+        for (var zi = 0; zi < dataLayerImage.data.length; zi+=4)
+        {
+            if ((dataLayerImage.data[zi]+dataLayerImage.data[zi+1]+dataLayerImage.data[zi+2]+dataLayerImage.data[zi+3])!=0)
+            {
+                zoomImage.data[zi] = dataLayerImage.data[zi];
+                zoomImage.data[zi+1] = dataLayerImage.data[zi+1];        
+                zoomImage.data[zi+2] = dataLayerImage.data[zi+2];        
+            }
+        }
+        
 		tctx.putImageData(zoomImage,0,0);
+		
 		var imgdata = tempCanvas.toDataURL();
 		var zImage = new Image();
 		zImage.onload = function() 
 			{ 
 				zctx.drawImage(zImage,0,0,zWindowWidth,zWindowHeight); 
-				zctx.beginPath();
-				zctx.moveTo(zWindowWidth/2, 0);
-				zctx.lineTo(zWindowWidth/2, zWindowHeight);
-				zctx.moveTo(0, zWindowHeight/2);
-				zctx.lineTo(zWindowWidth, zWindowHeight/2);
-				zctx.stroke();
-
 			}
 		zImage.src = imgdata;
+
 	}
 	
 }

@@ -117,8 +117,12 @@ alt="tumblr visitor stats"></a></div></noscript>
 <tr><td valign="top" id="canvasTD">
 <!-- the main canvas goes here -->
 	<div id="canvasDiv" style="position:relative;" onMouseOver="this.style.cursor='crosshair';">
-		<canvas id="mainCanvas">
-		</canvas>
+		<canvas id="mainCanvas" class="canvasLayers" style="z-index:1;"></canvas>
+		<canvas id="dataCanvas" class="canvasLayers" style="z-index:2;"></canvas>
+    	<canvas id="drawCanvas" class="canvasLayers" style="z-index:3;"></canvas>
+		<canvas id="hoverCanvas" class="canvasLayers" style="z-index:4;"></canvas>
+    	<canvas id="topCanvas" class="canvasLayers" style="z-index:5;"></canvas>
+
 	</div>
 </td>
 
@@ -126,13 +130,12 @@ alt="tumblr visitor stats"></a></div></noscript>
 <aside>
 	<!-- zoom window goes here -->
 	<div style="position:relative;" id="zoomDiv">
-		<canvas id="zoomCanvas" width=200 height=200></canvas>
-
-		<div id="cursorPosition">
+		<canvas id="zoomCanvas" class="zoomLayers" width=200 height=200 style="position:relative; top: 0px; left: 0px; z-index:1;"></canvas>
+		<canvas id="zoomCrossHair" class="zoomLayers" width=200 height=200 style="position:absolute; top: 0px; left: 0px; z-index:2; background:transparent;"></canvas>
+		<div id="cursorPosition" style="position:relative;">
        	[<span id="mousePosition"></span>]
        	</div>
-	</div>
-	
+    </div>
 	
 	<div style="position:relative;">
 

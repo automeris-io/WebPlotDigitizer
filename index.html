@@ -115,8 +115,11 @@ alt="tumblr visitor stats"></a></div></noscript>
 <tr><td valign="top" id="canvasTD">
 <!-- the main canvas goes here -->
 	<div id="canvasDiv" style="position:relative;" onMouseOver="this.style.cursor='crosshair';">
-		<canvas id="mainCanvas">
-		</canvas>
+		<canvas id="mainCanvas" class="canvasLayers"></canvas>
+		<canvas id="dataCanvas" class="canvasLayers"></canvas>
+    	<canvas id="drawCanvas" class="canvasLayers"></canvas>
+		<canvas id="hoverCanvas" class="canvasLayers"></canvas>
+    	<canvas id="topCanvas" class="canvasLayers"></canvas>
 	</div>
 </td>
 
