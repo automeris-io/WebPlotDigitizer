@@ -110,7 +110,7 @@ function init() // This is run when the page loads.
 	topCanvas.addEventListener('mousemove',updateZoom,false);
 	
 	// Add support for extended crosshair
-	//document.body.addEventListener('keydown', toggleCrosshair, false);
+    document.body.addEventListener('keydown', toggleCrosshair, false);
 
 	// Image dropping capabilities
 	topCanvas.addEventListener('dragover',function(event) {event.preventDefault();}, true);
