@@ -25,16 +25,15 @@
 
 @font-face
 {
-    font-family: OpenSans;
-    src: url('fonts/Open_Sans/OpenSans-Regular.ttf');
+    font-family: Cabin;
+    src: url('fonts/Cabin/Cabin-Regular.ttf');
 }
 @font-face
 {
-    font-family: OpenSans;
+    font-family: Cabin;
     font-weight:bold;
-    src: url('fonts/Open_Sans/OpenSans-Bold.ttf');
+    src: url('fonts/Cabin/Cabin-Bold.ttf');
 }
-
 
 html
 {
@@ -48,7 +47,7 @@ body
 	margin: 0 0;
 	width: 100%;
 	height:100%;
-	font: 12px/22px OpenSans; 
+	font: 12px/22px Cabin; 
 	background: white;
 }
 
@@ -134,7 +133,7 @@ textarea { resize: none; }
 
 input[type="button"]
 {
-	font-family: OpenSans;
+	font-family: Cabin;
 	
 	font-size: 12px;
 	font-weight:500;
@@ -147,12 +146,11 @@ input[type="button"]
 
 input[type="text"]
 {
-	font-family: OpenSans;
+	font-family: Cabin;
 	font-size: 12px;
 	background: white;
 	border: thin black solid;
-	-moz-border-radius: 3px;
-	-webkit-border-radius: 3px;
+	
 }
 
 input[type="range"]
