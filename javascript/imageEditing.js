@@ -135,12 +135,13 @@ function cropMouseup(ev)
 		tcan.height = cropHeight;
 		
 		var cropImageData = ctx.getImageData(cropCoordinates[0],cropCoordinates[1],cropWidth,cropHeight);  
-		
+				
 		tcontext.putImageData(cropImageData,0,0);
 		cropSrc = tcan.toDataURL();
 		cropImg = new Image();
 		cropImg.src = cropSrc;
 		cropImg.onload = function() { loadImage(cropImg); }
+				
       }
       
 }

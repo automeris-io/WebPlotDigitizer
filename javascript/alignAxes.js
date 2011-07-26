@@ -58,6 +58,7 @@ function initiatePlotAlignment()
   polarEl = document.getElementById('r_polar');
   ternaryEl = document.getElementById('r_ternary');
   mapEl = document.getElementById('r_map');
+  imageEl = document.getElementById('r_image');
   
   closePopup('axesList');
   
@@ -69,6 +70,8 @@ function initiatePlotAlignment()
     setAxes('ternary');
   else if(mapEl.checked == true)
     setAxes('map');
+  else if(imageEl.checked == true)
+    setAxes('image');
 }
 
 /**
@@ -104,6 +107,11 @@ function setAxes(ax_mode)
 	{
 		axesNmax = 2;
 		showPopup('mapAxesInfo');
+	}
+	else if (plotType == 'image')
+	{
+		axesNmax = 0;
+		alignAxes();
 	}
 }
 
@@ -236,14 +244,22 @@ function alignAxes()
 	      axesAlignmentData[1] = false;
 		
 	    closePopup('ternaryAlignment');
-        }
-        else if (plotType == 'map')
-        {
+    }
+    else if (plotType == 'map')
+    {
 	    var scaleLength = document.getElementById('scaleLength');
 	
 	    axesAlignmentData[0] = parseFloat(scaleLength.value);
 	
 	    closePopup('mapAlignment');
+    }
+    else if (plotType == 'image')
+    {
+	  axesPicked = 1;
+	  axesAlignmentData[0] = imageDimensions[0]; // xmin
+	  axesAlignmentData[1] = imageDimensions[2]; // xmax
+	  axesAlignmentData[2] = imageDimensions[1]; // ymin
+	  axesAlignmentData[3] = imageDimensions[3]; // ymax
     }
     
 }

@@ -67,7 +67,10 @@ var currentImageHeight;
 var currentImageWidth;
 /** canvas data from getImageData */
 var currentImageData; 
-
+/** source image dimensions with elements [x_min, y_min, x_max, y_max] **/
+var imageDimensions = [];
+/** Image screen dimensions **/
+var onScreenDimensions = [];
 // canvas layer contexts.
 var ctx; 
 var dataCtx;
@@ -120,6 +123,15 @@ function loadImage(imgel)
 	
 	currentScreen = getCanvasData();
 	
+	imageDimensions[0] = 1;		// x_min
+	imageDimensions[1] = 1;		// y_min
+	imageDimensions[2] = swidth;	// x_max
+	imageDimensions[3] = sheight;	// y_max
+	
+	onScreenDimensions[0] = cx0;
+	onScreenDimensions[1] = cy0;
+	onScreenDimensions[2] = newWidth+cx0;
+	onScreenDimensions[3] = newHeight+cy0;
 }
 
 /**

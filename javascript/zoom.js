@@ -52,7 +52,7 @@ function initZoom()
 {
 	var zCrossHair = document.getElementById("zoomCrossHair");
 	var zchCtx = zCrossHair.getContext("2d");
-    zchCtx.strokeStyle = "rgb(0,0,0)";
+	zchCtx.strokeStyle = "rgb(0,0,0)";
 	zchCtx.beginPath();
 	zchCtx.moveTo(zWindowWidth/2, 0);
 	zchCtx.lineTo(zWindowWidth/2, zWindowHeight);
@@ -82,14 +82,22 @@ function updateZoom(ev)
         pix[0][0] = parseFloat(xpos);
         pix[0][1] = parseFloat(ypos);
         var rpix = pixelToData(pix, 1, plotType);
-        mPosn.innerHTML = parseFloat(rpix[0][0]).toExponential(3) + ', ' + parseFloat(rpix[0][1]).toExponential(3);
-        if (plotType == 'ternary')
-            mPosn.innerHTML += ', ' + parseFloat(rpix[0][2]).toExponential(3);
+	
+	if (plotType == 'image')
+	{
+	  mPosn.innerHTML = rpix[0][0] + ', ' + rpix[0][1];
+	}
+	else
+	{
+	  mPosn.innerHTML = parseFloat(rpix[0][0]).toExponential(3) + ', ' + parseFloat(rpix[0][1]).toExponential(3);
+	  if (plotType == 'ternary')
+	      mPosn.innerHTML += ', ' + parseFloat(rpix[0][2]).toExponential(3);
+	}
     }
     
   	if (extendedCrosshair == true)
 	{
-        hoverCanvas.width = hoverCanvas.width;
+	    hoverCanvas.width = hoverCanvas.width;
 	    hoverCtx.strokeStyle = "rgba(0,0,0, 0.5)";
 	    hoverCtx.beginPath();
 	    hoverCtx.moveTo(xpos, 0);
