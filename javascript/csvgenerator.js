@@ -44,18 +44,18 @@
 		
 		var retData = pixelToData(xyData, pointsPicked, plotType);
 		
-		if((plotType == 'XY') || (plotType == 'map') || (plotType == 'polar'))
+		if((plotType == 'XY') || (plotType == 'map') || (plotType == 'polar') || (plotType == 'image'))
 		{
 		    for(var ii = 0; ii < pointsPicked; ii++)
 		    {
-                tarea.value = tarea.value + retData[ii][0] + ',' + retData[ii][1] + '\n';
+			tarea.value = tarea.value + retData[ii][0] + ',' + retData[ii][1] + '\n';
 		    }
 		}
 		else if((plotType == 'ternary'))
 		{
 		    for(var ii = 0; ii < pointsPicked; ii++)
 		    {
-                tarea.value = tarea.value + retData[ii][0] + ',' + retData[ii][1] + ',' + retData[ii][2] + '\n';
+			tarea.value = tarea.value + retData[ii][0] + ',' + retData[ii][1] + ',' + retData[ii][2] + '\n';
 		    }
 		}
     }

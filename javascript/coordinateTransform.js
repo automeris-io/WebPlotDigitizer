@@ -100,27 +100,88 @@
 		        
 		        var dx = dP1*Math.cos(thetaP1) - dP1*Math.sin(thetaP1)/Math.tan(theta);
 		        
-			    var xf = dx*Lx + xmin;
+			var xf = dx*Lx + xmin;
 
-			    var dP3 = Math.sqrt((xp-x3)*(xp-x3) + (yp-y3)*(yp-y3));				    
-			    var thetaP3 = thetay - taninverse(-(yp-y3), (xp-x3));
+			var dP3 = Math.sqrt((xp-x3)*(xp-x3) + (yp-y3)*(yp-y3));				    
+			var thetaP3 = thetay - taninverse(-(yp-y3), (xp-x3));
 
-			    var dy = dP3*Math.cos(thetaP3) - dP3*Math.sin(thetaP3)/Math.tan(theta);
+			var dy = dP3*Math.cos(thetaP3) - dP3*Math.sin(thetaP3)/Math.tan(theta);
+			
+			var yf = dy*Ly + ymin;
+			
+			// if x-axis is log scale
+			if (axesAlignmentData[4] == true)
+			    xf = Math.pow(10,xf);
 			    
-			    var yf = dy*Ly + ymin;
-			    
-			    // if x-axis is log scale
-			    if (axesAlignmentData[4] == true)
-			        xf = Math.pow(10,xf);
-			        
-			    // if y-axis is log scale
-			    if (axesAlignmentData[5] == true)
-			        yf = Math.pow(10,yf);
+			// if y-axis is log scale
+			if (axesAlignmentData[5] == true)
+			    yf = Math.pow(10,yf);
 
-                rdata[ii] = new Array();
-                rdata[ii][0] = xf;
-                rdata[ii][1] = yf;
+			rdata[ii] = new Array();
+			rdata[ii][0] = xf;
+			rdata[ii][1] = yf;
 		    }
+		}
+		else if (ptype == 'image') // same as X-Y, but returns int data and doesn't support log scale.
+		{
+		    var x1 = onScreenDimensions[0];
+		    var y1 = onScreenDimensions[1];
+		    
+		    var x2 = onScreenDimensions[2];
+		    var y2 = onScreenDimensions[1];
+		    
+		    var x3 = onScreenDimensions[0];
+		    var y3 = onScreenDimensions[1];
+
+		    var x4 = onScreenDimensions[0];
+		    var y4 = onScreenDimensions[3];
+		    
+		    var xmin = axesAlignmentData[0];
+		    var xmax = axesAlignmentData[1];
+		    var ymin = axesAlignmentData[2];
+		    var ymax = axesAlignmentData[3];
+		    
+		    var xm = xmax - xmin;
+		    var ym = ymax - ymin;
+		    
+		    var d12 = Math.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2));
+		    var d34 = Math.sqrt((x3-x4)*(x3-x4) + (y3-y4)*(y3-y4));
+		    
+		    var Lx = xm/d12; 
+		    var Ly = ym/d34;
+		    
+		    var thetax = taninverse(-(y2-y1), (x2-x1));
+		    var thetay = taninverse(-(y4-y3), (x4-x3));
+		    
+		    var theta = thetay-thetax;
+		    
+
+		    for(ii = 0; ii<pn; ii++)
+		    {
+		    
+		        var xp = pdata[ii][0];
+		        var yp = pdata[ii][1];
+		        
+		        var dP1 = Math.sqrt((xp-x1)*(xp-x1) + (yp-y1)*(yp-y1));
+		        var thetaP1 = taninverse(-(yp-y1), (xp-x1)) - thetax;
+		        
+		        var dx = dP1*Math.cos(thetaP1) - dP1*Math.sin(thetaP1)/Math.tan(theta);
+		        
+			var xf = dx*Lx + xmin;
+
+			var dP3 = Math.sqrt((xp-x3)*(xp-x3) + (yp-y3)*(yp-y3));				    
+			var thetaP3 = thetay - taninverse(-(yp-y3), (xp-x3));
+
+			var dy = dP3*Math.cos(thetaP3) - dP3*Math.sin(thetaP3)/Math.tan(theta);
+			
+			var yf = dy*Ly + ymin;
+			
+		
+			rdata[ii] = new Array();
+			rdata[ii][0] = parseInt(xf);
+			rdata[ii][1] = parseInt(yf);
+		    }
+		
 		}
 		else if (ptype == 'map')
 		{
@@ -161,15 +222,15 @@
 
 		    for(ii = 0; ii<pn; ii++)
 		    {
-			    var xr = pdata[ii][0] - mx0;
-			    var yr = - (pdata[ii][1] - my0);
-			    // find the transform
-			    var xf = (-y1*xm*xr + x1*xm*yr)/det + x0;
-			    var yf = (y3*ym*xr - x3*ym*yr)/det + y0;
-			    
-			    rdata[ii] = new Array();
-                rdata[ii][0] = xf;
-                rdata[ii][1] = yf;
+			var xr = pdata[ii][0] - mx0;
+			var yr = - (pdata[ii][1] - my0);
+			// find the transform
+			var xf = (-y1*xm*xr + x1*xm*yr)/det + x0;
+			var yf = (y3*ym*xr - x3*ym*yr)/det + y0;
+			
+			rdata[ii] = new Array();
+			rdata[ii][0] = xf;
+			rdata[ii][1] = yf;
 		    }
 		    
 		}
