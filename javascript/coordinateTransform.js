@@ -178,8 +178,8 @@
 			
 		
 			rdata[ii] = new Array();
-			rdata[ii][0] = parseInt(xf);
-			rdata[ii][1] = parseInt(yf);
+			rdata[ii][0] = Math.round(xf);
+			rdata[ii][1] = Math.round(yf);
 		    }
 		
 		}
