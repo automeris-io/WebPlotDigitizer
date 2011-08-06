@@ -44,10 +44,11 @@
 <script src="javascript/alignAxes.js" language="JavaScript"></script>
 <script src="javascript/manualDataCollection.js" language="JavaScript"></script>
 <script src="javascript/autodetect.js" language="JavaScript"></script>
-<script src="javascript/autoextractalgos.js" language="JavaScript"></script>
+<script src="javascript/aesystem.js" language="JavaScript"></script>
 <script src="javascript/imageProcessing.js" language="JavaScript"></script>
 <script src="javascript/coordinateTransform.js" language="JavaScript"></script>
 <script src="javascript/csvgenerator.js" language="JavaScript"></script>
+
 
 <!--
 <script src="combined.js" language="JavaScript"></script>
@@ -355,14 +356,26 @@ alt="tumblr visitor stats"></a></div></noscript>
 	</td>
 	<td valign="top" width="220px">
 	<p><b>Choose Algorithm</b></p>
-	<p><input type="radio" name="autoAlgo" id="autostepalgo" checked>Averaging Window (default):</p>
-	<p align="right">[ΔX,ΔY] = <input type="text" size="3" id="xStep" value="5">,<input type="text" size="3" id="yStep" value="5"> Px</p>
-	<p><input type="radio" name="autoAlgo" id="xstepalgo">X Step:</p>
-	<p align="right">ΔX = <input type="text" size="3" id="xStepDX" value="5"> Px</p>
-	<p align="right">Line Thickness = <input type="text" size="3" id="xStepDY" value="15"> Px</p>
-	<p><input type="radio" name="autoAlgo" id="ystepalgo">Y Step:</p>
-	<p align="right">ΔY = <input type="text" size="3" id="yStepDY" value="5"> Px</p>
-	<p align="right">Line Thickness = <input type="text" size="3" id="yStepDX" value="15"> Px</p>
+	<p><b>Curves</b></p>
+	<p>
+	    <select id="curvesAlgoSelect" onChange="displayParameters();">
+		<option value="averagingWindow">Averaging Window (default)</option>
+		<option value="xStep">X Step</option>
+		<option value="yStep">Y Step</option>
+		<option value="customAlgorithm">Custom Algorithm</option>
+	    </select>
+	</p>
+	<p><span id="URLinput" style="display:none;"><input type="text" id="customURL" size="12"><input type="button" value="Load" id="loadCustomAlgo"></span><span id="paramZone"></span></p>
+	<p><b>Objects</b></p>
+	<p>
+          <select id="objectAlgoSelect" onChange="">
+		<option value="blobfinder">Blob Finder (default)</option>
+		<option value="particlefinder">Particle Detection</option>
+		<option value="linefinder">Line Detection</option>
+		<option value="customObjectAlgorithm">Custom Algorithm</option>
+	    </select>
+	<p>
+	<p><span id="oURLinput" style="display:none;"><input type="text" id="objcustomURL" size="12"><input type="button" value="Load" id="objloadCustomAlgo"></span><span id="objparamZone"></span></p>
 	</td>
 	</tr>
 	</table>
