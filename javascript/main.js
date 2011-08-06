@@ -124,6 +124,7 @@ function init() // This is run when the page loads.
 	originalScreen = getCanvasData();
 	activeScreen = originalScreen;
 	
+	displayParameters();
 }
 
 

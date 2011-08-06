@@ -44,6 +44,12 @@ var drawingEraser = false;
 
 var binaryData;
 
+var algoLocation = [];
+algoLocation['averagingWindow'] = 'javascript/AEalgos/averagingWindow.js';
+algoLocation['xStep'] = 'javascript/AEalgos/xStep.js';
+algoLocation['yStep'] = 'javascript/AEalgos/yStep.js';
+algoLocation['customAlgorithm'] = '';
+
 /**
  * Opens the color picker.
  * @params {String} cmode 'fg' or 'bg'
@@ -404,12 +410,62 @@ function scanPlot()
     xStepEl = document.getElementById('xstepalgo');
     yStepEl = document.getElementById('ystepalgo');
     
-    if(autoStepEl.checked == true)
-        AE_averagingWindow();
-    else if(xStepEl.checked == true)
-        AE_xstep();
-    else if(yStepEl.checked == true)
-        AE_ystep();
-        
+    closePopup("testImageWindow");
+    
+    xyData = [];
+    pointsPicked = 0;
+  
+    resetLayers();
+    
+    AEObject.run();
+    
+    pointsStatus(pointsPicked);  
+    
+    for(var ii = 0; ii <pointsPicked; ii++)
+    {
+      dataCtx.beginPath();
+      dataCtx.fillStyle = "rgb(200,0,200)";
+      dataCtx.arc(parseInt(xyData[ii][0]),parseInt(xyData[ii][1]),3,0,2.0*Math.PI,true);
+      dataCtx.fill();
+    }
+    
 }
 
+/**
+ * Display options for the selected AE algorithm.
+ */
+function displayParameters()
+{
+  // Determine the chosen algorithm
+  var algoSelect = document.getElementById('curvesAlgoSelect');
+  var paramZone = document.getElementById('paramZone');
+  var URLinput = document.getElementById('URLinput');
+  
+  if (algoSelect.value != 'customAlgorithm')
+  {
+    URLinput.style.display='none';
+    loadJS(algoLocation[algoSelect.value]);
+    loadScript.onload = makeParameterTable;
+  }
+  else if(algoSelect.value == 'customAlgorithm')
+  {
+     var loadBtn = document.getElementById('loadCustomAlgo');
+     var customURL = document.getElementById('customURL');
+     paramZone.innerHTML='';
+     loadBtn.addEventListener('click',function() { loadJS(customURL.value); loadScript.onload = makeParameterTable; }, false);
+     URLinput.style.display='inline';
+  }
+  
+}
+
+function makeParameterTable()
+{
+      if (!AEObject.getParamList) { return; }
+      var paramList = AEObject.getParamList();
+      var paramZone = document.getElementById('paramZone');
+      paramZone.innerHTML='';
+      for (var ii = 0; ii < paramList.length; ii++) // make a list of parameters.
+      {
+	paramZone.innerHTML += "<p>"+paramList[ii][0]+" ("+paramList[ii][1]+") <input type='text' value='"+paramList[ii][2]+"' size=3 id='pv"+ii+"'></p>";
+      }
+}
