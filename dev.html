@@ -84,7 +84,7 @@ alt="tumblr visitor stats"></a></div></noscript>
 	<td class="standardToolbar" valign="top"> 
 	
 		<!-- Permanent set of tools -->
-		
+		<input type="button" onClick="showPopup('loadNewImage');" value="Load File" style="margin: 0 2px;">
 		<input type="button" onClick="showSidebar('editImageToolbar');" value="Edit Image" style="margin: 0 2px;">
 		<input type="button" id="plottypebtn" value="Define Axes" onClick="showPopup('axesList');" style="margin: 0 2px;">
 		<input type="button" onClick="acquireData();" value="Acquire Data" style="margin: 0 2px;">
@@ -183,6 +183,14 @@ alt="tumblr visitor stats"></a></div></noscript>
 <!-- popup windows go here -->
 
 	<div id="shadow" style="width:100%; height:100%; background-color: rgba(0,0,0,0.3); position:absolute; top:0px; left:0px; z-index:50; visibility:hidden;">
+	</div>
+
+	<div id="loadNewImage" class="popup" style="width: 400px;">
+	<p align="center" class="popupheading">Load Image File</p>
+	<p>&nbsp;</p>
+	<p align="center"><input type="file" size="6" id="fileLoadBox" onchange="loadNewFile();"></p>
+	<p>&nbsp;</p>
+	<p align="center"><input type="button" value="Cancel" onClick="closePopup('loadNewImage');"></p>
 	</div>
 
 	<div id="axesList" class="popup" style="width: 400px;">
