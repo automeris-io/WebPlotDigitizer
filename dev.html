@@ -356,26 +356,24 @@ alt="tumblr visitor stats"></a></div></noscript>
 	</td>
 	<td valign="top" width="220px">
 	<p><b>Choose Algorithm</b></p>
-	<p><b>Curves</b></p>
 	<p>
 	    <select id="curvesAlgoSelect" onChange="displayParameters();">
+		<optgroup label="Curve Tracing">
 		<option value="averagingWindow">Averaging Window (default)</option>
 		<option value="xStep">X Step</option>
 		<option value="yStep">Y Step</option>
+		</optgroup>
+		<optgroup label="Object Recognition">
+		<option value="averagingWindow">Blob Finder (default)</option>
+		<option value="averagingWindow">Particle Detection</option>
+		<option value="averagingWindow">Line Detection</option>
+		<option value="averagingWindow">Face Detection</option>
+		</optgroup>
 		<option value="customAlgorithm">Custom Algorithm</option>
+		
 	    </select>
 	</p>
 	<p><span id="URLinput" style="display:none;"><input type="text" id="customURL" size="12"><input type="button" value="Load" id="loadCustomAlgo"></span><span id="paramZone"></span></p>
-	<p><b>Objects</b></p>
-	<p>
-          <select id="objectAlgoSelect" onChange="">
-		<option value="blobfinder">Blob Finder (default)</option>
-		<option value="particlefinder">Particle Detection</option>
-		<option value="linefinder">Line Detection</option>
-		<option value="customObjectAlgorithm">Custom Algorithm</option>
-	    </select>
-	<p>
-	<p><span id="oURLinput" style="display:none;"><input type="text" id="objcustomURL" size="12"><input type="button" value="Load" id="objloadCustomAlgo"></span><span id="objparamZone"></span></p>
 	</td>
 	</tr>
 	</table>
