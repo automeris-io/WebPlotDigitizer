@@ -216,20 +216,42 @@ function savePNG()
  */
 function dropHandler(ev)
 {
-	allDrop = ev.dataTransfer.files;
+	var allDrop = ev.dataTransfer.files;
 	if (allDrop.length == 1) 
 	{
-		if(allDrop[0].type.match("image.*")) // only load images
-		{
-		    var droppedFile = new FileReader();
-		    droppedFile.onload = function() {
-			    var imageInfo = droppedFile.result;
-			    var newimg = new Image();
-			    newimg.onload = function() { loadImage(newimg); originalScreen = getCanvasData(); originalImage = newimg; setDefaultState(); }
-			    newimg.src = imageInfo;
-		    }
-		    droppedFile.readAsDataURL(allDrop[0]);
-		}
+	    fileLoader(allDrop[0]);
 	}
+}
+
+/**
+ * Loads a file that was dropped or loaded
+ */
+function fileLoader(fileInfo)
+{
+    if(fileInfo.type.match("image.*")) // only load images
+    {
+	var droppedFile = new FileReader();
+	droppedFile.onload = function() {
+	    var imageInfo = droppedFile.result;
+	    var newimg = new Image();
+	    newimg.onload = function() { loadImage(newimg); originalScreen = getCanvasData(); originalImage = newimg; setDefaultState(); }
+	    newimg.src = imageInfo;
+	}
+	droppedFile.readAsDataURL(fileInfo);
+    }
+}
+
+/**
+ * Load file when file is chosen
+ */
+function loadNewFile()
+{
+  var fileLoadElem = document.getElementById('fileLoadBox');
+  if (fileLoadElem.files.length == 1)
+  {
+    var fileInfo = fileLoadElem.files[0];
+    fileLoader(fileInfo);
+  }
+  closePopup('loadNewImage');
 }
 
