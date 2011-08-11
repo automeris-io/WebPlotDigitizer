@@ -426,7 +426,7 @@ function scanPlot()
     {
       dataCtx.beginPath();
       dataCtx.fillStyle = "rgb(200,0,200)";
-      dataCtx.arc(parseInt(xyData[ii][0]),parseInt(xyData[ii][1]),3,0,2.0*Math.PI,true);
+      dataCtx.arc(xyData[ii][0],xyData[ii][1],3,0,2.0*Math.PI,true);
       dataCtx.fill();
     }
     
