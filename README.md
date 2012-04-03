@@ -16,11 +16,6 @@ Usage
 
 Instructions and video tutorials are available at [http://arohatgi.info/WebPlotDigitizer/?page_id=58](http://arohatgi.info/WebPlotDigitizer/?page_id=58).
 
-Source
-------
-
-The source documentation is available at [http://arohatgi.info/WebPlotDigitizer/app/javascript/js_docs_out/](http://arohatgi.info/WebPlotDigitizer/app/javascript/js_docs_out/).
-
 Offline Development/Usage
 -------------------------
 
