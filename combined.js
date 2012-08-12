@@ -1,6 +1,74 @@
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
+	Version 2.5
+
+	Copyright 2010 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+
+	This file is part of WebPlotDigitizer.
+
+    WebPlotDigitizer is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    WebPlotDigitizer is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
+
+
+*/
+
+/**
+ * @fileoverview Automatic extraction system.
+ * @version 2.5
+ * @author Ankit Rohatgi ankitrohatgi@hotmail.com
+ */
+
+var loadScript;
+/**
+ * Loads an external JS file.
+ */
+function loadJS(jsfile)
+{
+  if(jsfile != '')
+  {
+    unloadJS();
+    
+    loadScript=document.createElement('script');
+    loadScript.setAttribute("type","text/javascript");
+    loadScript.setAttribute("src", jsfile);
+    loadScript.setAttribute("Id","loadedJS");
+    loadScript.setAttribute("onerror","alert('Error loading file!');");
+    
+    if (typeof loadScript!="undefined")
+      document.getElementsByTagName("head")[0].appendChild(loadScript);
+    else
+      alert('Error loading script!');
+     
+  }
+}
+
+function unloadJS()
+{
+  var getJSelement = document.getElementById('loadedJS');
+  if (getJSelement)
+    getJSelement.parentNode.removeChild(getJSelement);
+}
+
+function AEObject()
+{
+  this.getParamList = function() {};
+  this.run = function() {};
+}
+
+/*
+	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
+
 	Version 2.4
 
 	Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
@@ -58,6 +126,7 @@ function initiatePlotAlignment()
   polarEl = document.getElementById('r_polar');
   ternaryEl = document.getElementById('r_ternary');
   mapEl = document.getElementById('r_map');
+  imageEl = document.getElementById('r_image');
   
   closePopup('axesList');
   
@@ -69,6 +138,8 @@ function initiatePlotAlignment()
     setAxes('ternary');
   else if(mapEl.checked == true)
     setAxes('map');
+  else if(imageEl.checked == true)
+    setAxes('image');
 }
 
 /**
@@ -104,6 +175,11 @@ function setAxes(ax_mode)
 	{
 		axesNmax = 2;
 		showPopup('mapAxesInfo');
+	}
+	else if (plotType == 'image')
+	{
+		axesNmax = 0;
+		alignAxes();
 	}
 }
 
@@ -236,21 +312,29 @@ function alignAxes()
 	      axesAlignmentData[1] = false;
 		
 	    closePopup('ternaryAlignment');
-        }
-        else if (plotType == 'map')
-        {
+    }
+    else if (plotType == 'map')
+    {
 	    var scaleLength = document.getElementById('scaleLength');
 	
 	    axesAlignmentData[0] = parseFloat(scaleLength.value);
 	
 	    closePopup('mapAlignment');
     }
+    else if (plotType == 'image')
+    {
+	  axesPicked = 1;
+	  axesAlignmentData[0] = imageDimensions[0]; // xmin
+	  axesAlignmentData[1] = imageDimensions[2]; // xmax
+	  axesAlignmentData[2] = imageDimensions[1]; // ymin
+	  axesAlignmentData[3] = imageDimensions[3]; // ymax
+    }
     
 }
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.4
+	Version 2.5
 
 	Copyright 2010 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
@@ -274,7 +358,7 @@ function alignAxes()
 
 /**
  * @fileoverview Automatic extraction mode functions.
- * @version 2.4
+ * @version 2.5
  * @author Ankit Rohatgi ankitrohatgi@hotmail.com
  */
 
@@ -293,7 +377,12 @@ var drawingEraser = false;
 
 var binaryData;
 
-var compositeMode = dataCtx.globalCompositeOperation;
+var algoLocation = [];
+algoLocation['averagingWindow'] = 'javascript/AEalgos/averagingWindow.js';
+algoLocation['xStep'] = 'javascript/AEalgos/xStep.js';
+algoLocation['yStep'] = 'javascript/AEalgos/yStep.js';
+algoLocation['blobDetection'] = 'javascript/AEalgos/blobdetector.js';
+algoLocation['customAlgorithm'] = '';
 
 /**
  * Opens the color picker.
@@ -655,340 +744,69 @@ function scanPlot()
     xStepEl = document.getElementById('xstepalgo');
     yStepEl = document.getElementById('ystepalgo');
     
-    if(autoStepEl.checked == true)
-        AE_averagingWindow();
-    else if(xStepEl.checked == true)
-        AE_xstep();
-    else if(yStepEl.checked == true)
-        AE_ystep();
-        
-}
-
-/*
-	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
-
-	Version 2.4
-
-	Copyright 2010 Ankit Rohatgi <ankitrohatgi@hotmail.com>
-
-	This file is part of WebPlotDigitizer.
-
-    WebPlotDigitizer is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    WebPlotDigitizer is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
-
-
-*/
-
-/**
- * @fileoverview Automatic extraction algorithms.
- * @version 2.4
- * @author Ankit Rohatgi ankitrohatgi@hotmail.com
- */
- 
- 
-/**
- * Automatic curve extraction algorithm using an averaging window.
- */
-function AE_averagingWindow()
-{
-  closePopup("testImageWindow");
-  /* This is only a brute forced algorithm */
-  var xPoints = new Array();
-  var xPointsPicked = 0;
-  xyData = [];
-  pointsPicked = 0;
-  
-  resetLayers();
-        
-  var xStepEl = document.getElementById("xStep");
-  var xStep = parseFloat(xStepEl.value);
-  var yStepEl = document.getElementById("yStep");
-  var yStep = parseFloat(yStepEl.value);
-  
-  var dw = canvasWidth;
-  var dh = canvasHeight;
-  
-  var blobAvg = new Array();
-  
-  for(var coli = 0; coli < dw; coli++)
-  {
-    blobs = -1;
-    firstbloby = -2.0*yStep;
-    bi = 0;
-       
-    for(var rowi = 0; rowi < dh; rowi++)
-    {
-	if (binaryData[rowi][coli] == true)
-	{
-	  if (rowi > firstbloby + yStep)
-	  {
-	    blobs = blobs + 1;
-	    bi = 1;
-	    blobAvg[blobs] = rowi;
-	    firstbloby = rowi;
-	  }
-	  else
-	  {
-	    bi = bi + 1;
-	    blobAvg[blobs] = parseFloat((blobAvg[blobs]*(bi-1.0) + rowi)/parseFloat(bi));
-	  }
-	}
-	
-    }
+    closePopup("testImageWindow");
     
-    if (blobs >= 0)
-    {
-	    xi = coli;
-	    for (var blbi = 0; blbi <= blobs; blbi++)
-	    {
-	      yi = blobAvg[blbi];
-	      
-	      xPoints[xPointsPicked] = new Array();
-	      xPoints[xPointsPicked][0] = parseFloat(xi);
-	      xPoints[xPointsPicked][1] = parseFloat(yi);
-	      xPoints[xPointsPicked][2] = 1; // 1 if not filtered, 0 if processed already
-	      xPointsPicked = xPointsPicked + 1;
-	    }
-    }
+    xyData = [];
+    pointsPicked = 0;
+  
+    resetLayers();
     
-  }
-  
-  if (xPointsPicked == 0)
-    return 0;
-  
-  for(var pi = 0; pi < xPointsPicked; pi++)
-  {
-    if(xPoints[pi][2] == 1) // if still available
+    AEObject.run();
+    
+    pointsStatus(pointsPicked);  
+    
+    for(var ii = 0; ii <pointsPicked; ii++)
     {
-      var inRange = 1;
-      var xxi = pi+1;
-      
-      var oldX = xPoints[pi][0];
-      var oldY = xPoints[pi][1];
-      
-      var avgX = oldX;
-      var avgY = oldY;
-      
-      var matches = 1;
-      
-      while((inRange == 1) && (xxi < xPointsPicked))
-      {
-	    var newX = xPoints[xxi][0];
-	    var newY = xPoints[xxi][1];
-	
-	    if( (Math.abs(newX-oldX) <= xStep) && (Math.abs(newY-oldY) <= yStep) && (xPoints[xxi][2] == 1))
-	    {
-	      avgX = (avgX*matches + newX)/(matches+1.0);
-	      avgY = (avgY*matches + newY)/(matches+1.0);
-	      matches = matches + 1;
-	      
-	      xPoints[xxi][2] = 0;
-	    }
-	    if (newX > oldX + 2*xStep)
-	      inRange = 0;
-	
-	    xxi = xxi + 1;
-      }
-      
-      xPoints[pi][2] = 0; 
-      
-      xyData[pointsPicked] = new Array();
-      xyData[pointsPicked][0] = parseFloat(avgX);
-      xyData[pointsPicked][1] = parseFloat(avgY);
-      pointsPicked = pointsPicked + 1;	
-  
       dataCtx.beginPath();
       dataCtx.fillStyle = "rgb(200,0,200)";
-      dataCtx.arc(parseInt(avgX),parseInt(avgY),3,0,2.0*Math.PI,true);
+      dataCtx.arc(xyData[ii][0],xyData[ii][1],3,0,2.0*Math.PI,true);
       dataCtx.fill();
-
-      
     }
     
+}
+
+/**
+ * Display options for the selected AE algorithm.
+ */
+function displayParameters()
+{
+  // Determine the chosen algorithm
+  var algoSelect = document.getElementById('curvesAlgoSelect');
+  var paramZone = document.getElementById('paramZone');
+  var URLinput = document.getElementById('URLinput');
+  
+  if (algoSelect.value != 'customAlgorithm')
+  {
+    URLinput.style.display='none';
+    loadJS(algoLocation[algoSelect.value]);
+    loadScript.onload = makeParameterTable;
   }
-  xPoints = [];	
-  pointsStatus(pointsPicked);  
-  return pointsPicked;
+  else if(algoSelect.value == 'customAlgorithm')
+  {
+     var loadBtn = document.getElementById('loadCustomAlgo');
+     var customURL = document.getElementById('customURL');
+     paramZone.innerHTML='';
+     loadBtn.addEventListener('click',function() { loadJS(customURL.value); loadScript.onload = makeParameterTable; }, false);
+     URLinput.style.display='inline';
+  }
+  
 }
 
-/**
- * Auto extraction algorithm with predefined step sizes along X.
- */
-function AE_xstep()
+function makeParameterTable()
 {
-      closePopup("testImageWindow");
-
-      var xPointsPicked = 0;
-      xyData = [];
-      pointsPicked = 0;
-      
-      resetLayers();
-      
-      var xStepEl = document.getElementById("xStepDX");
-      var xStep = parseFloat(xStepEl.value);
-      
-      var LineThicknessEl = document.getElementById("xStepDY");
-      var yStep = parseFloat(LineThicknessEl.value);
-      
-      var dw = canvasWidth;
-      var dh = canvasHeight;
-      
-      var blobAvg = new Array();
-      
-      var dx = 1;
-      var coli = 0;
-      
-      while (coli < dw)
+      if (!AEObject.getParamList) { return; }
+      var paramList = AEObject.getParamList();
+      var paramZone = document.getElementById('paramZone');
+      paramZone.innerHTML='';
+      for (var ii = 0; ii < paramList.length; ii++) // make a list of parameters.
       {
-            blobs = -1;
-            firstbloby = -2.0*yStep;
-            bi = 0;
-    
-            for(var rowi = 0; rowi < dh; rowi++)
-            {
-                if (binaryData[rowi][coli] == true)
-                {
-                    dx = xStep; // First contact has been made, start moving forward with xStep now.
-                    
-                    if (rowi > firstbloby + yStep)
-                    {
-                        blobs = blobs + 1;
-	                    bi = 1;
-	                    blobAvg[blobs] = rowi;
-	                    firstbloby = rowi;
-	                }
-	                else
-	                {
-	                    bi = bi + 1;
-	                    blobAvg[blobs] = parseFloat((blobAvg[blobs]*(bi-1.0) + rowi)/parseFloat(bi));
-	                }
-                }
-                
-            }
-            
-            if (blobs >= 0)
-            {
-	            xi = coli;
-	            for (var blbi = 0; blbi <= blobs; blbi++)
-	            {
-	                  yi = blobAvg[blbi];
-                      xyData[pointsPicked] = new Array();
-                      xyData[pointsPicked][0] = parseFloat(xi);
-                      xyData[pointsPicked][1] = parseFloat(yi);
-                      pointsPicked = pointsPicked + 1;	
-                      
-                      dataCtx.beginPath();
-                      dataCtx.fillStyle = "rgb(200,0,200)";
-                      dataCtx.arc(parseInt(xi),parseInt(yi),3,0,2.0*Math.PI,true);
-                      dataCtx.fill();
-	            }
-            }
-
-            
-            coli = coli + dx;
+	paramZone.innerHTML += "<p>"+paramList[ii][0]+" ("+paramList[ii][1]+") <input type='text' value='"+paramList[ii][2]+"' size=3 id='pv"+ii+"'></p>";
       }
-      
-      pointsStatus(pointsPicked);  
-      return pointsPicked;
-      
 }
-
-/**
- * Auto extraction algorithm with predefined step sizes along Y.
- */
-function AE_ystep()
-{
-      closePopup("testImageWindow");
-
-      var xPointsPicked = 0;
-      xyData = [];
-      pointsPicked = 0;
-      
-      resetLayers();
-            
-      var yStepEl = document.getElementById("yStepDY");
-      var yStep = parseFloat(yStepEl.value);
-      
-      var LineThicknessEl = document.getElementById("yStepDX");
-      var xStep = parseFloat(LineThicknessEl.value);
-      
-      var dw = canvasWidth;
-      var dh = canvasHeight;
-      
-      var blobAvg = new Array();
-      
-      var dy = -1;
-      var rowi = dh-1;
-      
-      while (rowi >= 0)
-      {
-            blobs = -1;
-            firstblobx = -2.0*xStep;
-            bi = 0;
-    
-            for(var coli = 0; coli < dw; coli++)
-            {
-                if (binaryData[rowi][coli] == true)
-                {
-                    dy = -yStep; // First contact has been made, start moving forward with xStep now.
-                    
-                    if (coli > firstblobx + xStep)
-                    {
-                        blobs = blobs + 1;
-	                    bi = 1;
-	                    blobAvg[blobs] = coli;
-	                    firstblobx = coli;
-	                }
-	                else
-	                {
-	                    bi = bi + 1;
-	                    blobAvg[blobs] = parseFloat((blobAvg[blobs]*(bi-1.0) + coli)/parseFloat(bi));
-	                }
-                }
-                
-            }
-            
-            if (blobs >= 0)
-            {
-	            yi = rowi;
-	            for (var blbi = 0; blbi <= blobs; blbi++)
-	            {
-	                  xi = blobAvg[blbi];
-                      xyData[pointsPicked] = new Array();
-                      xyData[pointsPicked][0] = parseFloat(xi);
-                      xyData[pointsPicked][1] = parseFloat(yi);
-                      pointsPicked = pointsPicked + 1;	
-                      
-                      dataCtx.beginPath();
-                      dataCtx.fillStyle = "rgb(200,0,200)";
-                      dataCtx.arc(parseInt(xi),parseInt(yi),3,0,2.0*Math.PI,true);
-                      dataCtx.fill();
-	            }
-            }
-
-            
-            rowi = rowi + dy;
-      }
-      
-      pointsStatus(pointsPicked);  
-      return pointsPicked;
-      
-}
-
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.4
+	Version 2.5
 
 	Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
@@ -1012,7 +830,7 @@ function AE_ystep()
 
 /**
  * @fileoverview Manage the main canvas.
- * @version 2.4
+ * @version 2.5
  * @author Ankit Rohatgi ankitrohatgi@hotmail.com
  */
 
@@ -1054,7 +872,10 @@ var currentImageHeight;
 var currentImageWidth;
 /** canvas data from getImageData */
 var currentImageData; 
-
+/** source image dimensions with elements [x_min, y_min, x_max, y_max] **/
+var imageDimensions = [];
+/** Image screen dimensions **/
+var onScreenDimensions = [];
 // canvas layer contexts.
 var ctx; 
 var dataCtx;
@@ -1107,6 +928,15 @@ function loadImage(imgel)
 	
 	currentScreen = getCanvasData();
 	
+	imageDimensions[0] = 1;		// x_min
+	imageDimensions[1] = 1;		// y_min
+	imageDimensions[2] = swidth;	// x_max
+	imageDimensions[3] = sheight;	// y_max
+	
+	onScreenDimensions[0] = cx0;
+	onScreenDimensions[1] = cy0;
+	onScreenDimensions[2] = newWidth+cx0;
+	onScreenDimensions[3] = newHeight+cy0;
 }
 
 /**
@@ -1191,27 +1021,49 @@ function savePNG()
  */
 function dropHandler(ev)
 {
-	allDrop = ev.dataTransfer.files;
+	var allDrop = ev.dataTransfer.files;
 	if (allDrop.length == 1) 
 	{
-		if(allDrop[0].type.match("image.*")) // only load images
-		{
-		    var droppedFile = new FileReader();
-		    droppedFile.onload = function() {
-			    var imageInfo = droppedFile.result;
-			    var newimg = new Image();
-			    newimg.onload = function() { loadImage(newimg); originalScreen = getCanvasData(); originalImage = newimg; setDefaultState(); }
-			    newimg.src = imageInfo;
-		    }
-		    droppedFile.readAsDataURL(allDrop[0]);
-		}
+	    fileLoader(allDrop[0]);
 	}
+}
+
+/**
+ * Loads a file that was dropped or loaded
+ */
+function fileLoader(fileInfo)
+{
+    if(fileInfo.type.match("image.*")) // only load images
+    {
+	var droppedFile = new FileReader();
+	droppedFile.onload = function() {
+	    var imageInfo = droppedFile.result;
+	    var newimg = new Image();
+	    newimg.onload = function() { loadImage(newimg); originalScreen = getCanvasData(); originalImage = newimg; setDefaultState(); }
+	    newimg.src = imageInfo;
+	}
+	droppedFile.readAsDataURL(fileInfo);
+    }
+}
+
+/**
+ * Load file when file is chosen
+ */
+function loadNewFile()
+{
+  var fileLoadElem = document.getElementById('fileLoadBox');
+  if (fileLoadElem.files.length == 1)
+  {
+    var fileInfo = fileLoadElem.files[0];
+    fileLoader(fileInfo);
+  }
+  closePopup('loadNewImage');
 }
 
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.4
+	Version 2.5
 
 	Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
@@ -1235,7 +1087,7 @@ function dropHandler(ev)
 
 /**
  * @fileoverview Transform coordinates between screen pixels and real data.
- * @version 2.4
+ * @version 2.5
  * @author Ankit Rohatgi ankitrohatgi@hotmail.com
  */
 
@@ -1310,27 +1162,88 @@ function dropHandler(ev)
 		        
 		        var dx = dP1*Math.cos(thetaP1) - dP1*Math.sin(thetaP1)/Math.tan(theta);
 		        
-			    var xf = dx*Lx + xmin;
+			var xf = dx*Lx + xmin;
 
-			    var dP3 = Math.sqrt((xp-x3)*(xp-x3) + (yp-y3)*(yp-y3));				    
-			    var thetaP3 = thetay - taninverse(-(yp-y3), (xp-x3));
+			var dP3 = Math.sqrt((xp-x3)*(xp-x3) + (yp-y3)*(yp-y3));				    
+			var thetaP3 = thetay - taninverse(-(yp-y3), (xp-x3));
 
-			    var dy = dP3*Math.cos(thetaP3) - dP3*Math.sin(thetaP3)/Math.tan(theta);
+			var dy = dP3*Math.cos(thetaP3) - dP3*Math.sin(thetaP3)/Math.tan(theta);
+			
+			var yf = dy*Ly + ymin;
+			
+			// if x-axis is log scale
+			if (axesAlignmentData[4] == true)
+			    xf = Math.pow(10,xf);
 			    
-			    var yf = dy*Ly + ymin;
-			    
-			    // if x-axis is log scale
-			    if (axesAlignmentData[4] == true)
-			        xf = Math.pow(10,xf);
-			        
-			    // if y-axis is log scale
-			    if (axesAlignmentData[5] == true)
-			        yf = Math.pow(10,yf);
+			// if y-axis is log scale
+			if (axesAlignmentData[5] == true)
+			    yf = Math.pow(10,yf);
 
-                rdata[ii] = new Array();
-                rdata[ii][0] = xf;
-                rdata[ii][1] = yf;
+			rdata[ii] = new Array();
+			rdata[ii][0] = xf;
+			rdata[ii][1] = yf;
 		    }
+		}
+		else if (ptype == 'image') // same as X-Y, but returns int data and doesn't support log scale.
+		{
+		    var x1 = onScreenDimensions[0];
+		    var y1 = onScreenDimensions[1];
+		    
+		    var x2 = onScreenDimensions[2];
+		    var y2 = onScreenDimensions[1];
+		    
+		    var x3 = onScreenDimensions[0];
+		    var y3 = onScreenDimensions[1];
+
+		    var x4 = onScreenDimensions[0];
+		    var y4 = onScreenDimensions[3];
+		    
+		    var xmin = axesAlignmentData[0];
+		    var xmax = axesAlignmentData[1];
+		    var ymin = axesAlignmentData[2];
+		    var ymax = axesAlignmentData[3];
+		    
+		    var xm = xmax - xmin;
+		    var ym = ymax - ymin;
+		    
+		    var d12 = Math.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2));
+		    var d34 = Math.sqrt((x3-x4)*(x3-x4) + (y3-y4)*(y3-y4));
+		    
+		    var Lx = xm/d12; 
+		    var Ly = ym/d34;
+		    
+		    var thetax = taninverse(-(y2-y1), (x2-x1));
+		    var thetay = taninverse(-(y4-y3), (x4-x3));
+		    
+		    var theta = thetay-thetax;
+		    
+
+		    for(ii = 0; ii<pn; ii++)
+		    {
+		    
+		        var xp = pdata[ii][0];
+		        var yp = pdata[ii][1];
+		        
+		        var dP1 = Math.sqrt((xp-x1)*(xp-x1) + (yp-y1)*(yp-y1));
+		        var thetaP1 = taninverse(-(yp-y1), (xp-x1)) - thetax;
+		        
+		        var dx = dP1*Math.cos(thetaP1) - dP1*Math.sin(thetaP1)/Math.tan(theta);
+		        
+			var xf = dx*Lx + xmin;
+
+			var dP3 = Math.sqrt((xp-x3)*(xp-x3) + (yp-y3)*(yp-y3));				    
+			var thetaP3 = thetay - taninverse(-(yp-y3), (xp-x3));
+
+			var dy = dP3*Math.cos(thetaP3) - dP3*Math.sin(thetaP3)/Math.tan(theta);
+			
+			var yf = dy*Ly + ymin;
+			
+		
+			rdata[ii] = new Array();
+			rdata[ii][0] = Math.round(xf);
+			rdata[ii][1] = Math.round(yf);
+		    }
+		
 		}
 		else if (ptype == 'map')
 		{
@@ -1371,15 +1284,15 @@ function dropHandler(ev)
 
 		    for(ii = 0; ii<pn; ii++)
 		    {
-			    var xr = pdata[ii][0] - mx0;
-			    var yr = - (pdata[ii][1] - my0);
-			    // find the transform
-			    var xf = (-y1*xm*xr + x1*xm*yr)/det + x0;
-			    var yf = (y3*ym*xr - x3*ym*yr)/det + y0;
-			    
-			    rdata[ii] = new Array();
-                rdata[ii][0] = xf;
-                rdata[ii][1] = yf;
+			var xr = pdata[ii][0] - mx0;
+			var yr = - (pdata[ii][1] - my0);
+			// find the transform
+			var xf = (-y1*xm*xr + x1*xm*yr)/det + x0;
+			var yf = (y3*ym*xr - x3*ym*yr)/det + y0;
+			
+			rdata[ii] = new Array();
+			rdata[ii][0] = xf;
+			rdata[ii][1] = yf;
 		    }
 		    
 		}
@@ -1514,7 +1427,7 @@ function dropHandler(ev)
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.4
+	Version 2.5
 
 	Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
@@ -1538,7 +1451,7 @@ function dropHandler(ev)
 
 /**
  * @fileoverview Generate CSV.
- * @version 2.4
+ * @version 2.5
  * @author Ankit Rohatgi ankitrohatgi@hotmail.com
  */
  
@@ -1557,18 +1470,18 @@ function dropHandler(ev)
 		
 		var retData = pixelToData(xyData, pointsPicked, plotType);
 		
-		if((plotType == 'XY') || (plotType == 'map') || (plotType == 'polar'))
+		if((plotType == 'XY') || (plotType == 'map') || (plotType == 'polar') || (plotType == 'image'))
 		{
 		    for(var ii = 0; ii < pointsPicked; ii++)
 		    {
-                tarea.value = tarea.value + retData[ii][0] + ',' + retData[ii][1] + '\n';
+			tarea.value = tarea.value + retData[ii][0] + ',' + retData[ii][1] + '\n';
 		    }
 		}
 		else if((plotType == 'ternary'))
 		{
 		    for(var ii = 0; ii < pointsPicked; ii++)
 		    {
-                tarea.value = tarea.value + retData[ii][0] + ',' + retData[ii][1] + ',' + retData[ii][2] + '\n';
+			tarea.value = tarea.value + retData[ii][0] + ',' + retData[ii][1] + ',' + retData[ii][2] + '\n';
 		    }
 		}
     }
@@ -1579,7 +1492,7 @@ function dropHandler(ev)
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.4
+	Version 2.5
 
 	Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
@@ -1603,7 +1516,7 @@ function dropHandler(ev)
 
 /**
  * @fileoverview Image Editing functions.
- * @version 2.4
+ * @version 2.5
  * @author Ankit Rohatgi ankitrohatgi@hotmail.com
  */
 var cropStatus = 0;
@@ -1713,12 +1626,13 @@ function cropMouseup(ev)
 		tcan.height = cropHeight;
 		
 		var cropImageData = ctx.getImageData(cropCoordinates[0],cropCoordinates[1],cropWidth,cropHeight);  
-		
+				
 		tcontext.putImageData(cropImageData,0,0);
 		cropSrc = tcan.toDataURL();
 		cropImg = new Image();
 		cropImg.src = cropSrc;
 		cropImg.onload = function() { loadImage(cropImg); }
+				
       }
       
 }
@@ -1755,7 +1669,7 @@ function rotateCanvas() // Rotate by a specified amount.
 /*
     WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-    Version 2.4
+    Version 2.5
 
     Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
@@ -1781,7 +1695,7 @@ function rotateCanvas() // Rotate by a specified amount.
 
 /**
  * @fileoverview Image Processing functions.
- * @version 2.4
+ * @version 2.5
  * @author Ankit Rohatgi ankitrohatgi@hotmail.com
  */
 
@@ -2019,7 +1933,7 @@ function binaryToImageData(bwdata,imgd)
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotdigitizer
 
-	Version 2.4
+	Version 2.5
 
 	Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
@@ -2043,7 +1957,7 @@ function binaryToImageData(bwdata,imgd)
 
 /**
  * @fileoverview This is the main entry point
- * @version 2.4
+ * @version 2.5
  * @author Ankit Rohatgi ankitrohatgi@hotmail.com
  */
 
@@ -2128,7 +2042,7 @@ function init() // This is run when the page loads.
 	topCanvas.addEventListener('mousemove',updateZoom,false);
 	
 	// Add support for extended crosshair
-	//document.body.addEventListener('keydown', toggleCrosshair, false);
+    document.body.addEventListener('keydown', toggleCrosshair, false);
 
 	// Image dropping capabilities
 	topCanvas.addEventListener('dragover',function(event) {event.preventDefault();}, true);
@@ -2142,6 +2056,7 @@ function init() // This is run when the page loads.
 	originalScreen = getCanvasData();
 	activeScreen = originalScreen;
 	
+	displayParameters();
 }
 
 
@@ -2169,7 +2084,7 @@ function checkBrowser()
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.4
+	Version 2.5
 
 	Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
@@ -2193,7 +2108,7 @@ function checkBrowser()
 
 /**
  * @fileoverview Manual data collection
- * @version 2.4
+ * @version 2.5
  * @author Ankit Rohatgi ankitrohatgi@hotmail.com
  */
 
@@ -2417,7 +2332,7 @@ function taninverse(y,x)
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.4
+	Version 2.5
 
 	Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
@@ -2442,7 +2357,7 @@ function taninverse(y,x)
 
 /**
  * @fileoverview Handle Mouse Events.
- * @version 2.4
+ * @version 2.5
  * @author Ankit Rohatgi
  */
 
@@ -2544,7 +2459,7 @@ function removeMouseEvent(mouseEv, functionName, tf)
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.4
+	Version 2.5
 
 	Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
@@ -2568,7 +2483,7 @@ function removeMouseEvent(mouseEv, functionName, tf)
 
 /**
  * @fileoverview Handle popups.
- * @version 2.4
+ * @version 2.5
  * @author Ankit Rohatgi
  */
 
@@ -2630,7 +2545,7 @@ function processingNote(pmode)
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.4
+	Version 2.5
 
 	Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
@@ -2655,7 +2570,7 @@ function processingNote(pmode)
 
 /**
  * @fileoverview Handle sidebars.
- * @version 2.4
+ * @version 2.5
  * @author Ankit Rohatgi ankitrohatgi@hotmail.com
  */
 
@@ -2687,7 +2602,7 @@ function clearSidebar() // Clears all open sidebars
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.4
+	Version 2.5
 
 	Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
@@ -2711,7 +2626,7 @@ function clearSidebar() // Clears all open sidebars
 
 /**
  * @fileoverview Handle toolbars.
- * @version 2.4
+ * @version 2.5
  * @author Ankit Rohatgi ankitrohatgi@hotmail.com
  */
 
@@ -2743,7 +2658,7 @@ function clearToolbar() // Clears all open sidebars
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.4
+	Version 2.5
 
 	Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
@@ -2768,7 +2683,7 @@ function clearToolbar() // Clears all open sidebars
 
 /**
  * @fileoverview Manage the live zoom window.
- * @version 2.4
+ * @version 2.5
  * @author Ankit Rohatgi ankitrohatgi@hotmail.com
  */
 
@@ -2794,7 +2709,7 @@ function initZoom()
 {
 	var zCrossHair = document.getElementById("zoomCrossHair");
 	var zchCtx = zCrossHair.getContext("2d");
-    zchCtx.strokeStyle = "rgb(0,0,0)";
+	zchCtx.strokeStyle = "rgb(0,0,0)";
 	zchCtx.beginPath();
 	zchCtx.moveTo(zWindowWidth/2, 0);
 	zchCtx.lineTo(zWindowWidth/2, zWindowHeight);
@@ -2824,14 +2739,22 @@ function updateZoom(ev)
         pix[0][0] = parseFloat(xpos);
         pix[0][1] = parseFloat(ypos);
         var rpix = pixelToData(pix, 1, plotType);
-        mPosn.innerHTML = parseFloat(rpix[0][0]).toExponential(3) + ', ' + parseFloat(rpix[0][1]).toExponential(3);
-        if (plotType == 'ternary')
-            mPosn.innerHTML += ', ' + parseFloat(rpix[0][2]).toExponential(3);
+	
+	if (plotType == 'image')
+	{
+	  mPosn.innerHTML = rpix[0][0] + ', ' + rpix[0][1];
+	}
+	else
+	{
+	  mPosn.innerHTML = parseFloat(rpix[0][0]).toExponential(3) + ', ' + parseFloat(rpix[0][1]).toExponential(3);
+	  if (plotType == 'ternary')
+	      mPosn.innerHTML += ', ' + parseFloat(rpix[0][2]).toExponential(3);
+	}
     }
     
   	if (extendedCrosshair == true)
 	{
-        hoverCanvas.width = hoverCanvas.width;
+	    hoverCanvas.width = hoverCanvas.width;
 	    hoverCtx.strokeStyle = "rgba(0,0,0, 0.5)";
 	    hoverCtx.beginPath();
 	    hoverCtx.moveTo(xpos, 0);
@@ -2864,7 +2787,7 @@ function updateZoom(ev)
 		var zImage = new Image();
 		zImage.onload = function() 
 			{ 
-				zctx.drawImage(zImage,0,0,zWindowWidth,zWindowHeight); 
+				zctx.drawImage(zImage,0,0,parseInt(zWindowWidth),parseInt(zWindowHeight)); 
 			}
 		zImage.src = imgdata;
 
@@ -2874,13 +2797,11 @@ function updateZoom(ev)
 
 function toggleCrosshair(ev)
 {
-    ev.preventDefault();
-    if (ev.keyCode == 9)
+    if (ev.keyCode == 220)
     {
-        //extendedCrosshair = !(extendedCrosshair);
-        extendedCrosshair = false; // keep it off for now.
-        redrawCanvas();
-        
+        ev.preventDefault();
+        extendedCrosshair = !(extendedCrosshair);
+        hoverCanvas.width = hoverCanvas.width;
     }
     return;
 }
