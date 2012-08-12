@@ -348,7 +348,7 @@ alt="tumblr visitor stats"></a></div></noscript>
 	<p align="center"><a href="https://github.com/ankitrohatgi/WebPlotDigitizer/issues" target="bugs">https://github.com/ankitrohatgi/WebPlotDigitizer/issues</a></p>
 	<hr/>
 	<p align="center">This program is distributed under the GNU General Public License Version 3.</p>
-	<p align="center">Copyright 2011 Ankit Rohatgi &lt;ankitrohatgi@hotmail.com&gt;</p>
+	<p align="center">Copyright 2010-2012 Ankit Rohatgi &lt;ankitrohatgi@hotmail.com&gt;</p>
 	<p align="center"><a href="http://www.arohatgi.info/WebPlotDigitizer" target="website">http://www.arohatgi.info/WebPlotDigitizer</a></p>
 	<p>&nbsp;</p>
 	<p align="center"><input type="button" value="Close" onClick="closePopup('helpWindow');"></p>
@@ -359,7 +359,7 @@ alt="tumblr visitor stats"></a></div></noscript>
 	<tr><td>
 	<p align="center" class="popupheading">Fine Tuning</p>
 	<p align="center">Detection Mode: <input type="radio" name="colorSelectionMode" id="colorModeFG" checked>Foreground <input type="radio" name="colorSelectionMode" id="colorModeBG"> Background</p>
-	<p align="center"> Color Distance: <input type="text" value="40" id="colorDistance" size="3">&nbsp;&nbsp;<input type="button" value="Re-scan" onclick="processingNote(true); setTimeout('updateTestWindow();',100);"><input type="button" value="Save Scan" onClick="saveTest();"></p>
+	<p align="center"> Color Distance: <input type="text" value="80" id="colorDistance" size="3">&nbsp;&nbsp;<input type="button" value="Re-scan" onclick="processingNote(true); setTimeout('updateTestWindow();',100);"><input type="button" value="Save Scan" onClick="saveTest();"></p>
 	<p align="center"><canvas id="testImg" width="400" height="300"></canvas></p>
 	</td>
 	<td valign="top" width="220px">
@@ -380,8 +380,9 @@ alt="tumblr visitor stats"></a></div></noscript>
 		-->
 		</optgroup>
 		
+		<!--
 		<option value="customAlgorithm">Custom Algorithm</option>
-		
+		-->
 	    </select>
 	</p>
 	<p><span id="URLinput" style="display:none;"><input type="text" id="customURL" size="12"><input type="button" value="Load" id="loadCustomAlgo"></span><span id="paramZone"></span></p>
