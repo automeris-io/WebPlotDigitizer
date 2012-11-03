@@ -21,6 +21,11 @@ Offline Development/Usage
 
 This tool has to hosted on a HTTP server for some javascript features to function correctly. Therefore, host this on a server (ex: Apache) while developing or using offline.
 
+Version 3
+---------
+
+This project is currently being re-written from scrach under the name WebPlotDigitizer 3. The repository for the re-write can be found at [http://github.com/ankitrohatgi/WebPlotDigitizer3](http://github.com/ankitrohatgi/WebPlotDigitizer3)
+
 Contact
 -------
 
