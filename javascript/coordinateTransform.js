@@ -1,9 +1,9 @@
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.5
+	Version 2.6
 
-	Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2011-2013 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
@@ -28,6 +28,8 @@
  * @version 2.5
  * @author Ankit Rohatgi ankitrohatgi@hotmail.com
  */
+
+var dataToPixelxy;
 
 /*
  * Pixel to real coordinate.
@@ -362,3 +364,82 @@
     
     return 0;
  }
+
+
+ function dataToPixel(xp, yp, ptype) {
+
+	dataToPixelxy = [];
+
+	if (ptype == 'XY')
+	{
+		var x1 = xyAxes[0][0];
+		var y1 = xyAxes[0][1];
+		
+		var x2 = xyAxes[1][0];
+		var y2 = xyAxes[1][1];
+		
+		var x3 = xyAxes[2][0];
+		var y3 = xyAxes[2][1];
+
+		var x4 = xyAxes[3][0];
+		var y4 = xyAxes[3][1];
+		
+		var xmin = axesAlignmentData[0];
+		var xmax = axesAlignmentData[1];
+		var ymin = axesAlignmentData[2];
+		var ymax = axesAlignmentData[3];
+		
+		// If x-axis is log scale
+		if (axesAlignmentData[4] == true)
+		{
+			xmin = Math.log(xmin)/Math.log(10);
+			xmax = Math.log(xmax)/Math.log(10);
+		}
+		
+		// If y-axis is log scale
+		if (axesAlignmentData[5] == true)
+		{
+			ymin = Math.log(ymin)/Math.log(10);
+			ymax = Math.log(ymax)/Math.log(10);
+		}
+
+		// Get intersection point in pixels
+		var xydenom = (x1 - x2)*(y3-y4) - (y1-y2)*(x3 - x4);
+		var xx_pix = ((x1*y2 - y1*x2)*(x3 - x4) - (x1 - x2)*(x3*y4 - y3*x4))/xydenom;
+		var yy_pix = ((x1*y2 - y1*x2)*(y3 - y4) - (y1 - y2)*(x3*y4 - y3*x4))/xydenom;
+
+		// Get intersection point in actual units
+		var tempPix = [];
+		tempPix[0] = new Array();
+		tempPix[0][0] = xx_pix;
+		tempPix[0][1] = yy_pix;
+		var rtnPix = pixelToData(tempPix, 1, 'XY');
+		var xx = rtnPix[0][0];
+		var yx = rtnPix[0][1];
+
+		var xm = xmax - xmin;
+		var ym = ymax - ymin;
+		
+		var d12 = Math.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2));
+		var d34 = Math.sqrt((x3-x4)*(x3-x4) + (y3-y4)*(y3-y4));
+		
+		var Lx = xm/d12; 
+		var Ly = ym/d34;
+		
+		var thetax = taninverse(-(y2-y1), (x2-x1));
+		var thetay = taninverse(-(y4-y3), (x4-x3));
+		
+		var theta = thetay-thetax;
+
+
+		var xf = (xp - xmin)*Math.cos(thetax)/Lx + (yp - yx)*Math.cos(thetay)/Ly + x1;
+		var yf = y3 - (xp - xx)*Math.sin(thetax)/Lx - (yp - ymin)*Math.sin(thetay)/Ly;
+
+		dataToPixelxy[0] = xf;
+		dataToPixelxy[1] = yf;
+
+	}
+
+
+	return 0;
+}

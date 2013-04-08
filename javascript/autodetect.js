@@ -49,6 +49,7 @@ algoLocation['averagingWindow'] = 'javascript/AEalgos/averagingWindow.js';
 algoLocation['xStep'] = 'javascript/AEalgos/xStep.js';
 algoLocation['yStep'] = 'javascript/AEalgos/yStep.js';
 algoLocation['blobDetection'] = 'javascript/AEalgos/blobdetector.js';
+algoLocation['averagingWindowWithStepSize'] = 'javascript/AEalgos/averagingWindowWithStepSize.js';
 algoLocation['customAlgorithm'] = '';
 
 /**
