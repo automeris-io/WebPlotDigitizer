@@ -98,7 +98,7 @@ AEObject.run = function () {
 			var blobExit = 0;
 			var blobExitLocked = false;
 
-			for(var ii = 0; ii < dpix; ii++)
+			for(var ii = 0; ii <= dpix; ii++)
 			{
 				var yi = -ii*step_pix*r_unit_per_pix + param_ymax;
 				dataToPixel(xi, yi, 'XY');
@@ -125,7 +125,7 @@ AEObject.run = function () {
 
 					if(blobActive === true)	{
 
-						if((ii >= blobEntry + param_linewidth) || (ii === dpix - 1)) {
+						if((ii >= blobEntry + param_linewidth) || ((ii <= dpix) && (ii > dpix)) {
 							blobActive = false;
 
 							if(blobEntry > blobExit) {
