@@ -31,7 +31,7 @@
 
 var dataToPixelxy;
 
-/*
+/**
  * Pixel to real coordinate.
  * @param {Array} pdata Pixel data
  * @param {Int} pn Number of data points.
