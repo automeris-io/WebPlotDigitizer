@@ -1,8 +1,6 @@
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.6
-
 	Copyright 2010-2013 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
@@ -23,12 +21,6 @@
 
 */
 
-
-/**
- * @fileoverview Some math functions.
- * @version 2.4
- * @author Ankit Rohatgi ankitrohatgi@hotmail.com
- */
 
 /** 
  * Calculate inverse tan with range between 0, 2*pi.

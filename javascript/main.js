@@ -1,8 +1,6 @@
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotdigitizer
 
-	Version 2.6
-
 	Copyright 2010-2013 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
@@ -22,13 +20,6 @@
 
 
 */
-
-/**
- * @fileoverview This is the main entry point
- * @version 2.5
- * @author Ankit Rohatgi ankitrohatgi@hotmail.com
- */
-
 
 /**
  * This is the entry point and is executed when the page is loaded.

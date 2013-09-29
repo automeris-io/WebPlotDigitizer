@@ -1,9 +1,7 @@
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.5
-
-	Copyright 2010-2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2013 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
@@ -22,12 +20,6 @@
 
 
 */
-
-/**
- * @fileoverview Averaging Window Extraction Algorithm
- * @version 2.5
- * @author Ankit Rohatgi ankitrohatgi@hotmail.com
- */
 
 var blobDetectorAlgo = {
 	getParamList: function() {

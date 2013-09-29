@@ -1,8 +1,6 @@
 /*
     WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-    Version 2.6
-
     Copyright 2010-2013 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
     This file is part of WebPlotDigitizer.
@@ -24,12 +22,6 @@
 */
 
 /* This file contains image processing functions */
-
-/**
- * @fileoverview Image Processing functions.
- * @version 2.5
- * @author Ankit Rohatgi ankitrohatgi@hotmail.com
- */
 
 /** 
  * Finds differences between two sets of ImageData and returns a difference matrix. 'true' where unmatched, 'false' where pixels match.
