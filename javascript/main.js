@@ -96,7 +96,7 @@ function init() {// This is run when the page loads.
 
 	// Set canvas default state
 	img = new Image();
-	img.onload = function() { loadImage(img); originalImage = img; }
+	img.onload = function() { loadImage(img); originalImage = img; };
 	img.src = "start.png";
 	
 	// testing area for autodetection

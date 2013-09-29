@@ -57,7 +57,7 @@ AEObject.run = function() {
     bi = 0;
        
     for(var rowi = 0; rowi < dh; rowi++) {
-		if (binaryData[rowi][coli] == true)	{
+		if (binaryData[rowi][coli] === true)	{
 		  if (rowi > firstbloby + yStep) {
 			blobs = blobs + 1;
 			bi = 1;
@@ -85,11 +85,11 @@ AEObject.run = function() {
     
   }
   
-  if (xPointsPicked == 0)
+  if (xPointsPicked === 0)
     return 0;
   
   for(var pi = 0; pi < xPointsPicked; pi++) {
-    if(xPoints[pi][2] == 1) {// if still available
+    if(xPoints[pi][2] === 1) {// if still available
       var inRange = 1;
       var xxi = pi+1;
       
@@ -101,11 +101,11 @@ AEObject.run = function() {
       
       var matches = 1;
       
-      while((inRange == 1) && (xxi < xPointsPicked)) {
+      while((inRange === 1) && (xxi < xPointsPicked)) {
 	    var newX = xPoints[xxi][0];
 	    var newY = xPoints[xxi][1];
 	
-	    if( (Math.abs(newX-oldX) <= xStep) && (Math.abs(newY-oldY) <= yStep) && (xPoints[xxi][2] == 1)) {
+	    if( (Math.abs(newX-oldX) <= xStep) && (Math.abs(newY-oldY) <= yStep) && (xPoints[xxi][2] === 1)) {
 	      avgX = (avgX*matches + newX)/(matches+1.0);
 	      avgY = (avgY*matches + newY)/(matches+1.0);
 	      matches = matches + 1;

@@ -61,8 +61,7 @@ AEObject.run = function() {
             bi = 0;
     
             for(var coli = 0; coli < dw; coli++) {
-                if (binaryData[rowi][coli] == true)
-                {
+                if (binaryData[rowi][coli] === true) {
                     dy = -yStep; // First contact has been made, start moving forward with xStep now.
                     
                     if (coli > firstblobx + xStep) {
@@ -70,8 +69,7 @@ AEObject.run = function() {
 	                    bi = 1;
 	                    blobAvg[blobs] = coli;
 	                    firstblobx = coli;
-	                }
-	                else {
+	                } else {
 	                    bi = bi + 1;
 	                    blobAvg[blobs] = parseFloat((blobAvg[blobs]*(bi-1.0) + coli)/parseFloat(bi));
 	                }

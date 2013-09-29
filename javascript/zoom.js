@@ -78,16 +78,16 @@ function updateZoom(ev) {
         pix[0][1] = parseFloat(ypos);
         var rpix = pixelToData(pix, 1, plotType);
 	
-		if (plotType == 'image') {
+		if (plotType === 'image') {
 		  mPosn.innerHTML = rpix[0][0] + ', ' + rpix[0][1];
 		} else {
 		  mPosn.innerHTML = parseFloat(rpix[0][0]).toExponential(3) + ', ' + parseFloat(rpix[0][1]).toExponential(3);
-		  if (plotType == 'ternary')
+		  if (plotType === 'ternary')
 			  mPosn.innerHTML += ', ' + parseFloat(rpix[0][2]).toExponential(3);
 		}
     }
     
-  	if (extendedCrosshair == true) {
+  	if (extendedCrosshair === true) {
 	    hoverCanvas.width = hoverCanvas.width;
 	    hoverCtx.strokeStyle = "rgba(0,0,0, 0.5)";
 	    hoverCtx.beginPath();
@@ -126,7 +126,7 @@ function updateZoom(ev) {
 }
 
 function toggleCrosshair(ev) {
-    if (ev.keyCode == 220) {
+    if (ev.keyCode === 220) {
         ev.preventDefault();
         extendedCrosshair = !(extendedCrosshair);
         hoverCanvas.width = hoverCanvas.width;
