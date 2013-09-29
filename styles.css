@@ -22,58 +22,29 @@
 
 
 */
-
-@font-face
-{
-    font-family: Cabin;
-    src: url('fonts/Cabin/Cabin-Regular.ttf');
-}
-@font-face
-{
-    font-family: Cabin;
-    font-weight:bold;
-    src: url('fonts/Cabin/Cabin-Bold.ttf');
-}
-
-@font-face
-{
-    font-family: Istok;
-    src: url('fonts/Istok_Web/IstokWeb-Regular.ttf');
-}
-@font-face
-{
-    font-family: Istok;
-    font-weight:bold;
-    src: url('fonts/Istok_Web/IstokWeb-Bold.ttf');
-}
-
-
-html
-{
+html {
 	height:99%;
 	width:99%;
 	padding:0;
 	margin:0 auto;
 }
-body
-{
+
+body {
 	margin: 0 0;
 	width: 100%;
 	height:100%;
-	font: 13px/22px Istok; 
+	font: 13px/22px Verdana; 
 	background: white;
 }
 
-tr,td
-{
+tr,td {
 	margin:0;
 	padding:0;
 }
 
 textarea { resize: none; }
 
-#bodyTable
-{
+#bodyTable {
 	width:100%;
 	height:100%;
 	margin:0;
@@ -81,31 +52,26 @@ textarea { resize: none; }
 }
 
 
-#canvasTD
-{
+#canvasTD {
 	margin:0;
 	padding:0;
 	height:100%;
 }
 
-#canvasDiv
-{
+#canvasDiv {
 	height:100%;
 	background: white;
 	padding:0;
 	margin:0;
 }
 
-#mainCanvas
-{
+#mainCanvas {
 	background: white;
 	-moz-box-shadow: 0px 0px 5px #888;
     -webkit-box-shadow: 0px 0px 5px #888;
-
 }
 
-.canvasLayers
-{
+.canvasLayers {
 	border: thin grey solid;
 	background: transparent;
     position: absolute;
@@ -113,15 +79,13 @@ textarea { resize: none; }
     left: 0px;
 }
 
-.zoomLayers
-{
+.zoomLayers {
     border: thin grey solid;
     margin: 0;
     padding: 0;
 }
 
-#zoomDiv
-{
+#zoomDiv {
 	border: thin grey solid;
 	margin:0px;
 	margin-bottom:5px;
@@ -132,8 +96,7 @@ textarea { resize: none; }
 	text-align:center;
 }
 
-#cursorPosition
-{
+#cursorPosition {
     padding:0px 0px;
 	margin:0;
 	margin-top:0px;
@@ -144,9 +107,8 @@ textarea { resize: none; }
 	text-align:center;
 }
 
-input[type="button"]
-{
-	font-family: Istok;
+input[type="button"] {
+	font-family: Verdana, Sans Serif;
 	
 	font-size: 12px;
 	font-weight:500;
@@ -158,18 +120,19 @@ input[type="button"]
 	height:20px;
 }
 
-input[type="text"]
-{
-	font-family: Istok;
+input[type="button"]:active {
+	background-color: rgba(0,0,0,0.2);
+}
+
+input[type="text"] {
+	font-family: Verdana, Sans Serif;
 	font-size: 12px;
 	background: white;
 	border: thin black solid;
 	height:15px;
-	
 }
 
-input[type="range"]
-{
+input[type="range"] {
 	height: 15px;
 	background: white;
 	border: thin black solid;
@@ -178,15 +141,13 @@ input[type="range"]
 	-webkit-box-shadow: 0px 0px 3px grey;
 }
 
-.standardToolbar 
-{
+.standardToolbar {
 	height:25px;
 	padding: 0 0px;
 	margin: 0 0px;
 }
 
-.toolbar
-{
+.toolbar {
     padding: 0 10px;
     margin: 0;
     height: 25px;
@@ -194,15 +155,13 @@ input[type="range"]
     top:0px;
     left:5px;
     visibility: hidden;
-   
 }
 
 .toolbar p { padding:0; margin:0; }
 
 .popupheading {font-size:14px; font-weight:Bold;}
 
-.popup
-{	
+.popup {	
 	padding:12px 8px;
 	margin:0;
 	border: thin grey solid;
@@ -220,8 +179,7 @@ input[type="range"]
 .popup p { padding:0; margin: 5px 5px;}
 
 
-.sidebar
-{
+.sidebar {
 	padding:0px 0px;
 	margin:0;
 	border: thin grey solid;

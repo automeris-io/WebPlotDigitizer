@@ -34,8 +34,8 @@
  * This is the entry point and is executed when the page is loaded.
  */
 
-function init() // This is run when the page loads.
-{
+function init() {// This is run when the page loads.
+
 	checkBrowser();
 	
 	mainCanvas = document.getElementById('mainCanvas');
@@ -131,8 +131,7 @@ function init() // This is run when the page loads.
 /**
  * Reset canvas and zoom window to initial state.
  */
-function setDefaultState()
-{
+function setDefaultState() {
 	axesPicked = 0;
 	pointsPicked = 0;
 	xyData = [];
@@ -140,10 +139,8 @@ function setDefaultState()
 			
 }
 
-function checkBrowser()
-{
-  if(!window.FileReader)
-  {
+function checkBrowser() {
+  if(!window.FileReader) {
     alert('\tWARNING!\nYou are using an unsupported browser. Please use Google Chrome 6+ or Firefox 3.6+.\n Sorry for the inconvenience.');
   }
 }

@@ -36,14 +36,10 @@ var pointsPicked = 0; // number of data points picked.
 /**
  * Called when the 'acquire data' button is pressed. 
  */
-function acquireData()
-{
-	if(axesPicked == 0)
-	{
+function acquireData() {
+	if(axesPicked == 0) {
 		showPopup('alignAxes');
-	}
-	else
-	{
+	} else {
 		showSidebar('manualMode');
 		removeAllMouseEvents();
 	}
@@ -52,14 +48,11 @@ function acquireData()
 /**
  * Initiate Manual data acquisition. Enables data capture on the canvas.
  */ 
-function pickPoints() // select data points.
-{
-	if (axesPicked == 0)
-	{
+function pickPoints() {// select data points.
+
+	if (axesPicked == 0) {
 		alert('Define the axes first!');
-	}
-	else
-	{
+	} else {
 		removeAllMouseEvents();
 		addMouseEvent('click',clickPoints,true);
 		//pointsPicked = 0;
@@ -73,8 +66,7 @@ function pickPoints() // select data points.
 /**
  * Triggered by clicking on canvas, stores position in xyData global array.
  */
-function clickPoints(ev)
-{
+function clickPoints(ev) {
 	xi = ev.layerX;
 	yi = ev.layerY;
 	xyData[pointsPicked] = new Array();
@@ -95,8 +87,8 @@ function clickPoints(ev)
 /**
  * Called when 'clear all' is hit. Clears data collected, redraws canvas. 
  */
-function clearPoints() // clear all markings.
-{
+function clearPoints() {// clear all markings.
+
 	pointsPicked = 0;
 	pointsStatus(pointsPicked);
     resetLayers();
@@ -107,17 +99,14 @@ function clearPoints() // clear all markings.
 /**
  * Deletes the last point picked.
  */
-function undoPointSelection()
-{
-	if (pointsPicked >= 1)
-	{
+function undoPointSelection() {
+	if (pointsPicked >= 1) {
 		pointsPicked = pointsPicked - 1;
 		pointsStatus(pointsPicked);
 		
         resetLayers();
 
-		for(ii = 0; ii < pointsPicked; ii++)
-		{
+		for(ii = 0; ii < pointsPicked; ii++) {
 			xi = xyData[ii][0];	
 			yi = xyData[ii][1];
 
@@ -133,8 +122,8 @@ function undoPointSelection()
 /**
  * Updates the displayed number of points on the sidebar.
  */
-function pointsStatus(pn) // displays the number of points picked.
-{
+function pointsStatus(pn) {// displays the number of points picked.
+
 	var points = document.getElementById('pointsStatus');
 	var autoPoints = document.getElementById('autoPointsStatus');
 	points.innerHTML = pn;
@@ -144,8 +133,7 @@ function pointsStatus(pn) // displays the number of points picked.
 /**
  * Delete specific point close to clicked position.
  */
-function deleteSpecificPoint()
-{
+function deleteSpecificPoint() {
 	removeAllMouseEvents();
 	addMouseEvent('click',deleteSpecificPointHandler,true);
 }
@@ -153,8 +141,7 @@ function deleteSpecificPoint()
 /**
  * Handle clicks when in specific point deletion mode
  */
-function deleteSpecificPointHandler(ev)
-{
+function deleteSpecificPointHandler(ev) {
 	var xi = parseFloat(ev.layerX);
 	var yi = parseFloat(ev.layerY);
 	
@@ -162,22 +149,19 @@ function deleteSpecificPointHandler(ev)
 	var foundPoint = 0;
 	var foundIndex = 0;
 
-	for (var ii = 0; ii < pointsPicked; ii ++)
-	{
+	for (var ii = 0; ii < pointsPicked; ii ++) {
 		var xd = parseFloat(xyData[ii][0]);
 		var yd = parseFloat(xyData[ii][1]);
 		var distance = Math.sqrt((xd-xi)*(xd-xi) + (yd-yi)*(yd-yi));
 
-		if (distance < minDistance)
-		{
+		if (distance < minDistance) {
 			foundPoint = 1;
 			foundIndex = ii;
 			minDistance = distance;
 		}
 	}
 
-	if (foundPoint == 1)
-	{
+	if (foundPoint == 1) {
 		xyData.splice(foundIndex,1);
 
 		pointsPicked = pointsPicked - 1;
@@ -185,8 +169,7 @@ function deleteSpecificPointHandler(ev)
 			
         resetLayers();
 
-		for(ii = 0; ii < pointsPicked; ii++)
-		{
+		for(ii = 0; ii < pointsPicked; ii++) {
 			xp = xyData[ii][0];	
 			yp = xyData[ii][1];
 			dataCtx.beginPath();

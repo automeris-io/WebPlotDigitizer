@@ -35,8 +35,7 @@ var toolbarList = ['paintToolbar','colorPickerToolbar'];
  * Show a specific toolbar
  * @param {String} sbid Sidebar ID.
  */
-function showToolbar(sbid) // Shows a specific sidebar
-{
+function showToolbar(sbid) {// Shows a specific sidebar
 	clearToolbar();
 	var sb = document.getElementById(sbid);
 	sb.style.visibility = "visible";
@@ -45,12 +44,11 @@ function showToolbar(sbid) // Shows a specific sidebar
 /**
  * Clear the toolbar area.
  */
-function clearToolbar() // Clears all open sidebars
-{
-      for (ii = 0; ii < toolbarList.length; ii ++)
-      {
-	  var sbv = document.getElementById(toolbarList[ii]);
-	  sbv.style.visibility="hidden";
+function clearToolbar() {// Clears all open sidebars
+
+      for (ii = 0; ii < toolbarList.length; ii ++) {
+		  var sbv = document.getElementById(toolbarList[ii]);
+		  sbv.style.visibility="hidden";
       }
 	
 }

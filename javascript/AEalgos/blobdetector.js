@@ -32,7 +32,7 @@
 
 AEObject.getParamList = function() {
     return [["Min size","Px","0"],["Max size","Px","1000"]];
-  }
+  };
 
 AEObject.run = function() {
     xyData = [];
@@ -44,11 +44,9 @@ AEObject.run = function() {
     var pixelVisited = []; // flag to determine whether a pixel was visited.
     
     // initialize to zero.
-    for (var ri = 0; ri < canvasHeight; ri++)
-    {
+    for (var ri = 0; ri < canvasHeight; ri++) {
         pixelVisited[ri] = new Array();
-        for(var ci = 0; ci < canvasWidth; ci++)
-        {
+        for(var ci = 0; ci < canvasWidth; ci++) {
             pixelVisited[ri][ci] = false;
         }
     }
@@ -61,12 +59,9 @@ AEObject.run = function() {
     var objectpy = [];  
     var objectRange = [];    // span of the object in pixels.
     
-    for (var rpi = 0; rpi < canvasHeight; rpi++)
-    {
-        for (var cpi = 0; cpi < canvasWidth; cpi++)
-        {
-            if((binaryData[rpi][cpi] == true) && (pixelVisited[rpi][cpi] == false))
-            {
+    for (var rpi = 0; rpi < canvasHeight; rpi++) {
+        for (var cpi = 0; cpi < canvasWidth; cpi++) {
+            if((binaryData[rpi][cpi] == true) && (pixelVisited[rpi][cpi] == false)) {
                 pixelVisited[rpi][cpi] = true;
                 
                 objectCount = objectCount + 1;
@@ -84,19 +79,14 @@ AEObject.run = function() {
                 var pxi = 1;
                 var oi = 1;
                 
-                while (pxi <= oi)
-                {
+                while (pxi <= oi) {
                     ai = objectpy[objectCount-1][pxi-1];
                     bi = objectpx[objectCount-1][pxi-1];
                     
-                    for (var pp = -1; pp <= 1; pp++)
-                    {
-                        for (var qq = -1; qq <=1; qq++)
-                        {
-                            if (((ai+pp) >= 0) && ((bi+qq) >= 0) && ((ai+pp) < canvasHeight) && ((bi+qq) < canvasWidth))
-                            {
-                                if ((binaryData[ai+pp][bi+qq] == true) && (pixelVisited[ai+pp][bi+qq] == false))
-                                {
+                    for (var pp = -1; pp <= 1; pp++) {
+                        for (var qq = -1; qq <=1; qq++) {
+                            if (((ai+pp) >= 0) && ((bi+qq) >= 0) && ((ai+pp) < canvasHeight) && ((bi+qq) < canvasWidth)) {
+                                if ((binaryData[ai+pp][bi+qq] == true) && (pixelVisited[ai+pp][bi+qq] == false)) {
                                     objectArea[objectCount-1] = objectArea[objectCount-1] + 1;
                                     oi = objectArea[objectCount-1];
                                     objectpy[objectCount-1][oi-1] = ai+pp;
@@ -123,11 +113,9 @@ AEObject.run = function() {
         }
     }
     
-    for (var obi = 0; obi < objectCount; obi++)
-    {
+    for (var obi = 0; obi < objectCount; obi++) {
         var sz = 2.0*Math.sqrt(objectArea[obi]/Math.PI);
-        if ((sz>=minSize) && (sz<=maxSize))
-        {
+        if ((sz>=minSize) && (sz<=maxSize)) {
             xyData[pointsPicked] = new Array();
             xyData[pointsPicked][0] = parseFloat(objectCentroidx[obi]);
             xyData[pointsPicked][1] = parseFloat(objectCentroidy[obi]);
@@ -136,4 +124,4 @@ AEObject.run = function() {
         }
     }
          
-}
+};

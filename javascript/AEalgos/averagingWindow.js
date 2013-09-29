@@ -31,10 +31,9 @@
 
 AEObject.getParamList = function () {
     return [["ΔX","Px","5"],["ΔY","Px","5"]];
-  }
+  };
  
-AEObject.run = function()
-{
+AEObject.run = function() {
   
   var xPoints = new Array();
   var xPointsPicked = 0;
@@ -51,37 +50,29 @@ AEObject.run = function()
   
   var blobAvg = new Array();
   
-  for(var coli = 0; coli < dw; coli++)
-  {
+  for(var coli = 0; coli < dw; coli++) {
+
     blobs = -1;
     firstbloby = -2.0*yStep;
     bi = 0;
        
-    for(var rowi = 0; rowi < dh; rowi++)
-    {
-	if (binaryData[rowi][coli] == true)
-	{
-	  if (rowi > firstbloby + yStep)
-	  {
-	    blobs = blobs + 1;
-	    bi = 1;
-	    blobAvg[blobs] = rowi;
-	    firstbloby = rowi;
-	  }
-	  else
-	  {
-	    bi = bi + 1;
-	    blobAvg[blobs] = parseFloat((blobAvg[blobs]*(bi-1.0) + rowi)/parseFloat(bi));
-	  }
-	}
-	
+    for(var rowi = 0; rowi < dh; rowi++) {
+		if (binaryData[rowi][coli] == true)	{
+		  if (rowi > firstbloby + yStep) {
+			blobs = blobs + 1;
+			bi = 1;
+			blobAvg[blobs] = rowi;
+			firstbloby = rowi;
+		  } else {
+			bi = bi + 1;
+			blobAvg[blobs] = parseFloat((blobAvg[blobs]*(bi-1.0) + rowi)/parseFloat(bi));
+		  }
+		}
     }
     
-    if (blobs >= 0)
-    {
+    if (blobs >= 0) {
 	    xi = coli;
-	    for (var blbi = 0; blbi <= blobs; blbi++)
-	    {
+	    for (var blbi = 0; blbi <= blobs; blbi++) {
 	      yi = blobAvg[blbi];
 	      
 	      xPoints[xPointsPicked] = new Array();
@@ -97,10 +88,8 @@ AEObject.run = function()
   if (xPointsPicked == 0)
     return 0;
   
-  for(var pi = 0; pi < xPointsPicked; pi++)
-  {
-    if(xPoints[pi][2] == 1) // if still available
-    {
+  for(var pi = 0; pi < xPointsPicked; pi++) {
+    if(xPoints[pi][2] == 1) {// if still available
       var inRange = 1;
       var xxi = pi+1;
       
@@ -112,19 +101,18 @@ AEObject.run = function()
       
       var matches = 1;
       
-      while((inRange == 1) && (xxi < xPointsPicked))
-      {
+      while((inRange == 1) && (xxi < xPointsPicked)) {
 	    var newX = xPoints[xxi][0];
 	    var newY = xPoints[xxi][1];
 	
-	    if( (Math.abs(newX-oldX) <= xStep) && (Math.abs(newY-oldY) <= yStep) && (xPoints[xxi][2] == 1))
-	    {
+	    if( (Math.abs(newX-oldX) <= xStep) && (Math.abs(newY-oldY) <= yStep) && (xPoints[xxi][2] == 1)) {
 	      avgX = (avgX*matches + newX)/(matches+1.0);
 	      avgY = (avgY*matches + newY)/(matches+1.0);
 	      matches = matches + 1;
 	      
 	      xPoints[xxi][2] = 0;
 	    }
+
 	    if (newX > oldX + 2*xStep)
 	      inRange = 0;
 	
@@ -142,5 +130,5 @@ AEObject.run = function()
     
   }
   xPoints = [];	
-}
+};
 

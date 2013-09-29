@@ -33,10 +33,9 @@ var loadScript;
 /**
  * Loads an external JS file.
  */
-function loadJS(jsfile)
-{
-  if(jsfile != '')
-  {
+function loadJS(jsfile) {
+
+  if(jsfile != '') {
     unloadJS();
     
     loadScript=document.createElement('script');
@@ -53,15 +52,14 @@ function loadJS(jsfile)
   }
 }
 
-function unloadJS()
-{
+function unloadJS() {
+
   var getJSelement = document.getElementById('loadedJS');
   if (getJSelement)
     getJSelement.parentNode.removeChild(getJSelement);
 }
 
-function AEObject()
-{
+function AEObject() {
   this.getParamList = function() {};
   this.run = function() {};
 }

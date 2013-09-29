@@ -37,14 +37,12 @@ var dataToPixelxy;
  * @param {Int} pn Number of data points.
  * @param {String} ptype Plot type
  */
- function pixelToData(pdata, pn, ptype)
- {
-    if((axesPicked == 1) && (pn >= 1))
-    {
+ function pixelToData(pdata, pn, ptype) {
+    if((axesPicked == 1) && (pn >= 1)) {
         var rdata = [];
         
-        if (ptype == 'XY')
-		{
+        if (ptype == 'XY') {
+
 		    var x1 = xyAxes[0][0];
 		    var y1 = xyAxes[0][1];
 		    
@@ -63,15 +61,13 @@ var dataToPixelxy;
 		    var ymax = axesAlignmentData[3];
 		    
 		    // If x-axis is log scale
-		    if (axesAlignmentData[4] == true)
-		    {
+		    if (axesAlignmentData[4] == true) {
 		        xmin = Math.log(xmin)/Math.log(10);
 		        xmax = Math.log(xmax)/Math.log(10);
 		    }
 		    
 		    // If y-axis is log scale
-		    if (axesAlignmentData[5] == true)
-		    {
+		    if (axesAlignmentData[5] == true) {
 		        ymin = Math.log(ymin)/Math.log(10);
 		        ymax = Math.log(ymax)/Math.log(10);
 		    }
@@ -91,8 +87,7 @@ var dataToPixelxy;
 		    var theta = thetay-thetax;
 		    
 
-		    for(ii = 0; ii<pn; ii++)
-		    {
+		    for(ii = 0; ii<pn; ii++) {
 		    
 		        var xp = pdata[ii][0];
 		        var yp = pdata[ii][1];
@@ -123,9 +118,9 @@ var dataToPixelxy;
 			rdata[ii][0] = xf;
 			rdata[ii][1] = yf;
 		    }
-		}
-		else if (ptype == 'image') // same as X-Y, but returns int data and doesn't support log scale.
-		{
+
+		} else if (ptype == 'image') {// same as X-Y, but returns int data and doesn't support log scale.
+
 		    var x1 = onScreenDimensions[0];
 		    var y1 = onScreenDimensions[1];
 		    
@@ -158,8 +153,7 @@ var dataToPixelxy;
 		    var theta = thetay-thetax;
 		    
 
-		    for(ii = 0; ii<pn; ii++)
-		    {
+		    for(ii = 0; ii<pn; ii++) {
 		    
 		        var xp = pdata[ii][0];
 		        var yp = pdata[ii][1];
@@ -184,9 +178,7 @@ var dataToPixelxy;
 			rdata[ii][1] = Math.round(yf);
 		    }
 		
-		}
-		else if (ptype == 'map')
-		{
+		} else if (ptype == 'map') {
 		    
 		    var mx0 = 0.0; my0 = canvasHeight;
 		    var mx1 = 0.0; my1 = 0.0;
@@ -222,8 +214,7 @@ var dataToPixelxy;
 		    var x0 = xmin;
 		    var y0 = ymin;
 
-		    for(ii = 0; ii<pn; ii++)
-		    {
+		    for(ii = 0; ii<pn; ii++) {
 			var xr = pdata[ii][0] - mx0;
 			var yr = - (pdata[ii][1] - my0);
 			// find the transform
@@ -235,9 +226,7 @@ var dataToPixelxy;
 			rdata[ii][1] = yf;
 		    }
 		    
-		}
-		else if (ptype == 'polar')
-		{
+		} else if (ptype == 'polar') {
 		    // Center: 0
 		    var x0 = parseFloat(xyAxes[0][0]);
 		    var y0 = parseFloat(xyAxes[0][1]);
@@ -260,8 +249,8 @@ var dataToPixelxy;
 		    
 		    var isClockwise = axesAlignmentData[5];
 		    
-		    if (isDegrees == true) // if degrees
-		    {
+		    if (isDegrees == true) {// if degrees
+
 		        theta1 = (Math.PI/180.0)*theta1;
     			theta2 = (Math.PI/180.0)*theta2;
 		    }
@@ -279,8 +268,7 @@ var dataToPixelxy;
 		    
 		    var alpha0 = phi0 - theta1;
 		    
-		    for(ii = 0; ii<pn; ii++)
-		    {
+		    for(ii = 0; ii<pn; ii++) {
 			    var xp = pdata[ii][0];
 			    var yp = pdata[ii][1];
 			
@@ -297,9 +285,8 @@ var dataToPixelxy;
 			
 		    }
 		    
-		}
-		else if(plotType == 'ternary')
-		{
+		} else if(plotType == 'ternary') {
+
 		    var x0 = xyAxes[0][0];
 		    var y0 = xyAxes[0][1];
 		    
@@ -318,8 +305,8 @@ var dataToPixelxy;
 		    var isRange0to100 = axesAlignmentData[0];
 		    var isOrientationNormal = axesAlignmentData[1];
 		    		    
-		    for(ii = 0; ii<pn; ii++)
-		    {
+		    for(ii = 0; ii<pn; ii++) {
+
 			    var xp = pdata[ii][0];
 			    var yp = pdata[ii][1];
 			
@@ -334,8 +321,7 @@ var dataToPixelxy;
 			    var bp = xx - yy/root3;
 			    var cp = 2.0*yy/root3;
 			
-			    if(isOrientationNormal == false)
-			    {
+			    if(isOrientationNormal == false) {
 			      // reverse axes orientation
 			      var bpt = bp;
 			      bp = ap;
@@ -344,8 +330,7 @@ var dataToPixelxy;
 			      				  
 			    }
 			
-			    if (isRange0to100 == true)
-			    {
+			    if (isRange0to100 == true) {
 			      ap = ap*100; bp = bp*100; cp = cp*100;
 			    }
     
@@ -370,8 +355,8 @@ var dataToPixelxy;
 
 	dataToPixelxy = [];
 
-	if (ptype == 'XY')
-	{
+	if (ptype == 'XY') {
+
 		var x1 = xyAxes[0][0];
 		var y1 = xyAxes[0][1];
 		
@@ -390,15 +375,13 @@ var dataToPixelxy;
 		var ymax = axesAlignmentData[3];
 		
 		// If x-axis is log scale
-		if (axesAlignmentData[4] == true)
-		{
+		if (axesAlignmentData[4] == true) {
 			xmin = Math.log(xmin)/Math.log(10);
 			xmax = Math.log(xmax)/Math.log(10);
 		}
 		
 		// If y-axis is log scale
-		if (axesAlignmentData[5] == true)
-		{
+		if (axesAlignmentData[5] == true) {
 			ymin = Math.log(ymin)/Math.log(10);
 			ymax = Math.log(ymax)/Math.log(10);
 		}
