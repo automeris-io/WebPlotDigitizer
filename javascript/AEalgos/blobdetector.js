@@ -61,7 +61,7 @@ AEObject.run = function() {
     
     for (var rpi = 0; rpi < canvasHeight; rpi++) {
         for (var cpi = 0; cpi < canvasWidth; cpi++) {
-            if((binaryData[rpi][cpi] == true) && (pixelVisited[rpi][cpi] == false)) {
+            if((binaryData[rpi][cpi] === true) && (pixelVisited[rpi][cpi] === false)) {
                 pixelVisited[rpi][cpi] = true;
                 
                 objectCount = objectCount + 1;

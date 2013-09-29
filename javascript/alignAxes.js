@@ -86,19 +86,19 @@ function setAxes(ax_mode) {
 	axesN = 0;
 	xyAxes = [];
 
-	if ((plotType == 'XY')||(plotType == 'bar')) {
+	if ((plotType === 'XY')||(plotType === 'bar')) {
 		axesNmax = 4;
 		showPopup('xyAxesInfo');
-	} else if (plotType == 'polar') {
+	} else if (plotType === 'polar') {
 		axesNmax = 3;
 		showPopup('polarAxesInfo');
-	} else if (plotType == 'ternary') {
+	} else if (plotType === 'ternary') {
 		axesNmax = 3;
 		showPopup('ternaryAxesInfo');
-	} else if (plotType == 'map') {
+	} else if (plotType === 'map') {
 		axesNmax = 2;
 		showPopup('mapAxesInfo');
-	} else if (plotType == 'image') {
+	} else if (plotType === 'image') {
 		axesNmax = 0;
 		alignAxes();
 	}
@@ -124,18 +124,18 @@ function pickCorners(ev) {
 		
 		updateZoom(ev);
 
-		if (axesN == axesNmax) {
+		if (axesN === axesNmax) {
 				axesPicked = 1;
 				
 				removeMouseEvent('click',pickCorners,true);
 				
-				if (plotType == 'XY') {
+				if (plotType === 'XY') {
 					showPopup('xyAlignment');
-				} else if (plotType == 'polar') {
+				} else if (plotType === 'polar') {
 					showPopup('polarAlignment');
-				} else if (plotType == 'ternary') {
+				} else if (plotType === 'ternary') {
 					showPopup('ternaryAlignment');
-				} else if (plotType == 'map') {
+				} else if (plotType === 'map') {
 					showPopup('mapAlignment');
 				}
 
@@ -150,7 +150,7 @@ function pickCorners(ev) {
  * Store the alignment data.
  */
 function alignAxes() {
-    if (plotType == 'XY') {
+    if (plotType === 'XY') {
 	    var xminEl = document.getElementById('xmin');
 	    var xmaxEl = document.getElementById('xmax');
 	    var yminEl = document.getElementById('ymin');
@@ -163,12 +163,12 @@ function alignAxes() {
 	    axesAlignmentData[2] = parseFloat(yminEl.value);
 	    axesAlignmentData[3] = parseFloat(ymaxEl.value);
 	
-	    if (xlogEl.checked == true)
+	    if (xlogEl.checked === true)
 	        axesAlignmentData[4] = true;
 	    else
 	        axesAlignmentData[4] = false;
 	        
-	    if (ylogEl.checked == true)
+	    if (ylogEl.checked === true)
 	        axesAlignmentData[5] = true;
 	    else
 	        axesAlignmentData[5] = false;
@@ -189,41 +189,47 @@ function alignAxes() {
 	    axesAlignmentData[2] = parseFloat(r2El.value);
 	    axesAlignmentData[3] = parseFloat(theta2El.value);
 	
-	    if (degreesEl.checked == true)
+	    if (degreesEl.checked === true)
 	        axesAlignmentData[4] = true;
 	    else
 	        axesAlignmentData[4] = false;
 	
-	    if (orientationEl.checked == true)
+	    if (orientationEl.checked === true)
 	        axesAlignmentData[5] = true;
 	    else
 	        axesAlignmentData[5] = false;
 	
 	
 	    closePopup('polarAlignment');
-    } else if (plotType == 'ternary') {
+
+    } else if (plotType === 'ternary') {
+
 	    var range1El = document.getElementById('range0to1');
 	    var range100El = document.getElementById('range0to100');
 	    var ternaryNormalEl = document.getElementById('ternarynormal');
 	
-	    if (range100El.checked == true)
+	    if (range100El.checked === true)
 	      axesAlignmentData[0] = true;
 	    else
 	      axesAlignmentData[0] = false;
 	
-	    if (ternaryNormalEl.checked == true)
+	    if (ternaryNormalEl.checked === true)
 	      axesAlignmentData[1] = true;
 	    else
 	      axesAlignmentData[1] = false;
 		
 	    closePopup('ternaryAlignment');
-    } else if (plotType == 'map') {
+
+    } else if (plotType === 'map') {
+
 	    var scaleLength = document.getElementById('scaleLength');
 	
 	    axesAlignmentData[0] = parseFloat(scaleLength.value);
 	
 	    closePopup('mapAlignment');
-    } else if (plotType == 'image') {
+
+    } else if (plotType === 'image') {
+
 	  axesPicked = 1;
 	  axesAlignmentData[0] = imageDimensions[0]; // xmin
 	  axesAlignmentData[1] = imageDimensions[2]; // xmax

@@ -70,7 +70,7 @@ function copyUsingDifference(copyTo, copyFrom, diff) {
 		for(var coli = 0; coli < dw; coli++) {
 			var index = rowi*4*dw + coli*4;
 				
-			if (diff[rowi][coli] == true)
+			if (diff[rowi][coli] === true)
 			for(var p = 0; p < 4; p++)
 				copyTo.data[index+p] = copyFrom.data[index+p];
 				   
@@ -105,12 +105,12 @@ function colorSelect(imgd, mode, colorRGB, tol) {
 			
 			seldata[rowi][coli] = false;
 			
-			if (mode == 'fg') {
+			if (mode === 'fg') {
 				if (dist <= tol) {
 					seldata[rowi][coli] = true;
 				}
 
-			} else if (mode == 'bg') {
+			} else if (mode === 'bg') {
 
 				if (dist > tol) {
 					seldata[rowi][coli] = true;
@@ -126,6 +126,7 @@ function colorSelect(imgd, mode, colorRGB, tol) {
  * create BW image based on the colors but only in valid region of difference matrix.
  */
 function colorSelectDiff(imgd, mode, colorRGB, tol, diff) {
+
     dw = canvasWidth;
     dh = canvasHeight;
     
@@ -147,11 +148,11 @@ function colorSelectDiff(imgd, mode, colorRGB, tol, diff) {
 			
 			seldata[rowi][coli] = false;
 			
-			if ((mode == 'fg') && (diff[rowi][coli] == 1)) {
+			if ((mode === 'fg') && (diff[rowi][coli] === 1)) {
 				if (dist <= tol) {
 					seldata[rowi][coli] = true;
 				}
-			} else if ((mode == 'bg') && (diff[rowi][coli] == 1)) {
+			} else if ((mode === 'bg') && (diff[rowi][coli] === 1)) {
 				if (dist > tol) {
 					seldata[rowi][coli] = true;
 				}
@@ -166,6 +167,7 @@ function colorSelectDiff(imgd, mode, colorRGB, tol, diff) {
  * Select from marked region of interest based on color.
  */
 function selectFromMarkedRegion(mode, colorRGB, tol) {
+
     dw = canvasWidth;
     dh = canvasHeight;
     
@@ -179,6 +181,7 @@ function selectFromMarkedRegion(mode, colorRGB, tol) {
     var seldata = new Array();
     
     for (var rowi=0; rowi < dh; rowi++) {
+
 	    seldata[rowi] = new Array();
 	    for(var coli=0; coli < dw; coli++) {
 	        index = rowi*4*dw + coli*4;
@@ -195,13 +198,13 @@ function selectFromMarkedRegion(mode, colorRGB, tol) {
 	        
        	    seldata[rowi][coli] = false;
        	    
-       	    if ((mr == 255) && (mg ==  255) && (mb == 0)) {// yellow marked region
+       	    if ((mr === 255) && (mg ===  255) && (mb === 0)) {// yellow marked region
 
        	        var dist = Math.sqrt((ir-redv)*(ir-redv) + (ig-greenv)*(ig-greenv) + (ib-bluev)*(ib-bluev));
        	        
-       	        if ((mode == 'fg') && (dist <= tol))
+       	        if ((mode === 'fg') && (dist <= tol))
        	            seldata[rowi][coli] = true;
-       	        else if ((mode == 'bg') && (dist > tol))
+       	        else if ((mode === 'bg') && (dist > tol))
        	            seldata[rowi][coli] = true;
        	    }
 	    }
@@ -220,10 +223,10 @@ function binaryToImageData(bwdata,imgd) {
     for(var rowi = 0; rowi < dh; rowi++) {
 		for(var coli = 0; coli < dw; coli++) {
 			index = rowi*4*dw + coli*4;
-			if (bwdata[rowi][coli] == false) {
-			imgd.data[index] = 255; imgd.data[index+1] = 255; imgd.data[index+2] = 255; imgd.data[index+3] = 255;
+			if (bwdata[rowi][coli] === false) {
+				imgd.data[index] = 255; imgd.data[index+1] = 255; imgd.data[index+2] = 255; imgd.data[index+3] = 255;
 			} else {
-			imgd.data[index] = 0; imgd.data[index+1] = 0; imgd.data[index+2] = 0; imgd.data[index+3] = 255;
+				imgd.data[index] = 0; imgd.data[index+1] = 0; imgd.data[index+2] = 0; imgd.data[index+3] = 255;
 			}
 		}
 	}

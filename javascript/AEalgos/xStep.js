@@ -61,7 +61,7 @@ AEObject.run = function() {
             bi = 0;
     
             for(var rowi = 0; rowi < dh; rowi++) {
-                if (binaryData[rowi][coli] == true) {
+                if (binaryData[rowi][coli] === true) {
                     dx = xStep; // First contact has been made, start moving forward with xStep now.
                     
                     if (rowi > firstbloby + yStep) {

@@ -37,7 +37,7 @@ var pointsPicked = 0; // number of data points picked.
  * Called when the 'acquire data' button is pressed. 
  */
 function acquireData() {
-	if(axesPicked == 0) {
+	if(axesPicked === 0) {
 		showPopup('alignAxes');
 	} else {
 		showSidebar('manualMode');
@@ -50,7 +50,7 @@ function acquireData() {
  */ 
 function pickPoints() {// select data points.
 
-	if (axesPicked == 0) {
+	if (axesPicked === 0) {
 		alert('Define the axes first!');
 	} else {
 		removeAllMouseEvents();
@@ -134,6 +134,7 @@ function pointsStatus(pn) {// displays the number of points picked.
  * Delete specific point close to clicked position.
  */
 function deleteSpecificPoint() {
+
 	removeAllMouseEvents();
 	addMouseEvent('click',deleteSpecificPointHandler,true);
 }
@@ -142,6 +143,7 @@ function deleteSpecificPoint() {
  * Handle clicks when in specific point deletion mode
  */
 function deleteSpecificPointHandler(ev) {
+
 	var xi = parseFloat(ev.layerX);
 	var yi = parseFloat(ev.layerY);
 	
@@ -161,7 +163,7 @@ function deleteSpecificPointHandler(ev) {
 		}
 	}
 
-	if (foundPoint == 1) {
+	if (foundPoint === 1) {
 		xyData.splice(foundIndex,1);
 
 		pointsPicked = pointsPicked - 1;

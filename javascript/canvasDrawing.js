@@ -146,7 +146,7 @@ function saveCanvasImage() {
 
 	newImage = new Image();
 	newImage.src = tCanvas.toDataURL();
-	newImage.onload = function() { currentImage = newImage; currentScreen = getCanvasData(); }
+	newImage.onload = function() { currentImage = newImage; currentScreen = getCanvasData(); };
 }
 
 /**
@@ -220,7 +220,7 @@ function fileLoader(fileInfo) {
 		droppedFile.onload = function() {
 			var imageInfo = droppedFile.result;
 			var newimg = new Image();
-			newimg.onload = function() { loadImage(newimg); originalScreen = getCanvasData(); originalImage = newimg; setDefaultState(); }
+			newimg.onload = function() { loadImage(newimg); originalScreen = getCanvasData(); originalImage = newimg; setDefaultState(); };
 			newimg.src = imageInfo;
 		}
 		droppedFile.readAsDataURL(fileInfo);
