@@ -29,69 +29,72 @@
  * @author Ankit Rohatgi ankitrohatgi@hotmail.com
  */
 
-AEObject.getParamList = function () {
-    return [["ΔX","Px","5"],["Line Width","Px","15"]];
-  };
- 
-AEObject.run = function() {
-  
-   var xPointsPicked = 0;
-      xyData = [];
-      pointsPicked = 0;
-      
-      resetLayers();
-      
-      var xStepEl = document.getElementById("pv0");
-      var xStep = parseFloat(xStepEl.value);
-      
-      var LineThicknessEl = document.getElementById("pv1");
-      var yStep = parseFloat(LineThicknessEl.value);
-      
-      var dw = canvasWidth;
-      var dh = canvasHeight;
-      
-      var blobAvg = new Array();
-      
-      var dx = 1;
-      var coli = 0;
-      
-      while (coli < dw) {
-            blobs = -1;
-            firstbloby = -2.0*yStep;
-            bi = 0;
-    
-            for(var rowi = 0; rowi < dh; rowi++) {
-                if (binaryData[rowi][coli] === true) {
-                    dx = xStep; // First contact has been made, start moving forward with xStep now.
-                    
-                    if (rowi > firstbloby + yStep) {
-                        blobs = blobs + 1;
-	                    bi = 1;
-	                    blobAvg[blobs] = rowi;
-	                    firstbloby = rowi;
-	                } else {
-	                    bi = bi + 1;
-	                    blobAvg[blobs] = parseFloat((blobAvg[blobs]*(bi-1.0) + rowi)/parseFloat(bi));
-	                }
-                }
-                
-            }
-            
-            if (blobs >= 0) {
-	            xi = coli;
-	            for (var blbi = 0; blbi <= blobs; blbi++) {
-	                  yi = blobAvg[blbi];
-                      xyData[pointsPicked] = new Array();
-                      xyData[pointsPicked][0] = parseFloat(xi);
-                      xyData[pointsPicked][1] = parseFloat(yi);
-                      pointsPicked = pointsPicked + 1;	
-     
-	            }
-            }
+var xStepAlgo = {
 
-            
-            coli = coli + dx;
-      }
-     
+	getParamList: function () {
+			return [["ΔX","Px","5"],["Line Width","Px","15"]];
+		  },
+
+	run: function() {
+		  
+		   var xPointsPicked = 0;
+			  xyData = [];
+			  pointsPicked = 0;
+			  
+			  resetLayers();
+			  
+			  var xStepEl = document.getElementById("pv0");
+			  var xStep = parseFloat(xStepEl.value);
+			  
+			  var LineThicknessEl = document.getElementById("pv1");
+			  var yStep = parseFloat(LineThicknessEl.value);
+			  
+			  var dw = canvasWidth;
+			  var dh = canvasHeight;
+			  
+			  var blobAvg = new Array();
+			  
+			  var dx = 1;
+			  var coli = 0;
+			  
+			  while (coli < dw) {
+					blobs = -1;
+					firstbloby = -2.0*yStep;
+					bi = 0;
+			
+					for(var rowi = 0; rowi < dh; rowi++) {
+						if (binaryData[rowi][coli] === true) {
+							dx = xStep; // First contact has been made, start moving forward with xStep now.
+							
+							if (rowi > firstbloby + yStep) {
+								blobs = blobs + 1;
+								bi = 1;
+								blobAvg[blobs] = rowi;
+								firstbloby = rowi;
+							} else {
+								bi = bi + 1;
+								blobAvg[blobs] = parseFloat((blobAvg[blobs]*(bi-1.0) + rowi)/parseFloat(bi));
+							}
+						}
+						
+					}
+					
+					if (blobs >= 0) {
+						xi = coli;
+						for (var blbi = 0; blbi <= blobs; blbi++) {
+							  yi = blobAvg[blbi];
+							  xyData[pointsPicked] = new Array();
+							  xyData[pointsPicked][0] = parseFloat(xi);
+							  xyData[pointsPicked][1] = parseFloat(yi);
+							  pointsPicked = pointsPicked + 1;	
+			 
+						}
+					}
+
+					
+					coli = coli + dx;
+			  }
+			 
+		}
 };
 
