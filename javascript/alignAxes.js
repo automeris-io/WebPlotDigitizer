@@ -236,5 +236,9 @@ function alignAxes() {
 	  axesAlignmentData[2] = imageDimensions[1]; // ymin
 	  axesAlignmentData[3] = imageDimensions[3]; // ymax
     }
+
+	if(axesPicked === 1) {
+		acquireData();
+	}
     
 }
