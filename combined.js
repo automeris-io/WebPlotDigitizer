@@ -1,9 +1,9 @@
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.5
+	Version 2.6
 
-	Copyright 2010 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2013 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
@@ -33,10 +33,9 @@ var loadScript;
 /**
  * Loads an external JS file.
  */
-function loadJS(jsfile)
-{
-  if(jsfile != '')
-  {
+function loadJS(jsfile) {
+
+  if(jsfile != '') {
     unloadJS();
     
     loadScript=document.createElement('script');
@@ -53,15 +52,14 @@ function loadJS(jsfile)
   }
 }
 
-function unloadJS()
-{
+function unloadJS() {
+
   var getJSelement = document.getElementById('loadedJS');
   if (getJSelement)
     getJSelement.parentNode.removeChild(getJSelement);
 }
 
-function AEObject()
-{
+function AEObject() {
   this.getParamList = function() {};
   this.run = function() {};
 }
@@ -69,9 +67,9 @@ function AEObject()
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.4
+	Version 2.6
 
-	Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2013 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
@@ -119,8 +117,7 @@ var plotType;
 /**
  * Start the alignment process here. Called from the Plot Type option popup.
  */ 
-function initiatePlotAlignment()
-{
+function initiatePlotAlignment() {
   axesPicked = 0;
   xyEl = document.getElementById('r_xy');
   polarEl = document.getElementById('r_polar');
@@ -146,8 +143,7 @@ function initiatePlotAlignment()
  * Entry point for Axes alignment. 
  * @param {String} ax_mode Plot Type. Options: 'XY', 'bar', 'polar', 'ternary'
  */
-function setAxes(ax_mode) 
-{
+function setAxes(ax_mode) {
 
 	plotType = ax_mode;
 	clearSidebar();
@@ -156,28 +152,19 @@ function setAxes(ax_mode)
 	axesN = 0;
 	xyAxes = [];
 
-	if ((plotType == 'XY')||(plotType == 'bar'))
-	{
+	if ((plotType === 'XY')||(plotType === 'bar')) {
 		axesNmax = 4;
 		showPopup('xyAxesInfo');
-	}
-	else if (plotType == 'polar')
-	{
+	} else if (plotType === 'polar') {
 		axesNmax = 3;
 		showPopup('polarAxesInfo');
-	}
-	else if (plotType == 'ternary')
-	{
+	} else if (plotType === 'ternary') {
 		axesNmax = 3;
 		showPopup('ternaryAxesInfo');
-	}
-	else if (plotType == 'map')
-	{
+	} else if (plotType === 'map') {
 		axesNmax = 2;
 		showPopup('mapAxesInfo');
-	}
-	else if (plotType == 'image')
-	{
+	} else if (plotType === 'image') {
 		axesNmax = 0;
 		alignAxes();
 	}
@@ -187,10 +174,8 @@ function setAxes(ax_mode)
  * Handles mouseclick in axis alignment mode. Axes point are defined using this.
  * @param {Event} ev Mouse event.
  */
-function pickCorners(ev)
-{
-	if (axesN < axesNmax)
-	{
+function pickCorners(ev) {
+	if (axesN < axesNmax) {
 		xi = ev.layerX;
 		yi = ev.layerY;
 		xyAxes[axesN] = new Array();
@@ -205,26 +190,18 @@ function pickCorners(ev)
 		
 		updateZoom(ev);
 
-		if (axesN == axesNmax)
-		{
+		if (axesN === axesNmax) {
 				axesPicked = 1;
 				
 				removeMouseEvent('click',pickCorners,true);
 				
-				if (plotType == 'XY')
-				{
+				if (plotType === 'XY') {
 					showPopup('xyAlignment');
-				}
-				else if (plotType == 'polar')
-				{
+				} else if (plotType === 'polar') {
 					showPopup('polarAlignment');
-				}
-				else if (plotType == 'ternary')
-				{
+				} else if (plotType === 'ternary') {
 					showPopup('ternaryAlignment');
-				}
-				else if (plotType == 'map')
-				{
+				} else if (plotType === 'map') {
 					showPopup('mapAlignment');
 				}
 
@@ -238,10 +215,8 @@ function pickCorners(ev)
 /**
  * Store the alignment data.
  */
-function alignAxes()
-{
-    if (plotType == 'XY')
-    {
+function alignAxes() {
+    if (plotType === 'XY') {
 	    var xminEl = document.getElementById('xmin');
 	    var xmaxEl = document.getElementById('xmax');
 	    var yminEl = document.getElementById('ymin');
@@ -254,20 +229,18 @@ function alignAxes()
 	    axesAlignmentData[2] = parseFloat(yminEl.value);
 	    axesAlignmentData[3] = parseFloat(ymaxEl.value);
 	
-	    if (xlogEl.checked == true)
+	    if (xlogEl.checked === true)
 	        axesAlignmentData[4] = true;
 	    else
 	        axesAlignmentData[4] = false;
 	        
-	    if (ylogEl.checked == true)
+	    if (ylogEl.checked === true)
 	        axesAlignmentData[5] = true;
 	    else
 	        axesAlignmentData[5] = false;
 	
 	    closePopup('xyAlignment');
-    }
-    else if (plotType == 'polar')
-    {
+    } else if (plotType == 'polar') {
 	    var r1El = document.getElementById('rpoint1');
 	    var theta1El = document.getElementById('thetapoint1');
 	    var r2El = document.getElementById('rpoint2');
@@ -282,61 +255,65 @@ function alignAxes()
 	    axesAlignmentData[2] = parseFloat(r2El.value);
 	    axesAlignmentData[3] = parseFloat(theta2El.value);
 	
-	    if (degreesEl.checked == true)
+	    if (degreesEl.checked === true)
 	        axesAlignmentData[4] = true;
 	    else
 	        axesAlignmentData[4] = false;
 	
-	    if (orientationEl.checked == true)
+	    if (orientationEl.checked === true)
 	        axesAlignmentData[5] = true;
 	    else
 	        axesAlignmentData[5] = false;
 	
 	
 	    closePopup('polarAlignment');
-    }
-    else if (plotType == 'ternary')
-    {
+
+    } else if (plotType === 'ternary') {
+
 	    var range1El = document.getElementById('range0to1');
 	    var range100El = document.getElementById('range0to100');
 	    var ternaryNormalEl = document.getElementById('ternarynormal');
 	
-	    if (range100El.checked == true)
+	    if (range100El.checked === true)
 	      axesAlignmentData[0] = true;
 	    else
 	      axesAlignmentData[0] = false;
 	
-	    if (ternaryNormalEl.checked == true)
+	    if (ternaryNormalEl.checked === true)
 	      axesAlignmentData[1] = true;
 	    else
 	      axesAlignmentData[1] = false;
 		
 	    closePopup('ternaryAlignment');
-    }
-    else if (plotType == 'map')
-    {
+
+    } else if (plotType === 'map') {
+
 	    var scaleLength = document.getElementById('scaleLength');
 	
 	    axesAlignmentData[0] = parseFloat(scaleLength.value);
 	
 	    closePopup('mapAlignment');
-    }
-    else if (plotType == 'image')
-    {
+
+    } else if (plotType === 'image') {
+
 	  axesPicked = 1;
 	  axesAlignmentData[0] = imageDimensions[0]; // xmin
 	  axesAlignmentData[1] = imageDimensions[2]; // xmax
 	  axesAlignmentData[2] = imageDimensions[1]; // ymin
 	  axesAlignmentData[3] = imageDimensions[3]; // ymax
     }
+
+	if(axesPicked === 1) {
+		acquireData();
+	}
     
 }
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.5
+	Version 2.6
 
-	Copyright 2010 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2013 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
@@ -389,15 +366,11 @@ algoLocation['customAlgorithm'] = '';
  * Opens the color picker.
  * @params {String} cmode 'fg' or 'bg'
  */
-function colorPickerWindow(cmode)
-{
+function colorPickerWindow(cmode) {
     colorPickerMode = cmode;
-    if(cmode == 'fg')
-    {    
+    if(cmode === 'fg') {    
       showPopup('colorPickerFG');
-    }
-    else if(cmode == 'bg')
-    {
+    } else if(cmode === 'bg') {
        showPopup('colorPickerBG');
     }
 }
@@ -405,8 +378,7 @@ function colorPickerWindow(cmode)
 /**
  * Initiate color picking on canvas.
  */
-function pickColor()
-{
+function pickColor() {
 	//colorPickerMode = cmode;
 	removeAllMouseEvents();
 	addMouseEvent('click',colorPicker,true);
@@ -415,14 +387,12 @@ function pickColor()
 /**
  * Handle clicks when picking color.
  */
-function colorPicker(ev)
-{
+function colorPicker(ev) {
 	xi = ev.layerX;
 	yi = ev.layerY;
 	
 	iData = ctx.getImageData(cx0,cy0,currentImageWidth,currentImageHeight);
-	if ((xi < currentImageWidth+cx0) && (yi < currentImageHeight+cy0) && (xi > cx0) && (yi > cy0))
-	{
+	if ((xi < currentImageWidth+cx0) && (yi < currentImageHeight+cy0) && (xi > cx0) && (yi > cy0)) {
 		ii = xi - cx0;
 		jj = yi - cy0;
 
@@ -434,17 +404,16 @@ function colorPicker(ev)
 				
 		removeMouseEvent('click',colorPicker,true);
 		
-		if(colorPickerMode == 'fg')
-		{
+		if(colorPickerMode === 'fg') {
 			assignColor('fg',PickedColor);
 			
 			redEl = document.getElementById('color_red_fg');
 			greenEl = document.getElementById('color_green_fg');
 			blueEl = document.getElementById('color_blue_fg');
 			showPopup('colorPickerFG');
-		}
-		else if (colorPickerMode == 'bg')
-		{
+
+		} else if (colorPickerMode === 'bg') {
+
 		  	assignColor('bg',PickedColor);
 			
 			redEl = document.getElementById('color_red_bg');
@@ -462,12 +431,10 @@ function colorPicker(ev)
 /**
  * This function assigns the color to the global variables.
  */
-function assignColor(color_mode, color_value)
-{
-  if(color_mode == 'fg')
-  {
-    if(!color_value)
-    {
+function assignColor(color_mode, color_value) {
+
+  if(color_mode === 'fg') {
+    if(!color_value) {
       redEl = document.getElementById('color_red_fg');
       greenEl = document.getElementById('color_green_fg');
       blueEl = document.getElementById('color_blue_fg');
@@ -479,11 +446,10 @@ function assignColor(color_mode, color_value)
     fg_color = color_value;
     var fgbtn = document.getElementById('autoFGBtn');
     fgbtn.style.borderColor = "rgb(" + fg_color[0] +"," + fg_color[1] +"," + fg_color[2] +")";
-  }
-  else if(color_mode=='bg')
-  {
-    if(!color_value)
-    {
+
+  } else if(color_mode === 'bg') {
+
+    if(!color_value) {
       redEl = document.getElementById('color_red_bg');
       greenEl = document.getElementById('color_green_bg');
       blueEl = document.getElementById('color_blue_bg');
@@ -502,8 +468,8 @@ function assignColor(color_mode, color_value)
 /**
  * Enable Box painting on canvas.
  */ 
-function boxPaint()
-{
+function boxPaint() {
+
 	removeAllMouseEvents();
 	addMouseEvent('mousedown',boxPaintMousedown,true);
 	addMouseEvent('mouseup',boxPaintMouseup,true);
@@ -514,8 +480,8 @@ function boxPaint()
 /**
  * Handle mouse clicks when painting boxes - Mouse down
  */
-function boxPaintMousedown(ev)
-{
+function boxPaintMousedown(ev) {
+
 	boxCoordinates[0] = parseInt(ev.layerX);
 	boxCoordinates[1] = parseInt(ev.layerY);
 	drawingBox = true;
@@ -524,8 +490,8 @@ function boxPaintMousedown(ev)
 /**
  * Handle mouse clicks when painting boxes - Mouse up
  */
-function boxPaintMouseup(ev)
-{
+function boxPaintMouseup(ev) {
+
 	boxCoordinates[2] = parseInt(ev.layerX);
 	boxCoordinates[3] = parseInt(ev.layerY);
 
@@ -539,10 +505,9 @@ function boxPaintMouseup(ev)
 /**
  * Handle mouse clicks when painting boxes - Mouse drag
  */
-function boxPaintMousedrag(ev)
-{
-	if(drawingBox == true)
-	{
+function boxPaintMousedrag(ev) {
+
+	if(drawingBox === true) {
 		xt = parseInt(ev.layerX);
 		yt = parseInt(ev.layerY);
 		
@@ -556,8 +521,8 @@ function boxPaintMousedrag(ev)
 /**
  * Enable pen like painting on screen.
  */
-function penPaint()
-{
+function penPaint() {
+
 	removeAllMouseEvents();
 	showToolbar('paintToolbar');
 	addMouseEvent('mousedown',penPaintMousedown,true);
@@ -568,10 +533,9 @@ function penPaint()
 /**
  * Manage clicks when painting with pen tool - Mouse down
  */
-function penPaintMousedown(ev)
-{
-	if (drawingPen == false)
-	{
+function penPaintMousedown(ev) {
+
+	if (drawingPen === false) {
 	    xt = parseInt(ev.layerX);
 	    yt = parseInt(ev.layerY);
 	    drawingPen = true;
@@ -588,8 +552,8 @@ function penPaintMousedown(ev)
 /**
  * Manage clicks when painting with pen tool - Mouse up
  */
-function penPaintMouseup(ev)
-{
+function penPaintMouseup(ev) {
+
     dataCtx.closePath();
     dataCtx.lineWidth = 1;
     drawingPen = false;
@@ -598,10 +562,9 @@ function penPaintMouseup(ev)
 /**
  * Manage clicks when painting with pen tool - Mouse drag
  */
-function penPaintMousedrag(ev)
-{
-    if(drawingPen == true)
-    {
+function penPaintMousedrag(ev) {
+
+    if(drawingPen === true) {
 	    xt = parseInt(ev.layerX);
 	    yt = parseInt(ev.layerY);
 	    dataCtx.strokeStyle = "rgba(255,255,0,1)";
@@ -613,8 +576,8 @@ function penPaintMousedrag(ev)
 /**
  * Initiate the eraser.
  */
-function eraser()
-{
+function eraser() {
+
 	removeAllMouseEvents();
 	showToolbar('paintToolbar');
 	addMouseEvent('mousedown',eraserMousedown,true);
@@ -626,10 +589,10 @@ function eraser()
 /**
  * Manage mouse events when erasing - Mouse down
  */
-function eraserMousedown(ev)
-{
-    if(drawingEraser == false)
-    {
+function eraserMousedown(ev) {
+
+    if(drawingEraser === false) {
+
 	    xt = parseInt(ev.layerX);
 	    yt = parseInt(ev.layerY);
 	    drawingEraser = true;
@@ -647,8 +610,7 @@ function eraserMousedown(ev)
 /**
  * Manage mouse events when erasing - Mouse up - this is slow!
  */
-function eraserMouseup(ev)
-{
+function eraserMouseup(ev) {
 
     dataCtx.closePath();
     dataCtx.lineWidth = 1;
@@ -659,10 +621,9 @@ function eraserMouseup(ev)
 /**
  * Manage mouse events when erasing - Mouse drag
  */
-function eraserMousedrag(ev)
-{
-    if(drawingEraser == true)
-    {
+function eraserMousedrag(ev) {
+
+    if(drawingEraser === true) {
 	    xt = parseInt(ev.layerX);
 	    yt = parseInt(ev.layerY);
 	    dataCtx.globalCompositeOperation = "destination-out";
@@ -675,17 +636,14 @@ function eraserMousedrag(ev)
 /**
  * Filter based on color and display a test image on the scan settings dialog.
  */
-function updateTestWindow()
-{
+function updateTestWindow() {
+
   colorModeEl = document.getElementById('colorModeFG');
   colorDistanceEl = document.getElementById('colorDistance');
-  if (colorModeEl.checked == true)
-  {
+  if (colorModeEl.checked === true) {
     colmode = 'fg';
     chosenColor = fg_color;
-  }
-  else
-  {
+  } else {
     colmode = 'bg';
     chosenColor = bg_color;
   }
@@ -720,8 +678,7 @@ function updateTestWindow()
 /**
  * Save the test canvas as a new image
  */
-function saveTest()
-{
+function saveTest() {
   var testImageWin = window.open();
   testImageWin.location = testImgCanvas.toDataURL();
 }
@@ -729,8 +686,7 @@ function saveTest()
 /**
  * Launches the test window and initiates a color based detection.
  */
-function launchTestWindow()
-{
+function launchTestWindow() {
   processingNote(true);
   setTimeout("updateTestWindow();showPopup('testImageWindow');",100);
 }
@@ -738,8 +694,7 @@ function launchTestWindow()
 /**
  * Select which auto extraction curve is to be triggered.
  */
-function scanPlot()
-{
+function scanPlot() {
     
     autoStepEl = document.getElementById('autostepalgo');
     xStepEl = document.getElementById('xstepalgo');
@@ -756,8 +711,7 @@ function scanPlot()
     
     pointsStatus(pointsPicked);  
     
-    for(var ii = 0; ii <pointsPicked; ii++)
-    {
+    for(var ii = 0; ii < pointsPicked; ii++) {
       dataCtx.beginPath();
       dataCtx.fillStyle = "rgb(200,0,200)";
       dataCtx.arc(xyData[ii][0],xyData[ii][1],3,0,2.0*Math.PI,true);
@@ -769,21 +723,20 @@ function scanPlot()
 /**
  * Display options for the selected AE algorithm.
  */
-function displayParameters()
-{
+function displayParameters() {
   // Determine the chosen algorithm
   var algoSelect = document.getElementById('curvesAlgoSelect');
   var paramZone = document.getElementById('paramZone');
   var URLinput = document.getElementById('URLinput');
   
-  if (algoSelect.value != 'customAlgorithm')
-  {
+  if (algoSelect.value !== 'customAlgorithm') {
+
     URLinput.style.display='none';
     loadJS(algoLocation[algoSelect.value]);
     loadScript.onload = makeParameterTable;
-  }
-  else if(algoSelect.value == 'customAlgorithm')
-  {
+
+  } else if(algoSelect.value === 'customAlgorithm') {
+
      var loadBtn = document.getElementById('loadCustomAlgo');
      var customURL = document.getElementById('customURL');
      paramZone.innerHTML='';
@@ -793,23 +746,23 @@ function displayParameters()
   
 }
 
-function makeParameterTable()
-{
+function makeParameterTable() {
+
       if (!AEObject.getParamList) { return; }
       var paramList = AEObject.getParamList();
       var paramZone = document.getElementById('paramZone');
       paramZone.innerHTML='';
-      for (var ii = 0; ii < paramList.length; ii++) // make a list of parameters.
-      {
-	paramZone.innerHTML += "<p>"+paramList[ii][0]+" ("+paramList[ii][1]+") <input type='text' value='"+paramList[ii][2]+"' size=3 id='pv"+ii+"'></p>";
+
+      for (var ii = 0; ii < paramList.length; ii++) {// make a list of parameters.
+		paramZone.innerHTML += "<p>"+paramList[ii][0]+" ("+paramList[ii][1]+") <input type='text' value='"+paramList[ii][2]+"' size=3 id='pv"+ii+"'></p>";
       }
 }
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.5
+	Version 2.6
 
-	Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2013 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
@@ -899,8 +852,8 @@ var topScreen;
  * Load an image on the main canvas.
  * @param {Image} imgel Image to load.
  */
-function loadImage(imgel)
-{
+function loadImage(imgel) {
+
 	var sheight = parseInt(imgel.height);
 	var swidth = parseInt(imgel.width);
 	var iar = sheight/swidth;
@@ -908,13 +861,10 @@ function loadImage(imgel)
 	var newHeight = sheight;
 	var newWidth = swidth;
 		
-	if (iar > caspectratio)
-	{
+	if (iar > caspectratio)	{
 		newHeight = cheight;
 		newWidth = cheight/iar;
-	}
-	else
-	{
+	} else {
 		newWidth = cwidth;
 		newHeight = cwidth*iar;
 	}
@@ -943,8 +893,7 @@ function loadImage(imgel)
 /**
  * Save the current state.
  */
-function saveCanvasImage()
-{
+function saveCanvasImage() {
 	var nimagedata = ctx.getImageData(cx0,cy0,currentImageWidth,currentImageHeight);
 	var tCanvas = document.createElement('canvas');
 	
@@ -956,15 +905,14 @@ function saveCanvasImage()
 
 	newImage = new Image();
 	newImage.src = tCanvas.toDataURL();
-	newImage.onload = function() { currentImage = newImage; currentScreen = getCanvasData(); }
+	newImage.onload = function() { currentImage = newImage; currentScreen = getCanvasData(); };
 }
 
 /**
  * Returns getImageData from the main canvas.
  * @returns {ImageData} Current ImageData.
  */
-function getCanvasData()
-{
+function getCanvasData() {
 	var cImgData = ctx.getImageData(0,0,canvasWidth,canvasHeight);
 	return cImgData;
 }
@@ -973,8 +921,7 @@ function getCanvasData()
  * Load image on the main canvas
  * @param {ImageData} cImgData ImageData.
  */
-function putCanvasData(cImgData)
-{
+function putCanvasData(cImgData) {
 	mainCanvas.width = mainCanvas.width;
 	ctx.putImageData(cImgData,0,0);
 }
@@ -982,8 +929,7 @@ function putCanvasData(cImgData)
 /**
  * Redraw/Reset canvas.
  */
-function reloadPlot()
-{
+function reloadPlot() {
 	mainCanvas.width = mainCanvas.width; // resets canvas.
 	ctx.drawImage(currentImage, cx0, cy0, currentImageWidth, currentImageHeight); // redraw image.
 }
@@ -991,8 +937,7 @@ function reloadPlot()
 /**
  * Redraw/Reset canvas.
  */
-function redrawCanvas()
-{
+function redrawCanvas() {
 	mainCanvas.width = mainCanvas.width;
 	putCanvasData(currentScreen);
 }
@@ -1000,8 +945,7 @@ function redrawCanvas()
 /**
  * Resets all canvases except the main canvas.
  */
-function resetLayers()
-{
+function resetLayers() {
     dataCanvas.width = dataCanvas.width;
     drawCanvas.width = drawCanvas.width;
     hoverCanvas.width = hoverCanvas.width;
@@ -1011,8 +955,7 @@ function resetLayers()
 /**
  * Create PNG in a new window
  */
-function savePNG()
-{
+function savePNG() {
   var saveImageWin = window.open();
   saveImageWin.location = mainCanvas.toDataURL();
 }
@@ -1020,11 +963,9 @@ function savePNG()
 /**
  * Handle dropped file on canvas.
  */
-function dropHandler(ev)
-{
+function dropHandler(ev) {
 	var allDrop = ev.dataTransfer.files;
-	if (allDrop.length == 1) 
-	{
+	if (allDrop.length == 1) {
 	    fileLoader(allDrop[0]);
 	}
 }
@@ -1032,29 +973,25 @@ function dropHandler(ev)
 /**
  * Loads a file that was dropped or loaded
  */
-function fileLoader(fileInfo)
-{
-    if(fileInfo.type.match("image.*")) // only load images
-    {
-	var droppedFile = new FileReader();
-	droppedFile.onload = function() {
-	    var imageInfo = droppedFile.result;
-	    var newimg = new Image();
-	    newimg.onload = function() { loadImage(newimg); originalScreen = getCanvasData(); originalImage = newimg; setDefaultState(); }
-	    newimg.src = imageInfo;
+function fileLoader(fileInfo) {
+    if(fileInfo.type.match("image.*")) {// only load images
+		var droppedFile = new FileReader();
+		droppedFile.onload = function() {
+			var imageInfo = droppedFile.result;
+			var newimg = new Image();
+			newimg.onload = function() { loadImage(newimg); originalScreen = getCanvasData(); originalImage = newimg; setDefaultState(); };
+			newimg.src = imageInfo;
+		}
+		droppedFile.readAsDataURL(fileInfo);
 	}
-	droppedFile.readAsDataURL(fileInfo);
-    }
 }
 
 /**
  * Load file when file is chosen
  */
-function loadNewFile()
-{
+function loadNewFile() {
   var fileLoadElem = document.getElementById('fileLoadBox');
-  if (fileLoadElem.files.length == 1)
-  {
+  if (fileLoadElem.files.length == 1) {
     var fileInfo = fileLoadElem.files[0];
     fileLoader(fileInfo);
   }
@@ -1066,7 +1003,7 @@ function loadNewFile()
 
 	Version 2.6
 
-	Copyright 2011-2013 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2013 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
@@ -1100,14 +1037,13 @@ var dataToPixelxy;
  * @param {Int} pn Number of data points.
  * @param {String} ptype Plot type
  */
- function pixelToData(pdata, pn, ptype)
- {
-    if((axesPicked == 1) && (pn >= 1))
-    {
+ function pixelToData(pdata, pn, ptype) {
+
+    if((axesPicked === 1) && (pn >= 1)) {
         var rdata = [];
         
-        if (ptype == 'XY')
-		{
+        if (ptype === 'XY') {
+
 		    var x1 = xyAxes[0][0];
 		    var y1 = xyAxes[0][1];
 		    
@@ -1126,15 +1062,13 @@ var dataToPixelxy;
 		    var ymax = axesAlignmentData[3];
 		    
 		    // If x-axis is log scale
-		    if (axesAlignmentData[4] == true)
-		    {
+		    if (axesAlignmentData[4] === true) {
 		        xmin = Math.log(xmin)/Math.log(10);
 		        xmax = Math.log(xmax)/Math.log(10);
 		    }
 		    
 		    // If y-axis is log scale
-		    if (axesAlignmentData[5] == true)
-		    {
+		    if (axesAlignmentData[5] === true) {
 		        ymin = Math.log(ymin)/Math.log(10);
 		        ymax = Math.log(ymax)/Math.log(10);
 		    }
@@ -1154,8 +1088,7 @@ var dataToPixelxy;
 		    var theta = thetay-thetax;
 		    
 
-		    for(ii = 0; ii<pn; ii++)
-		    {
+		    for(ii = 0; ii<pn; ii++) {
 		    
 		        var xp = pdata[ii][0];
 		        var yp = pdata[ii][1];
@@ -1175,20 +1108,20 @@ var dataToPixelxy;
 			var yf = dy*Ly + ymin;
 			
 			// if x-axis is log scale
-			if (axesAlignmentData[4] == true)
+			if (axesAlignmentData[4] === true)
 			    xf = Math.pow(10,xf);
 			    
 			// if y-axis is log scale
-			if (axesAlignmentData[5] == true)
+			if (axesAlignmentData[5] === true)
 			    yf = Math.pow(10,yf);
 
 			rdata[ii] = new Array();
 			rdata[ii][0] = xf;
 			rdata[ii][1] = yf;
 		    }
-		}
-		else if (ptype == 'image') // same as X-Y, but returns int data and doesn't support log scale.
-		{
+
+		} else if (ptype === 'image') {// same as X-Y, but returns int data and doesn't support log scale.
+
 		    var x1 = onScreenDimensions[0];
 		    var y1 = onScreenDimensions[1];
 		    
@@ -1221,8 +1154,7 @@ var dataToPixelxy;
 		    var theta = thetay-thetax;
 		    
 
-		    for(ii = 0; ii<pn; ii++)
-		    {
+		    for(ii = 0; ii<pn; ii++) {
 		    
 		        var xp = pdata[ii][0];
 		        var yp = pdata[ii][1];
@@ -1247,9 +1179,7 @@ var dataToPixelxy;
 			rdata[ii][1] = Math.round(yf);
 		    }
 		
-		}
-		else if (ptype == 'map')
-		{
+		} else if (ptype === 'map') {
 		    
 		    var mx0 = 0.0; my0 = canvasHeight;
 		    var mx1 = 0.0; my1 = 0.0;
@@ -1285,8 +1215,7 @@ var dataToPixelxy;
 		    var x0 = xmin;
 		    var y0 = ymin;
 
-		    for(ii = 0; ii<pn; ii++)
-		    {
+		    for(ii = 0; ii<pn; ii++) {
 			var xr = pdata[ii][0] - mx0;
 			var yr = - (pdata[ii][1] - my0);
 			// find the transform
@@ -1298,9 +1227,7 @@ var dataToPixelxy;
 			rdata[ii][1] = yf;
 		    }
 		    
-		}
-		else if (ptype == 'polar')
-		{
+		} else if (ptype === 'polar') {
 		    // Center: 0
 		    var x0 = parseFloat(xyAxes[0][0]);
 		    var y0 = parseFloat(xyAxes[0][1]);
@@ -1323,8 +1250,8 @@ var dataToPixelxy;
 		    
 		    var isClockwise = axesAlignmentData[5];
 		    
-		    if (isDegrees == true) // if degrees
-		    {
+		    if (isDegrees === true) {// if degrees
+
 		        theta1 = (Math.PI/180.0)*theta1;
     			theta2 = (Math.PI/180.0)*theta2;
 		    }
@@ -1342,8 +1269,7 @@ var dataToPixelxy;
 		    
 		    var alpha0 = phi0 - theta1;
 		    
-		    for(ii = 0; ii<pn; ii++)
-		    {
+		    for(ii = 0; ii<pn; ii++) {
 			    var xp = pdata[ii][0];
 			    var yp = pdata[ii][1];
 			
@@ -1360,9 +1286,8 @@ var dataToPixelxy;
 			
 		    }
 		    
-		}
-		else if(plotType == 'ternary')
-		{
+		} else if(plotType === 'ternary') {
+
 		    var x0 = xyAxes[0][0];
 		    var y0 = xyAxes[0][1];
 		    
@@ -1381,8 +1306,8 @@ var dataToPixelxy;
 		    var isRange0to100 = axesAlignmentData[0];
 		    var isOrientationNormal = axesAlignmentData[1];
 		    		    
-		    for(ii = 0; ii<pn; ii++)
-		    {
+		    for(ii = 0; ii<pn; ii++) {
+
 			    var xp = pdata[ii][0];
 			    var yp = pdata[ii][1];
 			
@@ -1397,8 +1322,7 @@ var dataToPixelxy;
 			    var bp = xx - yy/root3;
 			    var cp = 2.0*yy/root3;
 			
-			    if(isOrientationNormal == false)
-			    {
+			    if(isOrientationNormal == false) {
 			      // reverse axes orientation
 			      var bpt = bp;
 			      bp = ap;
@@ -1407,8 +1331,7 @@ var dataToPixelxy;
 			      				  
 			    }
 			
-			    if (isRange0to100 == true)
-			    {
+			    if (isRange0to100 == true) {
 			      ap = ap*100; bp = bp*100; cp = cp*100;
 			    }
     
@@ -1433,8 +1356,8 @@ var dataToPixelxy;
 
 	dataToPixelxy = [];
 
-	if (ptype == 'XY')
-	{
+	if (ptype === 'XY') {
+
 		var x1 = xyAxes[0][0];
 		var y1 = xyAxes[0][1];
 		
@@ -1453,15 +1376,13 @@ var dataToPixelxy;
 		var ymax = axesAlignmentData[3];
 		
 		// If x-axis is log scale
-		if (axesAlignmentData[4] == true)
-		{
+		if (axesAlignmentData[4] === true) {
 			xmin = Math.log(xmin)/Math.log(10);
 			xmax = Math.log(xmax)/Math.log(10);
 		}
 		
 		// If y-axis is log scale
-		if (axesAlignmentData[5] == true)
-		{
+		if (axesAlignmentData[5] === true) {
 			ymin = Math.log(ymin)/Math.log(10);
 			ymax = Math.log(ymax)/Math.log(10);
 		}
@@ -1509,9 +1430,9 @@ var dataToPixelxy;
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.5
+	Version 2.6
 
-	Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2013 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
@@ -1542,28 +1463,22 @@ var dataToPixelxy;
 /*
  * Generate CSV.
  */
- function generateCSV()
- {
-    if((axesPicked == 1) && (pointsPicked >= 1))
-    {
+ function generateCSV() {
+
+    if((axesPicked === 1) && (pointsPicked >= 1)) {
         showPopup('csvWindow');
 		var tarea = document.getElementById('tarea');
 		tarea.value = '';
 		
 		var retData = pixelToData(xyData, pointsPicked, plotType);
 		
-		if((plotType == 'XY') || (plotType == 'map') || (plotType == 'polar') || (plotType == 'image'))
-		{
-		    for(var ii = 0; ii < pointsPicked; ii++)
-		    {
-			tarea.value = tarea.value + retData[ii][0] + ',' + retData[ii][1] + '\n';
+		if((plotType === 'XY') || (plotType === 'map') || (plotType === 'polar') || (plotType === 'image')) {
+		    for(var ii = 0; ii < pointsPicked; ii++) {
+				tarea.value = tarea.value + retData[ii][0] + ',' + retData[ii][1] + '\n';
 		    }
-		}
-		else if((plotType == 'ternary'))
-		{
-		    for(var ii = 0; ii < pointsPicked; ii++)
-		    {
-			tarea.value = tarea.value + retData[ii][0] + ',' + retData[ii][1] + ',' + retData[ii][2] + '\n';
+		} else if((plotType === 'ternary')) {
+		    for(var ii = 0; ii < pointsPicked; ii++) {
+				tarea.value = tarea.value + retData[ii][0] + ',' + retData[ii][1] + ',' + retData[ii][2] + '\n';
 		    }
 		}
     }
@@ -1574,9 +1489,9 @@ var dataToPixelxy;
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.5
+	Version 2.6
 
-	Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2013 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
@@ -1607,20 +1522,16 @@ var cropCoordinates = [0,0,0,0];
 /**
  * Flip picture horizontally
  */
-function hflip()
-{
+function hflip() {
 	processingNote(true);
 
 	var iData = ctx.getImageData(cx0,cy0,currentImageWidth,currentImageHeight);
 
-	for (var rowi = 0; rowi < currentImageHeight; rowi++)
-	{
-		for(var coli = 0; coli < currentImageWidth/2; coli++)
-		{
+	for (var rowi = 0; rowi < currentImageHeight; rowi++) {
+		for(var coli = 0; coli < currentImageWidth/2; coli++) {
 			var index = rowi*4*currentImageWidth + coli*4;
 			var mindex = (rowi+1)*4*currentImageWidth - (coli+1)*4;
-			for(var p = 0; p < 4; p++)
-			{
+			for(var p = 0; p < 4; p++) {
 				var tt = iData.data[index + p];
 				iData.data[index + p] = iData.data[mindex + p];
 				iData.data[mindex + p] = tt;
@@ -1637,20 +1548,20 @@ function hflip()
 /**
  * Flip picture vertically
  */
-function vflip()
-{
+function vflip() {
+
 	processingNote(true);
 
 	var iData = ctx.getImageData(cx0,cy0,currentImageWidth,currentImageHeight);
 
-	for (var coli = 0; coli < currentImageWidth; coli++)
-	{
-		for(var rowi = 0; rowi < currentImageHeight/2; rowi++)
-		{
+	for (var coli = 0; coli < currentImageWidth; coli++) {
+
+		for(var rowi = 0; rowi < currentImageHeight/2; rowi++) {
+
 			var index = rowi*4*currentImageWidth + coli*4;
 			var mindex = (currentImageHeight - (rowi+2))*4*currentImageWidth + coli*4;
-			for(var p = 0; p < 4; p++)
-			{
+			for(var p = 0; p < 4; p++) {
+
 				var tt = iData.data[index + p];
 				iData.data[index + p] = iData.data[mindex + p];
 				iData.data[mindex + p] = tt;
@@ -1667,8 +1578,8 @@ function vflip()
 /**
  * Enable crop mode
  */
-function cropPlot() // crop image
-{
+function cropPlot() {// crop image
+
 	redrawCanvas();
 	removeAllMouseEvents();
 	addMouseEvent('mousedown',cropMousedown,true);
@@ -1679,8 +1590,8 @@ function cropPlot() // crop image
 /**
  * Crop mode - mouse down
  */
-function cropMousedown(ev)
-{
+function cropMousedown(ev) {
+
 	cropCoordinates[0] = parseInt(ev.layerX);
 	cropCoordinates[1] = parseInt(ev.layerY);
 	cropStatus = 1;
@@ -1689,8 +1600,7 @@ function cropMousedown(ev)
 /**
  * Crop mode - mouse up
  */
-function cropMouseup(ev)
-{
+function cropMouseup(ev) {
       cropCoordinates[2] = parseInt(ev.layerX);
       cropCoordinates[3] = parseInt(ev.layerY);
       cropStatus = 0;
@@ -1699,8 +1609,8 @@ function cropMouseup(ev)
             
       cropWidth = cropCoordinates[2]-cropCoordinates[0];
       cropHeight = cropCoordinates[3]-cropCoordinates[1];
-      if ((cropWidth > 0) && (cropHeight > 0))
-      {
+      if ((cropWidth > 0) && (cropHeight > 0)) {
+
 		var tcan = document.createElement('canvas');
 		var tcontext = tcan.getContext('2d');
 		
@@ -1722,11 +1632,9 @@ function cropMouseup(ev)
 /**
  * Crop mode - mouse move
  */
-function cropMousemove(ev)
-{
+function cropMousemove(ev) {
       // this paints a rectangle as the mouse moves
-      if(cropStatus == 1)
-      {
+      if(cropStatus == 1) {
         hoverCanvas.width = hoverCanvas.width;
 		hoverCtx.strokeStyle = "rgb(0,0,0)";
 		hoverCtx.strokeRect(cropCoordinates[0],cropCoordinates[1],parseInt(ev.layerX)-cropCoordinates[0],parseInt(ev.layerY)-cropCoordinates[1]);
@@ -1736,24 +1644,21 @@ function cropMousemove(ev)
 /**
  * Restore to original image
  */
-function restoreOriginalImage()
-{
+function restoreOriginalImage() {
 	loadImage(originalImage);
 }
 
 /**
  * Rotate image by a certain specified angle. Not implemented yet.
  */
-function rotateCanvas() // Rotate by a specified amount.
-{
-}
+function rotateCanvas() {}// Rotate by a specified amount.
 
 /*
     WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-    Version 2.5
+    Version 2.6
 
-    Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+    Copyright 2010-2013 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
     This file is part of WebPlotDigitizer.
 
@@ -1786,29 +1691,24 @@ function rotateCanvas() // Rotate by a specified amount.
  * @params {ImageData} d1 first ImageData
  * @params {ImageData} d2 second ImageData
  */
-function findDifference(d1,d2)
-{
+function findDifference(d1,d2) {
     var dw = canvasWidth;
     var dh = canvasHeight;
     var diff = new Array();
     
-    for (var rowi = 0; rowi < dh; rowi++)
-    {
-	diff[rowi] = new Array();
-	for(var coli = 0; coli < dw; coli++)
-	{
-	    var index = rowi*4*dw + coli*4;
-	    diff[rowi][coli] = false;
+    for (var rowi = 0; rowi < dh; rowi++) {
+		diff[rowi] = new Array();
+		for(var coli = 0; coli < dw; coli++) {
+			var index = rowi*4*dw + coli*4;
+			diff[rowi][coli] = false;
+			
+			for(var p = 0; p < 4; p++) {
+				if (d1.data[index+p] != d2.data[index+p]) {
+					diff[rowi][coli] = true;
+				}
+			}
 	    
-	    for(var p = 0; p < 4; p++)
-	    {
-		if (d1.data[index+p] != d2.data[index+p])
-		{
-		    diff[rowi][coli] = true;
 		}
-	    }
-	    
-	}
     }
     
     return diff;
@@ -1817,22 +1717,19 @@ function findDifference(d1,d2)
 /**
  * Copies pixels based on the difference matrix. 
  */
-function copyUsingDifference(copyTo, copyFrom, diff)
-{
+function copyUsingDifference(copyTo, copyFrom, diff) {
     var dw = canvasWidth;
     var dh = canvasHeight;
     
-    for (var rowi = 0; rowi < dh; rowi++)
-    {
-	for(var coli = 0; coli < dw; coli++)
-	{
-	    var index = rowi*4*dw + coli*4;
-		    
-	    if (diff[rowi][coli] == true)
-	   	for(var p = 0; p < 4; p++)
-		    copyTo.data[index+p] = copyFrom.data[index+p];
-		       
-	}
+    for (var rowi = 0; rowi < dh; rowi++) {
+		for(var coli = 0; coli < dw; coli++) {
+			var index = rowi*4*dw + coli*4;
+				
+			if (diff[rowi][coli] === true)
+			for(var p = 0; p < 4; p++)
+				copyTo.data[index+p] = copyFrom.data[index+p];
+				   
+		}
     }
     
     return copyTo;
@@ -1841,8 +1738,7 @@ function copyUsingDifference(copyTo, copyFrom, diff)
 /** 
  * create BW image based on the colors specified.
  */
-function colorSelect(imgd, mode, colorRGB, tol)
-{
+function colorSelect(imgd, mode, colorRGB, tol) {
     dw = canvasWidth;
     dh = canvasHeight;
     
@@ -1852,35 +1748,30 @@ function colorSelect(imgd, mode, colorRGB, tol)
     
     var seldata = new Array();
     
-    for (var rowi=0; rowi < dh; rowi++)
-    {
-	seldata[rowi] = new Array();
-	for(var coli=0; coli < dw; coli++)
-	{
-	    index = rowi*4*dw + coli*4;
-	    ir = imgd.data[index];
-	    ig = imgd.data[index+1];
-	    ib = imgd.data[index+2];
-	    
-	    dist = Math.sqrt((ir-redv)*(ir-redv) + (ig-greenv)*(ig-greenv) + (ib+bluev)*(ib+bluev));
-	    
-	    seldata[rowi][coli] = false;
-	    
-	    if (mode == 'fg')
-	    {
-		if (dist <= tol)
-		{
-		    seldata[rowi][coli] = true;
+    for (var rowi=0; rowi < dh; rowi++) {
+		seldata[rowi] = new Array();
+		for(var coli=0; coli < dw; coli++) {
+			index = rowi*4*dw + coli*4;
+			ir = imgd.data[index];
+			ig = imgd.data[index+1];
+			ib = imgd.data[index+2];
+			
+			dist = Math.sqrt((ir-redv)*(ir-redv) + (ig-greenv)*(ig-greenv) + (ib+bluev)*(ib+bluev));
+			
+			seldata[rowi][coli] = false;
+			
+			if (mode === 'fg') {
+				if (dist <= tol) {
+					seldata[rowi][coli] = true;
+				}
+
+			} else if (mode === 'bg') {
+
+				if (dist > tol) {
+					seldata[rowi][coli] = true;
+				}
+			}
 		}
-	    }
-	    else if (mode == 'bg')
-	    {
-		if (dist > tol)
-		{
-		    seldata[rowi][coli] = true;
-		}
-	    }
-	}
     }
     
     return seldata;
@@ -1889,8 +1780,8 @@ function colorSelect(imgd, mode, colorRGB, tol)
 /**
  * create BW image based on the colors but only in valid region of difference matrix.
  */
-function colorSelectDiff(imgd, mode, colorRGB, tol, diff)
-{
+function colorSelectDiff(imgd, mode, colorRGB, tol, diff) {
+
     dw = canvasWidth;
     dh = canvasHeight;
     
@@ -1900,35 +1791,28 @@ function colorSelectDiff(imgd, mode, colorRGB, tol, diff)
     
     var seldata = new Array();
     
-    for (var rowi=0; rowi < dh; rowi++)
-    {
-	seldata[rowi] = new Array();
-	for(var coli=0; coli < dw; coli++)
-	{
-	    index = rowi*4*dw + coli*4;
-	    var ir = imgd.data[index];
-	    var ig = imgd.data[index+1];
-	    var ib = imgd.data[index+2];
-	    
-	    var dist = Math.sqrt((ir-redv)*(ir-redv) + (ig-greenv)*(ig-greenv) + (ib-bluev)*(ib-bluev));
-	    
-	    seldata[rowi][coli] = false;
-	    
-	    if ((mode == 'fg') && (diff[rowi][coli] == 1))
-	    {
-		    if (dist <= tol)
-		    {
-		        seldata[rowi][coli] = true;
-		    }
-	    }
-	    else if ((mode == 'bg') && (diff[rowi][coli] == 1))
-	    {
-		    if (dist > tol)
-		    {
-		        seldata[rowi][coli] = true;
-		    }
-	    }
-	}
+    for (var rowi=0; rowi < dh; rowi++) {
+		seldata[rowi] = new Array();
+		for(var coli=0; coli < dw; coli++) {
+			index = rowi*4*dw + coli*4;
+			var ir = imgd.data[index];
+			var ig = imgd.data[index+1];
+			var ib = imgd.data[index+2];
+			
+			var dist = Math.sqrt((ir-redv)*(ir-redv) + (ig-greenv)*(ig-greenv) + (ib-bluev)*(ib-bluev));
+			
+			seldata[rowi][coli] = false;
+			
+			if ((mode === 'fg') && (diff[rowi][coli] === 1)) {
+				if (dist <= tol) {
+					seldata[rowi][coli] = true;
+				}
+			} else if ((mode === 'bg') && (diff[rowi][coli] === 1)) {
+				if (dist > tol) {
+					seldata[rowi][coli] = true;
+				}
+			}
+		}
     }
     
     return seldata;
@@ -1937,8 +1821,8 @@ function colorSelectDiff(imgd, mode, colorRGB, tol, diff)
 /**
  * Select from marked region of interest based on color.
  */
-function selectFromMarkedRegion(mode, colorRGB, tol)
-{
+function selectFromMarkedRegion(mode, colorRGB, tol) {
+
     dw = canvasWidth;
     dh = canvasHeight;
     
@@ -1951,11 +1835,10 @@ function selectFromMarkedRegion(mode, colorRGB, tol)
     
     var seldata = new Array();
     
-    for (var rowi=0; rowi < dh; rowi++)
-    {
+    for (var rowi=0; rowi < dh; rowi++) {
+
 	    seldata[rowi] = new Array();
-	    for(var coli=0; coli < dw; coli++)
-	    {
+	    for(var coli=0; coli < dw; coli++) {
 	        index = rowi*4*dw + coli*4;
 	        
 	        // marked region
@@ -1970,13 +1853,13 @@ function selectFromMarkedRegion(mode, colorRGB, tol)
 	        
        	    seldata[rowi][coli] = false;
        	    
-       	    if ((mr == 255) && (mg ==  255) && (mb == 0)) // yellow marked region
-       	    {
+       	    if ((mr === 255) && (mg ===  255) && (mb === 0)) {// yellow marked region
+
        	        var dist = Math.sqrt((ir-redv)*(ir-redv) + (ig-greenv)*(ig-greenv) + (ib-bluev)*(ib-bluev));
        	        
-       	        if ((mode == 'fg') && (dist <= tol))
+       	        if ((mode === 'fg') && (dist <= tol))
        	            seldata[rowi][coli] = true;
-       	        else if ((mode == 'bg') && (dist > tol))
+       	        else if ((mode === 'bg') && (dist > tol))
        	            seldata[rowi][coli] = true;
        	    }
 	    }
@@ -1988,26 +1871,20 @@ function selectFromMarkedRegion(mode, colorRGB, tol)
 /**
  * Populate an ImageData array based on a binary data matrix.
  */
-function binaryToImageData(bwdata,imgd)
-{
+function binaryToImageData(bwdata,imgd) {
     dw = canvasWidth;
     dh = canvasHeight;
          
-    for(var rowi = 0; rowi < dh; rowi++)
-    {
-	for(var coli = 0; coli < dw; coli++)
-	{
-	    index = rowi*4*dw + coli*4;
-	    if (bwdata[rowi][coli] == false)
-	    {
-		imgd.data[index] = 255; imgd.data[index+1] = 255; imgd.data[index+2] = 255; imgd.data[index+3] = 255;
-	    }
-	    else
-	    {
-		imgd.data[index] = 0; imgd.data[index+1] = 0; imgd.data[index+2] = 0; imgd.data[index+3] = 255;
-	    }
+    for(var rowi = 0; rowi < dh; rowi++) {
+		for(var coli = 0; coli < dw; coli++) {
+			index = rowi*4*dw + coli*4;
+			if (bwdata[rowi][coli] === false) {
+				imgd.data[index] = 255; imgd.data[index+1] = 255; imgd.data[index+2] = 255; imgd.data[index+3] = 255;
+			} else {
+				imgd.data[index] = 0; imgd.data[index+1] = 0; imgd.data[index+2] = 0; imgd.data[index+3] = 255;
+			}
+		}
 	}
-    }
     
     return imgd;
 }
@@ -2015,9 +1892,9 @@ function binaryToImageData(bwdata,imgd)
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotdigitizer
 
-	Version 2.5
+	Version 2.6
 
-	Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2013 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
@@ -2048,8 +1925,8 @@ function binaryToImageData(bwdata,imgd)
  * This is the entry point and is executed when the page is loaded.
  */
 
-function init() // This is run when the page loads.
-{
+function init() {// This is run when the page loads.
+
 	checkBrowser();
 	
 	mainCanvas = document.getElementById('mainCanvas');
@@ -2110,7 +1987,7 @@ function init() // This is run when the page loads.
 
 	// Set canvas default state
 	img = new Image();
-	img.onload = function() { loadImage(img); originalImage = img; }
+	img.onload = function() { loadImage(img); originalImage = img; };
 	img.src = "start.png";
 	
 	// testing area for autodetection
@@ -2145,8 +2022,7 @@ function init() // This is run when the page loads.
 /**
  * Reset canvas and zoom window to initial state.
  */
-function setDefaultState()
-{
+function setDefaultState() {
 	axesPicked = 0;
 	pointsPicked = 0;
 	xyData = [];
@@ -2154,10 +2030,8 @@ function setDefaultState()
 			
 }
 
-function checkBrowser()
-{
-  if(!window.FileReader)
-  {
+function checkBrowser() {
+  if(!window.FileReader) {
     alert('\tWARNING!\nYou are using an unsupported browser. Please use Google Chrome 6+ or Firefox 3.6+.\n Sorry for the inconvenience.');
   }
 }
@@ -2166,9 +2040,9 @@ function checkBrowser()
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.5
+	Version 2.6
 
-	Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2013 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
@@ -2201,14 +2075,10 @@ var pointsPicked = 0; // number of data points picked.
 /**
  * Called when the 'acquire data' button is pressed. 
  */
-function acquireData()
-{
-	if(axesPicked == 0)
-	{
+function acquireData() {
+	if(axesPicked === 0) {
 		showPopup('alignAxes');
-	}
-	else
-	{
+	} else {
 		showSidebar('manualMode');
 		removeAllMouseEvents();
 	}
@@ -2217,14 +2087,11 @@ function acquireData()
 /**
  * Initiate Manual data acquisition. Enables data capture on the canvas.
  */ 
-function pickPoints() // select data points.
-{
-	if (axesPicked == 0)
-	{
+function pickPoints() {// select data points.
+
+	if (axesPicked === 0) {
 		alert('Define the axes first!');
-	}
-	else
-	{
+	} else {
 		removeAllMouseEvents();
 		addMouseEvent('click',clickPoints,true);
 		//pointsPicked = 0;
@@ -2238,8 +2105,7 @@ function pickPoints() // select data points.
 /**
  * Triggered by clicking on canvas, stores position in xyData global array.
  */
-function clickPoints(ev)
-{
+function clickPoints(ev) {
 	xi = ev.layerX;
 	yi = ev.layerY;
 	xyData[pointsPicked] = new Array();
@@ -2260,8 +2126,8 @@ function clickPoints(ev)
 /**
  * Called when 'clear all' is hit. Clears data collected, redraws canvas. 
  */
-function clearPoints() // clear all markings.
-{
+function clearPoints() {// clear all markings.
+
 	pointsPicked = 0;
 	pointsStatus(pointsPicked);
     resetLayers();
@@ -2272,17 +2138,14 @@ function clearPoints() // clear all markings.
 /**
  * Deletes the last point picked.
  */
-function undoPointSelection()
-{
-	if (pointsPicked >= 1)
-	{
+function undoPointSelection() {
+	if (pointsPicked >= 1) {
 		pointsPicked = pointsPicked - 1;
 		pointsStatus(pointsPicked);
 		
         resetLayers();
 
-		for(ii = 0; ii < pointsPicked; ii++)
-		{
+		for(ii = 0; ii < pointsPicked; ii++) {
 			xi = xyData[ii][0];	
 			yi = xyData[ii][1];
 
@@ -2298,8 +2161,8 @@ function undoPointSelection()
 /**
  * Updates the displayed number of points on the sidebar.
  */
-function pointsStatus(pn) // displays the number of points picked.
-{
+function pointsStatus(pn) {// displays the number of points picked.
+
 	var points = document.getElementById('pointsStatus');
 	var autoPoints = document.getElementById('autoPointsStatus');
 	points.innerHTML = pn;
@@ -2309,8 +2172,8 @@ function pointsStatus(pn) // displays the number of points picked.
 /**
  * Delete specific point close to clicked position.
  */
-function deleteSpecificPoint()
-{
+function deleteSpecificPoint() {
+
 	removeAllMouseEvents();
 	addMouseEvent('click',deleteSpecificPointHandler,true);
 }
@@ -2318,8 +2181,8 @@ function deleteSpecificPoint()
 /**
  * Handle clicks when in specific point deletion mode
  */
-function deleteSpecificPointHandler(ev)
-{
+function deleteSpecificPointHandler(ev) {
+
 	var xi = parseFloat(ev.layerX);
 	var yi = parseFloat(ev.layerY);
 	
@@ -2327,22 +2190,19 @@ function deleteSpecificPointHandler(ev)
 	var foundPoint = 0;
 	var foundIndex = 0;
 
-	for (var ii = 0; ii < pointsPicked; ii ++)
-	{
+	for (var ii = 0; ii < pointsPicked; ii ++) {
 		var xd = parseFloat(xyData[ii][0]);
 		var yd = parseFloat(xyData[ii][1]);
 		var distance = Math.sqrt((xd-xi)*(xd-xi) + (yd-yi)*(yd-yi));
 
-		if (distance < minDistance)
-		{
+		if (distance < minDistance) {
 			foundPoint = 1;
 			foundIndex = ii;
 			minDistance = distance;
 		}
 	}
 
-	if (foundPoint == 1)
-	{
+	if (foundPoint === 1) {
 		xyData.splice(foundIndex,1);
 
 		pointsPicked = pointsPicked - 1;
@@ -2350,8 +2210,7 @@ function deleteSpecificPointHandler(ev)
 			
         resetLayers();
 
-		for(ii = 0; ii < pointsPicked; ii++)
-		{
+		for(ii = 0; ii < pointsPicked; ii++) {
 			xp = xyData[ii][0];	
 			yp = xyData[ii][1];
 			dataCtx.beginPath();
@@ -2367,9 +2226,9 @@ function deleteSpecificPointHandler(ev)
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.4
+	Version 2.6
 
-	Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2013 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
@@ -2399,8 +2258,7 @@ function deleteSpecificPointHandler(ev)
 /** 
  * Calculate inverse tan with range between 0, 2*pi.
  */
-function taninverse(y,x)
-{
+function taninverse(y,x) {
   var inv_ans;
   if (y>0) // I & II
     inv_ans = Math.atan2(y,x);
@@ -2414,9 +2272,9 @@ function taninverse(y,x)
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.5
+	Version 2.6
 
-	Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2013 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
@@ -2470,17 +2328,14 @@ var mouseEvents = 0;
  * @param {function} functionName Name of the method associated 
  * @param {boolean} tf Capture value.
  */
-function addMouseEvent(mouseEv, functionName, tf)
-{
+function addMouseEvent(mouseEv, functionName, tf) {
 	var eventExists = false;
-	for(var ii = 0; ii < mouseEvents; ii++)
-	{
-		if ((mouseEv == mouseEventType[ii]) && (functionName == mouseEventFunction[ii]) && (tf == mouseEventCapture[ii]))
-		eventExists = true;
+	for(var ii = 0; ii < mouseEvents; ii++)	{
+		if ((mouseEv === mouseEventType[ii]) && (functionName === mouseEventFunction[ii]) && (tf === mouseEventCapture[ii]))
+			eventExists = true;
 	}
 
-	if(eventExists == false)
-	{
+	if(eventExists === false) {
 		topCanvas.addEventListener(mouseEv, functionName, tf);
 		mouseEventType[mouseEvents] = mouseEv;
 		mouseEventFunction[mouseEvents] = functionName;
@@ -2492,12 +2347,11 @@ function addMouseEvent(mouseEv, functionName, tf)
 /**
  * Clear the entire list of active mouse events.
  */
-function removeAllMouseEvents()
-{
-	if(mouseEvents > 0)
-	{
-		for (var kk = 0; kk < mouseEvents; kk++)
-		{
+function removeAllMouseEvents() {
+
+	if(mouseEvents > 0) {
+
+		for (var kk = 0; kk < mouseEvents; kk++) {
 			topCanvas.removeEventListener(mouseEventType[kk],mouseEventFunction[kk],mouseEventCapture[kk]);
 		}
 		mouseEvents = 0;
@@ -2514,21 +2368,19 @@ function removeAllMouseEvents()
  * @param {function} functionName Name of the method associated 
  * @param {boolean} tf Capture value.
  */
-function removeMouseEvent(mouseEv, functionName, tf)
-{
+function removeMouseEvent(mouseEv, functionName, tf) {
+
 	var eventExists = false;
 	var eventIndex = 0;
 
-	for(var ii = 0; ii < mouseEvents; ii++)
-	{
-		if ((mouseEv == mouseEventType[ii]) && (functionName == mouseEventFunction[ii]) && (tf == mouseEventCapture[ii]))
-		{
+	for(var ii = 0; ii < mouseEvents; ii++) {
+		if ((mouseEv === mouseEventType[ii]) && (functionName === mouseEventFunction[ii]) && (tf === mouseEventCapture[ii])) {
 			eventExists = true;
 			eventIndex = ii;
 		}
 	}
-	if(eventExists == true)
-	{
+
+	if(eventExists === true) {
 		topCanvas.removeEventListener(mouseEv, functionName, tf);
 		mouseEvents = mouseEvents - 1;
 		mouseEventType.splice(eventIndex,1);
@@ -2541,9 +2393,9 @@ function removeMouseEvent(mouseEv, functionName, tf)
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.5
+	Version 2.6
 
-	Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2013 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
@@ -2573,8 +2425,7 @@ function removeMouseEvent(mouseEv, functionName, tf)
  * Display a popup window.
  * @param {String} popupid ID of the DIV element containing the popup block.
  */
-function showPopup(popupid)
-{
+function showPopup(popupid) {
 	// Dim lights :)
 	var shadowDiv = document.getElementById('shadow');
 	shadowDiv.style.visibility = "visible";
@@ -2595,8 +2446,7 @@ function showPopup(popupid)
  * Hide a popup window.
  * @param {String} popupid ID of the DIV element containing the popup block.
  */
-function closePopup(popupid)
-{
+function closePopup(popupid) {
 	var shadowDiv = document.getElementById('shadow');
 	shadowDiv.style.visibility = "hidden";
 
@@ -2609,16 +2459,12 @@ function closePopup(popupid)
  * Show a 'processing' note on the top right corner.
  * @param {boolean} pmode set to 'true' to diplay, 'false' to hide.
  */
-function processingNote(pmode)
-{
+function processingNote(pmode) {
 	var pelem = document.getElementById('wait');
 
-	if(pmode == true)
-	{
+	if(pmode === true) {
 		pelem.style.visibility = 'visible';
-	}
-	else
-	{
+	} else {
 		pelem.style.visibility = 'hidden';
 	}
 
@@ -2627,9 +2473,9 @@ function processingNote(pmode)
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.5
+	Version 2.6
 
-	Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2013 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
@@ -2662,8 +2508,8 @@ var sidebarList = ['editImageToolbar','manualMode','autoMode'];
  * Show a specific sidebar
  * @param {String} sbid Sidebar ID.
  */
-function showSidebar(sbid) // Shows a specific sidebar
-{
+function showSidebar(sbid) {// Shows a specific sidebar
+
 	clearSidebar();
 	var sb = document.getElementById(sbid);
 	sb.style.visibility = "visible";
@@ -2672,21 +2518,20 @@ function showSidebar(sbid) // Shows a specific sidebar
 /**
  * Hide all sidebars.
  */
-function clearSidebar() // Clears all open sidebars
-{
-      for (ii = 0; ii < sidebarList.length; ii ++)
-      {
-	  var sbv = document.getElementById(sidebarList[ii]);
-	  sbv.style.visibility="hidden";
+function clearSidebar() {// Clears all open sidebars
+
+      for (ii = 0; ii < sidebarList.length; ii ++) {
+		  var sbv = document.getElementById(sidebarList[ii]);
+		  sbv.style.visibility="hidden";
       }
 	
 }
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.5
+	Version 2.6
 
-	Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2013 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
@@ -2718,8 +2563,7 @@ var toolbarList = ['paintToolbar','colorPickerToolbar'];
  * Show a specific toolbar
  * @param {String} sbid Sidebar ID.
  */
-function showToolbar(sbid) // Shows a specific sidebar
-{
+function showToolbar(sbid) {// Shows a specific sidebar
 	clearToolbar();
 	var sb = document.getElementById(sbid);
 	sb.style.visibility = "visible";
@@ -2728,21 +2572,20 @@ function showToolbar(sbid) // Shows a specific sidebar
 /**
  * Clear the toolbar area.
  */
-function clearToolbar() // Clears all open sidebars
-{
-      for (ii = 0; ii < toolbarList.length; ii ++)
-      {
-	  var sbv = document.getElementById(toolbarList[ii]);
-	  sbv.style.visibility="hidden";
+function clearToolbar() {// Clears all open sidebars
+
+      for (ii = 0; ii < toolbarList.length; ii ++) {
+		  var sbv = document.getElementById(toolbarList[ii]);
+		  sbv.style.visibility="hidden";
       }
 	
 }
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.5
+	Version 2.6
 
-	Copyright 2011 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2013 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
@@ -2787,8 +2630,7 @@ pix[0] = new Array();
 /**
  * Initialize Zoom Window
  */
-function initZoom()
-{
+function initZoom() {
 	var zCrossHair = document.getElementById("zoomCrossHair");
 	var zchCtx = zCrossHair.getContext("2d");
 	zchCtx.strokeStyle = "rgb(0,0,0)";
@@ -2804,38 +2646,30 @@ function initZoom()
 /**
  * Update view.
  */
-function updateZoom(ev)
-{
+function updateZoom(ev) {
 	xpos = ev.layerX;
 	ypos = ev.layerY;
 	
 	dx = zoom_dx;
 	dy = zoom_dy;
     
-    if (axesPicked != 1)
-    {
+    if (axesPicked != 1) {
         mPosn.innerHTML = xpos + ', ' + ypos;
-    }
-    else if(axesPicked == 1)
-    {
+    } else if(axesPicked == 1) {
         pix[0][0] = parseFloat(xpos);
         pix[0][1] = parseFloat(ypos);
         var rpix = pixelToData(pix, 1, plotType);
 	
-	if (plotType == 'image')
-	{
-	  mPosn.innerHTML = rpix[0][0] + ', ' + rpix[0][1];
-	}
-	else
-	{
-	  mPosn.innerHTML = parseFloat(rpix[0][0]).toExponential(3) + ', ' + parseFloat(rpix[0][1]).toExponential(3);
-	  if (plotType == 'ternary')
-	      mPosn.innerHTML += ', ' + parseFloat(rpix[0][2]).toExponential(3);
-	}
+		if (plotType === 'image') {
+		  mPosn.innerHTML = rpix[0][0] + ', ' + rpix[0][1];
+		} else {
+		  mPosn.innerHTML = parseFloat(rpix[0][0]).toExponential(3) + ', ' + parseFloat(rpix[0][1]).toExponential(3);
+		  if (plotType === 'ternary')
+			  mPosn.innerHTML += ', ' + parseFloat(rpix[0][2]).toExponential(3);
+		}
     }
     
-  	if (extendedCrosshair == true)
-	{
+  	if (extendedCrosshair === true) {
 	    hoverCanvas.width = hoverCanvas.width;
 	    hoverCtx.strokeStyle = "rgba(0,0,0, 0.5)";
 	    hoverCtx.beginPath();
@@ -2847,16 +2681,13 @@ function updateZoom(ev)
 	}
 
     
-	if((xpos-dx/2) >= 0 && (ypos-dy/2) >= 0 && (xpos+dx/2) <= canvasWidth && (ypos+dy/2) <= canvasHeight)
-	{
+	if((xpos-dx/2) >= 0 && (ypos-dy/2) >= 0 && (xpos+dx/2) <= canvasWidth && (ypos+dy/2) <= canvasHeight) {
 		var zoomImage = ctx.getImageData(xpos-dx/2,ypos-dy/2,dx,dy);
 	    var dataLayerImage = dataCtx.getImageData(xpos-dx/2,ypos-dy/2,dx,dy);
 
         // merge data from the two layers.
-        for (var zi = 0; zi < dataLayerImage.data.length; zi+=4)
-        {
-            if ((dataLayerImage.data[zi]+dataLayerImage.data[zi+1]+dataLayerImage.data[zi+2]+dataLayerImage.data[zi+3])!=0)
-            {
+        for (var zi = 0; zi < dataLayerImage.data.length; zi+=4) {
+            if ((dataLayerImage.data[zi]+dataLayerImage.data[zi+1]+dataLayerImage.data[zi+2]+dataLayerImage.data[zi+3])!=0) {
                 zoomImage.data[zi] = dataLayerImage.data[zi];
                 zoomImage.data[zi+1] = dataLayerImage.data[zi+1];        
                 zoomImage.data[zi+2] = dataLayerImage.data[zi+2];        
@@ -2867,20 +2698,17 @@ function updateZoom(ev)
 		
 		var imgdata = tempCanvas.toDataURL();
 		var zImage = new Image();
-		zImage.onload = function() 
-			{ 
+		zImage.onload = function() { 
 				zctx.drawImage(zImage,0,0,parseInt(zWindowWidth),parseInt(zWindowHeight)); 
-			}
+			};
 		zImage.src = imgdata;
 
 	}
 	
 }
 
-function toggleCrosshair(ev)
-{
-    if (ev.keyCode == 220)
-    {
+function toggleCrosshair(ev) {
+    if (ev.keyCode === 220) {
         ev.preventDefault();
         extendedCrosshair = !(extendedCrosshair);
         hoverCanvas.width = hoverCanvas.width;
