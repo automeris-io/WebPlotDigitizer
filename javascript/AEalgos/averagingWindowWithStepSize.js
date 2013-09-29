@@ -29,9 +29,6 @@ var averagingWindowWithStepSizeAlgo = {
 				showPopup('xyAxesOnly');
 				return [["X_min","Units", "0"],["ΔX Step","Units","0.1"],["X_max","Units", "0"],["Y_min","Units", "0"],["Y_max","Units", "0"],["Line width","Px","30"]];
 			}
-
-			return null;
-
 		},
 
 	run: function () {
@@ -108,7 +105,7 @@ var averagingWindowWithStepSizeAlgo = {
 							}
 						} else	{
 							if(blobExitLocked === false) {
-								blobExit == ii;
+								blobExit = ii;
 								blobExitLocked = true;
 							}					
 						}
