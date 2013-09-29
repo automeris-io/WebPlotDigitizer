@@ -1,8 +1,6 @@
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.6
-
 	Copyright 2010-2013 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
@@ -22,12 +20,6 @@
 
 
 */
-
-/**
- * @fileoverview Automatic extraction system.
- * @version 2.5
- * @author Ankit Rohatgi ankitrohatgi@hotmail.com
- */
 
 var loadScript;
 /**
@@ -67,8 +59,6 @@ function AEObject() {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.6
-
 	Copyright 2010-2013 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
@@ -88,13 +78,6 @@ function AEObject() {
 
 
 */
-
-/**
- * @fileoverview  Axes alignment functions.
- * @version 2.4
- * @author Ankit Rohatgi ankitrohatgi@hotmail.com
- */
-
 
 /** Have the axes been picked? true/false. */
 var axesPicked; // axes picked?
@@ -311,8 +294,6 @@ function alignAxes() {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.6
-
 	Copyright 2010-2013 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
@@ -333,12 +314,6 @@ function alignAxes() {
 
 */
 
-/**
- * @fileoverview Automatic extraction mode functions.
- * @version 2.5
- * @author Ankit Rohatgi ankitrohatgi@hotmail.com
- */
-
 /* Autodetection variables */
 var fg_color = [0,0,0];
 var bg_color = [255,255,255];
@@ -353,14 +328,6 @@ var drawingPen = false;
 var drawingEraser = false;
 
 var binaryData;
-
-var algoLocation = [];
-algoLocation['averagingWindow'] = 'javascript/AEalgos/averagingWindow.js';
-algoLocation['xStep'] = 'javascript/AEalgos/xStep.js';
-algoLocation['yStep'] = 'javascript/AEalgos/yStep.js';
-algoLocation['blobDetection'] = 'javascript/AEalgos/blobdetector.js';
-algoLocation['averagingWindowWithStepSize'] = 'javascript/AEalgos/averagingWindowWithStepSize.js';
-algoLocation['customAlgorithm'] = '';
 
 /**
  * Opens the color picker.
@@ -670,7 +637,7 @@ function updateTestWindow() {
   testImage = tempImgCanvas.toDataURL();
   
   var displayImage = new Image();
-  displayImage.onload = function() {testImgContext.drawImage(displayImage,0,0,canvasWidth/2,canvasHeight/2); processingNote(false);}
+  displayImage.onload = function() {testImgContext.drawImage(displayImage,0,0,canvasWidth/2,canvasHeight/2); processingNote(false);};
   displayImage.src = testImage;
   
 }
@@ -732,18 +699,12 @@ function displayParameters() {
   if (algoSelect.value !== 'customAlgorithm') {
 
     URLinput.style.display='none';
-    loadJS(algoLocation[algoSelect.value]);
-    loadScript.onload = makeParameterTable;
+	var algo = window[algoSelect.value];
+   	AEObject = algo;
+    makeParameterTable();
 
-  } else if(algoSelect.value === 'customAlgorithm') {
-
-     var loadBtn = document.getElementById('loadCustomAlgo');
-     var customURL = document.getElementById('customURL');
-     paramZone.innerHTML='';
-     loadBtn.addEventListener('click',function() { loadJS(customURL.value); loadScript.onload = makeParameterTable; }, false);
-     URLinput.style.display='inline';
   }
-  
+
 }
 
 function makeParameterTable() {
@@ -759,8 +720,6 @@ function makeParameterTable() {
 }
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
-
-	Version 2.6
 
 	Copyright 2010-2013 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
@@ -781,13 +740,6 @@ function makeParameterTable() {
 
 
 */
-
-/**
- * @fileoverview Manage the main canvas.
- * @version 2.5
- * @author Ankit Rohatgi ankitrohatgi@hotmail.com
- */
-
 
 /* Main Canvas Variables */
 
@@ -1001,8 +953,6 @@ function loadNewFile() {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.6
-
 	Copyright 2010-2013 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
@@ -1022,12 +972,6 @@ function loadNewFile() {
 
 
 */
-
-/**
- * @fileoverview Transform coordinates between screen pixels and real data.
- * @version 2.5
- * @author Ankit Rohatgi ankitrohatgi@hotmail.com
- */
 
 var dataToPixelxy;
 
@@ -1430,8 +1374,6 @@ var dataToPixelxy;
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.6
-
 	Copyright 2010-2013 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
@@ -1452,12 +1394,6 @@ var dataToPixelxy;
 
 */
 
-/**
- * @fileoverview Generate CSV.
- * @version 2.5
- * @author Ankit Rohatgi ankitrohatgi@hotmail.com
- */
- 
 /* TODO: Insert data sorting algorithms.  */
 
 /*
@@ -1489,8 +1425,6 @@ var dataToPixelxy;
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.6
-
 	Copyright 2010-2013 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
@@ -1511,11 +1445,6 @@ var dataToPixelxy;
 
 */
 
-/**
- * @fileoverview Image Editing functions.
- * @version 2.5
- * @author Ankit Rohatgi ankitrohatgi@hotmail.com
- */
 var cropStatus = 0;
 var cropCoordinates = [0,0,0,0];
 
@@ -1656,8 +1585,6 @@ function rotateCanvas() {}// Rotate by a specified amount.
 /*
     WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-    Version 2.6
-
     Copyright 2010-2013 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
     This file is part of WebPlotDigitizer.
@@ -1679,12 +1606,6 @@ function rotateCanvas() {}// Rotate by a specified amount.
 */
 
 /* This file contains image processing functions */
-
-/**
- * @fileoverview Image Processing functions.
- * @version 2.5
- * @author Ankit Rohatgi ankitrohatgi@hotmail.com
- */
 
 /** 
  * Finds differences between two sets of ImageData and returns a difference matrix. 'true' where unmatched, 'false' where pixels match.
@@ -1892,8 +1813,6 @@ function binaryToImageData(bwdata,imgd) {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotdigitizer
 
-	Version 2.6
-
 	Copyright 2010-2013 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
@@ -1913,13 +1832,6 @@ function binaryToImageData(bwdata,imgd) {
 
 
 */
-
-/**
- * @fileoverview This is the main entry point
- * @version 2.5
- * @author Ankit Rohatgi ankitrohatgi@hotmail.com
- */
-
 
 /**
  * This is the entry point and is executed when the page is loaded.
@@ -2040,8 +1952,6 @@ function checkBrowser() {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.6
-
 	Copyright 2010-2013 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
@@ -2062,11 +1972,6 @@ function checkBrowser() {
 
 */
 
-/**
- * @fileoverview Manual data collection
- * @version 2.5
- * @author Ankit Rohatgi ankitrohatgi@hotmail.com
- */
 
 /* Selected Data Variables */
 var xyData = new Array(); // Raw data
@@ -2226,8 +2131,6 @@ function deleteSpecificPointHandler(ev) {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.6
-
 	Copyright 2010-2013 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
@@ -2248,12 +2151,6 @@ function deleteSpecificPointHandler(ev) {
 
 */
 
-
-/**
- * @fileoverview Some math functions.
- * @version 2.4
- * @author Ankit Rohatgi ankitrohatgi@hotmail.com
- */
 
 /** 
  * Calculate inverse tan with range between 0, 2*pi.
@@ -2272,8 +2169,6 @@ function taninverse(y,x) {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.6
-
 	Copyright 2010-2013 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
@@ -2294,12 +2189,6 @@ function taninverse(y,x) {
 
 */
 
-
-/**
- * @fileoverview Handle Mouse Events.
- * @version 2.5
- * @author Ankit Rohatgi
- */
 
 /**
  * List of mouse event types.
@@ -2393,8 +2282,6 @@ function removeMouseEvent(mouseEv, functionName, tf) {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.6
-
 	Copyright 2010-2013 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
@@ -2414,12 +2301,6 @@ function removeMouseEvent(mouseEv, functionName, tf) {
 
 
 */
-
-/**
- * @fileoverview Handle popups.
- * @version 2.5
- * @author Ankit Rohatgi
- */
 
 /**
  * Display a popup window.
@@ -2473,8 +2354,6 @@ function processingNote(pmode) {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.6
-
 	Copyright 2010-2013 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
@@ -2495,12 +2374,6 @@ function processingNote(pmode) {
 
 */
 
-
-/**
- * @fileoverview Handle sidebars.
- * @version 2.5
- * @author Ankit Rohatgi ankitrohatgi@hotmail.com
- */
 
 var sidebarList = ['editImageToolbar','manualMode','autoMode']; 
 
@@ -2529,8 +2402,6 @@ function clearSidebar() {// Clears all open sidebars
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.6
-
 	Copyright 2010-2013 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
@@ -2550,12 +2421,6 @@ function clearSidebar() {// Clears all open sidebars
 
 
 */
-
-/**
- * @fileoverview Handle toolbars.
- * @version 2.5
- * @author Ankit Rohatgi ankitrohatgi@hotmail.com
- */
 
 var toolbarList = ['paintToolbar','colorPickerToolbar']; 
 
@@ -2583,8 +2448,6 @@ function clearToolbar() {// Clears all open sidebars
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.6
-
 	Copyright 2010-2013 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
@@ -2605,12 +2468,6 @@ function clearToolbar() {// Clears all open sidebars
 
 */
 
-
-/**
- * @fileoverview Manage the live zoom window.
- * @version 2.5
- * @author Ankit Rohatgi ankitrohatgi@hotmail.com
- */
 
 
 /* Zoomed-in view variables */
@@ -2715,4 +2572,575 @@ function toggleCrosshair(ev) {
     }
     return;
 }
+
+/*
+	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
+
+	Copyright 2010-2013 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+
+	This file is part of WebPlotDigitizer.
+
+    WebPlotDigitizer is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    WebPlotDigitizer is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
+
+
+*/
+
+var averagingWindowAlgo = {
+	getParamList: function () {
+			return [["ΔX","Px","5"],["ΔY","Px","5"]];
+		  },
+
+	run: function() {
+			  
+			  var xPoints = new Array();
+			  var xPointsPicked = 0;
+			  xyData = [];
+			  pointsPicked = 0;
+			  
+			  var xStepEl = document.getElementById("pv0");
+			  var xStep = parseFloat(xStepEl.value);
+			  var yStepEl = document.getElementById("pv1");
+			  var yStep = parseFloat(yStepEl.value);
+			  
+			  var dw = canvasWidth;
+			  var dh = canvasHeight;
+			  
+			  var blobAvg = new Array();
+			  
+			  for(var coli = 0; coli < dw; coli++) {
+
+				blobs = -1;
+				firstbloby = -2.0*yStep;
+				bi = 0;
+				   
+				for(var rowi = 0; rowi < dh; rowi++) {
+					if (binaryData[rowi][coli] === true)	{
+					  if (rowi > firstbloby + yStep) {
+						blobs = blobs + 1;
+						bi = 1;
+						blobAvg[blobs] = rowi;
+						firstbloby = rowi;
+					  } else {
+						bi = bi + 1;
+						blobAvg[blobs] = parseFloat((blobAvg[blobs]*(bi-1.0) + rowi)/parseFloat(bi));
+					  }
+					}
+				}
+				
+				if (blobs >= 0) {
+					xi = coli;
+					for (var blbi = 0; blbi <= blobs; blbi++) {
+					  yi = blobAvg[blbi];
+					  
+					  xPoints[xPointsPicked] = new Array();
+					  xPoints[xPointsPicked][0] = parseFloat(xi);
+					  xPoints[xPointsPicked][1] = parseFloat(yi);
+					  xPoints[xPointsPicked][2] = 1; // 1 if not filtered, 0 if processed already
+					  xPointsPicked = xPointsPicked + 1;
+					}
+				}
+				
+			  }
+			  
+			  if (xPointsPicked === 0)
+				return 0;
+			  
+			  for(var pi = 0; pi < xPointsPicked; pi++) {
+				if(xPoints[pi][2] === 1) {// if still available
+				  var inRange = 1;
+				  var xxi = pi+1;
+				  
+				  var oldX = xPoints[pi][0];
+				  var oldY = xPoints[pi][1];
+				  
+				  var avgX = oldX;
+				  var avgY = oldY;
+				  
+				  var matches = 1;
+				  
+				  while((inRange === 1) && (xxi < xPointsPicked)) {
+					var newX = xPoints[xxi][0];
+					var newY = xPoints[xxi][1];
+				
+					if( (Math.abs(newX-oldX) <= xStep) && (Math.abs(newY-oldY) <= yStep) && (xPoints[xxi][2] === 1)) {
+					  avgX = (avgX*matches + newX)/(matches+1.0);
+					  avgY = (avgY*matches + newY)/(matches+1.0);
+					  matches = matches + 1;
+					  
+					  xPoints[xxi][2] = 0;
+					}
+
+					if (newX > oldX + 2*xStep)
+					  inRange = 0;
+				
+					xxi = xxi + 1;
+				  }
+				  
+				  xPoints[pi][2] = 0; 
+				  
+				  xyData[pointsPicked] = new Array();
+				  xyData[pointsPicked][0] = parseFloat(avgX);
+				  xyData[pointsPicked][1] = parseFloat(avgY);
+				  pointsPicked = pointsPicked + 1;	
+
+				}
+				
+			  }
+			  xPoints = [];	
+			}
+};
+
+/*
+	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
+
+	Copyright 2010-2013 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+
+	This file is part of WebPlotDigitizer.
+
+    WebPlotDigitizer is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    WebPlotDigitizer is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
+
+
+*/
+
+var averagingWindowWithStepSizeAlgo = {
+	getParamList: function () {
+			if (plotType === 'XY') {
+				return [["X_min","Units",axesAlignmentData[0].toString()],["ΔX Step","Units","0.1"],["X_max","Units",axesAlignmentData[1].toString()],["Y_min","Units",axesAlignmentData[2].toString()],["Y_max","Units",axesAlignmentData[3].toString()],["Line width","Px","30"]];
+			} else {
+				showPopup('xyAxesOnly');
+				return [["X_min","Units", "0"],["ΔX Step","Units","0.1"],["X_max","Units", "0"],["Y_min","Units", "0"],["Y_max","Units", "0"],["Line width","Px","30"]];
+			}
+		},
+
+	run: function () {
+
+				// NOTE: This only works for XY Plot
+
+				if(plotType === 'XY') {
+
+					var xPointsPicked = 0;
+					xyData = [];
+					pointsPicked = 0;
+
+			resetLayers();
+
+			var dw = canvasWidth;
+			var dh = canvasHeight;
+
+			// Get values from UI:
+			var param_xmin_el = document.getElementById("pv0");
+			var param_delx_el = document.getElementById("pv1");
+			var param_xmax_el = document.getElementById("pv2");
+			var param_linewidth_el = document.getElementById("pv5");
+			var param_ymin_el = document.getElementById("pv3");
+			var param_ymax_el = document.getElementById("pv4");
+
+			var param_xmin = parseFloat(param_xmin_el.value);
+			var param_delx = parseFloat(param_delx_el.value);
+			var param_xmax = parseFloat(param_xmax_el.value);
+			var param_linewidth = parseFloat(param_linewidth_el.value);
+			var param_ymin = parseFloat(param_ymin_el.value);
+			var param_ymax = parseFloat(param_ymax_el.value);
+
+			var blobx = [];
+			var bloby = [];
+
+
+			// Get corresponding pixels:
+			for(var xi = param_xmin; xi <= param_xmax; xi += param_delx) {
+				var xmin_pix, xmax_pix, ymin_pix, ymax_pix, dpix, r_unit_per_pix, step_pix = 1;
+
+				dataToPixel(xi, param_ymin, 'XY');
+				xmin_pix = dataToPixelxy[0];
+				ymin_pix = dataToPixelxy[1];
+
+				dataToPixel(xi, param_ymax, 'XY');
+				xmax_pix = dataToPixelxy[0];
+				ymax_pix = dataToPixelxy[1];
+
+				dpix = Math.sqrt((ymax_pix-ymin_pix)*(ymax_pix-ymin_pix) + (xmax_pix-xmin_pix)*(xmax_pix-xmin_pix));
+
+				r_unit_per_pix = (param_ymax-param_ymin)/dpix;
+
+				var blobActive = false;
+				var blobEntry = 0;
+				var blobExit = 0;
+				var blobExitLocked = false;
+
+				for(var ii = 0; ii <= dpix; ii++) {
+					var yi = -ii*step_pix*r_unit_per_pix + param_ymax;
+					dataToPixel(xi, yi, 'XY');
+
+					xi_pix = dataToPixelxy[0];
+					yi_pix = dataToPixelxy[1];
+
+					if(xi_pix >= 0 && xi_pix < dw && yi_pix >=0 && yi_pix < dh)	{
+
+						if(binaryData[parseInt(yi_pix, 10)][parseInt(xi_pix, 10)] === true)	{
+
+							if(blobActive === false) {
+								blobEntry = ii;
+								blobExit = blobEntry;
+								blobActive = true;
+								blobExitLocked = false;
+							}
+						} else	{
+							if(blobExitLocked === false) {
+								blobExit = ii;
+								blobExitLocked = true;
+							}					
+						}
+
+						if(blobActive === true)	{
+
+							if((ii >= blobEntry + param_linewidth) || ((ii <= dpix) && (ii > dpix))) {
+								blobActive = false;
+
+								if(blobEntry > blobExit) {
+									blobExit = ii;							
+								}
+
+								var mean_ii = (blobEntry + blobExit)/2.0;
+								var mean_yi = -mean_ii*step_pix*r_unit_per_pix + param_ymax;
+
+								dataToPixel(xi, mean_yi, 'XY');
+								xyData[pointsPicked] = new Array();
+								xyData[pointsPicked][0] = parseFloat(dataToPixelxy[0]);
+								xyData[pointsPicked][1] = parseFloat(dataToPixelxy[1]);
+								pointsPicked = pointsPicked + 1;
+							}
+						}
+					}
+
+				}
+			}
+		} else {
+			showPopup('xyAxesOnly');
+		}
+	}
+};
+/*
+	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
+
+	Copyright 2010-2013 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+
+	This file is part of WebPlotDigitizer.
+
+    WebPlotDigitizer is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    WebPlotDigitizer is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
+
+
+*/
+
+var blobDetectorAlgo = {
+	getParamList: function() {
+		return [["Min size","Px","0"],["Max size","Px","1000"]];
+	  },
+	run: function() {
+
+			xyData = [];
+			pointsPicked = 0;
+			
+			var minSize = document.getElementById('pv0').value;
+			var maxSize = document.getElementById('pv1').value;
+			
+			var pixelVisited = []; // flag to determine whether a pixel was visited.
+			
+			// initialize to zero.
+			for (var ri = 0; ri < canvasHeight; ri++) {
+				pixelVisited[ri] = new Array();
+				for(var ci = 0; ci < canvasWidth; ci++) {
+					pixelVisited[ri][ci] = false;
+				}
+			}
+			
+			var objectCount = 0;            // number of objects.
+			var objectArea = [];            // numbers of pixels in each obejct.
+			var objectCentroidx = [];        // location of centroid of each object.
+			var objectCentroidy = [];        // location of centroid of each object.
+			var objectpx = [];          // list of pixels of each object.
+			var objectpy = [];  
+			var objectRange = [];    // span of the object in pixels.
+			
+			for (var rpi = 0; rpi < canvasHeight; rpi++) {
+				for (var cpi = 0; cpi < canvasWidth; cpi++) {
+					if((binaryData[rpi][cpi] === true) && (pixelVisited[rpi][cpi] === false)) {
+						pixelVisited[rpi][cpi] = true;
+						
+						objectCount = objectCount + 1;
+						objectArea[objectCount-1] = 1;
+						
+						objectpx[objectCount-1] = new Array();
+						objectpy[objectCount-1] = new Array();
+						
+						objectpx[objectCount-1][0] = cpi;
+						objectpy[objectCount-1][0] = rpi;
+						
+						objectCentroidx[objectCount-1] = cpi;
+						objectCentroidy[objectCount-1] = rpi;
+						
+						var pxi = 1;
+						var oi = 1;
+						
+						while (pxi <= oi) {
+							ai = objectpy[objectCount-1][pxi-1];
+							bi = objectpx[objectCount-1][pxi-1];
+							
+							for (var pp = -1; pp <= 1; pp++) {
+								for (var qq = -1; qq <=1; qq++) {
+									if (((ai+pp) >= 0) && ((bi+qq) >= 0) && ((ai+pp) < canvasHeight) && ((bi+qq) < canvasWidth)) {
+										if ((binaryData[ai+pp][bi+qq] == true) && (pixelVisited[ai+pp][bi+qq] == false)) {
+											objectArea[objectCount-1] = objectArea[objectCount-1] + 1;
+											oi = objectArea[objectCount-1];
+											objectpy[objectCount-1][oi-1] = ai+pp;
+											objectpx[objectCount-1][oi-1] = bi+qq;
+											
+											objectCentroidy[objectCount-1] = (objectCentroidy[objectCount-1]*(oi-1) + (ai+pp))/oi;
+											objectCentroidx[objectCount-1] = (objectCentroidx[objectCount-1]*(oi-1) + (bi+qq))/oi;
+											
+											pixelVisited[ai+pp][bi+qq] = true;
+										}
+									}
+								}
+							}
+							
+							pxi = pxi + 1;
+						}
+									   
+						
+						// Object is now fully captured. Get object range here.
+						
+									   
+					}
+					pixelVisited[rpi][cpi] = true;
+				}
+			}
+			
+			for (var obi = 0; obi < objectCount; obi++) {
+				var sz = 2.0*Math.sqrt(objectArea[obi]/Math.PI);
+				if ((sz>=minSize) && (sz<=maxSize)) {
+					xyData[pointsPicked] = new Array();
+					xyData[pointsPicked][0] = parseFloat(objectCentroidx[obi]);
+					xyData[pointsPicked][1] = parseFloat(objectCentroidy[obi]);
+					xyData[pointsPicked][2] = objectArea[obi];
+					pointsPicked = pointsPicked + 1;
+				}
+			}
+				 
+		}
+};
+/*
+	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
+
+	Copyright 2010-2013 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+
+	This file is part of WebPlotDigitizer.
+
+    WebPlotDigitizer is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    WebPlotDigitizer is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
+
+
+*/
+
+var xStepAlgo = {
+
+	getParamList: function () {
+			return [["ΔX","Px","5"],["Line Width","Px","15"]];
+		  },
+
+	run: function() {
+		  
+		   var xPointsPicked = 0;
+			  xyData = [];
+			  pointsPicked = 0;
+			  
+			  resetLayers();
+			  
+			  var xStepEl = document.getElementById("pv0");
+			  var xStep = parseFloat(xStepEl.value);
+			  
+			  var LineThicknessEl = document.getElementById("pv1");
+			  var yStep = parseFloat(LineThicknessEl.value);
+			  
+			  var dw = canvasWidth;
+			  var dh = canvasHeight;
+			  
+			  var blobAvg = new Array();
+			  
+			  var dx = 1;
+			  var coli = 0;
+			  
+			  while (coli < dw) {
+					blobs = -1;
+					firstbloby = -2.0*yStep;
+					bi = 0;
+			
+					for(var rowi = 0; rowi < dh; rowi++) {
+						if (binaryData[rowi][coli] === true) {
+							dx = xStep; // First contact has been made, start moving forward with xStep now.
+							
+							if (rowi > firstbloby + yStep) {
+								blobs = blobs + 1;
+								bi = 1;
+								blobAvg[blobs] = rowi;
+								firstbloby = rowi;
+							} else {
+								bi = bi + 1;
+								blobAvg[blobs] = parseFloat((blobAvg[blobs]*(bi-1.0) + rowi)/parseFloat(bi));
+							}
+						}
+						
+					}
+					
+					if (blobs >= 0) {
+						xi = coli;
+						for (var blbi = 0; blbi <= blobs; blbi++) {
+							  yi = blobAvg[blbi];
+							  xyData[pointsPicked] = new Array();
+							  xyData[pointsPicked][0] = parseFloat(xi);
+							  xyData[pointsPicked][1] = parseFloat(yi);
+							  pointsPicked = pointsPicked + 1;	
+			 
+						}
+					}
+
+					
+					coli = coli + dx;
+			  }
+			 
+		}
+};
+
+/*
+	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
+
+	Copyright 2010-2013 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+
+	This file is part of WebPlotDigitizer.
+
+    WebPlotDigitizer is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    WebPlotDigitizer is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
+
+
+*/
+var yStepAlgo = {
+	getParamList: function () {
+		return [["ΔY","Px","5"],["Line Width","Px","15"]];
+	  },
+	  
+	run: function() {
+		  
+		   var xPointsPicked = 0;
+			  xyData = [];
+			  pointsPicked = 0;
+			  
+			  resetLayers();
+					
+			  var yStepEl = document.getElementById("pv0");
+			  var yStep = parseFloat(yStepEl.value);
+			  
+			  var LineThicknessEl = document.getElementById("pv1");
+			  var xStep = parseFloat(LineThicknessEl.value);
+			  
+			  var dw = canvasWidth;
+			  var dh = canvasHeight;
+			  
+			  var blobAvg = new Array();
+			  
+			  var dy = -1;
+			  var rowi = dh-1;
+			  
+			  while (rowi >= 0) {
+					blobs = -1;
+					firstblobx = -2.0*xStep;
+					bi = 0;
+			
+					for(var coli = 0; coli < dw; coli++) {
+						if (binaryData[rowi][coli] === true) {
+							dy = -yStep; // First contact has been made, start moving forward with xStep now.
+							
+							if (coli > firstblobx + xStep) {
+								blobs = blobs + 1;
+								bi = 1;
+								blobAvg[blobs] = coli;
+								firstblobx = coli;
+							} else {
+								bi = bi + 1;
+								blobAvg[blobs] = parseFloat((blobAvg[blobs]*(bi-1.0) + coli)/parseFloat(bi));
+							}
+						}
+						
+					}
+					
+					if (blobs >= 0) {
+						yi = rowi;
+						for (var blbi = 0; blbi <= blobs; blbi++) {
+							  xi = blobAvg[blbi];
+							  xyData[pointsPicked] = new Array();
+							  xyData[pointsPicked][0] = parseFloat(xi);
+							  xyData[pointsPicked][1] = parseFloat(yi);
+							  pointsPicked = pointsPicked + 1;	
+			 
+						}
+					}
+
+					
+					rowi = rowi + dy;
+			  }
+			 
+			 
+		}
+};
 
