@@ -93,8 +93,8 @@ var topScreen;
  * Load an image on the main canvas.
  * @param {Image} imgel Image to load.
  */
-function loadImage(imgel)
-{
+function loadImage(imgel) {
+
 	var sheight = parseInt(imgel.height);
 	var swidth = parseInt(imgel.width);
 	var iar = sheight/swidth;
@@ -102,13 +102,10 @@ function loadImage(imgel)
 	var newHeight = sheight;
 	var newWidth = swidth;
 		
-	if (iar > caspectratio)
-	{
+	if (iar > caspectratio)	{
 		newHeight = cheight;
 		newWidth = cheight/iar;
-	}
-	else
-	{
+	} else {
 		newWidth = cwidth;
 		newHeight = cwidth*iar;
 	}
@@ -137,8 +134,7 @@ function loadImage(imgel)
 /**
  * Save the current state.
  */
-function saveCanvasImage()
-{
+function saveCanvasImage() {
 	var nimagedata = ctx.getImageData(cx0,cy0,currentImageWidth,currentImageHeight);
 	var tCanvas = document.createElement('canvas');
 	
@@ -157,8 +153,7 @@ function saveCanvasImage()
  * Returns getImageData from the main canvas.
  * @returns {ImageData} Current ImageData.
  */
-function getCanvasData()
-{
+function getCanvasData() {
 	var cImgData = ctx.getImageData(0,0,canvasWidth,canvasHeight);
 	return cImgData;
 }
@@ -167,8 +162,7 @@ function getCanvasData()
  * Load image on the main canvas
  * @param {ImageData} cImgData ImageData.
  */
-function putCanvasData(cImgData)
-{
+function putCanvasData(cImgData) {
 	mainCanvas.width = mainCanvas.width;
 	ctx.putImageData(cImgData,0,0);
 }
@@ -176,8 +170,7 @@ function putCanvasData(cImgData)
 /**
  * Redraw/Reset canvas.
  */
-function reloadPlot()
-{
+function reloadPlot() {
 	mainCanvas.width = mainCanvas.width; // resets canvas.
 	ctx.drawImage(currentImage, cx0, cy0, currentImageWidth, currentImageHeight); // redraw image.
 }
@@ -185,8 +178,7 @@ function reloadPlot()
 /**
  * Redraw/Reset canvas.
  */
-function redrawCanvas()
-{
+function redrawCanvas() {
 	mainCanvas.width = mainCanvas.width;
 	putCanvasData(currentScreen);
 }
@@ -194,8 +186,7 @@ function redrawCanvas()
 /**
  * Resets all canvases except the main canvas.
  */
-function resetLayers()
-{
+function resetLayers() {
     dataCanvas.width = dataCanvas.width;
     drawCanvas.width = drawCanvas.width;
     hoverCanvas.width = hoverCanvas.width;
@@ -205,8 +196,7 @@ function resetLayers()
 /**
  * Create PNG in a new window
  */
-function savePNG()
-{
+function savePNG() {
   var saveImageWin = window.open();
   saveImageWin.location = mainCanvas.toDataURL();
 }
@@ -214,11 +204,9 @@ function savePNG()
 /**
  * Handle dropped file on canvas.
  */
-function dropHandler(ev)
-{
+function dropHandler(ev) {
 	var allDrop = ev.dataTransfer.files;
-	if (allDrop.length == 1) 
-	{
+	if (allDrop.length == 1) {
 	    fileLoader(allDrop[0]);
 	}
 }
@@ -226,29 +214,25 @@ function dropHandler(ev)
 /**
  * Loads a file that was dropped or loaded
  */
-function fileLoader(fileInfo)
-{
-    if(fileInfo.type.match("image.*")) // only load images
-    {
-	var droppedFile = new FileReader();
-	droppedFile.onload = function() {
-	    var imageInfo = droppedFile.result;
-	    var newimg = new Image();
-	    newimg.onload = function() { loadImage(newimg); originalScreen = getCanvasData(); originalImage = newimg; setDefaultState(); }
-	    newimg.src = imageInfo;
+function fileLoader(fileInfo) {
+    if(fileInfo.type.match("image.*")) {// only load images
+		var droppedFile = new FileReader();
+		droppedFile.onload = function() {
+			var imageInfo = droppedFile.result;
+			var newimg = new Image();
+			newimg.onload = function() { loadImage(newimg); originalScreen = getCanvasData(); originalImage = newimg; setDefaultState(); }
+			newimg.src = imageInfo;
+		}
+		droppedFile.readAsDataURL(fileInfo);
 	}
-	droppedFile.readAsDataURL(fileInfo);
-    }
 }
 
 /**
  * Load file when file is chosen
  */
-function loadNewFile()
-{
+function loadNewFile() {
   var fileLoadElem = document.getElementById('fileLoadBox');
-  if (fileLoadElem.files.length == 1)
-  {
+  if (fileLoadElem.files.length == 1) {
     var fileInfo = fileLoadElem.files[0];
     fileLoader(fileInfo);
   }

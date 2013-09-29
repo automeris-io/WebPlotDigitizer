@@ -33,8 +33,7 @@
 /** 
  * Calculate inverse tan with range between 0, 2*pi.
  */
-function taninverse(y,x)
-{
+function taninverse(y,x) {
   var inv_ans;
   if (y>0) // I & II
     inv_ans = Math.atan2(y,x);

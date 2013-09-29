@@ -31,10 +31,9 @@
 
 AEObject.getParamList = function () {
     return [["ΔX","Px","5"],["Line Width","Px","15"]];
-  }
+  };
  
-AEObject.run = function()
-{
+AEObject.run = function() {
   
    var xPointsPicked = 0;
       xyData = [];
@@ -56,27 +55,21 @@ AEObject.run = function()
       var dx = 1;
       var coli = 0;
       
-      while (coli < dw)
-      {
+      while (coli < dw) {
             blobs = -1;
             firstbloby = -2.0*yStep;
             bi = 0;
     
-            for(var rowi = 0; rowi < dh; rowi++)
-            {
-                if (binaryData[rowi][coli] == true)
-                {
+            for(var rowi = 0; rowi < dh; rowi++) {
+                if (binaryData[rowi][coli] == true) {
                     dx = xStep; // First contact has been made, start moving forward with xStep now.
                     
-                    if (rowi > firstbloby + yStep)
-                    {
+                    if (rowi > firstbloby + yStep) {
                         blobs = blobs + 1;
 	                    bi = 1;
 	                    blobAvg[blobs] = rowi;
 	                    firstbloby = rowi;
-	                }
-	                else
-	                {
+	                } else {
 	                    bi = bi + 1;
 	                    blobAvg[blobs] = parseFloat((blobAvg[blobs]*(bi-1.0) + rowi)/parseFloat(bi));
 	                }
@@ -84,11 +77,9 @@ AEObject.run = function()
                 
             }
             
-            if (blobs >= 0)
-            {
+            if (blobs >= 0) {
 	            xi = coli;
-	            for (var blbi = 0; blbi <= blobs; blbi++)
-	            {
+	            for (var blbi = 0; blbi <= blobs; blbi++) {
 	                  yi = blobAvg[blbi];
                       xyData[pointsPicked] = new Array();
                       xyData[pointsPicked][0] = parseFloat(xi);
@@ -102,5 +93,5 @@ AEObject.run = function()
             coli = coli + dx;
       }
      
-}
+};
 

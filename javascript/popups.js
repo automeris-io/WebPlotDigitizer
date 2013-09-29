@@ -33,8 +33,7 @@
  * Display a popup window.
  * @param {String} popupid ID of the DIV element containing the popup block.
  */
-function showPopup(popupid)
-{
+function showPopup(popupid) {
 	// Dim lights :)
 	var shadowDiv = document.getElementById('shadow');
 	shadowDiv.style.visibility = "visible";
@@ -55,8 +54,7 @@ function showPopup(popupid)
  * Hide a popup window.
  * @param {String} popupid ID of the DIV element containing the popup block.
  */
-function closePopup(popupid)
-{
+function closePopup(popupid) {
 	var shadowDiv = document.getElementById('shadow');
 	shadowDiv.style.visibility = "hidden";
 
@@ -69,16 +67,12 @@ function closePopup(popupid)
  * Show a 'processing' note on the top right corner.
  * @param {boolean} pmode set to 'true' to diplay, 'false' to hide.
  */
-function processingNote(pmode)
-{
+function processingNote(pmode) {
 	var pelem = document.getElementById('wait');
 
-	if(pmode == true)
-	{
+	if(pmode == true) {
 		pelem.style.visibility = 'visible';
-	}
-	else
-	{
+	} else {
 		pelem.style.visibility = 'hidden';
 	}
 

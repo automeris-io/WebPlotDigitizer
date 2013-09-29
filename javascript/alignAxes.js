@@ -51,8 +51,7 @@ var plotType;
 /**
  * Start the alignment process here. Called from the Plot Type option popup.
  */ 
-function initiatePlotAlignment()
-{
+function initiatePlotAlignment() {
   axesPicked = 0;
   xyEl = document.getElementById('r_xy');
   polarEl = document.getElementById('r_polar');
@@ -78,8 +77,7 @@ function initiatePlotAlignment()
  * Entry point for Axes alignment. 
  * @param {String} ax_mode Plot Type. Options: 'XY', 'bar', 'polar', 'ternary'
  */
-function setAxes(ax_mode) 
-{
+function setAxes(ax_mode) {
 
 	plotType = ax_mode;
 	clearSidebar();
@@ -88,28 +86,19 @@ function setAxes(ax_mode)
 	axesN = 0;
 	xyAxes = [];
 
-	if ((plotType == 'XY')||(plotType == 'bar'))
-	{
+	if ((plotType == 'XY')||(plotType == 'bar')) {
 		axesNmax = 4;
 		showPopup('xyAxesInfo');
-	}
-	else if (plotType == 'polar')
-	{
+	} else if (plotType == 'polar') {
 		axesNmax = 3;
 		showPopup('polarAxesInfo');
-	}
-	else if (plotType == 'ternary')
-	{
+	} else if (plotType == 'ternary') {
 		axesNmax = 3;
 		showPopup('ternaryAxesInfo');
-	}
-	else if (plotType == 'map')
-	{
+	} else if (plotType == 'map') {
 		axesNmax = 2;
 		showPopup('mapAxesInfo');
-	}
-	else if (plotType == 'image')
-	{
+	} else if (plotType == 'image') {
 		axesNmax = 0;
 		alignAxes();
 	}
@@ -119,10 +108,8 @@ function setAxes(ax_mode)
  * Handles mouseclick in axis alignment mode. Axes point are defined using this.
  * @param {Event} ev Mouse event.
  */
-function pickCorners(ev)
-{
-	if (axesN < axesNmax)
-	{
+function pickCorners(ev) {
+	if (axesN < axesNmax) {
 		xi = ev.layerX;
 		yi = ev.layerY;
 		xyAxes[axesN] = new Array();
@@ -137,26 +124,18 @@ function pickCorners(ev)
 		
 		updateZoom(ev);
 
-		if (axesN == axesNmax)
-		{
+		if (axesN == axesNmax) {
 				axesPicked = 1;
 				
 				removeMouseEvent('click',pickCorners,true);
 				
-				if (plotType == 'XY')
-				{
+				if (plotType == 'XY') {
 					showPopup('xyAlignment');
-				}
-				else if (plotType == 'polar')
-				{
+				} else if (plotType == 'polar') {
 					showPopup('polarAlignment');
-				}
-				else if (plotType == 'ternary')
-				{
+				} else if (plotType == 'ternary') {
 					showPopup('ternaryAlignment');
-				}
-				else if (plotType == 'map')
-				{
+				} else if (plotType == 'map') {
 					showPopup('mapAlignment');
 				}
 
@@ -170,10 +149,8 @@ function pickCorners(ev)
 /**
  * Store the alignment data.
  */
-function alignAxes()
-{
-    if (plotType == 'XY')
-    {
+function alignAxes() {
+    if (plotType == 'XY') {
 	    var xminEl = document.getElementById('xmin');
 	    var xmaxEl = document.getElementById('xmax');
 	    var yminEl = document.getElementById('ymin');
@@ -197,9 +174,7 @@ function alignAxes()
 	        axesAlignmentData[5] = false;
 	
 	    closePopup('xyAlignment');
-    }
-    else if (plotType == 'polar')
-    {
+    } else if (plotType == 'polar') {
 	    var r1El = document.getElementById('rpoint1');
 	    var theta1El = document.getElementById('thetapoint1');
 	    var r2El = document.getElementById('rpoint2');
@@ -226,9 +201,7 @@ function alignAxes()
 	
 	
 	    closePopup('polarAlignment');
-    }
-    else if (plotType == 'ternary')
-    {
+    } else if (plotType == 'ternary') {
 	    var range1El = document.getElementById('range0to1');
 	    var range100El = document.getElementById('range0to100');
 	    var ternaryNormalEl = document.getElementById('ternarynormal');
@@ -244,17 +217,13 @@ function alignAxes()
 	      axesAlignmentData[1] = false;
 		
 	    closePopup('ternaryAlignment');
-    }
-    else if (plotType == 'map')
-    {
+    } else if (plotType == 'map') {
 	    var scaleLength = document.getElementById('scaleLength');
 	
 	    axesAlignmentData[0] = parseFloat(scaleLength.value);
 	
 	    closePopup('mapAlignment');
-    }
-    else if (plotType == 'image')
-    {
+    } else if (plotType == 'image') {
 	  axesPicked = 1;
 	  axesAlignmentData[0] = imageDimensions[0]; // xmin
 	  axesAlignmentData[1] = imageDimensions[2]; // xmax

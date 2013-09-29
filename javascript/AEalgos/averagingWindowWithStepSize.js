@@ -40,7 +40,7 @@ AEObject.getParamList = function () {
 
 	return null;
 
-}
+};
 
 AEObject.run = function () {
 
@@ -77,8 +77,7 @@ AEObject.run = function () {
 
 
 		// Get corresponding pixels:
-		for(var xi = param_xmin; xi <= param_xmax; xi += param_delx)
-		{
+		for(var xi = param_xmin; xi <= param_xmax; xi += param_delx) {
 			var xmin_pix, xmax_pix, ymin_pix, ymax_pix, dpix, r_unit_per_pix, step_pix = 1;
 
 			dataToPixel(xi, param_ymin, 'XY');
@@ -98,8 +97,7 @@ AEObject.run = function () {
 			var blobExit = 0;
 			var blobExitLocked = false;
 
-			for(var ii = 0; ii <= dpix; ii++)
-			{
+			for(var ii = 0; ii <= dpix; ii++) {
 				var yi = -ii*step_pix*r_unit_per_pix + param_ymax;
 				dataToPixel(xi, yi, 'XY');
 
@@ -125,7 +123,7 @@ AEObject.run = function () {
 
 					if(blobActive === true)	{
 
-						if((ii >= blobEntry + param_linewidth) || ((ii <= dpix) && (ii > dpix)) {
+						if((ii >= blobEntry + param_linewidth) || ((ii <= dpix) && (ii > dpix))) {
 							blobActive = false;
 
 							if(blobEntry > blobExit) {
@@ -150,4 +148,4 @@ AEObject.run = function () {
 		showPopup('xyAxesOnly');
 	}
 	
-}
+};

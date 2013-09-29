@@ -57,17 +57,14 @@ var mouseEvents = 0;
  * @param {function} functionName Name of the method associated 
  * @param {boolean} tf Capture value.
  */
-function addMouseEvent(mouseEv, functionName, tf)
-{
+function addMouseEvent(mouseEv, functionName, tf) {
 	var eventExists = false;
-	for(var ii = 0; ii < mouseEvents; ii++)
-	{
+	for(var ii = 0; ii < mouseEvents; ii++)	{
 		if ((mouseEv == mouseEventType[ii]) && (functionName == mouseEventFunction[ii]) && (tf == mouseEventCapture[ii]))
-		eventExists = true;
+			eventExists = true;
 	}
 
-	if(eventExists == false)
-	{
+	if(eventExists == false) {
 		topCanvas.addEventListener(mouseEv, functionName, tf);
 		mouseEventType[mouseEvents] = mouseEv;
 		mouseEventFunction[mouseEvents] = functionName;
@@ -79,12 +76,11 @@ function addMouseEvent(mouseEv, functionName, tf)
 /**
  * Clear the entire list of active mouse events.
  */
-function removeAllMouseEvents()
-{
-	if(mouseEvents > 0)
-	{
-		for (var kk = 0; kk < mouseEvents; kk++)
-		{
+function removeAllMouseEvents() {
+
+	if(mouseEvents > 0) {
+
+		for (var kk = 0; kk < mouseEvents; kk++) {
 			topCanvas.removeEventListener(mouseEventType[kk],mouseEventFunction[kk],mouseEventCapture[kk]);
 		}
 		mouseEvents = 0;
@@ -101,21 +97,19 @@ function removeAllMouseEvents()
  * @param {function} functionName Name of the method associated 
  * @param {boolean} tf Capture value.
  */
-function removeMouseEvent(mouseEv, functionName, tf)
-{
+function removeMouseEvent(mouseEv, functionName, tf) {
+
 	var eventExists = false;
 	var eventIndex = 0;
 
-	for(var ii = 0; ii < mouseEvents; ii++)
-	{
-		if ((mouseEv == mouseEventType[ii]) && (functionName == mouseEventFunction[ii]) && (tf == mouseEventCapture[ii]))
-		{
+	for(var ii = 0; ii < mouseEvents; ii++) {
+		if ((mouseEv == mouseEventType[ii]) && (functionName == mouseEventFunction[ii]) && (tf == mouseEventCapture[ii])) {
 			eventExists = true;
 			eventIndex = ii;
 		}
 	}
-	if(eventExists == true)
-	{
+
+	if(eventExists == true) {
 		topCanvas.removeEventListener(mouseEv, functionName, tf);
 		mouseEvents = mouseEvents - 1;
 		mouseEventType.splice(eventIndex,1);

@@ -36,8 +36,8 @@ var sidebarList = ['editImageToolbar','manualMode','autoMode'];
  * Show a specific sidebar
  * @param {String} sbid Sidebar ID.
  */
-function showSidebar(sbid) // Shows a specific sidebar
-{
+function showSidebar(sbid) {// Shows a specific sidebar
+
 	clearSidebar();
 	var sb = document.getElementById(sbid);
 	sb.style.visibility = "visible";
@@ -46,12 +46,11 @@ function showSidebar(sbid) // Shows a specific sidebar
 /**
  * Hide all sidebars.
  */
-function clearSidebar() // Clears all open sidebars
-{
-      for (ii = 0; ii < sidebarList.length; ii ++)
-      {
-	  var sbv = document.getElementById(sidebarList[ii]);
-	  sbv.style.visibility="hidden";
+function clearSidebar() {// Clears all open sidebars
+
+      for (ii = 0; ii < sidebarList.length; ii ++) {
+		  var sbv = document.getElementById(sidebarList[ii]);
+		  sbv.style.visibility="hidden";
       }
 	
 }

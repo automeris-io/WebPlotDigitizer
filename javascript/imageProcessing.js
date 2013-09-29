@@ -36,29 +36,24 @@
  * @params {ImageData} d1 first ImageData
  * @params {ImageData} d2 second ImageData
  */
-function findDifference(d1,d2)
-{
+function findDifference(d1,d2) {
     var dw = canvasWidth;
     var dh = canvasHeight;
     var diff = new Array();
     
-    for (var rowi = 0; rowi < dh; rowi++)
-    {
-	diff[rowi] = new Array();
-	for(var coli = 0; coli < dw; coli++)
-	{
-	    var index = rowi*4*dw + coli*4;
-	    diff[rowi][coli] = false;
+    for (var rowi = 0; rowi < dh; rowi++) {
+		diff[rowi] = new Array();
+		for(var coli = 0; coli < dw; coli++) {
+			var index = rowi*4*dw + coli*4;
+			diff[rowi][coli] = false;
+			
+			for(var p = 0; p < 4; p++) {
+				if (d1.data[index+p] != d2.data[index+p]) {
+					diff[rowi][coli] = true;
+				}
+			}
 	    
-	    for(var p = 0; p < 4; p++)
-	    {
-		if (d1.data[index+p] != d2.data[index+p])
-		{
-		    diff[rowi][coli] = true;
 		}
-	    }
-	    
-	}
     }
     
     return diff;
@@ -67,22 +62,19 @@ function findDifference(d1,d2)
 /**
  * Copies pixels based on the difference matrix. 
  */
-function copyUsingDifference(copyTo, copyFrom, diff)
-{
+function copyUsingDifference(copyTo, copyFrom, diff) {
     var dw = canvasWidth;
     var dh = canvasHeight;
     
-    for (var rowi = 0; rowi < dh; rowi++)
-    {
-	for(var coli = 0; coli < dw; coli++)
-	{
-	    var index = rowi*4*dw + coli*4;
-		    
-	    if (diff[rowi][coli] == true)
-	   	for(var p = 0; p < 4; p++)
-		    copyTo.data[index+p] = copyFrom.data[index+p];
-		       
-	}
+    for (var rowi = 0; rowi < dh; rowi++) {
+		for(var coli = 0; coli < dw; coli++) {
+			var index = rowi*4*dw + coli*4;
+				
+			if (diff[rowi][coli] == true)
+			for(var p = 0; p < 4; p++)
+				copyTo.data[index+p] = copyFrom.data[index+p];
+				   
+		}
     }
     
     return copyTo;
@@ -91,8 +83,7 @@ function copyUsingDifference(copyTo, copyFrom, diff)
 /** 
  * create BW image based on the colors specified.
  */
-function colorSelect(imgd, mode, colorRGB, tol)
-{
+function colorSelect(imgd, mode, colorRGB, tol) {
     dw = canvasWidth;
     dh = canvasHeight;
     
@@ -102,35 +93,30 @@ function colorSelect(imgd, mode, colorRGB, tol)
     
     var seldata = new Array();
     
-    for (var rowi=0; rowi < dh; rowi++)
-    {
-	seldata[rowi] = new Array();
-	for(var coli=0; coli < dw; coli++)
-	{
-	    index = rowi*4*dw + coli*4;
-	    ir = imgd.data[index];
-	    ig = imgd.data[index+1];
-	    ib = imgd.data[index+2];
-	    
-	    dist = Math.sqrt((ir-redv)*(ir-redv) + (ig-greenv)*(ig-greenv) + (ib+bluev)*(ib+bluev));
-	    
-	    seldata[rowi][coli] = false;
-	    
-	    if (mode == 'fg')
-	    {
-		if (dist <= tol)
-		{
-		    seldata[rowi][coli] = true;
+    for (var rowi=0; rowi < dh; rowi++) {
+		seldata[rowi] = new Array();
+		for(var coli=0; coli < dw; coli++) {
+			index = rowi*4*dw + coli*4;
+			ir = imgd.data[index];
+			ig = imgd.data[index+1];
+			ib = imgd.data[index+2];
+			
+			dist = Math.sqrt((ir-redv)*(ir-redv) + (ig-greenv)*(ig-greenv) + (ib+bluev)*(ib+bluev));
+			
+			seldata[rowi][coli] = false;
+			
+			if (mode == 'fg') {
+				if (dist <= tol) {
+					seldata[rowi][coli] = true;
+				}
+
+			} else if (mode == 'bg') {
+
+				if (dist > tol) {
+					seldata[rowi][coli] = true;
+				}
+			}
 		}
-	    }
-	    else if (mode == 'bg')
-	    {
-		if (dist > tol)
-		{
-		    seldata[rowi][coli] = true;
-		}
-	    }
-	}
     }
     
     return seldata;
@@ -139,8 +125,7 @@ function colorSelect(imgd, mode, colorRGB, tol)
 /**
  * create BW image based on the colors but only in valid region of difference matrix.
  */
-function colorSelectDiff(imgd, mode, colorRGB, tol, diff)
-{
+function colorSelectDiff(imgd, mode, colorRGB, tol, diff) {
     dw = canvasWidth;
     dh = canvasHeight;
     
@@ -150,35 +135,28 @@ function colorSelectDiff(imgd, mode, colorRGB, tol, diff)
     
     var seldata = new Array();
     
-    for (var rowi=0; rowi < dh; rowi++)
-    {
-	seldata[rowi] = new Array();
-	for(var coli=0; coli < dw; coli++)
-	{
-	    index = rowi*4*dw + coli*4;
-	    var ir = imgd.data[index];
-	    var ig = imgd.data[index+1];
-	    var ib = imgd.data[index+2];
-	    
-	    var dist = Math.sqrt((ir-redv)*(ir-redv) + (ig-greenv)*(ig-greenv) + (ib-bluev)*(ib-bluev));
-	    
-	    seldata[rowi][coli] = false;
-	    
-	    if ((mode == 'fg') && (diff[rowi][coli] == 1))
-	    {
-		    if (dist <= tol)
-		    {
-		        seldata[rowi][coli] = true;
-		    }
-	    }
-	    else if ((mode == 'bg') && (diff[rowi][coli] == 1))
-	    {
-		    if (dist > tol)
-		    {
-		        seldata[rowi][coli] = true;
-		    }
-	    }
-	}
+    for (var rowi=0; rowi < dh; rowi++) {
+		seldata[rowi] = new Array();
+		for(var coli=0; coli < dw; coli++) {
+			index = rowi*4*dw + coli*4;
+			var ir = imgd.data[index];
+			var ig = imgd.data[index+1];
+			var ib = imgd.data[index+2];
+			
+			var dist = Math.sqrt((ir-redv)*(ir-redv) + (ig-greenv)*(ig-greenv) + (ib-bluev)*(ib-bluev));
+			
+			seldata[rowi][coli] = false;
+			
+			if ((mode == 'fg') && (diff[rowi][coli] == 1)) {
+				if (dist <= tol) {
+					seldata[rowi][coli] = true;
+				}
+			} else if ((mode == 'bg') && (diff[rowi][coli] == 1)) {
+				if (dist > tol) {
+					seldata[rowi][coli] = true;
+				}
+			}
+		}
     }
     
     return seldata;
@@ -187,8 +165,7 @@ function colorSelectDiff(imgd, mode, colorRGB, tol, diff)
 /**
  * Select from marked region of interest based on color.
  */
-function selectFromMarkedRegion(mode, colorRGB, tol)
-{
+function selectFromMarkedRegion(mode, colorRGB, tol) {
     dw = canvasWidth;
     dh = canvasHeight;
     
@@ -201,11 +178,9 @@ function selectFromMarkedRegion(mode, colorRGB, tol)
     
     var seldata = new Array();
     
-    for (var rowi=0; rowi < dh; rowi++)
-    {
+    for (var rowi=0; rowi < dh; rowi++) {
 	    seldata[rowi] = new Array();
-	    for(var coli=0; coli < dw; coli++)
-	    {
+	    for(var coli=0; coli < dw; coli++) {
 	        index = rowi*4*dw + coli*4;
 	        
 	        // marked region
@@ -220,8 +195,8 @@ function selectFromMarkedRegion(mode, colorRGB, tol)
 	        
        	    seldata[rowi][coli] = false;
        	    
-       	    if ((mr == 255) && (mg ==  255) && (mb == 0)) // yellow marked region
-       	    {
+       	    if ((mr == 255) && (mg ==  255) && (mb == 0)) {// yellow marked region
+
        	        var dist = Math.sqrt((ir-redv)*(ir-redv) + (ig-greenv)*(ig-greenv) + (ib-bluev)*(ib-bluev));
        	        
        	        if ((mode == 'fg') && (dist <= tol))
@@ -238,26 +213,20 @@ function selectFromMarkedRegion(mode, colorRGB, tol)
 /**
  * Populate an ImageData array based on a binary data matrix.
  */
-function binaryToImageData(bwdata,imgd)
-{
+function binaryToImageData(bwdata,imgd) {
     dw = canvasWidth;
     dh = canvasHeight;
          
-    for(var rowi = 0; rowi < dh; rowi++)
-    {
-	for(var coli = 0; coli < dw; coli++)
-	{
-	    index = rowi*4*dw + coli*4;
-	    if (bwdata[rowi][coli] == false)
-	    {
-		imgd.data[index] = 255; imgd.data[index+1] = 255; imgd.data[index+2] = 255; imgd.data[index+3] = 255;
-	    }
-	    else
-	    {
-		imgd.data[index] = 0; imgd.data[index+1] = 0; imgd.data[index+2] = 0; imgd.data[index+3] = 255;
-	    }
+    for(var rowi = 0; rowi < dh; rowi++) {
+		for(var coli = 0; coli < dw; coli++) {
+			index = rowi*4*dw + coli*4;
+			if (bwdata[rowi][coli] == false) {
+			imgd.data[index] = 255; imgd.data[index+1] = 255; imgd.data[index+2] = 255; imgd.data[index+3] = 255;
+			} else {
+			imgd.data[index] = 0; imgd.data[index+1] = 0; imgd.data[index+2] = 0; imgd.data[index+3] = 255;
+			}
+		}
 	}
-    }
     
     return imgd;
 }

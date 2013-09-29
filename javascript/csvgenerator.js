@@ -34,28 +34,22 @@
 /*
  * Generate CSV.
  */
- function generateCSV()
- {
-    if((axesPicked == 1) && (pointsPicked >= 1))
-    {
+ function generateCSV() {
+
+    if((axesPicked == 1) && (pointsPicked >= 1)) {
         showPopup('csvWindow');
 		var tarea = document.getElementById('tarea');
 		tarea.value = '';
 		
 		var retData = pixelToData(xyData, pointsPicked, plotType);
 		
-		if((plotType == 'XY') || (plotType == 'map') || (plotType == 'polar') || (plotType == 'image'))
-		{
-		    for(var ii = 0; ii < pointsPicked; ii++)
-		    {
-			tarea.value = tarea.value + retData[ii][0] + ',' + retData[ii][1] + '\n';
+		if((plotType == 'XY') || (plotType == 'map') || (plotType == 'polar') || (plotType == 'image')) {
+		    for(var ii = 0; ii < pointsPicked; ii++) {
+				tarea.value = tarea.value + retData[ii][0] + ',' + retData[ii][1] + '\n';
 		    }
-		}
-		else if((plotType == 'ternary'))
-		{
-		    for(var ii = 0; ii < pointsPicked; ii++)
-		    {
-			tarea.value = tarea.value + retData[ii][0] + ',' + retData[ii][1] + ',' + retData[ii][2] + '\n';
+		} else if((plotType == 'ternary')) {
+		    for(var ii = 0; ii < pointsPicked; ii++) {
+				tarea.value = tarea.value + retData[ii][0] + ',' + retData[ii][1] + ',' + retData[ii][2] + '\n';
 		    }
 		}
     }

@@ -56,15 +56,11 @@ algoLocation['customAlgorithm'] = '';
  * Opens the color picker.
  * @params {String} cmode 'fg' or 'bg'
  */
-function colorPickerWindow(cmode)
-{
+function colorPickerWindow(cmode) {
     colorPickerMode = cmode;
-    if(cmode == 'fg')
-    {    
+    if(cmode == 'fg') {    
       showPopup('colorPickerFG');
-    }
-    else if(cmode == 'bg')
-    {
+    } else if(cmode == 'bg') {
        showPopup('colorPickerBG');
     }
 }
@@ -72,8 +68,7 @@ function colorPickerWindow(cmode)
 /**
  * Initiate color picking on canvas.
  */
-function pickColor()
-{
+function pickColor() {
 	//colorPickerMode = cmode;
 	removeAllMouseEvents();
 	addMouseEvent('click',colorPicker,true);
@@ -82,14 +77,12 @@ function pickColor()
 /**
  * Handle clicks when picking color.
  */
-function colorPicker(ev)
-{
+function colorPicker(ev) {
 	xi = ev.layerX;
 	yi = ev.layerY;
 	
 	iData = ctx.getImageData(cx0,cy0,currentImageWidth,currentImageHeight);
-	if ((xi < currentImageWidth+cx0) && (yi < currentImageHeight+cy0) && (xi > cx0) && (yi > cy0))
-	{
+	if ((xi < currentImageWidth+cx0) && (yi < currentImageHeight+cy0) && (xi > cx0) && (yi > cy0)) {
 		ii = xi - cx0;
 		jj = yi - cy0;
 
@@ -101,17 +94,14 @@ function colorPicker(ev)
 				
 		removeMouseEvent('click',colorPicker,true);
 		
-		if(colorPickerMode == 'fg')
-		{
+		if(colorPickerMode == 'fg') {
 			assignColor('fg',PickedColor);
 			
 			redEl = document.getElementById('color_red_fg');
 			greenEl = document.getElementById('color_green_fg');
 			blueEl = document.getElementById('color_blue_fg');
 			showPopup('colorPickerFG');
-		}
-		else if (colorPickerMode == 'bg')
-		{
+		} else if (colorPickerMode == 'bg') {
 		  	assignColor('bg',PickedColor);
 			
 			redEl = document.getElementById('color_red_bg');
@@ -129,12 +119,9 @@ function colorPicker(ev)
 /**
  * This function assigns the color to the global variables.
  */
-function assignColor(color_mode, color_value)
-{
-  if(color_mode == 'fg')
-  {
-    if(!color_value)
-    {
+function assignColor(color_mode, color_value) {
+  if(color_mode == 'fg') {
+    if(!color_value) {
       redEl = document.getElementById('color_red_fg');
       greenEl = document.getElementById('color_green_fg');
       blueEl = document.getElementById('color_blue_fg');
@@ -146,11 +133,8 @@ function assignColor(color_mode, color_value)
     fg_color = color_value;
     var fgbtn = document.getElementById('autoFGBtn');
     fgbtn.style.borderColor = "rgb(" + fg_color[0] +"," + fg_color[1] +"," + fg_color[2] +")";
-  }
-  else if(color_mode=='bg')
-  {
-    if(!color_value)
-    {
+  } else if(color_mode=='bg') {
+    if(!color_value) {
       redEl = document.getElementById('color_red_bg');
       greenEl = document.getElementById('color_green_bg');
       blueEl = document.getElementById('color_blue_bg');
@@ -169,8 +153,7 @@ function assignColor(color_mode, color_value)
 /**
  * Enable Box painting on canvas.
  */ 
-function boxPaint()
-{
+function boxPaint() {
 	removeAllMouseEvents();
 	addMouseEvent('mousedown',boxPaintMousedown,true);
 	addMouseEvent('mouseup',boxPaintMouseup,true);
@@ -181,8 +164,7 @@ function boxPaint()
 /**
  * Handle mouse clicks when painting boxes - Mouse down
  */
-function boxPaintMousedown(ev)
-{
+function boxPaintMousedown(ev) {
 	boxCoordinates[0] = parseInt(ev.layerX);
 	boxCoordinates[1] = parseInt(ev.layerY);
 	drawingBox = true;
@@ -191,8 +173,7 @@ function boxPaintMousedown(ev)
 /**
  * Handle mouse clicks when painting boxes - Mouse up
  */
-function boxPaintMouseup(ev)
-{
+function boxPaintMouseup(ev) {
 	boxCoordinates[2] = parseInt(ev.layerX);
 	boxCoordinates[3] = parseInt(ev.layerY);
 
@@ -206,10 +187,8 @@ function boxPaintMouseup(ev)
 /**
  * Handle mouse clicks when painting boxes - Mouse drag
  */
-function boxPaintMousedrag(ev)
-{
-	if(drawingBox == true)
-	{
+function boxPaintMousedrag(ev) {
+	if(drawingBox == true) {
 		xt = parseInt(ev.layerX);
 		yt = parseInt(ev.layerY);
 		
@@ -223,8 +202,7 @@ function boxPaintMousedrag(ev)
 /**
  * Enable pen like painting on screen.
  */
-function penPaint()
-{
+function penPaint() {
 	removeAllMouseEvents();
 	showToolbar('paintToolbar');
 	addMouseEvent('mousedown',penPaintMousedown,true);
@@ -235,10 +213,8 @@ function penPaint()
 /**
  * Manage clicks when painting with pen tool - Mouse down
  */
-function penPaintMousedown(ev)
-{
-	if (drawingPen == false)
-	{
+function penPaintMousedown(ev) {
+	if (drawingPen == false) {
 	    xt = parseInt(ev.layerX);
 	    yt = parseInt(ev.layerY);
 	    drawingPen = true;
@@ -255,8 +231,7 @@ function penPaintMousedown(ev)
 /**
  * Manage clicks when painting with pen tool - Mouse up
  */
-function penPaintMouseup(ev)
-{
+function penPaintMouseup(ev) {
     dataCtx.closePath();
     dataCtx.lineWidth = 1;
     drawingPen = false;
@@ -265,10 +240,8 @@ function penPaintMouseup(ev)
 /**
  * Manage clicks when painting with pen tool - Mouse drag
  */
-function penPaintMousedrag(ev)
-{
-    if(drawingPen == true)
-    {
+function penPaintMousedrag(ev) {
+    if(drawingPen == true) {
 	    xt = parseInt(ev.layerX);
 	    yt = parseInt(ev.layerY);
 	    dataCtx.strokeStyle = "rgba(255,255,0,1)";
@@ -280,8 +253,7 @@ function penPaintMousedrag(ev)
 /**
  * Initiate the eraser.
  */
-function eraser()
-{
+function eraser() {
 	removeAllMouseEvents();
 	showToolbar('paintToolbar');
 	addMouseEvent('mousedown',eraserMousedown,true);
@@ -293,10 +265,8 @@ function eraser()
 /**
  * Manage mouse events when erasing - Mouse down
  */
-function eraserMousedown(ev)
-{
-    if(drawingEraser == false)
-    {
+function eraserMousedown(ev) {
+    if(drawingEraser == false) {
 	    xt = parseInt(ev.layerX);
 	    yt = parseInt(ev.layerY);
 	    drawingEraser = true;
@@ -314,8 +284,7 @@ function eraserMousedown(ev)
 /**
  * Manage mouse events when erasing - Mouse up - this is slow!
  */
-function eraserMouseup(ev)
-{
+function eraserMouseup(ev) {
 
     dataCtx.closePath();
     dataCtx.lineWidth = 1;
@@ -326,10 +295,8 @@ function eraserMouseup(ev)
 /**
  * Manage mouse events when erasing - Mouse drag
  */
-function eraserMousedrag(ev)
-{
-    if(drawingEraser == true)
-    {
+function eraserMousedrag(ev) {
+    if(drawingEraser == true) {
 	    xt = parseInt(ev.layerX);
 	    yt = parseInt(ev.layerY);
 	    dataCtx.globalCompositeOperation = "destination-out";
@@ -342,17 +309,13 @@ function eraserMousedrag(ev)
 /**
  * Filter based on color and display a test image on the scan settings dialog.
  */
-function updateTestWindow()
-{
+function updateTestWindow() {
   colorModeEl = document.getElementById('colorModeFG');
   colorDistanceEl = document.getElementById('colorDistance');
-  if (colorModeEl.checked == true)
-  {
+  if (colorModeEl.checked == true) {
     colmode = 'fg';
     chosenColor = fg_color;
-  }
-  else
-  {
+  } else {
     colmode = 'bg';
     chosenColor = bg_color;
   }
@@ -387,8 +350,7 @@ function updateTestWindow()
 /**
  * Save the test canvas as a new image
  */
-function saveTest()
-{
+function saveTest() {
   var testImageWin = window.open();
   testImageWin.location = testImgCanvas.toDataURL();
 }
@@ -396,8 +358,7 @@ function saveTest()
 /**
  * Launches the test window and initiates a color based detection.
  */
-function launchTestWindow()
-{
+function launchTestWindow() {
   processingNote(true);
   setTimeout("updateTestWindow();showPopup('testImageWindow');",100);
 }
@@ -405,8 +366,7 @@ function launchTestWindow()
 /**
  * Select which auto extraction curve is to be triggered.
  */
-function scanPlot()
-{
+function scanPlot() {
     
     autoStepEl = document.getElementById('autostepalgo');
     xStepEl = document.getElementById('xstepalgo');
@@ -423,8 +383,7 @@ function scanPlot()
     
     pointsStatus(pointsPicked);  
     
-    for(var ii = 0; ii <pointsPicked; ii++)
-    {
+    for(var ii = 0; ii <pointsPicked; ii++) {
       dataCtx.beginPath();
       dataCtx.fillStyle = "rgb(200,0,200)";
       dataCtx.arc(xyData[ii][0],xyData[ii][1],3,0,2.0*Math.PI,true);
@@ -436,21 +395,17 @@ function scanPlot()
 /**
  * Display options for the selected AE algorithm.
  */
-function displayParameters()
-{
+function displayParameters() {
   // Determine the chosen algorithm
   var algoSelect = document.getElementById('curvesAlgoSelect');
   var paramZone = document.getElementById('paramZone');
   var URLinput = document.getElementById('URLinput');
   
-  if (algoSelect.value != 'customAlgorithm')
-  {
+  if (algoSelect.value != 'customAlgorithm') {
     URLinput.style.display='none';
     loadJS(algoLocation[algoSelect.value]);
     loadScript.onload = makeParameterTable;
-  }
-  else if(algoSelect.value == 'customAlgorithm')
-  {
+  } else if(algoSelect.value == 'customAlgorithm') {
      var loadBtn = document.getElementById('loadCustomAlgo');
      var customURL = document.getElementById('customURL');
      paramZone.innerHTML='';
@@ -460,14 +415,12 @@ function displayParameters()
   
 }
 
-function makeParameterTable()
-{
+function makeParameterTable() {
       if (!AEObject.getParamList) { return; }
       var paramList = AEObject.getParamList();
       var paramZone = document.getElementById('paramZone');
       paramZone.innerHTML='';
-      for (var ii = 0; ii < paramList.length; ii++) // make a list of parameters.
-      {
-	paramZone.innerHTML += "<p>"+paramList[ii][0]+" ("+paramList[ii][1]+") <input type='text' value='"+paramList[ii][2]+"' size=3 id='pv"+ii+"'></p>";
+      for (var ii = 0; ii < paramList.length; ii++) {// make a list of parameters.
+		paramZone.innerHTML += "<p>"+paramList[ii][0]+" ("+paramList[ii][1]+") <input type='text' value='"+paramList[ii][2]+"' size=3 id='pv"+ii+"'></p>";
       }
 }
