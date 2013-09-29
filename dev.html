@@ -48,7 +48,11 @@
 <script src="javascript/imageProcessing.js" language="JavaScript"></script>
 <script src="javascript/coordinateTransform.js" language="JavaScript"></script>
 <script src="javascript/csvgenerator.js" language="JavaScript"></script>
-
+<script src="javascript/AEalgos/averagingWindow.js" language="JavaScript"></script>
+<script src="javascript/AEalgos/averagingWindowWithStepSize.js" language="JavaScript"></script>
+<script src="javascript/AEalgos/blobdetector.js" language="JavaScript"></script>
+<script src="javascript/AEalgos/xStep.js" language="JavaScript"></script>
+<script src="javascript/AEalgos/yStep.js" language="JavaScript"></script>
 
 <!--
 <script src="combined-compiled.js" language="JavaScript"></script>
@@ -375,23 +379,15 @@ alt="tumblr visitor stats"></a></div></noscript>
 	<p>
 	    <select id="curvesAlgoSelect" onChange="displayParameters();">
 		<optgroup label="Curve Tracing">
-		<option value="averagingWindow">Averaging Window (default)</option>
-		<option value="xStep">X Step</option>
-		<option value="yStep">Y Step</option>
-		<option value="averagingWindowWithStepSize">X Step With Actual Units</option>
+		<option value="averagingWindowAlgo">Averaging Window (default)</option>
+		<option value="xStepAlgo">X Step</option>
+		<option value="yStepAlgo">Y Step</option>
+		<option value="averagingWindowWithStepSizeAlgo">X Step With Actual Units</option>
 		</optgroup>
 		<optgroup label="Object Recognition">
-		<option value="blobDetection">Blob Detection</option>
-		<!--
-		<option value="averagingWindow">Particle Detection</option>
-		<option value="averagingWindow">Line Detection</option>
-		<option value="averagingWindow">Face Detection</option>
-		-->
+		<option value="blobDetectorAlgo">Blob Detection</option>
 		</optgroup>
 		
-		<!--
-		<option value="customAlgorithm">Custom Algorithm</option>
-		-->
 	    </select>
 	</p>
 	<p><span id="URLinput" style="display:none;"><input type="text" id="customURL" size="12"><input type="button" value="Load" id="loadCustomAlgo"></span><span id="paramZone"></span></p>

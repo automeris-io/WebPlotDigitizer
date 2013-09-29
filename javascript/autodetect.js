@@ -44,14 +44,6 @@ var drawingEraser = false;
 
 var binaryData;
 
-var algoLocation = [];
-algoLocation['averagingWindow'] = 'javascript/AEalgos/averagingWindow.js';
-algoLocation['xStep'] = 'javascript/AEalgos/xStep.js';
-algoLocation['yStep'] = 'javascript/AEalgos/yStep.js';
-algoLocation['blobDetection'] = 'javascript/AEalgos/blobdetector.js';
-algoLocation['averagingWindowWithStepSize'] = 'javascript/AEalgos/averagingWindowWithStepSize.js';
-algoLocation['customAlgorithm'] = '';
-
 /**
  * Opens the color picker.
  * @params {String} cmode 'fg' or 'bg'
@@ -360,7 +352,7 @@ function updateTestWindow() {
   testImage = tempImgCanvas.toDataURL();
   
   var displayImage = new Image();
-  displayImage.onload = function() {testImgContext.drawImage(displayImage,0,0,canvasWidth/2,canvasHeight/2); processingNote(false);}
+  displayImage.onload = function() {testImgContext.drawImage(displayImage,0,0,canvasWidth/2,canvasHeight/2); processingNote(false);};
   displayImage.src = testImage;
   
 }
@@ -422,18 +414,12 @@ function displayParameters() {
   if (algoSelect.value !== 'customAlgorithm') {
 
     URLinput.style.display='none';
-    loadJS(algoLocation[algoSelect.value]);
-    loadScript.onload = makeParameterTable;
+	var algo = window[algoSelect.value];
+   	AEObject = algo;
+    makeParameterTable();
 
-  } else if(algoSelect.value === 'customAlgorithm') {
-
-     var loadBtn = document.getElementById('loadCustomAlgo');
-     var customURL = document.getElementById('customURL');
-     paramZone.innerHTML='';
-     loadBtn.addEventListener('click',function() { loadJS(customURL.value); loadScript.onload = makeParameterTable; }, false);
-     URLinput.style.display='inline';
   }
-  
+
 }
 
 function makeParameterTable() {
