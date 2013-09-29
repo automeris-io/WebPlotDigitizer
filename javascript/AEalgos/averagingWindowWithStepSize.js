@@ -1,8 +1,6 @@
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.6
-
 	Copyright 2010-2013 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
@@ -22,12 +20,6 @@
 
 
 */
-
-/**
- * @fileoverview X Step With Actual Units Extraction Algorithm
- * @version 2.6
- * @author Ankit Rohatgi ankitrohatgi@hotmail.com
- */
 
 var averagingWindowWithStepSizeAlgo = {
 	getParamList: function () {
