@@ -226,3 +226,73 @@ function binaryToImageData(bwdata,imgd) {
     return imgd;
 }
 
+
+function getImageDataBasedOnSelection(imgdout, mode, colorRGB, tol) {
+	var dw = canvasWidth,
+		dh = canvasHeight,
+		rowi,
+		coli,
+		index,
+		dist,
+		
+		redv = colorRGB[0],
+		greenv = colorRGB[1],
+		bluev = colorRGB[2],
+		
+		markedRegion = dataCtx.getImageData(0,0,canvasWidth,canvasHeight),
+		
+		imgd = getCanvasData(),
+		
+		mr, mg, mb,
+		ir, ig, ib,
+		markPixelWhite;
+
+	for(rowi = 0; rowi < dh; rowi++) {
+		for(coli = 0; coli < dw; coli++) {
+			index = rowi*4*dw + coli*4;
+
+	        // marked region RGB
+	        mr = markedRegion.data[index];
+	        mg = markedRegion.data[index+1];
+	        mb = markedRegion.data[index+2];
+	        
+	        // plot data
+	        ir = imgd.data[index];
+	        ig = imgd.data[index+1];
+			ib = imgd.data[index+2];
+
+			// set default to white
+			markPixelWhite = true;
+       	    
+       	    if ((mr === 255) && (mg ===  255) && (mb === 0)) {// yellow marked region
+
+       	        dist = (ir-redv)*(ir-redv) + (ig-greenv)*(ig-greenv) + (ib-bluev)*(ib-bluev);
+       	        
+       	        if ((mode === 'fg') && (dist <= tol*tol)) {
+					markPixelWhite = false;
+
+				} else if ((mode === 'bg') && (dist > tol*tol)) {
+					markPixelWhite = false;
+				}
+			}
+
+			if(markPixelWhite) {
+
+				imgdout.data[index] = 255;
+				imgdout.data[index+1] = 255;
+				imgdout.data[index+2] = 255;
+				imgdout.data[index+3] = 255;
+
+			} else {
+				
+				imgdout.data[index] = 0;
+				imgdout.data[index+1] = 0;
+				imgdout.data[index+2] = 0;
+				imgdout.data[index+3] = 255;
+			}
+		}
+	}
+
+	return imgdout;
+}
+

@@ -324,7 +324,7 @@ function updateTestWindow() {
   
   cdistance = parseInt(colorDistanceEl.value);
   
-  binaryData = selectFromMarkedRegion(colmode, chosenColor, cdistance);
+  //binaryData = selectFromMarkedRegion(colmode, chosenColor, cdistance);
   
   tempImgCanvas = document.createElement('canvas');
   tempImgCanvas.width = canvasWidth;
@@ -336,8 +336,9 @@ function updateTestWindow() {
   
   //timgData = currentScreen;
   
-  timgData = binaryToImageData(binaryData,timgData);
-  
+  // timgData = binaryToImageData(binaryData,timgData);
+
+  timgData = getImageDataBasedOnSelection(timgData, colmode, chosenColor, cdistance);
   
   tempImgContext.putImageData(timgData,0,0);
   
@@ -373,9 +374,25 @@ function scanPlot() {
     autoStepEl = document.getElementById('autostepalgo');
     xStepEl = document.getElementById('xstepalgo');
     yStepEl = document.getElementById('ystepalgo');
-    
+
+	var colorModeEl = document.getElementById('colorModeFG');
+	var colorDistanceEl = document.getElementById('colorDistance');
+	var colmode;
+
+	if (colorModeEl.checked === true) {
+		colmode = 'fg';
+		chosenColor = fg_color;
+	} else {
+		colmode = 'bg';
+		chosenColor = bg_color;
+	}
+	
+	cdistance = parseInt(colorDistanceEl.value);
+  
     closePopup("testImageWindow");
     
+    binaryData = selectFromMarkedRegion(colmode, chosenColor, cdistance);
+
     xyData = [];
     pointsPicked = 0;
   
