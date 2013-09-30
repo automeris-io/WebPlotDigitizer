@@ -62,19 +62,60 @@ function pickColor() {
  * Handle clicks when picking color.
  */
 function colorPicker(ev) {
-	xi = ev.layerX;
-	yi = ev.layerY;
+	var xi = ev.layerX;
+	var yi = ev.layerY;
 	
-	iData = ctx.getImageData(cx0,cy0,currentImageWidth,currentImageHeight);
+	var iData = ctx.getImageData(cx0,cy0,currentImageWidth,currentImageHeight);
 	if ((xi < currentImageWidth+cx0) && (yi < currentImageHeight+cy0) && (xi > cx0) && (yi > cy0)) {
-		ii = xi - cx0;
-		jj = yi - cy0;
+		var ii = xi - cx0;
+		var jj = yi - cy0;
 
 		var index = jj*4*currentImageWidth + ii*4;
-		var PickedColor = [iData.data[index], iData.data[index+1], iData.data[index+2]];
-		redEl = document.getElementById('color_red');
-		greenEl = document.getElementById('color_green');
-		blueEl = document.getElementById('color_blue');
+		var avgColor = [iData.data[index], iData.data[index+1], iData.data[index+2]];
+		
+		// Average on a box centered at ii, jj:
+		var colorBoxSize = 40,
+			min_ii = (ii - colorBoxSize) > 0 ? ii - colorBoxSize : 0,
+			max_ii = (ii + colorBoxSize) < currentImageWidth ? ii + colorBoxSize : currentImageWidth,
+			min_jj = (jj - colorBoxSize) > 0 ? jj - colorBoxSize : 0,
+			max_jj = (jj + colorBoxSize) < currentImageHeight ? jj + colorBoxSize : currentImageHeight,
+			crowi, ccoli,
+			colorCount = 1.0,
+			pixel_r, pixel_g, pixel_b,
+			colorDiff,
+			PickedColor = [],
+			cindex;
+		
+		/*
+		for(ccoli = min_ii; ccoli < max_ii; ccoli++) {
+			for(crowi = min_jj; crowi < max_jj; crowi++) {
+				cindex = crowi*4*currentImageWidth + ccoli*4;
+
+				pixel_r = iData.data[cindex]*1.0;
+				pixel_g = iData.data[cindex+1]*1.0;
+				pixel_b = iData.data[cindex+2]*1.0;
+
+				colorDiff = Math.sqrt((pixel_r - avgColor[0])*(pixel_r - avgColor[0]) + 
+										(pixel_g - avgColor[1])*(pixel_g - avgColor[1]) + 
+										(pixel_b - avgColor[2])*(pixel_b - avgColor[2]));
+				if(colorDiff < 40) {
+					avgColor[0] = (avgColor[0]*colorCount + pixel_r)/(colorCount+1.0);
+					avgColor[1] = (avgColor[1]*colorCount + pixel_g)/(colorCount+1.0);
+					avgColor[2] = (avgColor[2]*colorCount + pixel_b)/(colorCount+1.0);
+					
+					colorCount = colorCount + 1.0;
+				}
+			}
+		}
+		*/
+			
+		PickedColor[0] = parseInt(avgColor[0], 10);
+		PickedColor[1] = parseInt(avgColor[1], 10);
+		PickedColor[2] = parseInt(avgColor[2], 10);
+		
+		var redEl = document.getElementById('color_red');
+		var greenEl = document.getElementById('color_green');
+		var blueEl = document.getElementById('color_blue');
 				
 		removeMouseEvent('click',colorPicker,true);
 		
