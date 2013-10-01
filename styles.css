@@ -121,6 +121,11 @@ input[type="button"]:active {
 	background-color: rgba(0,0,0,0.2);
 }
 
+/* Sort of a hack to make button look right in Firefox */
+input[type="button"]::-moz-focus-inner {
+	margin-top: -2px;
+}
+
 input[type="text"] {
 	font-family: Verdana, Sans Serif;
 	font-size: 12px;
