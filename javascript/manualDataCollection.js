@@ -60,8 +60,10 @@ function pickPoints() {// select data points.
  * Triggered by clicking on canvas, stores position in xyData global array.
  */
 function clickPoints(ev) {
-	xi = ev.layerX;
-	yi = ev.layerY;
+	var posn = getPosition(ev);
+	var xi = posn.x;
+	var yi = posn.y;
+
 	xyData[pointsPicked] = new Array();
 	xyData[pointsPicked][0] = parseFloat(xi);
 	xyData[pointsPicked][1] = parseFloat(yi);
@@ -137,8 +139,9 @@ function deleteSpecificPoint() {
  */
 function deleteSpecificPointHandler(ev) {
 
-	var xi = parseFloat(ev.layerX);
-	var yi = parseFloat(ev.layerY);
+	var posn = getPosition(ev);
+	var xi = parseFloat(posn.x);
+	var yi = parseFloat(posn.y);
 	
 	var minDistance = 10.0;
 	var foundPoint = 0;
