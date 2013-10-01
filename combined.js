@@ -159,8 +159,9 @@ function setAxes(ax_mode) {
  */
 function pickCorners(ev) {
 	if (axesN < axesNmax) {
-		xi = ev.layerX;
-		yi = ev.layerY;
+		var posn = getPosition(ev);
+		var xi = posn.x;
+		var yi = posn.y;
 		xyAxes[axesN] = new Array();
 		xyAxes[axesN][0] = parseFloat(xi);
 		xyAxes[axesN][1] = parseFloat(yi);
@@ -355,19 +356,22 @@ function pickColor() {
  * Handle clicks when picking color.
  */
 function colorPicker(ev) {
-	xi = ev.layerX;
-	yi = ev.layerY;
+
+	var posn = getPosition(ev);
+	var xi = posn.x;
+	var yi = posn.y;
 	
-	iData = ctx.getImageData(cx0,cy0,currentImageWidth,currentImageHeight);
+	var iData = ctx.getImageData(cx0,cy0,currentImageWidth,currentImageHeight);
 	if ((xi < currentImageWidth+cx0) && (yi < currentImageHeight+cy0) && (xi > cx0) && (yi > cy0)) {
-		ii = xi - cx0;
-		jj = yi - cy0;
+		var ii = xi - cx0;
+		var jj = yi - cy0;
 
 		var index = jj*4*currentImageWidth + ii*4;
 		var PickedColor = [iData.data[index], iData.data[index+1], iData.data[index+2]];
-		redEl = document.getElementById('color_red');
-		greenEl = document.getElementById('color_green');
-		blueEl = document.getElementById('color_blue');
+		
+		var redEl = document.getElementById('color_red');
+		var greenEl = document.getElementById('color_green');
+		var blueEl = document.getElementById('color_blue');
 				
 		removeMouseEvent('click',colorPicker,true);
 		
@@ -449,8 +453,10 @@ function boxPaint() {
  */
 function boxPaintMousedown(ev) {
 
-	boxCoordinates[0] = parseInt(ev.layerX);
-	boxCoordinates[1] = parseInt(ev.layerY);
+	var posn = getPosition(ev);
+
+	boxCoordinates[0] = posn.x;
+	boxCoordinates[1] = posn.y;
 	drawingBox = true;
 }
 
@@ -458,9 +464,11 @@ function boxPaintMousedown(ev) {
  * Handle mouse clicks when painting boxes - Mouse up
  */
 function boxPaintMouseup(ev) {
+	
+	var posn = getPosition(ev);
 
-	boxCoordinates[2] = parseInt(ev.layerX);
-	boxCoordinates[3] = parseInt(ev.layerY);
+	boxCoordinates[2] = posn.x;
+	boxCoordinates[3] = posn.y;
 
     hoverCanvas.width = hoverCanvas.width;
 	dataCtx.fillStyle = "rgba(255,255,0,1)";
@@ -475,9 +483,11 @@ function boxPaintMouseup(ev) {
 function boxPaintMousedrag(ev) {
 
 	if(drawingBox === true) {
-		xt = parseInt(ev.layerX);
-		yt = parseInt(ev.layerY);
-		
+
+		var posn = getPosition(ev);
+		var xt = posn.x;
+		var yt = posn.y;
+
 		//putCanvasData(markedScreen);
 		hoverCanvas.width = hoverCanvas.width;
 		hoverCtx.strokeStyle = "rgb(0,0,0)";
@@ -503,8 +513,11 @@ function penPaint() {
 function penPaintMousedown(ev) {
 
 	if (drawingPen === false) {
-	    xt = parseInt(ev.layerX);
-	    yt = parseInt(ev.layerY);
+		
+		var posn = getPosition(ev);
+		var xt = posn.x;
+		var yt = posn.y;
+
 	    drawingPen = true;
 	    ctx.strokeStyle = "rgba(255,255,0,1)";
 	    
@@ -532,8 +545,11 @@ function penPaintMouseup(ev) {
 function penPaintMousedrag(ev) {
 
     if(drawingPen === true) {
-	    xt = parseInt(ev.layerX);
-	    yt = parseInt(ev.layerY);
+
+		var posn = getPosition(ev);
+		var xt = posn.x;
+		var yt = posn.y;
+
 	    dataCtx.strokeStyle = "rgba(255,255,0,1)";
 	    dataCtx.lineTo(xt,yt);
 	    dataCtx.stroke();
@@ -560,8 +576,10 @@ function eraserMousedown(ev) {
 
     if(drawingEraser === false) {
 
-	    xt = parseInt(ev.layerX);
-	    yt = parseInt(ev.layerY);
+		var posn = getPosition(ev);
+		var xt = posn.x;
+		var yt = posn.y;
+
 	    drawingEraser = true;
 	    dataCtx.globalCompositeOperation = "destination-out";
 	    dataCtx.strokeStyle = "rgba(0,0,0,1)";
@@ -591,8 +609,11 @@ function eraserMouseup(ev) {
 function eraserMousedrag(ev) {
 
     if(drawingEraser === true) {
-	    xt = parseInt(ev.layerX);
-	    yt = parseInt(ev.layerY);
+	
+		var posn = getPosition(ev);
+		var xt = posn.x;
+		var yt = posn.y;
+
 	    dataCtx.globalCompositeOperation = "destination-out";
 	    dataCtx.strokeStyle = "rgba(0,0,0,1)";
 	    dataCtx.lineTo(xt,yt);
@@ -848,8 +869,8 @@ function loadImage(imgel) {
 	
 	currentScreen = getCanvasData();
 	
-	imageDimensions[0] = 1;		// x_min
-	imageDimensions[1] = 1;		// y_min
+	imageDimensions[0] = 0;		// x_min
+	imageDimensions[1] = 0;		// y_min
 	imageDimensions[2] = swidth;	// x_max
 	imageDimensions[3] = sheight;	// y_max
 	
@@ -927,6 +948,17 @@ function resetLayers() {
 function savePNG() {
   var saveImageWin = window.open();
   saveImageWin.location = mainCanvas.toDataURL();
+}
+
+/**
+ * Get position of an event (usu. mouse event) relative to the top left corner of canvas 
+ */
+function getPosition(ev) {
+	var mainCanvasPosition = mainCanvas.getBoundingClientRect();
+	return {
+		x: parseInt(ev.pageX - (mainCanvasPosition.left + window.pageXOffset+1), 10),
+		y: parseInt(ev.pageY - (mainCanvasPosition.top + window.pageYOffset+1), 10)
+	};
 }
 
 /**
@@ -1136,8 +1168,8 @@ var dataToPixelxy;
 			
 		
 			rdata[ii] = new Array();
-			rdata[ii][0] = Math.round(xf);
-			rdata[ii][1] = Math.round(yf);
+			rdata[ii][0] = parseInt(xf,10);
+			rdata[ii][1] = parseInt(yf,10);
 		    }
 		
 		} else if (ptype === 'map') {
@@ -2098,8 +2130,10 @@ function pickPoints() {// select data points.
  * Triggered by clicking on canvas, stores position in xyData global array.
  */
 function clickPoints(ev) {
-	xi = ev.layerX;
-	yi = ev.layerY;
+	var posn = getPosition(ev);
+	var xi = posn.x;
+	var yi = posn.y;
+
 	xyData[pointsPicked] = new Array();
 	xyData[pointsPicked][0] = parseFloat(xi);
 	xyData[pointsPicked][1] = parseFloat(yi);
@@ -2175,8 +2209,9 @@ function deleteSpecificPoint() {
  */
 function deleteSpecificPointHandler(ev) {
 
-	var xi = parseFloat(ev.layerX);
-	var yi = parseFloat(ev.layerY);
+	var posn = getPosition(ev);
+	var xi = parseFloat(posn.x);
+	var yi = parseFloat(posn.y);
 	
 	var minDistance = 10.0;
 	var foundPoint = 0;
@@ -2591,11 +2626,14 @@ function initZoom() {
  * Update view.
  */
 function updateZoom(ev) {
-	xpos = ev.layerX;
-	ypos = ev.layerY;
-	
-	dx = zoom_dx;
-	dy = zoom_dy;
+
+	var posn = getPosition(ev);
+
+	var xpos = posn.x;
+	var ypos = posn.y;
+
+	var dx = zoom_dx;
+	var dy = zoom_dy;
     
     if (axesPicked != 1) {
         mPosn.innerHTML = xpos + ', ' + ypos;
