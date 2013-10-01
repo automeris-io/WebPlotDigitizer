@@ -57,11 +57,14 @@ function initZoom() {
  * Update view.
  */
 function updateZoom(ev) {
-	xpos = ev.layerX;
-	ypos = ev.layerY;
-	
-	dx = zoom_dx;
-	dy = zoom_dy;
+
+	var posn = getPosition(ev);
+
+	var xpos = posn.x;
+	var ypos = posn.y;
+
+	var dx = zoom_dx;
+	var dy = zoom_dy;
     
     if (axesPicked != 1) {
         mPosn.innerHTML = xpos + ', ' + ypos;

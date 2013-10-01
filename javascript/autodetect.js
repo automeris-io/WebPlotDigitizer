@@ -62,8 +62,10 @@ function pickColor() {
  * Handle clicks when picking color.
  */
 function colorPicker(ev) {
-	var xi = ev.layerX;
-	var yi = ev.layerY;
+
+	var posn = getPosition(ev);
+	var xi = posn.x;
+	var yi = posn.y;
 	
 	var iData = ctx.getImageData(cx0,cy0,currentImageWidth,currentImageHeight);
 	if ((xi < currentImageWidth+cx0) && (yi < currentImageHeight+cy0) && (xi > cx0) && (yi > cy0)) {
@@ -157,8 +159,10 @@ function boxPaint() {
  */
 function boxPaintMousedown(ev) {
 
-	boxCoordinates[0] = parseInt(ev.layerX);
-	boxCoordinates[1] = parseInt(ev.layerY);
+	var posn = getPosition(ev);
+
+	boxCoordinates[0] = posn.x;
+	boxCoordinates[1] = posn.y;
 	drawingBox = true;
 }
 
@@ -166,9 +170,11 @@ function boxPaintMousedown(ev) {
  * Handle mouse clicks when painting boxes - Mouse up
  */
 function boxPaintMouseup(ev) {
+	
+	var posn = getPosition(ev);
 
-	boxCoordinates[2] = parseInt(ev.layerX);
-	boxCoordinates[3] = parseInt(ev.layerY);
+	boxCoordinates[2] = posn.x;
+	boxCoordinates[3] = posn.y;
 
     hoverCanvas.width = hoverCanvas.width;
 	dataCtx.fillStyle = "rgba(255,255,0,1)";
@@ -183,9 +189,11 @@ function boxPaintMouseup(ev) {
 function boxPaintMousedrag(ev) {
 
 	if(drawingBox === true) {
-		xt = parseInt(ev.layerX);
-		yt = parseInt(ev.layerY);
-		
+
+		var posn = getPosition(ev);
+		var xt = posn.x;
+		var yt = posn.y;
+
 		//putCanvasData(markedScreen);
 		hoverCanvas.width = hoverCanvas.width;
 		hoverCtx.strokeStyle = "rgb(0,0,0)";
@@ -211,8 +219,11 @@ function penPaint() {
 function penPaintMousedown(ev) {
 
 	if (drawingPen === false) {
-	    xt = parseInt(ev.layerX);
-	    yt = parseInt(ev.layerY);
+		
+		var posn = getPosition(ev);
+		var xt = posn.x;
+		var yt = posn.y;
+
 	    drawingPen = true;
 	    ctx.strokeStyle = "rgba(255,255,0,1)";
 	    
@@ -240,8 +251,11 @@ function penPaintMouseup(ev) {
 function penPaintMousedrag(ev) {
 
     if(drawingPen === true) {
-	    xt = parseInt(ev.layerX);
-	    yt = parseInt(ev.layerY);
+
+		var posn = getPosition(ev);
+		var xt = posn.x;
+		var yt = posn.y;
+
 	    dataCtx.strokeStyle = "rgba(255,255,0,1)";
 	    dataCtx.lineTo(xt,yt);
 	    dataCtx.stroke();
@@ -268,8 +282,10 @@ function eraserMousedown(ev) {
 
     if(drawingEraser === false) {
 
-	    xt = parseInt(ev.layerX);
-	    yt = parseInt(ev.layerY);
+		var posn = getPosition(ev);
+		var xt = posn.x;
+		var yt = posn.y;
+
 	    drawingEraser = true;
 	    dataCtx.globalCompositeOperation = "destination-out";
 	    dataCtx.strokeStyle = "rgba(0,0,0,1)";
@@ -299,8 +315,11 @@ function eraserMouseup(ev) {
 function eraserMousedrag(ev) {
 
     if(drawingEraser === true) {
-	    xt = parseInt(ev.layerX);
-	    yt = parseInt(ev.layerY);
+	
+		var posn = getPosition(ev);
+		var xt = posn.x;
+		var yt = posn.y;
+
 	    dataCtx.globalCompositeOperation = "destination-out";
 	    dataCtx.strokeStyle = "rgba(0,0,0,1)";
 	    dataCtx.lineTo(xt,yt);

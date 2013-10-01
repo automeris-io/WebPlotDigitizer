@@ -101,8 +101,9 @@ function setAxes(ax_mode) {
  */
 function pickCorners(ev) {
 	if (axesN < axesNmax) {
-		xi = ev.layerX;
-		yi = ev.layerY;
+		var posn = getPosition(ev);
+		var xi = posn.x;
+		var yi = posn.y;
 		xyAxes[axesN] = new Array();
 		xyAxes[axesN][0] = parseFloat(xi);
 		xyAxes[axesN][1] = parseFloat(yi);

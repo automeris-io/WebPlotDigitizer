@@ -193,6 +193,17 @@ function savePNG() {
 }
 
 /**
+ * Get position of an event (usu. mouse event) relative to the top left corner of canvas 
+ */
+function getPosition(ev) {
+	var mainCanvasPosition = mainCanvas.getBoundingClientRect();
+	return {
+		x: parseInt(ev.pageX - mainCanvasPosition.left, 10),
+		y: parseInt(ev.pageY - mainCanvasPosition.top, 10)
+	};
+}
+
+/**
  * Handle dropped file on canvas.
  */
 function dropHandler(ev) {
