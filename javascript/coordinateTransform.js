@@ -167,8 +167,8 @@ var dataToPixelxy;
 			
 		
 			rdata[ii] = new Array();
-			rdata[ii][0] = Math.round(xf);
-			rdata[ii][1] = Math.round(yf);
+			rdata[ii][0] = parseInt(xf,10);
+			rdata[ii][1] = parseInt(yf,10);
 		    }
 		
 		} else if (ptype === 'map') {
