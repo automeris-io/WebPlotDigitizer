@@ -78,7 +78,7 @@ alt="tumblr visitor stats"></a></div></noscript>
 </head>
 
 <body onLoad="javascript:init();">
-<table id="bodyTable" style="height:100%; width:100%; padding:0; margin:0;">
+<table id="bodyTable">
 <tr height="30"><td colspan="2">
 
 <!-- tool bar goes here -->
@@ -121,7 +121,7 @@ alt="tumblr visitor stats"></a></div></noscript>
 
 <tr><td valign="top" id="canvasTD">
 <!-- the main canvas goes here -->
-	<div id="canvasDiv" style="position:relative;" onMouseOver="this.style.cursor='crosshair';">
+	<div id="canvasDiv" style="position:relative;">
 		<canvas id="mainCanvas" class="canvasLayers" style="z-index:1;"></canvas>
 		<canvas id="dataCanvas" class="canvasLayers" style="z-index:2;"></canvas>
     	<canvas id="drawCanvas" class="canvasLayers" style="z-index:3;"></canvas>
@@ -132,7 +132,7 @@ alt="tumblr visitor stats"></a></div></noscript>
 </td>
 
 <td valign="top" width="220">
-<aside>
+<div>
 	<!-- zoom window goes here -->
 	<div style="position:relative;" id="zoomDiv">
 		<canvas id="zoomCanvas" class="zoomLayers" width=200 height=200 style="position:relative; top: 0px; left: 0px; z-index:1;"></canvas>
@@ -180,7 +180,7 @@ alt="tumblr visitor stats"></a></div></noscript>
 	</div>
 
 	</div>
-</aside>
+</div>
 </td></tr>
 </table>
 
