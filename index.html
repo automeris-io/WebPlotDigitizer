@@ -32,7 +32,7 @@
 <title>WebPlotDigitizer - Copyright 2010-2013 Ankit Rohatgi</title>
 <link rel="stylesheet" href="styles.css" type="text/css" media="screen" />
 
-<!-- 
+<!--
 <script src="javascript/main.js" language="JavaScript"></script>
 <script src="javascript/canvasDrawing.js" language="JavaScript"></script>
 <script src="javascript/mouseEvents.js" language="JavaScript"></script>
@@ -78,7 +78,7 @@ alt="tumblr visitor stats"></a></div></noscript>
 </head>
 
 <body onLoad="javascript:init();">
-<table id="bodyTable" style="height:100%; width:100%; padding:0; margin:0;">
+<table id="bodyTable">
 <tr height="30"><td colspan="2">
 
 <!-- tool bar goes here -->
@@ -121,7 +121,7 @@ alt="tumblr visitor stats"></a></div></noscript>
 
 <tr><td valign="top" id="canvasTD">
 <!-- the main canvas goes here -->
-	<div id="canvasDiv" style="position:relative;" onMouseOver="this.style.cursor='crosshair';">
+	<div id="canvasDiv" style="position:relative;">
 		<canvas id="mainCanvas" class="canvasLayers" style="z-index:1;"></canvas>
 		<canvas id="dataCanvas" class="canvasLayers" style="z-index:2;"></canvas>
     	<canvas id="drawCanvas" class="canvasLayers" style="z-index:3;"></canvas>
@@ -132,7 +132,7 @@ alt="tumblr visitor stats"></a></div></noscript>
 </td>
 
 <td valign="top" width="220">
-<aside>
+<div>
 	<!-- zoom window goes here -->
 	<div style="position:relative;" id="zoomDiv">
 		<canvas id="zoomCanvas" class="zoomLayers" width=200 height=200 style="position:relative; top: 0px; left: 0px; z-index:1;"></canvas>
@@ -180,7 +180,7 @@ alt="tumblr visitor stats"></a></div></noscript>
 	</div>
 
 	</div>
-</aside>
+</div>
 </td></tr>
 </table>
 
@@ -202,11 +202,11 @@ alt="tumblr visitor stats"></a></div></noscript>
 	<p>&nbsp;</p>
 	<center>
 	<table>
-	<tr><td><input type="radio" name="plotlisting" id="r_xy" checked></td><td>2D (X-Y) Plot</td></tr>
-	<tr><td><input type="radio" name="plotlisting" id="r_polar"></td><td>Polar Diagram</td></tr>
-	<tr><td><input type="radio" name="plotlisting" id="r_ternary"></td><td>Ternary Diagram</td></tr>
-	<tr><td><input type="radio" name="plotlisting" id="r_map"></td><td>Map With Scale Bar</td></tr>
-	<tr><td><input type="radio" name="plotlisting" id="r_image"></td><td>Image (Align to image pixels)</td></tr>
+	<tr><td align="left"><input type="radio" name="plotlisting" id="r_xy" checked></td><td>2D (X-Y) Plot</td></tr>
+	<tr><td align="left"><input type="radio" name="plotlisting" id="r_polar"></td><td>Polar Diagram</td></tr>
+	<tr><td align="left"><input type="radio" name="plotlisting" id="r_ternary"></td><td>Ternary Diagram</td></tr>
+	<tr><td align="left"><input type="radio" name="plotlisting" id="r_map"></td><td>Map With Scale Bar</td></tr>
+	<tr><td align="left"><input type="radio" name="plotlisting" id="r_image"></td><td>Image (Align to image pixels)</td></tr>
 	</table>
 	</center>
 	<p>&nbsp;</p>
@@ -231,6 +231,7 @@ alt="tumblr visitor stats"></a></div></noscript>
 	</table>
 	<p>&nbsp;</p>
 	<p align="center"><input type="button" id="xybtn" value="OK" onClick="alignAxes();"></p>
+	</center>
 	</div>
 
 	<div id="mapAlignment" class="popup" style="width: 200px;">
