@@ -86,7 +86,7 @@ function init() {// This is run when the page loads.
 	mPosn = document.getElementById('mousePosition');
 
 	// Set canvas default state
-	img = new Image();
+	img = document.createElement('img');
 	img.onload = function() { loadImage(img); originalImage = img; };
 	img.src = "start.png";
 	
@@ -105,7 +105,10 @@ function init() {// This is run when the page loads.
 
 	// Image dropping capabilities
 	topCanvas.addEventListener('dragover',function(event) {event.preventDefault();}, true);
-	topCanvas.addEventListener("drop",function(event) {event.preventDefault(); dropHandler(event);},true);
+	topCanvas.addEventListener("drop",function(event) {event.preventDefault(); dropHandler(event);}, true);
+
+	// Paste image from clipboard
+	topCanvas.addEventListener('paste', function(event) {event.preventDefault(); pasteHandler(event);}, true);
 	
 	// Set defaults everywhere.
 	setDefaultState();

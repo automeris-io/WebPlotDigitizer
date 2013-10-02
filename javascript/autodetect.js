@@ -364,7 +364,7 @@ function updateTestWindow() {
   
   testImage = tempImgCanvas.toDataURL();
   
-  var displayImage = new Image();
+  var displayImage = document.createElement('img');
   displayImage.onload = function() {testImgContext.drawImage(displayImage,0,0,canvasWidth/2,canvasHeight/2); processingNote(false);};
   displayImage.src = testImage;
   
