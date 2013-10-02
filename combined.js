@@ -658,7 +658,7 @@ function updateTestWindow() {
   
   testImage = tempImgCanvas.toDataURL();
   
-  var displayImage = new Image();
+  var displayImage = document.createElement('img');
   displayImage.onload = function() {testImgContext.drawImage(displayImage,0,0,canvasWidth/2,canvasHeight/2); processingNote(false);};
   displayImage.src = testImage;
   
@@ -893,7 +893,7 @@ function saveCanvasImage() {
 	tCanvasContext = tCanvas.getContext('2d');
 	tCanvasContext.putImageData(nimagedata,0,0);
 
-	newImage = new Image();
+	newImage = document.createElement('img');
 	newImage.src = tCanvas.toDataURL();
 	newImage.onload = function() { currentImage = newImage; currentScreen = getCanvasData(); };
 }
@@ -972,6 +972,14 @@ function dropHandler(ev) {
 }
 
 /**
+ * Handle file pasted from clipboard on canvas.
+ */
+function pasteHandler(ev) {
+	console.log('paste');
+	console.log(ev);
+}
+
+/**
  * Loads a file that was dropped or loaded
  */
 function fileLoader(fileInfo) {
@@ -979,7 +987,7 @@ function fileLoader(fileInfo) {
 		var droppedFile = new FileReader();
 		droppedFile.onload = function() {
 			var imageInfo = droppedFile.result;
-			var newimg = new Image();
+			var newimg = document.createElement('img');
 			newimg.onload = function() { loadImage(newimg); originalScreen = getCanvasData(); originalImage = newimg; setDefaultState(); };
 			newimg.src = imageInfo;
 		}
@@ -2153,7 +2161,7 @@ function init() {// This is run when the page loads.
 	mPosn = document.getElementById('mousePosition');
 
 	// Set canvas default state
-	img = new Image();
+	img = document.createElement('img');
 	img.onload = function() { loadImage(img); originalImage = img; };
 	img.src = "start.png";
 	
@@ -2172,7 +2180,10 @@ function init() {// This is run when the page loads.
 
 	// Image dropping capabilities
 	topCanvas.addEventListener('dragover',function(event) {event.preventDefault();}, true);
-	topCanvas.addEventListener("drop",function(event) {event.preventDefault(); dropHandler(event);},true);
+	topCanvas.addEventListener("drop",function(event) {event.preventDefault(); dropHandler(event);}, true);
+
+	// Paste image from clipboard
+	topCanvas.addEventListener('paste', function(event) {event.preventDefault(); pasteHandler(event);}, true);
 	
 	// Set defaults everywhere.
 	setDefaultState();
@@ -2815,7 +2826,7 @@ function updateZoom(ev) {
 		tctx.putImageData(zoomImage,0,0);
 		
 		var imgdata = tempCanvas.toDataURL();
-		var zImage = new Image();
+		var zImage = document.createElement('img');
 		zImage.onload = function() { 
 				zctx.drawImage(zImage,0,0,parseInt(zWindowWidth),parseInt(zWindowHeight)); 
 			};

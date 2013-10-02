@@ -110,7 +110,7 @@ function updateZoom(ev) {
 		tctx.putImageData(zoomImage,0,0);
 		
 		var imgdata = tempCanvas.toDataURL();
-		var zImage = new Image();
+		var zImage = document.createElement('img');
 		zImage.onload = function() { 
 				zctx.drawImage(zImage,0,0,parseInt(zWindowWidth),parseInt(zWindowHeight)); 
 			};

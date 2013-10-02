@@ -135,7 +135,7 @@ function saveCanvasImage() {
 	tCanvasContext = tCanvas.getContext('2d');
 	tCanvasContext.putImageData(nimagedata,0,0);
 
-	newImage = new Image();
+	newImage = document.createElement('img');
 	newImage.src = tCanvas.toDataURL();
 	newImage.onload = function() { currentImage = newImage; currentScreen = getCanvasData(); };
 }
@@ -214,6 +214,14 @@ function dropHandler(ev) {
 }
 
 /**
+ * Handle file pasted from clipboard on canvas.
+ */
+function pasteHandler(ev) {
+	console.log('paste');
+	console.log(ev);
+}
+
+/**
  * Loads a file that was dropped or loaded
  */
 function fileLoader(fileInfo) {
@@ -221,7 +229,7 @@ function fileLoader(fileInfo) {
 		var droppedFile = new FileReader();
 		droppedFile.onload = function() {
 			var imageInfo = droppedFile.result;
-			var newimg = new Image();
+			var newimg = document.createElement('img');
 			newimg.onload = function() { loadImage(newimg); originalScreen = getCanvasData(); originalImage = newimg; setDefaultState(); };
 			newimg.src = imageInfo;
 		}
