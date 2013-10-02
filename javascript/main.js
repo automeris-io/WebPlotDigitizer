@@ -108,7 +108,7 @@ function init() {// This is run when the page loads.
 	topCanvas.addEventListener("drop",function(event) {event.preventDefault(); dropHandler(event);}, true);
 
 	// Paste image from clipboard
-	topCanvas.addEventListener('paste', function(event) {event.preventDefault(); pasteHandler(event);}, true);
+	window.addEventListener('paste', function(event) {pasteHandler(event);}, true);
 	
 	// Set defaults everywhere.
 	setDefaultState();

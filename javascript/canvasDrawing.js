@@ -217,8 +217,19 @@ function dropHandler(ev) {
  * Handle file pasted from clipboard on canvas.
  */
 function pasteHandler(ev) {
-	console.log('paste');
-	console.log(ev);
+	if(ev.clipboardData !== undefined) {
+		var items = ev.clipboardData.items;
+		if(items !== undefined) {
+			for(var i = 0; i < items.length; i++) {
+				if(items[i].type.indexOf("image") !== -1) {
+					var blob = items[i].getAsFile();
+					var URLObj = window.URL || window.webkitURL;
+					var source = URLObj.createObjectURL(blob);
+					fileLoader(blob);
+				}
+			}
+		}
+	}
 }
 
 /**
