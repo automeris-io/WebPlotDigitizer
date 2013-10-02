@@ -202,11 +202,11 @@ alt="tumblr visitor stats"></a></div></noscript>
 	<p>&nbsp;</p>
 	<center>
 	<table>
-	<tr><td><label><input type="radio" name="plotlisting" id="r_xy" checked> 2D (X-Y) Plot</label></td></tr>
-	<tr><td><label><input type="radio" name="plotlisting" id="r_polar"> Polar Diagram</label></td></tr>
-	<tr><td><label><input type="radio" name="plotlisting" id="r_ternary"> Ternary Diagram</label></td></tr>
-	<tr><td><label><input type="radio" name="plotlisting" id="r_map"> Map With Scale Bar</label></td></tr>
-	<tr><td><label><input type="radio" name="plotlisting" id="r_image"> Image (Align to image pixels)</label></td></tr>
+	<tr><td align="left"><label><input type="radio" name="plotlisting" id="r_xy" checked> 2D (X-Y) Plot</label></td></tr>
+	<tr><td align="left"><label><input type="radio" name="plotlisting" id="r_polar"> Polar Diagram</label></td></tr>
+	<tr><td align="left"><label><input type="radio" name="plotlisting" id="r_ternary"> Ternary Diagram</label></td></tr>
+	<tr><td align="left"><label><input type="radio" name="plotlisting" id="r_map"> Map With Scale Bar</label></td></tr>
+	<tr><td align="left"><label><input type="radio" name="plotlisting" id="r_image"> Image (Align to image pixels)</label></td></tr>
 	</table>
 	</center>
 	<p>&nbsp;</p>
@@ -276,23 +276,19 @@ alt="tumblr visitor stats"></a></div></noscript>
 	<p align="center" class="popupheading">Acquired Data</p>
 	<p align="center">
 		Sort by:
-		<select id="dataSortOption">
-			<option value="raw">Raw Output</option>
-			<option value="0">X</option>
-			<option value="1">Y</option>
-			<option value="Connectivity">Connectivity</option>
+		<select id="dataSortOption" onChange="updateCSVSortingControls();">
 		</select> 
 		Order: 
 		<select id="dataSortOrder">
 			<option value="ascending">Ascending</option>
 			<option value="descending">Descending</option>
 		</select>
-		<input type="button" id="dataResortButton" value="Re-sort"/>
+		<input type="button" id="dataResortButton" value="Re-sort" onClick="reSortCSV();"/>
 	</p>
 	<p align="center">Variables: <span id="dataVariables">x, y</span></p>
-	<p align="center"><textarea id="tarea" rows="25" cols="70"></textarea></p>
+	<p align="center"><textarea id="tarea" style="width: 500px; height: 300px;"></textarea></p>
 	<p align="center">Copy and Paste to a file with .CSV extension</p>
-	<p align="center"><input type="button" value="Select All"/>&nbsp;<input type="button" id="closeCSVbtn" value="Done" onClick="closePopup('csvWindow');"/></p>
+	<p align="center"><input type="button" value="Select All" onClick="selectAllCSVData();"/>&nbsp;<input type="button" id="closeCSVbtn" value="Done" onClick="closePopup('csvWindow');"/></p>
 	</div>
 
 	<div id="xyAxesInfo" class="popup" style="width: 350px;"> 
