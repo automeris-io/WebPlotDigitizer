@@ -202,11 +202,11 @@ alt="tumblr visitor stats"></a></div></noscript>
 	<p>&nbsp;</p>
 	<center>
 	<table>
-	<tr><td align="left"><input type="radio" name="plotlisting" id="r_xy" checked></td><td>2D (X-Y) Plot</td></tr>
-	<tr><td align="left"><input type="radio" name="plotlisting" id="r_polar"></td><td>Polar Diagram</td></tr>
-	<tr><td align="left"><input type="radio" name="plotlisting" id="r_ternary"></td><td>Ternary Diagram</td></tr>
-	<tr><td align="left"><input type="radio" name="plotlisting" id="r_map"></td><td>Map With Scale Bar</td></tr>
-	<tr><td align="left"><input type="radio" name="plotlisting" id="r_image"></td><td>Image (Align to image pixels)</td></tr>
+	<tr><td><label><input type="radio" name="plotlisting" id="r_xy" checked> 2D (X-Y) Plot</label></td></tr>
+	<tr><td><label><input type="radio" name="plotlisting" id="r_polar"> Polar Diagram</label></td></tr>
+	<tr><td><label><input type="radio" name="plotlisting" id="r_ternary"> Ternary Diagram</label></td></tr>
+	<tr><td><label><input type="radio" name="plotlisting" id="r_map"> Map With Scale Bar</label></td></tr>
+	<tr><td><label><input type="radio" name="plotlisting" id="r_image"> Image (Align to image pixels)</label></td></tr>
 	</table>
 	</center>
 	<p>&nbsp;</p>
@@ -217,7 +217,7 @@ alt="tumblr visitor stats"></a></div></noscript>
 	<p align="center" class="popupheading">Specify Range of Variables</p>
 	<p>&nbsp;</p>
 	<center>
-	<table padding="10"><tr><td></td><td align="center">Low (1)</td><td align="center">High (2)</td><td align="center">Log Scale</td></tr>
+	<table padding="10"><tr><td></td><td align="center">1<sup>st</sup> Point</td><td align="center">2<sup>nd</sup> Point</td><td align="center">Log Scale</td></tr>
 	    <tr><td align="center">X-Axis:</td>
 	        <td align="center"><input type="text" size="6" id="xmin" value="0"></td>
 	        <td align="center"><input type="text" size="6" id="xmax" value="1"></td>
@@ -272,11 +272,27 @@ alt="tumblr visitor stats"></a></div></noscript>
 	<p align="center"><input type="button" value="OK" onClick="alignAxes();"></p>
 	</div>
 
-	<div id="csvWindow" class="popup" style="width: 500px; height: 300px;">
+	<div id="csvWindow" class="popup" style="width: 600px; height: 500px;">
 	<p align="center" class="popupheading">Acquired Data</p>
+	<p align="center">
+		Sort by:
+		<select id="dataSortOption">
+			<option value="raw">Raw Output</option>
+			<option value="0">X</option>
+			<option value="1">Y</option>
+			<option value="Connectivity">Connectivity</option>
+		</select> 
+		Order: 
+		<select id="dataSortOrder">
+			<option value="ascending">Ascending</option>
+			<option value="descending">Descending</option>
+		</select>
+		<input type="button" id="dataResortButton" value="Re-sort"/>
+	</p>
+	<p align="center">Variables: <span id="dataVariables">x, y</span></p>
+	<p align="center"><textarea id="tarea" rows="25" cols="70"></textarea></p>
 	<p align="center">Copy and Paste to a file with .CSV extension</p>
-	<p align="center"><textarea id="tarea" rows="10" cols="50"></textarea></p>
-	<p align="center"><input type="button" id="closeCSVbtn" value="Done" onClick="closePopup('csvWindow');"></p>
+	<p align="center"><input type="button" value="Select All"/>&nbsp;<input type="button" id="closeCSVbtn" value="Done" onClick="closePopup('csvWindow');"/></p>
 	</div>
 
 	<div id="xyAxesInfo" class="popup" style="width: 350px;"> 
