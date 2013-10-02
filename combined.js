@@ -972,11 +972,22 @@ function dropHandler(ev) {
 }
 
 /**
- * Handle file pasted from clipboard on canvas.
+ * Handle file pasted from clipboard on canvas. Works only in Google Chrome.
  */
 function pasteHandler(ev) {
-	console.log('paste');
-	console.log(ev);
+	if(ev.clipboardData !== undefined) {
+		var items = ev.clipboardData.items;
+		if(items !== undefined) {
+			for(var i = 0; i < items.length; i++) {
+				if(items[i].type.indexOf("image") !== -1) {
+					var blob = items[i].getAsFile();
+					var URLObj = window.URL || window.webkitURL;
+					var source = URLObj.createObjectURL(blob);
+					fileLoader(blob);
+				}
+			}
+		}
+	}
 }
 
 /**
@@ -2183,7 +2194,7 @@ function init() {// This is run when the page loads.
 	topCanvas.addEventListener("drop",function(event) {event.preventDefault(); dropHandler(event);}, true);
 
 	// Paste image from clipboard
-	topCanvas.addEventListener('paste', function(event) {event.preventDefault(); pasteHandler(event);}, true);
+	window.addEventListener('paste', function(event) {pasteHandler(event);}, false);
 	
 	// Set defaults everywhere.
 	setDefaultState();

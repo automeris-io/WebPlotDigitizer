@@ -192,9 +192,17 @@ alt="tumblr visitor stats"></a></div></noscript>
 	<div id="loadNewImage" class="popup" style="width: 400px;">
 	<p align="center" class="popupheading">Load Image File</p>
 	<p>&nbsp;</p>
-	<p align="center"><input type="file" size="6" id="fileLoadBox" onchange="loadNewFile();"></p>
+	<!-- <p align="center">Load file from disk</p> -->
+	<p align="center"><input type="file" id="fileLoadBox" onchange="loadNewFile();"></p>
+	<!--
+	<hr/>
+	<p align="center">Or paste image in the box below</p>
+	<p align="center">
+		<div contenteditable="true" style="width: 400px; height: 300px; border: thin grey solid; overflow: scroll;" id="pasteImageBox" onpaste="alert(this);"></div>
+	</p>
+	-->
 	<p>&nbsp;</p>
-	<p align="center"><input type="button" value="Cancel" onClick="closePopup('loadNewImage');"></p>
+	<p align="center"><!-- <input type="button" value="Load Pasted Image" onClick="loadPastedFileInWindow();">&nbsp;--><input type="button" value="Cancel" onClick="closePopup('loadNewImage');"></p>
 	</div>
 
 	<div id="axesList" class="popup" style="width: 400px;">

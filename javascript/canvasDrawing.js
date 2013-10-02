@@ -214,7 +214,7 @@ function dropHandler(ev) {
 }
 
 /**
- * Handle file pasted from clipboard on canvas.
+ * Handle file pasted from clipboard on canvas. Works only in Google Chrome.
  */
 function pasteHandler(ev) {
 	if(ev.clipboardData !== undefined) {
