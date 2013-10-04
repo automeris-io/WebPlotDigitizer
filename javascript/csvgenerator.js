@@ -65,7 +65,6 @@ var rawCSVData;
 		updateCSVSortingControls();
 
 		var dateFormattingEl = document.getElementById('csvDateFormatting');
-		console.log(dateFormattingEl);
 		if(plotType === 'XY') {
 			if((axesAlignmentData[6] === true || axesAlignmentData[7] === true)) {
 				dateFormattingEl.style.visibility = 'visible';
@@ -74,15 +73,15 @@ var rawCSVData;
 				var yDateFormattingEl = document.getElementById('csvDateFormattingY');
 
 				if(axesAlignmentData[6]) {
-					xDateFormattingEl.style.visibility = 'visible';
+					xDateFormattingEl.style.display = 'inline-block';
 				} else {	
-					xDateFormattingEl.style.visibility = 'hidden';
+					xDateFormattingEl.style.display = 'none';
 				}
 
 				if(axesAlignmentData[7]) {
-					yDateFormattingEl.style.visibility = 'visible';
+					yDateFormattingEl.style.display = 'inline-block';
 				} else {	
-					yDateFormattingEl.style.visibility = 'hidden';
+					yDateFormattingEl.style.display = 'none';
 				}
 			} else {
 				dateFormattingEl.style.visibility = 'hidden';
