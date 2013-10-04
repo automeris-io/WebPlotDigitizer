@@ -221,20 +221,29 @@ alt="tumblr visitor stats"></a></div></noscript>
 	<p align="center"><input type="button" value="Align Axes" onClick="initiatePlotAlignment();">&nbsp;<input type="button" value="Cancel" onClick="closePopup('axesList');"></p>
 	</div>
 
-	<div id="xyAlignment" class="popup" style="width: 300px;">
-	<p align="center" class="popupheading">Specify Range of Variables</p>
+	<div id="xyAlignment" class="popup" style="width: 400px;">
+	<p align="center" class="popupheading">X and Y Axes Calibration</p>
 	<p>&nbsp;</p>
+	<p align="center">Enter X-values of the two points clicked on X-axis and Y-values of the two points clicked on Y-axes</p>
 	<center>
-	<table padding="10"><tr><td></td><td align="center">1<sup>st</sup> Point</td><td align="center">2<sup>nd</sup> Point</td><td align="center">Log Scale</td></tr>
+	<table padding="10">
+		<tr><td></td>
+			<td align="center" valign="bottom">Point 1</td>
+			<td align="center" valign="bottom" width="80">Point 2</td>
+			<td align="center" valign="bottom" width="82">Log Scale</td>
+			<td align="center" valign="bottom">Date</td>
+		</tr>
 	    <tr><td align="center">X-Axis:</td>
-	        <td align="center"><input type="text" size="6" id="xmin" value="0"></td>
-	        <td align="center"><input type="text" size="6" id="xmax" value="1"></td>
+	        <td align="center"><input type="text" size="8" id="xmin" value="0"></td>
+	        <td align="center"><input type="text" size="8" id="xmax" value="1"></td>
 	        <td align="center"><input type="checkbox" id="xlog"></td>
+	        <td align="center"><input type="checkbox" id="xdate"></td>
 	    </tr>
 	    <tr><td align="center">Y-Axis:</td>
-	        <td align="center"><input type="text" size="6" id="ymin" value="0"></td>
-	        <td align="center"><input type="text" size="6" id="ymax" value="1"></td>
+	        <td align="center"><input type="text" size="8" id="ymin" value="0"></td>
+	        <td align="center"><input type="text" size="8" id="ymax" value="1"></td>
 	        <td align="center"><input type="checkbox" id="ylog"></td>
+	        <td align="center"><input type="checkbox" id="ydate"></td>
 	    </tr>
 	</table>
 	<p>&nbsp;</p>
@@ -292,6 +301,13 @@ alt="tumblr visitor stats"></a></div></noscript>
 			<option value="descending">Descending</option>
 		</select>
 		<input type="button" id="dataResortButton" value="Re-sort" onClick="reSortCSV();"/>
+	</p>
+	<p align="center">
+		<span id="csvDateFormatting">
+		Date Formattng: 
+		<span id="csvDateFormattingX">X <input type="label" size="15" id="xDateFormat" value="mm-dd-yyyy"/> </span>
+		<span id="csvDateFormattingY">Y <input type="label" size="15" id="yDateFormat" value="mm-dd-yyyy"/> </span>
+		</span>
 	</p>
 	<p align="center">Variables: <span id="dataVariables">x, y</span></p>
 	<p align="center"><textarea id="tarea" style="width: 500px; height: 300px;"></textarea></p>
@@ -360,7 +376,7 @@ alt="tumblr visitor stats"></a></div></noscript>
 	<p align="center">&nbsp;</p>
 	<p align="center">Please align the axes before acquiring data.</p>
 	<p align="center">&nbsp;</p>
-	<p align="center"><input type="button" value="Ok" onClick="closePopup('alignAxes');"></p>
+	<p align="center"><input type="button" value="OK" onClick="closePopup('alignAxes');"></p>
 	</div>
 
 	<div id="xyAxesOnly" class="popup" style="width:300px;">
@@ -368,8 +384,17 @@ alt="tumblr visitor stats"></a></div></noscript>
 	<p align="center">&nbsp;</p>
 	<p align="center">This algorithm is applicable to XY plots only. Other plots may be supported in future versions.</p>
 	<p align="center">&nbsp;</p>
-	<p align="center"><input type="button" value="Ok" onClick="closePopup('xyAxesOnly');"></p>
+	<p align="center"><input type="button" value="OK" onClick="closePopup('xyAxesOnly');"></p>
 	</div>
+
+	<div id="dateError" class="popup" style="width:300px;">
+	<p align="center" class="popupheading">Invalid Date Input!</p>
+	<p align="center">&nbsp;</p>
+	<p align="center">One of the dates entered were invalid. This feature uses Javascript's <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/parse" target="mozdev">Date.parse()</a> method. Please enter a date string that can be interpreted by this method.</p>
+	<p align="center">&nbsp;</p>
+	<p align="center"><input type="button" value="OK" onClick="closePopup('dateError'); showPopup('xyAlignment");"></p>
+	</div>
+
 
 	<div id="helpWindow" class="popup" style="width: 550px;">
 	<p align="center" class="popupheading">WebPlotDigitizer v2.6 - Web Based Plot Digitizer</p>

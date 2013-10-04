@@ -136,6 +136,13 @@ input[type="button"]::-moz-focus-inner {
 	margin-top: -2px;
 }
 
+input[type="checkbox"] {
+	height:20px;
+	width:20px;
+	border: thin black solid;
+	background: white;
+}
+
 input[type="text"] {
 	font-family: Verdana, Sans Serif;
 	font-size: 12px;
