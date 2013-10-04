@@ -64,6 +64,32 @@ var rawCSVData;
 
 		updateCSVSortingControls();
 
+		var dateFormattingEl = document.getElementById('csvDateFormatting');
+		console.log(dateFormattingEl);
+		if(plotType === 'XY') {
+			if((axesAlignmentData[6] === true || axesAlignmentData[7] === true)) {
+				dateFormattingEl.style.visibility = 'visible';
+
+				var xDateFormattingEl = document.getElementById('csvDateFormattingX');
+				var yDateFormattingEl = document.getElementById('csvDateFormattingY');
+
+				if(axesAlignmentData[6]) {
+					xDateFormattingEl.style.visibility = 'visible';
+				} else {	
+					xDateFormattingEl.style.visibility = 'hidden';
+				}
+
+				if(axesAlignmentData[7]) {
+					yDateFormattingEl.style.visibility = 'visible';
+				} else {	
+					yDateFormattingEl.style.visibility = 'hidden';
+				}
+			} else {
+				dateFormattingEl.style.visibility = 'hidden';
+			}
+		} else {
+			dateFormattingEl.style.visibility = 'hidden';
+		}
     }
  }
 

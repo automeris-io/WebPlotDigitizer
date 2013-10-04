@@ -149,11 +149,14 @@ function alignAxes() {
 	    var ymaxEl = document.getElementById('ymax');
 	    var xlogEl = document.getElementById('xlog');
 	    var ylogEl = document.getElementById('ylog');
+		var xDateEl = document.getElementById('xdate');
+		var yDateEl = document.getElementById('ydate');
         
 	    axesAlignmentData[0] = parseFloat(xminEl.value);
 	    axesAlignmentData[1] = parseFloat(xmaxEl.value);
 	    axesAlignmentData[2] = parseFloat(yminEl.value);
 	    axesAlignmentData[3] = parseFloat(ymaxEl.value);
+		
 	
 	    if (xlogEl.checked === true)
 	        axesAlignmentData[4] = true;
@@ -164,6 +167,39 @@ function alignAxes() {
 	        axesAlignmentData[5] = true;
 	    else
 	        axesAlignmentData[5] = false;
+
+		var timeStampMin, timeStampMax;
+		if (xDateEl.checked === true) {
+			timeStampMin = Date.parse(xminEl.value);
+			timeStampMax = Date.parse(xmaxEl.value);
+			if(isNaN(timeStampMin) || isNaN(timeStampMax)) {
+				closePopup('xyAlignment');
+				showPopup('dateError');
+				return;
+			} else {
+			    axesAlignmentData[0] = parseFloat(timeStampMin);
+			    axesAlignmentData[1] = parseFloat(timeStampMax);
+				axesAlignmentData[6] = true;
+			}
+		} else {
+			axesAlignmentData[6] = false;
+		}
+
+		if (yDateEl.checked === true) {
+			timeStampMin = Date.parse(yminEl.value);
+			timeStampMax = Date.parse(ymaxEl.value);
+			if(isNaN(timeStampMin) || isNaN(timeStampMax)) {
+				closePopup('xyAlignment');
+				showPopup('dateError');
+				return;
+			} else {
+			    axesAlignmentData[2] = parseFloat(timeStampMin);
+			    axesAlignmentData[3] = parseFloat(timeStampMax);
+				axesAlignmentData[7] = true;
+			}
+		} else {
+			axesAlignmentData[7] = false;
+		}
 	
 	    closePopup('xyAlignment');
     } else if (plotType == 'polar') {
