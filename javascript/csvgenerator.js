@@ -67,7 +67,7 @@ var rawCSVData;
 		var dateFormattingEl = document.getElementById('csvDateFormatting');
 		if(plotType === 'XY') {
 			if((axesAlignmentData[6] === true || axesAlignmentData[7] === true)) {
-				dateFormattingEl.style.visibility = 'visible';
+				dateFormattingEl.style.display = 'inline-block';
 
 				var xDateFormattingEl = document.getElementById('csvDateFormattingX');
 				var yDateFormattingEl = document.getElementById('csvDateFormattingY');
@@ -84,10 +84,10 @@ var rawCSVData;
 					yDateFormattingEl.style.display = 'none';
 				}
 			} else {
-				dateFormattingEl.style.visibility = 'hidden';
+				dateFormattingEl.style.display = 'none';
 			}
 		} else {
-			dateFormattingEl.style.visibility = 'hidden';
+			dateFormattingEl.style.display = 'none';
 		}
     }
  }
