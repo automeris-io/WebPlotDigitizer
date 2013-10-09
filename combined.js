@@ -110,15 +110,15 @@ function initiatePlotAlignment() {
   
   closePopup('axesList');
   
-  if (xyEl.checked == true)
+  if (xyEl.checked === true)
     setAxes('XY');
-  else if(polarEl.checked == true)
+  else if(polarEl.checked === true)
     setAxes('polar');
-  else if(ternaryEl.checked == true)
+  else if(ternaryEl.checked === true)
     setAxes('ternary');
-  else if(mapEl.checked == true)
+  else if(mapEl.checked === true)
     setAxes('map');
-  else if(imageEl.checked == true)
+  else if(imageEl.checked === true)
     setAxes('image');
 }
 
@@ -207,12 +207,51 @@ function alignAxes() {
 	    var ymaxEl = document.getElementById('ymax');
 	    var xlogEl = document.getElementById('xlog');
 	    var ylogEl = document.getElementById('ylog');
-        
-	    axesAlignmentData[0] = parseFloat(xminEl.value);
-	    axesAlignmentData[1] = parseFloat(xmaxEl.value);
-	    axesAlignmentData[2] = parseFloat(yminEl.value);
-	    axesAlignmentData[3] = parseFloat(ymaxEl.value);
-	
+
+		var inputParser = new InputParser(),
+			parsedVal,
+			x1Date = false,
+			y1Date = false,
+			x2Date = false,
+			y2Date = false;
+
+		var raiseError = function(parsedValue) {
+				if(!inputParser.isValid || parsedValue == null) {
+					closePopup('xyAlignment');
+					showPopup('inputError');
+					return null;
+				} 
+				return parsedValue;
+			};
+
+		parsedVal = raiseError(inputParser.parse(xminEl.value));
+		if(parsedVal === null) { return; }		
+	    axesAlignmentData[0] = parsedVal;
+		if(inputParser.isDate) {
+			x1Date = true;
+		}
+
+		parsedVal = raiseError(inputParser.parse(xmaxEl.value));
+		if(parsedVal === null) { return; }		
+	    axesAlignmentData[1] = parsedVal;
+		if(inputParser.isDate) {
+			x2Date = true;
+		}
+
+		parsedVal = raiseError(inputParser.parse(yminEl.value));
+		if(parsedVal === null) { return; }		
+	    axesAlignmentData[2] = parsedVal;
+		if(inputParser.isDate) {
+			y1Date = true;
+		}
+
+		parsedVal = raiseError(inputParser.parse(ymaxEl.value));
+		if(parsedVal === null) { return; }		
+	    axesAlignmentData[3] = parsedVal;
+		if(inputParser.isDate) {
+			y2Date = true;
+		}
+
 	    if (xlogEl.checked === true)
 	        axesAlignmentData[4] = true;
 	    else
@@ -222,7 +261,28 @@ function alignAxes() {
 	        axesAlignmentData[5] = true;
 	    else
 	        axesAlignmentData[5] = false;
-	
+
+		// Date checks:
+		if ((x1Date !== x2Date) || (y1Date !== y2Date)) {
+			closePopup('xyAlignment');
+			showPopup('inputError');
+			return;
+		}
+
+		if(x1Date && x2Date) {
+			axesAlignmentData[6] = true;
+			axesAlignmentData[8] = dateConverter.getFormatString(xminEl.value);
+		} else {
+			axesAlignmentData[6] = false;
+		}
+
+		if(y1Date && y2Date) {
+			axesAlignmentData[7] = true;
+			axesAlignmentData[9] = dateConverter.getFormatString(yminEl.value);
+		} else {
+			axesAlignmentData[7] = false;
+		}
+
 	    closePopup('xyAlignment');
     } else if (plotType == 'polar') {
 	    var r1El = document.getElementById('rpoint1');
@@ -1472,8 +1532,6 @@ var rawCSVData;
         showPopup('csvWindow');
 			
 		rawCSVData = pixelToData(xyData, pointsPicked, plotType);
-		
-		generateCSVTextFromData(rawCSVData);
 
 		var dataSortOrder = document.getElementById('dataSortOrder'),
 			dataSortOption = document.getElementById('dataSortOption'),
@@ -1505,6 +1563,37 @@ var rawCSVData;
 
 		updateCSVSortingControls();
 
+		var dateFormattingEl = document.getElementById('csvDateFormatting');
+		if(plotType === 'XY') {
+			if((axesAlignmentData[6] === true || axesAlignmentData[7] === true)) {
+				dateFormattingEl.style.display = 'inline-block';
+
+				var xDateFormattingEl = document.getElementById('csvDateFormattingX');
+				var yDateFormattingEl = document.getElementById('csvDateFormattingY');
+				var xDateFormatEl = document.getElementById('xDateFormat');
+				var yDateFormatEl = document.getElementById('yDateFormat');
+
+				if(axesAlignmentData[6]) {
+					xDateFormattingEl.style.display = 'inline-block';
+					xDateFormatEl.value = axesAlignmentData[8];
+				} else {	
+					xDateFormattingEl.style.display = 'none';
+				}
+
+				if(axesAlignmentData[7]) {
+					yDateFormattingEl.style.display = 'inline-block';
+					yDateFormat.value = axesAlignmentData[9];
+				} else {	
+					yDateFormattingEl.style.display = 'none';
+				}
+			} else {
+				dateFormattingEl.style.display = 'none';
+			}
+		} else {
+			dateFormattingEl.style.display = 'none';
+		}
+		
+		generateCSVTextFromData(rawCSVData);
     }
  }
 
@@ -1529,6 +1618,8 @@ function updateCSVSortingControls() {
 	} else {
 		dataSortOrder.removeAttribute('disabled');
 	}
+
+	reSortCSV();
 }
 
 /**
@@ -1541,13 +1632,30 @@ function generateCSVTextFromData(retData) {
 
 	if((plotType === 'XY') || (plotType === 'map') || (plotType === 'polar') || (plotType === 'image')) {
 		for(var ii = 0; ii < pointsPicked; ii++) {
-			tarea.value = tarea.value + retData[ii][0] + ',' + retData[ii][1] + '\n';
+			tarea.value = tarea.value + formatVariableInCSV(retData[ii][0], 'X') + ',' + formatVariableInCSV(retData[ii][1], 'Y') + '\n';
 		}
 	} else if((plotType === 'ternary')) {
 		for(var ii = 0; ii < pointsPicked; ii++) {
 			tarea.value = tarea.value + retData[ii][0] + ',' + retData[ii][1] + ',' + retData[ii][2] + '\n';
 		}
 	}
+}
+
+/**
+ * Format variable 
+ */
+function formatVariableInCSV(val, variableType) {
+	if(plotType === 'XY') {
+		if(variableType === 'X' && axesAlignmentData[6]) {
+			var xDateFormatEl = document.getElementById('xDateFormat');
+			return dateConverter.formatDate(dateConverter.fromJD(val), xDateFormatEl.value);			
+		}
+		if(variableType === 'Y' && axesAlignmentData[7]) {
+			var yDateFormatEl = document.getElementById('yDateFormat');
+			return dateConverter.formatDate(dateConverter.fromJD(val), yDateFormatEl.value);
+		}
+	}
+	return val;
 }
 
 /**
@@ -1626,6 +1734,166 @@ function reSortCSV() {
 
 }
 
+/*
+	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
+
+	Copyright 2010-2013 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+
+	This file is part of WebPlotDigitizer.
+
+    WebPlotDigitizer is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    WebPlotDigitizer is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
+
+
+*/
+
+/* Parse dates and convert back and forth to Julian days */
+
+var dateConverter = {
+	
+	parse: function(input) {
+				if(input == null) {
+					return null;
+				}
+
+				if(input.indexOf("/") === -1) {
+					return null;
+				}
+
+				return this.toJD(input);
+			},
+
+	// Convert to Julian Date
+	toJD: function(dateString) {
+				var dateParts = dateString.split("/"),
+					year,
+					month,
+					day,
+					tempDate,
+					rtnValue;
+
+				if(dateParts.length <= 0 || dateParts.length > 3) {
+					return null;
+				}
+
+				year = parseInt(dateParts[0], 10);
+
+				month = parseInt(dateParts[1] === undefined ? 0 : dateParts[1], 10);
+
+				date = parseInt(dateParts[2] === undefined ? 1 : dateParts[2], 10);
+
+				if(isNaN(year) || isNaN(month) || isNaN(date)) {
+					return null;
+				}
+
+				if(month > 12 || month < 1) {
+					return null;
+				}
+
+				if(date > 31 || date < 1) {
+					return null;
+				}
+
+				// Temporary till I figure out julian dates:
+				tempDate = new Date();
+				tempDate.setUTCFullYear(year);
+				tempDate.setUTCMonth(month-1);
+				tempDate.setUTCDate(date);
+				rtnValue = parseFloat(Date.parse(tempDate));
+				if(!isNaN(rtnValue)) {
+					return rtnValue;
+				}
+				return null;
+			},
+
+	// Convert back from Julian Date
+	fromJD: function(jd) {
+
+				// Temporary till I figure out julian dates:
+				jd = parseFloat(jd);
+				var msInDay = 24*60*60*1000,
+					roundedDate = parseInt(Math.round(jd/msInDay)*msInDay,10),
+					tempDate = new Date(roundedDate);
+
+				return tempDate;
+			},
+
+	formatDate: function(dateObject, formatString) {
+				var longMonths = [
+									"January", 
+									"February", 
+									"March", 
+									"April", 
+									"May", 
+									"June", 
+									"July", 
+									"August", 
+									"September",
+									"October",
+									"November",
+									"December"
+								],
+					shortMonths = [
+									"Jan",
+									"Feb",
+									"Mar",
+									"Apr",
+									"May",
+									"Jun",
+									"Jul",
+									"Aug",
+									"Sep",
+									"Oct",
+									"Nov",
+									"Dec"
+								];
+				
+				var outputString = formatString.toLowerCase();
+
+				outputString = outputString.replace("yyyy", dateObject.getUTCFullYear());
+				outputString = outputString.replace("yy", (dateObject.getUTCFullYear()%100));
+
+				outputString = outputString.replace("month", longMonths[dateObject.getUTCMonth()]);
+				outputString = outputString.replace("mmmm", shortMonths[dateObject.getUTCMonth()]);
+				outputString = outputString.replace("mm", (dateObject.getUTCMonth()+1));
+				
+				outputString = outputString.replace("dd", dateObject.getUTCDate());
+				
+				return outputString;
+			},
+
+	getFormatString: function(dateString) {
+				var dateParts = dateString.split("/"),
+					year,
+					month,
+					date,
+					formatString = 'yyyy/mm/dd';
+				
+				if(dateParts.length >= 1) {
+					formatString = 'yyyy';
+				}
+
+				if(dateParts.length >= 2) {
+					formatString += '/mm';
+				}
+
+				if(dateParts.length === 3) {
+					formatString += '/dd';
+				}
+
+				return formatString;
+			}
+};
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
@@ -2084,6 +2352,69 @@ function getImageDataBasedOnSelection(imgdout, mode, colorRGB, tol) {
 	return imgdout;
 }
 
+/*
+	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
+
+	Copyright 2010-2013 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+
+	This file is part of WebPlotDigitizer.
+
+    WebPlotDigitizer is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    WebPlotDigitizer is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
+
+
+*/
+
+/* Parse user provided expressions, dates etc. */
+
+var InputParser = function () {
+	var self = this;
+
+	self.parse = function(input) {
+		
+		self.isValid = false;
+		self.isDate = false;
+
+		if (input == null) {
+			return null;
+		}
+
+		input = input.trim();
+
+		if (input.indexOf("^") !== -1) {
+			return null;
+		}
+
+		var parsedDate = dateConverter.parse(input);
+		if(parsedDate !== null) {
+			self.isValid = true;
+			self.isDate = true;
+			return parsedDate;
+		}
+
+		var parsedFloat = parseFloat(input);
+		if(!isNaN(parsedFloat)) {
+			self.isValid = true;
+			return parsedFloat;
+		}
+
+		return null;
+	};
+
+	self.isValid = false;
+
+	self.isDate = false;
+};
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotdigitizer
 
@@ -2803,9 +3134,24 @@ function updateZoom(ev) {
 		if (plotType === 'image') {
 		  mPosn.innerHTML = rpix[0][0] + ', ' + rpix[0][1];
 		} else {
-		  mPosn.innerHTML = parseFloat(rpix[0][0]).toExponential(3) + ', ' + parseFloat(rpix[0][1]).toExponential(3);
-		  if (plotType === 'ternary')
-			  mPosn.innerHTML += ', ' + parseFloat(rpix[0][2]).toExponential(3);
+			if(plotType === 'XY') {
+				if(axesAlignmentData[6] === true) {
+					mPosn.innerHTML = dateConverter.formatDate(dateConverter.fromJD(rpix[0][0]), axesAlignmentData[8]);
+				} else {
+					mPosn.innerHTML = parseFloat(rpix[0][0]).toExponential(4);
+				}
+
+				if(axesAlignmentData[7] === true) {
+					mPosn.innerHTML += ', ' + dateConverter.formatDate(dateConverter.fromJD(rpix[0][1]), axesAlignmentData[9]);
+				} else {
+					mPosn.innerHTML += ', ' + parseFloat(rpix[0][1]).toExponential(4);
+				}
+			} else {
+				mPosn.innerHTML = parseFloat(rpix[0][0]).toExponential(4) + ', ' + parseFloat(rpix[0][1]).toExponential(4);
+			}
+			if (plotType === 'ternary') {
+				mPosn.innerHTML += ', ' + parseFloat(rpix[0][2]).toExponential(4);
+			}
 		}
     }
     

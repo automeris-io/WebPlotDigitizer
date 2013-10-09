@@ -54,9 +54,9 @@ var dateConverter = {
 
 				month = parseInt(dateParts[1] === undefined ? 0 : dateParts[1], 10);
 
-				day = parseInt(dateParts[2] === undefined ? 1 : dateParts[2], 10);
+				date = parseInt(dateParts[2] === undefined ? 1 : dateParts[2], 10);
 
-				if(isNaN(year) || isNaN(month) || isNaN(day)) {
+				if(isNaN(year) || isNaN(month) || isNaN(date)) {
 					return null;
 				}
 
@@ -64,7 +64,7 @@ var dateConverter = {
 					return null;
 				}
 
-				if(day > 31 || day < 1) {
+				if(date > 31 || date < 1) {
 					return null;
 				}
 
@@ -72,7 +72,7 @@ var dateConverter = {
 				tempDate = new Date();
 				tempDate.setUTCFullYear(year);
 				tempDate.setUTCMonth(month-1);
-				tempDate.setUTCDate(day);
+				tempDate.setUTCDate(date);
 				rtnValue = parseFloat(Date.parse(tempDate));
 				if(!isNaN(rtnValue)) {
 					return rtnValue;
@@ -84,15 +84,12 @@ var dateConverter = {
 	fromJD: function(jd) {
 
 				// Temporary till I figure out julian dates:
+				jd = parseFloat(jd);
 				var msInDay = 24*60*60*1000,
-					roundedDate = Math.round(jd/msInDay)*msInDay,
-					tempDate = new Date(Date.parse(jd));
+					roundedDate = parseInt(Math.round(jd/msInDay)*msInDay,10),
+					tempDate = new Date(roundedDate);
 
-				return {
-					year: tempDate.getUTCFullYear(),
-					month: tempDate.getUTCMonth(),
-					day: tempDate.getUTCDate()
-				};
+				return tempDate;
 			},
 
 	formatDate: function(dateObject, formatString) {
@@ -124,15 +121,26 @@ var dateConverter = {
 									"Nov",
 									"Dec"
 								];
+				
+				var outputString = formatString.toLowerCase();
 
-				return dateObject.year + "/" + dateObject.month + "/" + dateObject.date;
+				outputString = outputString.replace("yyyy", dateObject.getUTCFullYear());
+				outputString = outputString.replace("yy", (dateObject.getUTCFullYear()%100));
+
+				outputString = outputString.replace("month", longMonths[dateObject.getUTCMonth()]);
+				outputString = outputString.replace("mmmm", shortMonths[dateObject.getUTCMonth()]);
+				outputString = outputString.replace("mm", (dateObject.getUTCMonth()+1));
+				
+				outputString = outputString.replace("dd", dateObject.getUTCDate());
+				
+				return outputString;
 			},
 
 	getFormatString: function(dateString) {
 				var dateParts = dateString.split("/"),
 					year,
 					month,
-					day,
+					date,
 					formatString = 'yyyy/mm/dd';
 				
 				if(dateParts.length >= 1) {

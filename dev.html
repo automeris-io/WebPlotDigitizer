@@ -233,19 +233,16 @@ alt="tumblr visitor stats"></a></div></noscript>
 			<td align="center" valign="bottom">Point 1</td>
 			<td align="center" valign="bottom" width="80">Point 2</td>
 			<td align="center" valign="bottom" width="82">Log Scale</td>
-			<td align="center" valign="bottom">Date</td>
 		</tr>
 	    <tr><td align="center">X-Axis:</td>
 	        <td align="center"><input type="text" size="8" id="xmin" value="0"></td>
 	        <td align="center"><input type="text" size="8" id="xmax" value="1"></td>
 	        <td align="center"><input type="checkbox" id="xlog"></td>
-	        <td align="center"><input type="checkbox" id="xdate"></td>
 	    </tr>
 	    <tr><td align="center">Y-Axis:</td>
 	        <td align="center"><input type="text" size="8" id="ymin" value="0"></td>
 	        <td align="center"><input type="text" size="8" id="ymax" value="1"></td>
 	        <td align="center"><input type="checkbox" id="ylog"></td>
-	        <td align="center"><input type="checkbox" id="ydate"></td>
 	    </tr>
 	</table>
 	<p>&nbsp;</p>
@@ -298,17 +295,17 @@ alt="tumblr visitor stats"></a></div></noscript>
 		<select id="dataSortOption" onChange="updateCSVSortingControls();">
 		</select> 
 		Order: 
-		<select id="dataSortOrder">
+		<select id="dataSortOrder" onChange="reSortCSV();">
 			<option value="ascending">Ascending</option>
 			<option value="descending">Descending</option>
 		</select>
-		<input type="button" id="dataResortButton" value="Re-sort" onClick="reSortCSV();"/>
 	</p>
 	<p align="center">
 		<span id="csvDateFormatting">
 		Date Formattng: 
-		<span id="csvDateFormattingX">X <input type="label" size="15" id="xDateFormat" value="mm-dd-yyyy"/> </span>
-		<span id="csvDateFormattingY">Y <input type="label" size="15" id="yDateFormat" value="mm-dd-yyyy"/> </span>
+		<span id="csvDateFormattingX">X <input type="label" size="15" id="xDateFormat" value="yyyy/mm/dd" /> </span>
+		<span id="csvDateFormattingY">Y <input type="label" size="15" id="yDateFormat" value="yyyy/mm/dd" /> </span>
+		<input type="button" value="Format" onClick="reSortCSV();"/>
 		</span>
 	</p>
 	<p align="center">Variables: <span id="dataVariables">x, y</span></p>
@@ -389,12 +386,12 @@ alt="tumblr visitor stats"></a></div></noscript>
 	<p align="center"><input type="button" value="OK" onClick="closePopup('xyAxesOnly');"></p>
 	</div>
 
-	<div id="dateError" class="popup" style="width:300px;">
-	<p align="center" class="popupheading">Invalid Date Input!</p>
+	<div id="inputError" class="popup" style="width:300px;">
+	<p align="center" class="popupheading">Invalid Input!</p>
 	<p align="center">&nbsp;</p>
-	<p align="center">One of the dates entered were invalid. This feature uses Javascript's <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/parse" target="mozdev">Date.parse()</a> method. Please enter a date string that can be interpreted by this method.</p>
+	<p align="center">One of the values entered were invalid. Please check the values entered for axes calibration.</p>
 	<p align="center">&nbsp;</p>
-	<p align="center"><input type="button" value="OK" onClick="closePopup('dateError'); showPopup('xyAlignment');"></p>
+	<p align="center"><input type="button" value="OK" onClick="closePopup('inputError'); showPopup('xyAlignment');"></p>
 	</div>
 
 

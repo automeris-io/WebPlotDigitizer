@@ -35,6 +35,8 @@ var InputParser = function () {
 			return null;
 		}
 
+		input = input.trim();
+
 		if (input.indexOf("^") !== -1) {
 			return null;
 		}
