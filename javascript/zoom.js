@@ -76,9 +76,24 @@ function updateZoom(ev) {
 		if (plotType === 'image') {
 		  mPosn.innerHTML = rpix[0][0] + ', ' + rpix[0][1];
 		} else {
-		  mPosn.innerHTML = parseFloat(rpix[0][0]).toExponential(3) + ', ' + parseFloat(rpix[0][1]).toExponential(3);
-		  if (plotType === 'ternary')
-			  mPosn.innerHTML += ', ' + parseFloat(rpix[0][2]).toExponential(3);
+			if(plotType === 'XY') {
+				if(axesAlignmentData[6] === true) {
+					mPosn.innerHTML = dateConverter.formatDate(dateConverter.fromJD(rpix[0][0]), axesAlignmentData[8]);
+				} else {
+					mPosn.innerHTML = parseFloat(rpix[0][0]).toExponential(4);
+				}
+
+				if(axesAlignmentData[7] === true) {
+					mPosn.innerHTML += ', ' + dateConverter.formatDate(dateConverter.fromJD(rpix[0][1]), axesAlignmentData[9]);
+				} else {
+					mPosn.innerHTML += ', ' + parseFloat(rpix[0][1]).toExponential(4);
+				}
+			} else {
+				mPosn.innerHTML = parseFloat(rpix[0][0]).toExponential(4) + ', ' + parseFloat(rpix[0][1]).toExponential(4);
+			}
+			if (plotType === 'ternary') {
+				mPosn.innerHTML += ', ' + parseFloat(rpix[0][2]).toExponential(4);
+			}
 		}
     }
     

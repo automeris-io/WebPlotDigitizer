@@ -31,6 +31,7 @@
 <meta name="Author" content="Ankit Rohatgi"/>
 <title>WebPlotDigitizer - Copyright 2010-2013 Ankit Rohatgi</title>
 <link rel="stylesheet" href="styles.css" type="text/css" media="screen" />
+
 <!--
 <script src="javascript/main.js" language="JavaScript"></script>
 <script src="javascript/canvasDrawing.js" language="JavaScript"></script>
@@ -48,6 +49,8 @@
 <script src="javascript/imageProcessing.js" language="JavaScript"></script>
 <script src="javascript/coordinateTransform.js" language="JavaScript"></script>
 <script src="javascript/csvgenerator.js" language="JavaScript"></script>
+<script src="javascript/dateConversion.js" language="Javascript"></script>
+<script src="javascript/inputParser.js" language="Javascript"></script>
 <script src="javascript/AEalgos/averagingWindow.js" language="JavaScript"></script>
 <script src="javascript/AEalgos/averagingWindowWithStepSize.js" language="JavaScript"></script>
 <script src="javascript/AEalgos/blobdetector.js" language="JavaScript"></script>
@@ -220,19 +223,25 @@ alt="tumblr visitor stats"></a></div></noscript>
 	<p align="center"><input type="button" value="Align Axes" onClick="initiatePlotAlignment();">&nbsp;<input type="button" value="Cancel" onClick="closePopup('axesList');"></p>
 	</div>
 
-	<div id="xyAlignment" class="popup" style="width: 300px;">
-	<p align="center" class="popupheading">Specify Range of Variables</p>
+	<div id="xyAlignment" class="popup" style="width: 400px;">
+	<p align="center" class="popupheading">X and Y Axes Calibration</p>
 	<p>&nbsp;</p>
+	<p align="center">Enter X-values of the two points clicked on X-axis and Y-values of the two points clicked on Y-axes</p>
 	<center>
-	<table padding="10"><tr><td></td><td align="center">1<sup>st</sup> Point</td><td align="center">2<sup>nd</sup> Point</td><td align="center">Log Scale</td></tr>
+	<table padding="10">
+		<tr><td></td>
+			<td align="center" valign="bottom">Point 1</td>
+			<td align="center" valign="bottom" width="80">Point 2</td>
+			<td align="center" valign="bottom" width="82">Log Scale</td>
+		</tr>
 	    <tr><td align="center">X-Axis:</td>
-	        <td align="center"><input type="text" size="6" id="xmin" value="0"></td>
-	        <td align="center"><input type="text" size="6" id="xmax" value="1"></td>
+	        <td align="center"><input type="text" size="8" id="xmin" value="0"></td>
+	        <td align="center"><input type="text" size="8" id="xmax" value="1"></td>
 	        <td align="center"><input type="checkbox" id="xlog"></td>
 	    </tr>
 	    <tr><td align="center">Y-Axis:</td>
-	        <td align="center"><input type="text" size="6" id="ymin" value="0"></td>
-	        <td align="center"><input type="text" size="6" id="ymax" value="1"></td>
+	        <td align="center"><input type="text" size="8" id="ymin" value="0"></td>
+	        <td align="center"><input type="text" size="8" id="ymax" value="1"></td>
 	        <td align="center"><input type="checkbox" id="ylog"></td>
 	    </tr>
 	</table>
@@ -286,11 +295,18 @@ alt="tumblr visitor stats"></a></div></noscript>
 		<select id="dataSortOption" onChange="updateCSVSortingControls();">
 		</select> 
 		Order: 
-		<select id="dataSortOrder">
+		<select id="dataSortOrder" onChange="reSortCSV();">
 			<option value="ascending">Ascending</option>
 			<option value="descending">Descending</option>
 		</select>
-		<input type="button" id="dataResortButton" value="Re-sort" onClick="reSortCSV();"/>
+	</p>
+	<p align="center">
+		<span id="csvDateFormatting">
+		Date Formattng: 
+		<span id="csvDateFormattingX">X <input type="label" size="15" id="xDateFormat" value="yyyy/mm/dd" /> </span>
+		<span id="csvDateFormattingY">Y <input type="label" size="15" id="yDateFormat" value="yyyy/mm/dd" /> </span>
+		<input type="button" value="Format" onClick="reSortCSV();"/>
+		</span>
 	</p>
 	<p align="center">Variables: <span id="dataVariables">x, y</span></p>
 	<p align="center"><textarea id="tarea" style="width: 500px; height: 300px;"></textarea></p>
@@ -359,7 +375,7 @@ alt="tumblr visitor stats"></a></div></noscript>
 	<p align="center">&nbsp;</p>
 	<p align="center">Please align the axes before acquiring data.</p>
 	<p align="center">&nbsp;</p>
-	<p align="center"><input type="button" value="Ok" onClick="closePopup('alignAxes');"></p>
+	<p align="center"><input type="button" value="OK" onClick="closePopup('alignAxes');"></p>
 	</div>
 
 	<div id="xyAxesOnly" class="popup" style="width:300px;">
@@ -367,8 +383,17 @@ alt="tumblr visitor stats"></a></div></noscript>
 	<p align="center">&nbsp;</p>
 	<p align="center">This algorithm is applicable to XY plots only. Other plots may be supported in future versions.</p>
 	<p align="center">&nbsp;</p>
-	<p align="center"><input type="button" value="Ok" onClick="closePopup('xyAxesOnly');"></p>
+	<p align="center"><input type="button" value="OK" onClick="closePopup('xyAxesOnly');"></p>
 	</div>
+
+	<div id="inputError" class="popup" style="width:300px;">
+	<p align="center" class="popupheading">Invalid Input!</p>
+	<p align="center">&nbsp;</p>
+	<p align="center">One of the values entered were invalid. Please check the values entered for axes calibration.</p>
+	<p align="center">&nbsp;</p>
+	<p align="center"><input type="button" value="OK" onClick="closePopup('inputError'); showPopup('xyAlignment');"></p>
+	</div>
+
 
 	<div id="helpWindow" class="popup" style="width: 550px;">
 	<p align="center" class="popupheading">WebPlotDigitizer v2.6 - Web Based Plot Digitizer</p>

@@ -31,8 +31,6 @@ var rawCSVData;
         showPopup('csvWindow');
 			
 		rawCSVData = pixelToData(xyData, pointsPicked, plotType);
-		
-		generateCSVTextFromData(rawCSVData);
 
 		var dataSortOrder = document.getElementById('dataSortOrder'),
 			dataSortOption = document.getElementById('dataSortOption'),
@@ -71,15 +69,19 @@ var rawCSVData;
 
 				var xDateFormattingEl = document.getElementById('csvDateFormattingX');
 				var yDateFormattingEl = document.getElementById('csvDateFormattingY');
+				var xDateFormatEl = document.getElementById('xDateFormat');
+				var yDateFormatEl = document.getElementById('yDateFormat');
 
 				if(axesAlignmentData[6]) {
 					xDateFormattingEl.style.display = 'inline-block';
+					xDateFormatEl.value = axesAlignmentData[8];
 				} else {	
 					xDateFormattingEl.style.display = 'none';
 				}
 
 				if(axesAlignmentData[7]) {
 					yDateFormattingEl.style.display = 'inline-block';
+					yDateFormat.value = axesAlignmentData[9];
 				} else {	
 					yDateFormattingEl.style.display = 'none';
 				}
@@ -89,6 +91,8 @@ var rawCSVData;
 		} else {
 			dateFormattingEl.style.display = 'none';
 		}
+		
+		generateCSVTextFromData(rawCSVData);
     }
  }
 
@@ -113,6 +117,8 @@ function updateCSVSortingControls() {
 	} else {
 		dataSortOrder.removeAttribute('disabled');
 	}
+
+	reSortCSV();
 }
 
 /**
@@ -125,13 +131,30 @@ function generateCSVTextFromData(retData) {
 
 	if((plotType === 'XY') || (plotType === 'map') || (plotType === 'polar') || (plotType === 'image')) {
 		for(var ii = 0; ii < pointsPicked; ii++) {
-			tarea.value = tarea.value + retData[ii][0] + ',' + retData[ii][1] + '\n';
+			tarea.value = tarea.value + formatVariableInCSV(retData[ii][0], 'X') + ',' + formatVariableInCSV(retData[ii][1], 'Y') + '\n';
 		}
 	} else if((plotType === 'ternary')) {
 		for(var ii = 0; ii < pointsPicked; ii++) {
 			tarea.value = tarea.value + retData[ii][0] + ',' + retData[ii][1] + ',' + retData[ii][2] + '\n';
 		}
 	}
+}
+
+/**
+ * Format variable 
+ */
+function formatVariableInCSV(val, variableType) {
+	if(plotType === 'XY') {
+		if(variableType === 'X' && axesAlignmentData[6]) {
+			var xDateFormatEl = document.getElementById('xDateFormat');
+			return dateConverter.formatDate(dateConverter.fromJD(val), xDateFormatEl.value);			
+		}
+		if(variableType === 'Y' && axesAlignmentData[7]) {
+			var yDateFormatEl = document.getElementById('yDateFormat');
+			return dateConverter.formatDate(dateConverter.fromJD(val), yDateFormatEl.value);
+		}
+	}
+	return val;
 }
 
 /**
