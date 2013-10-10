@@ -127,8 +127,8 @@ var dateConverter = {
 				outputString = outputString.replace("yyyy", dateObject.getUTCFullYear());
 				outputString = outputString.replace("yy", (dateObject.getUTCFullYear()%100));
 
-				outputString = outputString.replace("month", longMonths[dateObject.getUTCMonth()]);
-				outputString = outputString.replace("mmmm", shortMonths[dateObject.getUTCMonth()]);
+				outputString = outputString.replace("mmmm", longMonths[dateObject.getUTCMonth()]);
+				outputString = outputString.replace("mmm", shortMonths[dateObject.getUTCMonth()]);
 				outputString = outputString.replace("mm", (dateObject.getUTCMonth()+1));
 				
 				outputString = outputString.replace("dd", dateObject.getUTCDate());
