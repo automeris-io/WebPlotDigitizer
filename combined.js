@@ -1992,9 +1992,12 @@ function cropPlot() {// crop image
  * Crop mode - mouse down
  */
 function cropMousedown(ev) {
+	var posn = getPosition(ev),
+		xi = posn.x,
+		yi = posn.y;
 
-	cropCoordinates[0] = parseInt(ev.layerX);
-	cropCoordinates[1] = parseInt(ev.layerY);
+	cropCoordinates[0] = xi;
+	cropCoordinates[1] = yi;
 	cropStatus = 1;
 }
 
@@ -2002,8 +2005,13 @@ function cropMousedown(ev) {
  * Crop mode - mouse up
  */
 function cropMouseup(ev) {
-      cropCoordinates[2] = parseInt(ev.layerX);
-      cropCoordinates[3] = parseInt(ev.layerY);
+
+	var posn = getPosition(ev),
+		xi = posn.x,
+		yi = posn.y;
+
+      cropCoordinates[2] = xi;
+      cropCoordinates[3] = yi;
       cropStatus = 0;
       
       hoverCanvas.width = hoverCanvas.width;
@@ -2034,11 +2042,17 @@ function cropMouseup(ev) {
  * Crop mode - mouse move
  */
 function cropMousemove(ev) {
+
+	
+	var posn = getPosition(ev),
+		xi = posn.x,
+		yi = posn.y;
+
       // this paints a rectangle as the mouse moves
       if(cropStatus == 1) {
         hoverCanvas.width = hoverCanvas.width;
 		hoverCtx.strokeStyle = "rgb(0,0,0)";
-		hoverCtx.strokeRect(cropCoordinates[0],cropCoordinates[1],parseInt(ev.layerX)-cropCoordinates[0],parseInt(ev.layerY)-cropCoordinates[1]);
+		hoverCtx.strokeRect(cropCoordinates[0], cropCoordinates[1], xi-cropCoordinates[0], yi-cropCoordinates[1]);
       }
 }
 
@@ -2547,7 +2561,7 @@ function setDefaultState() {
 	pointsPicked = 0;
 	xyData = [];
 	axesAlignmentData = [];
-			
+	clearPoints();		
 }
 
 function checkBrowser() {
