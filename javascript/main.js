@@ -130,7 +130,7 @@ function setDefaultState() {
 	pointsPicked = 0;
 	xyData = [];
 	axesAlignmentData = [];
-			
+	clearPoints();		
 }
 
 function checkBrowser() {
