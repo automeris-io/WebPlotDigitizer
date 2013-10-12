@@ -26,6 +26,7 @@ var averagingWindowWithStepSizeAlgo = {
 			if (plotType === 'XY') {
 				return [["X_min","Units",axesAlignmentData[0].toString()],["ΔX Step","Units","0.1"],["X_max","Units",axesAlignmentData[1].toString()],["Y_min","Units",axesAlignmentData[2].toString()],["Y_max","Units",axesAlignmentData[3].toString()],["Line width","Px","30"]];
 			} else {
+				closePopup('testImageWindow');
 				showPopup('xyAxesOnly');
 				return [["X_min","Units", "0"],["ΔX Step","Units","0.1"],["X_max","Units", "0"],["Y_min","Units", "0"],["Y_max","Units", "0"],["Line width","Px","30"]];
 			}
@@ -84,7 +85,10 @@ var averagingWindowWithStepSizeAlgo = {
 				var blobActive = false;
 				var blobEntry = 0;
 				var blobExit = 0;
-				var blobExitLocked = false;
+
+				// To account for noise or if actual thickness is less than specified thickness.
+				// This flag helps to set blobExit at the end of the thin part or account for noise.
+				var blobExitLocked = false; 
 
 				for(var ii = 0; ii <= dpix; ii++) {
 					var yi = -ii*step_pix*r_unit_per_pix + param_ymax;
@@ -103,7 +107,16 @@ var averagingWindowWithStepSizeAlgo = {
 								blobActive = true;
 								blobExitLocked = false;
 							}
+
+							// Resume collection, it was just noise
+							if(blobExitLocked === true) {
+								blobExit = ii;
+								blobExitLocked = false;
+							}
 						} else	{
+
+							// collection ended before line thickness was hit. It could just be noise
+							// or it could be the actual end.
 							if(blobExitLocked === false) {
 								blobExit = ii;
 								blobExitLocked = true;
@@ -112,7 +125,7 @@ var averagingWindowWithStepSizeAlgo = {
 
 						if(blobActive === true)	{
 
-							if((ii >= blobEntry + param_linewidth) || ((ii <= dpix) && (ii > dpix))) {
+							if((ii > blobEntry + param_linewidth) || (ii == dpix-1)) {
 								blobActive = false;
 
 								if(blobEntry > blobExit) {

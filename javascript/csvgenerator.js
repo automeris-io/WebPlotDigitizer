@@ -58,7 +58,7 @@ var rawCSVData;
 			variableNames.innerHTML = 'r, Θ';
 		}
 
-		dataSortOption.innerHTML += '<option value="Connectivity">Connectivity</option>';
+		dataSortOption.innerHTML += '<option value="NearestNeighbor">Nearest Neighbor</option>';
 
 		updateCSVSortingControls();
 
@@ -112,7 +112,7 @@ function updateCSVSortingControls() {
 	var dataSortOption = document.getElementById('dataSortOption'),
 		dataSortOrder = document.getElementById('dataSortOrder');
 	
-	if(dataSortOption.value === 'Connectivity' || dataSortOption.value === 'raw') {
+	if(dataSortOption.value === 'NearestNeighbor' || dataSortOption.value === 'raw') {
 		dataSortOrder.setAttribute('disabled', true);	
 	} else {
 		dataSortOrder.removeAttribute('disabled');
@@ -166,7 +166,7 @@ function reSortCSV() {
 		
 		isAscending = dataSortOrder.value === 'ascending',
 		isRaw = dataSortOption.value == 'raw',
-		isConnectivity = dataSortOption.value === 'Connectivity',
+		isConnectivity = dataSortOption.value === 'NearestNeighbor',
 		dataIndex,
 		sortedData = rawCSVData.slice(0),
 		plotDim = (plotType === 'ternary') ? 3 : 2;
