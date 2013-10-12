@@ -241,7 +241,7 @@ function getImageDataBasedOnSelection(imgdout, mode, colorRGB, tol) {
 		
 		markedRegion = dataCtx.getImageData(0,0,canvasWidth,canvasHeight),
 		
-		imgd = getCanvasData(),
+		imgd = currentScreen,
 		
 		mr, mg, mb,
 		ir, ig, ib,
