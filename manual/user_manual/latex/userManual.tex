@@ -1,28 +1,52 @@
 \documentclass{article}
 \usepackage{hyperref}
 \usepackage{graphicx}
+\renewcommand{\baselinestretch}{1.2}
 \begin{document}
 \title{WebPlotDigitizer User Manual\\ Version 2.6}
 \author{Ankit Rohatgi\footnote{E-Mail: ankitrohatgi@hotmail.com}}
 \maketitle
 \tableofcontents
-
+\newpage
 \section{Introduction}
-WebPlotDigitizer is a web based software to be used for extracting numeric values from plots and figures.
+A large quantity of useful data is available only in graphical form as plots in images. In these images, it is easy to determine the relationship between the variables involved, but recovering the exact numerical values of the data is usually a tedious and error prone process. To aid this time consuming task of data recovery, several digitization softwares have been developed over time. However, even with the abundance of free and commercial softwares, this task remains daunting and prone to errors. Many of the existing softwares are either design to work only on a specific operating system or work on only a small types of data. Some are difficult to use or prone to errors themselves, and many require a paid license which prevents their widespread use.
 
-\begin{figure}
-\centering
-\includegraphics[width=4in]{./figures/testSmall.jpg}
-\end{figure}
+Because of these limitations of current digitizing softwares, WebPlotDigitizer was developed to facilitate easy and accurate data extraction from a variety of plot types and also maps. This program has been built using HTML5 which allows it to run within most popular web browsers and does not require an installation process that is performed by the user.
+
 \subsection{User Manual}
+This user manual describes the various capabilities of the software and explains the typical set of operations required to recover data from various common plot types. 
+\\
+\\
+This manual is available online at \url{http://arohatgi.info/WebPlotDigitizer}.
+
 \subsection{Other Resources}
+While other resources to find technical information about the software are being put together, some video tutorials by the author are available at \url{http://arohatgi.info/WebPlotDigitizer}.
+
 \subsection{License}
-WebPlotDigitizer is distributed under GNU General Public License version 3.
+WebPlotDigitizer is distributed under GNU General Public License version 3 by Ankit Rohatgi. For complete terms and conditions, please refer to \url{http://www.gnu.org/copyleft/gpl.html}
 \subsection{Source Code}
+WebPlotDigitizer is an open source software available under GNU General Public License version 3. The source code can be obtained from GitHub (\url{https://github.com/ankitrohatgi/WebPlotDigitizer/}).
 \subsection{Availability}
-Go to the website, \url{http://arohatgi.info/WebPlotDigitizer}.
+The latest released version of the software can be used directly from the website \url{http://arohatgi.info/WebPlotDigitizer}. For the Google Chrome web browser, an \emph{app} pointing to the online software is also available at the Chrome App Store (\url{https://chrome.google.com/webstore/category/apps}).
+
 \subsection{Supported Browsers}
-Google Chrome, Mozilla Firefox, Internet Explorer 10, Safari 6.0
+Version 2.6 was ensured to work without major issues on the following browsers:
+\begin{itemize}
+\item{Safari 6.0.5 on Mac OS 10.8.5}
+\item{Google Chrome on Max OS 10.8.5}
+\item{Firefox on Windows 7 32-bit}
+\item{Internet Explorer 10 on Windows 7 32-bit}
+\item{Firefox on Xubuntu Linux}
+\end{itemize}
+It is expected that browsers similar in functionality and support for the HTML5 API should not have any major problems executing the version 2.6.
+
+\subsection{Citing WebPlotDigitizer}
+If you wish to cite WebPlotDigitizer in any of your works, then please use the following information:
+
+\subsection{Reporting Issues}
+In case of issues with the data recovery, access to the software or general technical questions, feel free to contact the author, Ankit Rohatgi via E-Mail: ankitrohatgi@hotmail.com
+
+Issues specific to bugs in the software can be reported on the issues page on GitHub: \url{https://github.com/ankitrohatgi/WebPlotDigitizer/issues}
 
 \section{Loading Plots}
 File, Load
