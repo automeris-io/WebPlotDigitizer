@@ -48,6 +48,7 @@
 <script src="javascript/imageProcessing.js" language="JavaScript"></script>
 <script src="javascript/coordinateTransform.js" language="JavaScript"></script>
 <script src="javascript/csvgenerator.js" language="JavaScript"></script>
+<script src="javascript/plotly.js" language="JavaScript"></script>
 <script src="javascript/dateConversion.js" language="Javascript"></script>
 <script src="javascript/inputParser.js" language="Javascript"></script>
 <script src="javascript/AEalgos/averagingWindow.js" language="JavaScript"></script>
@@ -310,9 +311,15 @@ alt="tumblr visitor stats"></a></div></noscript>
 		</span>
 	</p>
 	<p align="center">Variables: <span id="dataVariables">x, y</span></p>
-	<p align="center"><textarea id="tarea" style="width: 500px; height: 300px;"></textarea></p>
-	<p align="center">Copy and Paste to a file with .CSV extension</p>
-	<p align="center"><input type="button" value="Select All" onClick="selectAllCSVData();"/>&nbsp;<input type="button" id="closeCSVbtn" value="Done" onClick="closePopup('csvWindow');"/></p>
+	<p align="center"><textarea id="tarea" style="width: 480px; height: 250px;"></textarea></p>
+	<p align="center">Copy and Paste to a file with .CSV extension or graph in <a href="http://plot.ly" target="plotlyWebsite">Plotly</a>*</p>
+	<p align="center">
+		<input type="button" value="Select All" onClick="selectAllCSVData();"/>
+		<input type="button" value="Graph in Plotly*" onClick="exportToPlotly()"/>
+		<input type="button" id="closeCSVbtn" value="Close" onClick="closePopup('csvWindow');"/>
+	</p>
+	<p align="center" class="footnote">*Plotly is a secure data analysis and graphing site with data sharing and access controls.</p>
+	<p align="center" class="footnote">Visit <a href="http://plot.ly" target="plotlyWebsite">http://plot.ly</a> for details.</p>
 	</div>
 
 	<div id="xyAxesInfo" class="popup" style="width: 350px;"> 

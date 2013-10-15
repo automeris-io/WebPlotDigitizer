@@ -125,7 +125,11 @@ var dateConverter = {
 				var outputString = formatString.toLowerCase();
 
 				outputString = outputString.replace("yyyy", dateObject.getUTCFullYear());
-				outputString = outputString.replace("yy", (dateObject.getUTCFullYear()%100));
+
+				var twoDigitYear = dateObject.getUTCFullYear()%100;
+				twoDigitYear = twoDigitYear < 10 ? '0' + twoDigitYear : twoDigitYear;
+
+				outputString = outputString.replace("yy", twoDigitYear);
 
 				outputString = outputString.replace("mmmm", longMonths[dateObject.getUTCMonth()]);
 				outputString = outputString.replace("mmm", shortMonths[dateObject.getUTCMonth()]);
