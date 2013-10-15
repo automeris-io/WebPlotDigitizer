@@ -21,7 +21,11 @@
 
 */
 
-var rawCSVData;
+/* Global variables to store generated data. Global stuff will be removed only in 3.0 :( */
+
+var rawCSVData,
+	displayData;
+
 /*
  * Generate CSV.
  */
@@ -138,6 +142,8 @@ function generateCSVTextFromData(retData) {
 			tarea.value = tarea.value + retData[ii][0] + ',' + retData[ii][1] + ',' + retData[ii][2] + '\n';
 		}
 	}
+
+	displayData = retData;
 }
 
 /**
