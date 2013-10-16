@@ -1,0 +1,22 @@
+RELEASE NOTES
+
+Version 2.6
+===========
+Released: October 22, 2013 (Estimated)
+
+Handling Digitized Data:
+	- Added option to graph or analyse data in Plot.ly (http://plot.ly)
+	- Added options to sort data by ascending or descending order of variables
+	- Added option to sort data by nearest neighboring data point. This is useful for things like sketches and outlines.
+
+Automatic Data Extraction:
+	- Added algorithm (only for XY plots) which allows user to control the X points at which the data is to be digitized. This is useful for digitizing and comparing values from two curves in the same plot (for example).
+
+Support for Dates:
+	- Dates can be entered for XY plots. While calibration, dates have to be entered in yyyy/mm or yyyy/mm/dd format. The output can be formatted in a variety of formats. Support for time is under consideration for next release.
+
+Code improvements:
+	- Several improvements in the javascript code were made to ensure WPD continues to work with new browsers.
+	- Entire javascript is minified using the Closure compiler. This results in a significantly faster loading time for the app.
+	- Minor performance improvements.
+	- Minor clean up of the interface.
