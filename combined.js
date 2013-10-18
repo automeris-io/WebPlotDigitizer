@@ -929,8 +929,8 @@ function loadImage(imgel) {
 	
 	currentScreen = getCanvasData();
 	
-	imageDimensions[0] = 0;		// x_min
-	imageDimensions[1] = 0;		// y_min
+	imageDimensions[0] = 1;		// x_min
+	imageDimensions[1] = 1;		// y_min
 	imageDimensions[2] = swidth;	// x_max
 	imageDimensions[3] = sheight;	// y_max
 	
@@ -1213,7 +1213,17 @@ var dataToPixelxy;
 		    
 		    var xm = xmax - xmin;
 		    var ym = ymax - ymin;
-		    
+
+			// Correction factor to account for the fact that the on screen dimensions are for image
+			// corners and do not account for image pixels.
+			var cfx = 0.5*(x2 - x1)/(xm+1);
+			var cfy = 0.5*(y2 - y1)/(ym+1);
+
+			x1 = x1 + cfx;
+			x2 = x2 - cfx;
+			y1 = y1 + cfy;
+			y2 = y2 - cfy;
+
 		    var d12 = Math.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2));
 		    var d34 = Math.sqrt((x3-x4)*(x3-x4) + (y3-y4)*(y3-y4));
 		    
@@ -1247,8 +1257,8 @@ var dataToPixelxy;
 			
 		
 			rdata[ii] = new Array();
-			rdata[ii][0] = parseInt(xf,10);
-			rdata[ii][1] = parseInt(yf,10);
+			rdata[ii][0] = Math.round(xf);
+			rdata[ii][1] = Math.round(yf);
 		    }
 		
 		} else if (ptype === 'map') {
