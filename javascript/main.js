@@ -98,7 +98,7 @@ function init() {// This is run when the page loads.
 		
 	// specify mouseover function
 	//canvas.addEventListener('click',clickHandler,false);
-	topCanvas.addEventListener('mousemove',updateZoom,false);
+	topCanvas.addEventListener('mousemove',updateZoomEventHandler,false);
 	
 	// Add support for extended crosshair
     document.body.addEventListener('keydown', toggleCrosshair, false);
