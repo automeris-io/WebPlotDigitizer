@@ -111,8 +111,8 @@ function loadImage(imgel) {
 	
 	currentScreen = getCanvasData();
 	
-	imageDimensions[0] = 0;		// x_min
-	imageDimensions[1] = 0;		// y_min
+	imageDimensions[0] = 1;		// x_min
+	imageDimensions[1] = 1;		// y_min
 	imageDimensions[2] = swidth;	// x_max
 	imageDimensions[3] = sheight;	// y_max
 	
