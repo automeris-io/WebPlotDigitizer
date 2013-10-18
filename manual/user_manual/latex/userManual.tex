@@ -2,6 +2,8 @@
 %\usepackage{palatino}
 \usepackage{hyperref}
 \usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
 \renewcommand{\baselinestretch}{1.2}
 \usepackage[margin=1.2in]{geometry}
 
@@ -181,20 +183,115 @@ Year & YYYY & 2012 (treated as any integer)\\
 
 
 \subsection{Polar Diagram}
+Select this option if the data points in the image are plotted on a polar axes. On selecting this, you will be required to click on three known points including the center of the polar diagram. After clicking on 3 points, you can also select the axes orientation and select Degrees or Radians for the angle. The values entered here also have to follow the format similar to 2D (X-Y) Plots. Dates are not parsed here.
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=2in]{./figures/polarInfo.png}
+\includegraphics[width=2in]{./figures/polarAlignment.png}
+\caption{Alignment for Polar Diagram.}
+\label{fig:polarAlignment}
+\end{center}
+\end{figure}
+ 
 \subsection{Ternary Diagram}
+Ternary phase diagrams are typically harder to read than simple two dimensional cartesian or polar plots. Using this software to recover data makes the process of data recovery extremely straightforward and thus reduces the possibility of misinterpreting the data. For this type of plot, simply mark the three corner as shown in the instructions and then specify the range of variables and orientation of the diagram.
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=2in]{./figures/ternaryInfo.png}
+\includegraphics[width=2.5in]{./figures/ternaryAlignment.png}
+\caption{Alignment for Ternary Diagram.}
+\label{fig:ternaryAlignment}
+\end{center}
+\end{figure}
+
 \subsection{Map With Scale Bar}
+This plot type is similar to 2D (X-Y) Plots and is provided only as a convenience for image that only have scale information (e.g. microscope images or maps). To calibrate this plot type, simply click on the two ends of the scale bar and enter the scale value without units. The coordinates reported by the software assume the origin to be located at the bottom left of the image. The (x,y) values that are generated are scaled by the scaled factor entered during calibration.
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=2in]{./figures/mapInfo.png}
+\includegraphics[width=2in]{./figures/mapAlignment.png}
+\caption{Alignment for Maps.}
+\label{fig:mapAlignment}
+\end{center}
+\end{figure}
+
 \subsection{Image (Align to image pixels)}
-\subsection{Workarounds}
+This plot type is similar to the Map plot type and is also provided as a convenience over the generic 2D (X-Y) plots. If you select this type, no calibration information is required as the software will calibrate the on-screen pixels to pixels on the image automatically. This plot type is useful for looking up exact pixel location of a feature in the image.
 
 
-\section{Data Acquisition}
+\section{Acquire Data}
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=2in]{./figures/autoSidebar.png}
+\includegraphics[width=2in]{./figures/manualSidebar.png}
+\caption{Data Acquisition Controls.}
+\label{fig:acquireData}
+\end{center}
+\end{figure}
+
 \subsection{Manual Mode}
 \subsection{Automatic Mode}
-\subsubsection{Foreground Color (FG)}
-\subsubsection{Background Color (BG)}
-\subsubsection{Mark Region}
-\subsection{Digitization Algorithms}
-\section{CSV Data}
+\subsubsection{Differentiating Data From Background}
+\subsubsection{Mark Region of Interest}
 
+\begin{figure}
+\begin{center}
+\includegraphics[width=5in]{./figures/markRegion.png}
+\caption{Mark Region}
+\label{fig:markRegion}
+\end{center}
+\end{figure}
+
+\subsubsection{Data Extraction}
+\begin{figure}
+\begin{center}
+\includegraphics[width=5in]{./figures/testScan.png}
+\caption{Alignment for Maps.}
+\label{fig:testScan}
+\end{center}
+\end{figure}
+\subsection{Digitization Algorithms}
+
+\begin{figure}
+\begin{subfigure}[b]{0.3\textwidth}
+\includegraphics[width=\textwidth]{./figures/averagingWindow.png}
+\caption{a}
+\end{subfigure}
+\begin{subfigure}[b]{0.3\textwidth}
+\includegraphics[width=\textwidth]{./figures/xStep.png}
+\caption{a}
+\end{subfigure}
+\begin{subfigure}[b]{0.3\textwidth}
+\includegraphics[width=\textwidth]{./figures/yStep.png}
+\caption{a}
+\end{subfigure}
+\centering
+\begin{subfigure}[b]{0.3\textwidth}
+\includegraphics[width=\textwidth]{./figures/xStepWithActualUnits.png}
+\caption{a}
+\end{subfigure}
+\caption{Mark Region}
+\label{fig:markRegion}
+
+\end{figure}
+
+\section{Handling Digitized Data}
+\begin{figure}
+\begin{center}
+\includegraphics[width=5in]{./figures/csvOutput.png}
+\caption{Mark Region}
+\label{fig:csvOutput}
+\end{center}
+\end{figure}
+\subsection{Sort Data}
+\subsection{Formatting Dates}
+\subsection{What is a .CSV File?}
+\subsection{Export to .CSV File}
+\subsection{Convert .CSV File to Other Formats}
+\subsection{Graph in Plotly}
 \section{Examples}
 \end{document}

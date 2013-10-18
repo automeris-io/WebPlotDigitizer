@@ -133,7 +133,7 @@ input[type="button"]:active {
 
 /* Sort of a hack to make button look right in Firefox */
 input[type="button"]::-moz-focus-inner {
-	margin-top: -2px;
+	margin-top: -1px;
 }
 
 input[type="checkbox"] {
