@@ -2549,7 +2549,7 @@ function init() {// This is run when the page loads.
 		
 	// specify mouseover function
 	//canvas.addEventListener('click',clickHandler,false);
-	topCanvas.addEventListener('mousemove',updateZoom,false);
+	topCanvas.addEventListener('mousemove',updateZoomEventHandler,false);
 	
 	// Add support for extended crosshair
     document.body.addEventListener('keydown', toggleCrosshair, false);
@@ -3221,6 +3221,8 @@ var extendedCrosshair = false;
 var pix = [];
 pix[0] = new Array();
 
+var zoomTimeout;
+
 /**
  * Initialize Zoom Window
  */
@@ -3235,6 +3237,15 @@ function initZoom() {
 	zchCtx.lineTo(zWindowWidth, zWindowHeight/2);
 	zchCtx.stroke();
 	
+}
+
+
+/**
+ *
+ */
+function updateZoomEventHandler(ev) {
+	clearTimeout(zoomTimeout);
+	zoomTimeout = setTimeout(updateZoom(ev), 5);
 }
 
 /**

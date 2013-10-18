@@ -37,6 +37,8 @@ var extendedCrosshair = false;
 var pix = [];
 pix[0] = new Array();
 
+var zoomTimeout;
+
 /**
  * Initialize Zoom Window
  */
@@ -51,6 +53,15 @@ function initZoom() {
 	zchCtx.lineTo(zWindowWidth, zWindowHeight/2);
 	zchCtx.stroke();
 	
+}
+
+
+/**
+ *
+ */
+function updateZoomEventHandler(ev) {
+	clearTimeout(zoomTimeout);
+	zoomTimeout = setTimeout(updateZoom(ev), 5);
 }
 
 /**
