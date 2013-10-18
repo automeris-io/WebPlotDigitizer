@@ -135,7 +135,7 @@ var dataToPixelxy;
 		    var ym = ymax - ymin;
 
 			// Correction factor to account for the fact that the on screen dimensions are for image
-			// corners and do not account for image pixels.
+			// corners and do not account for image pixel being counted from the middle of a pixel.
 			var cfx = 0.5*(x2 - x1)/(xm+1);
 			var cfy = 0.5*(y2 - y1)/(ym+1);
 
