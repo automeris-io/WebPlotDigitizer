@@ -122,7 +122,14 @@ var dateConverter = {
 									"Dec"
 								];
 				
-				var outputString = formatString.toLowerCase();
+				var outputString = formatString;
+
+				outputString = outputString.replace("YYYY", "yyyy");
+				outputString = outputString.replace("YY", "yy");
+				outputString = outputString.replace("MMMM", "mmmm");
+				outputString = outputString.replace("MMM", "mmm");
+				outputString = outputString.replace("MM", "mm");
+				outputString = outputString.replace("DD", "dd");
 
 				outputString = outputString.replace("yyyy", dateObject.getUTCFullYear());
 

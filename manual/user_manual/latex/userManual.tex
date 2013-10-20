@@ -14,14 +14,15 @@
 \tableofcontents
 \newpage
 \section{Introduction}
-A large quantity of useful data is available only in graphical form as plots in images. In these images, it is easy to determine the relationship between the variables involved, but recovering the exact numerical values of the data is usually a tedious and error prone process. To aid this time consuming task of data recovery, several digitization softwares have been developed over the years. However, even with the abundance of free and commercial softwares, this task remains daunting and prone to errors. Many of the existing softwares are either designed to work only on specific operating systems or work with a limited variety of plots. Some are just difficult to use or prone to errors. Finally, many require a paid license which prevents their widespread use by students, independent researchers or organizations with limited resources.
+A large quantity of useful information is available only as plotted data points in an image. In these images, it is easy to determine the relationship between the variables involved, but recovering the exact numerical values of the data is usually a tedious and error prone process. To aid this time consuming task of data recovery, several digitization softwares have been developed over the years\footnote{For a list of existing softwares, visit \url{http://en.wikipedia.org/wiki/Converting_scanned_graphs_to_data}}. However, even with the abundance of free and commercial softwares, this task remains daunting and prone to errors. Many of the existing softwares are either designed to work only on specific operating systems or work with a limited variety of plots. Some are just difficult to use or prone to errors. Finally, many require a paid license which prevents their widespread use by students, independent researchers or organizations with limited resources.
 
-Because of the above limitations in current digitizing softwares, WebPlotDigitizer was developed to facilitate easy and accurate data extraction from a variety of plot types and also maps. This program has been built using HTML5 which allows it to run within most popular web browsers and does not require an installation process that is performed by the user.
+Because of the above limitations in current digitizing softwares, WebPlotDigitizer was developed to facilitate easy and accurate data extraction from a variety of plot types and also maps. This program has been built using HTML5 which allows it to run within most popular web browsers and does not require an installation process that is performed by the user. This is also distributed free of charge as an opensource software. A screenshot of a typical session of the software is shown in Figure \ref{fig:screenshot}.
 
 \begin{figure}
 \begin{center}
 \includegraphics[width=6in]{./figures/screenshot.png}
 \caption{Screenshot of WebPlotDigitizer showing the data points recovered on a plot via automatic detection.}
+\label{fig:screenshot}
 \end{center}
 \end{figure}
 
@@ -31,19 +32,15 @@ WebPlotDigitizer was initially developed while working on my graduate studies at
 Some of the experimental work in the lab required me to learn some basic image processing techniques which eventually formed the basis of the automatic detection algorithms used here. Image processing knowledge along with some interest in learning the much publicized HTML5 APIs at the time were a perfect match to create a web based data extraction tool like this.
 
 Considering the significant interest in this software, I have continued to refine the software in my spare time even after completing my graduate studies in 2012.
-\subsection{User Manual}
-This user manual describes the various capabilities of the software and aims to help the user in making an effective use of the software. 
-\\
-\\
-This manual is available online at \url{http://arohatgi.info/WebPlotDigitizer}.
 
-\subsection{Other Resources}
-While other resources to find technical information about the software are being put together, some video tutorials by the author are available at \url{http://arohatgi.info/WebPlotDigitizer}.
+\subsection{User Manual and Tutorials}
+This user manual describes the various capabilities of the software and aims to help the user in making an effective use of the software. This manual may be updated continuously to match the latest deployed version of the software. A few video tutorials for the previous version of the software are available at \url{http://arohatgi.info/WebPlotDigitizer}. Other resources to find technical information about the software are also being considered.
 
 \subsection{License}
 WebPlotDigitizer is distributed under GNU General Public License version 3 by Ankit Rohatgi. For complete terms and conditions, please refer to \url{http://www.gnu.org/copyleft/gpl.html}
+
 \subsection{Source Code}
-WebPlotDigitizer is an open source software available under GNU General Public License version 3. The source code can be obtained from GitHub (\url{https://github.com/ankitrohatgi/WebPlotDigitizer/}). Please contact me via email if you wish to contribute to this project.
+WebPlotDigitizer is an open source software (see above). The source code can be obtained from GitHub (\url{https://github.com/ankitrohatgi/WebPlotDigitizer/}). Feel free to contact via email if you wish to contribute to this project.
 
 \subsection{Availability}
 The latest released version of the software can be used directly from the website \url{http://arohatgi.info/WebPlotDigitizer}. For the Google Chrome web browser, an \emph{app} pointing to the online software is also available at the Chrome App Store (\url{https://chrome.google.com/webstore/category/apps}).
@@ -76,31 +73,22 @@ E-Mail & ankitrohatgi@hotmail.com\\
 \end{tabular}
 \end{center}
 
-
 \subsection{Reporting Issues}
-In case of issues with the data recovery, access to the software or general technical questions, feel free to contact the author, Ankit Rohatgi via E-Mail: ankitrohatgi@hotmail.com
-\\
-\\
-Issues specific to bugs in the software can be reported on the issues page on GitHub: \url{https://github.com/ankitrohatgi/WebPlotDigitizer/issues}
+In case of issues with the data recovery, access to the software or general technical questions, feel free to contact via e-mail. Issues specific to bugs in the software can also be reported on the issues page on GitHub: \url{https://github.com/ankitrohatgi/WebPlotDigitizer/issues}
 
 \subsection{Data Privacy}
 WebPlotDigitizer's image analysis code runs entirely on the user's computer and does not store the loaded images or data on to any server. When \emph{Graph in Plotly} option is selected, the digitized data is transmitted to Plotly (\url{http://plot.ly}) servers.
+
+\subsection{Funding}
+WebPlotDigitizer is not a funded project and is supported mainly by my spare time and effort. PayPal donations via the website have helped keep the project afloat and are  much appreciated.
 
 \section{Loading Plots}
 The image file containing the figure to be analyzed can be loaded into the software in the following ways:
 \begin{enumerate}
 \item{{\bf Drag \& Drop Operation:} Click down on the file icon in the file browser and move the mouse over the area containing the previous image in WebPlotDigitizer. Release the mouse button to load the file in the software.}
-\item{{\bf Browse File on Hard Drive:} Click on the \emph{Load File} button on the top left of WebPlotDigitizer. A popup should show up with a control labelled \emph{Choose File}. Use this control to look for the desired file.}
+\item{{\bf Browse File on Hard Drive:} Click on the \emph{Load File} button on the top left of WebPlotDigitizer (Figure \ref{fig:topButtons}). A popup should show up with a control labelled \emph{Choose File}. Use this control to look for the desired file.}
 \item{{\bf Copy-Paste from Clipboard:} This is only supported in Google Chrome web browser. An image selected by copying in a PDF or an image viewer can be pasted on to the software via a simple copy-paste operation.}
 \end{enumerate}
-
-\subsection{Supported Image Formats}
-WebPlotDigitizer relies on the image formats supported by the HTML5 \emph{canvas} element. Most browsers support common image formats such as JPEG, PNG, BMP and GIF. Since the support for an image format depends on the browser used with the software, please refer to your browser's manual for details. For popular browsers, you can also refer to Wikipedia (\url{http://en.wikipedia.org/wiki/Comparison_of_web_browsers#Image_format_support}).
-
-
-
-
-\section{Edit Image}
 
 \begin{figure}
 \begin{center}
@@ -109,6 +97,13 @@ WebPlotDigitizer relies on the image formats supported by the HTML5 \emph{canvas
 \label{fig:topButtons}
 \end{center}
 \end{figure}
+
+\subsection{Supported Image Formats}
+WebPlotDigitizer relies on the image formats supported by the HTML5 \emph{canvas} element. Most browsers support common image formats such as JPEG, PNG, BMP and GIF. Since the support for an image format depends on the browser used with the software, please refer to your browser's manual for details. For popular browsers, you can also refer to Wikipedia (\url{http://en.wikipedia.org/wiki/Comparison_of_web_browsers#Image_format_support}).
+
+
+\section{Edit Image}
+
 \begin{figure}
 \begin{center}
 \includegraphics[width=1.5in]{./figures/imageEditingSidebar.png}
@@ -119,7 +114,7 @@ WebPlotDigitizer relies on the image formats supported by the HTML5 \emph{canvas
 If the loaded image needs to be inverted or if only a small area of the image is relevant, then you may wish to use some of the editing tools available by clicking the \emph{Edit Image} button in the top toolbar (Figure \ref{fig:topButtons}). Clicking this button will make a set of buttons appear in the sidebar as shown in Figure \ref{fig:imageEditingSidebar}. The buttons available here are for the following purpose:
 \begin{enumerate}
 \item{{\bf H. Flip:} Invert the image horizontally.}
-\item{{\bf V. Flip:} Invert the image vertically.}
+\item{{\bf V. Flip:} Invert the image vertically (not the same as 180$^{\circ}$ rotation).}
 \item{{\bf Crop:} Crop a rectangular region from the image. The user can draw the desired rectangular region on the image after clicking this button.}
 \item{{\bf Restore: } Restores the originally loaded image.}
 \item{{\bf Save .PNG:} Opens a new tab containing the edited image.}
@@ -134,7 +129,7 @@ If the loaded image needs to be inverted or if only a small area of the image is
 
 \section{Define Axes}
 
-After editing the image as needed (or not at all),  you should define the axes used in the plot. This step is required for the software to correctly map the image pixels to possible data points in the image. Depending on the plot type, you will have to select a few known points on the axes. On clicking the \emph{Define Axes} button (see Figure \ref{fig:topButtons}), you should be presented with the menu shown in Figure \ref{fig:defineAxesPopup}.
+After editing the image as needed (or not at all),  you should specify the type of axes used in the plot. This step is required for the software to correctly map the image pixels to possible data points in the image. Depending on the plot type, you will have to select a few known points on the axes. On clicking the \emph{Define Axes} button (see Figure \ref{fig:topButtons}), you should be presented with the menu shown in Figure \ref{fig:defineAxesPopup}.
 \begin{figure}
 \begin{center}
 \includegraphics[width=3in]{./figures/defineAxesPopup.png}
@@ -146,9 +141,9 @@ After editing the image as needed (or not at all),  you should define the axes u
 \subsection{2D (X-Y) Plot}
 Most plots that are on a two dimensional cartesian coordinate system fall under this category. Two dimensional plots that are skewed such that the axes are not mutually perpendicular will also work. Also, neither the horizontal or the vertical axes need to be perfectly aligned with the horizontal and vertical lines of the computer. An image rotated by an angle should also work. 
 
-On selecting this option, you should be presented with popup which asks you to click on two points on the horizontal axis and two on the vertical axis. After clicking \emph{Proceed} on that popup, click on two points on one of the two axes $(x_1, x_2)$ and two on the other $(y_1, y_2)$. For better accuracy during the digitization process, pick the points that are as far away from each other as possible. Also, remember the values on the axes of the points as you will be required to enter those once four points have been clicked on.
+On selecting this option, you should be presented with a popup window which asks you to click on two points on the horizontal axis and two points on the vertical axis. After clicking \emph{Proceed} on that popup, click on two points on one of the two axes $(x_1, x_2)$ and two on the other $(y_1, y_2)$. For better accuracy during the digitization process, pick the points that are as far away from each other as possible. Also, remember the $(x_1, x_2)$ and $(y_1, y_2)$ values on the axes as you will be required to enter those once four points have been clicked on.
 
-After the four points that are required have been clicked on, a popup will appear where you will be required to enter the values at these points. This helps the software map the image pixels corresponding to data points to their actual values when the image is digitized.
+After the four points that are required have been clicked on, another popup window will appear where you will be required to enter the values at these points. This helps the software map the image pixels corresponding to data points to their actual values when the image is digitized.
 
 \begin{figure}
 \centering
@@ -165,11 +160,12 @@ After the four points that are required have been clicked on, a popup will appea
 \end{figure}
 
 \subsubsection{Format of Calibration Values}
-Like most computer programs, WebPlotDigitizer accepts integers (e.g. 1, 2, 3 etc.) or floating point numbers (e.g. 3.14159). However, some extra things to keep in mind are as follows:
+\label{sec:formattingInput}
+Like most computer programs, WebPlotDigitizer accepts integers (e.g. 1, 2, 3 etc.) or floating point numbers (e.g. 3.14159). Some extra things to keep in mind are as follows:
 \begin{enumerate}
 \item{Fractions (e.g. $1/2$) are not computed as numbers.}
 \item{For exponentials, the caret symbol (\^{}) is not recognized and the values have to be entered as 1.45e-10 for $1.45 \times 10^{-10}$ (for example).}
-\item{{\bf Dates:} This is enabled only for 2D (X-Y) Plots. At the time of calibration, the dates have to be entered in the format shown below. However, with the final digitized data, results can be formatted in many different ways (see section X).
+\item{{\bf Dates:} This is enabled only for 2D (X-Y) Plots. At the time of calibration, the dates have to be entered in the format shown below. With the final digitized data, however, results can be formatted in many different ways (see section \ref{sec:formattingDatesCSV}).
 \begin{center}
 \begin{tabular}{|c|c|c|}
 \hline
@@ -235,17 +231,16 @@ This plot type is similar to 2D (X-Y) Plots and is provided only as a convenienc
 \includegraphics[width=\textwidth]{./figures/mapAlignment.png}
 \caption{Specify scale value}
 \end{subfigure}}
-\caption{Alignment for Maps and Microscope Images.}
+\caption{Alignment for maps and microscope images.}
 \label{fig:mapAlignment}
 \end{figure}
 
-\subsection{Image (Align to image pixels)}
-This plot type is similar to the Map plot type and is also provided as a convenience over the generic 2D (X-Y) plots. If you select this type, no calibration information is required as the software will calibrate the on-screen pixels to pixels on the image automatically. This plot type is useful for looking up exact pixel location of a feature in the image.
-
+\subsection{Image (Align to Image Pixels)}
+This plot type is similar to the Map plot type and is also provided as a convenience over the generic 2D (X-Y) plots. If you select this type, no calibration information is required as the software will calibrate the on-screen pixels to the pixels on the image automatically. This plot type is useful for looking up exact pixel location of a feature in an image.
 
 \section{Acquire Data}
 
-Once the plot axes have been calibrated, you can begin selecting data points on the image. At this point, also note that the numbers below the zoom window reflect actual data coordinates corresponding to your mouse position on the image. If you see incorrect numbers here, then perhaps incorrect calibration values were entered. You must repeat axes calibration in this situation. 
+Once the plot axes have been calibrated, you can begin selecting data points on the image. Also note that the numbers below the zoom window reflect actual data coordinates corresponding to your mouse position on the image. If you see incorrect numbers here, then perhaps incorrect calibration values were entered. You must repeat the axes calibration in this situation. 
 
 WebPlotDigitizer should also show a side panel with the data acquisition controls (Figure \ref{fig:acquireData}) when the axes are aligned. This sidebar can also be brought up by clicking on the \emph{Acquire Data} button. The data acquisition can be done in either manual or automatic mode. You can alternate between the two modes at any time. In the manual mode you can click on the image to add data points or remove some of the digitized data points. In the automatic mode, you can set up an extraction algorithm that can differentiate between the data points and the image background and mark several data points in a short time.
 
@@ -261,7 +256,7 @@ WebPlotDigitizer should also show a side panel with the data acquisition control
 \caption{Automatic Mode}
 \end{subfigure}
 }
-\caption{Data Acquisition Controls.}
+\caption{Data acquisition controls.}
 \label{fig:acquireData}
 \end{figure}
 
@@ -292,11 +287,11 @@ The controls available in the automatic mode are used for providing the extra se
 \end{enumerate}
 \subsubsection{Differentiating Data From Background}
 
-Automatic data extraction relies on separating the color of the data points or curves from the background in the image. The extraction algorithms can work in two modes of color extraction: Foreground mode and Background mode. In the foreground mode, the algorithms look for the foreground color specified for the data and ignore everything else. In the background mode, the algorithms include everything except the background color as potential data points. If the data points or curves of interest are uniformly colored (approximately), then the foreground mode may be more appropriate. Otherwise if the background is uniformly colored (approximately) and the curve or data points are not then the background mode may me more appropriate.
+Automatic data extraction relies on separating the color of the data points or curves from the background in the image. The extraction algorithms can work in two modes of color extraction: Foreground mode and Background mode. In the foreground mode, the algorithms look for the foreground color specified for the data and ignore everything else. In the background mode, the algorithms include everything except the background color as potential data points. If the data points or curves of interest are uniformly colored (approximately), then the foreground mode may be more suitable. Otherwise if the background is uniformly colored (approximately) and the curve or data points are not then the background mode may me more suitable.
 
 To specify the foreground or the background color, use the \emph{FG} or \emph{BG} buttons described above. After clicking either of these buttons, you can either specify the red, green and blue (RGB) values of the color. Alternatively, you click the \emph{Color Picker} button and pick up the color of the pixel that is under the subsequent click made on the image.
 \subsubsection{Mark Region of Interest}
-The extraction algorithms also need to know the area of the image to be searched for the specified colors. The software does not search the entire image as on many occasions, the data point or curve colors may be repeated in non-data parts of the image. To specify the region of interest, use the \emph{Box}, \emph{Pen} and \emph{Erase} tools to paint over a yellow mask over the data part of the image as shown in Figure \ref{fig:markRegion}. The extraction algorithms will look for data only under  the yellow colored region. 
+The extraction algorithms also need to know the region of the image to be searched for the specified colors. The software does not search the entire image as on many occasions, the data point or curve colors may be repeated in non-data parts of the image. To specify the region of interest, use the \emph{Box}, \emph{Pen} and \emph{Erase} tools to paint over a yellow mask over the data part of the image as shown in Figure \ref{fig:markRegion}. The extraction algorithms will look for data only under  the yellow colored region. 
 \begin{figure}
 \begin{center}
 \includegraphics[width=4in]{./figures/markRegion.png}
@@ -308,9 +303,9 @@ The extraction algorithms also need to know the area of the image to be searched
 \subsubsection{Data Extraction}
 After setting the data colors and marking the region of interest, you can click on the \emph{Extract!} button. This brings up a popup window as shown in Figure \ref{fig:testScan}. 
 
-In the left part of this window (under \emph{Fine Tuning}), you can select the color detection mode to be used by the algorithms. You can also specify the extent of variability that is allowed for while comparing colors. The black and white (binary) image shown is the final result of the color extraction. It is normal to require a non-zero amount of variability even for seemingly uniformly colored data. You can adjust the \emph{Color Distance} value here and click \emph{Re-scan} to generate another binary image. Adjust the color distance value till you obtain a clear picture of the data of interest.
+In the left part of this window (under \emph{Fine Tuning}), you can select the color detection mode to be used by the algorithms. You can also specify the extent of variability that is allowed for while comparing colors (\emph{Color Distance}). The black and white (binary) image shown is the final result of the color extraction. It is normal to require a non-zero amount of variability even for seemingly uniformly colored data. You can adjust the \emph{Color Distance} value here and click \emph{Re-scan} to generate another binary image. Adjust the color distance value till you obtain a clear picture of the data of interest only.
 
-In the right part of the window (\emph{Choose Algorithm}), you can select the algorithm to be used and specify the algorithm specific set of parameters. Each of these algorithms are described in detail in the next section. After selecting the algorithm and specifying the required parameters, click \emph{Get Points} to allow the automatic extraction to finally yield the data points. If you wish to repeat the extraction process, then you will have to mark the region of interest again and then select \emph{Extract!}. After obtaining data points from automatic mode, you can add or remove specific points using the manual mode.
+In the right part of the window (\emph{Choose Algorithm}), you can select the algorithm to be used and specify the algorithm specific set of parameters. These algorithms are described in detail in the next section. After selecting the algorithm and specifying the required parameters, click \emph{Get Points} to allow the automatic extraction to finally yield the data points. If you wish to repeat the extraction process, then you will have to mark the region of interest again and then select \emph{Extract!}. After obtaining data points from automatic mode, you can add or remove specific points using the manual mode.
 
 \begin{figure}
 \begin{center}
@@ -320,7 +315,7 @@ In the right part of the window (\emph{Choose Algorithm}), you can select the al
 \end{center}
 \end{figure}
 \subsection{Digitization Algorithms}
-Four different digitization algorithms are available in WebPlotDigitizer as shown in Figure \ref{fig:autoExtractAlgos}. The \emph{Averaging Window} algorithm is set as the default as it is usually suitable for all plot types. The other algorithms are more suited for 2D (X-Y) plots, but may be useful in other cases too. These algorithms are under active development and a few shortfalls with the current algorithms should get addressed in the future versions. 
+Four different digitization algorithms are available in WebPlotDigitizer as shown in Figure \ref{fig:autoExtractAlgos}. The \emph{Averaging Window} algorithm is set as the default as it is usually suitable for many plot types. The other algorithms are more suited for 2D (X-Y) plots, but may be useful in other cases too. These algorithms are under active development and a few shortcommings with the current algorithms should get addressed in the future versions. 
 \begin{figure}
 \begin{subfigure}[b]{0.3\textwidth}
 \includegraphics[width=\textwidth]{./figures/averagingWindow.png}
@@ -344,17 +339,17 @@ Four different digitization algorithms are available in WebPlotDigitizer as show
 
 \end{figure}
 \subsubsection{Averaging Window}
-As mentioned above, this is probably the most useful algorithm and is useful across all plot types. This works by finding the mean position of a colored region that can fit in a rectangular region that is $\Delta X$ pixels (on-screen) wide and $\Delta Y$ pixels (on-screen) tall. As a user, you should increase the size of the box for thick lines or large data points and decrease it for thin lines. If you see multiple points incorrectly detected across the width of a thick data curve, then you need to increase the numbers specified here. The fact that this requires on-screen pixels may get changed in the future so that actual units in the current axes can be specified.
+As mentioned above, this is probably the most useful algorithm and is useful across many plot types. This algorithm finds the mean position of a colored region that can fit in a rectangular region that is $\Delta X$ pixels (on-screen) wide and $\Delta Y$ pixels (on-screen) tall. As a user, you should increase the size of the box for thick lines or large data points and decrease it for thin lines. If you see multiple points incorrectly detected across the width of a thick data curve, then you need to increase the numbers specified here. The fact that this requires on-screen pixels may be changed in the future so that the values in actual units in the current axes can be specified.
 \subsubsection{X Step}
 This algorithm starts on the left side of the image and scans in the vertical direction. After detecting the first set of data, this jumps $\Delta X$ pixels (on-screen) to the right. In the vertical direction, it picks points by finding average position of colored pixels that fall within the \emph{Line Width} of each other. So for thick curves or data points, increase the value specified for \emph{Line Width}.
 
-Due to limited utility of this algorithm, this may be removed or replaced in future versions of the software.
+Due to limited utility of this algorithm, this may be removed or replaced in the future versions of the software.
 \subsubsection{Y Step}
-This is similar to the X Step algorithms, but this starts scanning from the bottom of the image and moves up scanning horizontally. Again, due to somewhat limited utility of this algorithm, this may be removed or replaced in the future versions of the software.
+This is similar to the X Step algorithm, but this starts scanning from the bottom of the image and moves up scanning horizontally. Again, due to somewhat limited utility of this algorithm, this may be removed or replaced in the future versions of the software.
 \subsubsection{X Step With Actual Units}
-This algorithm works only for 2D (X-Y) plots at the moment. This is an improved version of the X Step algorithm as the exact scanning positions on the X axis can be specified in the data units. This is useful when data points along X axis at specific intervals are required. This is often useful while comparing values from two sets of data on the same image. Specify the range of values in X and Y axis to look for data by setting $X_{min}, X_{max}, Y_{min}$ and $Y_{max}$. Set $\Delta X$ to set the step size in X direction. The width of the curve (\emph{Line Width}) still needs to be specified in terms of on-screen pixels.
+This algorithm works only for 2D (X-Y) plots at the moment. This is an improved version of the X Step algorithm as the exact scanning positions on the X axis can be specified in the data units. This is often useful while comparing values from two sets of data on the same image. Specify the range of values in X and Y axis to look for data by setting $X_{min}, X_{max}, Y_{min}$ and $Y_{max}$. Set $\Delta X$ to set the step size in X direction. The width of the curve (\emph{Line Width}) still needs to be specified in terms of on-screen pixels.
 \section{Handling Digitized Data}
-Once the required data points are marked on the image using the manual mode, automatic mode or a combination of both, the digitized values can be seen by clicking the \emph{Create .CSV} button. This presents a popup window as shown in Figure \ref{fig:csvOutput}. Here the digitized values can be sorted by the variable or in order of the distance between the points (Nearest Neighbor). The values can also be copied and used in common data analysis softwares. Recently, an option to send these values over to another cloud based data analysis and graphing software called Plotly (\url{http://plot.ly}) has also been added.
+Once the required data points are marked on the image using the manual mode, automatic mode or a combination of both, the digitized values can be seen by clicking the \emph{Create .CSV} button. This presents a popup window as shown in Figure \ref{fig:csvOutput}. Here, the digitized values can be sorted by the variable or in order of the distance between the points (Nearest Neighbor). The values can also be copied and used in common data analysis softwares. Recently, an option to send these values over to another cloud based data analysis and graphing software called Plotly (\url{http://plot.ly}) has also been added.
  
 \begin{figure}
 \begin{center}
@@ -366,7 +361,16 @@ Once the required data points are marked on the image using the manual mode, aut
 \subsection{Sort Data}
 The digitized data can be left unsorted (Raw Output) or by one of the axes variables in ascending or descending order. The Nearest Neighbor option sorts the data depending on the distance of the points from each other.
 \subsection{Formatting Dates}
-If one or both of the axes in a 2D (X-Y) plot contain dates then fields to specify the output format of the values is also shown. In these fields, the following pieces of text are replaced with the corresponding part of the date to format the text (case insensitive):
+\label{sec:formattingDatesCSV}
+If one or both of the axes in a 2D (X-Y) plot contain dates then fields to specify the output format of the values are also shown (Figure \ref{fig:dateFormat}). In these fields, the following pieces of text are replaced with the corresponding part of the date to format the text (case insensitive):
+\begin{figure}
+\begin{center}
+\includegraphics[width=2.5in]{./figures/dateFormat.png}
+\caption{Field to specify formatting of dates. This appears on X, Y or both axes depending on which variables contained dates at the time of axes calibration.}
+\label{fig:dateFormat}
+\end{center}
+\end{figure}
+
 
 \begin{center}
 \begin{tabular}{|c|c|c|}

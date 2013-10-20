@@ -1215,7 +1215,7 @@ var dataToPixelxy;
 		    var ym = ymax - ymin;
 
 			// Correction factor to account for the fact that the on screen dimensions are for image
-			// corners and do not account for image pixels.
+			// corners and do not account for image pixel being counted from the middle of a pixel.
 			var cfx = 0.5*(x2 - x1)/(xm+1);
 			var cfy = 0.5*(y2 - y1)/(ym+1);
 
@@ -1874,7 +1874,14 @@ var dateConverter = {
 									"Dec"
 								];
 				
-				var outputString = formatString.toLowerCase();
+				var outputString = formatString;
+
+				outputString = outputString.replace("YYYY", "yyyy");
+				outputString = outputString.replace("YY", "yy");
+				outputString = outputString.replace("MMMM", "mmmm");
+				outputString = outputString.replace("MMM", "mmm");
+				outputString = outputString.replace("MM", "mm");
+				outputString = outputString.replace("DD", "dd");
 
 				outputString = outputString.replace("yyyy", dateObject.getUTCFullYear());
 
@@ -3004,7 +3011,7 @@ function exportToPlotly() {
 }
 
 function formatVariableForPlotly(val, variableType) {
-	var formatString = 'mm-dd-yyyy';
+	var formatString = 'yyyy-mm-dd';
 
 	if(plotType === 'XY') {
 		if(variableType === 'X' && axesAlignmentData[6]) {
