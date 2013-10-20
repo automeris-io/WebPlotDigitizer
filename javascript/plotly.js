@@ -77,7 +77,7 @@ function exportToPlotly() {
 }
 
 function formatVariableForPlotly(val, variableType) {
-	var formatString = 'mm-dd-yyyy';
+	var formatString = 'yyyy-mm-dd';
 
 	if(plotType === 'XY') {
 		if(variableType === 'X' && axesAlignmentData[6]) {
