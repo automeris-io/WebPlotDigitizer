@@ -2,7 +2,7 @@ RELEASE NOTES
 
 Version 2.6
 ===========
-Released: October 22, 2013 (Estimated)
+Released: October 20, 2013
 
 Handling Digitized Data:
 	- Added option to graph or analyze data in Plot.ly (http://plot.ly)
