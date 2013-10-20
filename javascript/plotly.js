@@ -55,8 +55,8 @@ function exportToPlotly() {
 	
 	if((plotType === 'XY') || (plotType === 'map') || (plotType === 'polar') || (plotType === 'image')) {
 		for(var ii = 0; ii < pointsPicked; ii++) {
-			xDisplayData[ii] = formatVariableInCSV(displayData[ii][0], 'X');
-			yDisplayData[ii] = formatVariableInCSV(displayData[ii][1], 'Y');
+			xDisplayData[ii] = formatVariableForPlotly(displayData[ii][0], 'X');
+			yDisplayData[ii] = formatVariableForPlotly(displayData[ii][1], 'Y');
 		}
 		jsonData.data[0] = {x: xDisplayData, y: yDisplayData};
 
