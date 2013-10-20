@@ -35,7 +35,7 @@ Considering the significant interest in this software, I have continued to refin
 This user manual describes the various capabilities of the software and aims to help the user in making an effective use of the software. 
 \\
 \\
-This manual is available online at \url{http://arohatgi.info/WebPlotDigitizer} in PDF or HTML format.
+This manual is available online at \url{http://arohatgi.info/WebPlotDigitizer}.
 
 \subsection{Other Resources}
 While other resources to find technical information about the software are being put together, some video tutorials by the author are available at \url{http://arohatgi.info/WebPlotDigitizer}.
@@ -83,7 +83,8 @@ In case of issues with the data recovery, access to the software or general tech
 \\
 Issues specific to bugs in the software can be reported on the issues page on GitHub: \url{https://github.com/ankitrohatgi/WebPlotDigitizer/issues}
 
-\subsection{Future Goals}
+\subsection{Data Privacy}
+WebPlotDigitizer's image analysis code runs entirely on the user's computer and does not store the loaded images or data on to any server. When \emph{Graph in Plotly} option is selected, the digitized data is transmitted to Plotly (\url{http://plot.ly}) servers.
 
 \section{Loading Plots}
 The image file containing the figure to be analyzed can be loaded into the software in the following ways:
@@ -108,7 +109,13 @@ WebPlotDigitizer relies on the image formats supported by the HTML5 \emph{canvas
 \label{fig:topButtons}
 \end{center}
 \end{figure}
-
+\begin{figure}
+\begin{center}
+\includegraphics[width=1.5in]{./figures/imageEditingSidebar.png}
+\caption{A few basic tools for editing the loaded image are available.}
+\label{fig:imageEditingSidebar}
+\end{center}
+\end{figure}
 If the loaded image needs to be inverted or if only a small area of the image is relevant, then you may wish to use some of the editing tools available by clicking the \emph{Edit Image} button in the top toolbar (Figure \ref{fig:topButtons}). Clicking this button will make a set of buttons appear in the sidebar as shown in Figure \ref{fig:imageEditingSidebar}. The buttons available here are for the following purpose:
 \begin{enumerate}
 \item{{\bf H. Flip:} Invert the image horizontally.}
@@ -122,13 +129,7 @@ If the loaded image needs to be inverted or if only a small area of the image is
 
 
 
-\begin{figure}
-\begin{center}
-\includegraphics[width=1.5in]{./figures/imageEditingSidebar.png}
-\caption{A few basic tools for editing the loaded image are available.}
-\label{fig:imageEditingSidebar}
-\end{center}
-\end{figure}
+
 
 
 \section{Define Axes}
@@ -150,12 +151,17 @@ On selecting this option, you should be presented with popup which asks you to c
 After the four points that are required have been clicked on, a popup will appear where you will be required to enter the values at these points. This helps the software map the image pixels corresponding to data points to their actual values when the image is digitized.
 
 \begin{figure}
-\begin{center}
-\includegraphics[width=2in]{./figures/xyAxesInfo.png}
-\includegraphics[width=3in]{./figures/xyAlignment.png}
+\centering
+{\begin{subfigure}[b]{0.4\textwidth}
+\includegraphics[width=\textwidth]{./figures/xyAxesInfo.png}
+\caption{Mark four points to align axes}
+\end{subfigure}
+\begin{subfigure}[b]{0.4\textwidth}
+\includegraphics[width=\textwidth]{./figures/xyAlignment.png}
+\caption{Specify values}
+\end{subfigure}}
 \caption{Alignment for 2D (X-Y) Plot.}
 \label{fig:xyAlignment}
-\end{center}
 \end{figure}
 
 \subsubsection{Format of Calibration Values}
@@ -183,39 +189,54 @@ Year & YYYY & 2012 (treated as any integer)\\
 
 
 \subsection{Polar Diagram}
-Select this option if the data points in the image are plotted on a polar axes. On selecting this, you will be required to click on three known points including the center of the polar diagram. After clicking on 3 points, you can also select the axes orientation and select Degrees or Radians for the angle. The values entered here also have to follow the format similar to 2D (X-Y) Plots. Dates are not parsed here.
+Select this option if the data points in the image are plotted on a polar axes. On selecting this, you will be required to click on three known points including the center of the polar diagram (Figure \ref{fig:polarAlignment}). After clicking on 3 points, you can also select the axes orientation and select Degrees or Radians for the angle. The values entered here also have to follow the format similar to 2D (X-Y) Plots. Dates are not parsed here.
 
 \begin{figure}
-\begin{center}
-\includegraphics[width=2in]{./figures/polarInfo.png}
-\includegraphics[width=2in]{./figures/polarAlignment.png}
+\centering
+{\begin{subfigure}[b]{0.4\textwidth}
+\includegraphics[width=\textwidth]{./figures/polarInfo.png}
+\caption{Mark three points to align axes}
+\end{subfigure}
+\begin{subfigure}[b]{0.3\textwidth}
+\includegraphics[width=\textwidth]{./figures/polarAlignment.png}
+\caption{Specify values}
+\end{subfigure}}
 \caption{Alignment for Polar Diagram.}
 \label{fig:polarAlignment}
-\end{center}
 \end{figure}
  
 \subsection{Ternary Diagram}
-Ternary phase diagrams are typically harder to read than simple two dimensional cartesian or polar plots. Using this software to recover data makes the process of data recovery extremely straightforward and thus reduces the possibility of misinterpreting the data. For this type of plot, simply mark the three corner as shown in the instructions and then specify the range of variables and orientation of the diagram.
+Ternary phase diagrams are typically harder to read than simple two dimensional cartesian or polar plots. Using this software to recover data makes the process of data recovery extremely straightforward and thus reduces the possibility of misinterpreting the data. For this type of plot, simply mark the three corners as shown in the instructions and then specify the range of variables and orientation of the diagram (Figure \ref{fig:ternaryAlignment}).
 
 \begin{figure}
-\begin{center}
-\includegraphics[width=2in]{./figures/ternaryInfo.png}
-\includegraphics[width=2.5in]{./figures/ternaryAlignment.png}
+\centering
+{\begin{subfigure}[b]{0.4\textwidth}
+\includegraphics[width=\textwidth]{./figures/ternaryInfo.png}
+\caption{Mark three points to align axes}
+\end{subfigure}
+\begin{subfigure}[b]{0.4\textwidth}
+\includegraphics[width=\textwidth]{./figures/ternaryAlignment.png}
+\caption{Specify values}
+\end{subfigure}}
 \caption{Alignment for Ternary Diagram.}
 \label{fig:ternaryAlignment}
-\end{center}
 \end{figure}
 
 \subsection{Map With Scale Bar}
-This plot type is similar to 2D (X-Y) Plots and is provided only as a convenience for image that only have scale information (e.g. microscope images or maps). To calibrate this plot type, simply click on the two ends of the scale bar and enter the scale value without units. The coordinates reported by the software assume the origin to be located at the bottom left of the image. The (x,y) values that are generated are scaled by the scaled factor entered during calibration.
+This plot type is similar to 2D (X-Y) Plots and is provided only as a convenience for images that only have scale information (e.g. microscope images or maps). To calibrate this plot type, simply click on the two ends of the scale bar and enter the scale value without units (Figure \ref{fig:mapAlignment}). The coordinates reported by the software assume the origin to be located at the bottom left of the image. The (x,y) values that are generated are scaled by the scaled factor entered during calibration.
 
 \begin{figure}
-\begin{center}
-\includegraphics[width=2in]{./figures/mapInfo.png}
-\includegraphics[width=2in]{./figures/mapAlignment.png}
-\caption{Alignment for Maps.}
+\centering
+{\begin{subfigure}[b]{0.3\textwidth}
+\includegraphics[width=\textwidth]{./figures/mapInfo.png}
+\caption{Mark ends of the scale bar}
+\end{subfigure}
+\begin{subfigure}[b]{0.3\textwidth}
+\includegraphics[width=\textwidth]{./figures/mapAlignment.png}
+\caption{Specify scale value}
+\end{subfigure}}
+\caption{Alignment for Maps and Microscope Images.}
 \label{fig:mapAlignment}
-\end{center}
 \end{figure}
 
 \subsection{Image (Align to image pixels)}
@@ -224,74 +245,161 @@ This plot type is similar to the Map plot type and is also provided as a conveni
 
 \section{Acquire Data}
 
+Once the plot axes have been calibrated, you can begin selecting data points on the image. At this point, also note that the numbers below the zoom window reflect actual data coordinates corresponding to your mouse position on the image. If you see incorrect numbers here, then perhaps incorrect calibration values were entered. You must repeat axes calibration in this situation. 
+
+WebPlotDigitizer should also show a side panel with the data acquisition controls (Figure \ref{fig:acquireData}) when the axes are aligned. This sidebar can also be brought up by clicking on the \emph{Acquire Data} button. The data acquisition can be done in either manual or automatic mode. You can alternate between the two modes at any time. In the manual mode you can click on the image to add data points or remove some of the digitized data points. In the automatic mode, you can set up an extraction algorithm that can differentiate between the data points and the image background and mark several data points in a short time.
+
 \begin{figure}
-\begin{center}
-\includegraphics[width=2in]{./figures/autoSidebar.png}
-\includegraphics[width=2in]{./figures/manualSidebar.png}
+\centering
+{
+\begin{subfigure}{0.3\textwidth}
+\includegraphics[width=\textwidth]{./figures/manualSidebar.png}
+\caption{Manual Mode}
+\end{subfigure}
+\begin{subfigure}{0.3\textwidth}
+\includegraphics[width=\textwidth]{./figures/autoSidebar.png}
+\caption{Automatic Mode}
+\end{subfigure}
+}
 \caption{Data Acquisition Controls.}
 \label{fig:acquireData}
-\end{center}
 \end{figure}
 
 \subsection{Manual Mode}
-\subsection{Automatic Mode}
-\subsubsection{Differentiating Data From Background}
-\subsubsection{Mark Region of Interest}
+The buttons available in this mode are as follows
+\begin{enumerate}
+\item{{\bf Switch to Auto: }Switch to automatic extraction mode.}
+\item{{\bf Select Points: }After clicking this button, you can click on the image area to add data points. Any point added on the image will automatically be converted from on-screen pixels to data values utilizing the axes calibration.}
+\item{{\bf Undo: }This removes the last data point that was added.}
+\item{{\bf Clear All: }This deletes all data points added on the image. This does not clear the axes calibration.}
+\item{{\bf Delete Point: }After clicking this button, you can click on a previously added data point to delete it.}
+\item{{\bf Create .CSV: }If one or more data points are present, this brings up a popup with the digitized data.}
+\end{enumerate}
 
+\subsection{Automatic Mode}
+The controls available in the automatic mode are used for providing the extra set of inputs that are required by the automatic extraction algorithms. The steps required to extract data in this mode are described later in this section. The purpose of the various buttons available in this mode is as follows:
+\begin{enumerate}
+\item{{\bf Switch to Manual: }Switch to manual mode}
+\item{{\bf FG: }Select foreground color of the data point or curves. This is used for foreground based extraction described later. You do not need to specify this if you using background based extraction.}
+\item{{\bf BG: }Select background color of the data. This is used only when using background based extraction. This is not required if foreground based extraction is used.}
+\item{{\bf Box: }This is used to mark a rectangular region to be used during the search for data points.}
+\item{{\bf Pen: }This is used for marking areas of the image to be included in the search for data point via free hand drawing.}
+\item{{\bf Erase: }This is used to unmark the areas marked using the \emph{Box} or \emph{Pen} tools.}
+\item{{\bf Extract!: }Brings up a window containing options to select the automatic extraction algorithms and specify the remaining parameters.}
+\item{{\bf Delete: }This button has the same function as the \emph{Delete Point} button in the manual mode. After clicking this button, you can click on a previously chosen data point to remove it.}
+\item{{\bf Clear All: }This deletes all the data points and the marked region for data extraction. Axes calibration is not affected by this.}
+\item{{\bf Create .CSV: }If one or more data points are present, this brings up a popup with the digitized data.}
+\end{enumerate}
+\subsubsection{Differentiating Data From Background}
+
+Automatic data extraction relies on separating the color of the data points or curves from the background in the image. The extraction algorithms can work in two modes of color extraction: Foreground mode and Background mode. In the foreground mode, the algorithms look for the foreground color specified for the data and ignore everything else. In the background mode, the algorithms include everything except the background color as potential data points. If the data points or curves of interest are uniformly colored (approximately), then the foreground mode may be more appropriate. Otherwise if the background is uniformly colored (approximately) and the curve or data points are not then the background mode may me more appropriate.
+
+To specify the foreground or the background color, use the \emph{FG} or \emph{BG} buttons described above. After clicking either of these buttons, you can either specify the red, green and blue (RGB) values of the color. Alternatively, you click the \emph{Color Picker} button and pick up the color of the pixel that is under the subsequent click made on the image.
+\subsubsection{Mark Region of Interest}
+The extraction algorithms also need to know the area of the image to be searched for the specified colors. The software does not search the entire image as on many occasions, the data point or curve colors may be repeated in non-data parts of the image. To specify the region of interest, use the \emph{Box}, \emph{Pen} and \emph{Erase} tools to paint over a yellow mask over the data part of the image as shown in Figure \ref{fig:markRegion}. The extraction algorithms will look for data only under  the yellow colored region. 
 \begin{figure}
 \begin{center}
-\includegraphics[width=5in]{./figures/markRegion.png}
-\caption{Mark Region}
+\includegraphics[width=4in]{./figures/markRegion.png}
+\caption{Use the \emph{Box}, \emph{Pen} and \emph{Erase} tools to mark the region containing the required data (automatic extraction).}
 \label{fig:markRegion}
 \end{center}
 \end{figure}
 
 \subsubsection{Data Extraction}
+After setting the data colors and marking the region of interest, you can click on the \emph{Extract!} button. This brings up a popup window as shown in Figure \ref{fig:testScan}. 
+
+In the left part of this window (under \emph{Fine Tuning}), you can select the color detection mode to be used by the algorithms. You can also specify the extent of variability that is allowed for while comparing colors. The black and white (binary) image shown is the final result of the color extraction. It is normal to require a non-zero amount of variability even for seemingly uniformly colored data. You can adjust the \emph{Color Distance} value here and click \emph{Re-scan} to generate another binary image. Adjust the color distance value till you obtain a clear picture of the data of interest.
+
+In the right part of the window (\emph{Choose Algorithm}), you can select the algorithm to be used and specify the algorithm specific set of parameters. Each of these algorithms are described in detail in the next section. After selecting the algorithm and specifying the required parameters, click \emph{Get Points} to allow the automatic extraction to finally yield the data points. If you wish to repeat the extraction process, then you will have to mark the region of interest again and then select \emph{Extract!}. After obtaining data points from automatic mode, you can add or remove specific points using the manual mode.
+
 \begin{figure}
 \begin{center}
 \includegraphics[width=5in]{./figures/testScan.png}
-\caption{Alignment for Maps.}
+\caption{Define color selection mode, allowed variation in colors and select the algorithm for automatic data extraction.}
 \label{fig:testScan}
 \end{center}
 \end{figure}
 \subsection{Digitization Algorithms}
-
+Four different digitization algorithms are available in WebPlotDigitizer as shown in Figure \ref{fig:autoExtractAlgos}. The \emph{Averaging Window} algorithm is set as the default as it is usually suitable for all plot types. The other algorithms are more suited for 2D (X-Y) plots, but may be useful in other cases too. These algorithms are under active development and a few shortfalls with the current algorithms should get addressed in the future versions. 
 \begin{figure}
 \begin{subfigure}[b]{0.3\textwidth}
 \includegraphics[width=\textwidth]{./figures/averagingWindow.png}
-\caption{a}
+\caption{Averaging Window}
 \end{subfigure}
 \begin{subfigure}[b]{0.3\textwidth}
 \includegraphics[width=\textwidth]{./figures/xStep.png}
-\caption{a}
+\caption{X Step}
 \end{subfigure}
 \begin{subfigure}[b]{0.3\textwidth}
 \includegraphics[width=\textwidth]{./figures/yStep.png}
-\caption{a}
+\caption{Y Step}
 \end{subfigure}
 \centering
 \begin{subfigure}[b]{0.3\textwidth}
 \includegraphics[width=\textwidth]{./figures/xStepWithActualUnits.png}
-\caption{a}
+\caption{X Step With Actual Units}
 \end{subfigure}
-\caption{Mark Region}
-\label{fig:markRegion}
+\caption{Four automatic extraction algorithms are available. These are subject to change in the future releases.}
+\label{fig:autoExtractAlgos}
 
 \end{figure}
+\subsubsection{Averaging Window}
+As mentioned above, this is probably the most useful algorithm and is useful across all plot types. This works by finding the mean position of a colored region that can fit in a rectangular region that is $\Delta X$ pixels (on-screen) wide and $\Delta Y$ pixels (on-screen) tall. As a user, you should increase the size of the box for thick lines or large data points and decrease it for thin lines. If you see multiple points incorrectly detected across the width of a thick data curve, then you need to increase the numbers specified here. The fact that this requires on-screen pixels may get changed in the future so that actual units in the current axes can be specified.
+\subsubsection{X Step}
+This algorithm starts on the left side of the image and scans in the vertical direction. After detecting the first set of data, this jumps $\Delta X$ pixels (on-screen) to the right. In the vertical direction, it picks points by finding average position of colored pixels that fall within the \emph{Line Width} of each other. So for thick curves or data points, increase the value specified for \emph{Line Width}.
 
+Due to limited utility of this algorithm, this may be removed or replaced in future versions of the software.
+\subsubsection{Y Step}
+This is similar to the X Step algorithms, but this starts scanning from the bottom of the image and moves up scanning horizontally. Again, due to somewhat limited utility of this algorithm, this may be removed or replaced in the future versions of the software.
+\subsubsection{X Step With Actual Units}
+This algorithm works only for 2D (X-Y) plots at the moment. This is an improved version of the X Step algorithm as the exact scanning positions on the X axis can be specified in the data units. This is useful when data points along X axis at specific intervals are required. This is often useful while comparing values from two sets of data on the same image. Specify the range of values in X and Y axis to look for data by setting $X_{min}, X_{max}, Y_{min}$ and $Y_{max}$. Set $\Delta X$ to set the step size in X direction. The width of the curve (\emph{Line Width}) still needs to be specified in terms of on-screen pixels.
 \section{Handling Digitized Data}
+Once the required data points are marked on the image using the manual mode, automatic mode or a combination of both, the digitized values can be seen by clicking the \emph{Create .CSV} button. This presents a popup window as shown in Figure \ref{fig:csvOutput}. Here the digitized values can be sorted by the variable or in order of the distance between the points (Nearest Neighbor). The values can also be copied and used in common data analysis softwares. Recently, an option to send these values over to another cloud based data analysis and graphing software called Plotly (\url{http://plot.ly}) has also been added.
+ 
 \begin{figure}
 \begin{center}
-\includegraphics[width=5in]{./figures/csvOutput.png}
-\caption{Mark Region}
+\includegraphics[width=4in]{./figures/csvOutput.png}
+\caption{CSV formatted digitized data. This can be sorted, pasted to a .CSV file or graphed in Plotly.}
 \label{fig:csvOutput}
 \end{center}
 \end{figure}
 \subsection{Sort Data}
+The digitized data can be left unsorted (Raw Output) or by one of the axes variables in ascending or descending order. The Nearest Neighbor option sorts the data depending on the distance of the points from each other.
 \subsection{Formatting Dates}
-\subsection{What is a .CSV File?}
+If one or both of the axes in a 2D (X-Y) plot contain dates then fields to specify the output format of the values is also shown. In these fields, the following pieces of text are replaced with the corresponding part of the date to format the text (case insensitive):
+
+\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline
+Text & Replaced With & Example\\
+\hline
+YYYY or yyyy & Year, all digits & 2012\\
+YY or yy & Year, last two digits & 98 for 1998\\
+MMMM or mmmm & Month, full name & January\\
+MMM or mmm & Month, short name & Jan\\
+MM or mm & Month, numeric & 10\\
+DD or dd & Date & 23\\
+\hline
+\end{tabular}
+\end{center}
+
+A few examples are shown below:
+
+\begin{center}
+\begin{tabular}{|c|c|}
+\hline
+Format Field Text & Date Shown (Example)\\
+\hline
+dd-mm-yyyy & 23-10-2012\\
+mmm-yyyy & Oct-2012\\
+yyyy abc mmmm & 2012 abc October\\
+mmm 'yy & Oct '12\\
+\hline
+\end{tabular}
+\end{center}
+
 \subsection{Export to .CSV File}
-\subsection{Convert .CSV File to Other Formats}
-\subsection{Graph in Plotly}
-\section{Examples}
+Comma-Separated Values (CSV) format files are simple text files containing tabular data. Each row of line corresponds to a table row and the column values are separated by a character or a string (usually just a comma)\footnote{For more information on CSV format, check out \url{http://en.wikipedia.org/wiki/Comma-separated_values}}. Due to its simplicity, CSV format is supported in most data analysis softwares like Microsoft Excel, Matlab etc.
+
+To save the values from WebPlotDigitizer into a CSV file, all you have to do is open your favorite text editor (e.g. Notepad on Microsoft Windows) and Copy-Paste the values shown in the results popup window. Save the file with a .CSV file extension. You can now use this file in your favorite data analysis software.
 \end{document}
