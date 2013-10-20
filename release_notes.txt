@@ -20,3 +20,8 @@ Code improvements:
 	- Entire javascript is minified using the Closure compiler. This results in a significantly faster loading time for the app.
 	- Minor performance improvements.
 	- Minor clean up of the interface.
+
+Browser Support:
+	- WPD works in Internet Explorer 10 now.
+	- Clipboard copy-paste works for Google Chrome.
+
