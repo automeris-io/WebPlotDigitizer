@@ -198,8 +198,8 @@ function savePNG() {
 function getPosition(ev) {
 	var mainCanvasPosition = mainCanvas.getBoundingClientRect();
 	return {
-		x: parseInt(ev.pageX - (mainCanvasPosition.left + window.pageXOffset+1), 10),
-		y: parseInt(ev.pageY - (mainCanvasPosition.top + window.pageYOffset+1), 10)
+		x: parseInt(ev.pageX - (mainCanvasPosition.left + window.pageXOffset), 10),
+		y: parseInt(ev.pageY - (mainCanvasPosition.top + window.pageYOffset), 10)
 	};
 }
 
