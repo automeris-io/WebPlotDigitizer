@@ -3358,17 +3358,13 @@ function updateZoom(ev) {
             }
         }
         
+        tctx.clearRect(0,0,zoom_dx,zoom_dy);
 		tctx.putImageData(zoomImage,0,0);
-		
-		var imgdata = tempCanvas.toDataURL();
-		var zImage = document.createElement('img');
-		zImage.onload = function() { 
-				zctx.drawImage(zImage,0,0,parseInt(zWindowWidth),parseInt(zWindowHeight)); 
-			};
-		zImage.src = imgdata;
 
+        // Draw directly from canvas. 
+        // Creating a new image here caused a memory leak!
+        zctx.drawImage(tempCanvas, 0, 0, zWindowWidth, zWindowHeight);
 	}
-	
 }
 
 function toggleCrosshair(ev) {
