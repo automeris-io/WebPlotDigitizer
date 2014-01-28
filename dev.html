@@ -156,7 +156,7 @@ alt="tumblr visitor stats"></a></div></noscript>
 	<p align="center"><input type="button" value="Select Points" onClick="pickPoints();" style="width: 150px;"></p>
 	<p align="center"><input type="button" value="Undo" onClick="undoPointSelection();" style="width: 75px;"><input id="clearAllBtn" type="button" value="Clear All" onCLick="clearPoints();" style="width: 75px;"></p>
 	<p align="center"><input type="button" value="Delete Point" onClick="deleteSpecificPoint();" style="width:150px;"></p>
-	<p align="center"><input type="button" value="Create .CSV" id="saveBtn" onClick="generateCSV();" style="width:150px;"></p>
+	<p align="center"><input type="button" value="Create .CSV" id="saveBtn" onClick="CSVExport.generate();" style="width:150px;"></p>
 	<p align="center">Points Picked:<span id="pointsStatus">0</span></p>
 	</div>
 
@@ -169,7 +169,7 @@ alt="tumblr visitor stats"></a></div></noscript>
 	<p align="center"><input type="button" value="Extract!" style="width: 150px;" onClick="launchTestWindow();"></p>
 	<hr />
 	<p align="center"><input id="removeLastBtn" type="button" value="Delete" onClick="deleteSpecificPoint();" style="width: 75px;"><input id="clearAllBtn" type="button" value="Clear All" onCLick="clearPoints();" style="width: 75px;"></p>
-	<p align="center"><input type="button" value="Create .CSV" id="saveBtn" onClick="generateCSV();" style="width:150px;"></p>
+	<p align="center"><input type="button" value="Create .CSV" id="saveBtn" onClick="CSVExport.generate();" style="width:150px;"></p>
 	<p align="center">Points Picked:<span id="autoPointsStatus">0</span></p>
 	</div>
 
@@ -295,10 +295,10 @@ alt="tumblr visitor stats"></a></div></noscript>
 	<p align="center" class="popupheading">Acquired Data</p>
 	<p align="center">
 		Sort by:
-		<select id="dataSortOption" onChange="updateCSVSortingControls();">
+		<select id="dataSortOption" onChange="CSVExport.updateSortingControls();">
 		</select> 
 		Order: 
-		<select id="dataSortOrder" onChange="reSortCSV();">
+		<select id="dataSortOrder" onChange="CSVExport.reSort();">
 			<option value="ascending">Ascending</option>
 			<option value="descending">Descending</option>
 		</select>
@@ -308,14 +308,14 @@ alt="tumblr visitor stats"></a></div></noscript>
 		Date Formattng: 
 		<span id="csvDateFormattingX">X <input type="label" size="15" id="xDateFormat" value="yyyy/mm/dd" /> </span>
 		<span id="csvDateFormattingY">Y <input type="label" size="15" id="yDateFormat" value="yyyy/mm/dd" /> </span>
-		<input type="button" value="Format" onClick="reSortCSV();"/>
+		<input type="button" value="Format" onClick="CSVExport.reSort();"/>
 		</span>
 	</p>
 	<p align="center">Variables: <span id="dataVariables">x, y</span></p>
 	<p align="center"><textarea id="tarea" style="width: 480px; height: 250px;"></textarea></p>
 	<p align="center">Copy and Paste to a file with .CSV extension or graph in <a href="http://plot.ly" target="plotlyWebsite">Plotly</a>*</p>
 	<p align="center">
-		<input type="button" value="Select All" onClick="selectAllCSVData();"/>
+		<input type="button" value="Select All" onClick="CSVExport.selectAll();"/>
 		<input type="button" value="Graph in Plotly*" onClick="plotly.exportData()"/>
 		<input type="button" id="closeCSVbtn" value="Close" onClick="popup.close('csvWindow');"/>
 	</p>
