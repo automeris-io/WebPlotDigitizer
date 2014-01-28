@@ -242,7 +242,8 @@ var CSVExport = (function () {
         generate: generateCSV,
         reSort: reSortCSV,
         updateSortingControls: updateCSVSortingControls,
-        selectAll: selectAllCSVData
+        selectAll: selectAllCSVData,
+        displayData: displayData
     };
 
 })();
