@@ -34,7 +34,7 @@ function acquireData() {
 		popup.show('alignAxes');
 	} else {
 		sidebar.show('manualMode');
-		removeAllMouseEvents();
+		canvasMouseEvents.removeAll();
 	}
 }
 
@@ -46,8 +46,8 @@ function pickPoints() {// select data points.
 	if (axesPicked === 0) {
 		alert('Define the axes first!');
 	} else {
-		removeAllMouseEvents();
-		addMouseEvent('click',clickPoints,true);
+		canvasMouseEvents.removeAll();
+		canvasMouseEvents.add('click',clickPoints,true);
 		//pointsPicked = 0;
 		//xyData = [];
 		pointsStatus(pointsPicked);
@@ -88,7 +88,7 @@ function clearPoints() {// clear all markings.
 	pointsStatus(pointsPicked);
     resetLayers();
 	
-	removeAllMouseEvents();
+	canvasMouseEvents.removeAll();
 }
 
 /**
@@ -130,8 +130,8 @@ function pointsStatus(pn) {// displays the number of points picked.
  */
 function deleteSpecificPoint() {
 
-	removeAllMouseEvents();
-	addMouseEvent('click',deleteSpecificPointHandler,true);
+	canvasMouseEvents.removeAll();
+	canvasMouseEvents.add('click',deleteSpecificPointHandler,true);
 }
 
 /**

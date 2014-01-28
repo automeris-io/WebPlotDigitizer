@@ -86,10 +86,10 @@ function vflip() {
 function cropPlot() {// crop image
 
 	redrawCanvas();
-	removeAllMouseEvents();
-	addMouseEvent('mousedown',cropMousedown,true);
-	addMouseEvent('mouseup',cropMouseup,true);
-	addMouseEvent('mousemove',cropMousemove,true);
+	canvasMouseEvents.removeAll();
+	canvasMouseEvents.add('mousedown',cropMousedown,true);
+	canvasMouseEvents.add('mouseup',cropMouseup,true);
+	canvasMouseEvents.add('mousemove',cropMousemove,true);
 }
 
 /**
