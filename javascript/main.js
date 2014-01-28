@@ -121,7 +121,7 @@ function setDefaultState() {
 	xyData = [];
 	axesAlignmentData = [];
 	clearPoints();
-	clearSidebar();
+	sidebar.clear();
 }
 
 function checkBrowser() {

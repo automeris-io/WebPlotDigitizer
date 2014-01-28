@@ -33,7 +33,7 @@ function acquireData() {
 	if(axesPicked === 0) {
 		showPopup('alignAxes');
 	} else {
-		showSidebar('manualMode');
+		sidebar.show('manualMode');
 		removeAllMouseEvents();
 	}
 }
@@ -52,7 +52,7 @@ function pickPoints() {// select data points.
 		//xyData = [];
 		pointsStatus(pointsPicked);
 		//redrawCanvas();
-		showSidebar('manualMode');
+		sidebar.show('manualMode');
 	}
 }
 

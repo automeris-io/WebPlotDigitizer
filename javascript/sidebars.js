@@ -22,27 +22,32 @@
 */
 
 
-var sidebarList = ['editImageToolbar','manualMode','autoMode']; 
+var sidebar = (function () {
 
-/**
- * Show a specific sidebar
- * @param {String} sbid Sidebar ID.
- */
-function showSidebar(sbid) {// Shows a specific sidebar
+    // List of sidebars that can be closed via clearSidebar(). Typically, I include all known sidebars here.
+    var sidebarList = ['editImageToolbar','manualMode','autoMode'];
 
-	clearSidebar();
-	var sb = document.getElementById(sbid);
-	sb.style.visibility = "visible";
-}
+    function show(sbid) { // Shows a specific sidebar
 
-/**
- * Hide all sidebars.
- */
-function clearSidebar() {// Clears all open sidebars
+        clear();
+        var sb = document.getElementById(sbid);
+        sb.style.visibility = "visible";
+    }
 
-      for (ii = 0; ii < sidebarList.length; ii ++) {
-		  var sbv = document.getElementById(sidebarList[ii]);
-		  sbv.style.visibility="hidden";
-      }
-	
-}
+    function clear() { // Clears all open sidebars
+
+          for (ii = 0; ii < sidebarList.length; ii ++) {
+              var sbv = document.getElementById(sidebarList[ii]);
+              sbv.style.visibility="hidden";
+          }
+        
+    }
+
+    return {
+        show: show,
+        clear: clear
+    };
+
+})();
+
+

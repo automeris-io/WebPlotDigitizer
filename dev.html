@@ -93,7 +93,7 @@ alt="tumblr visitor stats"></a></div></noscript>
 	
 		<!-- Permanent set of tools -->
 		<input type="button" onClick="showPopup('loadNewImage');" value="Load File" style="margin: 0 2px;">
-		<input type="button" onClick="showSidebar('editImageToolbar');" value="Edit Image" style="margin: 0 2px;">
+		<input type="button" onClick="sidebar.show('editImageToolbar');" value="Edit Image" style="margin: 0 2px;">
 		<input type="button" id="plottypebtn" value="Define Axes" onClick="showPopup('axesList');" style="margin: 0 2px;">
 		<input type="button" onClick="acquireData();" value="Acquire Data" style="margin: 0 2px;">
 		<input type="button" onClick="showPopup('helpWindow');" value="Help" style="margin: 0 2px;">
@@ -151,7 +151,7 @@ alt="tumblr visitor stats"></a></div></noscript>
 	<!-- side bars go here -->
 	<div id="manualMode" class="sidebar">
 	<p align="center"><b>Manual Mode</b></p>
-	<p align="center"><input type="button" value="Switch to Auto" onClick="showSidebar('autoMode');" style="width: 150px;" ></p>
+	<p align="center"><input type="button" value="Switch to Auto" onClick="sidebar.show('autoMode');" style="width: 150px;" ></p>
 	<hr />
 	<p align="center"><input type="button" value="Select Points" onClick="pickPoints();" style="width: 150px;"></p>
 	<p align="center"><input type="button" value="Undo" onClick="undoPointSelection();" style="width: 75px;"><input id="clearAllBtn" type="button" value="Clear All" onCLick="clearPoints();" style="width: 75px;"></p>
@@ -162,7 +162,7 @@ alt="tumblr visitor stats"></a></div></noscript>
 
 	<div id="autoMode" class="sidebar">
 	<p align="center"><b>Auto Extract Mode</b></p>
-	<p align="center"><input type="button" value="Switch to Manual" onClick="showSidebar('manualMode');" style="width: 150px;" ></p>
+	<p align="center"><input type="button" value="Switch to Manual" onClick="sidebar.show('manualMode');" style="width: 150px;" ></p>
 	<hr />
 	<p align="center"><input type="button" id="autoFGBtn" value="FG" style="width:75px;" onClick="colorPickerWindow('fg');"><input type="button" id="autoBGBtn" value="BG" style="width:75px;" onClick="colorPickerWindow('bg');"></p>
 	<p align="center"><input type="button" value="Box" style="width:50px;" onClick="boxPaint();"><input type="button" value="Pen" style="width:50px;" onClick="penPaint();"><input type="button" value="Erase" style="width:50px;" onClick="eraser();"></p>
