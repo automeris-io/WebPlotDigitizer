@@ -36,18 +36,11 @@ function init() {// This is run when the page loads.
 	topCanvas = document.getElementById('topCanvas');
 	
 	var canvasDiv = document.getElementById('canvasDiv');
-		
-	zCanvas = document.getElementById('zoomCanvas');
-	zctx = zCanvas.getContext('2d');
-
-	tempCanvas = document.createElement('canvas');
-	tctx = tempCanvas.getContext('2d');
-	tempCanvas.width = zoom_dx;
-	tempCanvas.height = zoom_dy;
+	
 
 	// Position to paste new plots at
-	cx0 = zoom_dx/2;
-	cy0 = zoom_dy/2;
+	cx0 = zoomView.zoom_dx/2;
+	cy0 = zoomView.zoom_dy/2;
 
 	// Set canvas dimensions
 	canvasWidth = parseFloat(canvasDiv.offsetWidth);
@@ -71,8 +64,8 @@ function init() {// This is run when the page loads.
 
 
 	// Needed to fix the zoom problem.
-	cheight = canvasHeight - zoom_dy;
-	cwidth = canvasWidth - zoom_dx;
+	cheight = canvasHeight - zoomView.zoom_dy;
+	cwidth = canvasWidth - zoomView.zoom_dx;
 
 	caspectratio = cheight/cwidth;
 
@@ -82,9 +75,6 @@ function init() {// This is run when the page loads.
 	hoverCtx = hoverCanvas.getContext('2d');
 	topCtx = topCanvas.getContext('2d');
 	
-	// get the coordinates panel
-	mPosn = document.getElementById('mousePosition');
-
 	// Set canvas default state
 	img = document.createElement('img');
 	img.onload = function() { loadImage(img); originalImage = img; };
@@ -98,10 +88,10 @@ function init() {// This is run when the page loads.
 		
 	// specify mouseover function
 	//canvas.addEventListener('click',clickHandler,false);
-	topCanvas.addEventListener('mousemove',updateZoomEventHandler,false);
+	topCanvas.addEventListener('mousemove', zoomView.updateZoomEventHandler, false);
 	
 	// Add support for extended crosshair
-    document.body.addEventListener('keydown', toggleCrosshair, false);
+    document.body.addEventListener('keydown', zoomView.toggleCrosshair, false);
 
 	// Image dropping capabilities
 	topCanvas.addEventListener('dragover',function(event) {event.preventDefault();}, true);
@@ -113,7 +103,7 @@ function init() {// This is run when the page loads.
 	// Set defaults everywhere.
 	setDefaultState();
 	
-	initZoom();
+	zoomView.initZoom();
 	
 	originalScreen = getCanvasData();
 	activeScreen = originalScreen;

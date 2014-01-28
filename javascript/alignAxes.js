@@ -114,7 +114,7 @@ function pickCorners(ev) {
 		dataCtx.arc(xi,yi,3,0,2.0*Math.PI,true);
 		dataCtx.fill();
 		
-		updateZoom(ev);
+		zoomView.updateZoom(ev);
 
 		if (axesN === axesNmax) {
 				axesPicked = 1;
