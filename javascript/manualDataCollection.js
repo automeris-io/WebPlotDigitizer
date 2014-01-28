@@ -31,7 +31,7 @@ var pointsPicked = 0; // number of data points picked.
  */
 function acquireData() {
 	if(axesPicked === 0) {
-		showPopup('alignAxes');
+		popup.show('alignAxes');
 	} else {
 		sidebar.show('manualMode');
 		removeAllMouseEvents();

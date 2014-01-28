@@ -80,7 +80,7 @@ function removeAllMouseEvents() {
 		moueEventFunction = [];
 		mouseEventCapture = [];
 	}
-	clearToolbar();
+	toolbar.clear();
 }
 
 /**
