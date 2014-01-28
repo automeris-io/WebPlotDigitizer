@@ -21,26 +21,29 @@
 
 */
 
-var toolbarList = ['paintToolbar','colorPickerToolbar']; 
+var toolbar = (function () {
 
-/**
- * Show a specific toolbar
- * @param {String} sbid Sidebar ID.
- */
-function showToolbar(sbid) {// Shows a specific sidebar
-	clearToolbar();
-	var sb = document.getElementById(sbid);
-	sb.style.visibility = "visible";
-}
+    // list of all known toolbars!
+    var toolbarList = ['paintToolbar','colorPickerToolbar']; 
 
-/**
- * Clear the toolbar area.
- */
-function clearToolbar() {// Clears all open sidebars
+    function show(sbid) { // Shows a specific sidebar
+        clear();
+        var sb = document.getElementById(sbid);
+        sb.style.visibility = "visible";
+    }
 
-      for (ii = 0; ii < toolbarList.length; ii ++) {
-		  var sbv = document.getElementById(toolbarList[ii]);
-		  sbv.style.visibility="hidden";
-      }
-	
-}
+    function clear() { // Clears all open sidebars
+
+          for (ii = 0; ii < toolbarList.length; ii ++) {
+              var sbv = document.getElementById(toolbarList[ii]);
+              sbv.style.visibility="hidden";
+          }
+        
+    }
+
+    return {
+        show: show,
+        clear: clear
+    };
+})();
+

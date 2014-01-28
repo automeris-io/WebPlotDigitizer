@@ -257,6 +257,6 @@ function loadNewFile() {
     var fileInfo = fileLoadElem.files[0];
     fileLoader(fileInfo);
   }
-  closePopup('loadNewImage');
+  popup.close('loadNewImage');
 }
 

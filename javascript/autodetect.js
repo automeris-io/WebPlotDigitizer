@@ -43,9 +43,9 @@ var binaryData;
 function colorPickerWindow(cmode) {
     colorPickerMode = cmode;
     if(cmode === 'fg') {    
-      showPopup('colorPickerFG');
+      popup.show('colorPickerFG');
     } else if(cmode === 'bg') {
-       showPopup('colorPickerBG');
+       popup.show('colorPickerBG');
     }
 }
 
@@ -87,7 +87,7 @@ function colorPicker(ev) {
 			redEl = document.getElementById('color_red_fg');
 			greenEl = document.getElementById('color_green_fg');
 			blueEl = document.getElementById('color_blue_fg');
-			showPopup('colorPickerFG');
+			popup.show('colorPickerFG');
 
 		} else if (colorPickerMode === 'bg') {
 
@@ -96,7 +96,7 @@ function colorPicker(ev) {
 			redEl = document.getElementById('color_red_bg');
 			greenEl = document.getElementById('color_green_bg');
 			blueEl = document.getElementById('color_blue_bg');
-			showPopup('colorPickerBG');
+			popup.show('colorPickerBG');
 		}
 		
 		redEl.value = PickedColor[0];
@@ -207,7 +207,7 @@ function boxPaintMousedrag(ev) {
 function penPaint() {
 
 	removeAllMouseEvents();
-	showToolbar('paintToolbar');
+	toolbar.show('paintToolbar');
 	addMouseEvent('mousedown',penPaintMousedown,true);
 	addMouseEvent('mouseup',penPaintMouseup,true);
 	addMouseEvent('mousemove',penPaintMousedrag,true);
@@ -268,7 +268,7 @@ function penPaintMousedrag(ev) {
 function eraser() {
 
 	removeAllMouseEvents();
-	showToolbar('paintToolbar');
+	toolbar.show('paintToolbar');
 	addMouseEvent('mousedown',eraserMousedown,true);
 	addMouseEvent('mouseup',eraserMouseup,true);
 	addMouseEvent('mousemove',eraserMousedrag,true);
@@ -383,7 +383,7 @@ function saveTest() {
  */
 function launchTestWindow() {
   processingNote(true);
-  setTimeout("updateTestWindow();showPopup('testImageWindow');",100);
+  setTimeout("updateTestWindow();popup.show('testImageWindow');",100);
 }
 
 /**
@@ -409,7 +409,7 @@ function scanPlot() {
 	
 	cdistance = parseInt(colorDistanceEl.value);
   
-    closePopup("testImageWindow");
+    popup.close("testImageWindow");
     
     binaryData = selectFromMarkedRegion(colmode, chosenColor, cdistance);
 

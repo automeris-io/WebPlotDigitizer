@@ -21,39 +21,42 @@
 
 */
 
-/**
- * Display a popup window.
- * @param {String} popupid ID of the DIV element containing the popup block.
- */
-function showPopup(popupid) {
-	// Dim lights :)
-	var shadowDiv = document.getElementById('shadow');
-	shadowDiv.style.visibility = "visible";
+// Handle popup windows
+var popup = (function () {
 
-	var pWindow = document.getElementById(popupid);
-	var screenWidth = parseInt(window.innerWidth);
-	var screenHeight = parseInt(window.innerHeight);
-	var pWidth = parseInt(pWindow.offsetWidth);
-	var pHeight = parseInt(pWindow.offsetHeight);
-	var xPos = (screenWidth - pWidth)/2;
-	var yPos = (screenHeight - pHeight)/2;
-	pWindow.style.left = xPos + 'px';
-	pWindow.style.top = yPos + 'px';
-	pWindow.style.visibility = "visible";
-}
+    function show(popupid) {
+        // Dim lights :)
+        var shadowDiv = document.getElementById('shadow');
+        shadowDiv.style.visibility = "visible";
 
-/**
- * Hide a popup window.
- * @param {String} popupid ID of the DIV element containing the popup block.
- */
-function closePopup(popupid) {
-	var shadowDiv = document.getElementById('shadow');
-	shadowDiv.style.visibility = "hidden";
+        var pWindow = document.getElementById(popupid);
+        var screenWidth = parseInt(window.innerWidth);
+        var screenHeight = parseInt(window.innerHeight);
+        var pWidth = parseInt(pWindow.offsetWidth);
+        var pHeight = parseInt(pWindow.offsetHeight);
+        var xPos = (screenWidth - pWidth)/2;
+        var yPos = (screenHeight - pHeight)/2;
+        pWindow.style.left = xPos + 'px';
+        pWindow.style.top = yPos + 'px';
+        pWindow.style.visibility = "visible";
+    }
 
-	var pWindow = document.getElementById(popupid);
-	pWindow.style.visibility = "hidden";
+    function close(popupid) {
 
-}
+        var shadowDiv = document.getElementById('shadow');
+        shadowDiv.style.visibility = "hidden";
+
+        var pWindow = document.getElementById(popupid);
+        pWindow.style.visibility = "hidden";
+    }
+
+    return {
+        show: show,
+        close: close
+    };
+
+})();
+
 
 /**
  * Show a 'processing' note on the top right corner.

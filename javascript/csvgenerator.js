@@ -32,7 +32,7 @@ var rawCSVData,
  function generateCSV() {
 
     if((axesPicked === 1) && (pointsPicked >= 1)) {
-        showPopup('csvWindow');
+        popup.show('csvWindow');
 			
 		rawCSVData = pixelToData(xyData, pointsPicked, plotType);
 
