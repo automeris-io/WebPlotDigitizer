@@ -72,8 +72,8 @@ function setAxes(ax_mode) {
 
 	plotType = ax_mode;
 	sidebar.clear();
-	removeAllMouseEvents();
-	addMouseEvent('click',pickCorners,true);
+	canvasMouseEvents.removeAll();
+	canvasMouseEvents.add('click',pickCorners,true);
 	axesN = 0;
 	xyAxes = [];
 
@@ -119,7 +119,7 @@ function pickCorners(ev) {
 		if (axesN === axesNmax) {
 				axesPicked = 1;
 				
-				removeMouseEvent('click',pickCorners,true);
+				canvasMouseEvents.remove('click',pickCorners,true);
 				
 				if (plotType === 'XY') {
 					popup.show('xyAlignment');

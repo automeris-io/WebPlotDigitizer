@@ -54,8 +54,8 @@ function colorPickerWindow(cmode) {
  */
 function pickColor() {
 	//colorPickerMode = cmode;
-	removeAllMouseEvents();
-	addMouseEvent('click',colorPicker,true);
+	canvasMouseEvents.removeAll();
+	canvasMouseEvents.add('click',colorPicker,true);
 }
 
 /**
@@ -79,7 +79,7 @@ function colorPicker(ev) {
 		var greenEl = document.getElementById('color_green');
 		var blueEl = document.getElementById('color_blue');
 				
-		removeMouseEvent('click',colorPicker,true);
+		canvasMouseEvents.remove('click',colorPicker,true);
 		
 		if(colorPickerMode === 'fg') {
 			assignColor('fg',PickedColor);
@@ -147,10 +147,10 @@ function assignColor(color_mode, color_value) {
  */ 
 function boxPaint() {
 
-	removeAllMouseEvents();
-	addMouseEvent('mousedown',boxPaintMousedown,true);
-	addMouseEvent('mouseup',boxPaintMouseup,true);
-	addMouseEvent('mousemove',boxPaintMousedrag,true);
+	canvasMouseEvents.removeAll();
+	canvasMouseEvents.add('mousedown',boxPaintMousedown,true);
+	canvasMouseEvents.add('mouseup',boxPaintMouseup,true);
+	canvasMouseEvents.add('mousemove',boxPaintMousedrag,true);
 
 }
 
@@ -206,11 +206,11 @@ function boxPaintMousedrag(ev) {
  */
 function penPaint() {
 
-	removeAllMouseEvents();
+	canvasMouseEvents.removeAll();
 	toolbar.show('paintToolbar');
-	addMouseEvent('mousedown',penPaintMousedown,true);
-	addMouseEvent('mouseup',penPaintMouseup,true);
-	addMouseEvent('mousemove',penPaintMousedrag,true);
+	canvasMouseEvents.add('mousedown',penPaintMousedown,true);
+	canvasMouseEvents.add('mouseup',penPaintMouseup,true);
+	canvasMouseEvents.add('mousemove',penPaintMousedrag,true);
 }
 
 /**
@@ -267,11 +267,11 @@ function penPaintMousedrag(ev) {
  */
 function eraser() {
 
-	removeAllMouseEvents();
+	canvasMouseEvents.removeAll();
 	toolbar.show('paintToolbar');
-	addMouseEvent('mousedown',eraserMousedown,true);
-	addMouseEvent('mouseup',eraserMouseup,true);
-	addMouseEvent('mousemove',eraserMousedrag,true);
+	canvasMouseEvents.add('mousedown',eraserMousedown,true);
+	canvasMouseEvents.add('mouseup',eraserMouseup,true);
+	canvasMouseEvents.add('mousemove',eraserMousedrag,true);
 	dataCtx.globalCompositeOperation = "destination-out";
 }
 

@@ -21,93 +21,81 @@
 
 */
 
+// Module to manage mouse events on the canvas. This is to ensure events are added and removed in a clean manner
+var canvasMouseEvents = (function () {
 
-/**
- * List of mouse event types.
- */
-var mouseEventType = new Array();
+    // List of mouse event types.
+    var mouseEventType = new Array();
 
-/**
- * List of mouse event functions.
- */
-var mouseEventFunction = new Array();
+    // List of mouse event functions.
+    var mouseEventFunction = new Array();
 
-/**
- * To capture or not.
- */
-var mouseEventCapture = new Array();
+    // To capture or not.
+    var mouseEventCapture = new Array();
 
-/**
- * Total number of active mouse events.
- */
-var mouseEvents = 0;
+    // Total number of active mouse events.
+    var mouseEvents = 0;
 
+    // Add a mouse event.
+    function addMouseEvent(mouseEv, functionName, tf) {
+        var eventExists = false;
+        for(var ii = 0; ii < mouseEvents; ii++)	{
+            if ((mouseEv === mouseEventType[ii]) && (functionName === mouseEventFunction[ii]) && (tf === mouseEventCapture[ii]))
+                eventExists = true;
+        }
 
-/**
- * Add a mouse event.
- * @param {String} mouseEv Type of mouse event.
- * @param {function} functionName Name of the method associated 
- * @param {boolean} tf Capture value.
- */
-function addMouseEvent(mouseEv, functionName, tf) {
-	var eventExists = false;
-	for(var ii = 0; ii < mouseEvents; ii++)	{
-		if ((mouseEv === mouseEventType[ii]) && (functionName === mouseEventFunction[ii]) && (tf === mouseEventCapture[ii]))
-			eventExists = true;
-	}
+        if(eventExists === false) {
+            topCanvas.addEventListener(mouseEv, functionName, tf);
+            mouseEventType[mouseEvents] = mouseEv;
+            mouseEventFunction[mouseEvents] = functionName;
+            mouseEventCapture[mouseEvents] = tf;
+            mouseEvents = mouseEvents + 1;
+        }
+    }
 
-	if(eventExists === false) {
-		topCanvas.addEventListener(mouseEv, functionName, tf);
-		mouseEventType[mouseEvents] = mouseEv;
-		mouseEventFunction[mouseEvents] = functionName;
-		mouseEventCapture[mouseEvents] = tf;
-		mouseEvents = mouseEvents + 1;
-	}
-}
+    // Clear the entire list of active mouse events.
+    function removeAllMouseEvents() {
 
-/**
- * Clear the entire list of active mouse events.
- */
-function removeAllMouseEvents() {
+        if(mouseEvents > 0) {
 
-	if(mouseEvents > 0) {
+            for (var kk = 0; kk < mouseEvents; kk++) {
+                topCanvas.removeEventListener(mouseEventType[kk],mouseEventFunction[kk],mouseEventCapture[kk]);
+            }
+            mouseEvents = 0;
+            mouseEventType = [];
+            moueEventFunction = [];
+            mouseEventCapture = [];
+        }
+        toolbar.clear();
+    }
 
-		for (var kk = 0; kk < mouseEvents; kk++) {
-			topCanvas.removeEventListener(mouseEventType[kk],mouseEventFunction[kk],mouseEventCapture[kk]);
-		}
-		mouseEvents = 0;
-		mouseEventType = [];
-		moueEventFunction = [];
-		mouseEventCapture = [];
-	}
-	toolbar.clear();
-}
+    // Remove a particular mouse event.
+    function removeMouseEvent(mouseEv, functionName, tf) {
 
-/**
- * Remove a particular mouse event.
- * @param {String} mouseEv Type of mouse event.
- * @param {function} functionName Name of the method associated 
- * @param {boolean} tf Capture value.
- */
-function removeMouseEvent(mouseEv, functionName, tf) {
+        var eventExists = false;
+        var eventIndex = 0;
 
-	var eventExists = false;
-	var eventIndex = 0;
+        for(var ii = 0; ii < mouseEvents; ii++) {
+            if ((mouseEv === mouseEventType[ii]) && (functionName === mouseEventFunction[ii]) && (tf === mouseEventCapture[ii])) {
+                eventExists = true;
+                eventIndex = ii;
+            }
+        }
 
-	for(var ii = 0; ii < mouseEvents; ii++) {
-		if ((mouseEv === mouseEventType[ii]) && (functionName === mouseEventFunction[ii]) && (tf === mouseEventCapture[ii])) {
-			eventExists = true;
-			eventIndex = ii;
-		}
-	}
+        if(eventExists === true) {
+            topCanvas.removeEventListener(mouseEv, functionName, tf);
+            mouseEvents = mouseEvents - 1;
+            mouseEventType.splice(eventIndex,1);
+            mouseEventFunction.splice(eventIndex,1);
+            mouseEventCapture.splice(eventIndex,1);
+        }
+    }
 
-	if(eventExists === true) {
-		topCanvas.removeEventListener(mouseEv, functionName, tf);
-		mouseEvents = mouseEvents - 1;
-		mouseEventType.splice(eventIndex,1);
-		mouseEventFunction.splice(eventIndex,1);
-		mouseEventCapture.splice(eventIndex,1);
-	}
-}
+    return {
+        add: addMouseEvent,
+        remove: removeMouseEvent,
+        removeAll: removeAllMouseEvents
+    };
 
+})();
 
