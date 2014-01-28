@@ -22,7 +22,7 @@
     along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
 
 -->
-<html manifest="WebPlotDigitizer.appcache">
+<!-- <html manifest="dev.appcache"> -->
 
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/> 
@@ -31,8 +31,7 @@
 <meta name="Author" content="Ankit Rohatgi"/>
 <title>WebPlotDigitizer - Copyright 2010-2013 Ankit Rohatgi</title>
 <link rel="stylesheet" href="styles.css" type="text/css" media="screen" />
-
-<!-- 
+<!--
 <script src="javascript/main.js" language="Javascript"></script>
 <script src="javascript/applicationCache.js" language="Javascript"></script>
 <script src="javascript/canvasDrawing.js" language="Javascript"></script>
@@ -63,6 +62,7 @@
 <script src="combined-compiled.js" language="Javascript"></script>
 
 <!-- Start of StatCounter Code -->
+<!--
 <script type="text/javascript">
 var sc_project=6711545; 
 var sc_invisible=1; 
@@ -75,6 +75,7 @@ stats" href="http://statcounter.com/tumblr/"
 target="_blank"><img class="statcounter"
 src="http://c.statcounter.com/6711545/0/9c26f4ca/1/"
 alt="tumblr visitor stats"></a></div></noscript>
+-->
 <!-- End of StatCounter Code -->
 
 </head>
@@ -90,11 +91,11 @@ alt="tumblr visitor stats"></a></div></noscript>
 	<td class="standardToolbar" valign="top"> 
 	
 		<!-- Permanent set of tools -->
-		<input type="button" onClick="showPopup('loadNewImage');" value="Load File" style="margin: 0 2px;">
-		<input type="button" onClick="showSidebar('editImageToolbar');" value="Edit Image" style="margin: 0 2px;">
-		<input type="button" id="plottypebtn" value="Define Axes" onClick="showPopup('axesList');" style="margin: 0 2px;">
+		<input type="button" onClick="popup.show('loadNewImage');" value="Load File" style="margin: 0 2px;">
+		<input type="button" onClick="sidebar.show('editImageToolbar');" value="Edit Image" style="margin: 0 2px;">
+		<input type="button" id="plottypebtn" value="Define Axes" onClick="popup.show('axesList');" style="margin: 0 2px;">
 		<input type="button" onClick="acquireData();" value="Acquire Data" style="margin: 0 2px;">
-		<input type="button" onClick="showPopup('helpWindow');" value="Help" style="margin: 0 2px;">
+		<input type="button" onClick="popup.show('helpWindow');" value="Help" style="margin: 0 2px;">
 		
 	</td>
 	<td class="standardToolbar" valign="top">
@@ -108,7 +109,7 @@ alt="tumblr visitor stats"></a></div></noscript>
 		</div>
 		
 		<div id="colorPickerToolbar" class="toolbar" style="width:500px;">
-		<p align="right"><span id="colorBox" style="height:15px; border: thin black solid; background: blue;">&nbsp;&nbsp;&nbsp;</span><input type="radio" value="fg_chosen" id="fgChosenRadio" name="colorChooser"> FG <input type="radio" id="bgChosenRadio" value="bg_chosen" name="colorChooser"> BG <input type="button" value="Color Picker" onClick="showPopup('colorPicker');"><input type="button" value="RGB"> Threshold <input type="button" value="Test"></p>
+		<p align="right"><span id="colorBox" style="height:15px; border: thin black solid; background: blue;">&nbsp;&nbsp;&nbsp;</span><input type="radio" value="fg_chosen" id="fgChosenRadio" name="colorChooser"> FG <input type="radio" id="bgChosenRadio" value="bg_chosen" name="colorChooser"> BG <input type="button" value="Color Picker" onClick="popup.show('colorPicker');"><input type="button" value="RGB"> Threshold <input type="button" value="Test"></p>
 		</div>
 		
 		</div>
@@ -149,25 +150,25 @@ alt="tumblr visitor stats"></a></div></noscript>
 	<!-- side bars go here -->
 	<div id="manualMode" class="sidebar">
 	<p align="center"><b>Manual Mode</b></p>
-	<p align="center"><input type="button" value="Switch to Auto" onClick="showSidebar('autoMode');" style="width: 150px;" ></p>
+	<p align="center"><input type="button" value="Switch to Auto" onClick="sidebar.show('autoMode');" style="width: 150px;" ></p>
 	<hr />
 	<p align="center"><input type="button" value="Select Points" onClick="pickPoints();" style="width: 150px;"></p>
 	<p align="center"><input type="button" value="Undo" onClick="undoPointSelection();" style="width: 75px;"><input id="clearAllBtn" type="button" value="Clear All" onCLick="clearPoints();" style="width: 75px;"></p>
 	<p align="center"><input type="button" value="Delete Point" onClick="deleteSpecificPoint();" style="width:150px;"></p>
-	<p align="center"><input type="button" value="Create .CSV" id="saveBtn" onClick="generateCSV();" style="width:150px;"></p>
+	<p align="center"><input type="button" value="Create .CSV" id="saveBtn" onClick="CSVExport.generate();" style="width:150px;"></p>
 	<p align="center">Points Picked:<span id="pointsStatus">0</span></p>
 	</div>
 
 	<div id="autoMode" class="sidebar">
 	<p align="center"><b>Auto Extract Mode</b></p>
-	<p align="center"><input type="button" value="Switch to Manual" onClick="showSidebar('manualMode');" style="width: 150px;" ></p>
+	<p align="center"><input type="button" value="Switch to Manual" onClick="sidebar.show('manualMode');" style="width: 150px;" ></p>
 	<hr />
 	<p align="center"><input type="button" id="autoFGBtn" value="FG" style="width:75px;" onClick="colorPickerWindow('fg');"><input type="button" id="autoBGBtn" value="BG" style="width:75px;" onClick="colorPickerWindow('bg');"></p>
 	<p align="center"><input type="button" value="Box" style="width:50px;" onClick="boxPaint();"><input type="button" value="Pen" style="width:50px;" onClick="penPaint();"><input type="button" value="Erase" style="width:50px;" onClick="eraser();"></p>
 	<p align="center"><input type="button" value="Extract!" style="width: 150px;" onClick="launchTestWindow();"></p>
 	<hr />
 	<p align="center"><input id="removeLastBtn" type="button" value="Delete" onClick="deleteSpecificPoint();" style="width: 75px;"><input id="clearAllBtn" type="button" value="Clear All" onCLick="clearPoints();" style="width: 75px;"></p>
-	<p align="center"><input type="button" value="Create .CSV" id="saveBtn" onClick="generateCSV();" style="width:150px;"></p>
+	<p align="center"><input type="button" value="Create .CSV" id="saveBtn" onClick="CSVExport.generate();" style="width:150px;"></p>
 	<p align="center">Points Picked:<span id="autoPointsStatus">0</span></p>
 	</div>
 
@@ -176,7 +177,7 @@ alt="tumblr visitor stats"></a></div></noscript>
 	<p align="center"><input type="button" value="H. Flip" style="width: 75px;" onClick="hflip();"><input type="button" value="V. Flip" style="width: 75px;" onClick="vflip();"></p>
 	<p align="center"><input type="button" value="Crop" style="width: 150px;" onClick="cropPlot();"></p>
 	<!-- <p align="center"><input type="button" value="Edge Detect" style="width: 150px;" onClick=""></p> -->
-	<!-- <p align="center"><input type="text" value="90.0" style="width: 75px;"><input type="button" value="Rotate" style="width: 75px;" onClick="showPopup('na');"></p> -->
+	<!-- <p align="center"><input type="text" value="90.0" style="width: 75px;"><input type="button" value="Rotate" style="width: 75px;" onClick="popup.show('na');"></p> -->
 	<p align="center"><input type="button" value="Restore" style="width: 150px;" onClick="restoreOriginalImage();"></p>
 	<p align="center"><input type="button" value="Save .PNG" style="width: 150px;" onClick="savePNG();"></p>
 	</div>
@@ -204,7 +205,7 @@ alt="tumblr visitor stats"></a></div></noscript>
 	</p>
 	-->
 	<p>&nbsp;</p>
-	<p align="center"><!-- <input type="button" value="Load Pasted Image" onClick="loadPastedFileInWindow();">&nbsp;--><input type="button" value="Cancel" onClick="closePopup('loadNewImage');"></p>
+	<p align="center"><!-- <input type="button" value="Load Pasted Image" onClick="loadPastedFileInWindow();">&nbsp;--><input type="button" value="Cancel" onClick="popup.close('loadNewImage');"></p>
 	</div>
 
 	<div id="axesList" class="popup" style="width: 400px;">
@@ -220,7 +221,7 @@ alt="tumblr visitor stats"></a></div></noscript>
 	</table>
 	</center>
 	<p>&nbsp;</p>
-	<p align="center"><input type="button" value="Align Axes" onClick="initiatePlotAlignment();">&nbsp;<input type="button" value="Cancel" onClick="closePopup('axesList');"></p>
+	<p align="center"><input type="button" value="Align Axes" onClick="initiatePlotAlignment();">&nbsp;<input type="button" value="Cancel" onClick="popup.close('axesList');"></p>
 	</div>
 
 	<div id="xyAlignment" class="popup" style="width: 400px;">
@@ -293,10 +294,10 @@ alt="tumblr visitor stats"></a></div></noscript>
 	<p align="center" class="popupheading">Acquired Data</p>
 	<p align="center">
 		Sort by:
-		<select id="dataSortOption" onChange="updateCSVSortingControls();">
+		<select id="dataSortOption" onChange="CSVExport.updateSortingControls();">
 		</select> 
 		Order: 
-		<select id="dataSortOrder" onChange="reSortCSV();">
+		<select id="dataSortOrder" onChange="CSVExport.reSort();">
 			<option value="ascending">Ascending</option>
 			<option value="descending">Descending</option>
 		</select>
@@ -306,16 +307,16 @@ alt="tumblr visitor stats"></a></div></noscript>
 		Date Formattng: 
 		<span id="csvDateFormattingX">X <input type="label" size="15" id="xDateFormat" value="yyyy/mm/dd" /> </span>
 		<span id="csvDateFormattingY">Y <input type="label" size="15" id="yDateFormat" value="yyyy/mm/dd" /> </span>
-		<input type="button" value="Format" onClick="reSortCSV();"/>
+		<input type="button" value="Format" onClick="CSVExport.reSort();"/>
 		</span>
 	</p>
 	<p align="center">Variables: <span id="dataVariables">x, y</span></p>
 	<p align="center"><textarea id="tarea" style="width: 480px; height: 250px;"></textarea></p>
 	<p align="center">Copy and Paste to a file with .CSV extension or graph in <a href="http://plot.ly" target="plotlyWebsite">Plotly</a>*</p>
 	<p align="center">
-		<input type="button" value="Select All" onClick="selectAllCSVData();"/>
-		<input type="button" value="Graph in Plotly*" onClick="exportToPlotly()"/>
-		<input type="button" id="closeCSVbtn" value="Close" onClick="closePopup('csvWindow');"/>
+		<input type="button" value="Select All" onClick="CSVExport.selectAll();"/>
+		<input type="button" value="Graph in Plotly*" onClick="plotly.exportData()"/>
+		<input type="button" id="closeCSVbtn" value="Close" onClick="popup.close('csvWindow');"/>
 	</p>
 	<p align="center" class="footnote">*Plotly is a secure data analysis and graphing site with data sharing and access controls.</p>
 	<p align="center" class="footnote">Visit <a href="http://plot.ly" target="plotlyWebsite">http://plot.ly</a> for details.</p>
@@ -327,7 +328,7 @@ alt="tumblr visitor stats"></a></div></noscript>
 	<p align="center"><img src="images/xyaxes.png" /></p>
 	<p align="center">Click four known points on the axes in the <font color="red">order shown in red</font>. Two on the X axis (X1, X2) and two on the Y axis (Y1, Y2).</p>
 	<p>&nbsp;</p>
-	<p align="center"><input type="button" value="Proceed" onClick="closePopup('xyAxesInfo')"></p>
+	<p align="center"><input type="button" value="Proceed" onClick="popup.close('xyAxesInfo')"></p>
 	</div>
 
 	<div id="mapAxesInfo" class="popup" style="width: 350px;"> 
@@ -336,7 +337,7 @@ alt="tumblr visitor stats"></a></div></noscript>
 	<p align="center"><img src="images/map.png" /></p>
 	<p align="center">Click on the two ends of the scale bar on the map.</p>
 	<p>&nbsp;</p>
-	<p align="center"><input type="button" value="Proceed" onClick="closePopup('mapAxesInfo')"></p>
+	<p align="center"><input type="button" value="Proceed" onClick="popup.close('mapAxesInfo')"></p>
 	</div>
 
 	<div id="polarAxesInfo" class="popup" style="width: 350px;">
@@ -345,7 +346,7 @@ alt="tumblr visitor stats"></a></div></noscript>
 	<p align="center"><img src="images/polaraxes.png" /></p>
 	<p align="center">Click on the center, followed by two known points.</p>
 	<p>&nbsp;</p>
-	<p align="center"><input type="button" value="Proceed" onClick="closePopup('polarAxesInfo')"></p>
+	<p align="center"><input type="button" value="Proceed" onClick="popup.close('polarAxesInfo')"></p>
 	</div>
 
 	<div id="ternaryAxesInfo" class="popup" style="width: 350px;">
@@ -354,7 +355,7 @@ alt="tumblr visitor stats"></a></div></noscript>
 	<p align="center"><img src="images/ternaryaxes.png" /></p>
 	<p align="center">Click on the three corners in the order shown above.</p>
 	<p>&nbsp;</p>
-	<p align="center"><input type="button" value="Proceed" onClick="closePopup('ternaryAxesInfo')"></p>
+	<p align="center"><input type="button" value="Proceed" onClick="popup.close('ternaryAxesInfo')"></p>
 	</div>
 
 	<div id="colorPickerFG" class="popup" style="width:400px;">
@@ -362,9 +363,9 @@ alt="tumblr visitor stats"></a></div></noscript>
 	<p align="center">&nbsp;</p>
 	<p align="center">R:<input type="text" value="0" id="color_red_fg" size="3">&nbsp;
 	G:<input type="text" id="color_green_fg" value="0" size="3">&nbsp; B:<input type="text" id="color_blue_fg" value="0" size="3">
-	 <input type="button" value="Color Picker" onClick="closePopup('colorPickerFG');pickColor();"></p>
+	 <input type="button" value="Color Picker" onClick="popup.close('colorPickerFG');pickColor();"></p>
 	<p align="center">&nbsp;</p>
-	<p align="center"><input type="button" value="Done" onClick="assignColor('fg');closePopup('colorPickerFG');"></p>
+	<p align="center"><input type="button" value="Done" onClick="assignColor('fg');popup.close('colorPickerFG');"></p>
 	</div>
 
 	<div id="colorPickerBG" class="popup" style="width:400px;">
@@ -372,9 +373,9 @@ alt="tumblr visitor stats"></a></div></noscript>
 	<p align="center">&nbsp;</p>
 	<p align="center">R:<input type="text" value="255" id="color_red_bg" size="3">&nbsp;
 	G:<input type="text" id="color_green_bg" value="255" size="3">&nbsp; B:<input type="text" id="color_blue_bg" value="255" size="3">
-	 <input type="button" value="Color Picker" onClick="closePopup('colorPickerBG');pickColor();"></p>
+	 <input type="button" value="Color Picker" onClick="popup.close('colorPickerBG');pickColor();"></p>
 	<p align="center">&nbsp;</p>
-	<p align="center"><input type="button" value="Done" onClick="assignColor('bg');closePopup('colorPickerBG');"></p>
+	<p align="center"><input type="button" value="Done" onClick="assignColor('bg');popup.close('colorPickerBG');"></p>
 	</div>
 
 	<div id="alignAxes" class="popup" style="width:300px;">
@@ -382,7 +383,7 @@ alt="tumblr visitor stats"></a></div></noscript>
 	<p align="center">&nbsp;</p>
 	<p align="center">Please align the axes before acquiring data.</p>
 	<p align="center">&nbsp;</p>
-	<p align="center"><input type="button" value="OK" onClick="closePopup('alignAxes');"></p>
+	<p align="center"><input type="button" value="OK" onClick="popup.close('alignAxes');"></p>
 	</div>
 
 	<div id="xyAxesOnly" class="popup" style="width:300px;">
@@ -390,7 +391,7 @@ alt="tumblr visitor stats"></a></div></noscript>
 	<p align="center">&nbsp;</p>
 	<p align="center">This algorithm is applicable to XY plots only. Other plots may be supported in future versions.</p>
 	<p align="center">&nbsp;</p>
-	<p align="center"><input type="button" value="OK" onClick="closePopup('xyAxesOnly'); showPopup('testImageWindow');"></p>
+	<p align="center"><input type="button" value="OK" onClick="popup.close('xyAxesOnly'); popup.show('testImageWindow');"></p>
 	</div>
 
 	<div id="inputError" class="popup" style="width:300px;">
@@ -398,7 +399,7 @@ alt="tumblr visitor stats"></a></div></noscript>
 	<p align="center">&nbsp;</p>
 	<p align="center">One of the values entered were invalid. Please check the values entered for axes calibration.</p>
 	<p align="center">&nbsp;</p>
-	<p align="center"><input type="button" value="OK" onClick="closePopup('inputError'); showPopup('xyAlignment');"></p>
+	<p align="center"><input type="button" value="OK" onClick="popup.close('inputError'); popup.show('xyAlignment');"></p>
 	</div>
 
 
@@ -415,7 +416,7 @@ alt="tumblr visitor stats"></a></div></noscript>
 	<p align="center">Copyright 2010-2013 Ankit Rohatgi &lt;ankitrohatgi@hotmail.com&gt;</p>
 	<p align="center"><a href="http://arohatgi.info/WebPlotDigitizer" target="website">http://arohatgi.info/WebPlotDigitizer</a></p>
 	<p>&nbsp;</p>
-	<p align="center"><input type="button" value="Close" onClick="closePopup('helpWindow');"></p>
+	<p align="center"><input type="button" value="Close" onClick="popup.close('helpWindow');"></p>
 	</div>
 
 	<div id="testImageWindow" class="popup">
@@ -446,7 +447,7 @@ alt="tumblr visitor stats"></a></div></noscript>
 	</td>
 	</tr>
 	</table>
-	<p align="center"><input type="button" value="Get Points" onClick="scanPlot();">&nbsp;&nbsp;<input type="button" value="Cancel" onClick="closePopup('testImageWindow');"></p>
+	<p align="center"><input type="button" value="Get Points" onClick="scanPlot();">&nbsp;&nbsp;<input type="button" value="Cancel" onClick="popup.close('testImageWindow');"></p>
 	</div>
 	
 	<div id="wait" style="position:absolute; top:0px; right: 30px; border: thin white solid; background: black; color: white; width:200px; margin: 0px 0px; padding: 0px 0px; visibility:hidden;">

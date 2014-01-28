@@ -108,7 +108,7 @@ function initiatePlotAlignment() {
   mapEl = document.getElementById('r_map');
   imageEl = document.getElementById('r_image');
   
-  closePopup('axesList');
+  popup.close('axesList');
   
   if (xyEl.checked === true)
     setAxes('XY');
@@ -129,24 +129,24 @@ function initiatePlotAlignment() {
 function setAxes(ax_mode) {
 
 	plotType = ax_mode;
-	clearSidebar();
-	removeAllMouseEvents();
-	addMouseEvent('click',pickCorners,true);
+	sidebar.clear();
+	canvasMouseEvents.removeAll();
+	canvasMouseEvents.add('click',pickCorners,true);
 	axesN = 0;
 	xyAxes = [];
 
 	if ((plotType === 'XY')||(plotType === 'bar')) {
 		axesNmax = 4;
-		showPopup('xyAxesInfo');
+		popup.show('xyAxesInfo');
 	} else if (plotType === 'polar') {
 		axesNmax = 3;
-		showPopup('polarAxesInfo');
+		popup.show('polarAxesInfo');
 	} else if (plotType === 'ternary') {
 		axesNmax = 3;
-		showPopup('ternaryAxesInfo');
+		popup.show('ternaryAxesInfo');
 	} else if (plotType === 'map') {
 		axesNmax = 2;
-		showPopup('mapAxesInfo');
+		popup.show('mapAxesInfo');
 	} else if (plotType === 'image') {
 		axesNmax = 0;
 		alignAxes();
@@ -172,21 +172,21 @@ function pickCorners(ev) {
 		dataCtx.arc(xi,yi,3,0,2.0*Math.PI,true);
 		dataCtx.fill();
 		
-		updateZoom(ev);
+		zoomView.updateZoom(ev);
 
 		if (axesN === axesNmax) {
 				axesPicked = 1;
 				
-				removeMouseEvent('click',pickCorners,true);
+				canvasMouseEvents.remove('click',pickCorners,true);
 				
 				if (plotType === 'XY') {
-					showPopup('xyAlignment');
+					popup.show('xyAlignment');
 				} else if (plotType === 'polar') {
-					showPopup('polarAlignment');
+					popup.show('polarAlignment');
 				} else if (plotType === 'ternary') {
-					showPopup('ternaryAlignment');
+					popup.show('ternaryAlignment');
 				} else if (plotType === 'map') {
-					showPopup('mapAlignment');
+					popup.show('mapAlignment');
 				}
 
 				dataCanvas.width = dataCanvas.width;
@@ -217,8 +217,8 @@ function alignAxes() {
 
 		var raiseError = function(parsedValue) {
 				if(!inputParser.isValid || parsedValue == null) {
-					closePopup('xyAlignment');
-					showPopup('inputError');
+					popup.close('xyAlignment');
+					popup.show('inputError');
 					return null;
 				} 
 				return parsedValue;
@@ -264,8 +264,8 @@ function alignAxes() {
 
 		// Date checks:
 		if ((x1Date !== x2Date) || (y1Date !== y2Date)) {
-			closePopup('xyAlignment');
-			showPopup('inputError');
+			popup.close('xyAlignment');
+			popup.show('inputError');
 			return;
 		}
 
@@ -283,7 +283,7 @@ function alignAxes() {
 			axesAlignmentData[7] = false;
 		}
 
-	    closePopup('xyAlignment');
+	    popup.close('xyAlignment');
     } else if (plotType == 'polar') {
 	    var r1El = document.getElementById('rpoint1');
 	    var theta1El = document.getElementById('thetapoint1');
@@ -310,7 +310,7 @@ function alignAxes() {
 	        axesAlignmentData[5] = false;
 	
 	
-	    closePopup('polarAlignment');
+	    popup.close('polarAlignment');
 
     } else if (plotType === 'ternary') {
 
@@ -328,7 +328,7 @@ function alignAxes() {
 	    else
 	      axesAlignmentData[1] = false;
 		
-	    closePopup('ternaryAlignment');
+	    popup.close('ternaryAlignment');
 
     } else if (plotType === 'map') {
 
@@ -336,7 +336,7 @@ function alignAxes() {
 	
 	    axesAlignmentData[0] = parseFloat(scaleLength.value);
 	
-	    closePopup('mapAlignment');
+	    popup.close('mapAlignment');
 
     } else if (plotType === 'image') {
 
@@ -431,9 +431,9 @@ var binaryData;
 function colorPickerWindow(cmode) {
     colorPickerMode = cmode;
     if(cmode === 'fg') {    
-      showPopup('colorPickerFG');
+      popup.show('colorPickerFG');
     } else if(cmode === 'bg') {
-       showPopup('colorPickerBG');
+       popup.show('colorPickerBG');
     }
 }
 
@@ -442,8 +442,8 @@ function colorPickerWindow(cmode) {
  */
 function pickColor() {
 	//colorPickerMode = cmode;
-	removeAllMouseEvents();
-	addMouseEvent('click',colorPicker,true);
+	canvasMouseEvents.removeAll();
+	canvasMouseEvents.add('click',colorPicker,true);
 }
 
 /**
@@ -467,7 +467,7 @@ function colorPicker(ev) {
 		var greenEl = document.getElementById('color_green');
 		var blueEl = document.getElementById('color_blue');
 				
-		removeMouseEvent('click',colorPicker,true);
+		canvasMouseEvents.remove('click',colorPicker,true);
 		
 		if(colorPickerMode === 'fg') {
 			assignColor('fg',PickedColor);
@@ -475,7 +475,7 @@ function colorPicker(ev) {
 			redEl = document.getElementById('color_red_fg');
 			greenEl = document.getElementById('color_green_fg');
 			blueEl = document.getElementById('color_blue_fg');
-			showPopup('colorPickerFG');
+			popup.show('colorPickerFG');
 
 		} else if (colorPickerMode === 'bg') {
 
@@ -484,7 +484,7 @@ function colorPicker(ev) {
 			redEl = document.getElementById('color_red_bg');
 			greenEl = document.getElementById('color_green_bg');
 			blueEl = document.getElementById('color_blue_bg');
-			showPopup('colorPickerBG');
+			popup.show('colorPickerBG');
 		}
 		
 		redEl.value = PickedColor[0];
@@ -535,10 +535,10 @@ function assignColor(color_mode, color_value) {
  */ 
 function boxPaint() {
 
-	removeAllMouseEvents();
-	addMouseEvent('mousedown',boxPaintMousedown,true);
-	addMouseEvent('mouseup',boxPaintMouseup,true);
-	addMouseEvent('mousemove',boxPaintMousedrag,true);
+	canvasMouseEvents.removeAll();
+	canvasMouseEvents.add('mousedown',boxPaintMousedown,true);
+	canvasMouseEvents.add('mouseup',boxPaintMouseup,true);
+	canvasMouseEvents.add('mousemove',boxPaintMousedrag,true);
 
 }
 
@@ -594,11 +594,11 @@ function boxPaintMousedrag(ev) {
  */
 function penPaint() {
 
-	removeAllMouseEvents();
-	showToolbar('paintToolbar');
-	addMouseEvent('mousedown',penPaintMousedown,true);
-	addMouseEvent('mouseup',penPaintMouseup,true);
-	addMouseEvent('mousemove',penPaintMousedrag,true);
+	canvasMouseEvents.removeAll();
+	toolbar.show('paintToolbar');
+	canvasMouseEvents.add('mousedown',penPaintMousedown,true);
+	canvasMouseEvents.add('mouseup',penPaintMouseup,true);
+	canvasMouseEvents.add('mousemove',penPaintMousedrag,true);
 }
 
 /**
@@ -655,11 +655,11 @@ function penPaintMousedrag(ev) {
  */
 function eraser() {
 
-	removeAllMouseEvents();
-	showToolbar('paintToolbar');
-	addMouseEvent('mousedown',eraserMousedown,true);
-	addMouseEvent('mouseup',eraserMouseup,true);
-	addMouseEvent('mousemove',eraserMousedrag,true);
+	canvasMouseEvents.removeAll();
+	toolbar.show('paintToolbar');
+	canvasMouseEvents.add('mousedown',eraserMousedown,true);
+	canvasMouseEvents.add('mouseup',eraserMouseup,true);
+	canvasMouseEvents.add('mousemove',eraserMousedrag,true);
 	dataCtx.globalCompositeOperation = "destination-out";
 }
 
@@ -771,7 +771,7 @@ function saveTest() {
  */
 function launchTestWindow() {
   processingNote(true);
-  setTimeout("updateTestWindow();showPopup('testImageWindow');",100);
+  setTimeout("updateTestWindow();popup.show('testImageWindow');",100);
 }
 
 /**
@@ -797,7 +797,7 @@ function scanPlot() {
 	
 	cdistance = parseInt(colorDistanceEl.value);
   
-    closePopup("testImageWindow");
+    popup.close("testImageWindow");
     
     binaryData = selectFromMarkedRegion(colmode, chosenColor, cdistance);
 
@@ -1109,7 +1109,7 @@ function loadNewFile() {
     var fileInfo = fileLoadElem.files[0];
     fileLoader(fileInfo);
   }
-  closePopup('loadNewImage');
+  popup.close('loadNewImage');
 }
 
 /*
@@ -1566,223 +1566,232 @@ var dataToPixelxy;
 
 */
 
-/* Global variables to store generated data. Global stuff will be removed only in 3.0 :( */
 
-var rawCSVData,
-	displayData;
+var CSVExport = (function () {
 
-/*
- * Generate CSV.
- */
- function generateCSV() {
+    var rawCSVData,
+        displayData;
 
-    if((axesPicked === 1) && (pointsPicked >= 1)) {
-        showPopup('csvWindow');
-			
-		rawCSVData = pixelToData(xyData, pointsPicked, plotType);
+    // Generate CSV.
+    function generateCSV() {
 
-		var dataSortOrder = document.getElementById('dataSortOrder'),
-			dataSortOption = document.getElementById('dataSortOption'),
-			variableNames = document.getElementById('dataVariables');
+        if((axesPicked === 1) && (pointsPicked >= 1)) {
+            popup.show('csvWindow');
+                
+            rawCSVData = pixelToData(xyData, pointsPicked, plotType);
 
-		dataSortOption.innerHTML = '<option value="raw">Raw Output</option>';
+            var dataSortOrder = document.getElementById('dataSortOrder'),
+                dataSortOption = document.getElementById('dataSortOption'),
+                variableNames = document.getElementById('dataVariables');
 
-		if( (plotType === 'XY') || (plotType === 'map') || (plotType === 'image')) {
+            dataSortOption.innerHTML = '<option value="raw">Raw Output</option>';
 
-			dataSortOption.innerHTML += '<option value="0">x</option>';
-			dataSortOption.innerHTML += '<option value="1">y</option>';
-			variableNames.innerHTML = 'x, y';
+            if( (plotType === 'XY') || (plotType === 'map') || (plotType === 'image')) {
 
-		} else if ( (plotType === 'ternary') ) {
+                dataSortOption.innerHTML += '<option value="0">x</option>';
+                dataSortOption.innerHTML += '<option value="1">y</option>';
+                variableNames.innerHTML = 'x, y';
 
-			dataSortOption.innerHTML += '<option value="0">a</option>';
-			dataSortOption.innerHTML += '<option value="1">b</option>';
-			dataSortOption.innerHTML += '<option value="2">c</option>';
-			variableNames.innerHTML = 'a, b, c';
+            } else if ( (plotType === 'ternary') ) {
 
-		} else if ( (plotType === 'polar') ) {
+                dataSortOption.innerHTML += '<option value="0">a</option>';
+                dataSortOption.innerHTML += '<option value="1">b</option>';
+                dataSortOption.innerHTML += '<option value="2">c</option>';
+                variableNames.innerHTML = 'a, b, c';
 
-			dataSortOption.innerHTML += '<option value="0">r</option>';
-			dataSortOption.innerHTML += '<option value="1">Θ</option>';
-			variableNames.innerHTML = 'r, Θ';
-		}
+            } else if ( (plotType === 'polar') ) {
 
-		dataSortOption.innerHTML += '<option value="NearestNeighbor">Nearest Neighbor</option>';
+                dataSortOption.innerHTML += '<option value="0">r</option>';
+                dataSortOption.innerHTML += '<option value="1">Θ</option>';
+                variableNames.innerHTML = 'r, Θ';
+            }
 
-		updateCSVSortingControls();
+            dataSortOption.innerHTML += '<option value="NearestNeighbor">Nearest Neighbor</option>';
 
-		var dateFormattingEl = document.getElementById('csvDateFormatting');
-		if(plotType === 'XY') {
-			if((axesAlignmentData[6] === true || axesAlignmentData[7] === true)) {
-				dateFormattingEl.style.display = 'inline-block';
+            updateCSVSortingControls();
 
-				var xDateFormattingEl = document.getElementById('csvDateFormattingX');
-				var yDateFormattingEl = document.getElementById('csvDateFormattingY');
-				var xDateFormatEl = document.getElementById('xDateFormat');
-				var yDateFormatEl = document.getElementById('yDateFormat');
+            var dateFormattingEl = document.getElementById('csvDateFormatting');
+            if(plotType === 'XY') {
+                if((axesAlignmentData[6] === true || axesAlignmentData[7] === true)) {
+                    dateFormattingEl.style.display = 'inline-block';
 
-				if(axesAlignmentData[6]) {
-					xDateFormattingEl.style.display = 'inline-block';
-					xDateFormatEl.value = axesAlignmentData[8];
-				} else {	
-					xDateFormattingEl.style.display = 'none';
-				}
+                    var xDateFormattingEl = document.getElementById('csvDateFormattingX');
+                    var yDateFormattingEl = document.getElementById('csvDateFormattingY');
+                    var xDateFormatEl = document.getElementById('xDateFormat');
+                    var yDateFormatEl = document.getElementById('yDateFormat');
 
-				if(axesAlignmentData[7]) {
-					yDateFormattingEl.style.display = 'inline-block';
-					yDateFormat.value = axesAlignmentData[9];
-				} else {	
-					yDateFormattingEl.style.display = 'none';
-				}
-			} else {
-				dateFormattingEl.style.display = 'none';
-			}
-		} else {
-			dateFormattingEl.style.display = 'none';
-		}
-		
-		generateCSVTextFromData(rawCSVData);
+                    if(axesAlignmentData[6]) {
+                        xDateFormattingEl.style.display = 'inline-block';
+                        xDateFormatEl.value = axesAlignmentData[8];
+                    } else {	
+                        xDateFormattingEl.style.display = 'none';
+                    }
+
+                    if(axesAlignmentData[7]) {
+                        yDateFormattingEl.style.display = 'inline-block';
+                        yDateFormat.value = axesAlignmentData[9];
+                    } else {	
+                        yDateFormattingEl.style.display = 'none';
+                    }
+                } else {
+                    dateFormattingEl.style.display = 'none';
+                }
+            } else {
+                dateFormattingEl.style.display = 'none';
+            }
+            
+            generateCSVTextFromData(rawCSVData);
+        }
+     }
+
+     /**
+      * Select all data in text area.
+      */
+     function selectAllCSVData() {
+        var tarea = document.getElementById('tarea');
+        tarea.focus();
+        tarea.select();
+     }
+
+    /**
+     * Update CSV sorting controls.
+     */
+    function updateCSVSortingControls() {
+        var dataSortOption = document.getElementById('dataSortOption'),
+            dataSortOrder = document.getElementById('dataSortOrder');
+        
+        if(dataSortOption.value === 'NearestNeighbor' || dataSortOption.value === 'raw') {
+            dataSortOrder.setAttribute('disabled', true);	
+        } else {
+            dataSortOrder.removeAttribute('disabled');
+        }
+
+        reSortCSV();
     }
- }
 
- /**
-  * Select all data in text area.
-  */
- function selectAllCSVData() {
- 	var tarea = document.getElementById('tarea');
-	tarea.focus();
-	tarea.select();
- }
+    /**
+     * Dump data to the CSV text area
+     */
+    function generateCSVTextFromData(retData) {
 
-/**
- * Update CSV sorting controls.
- */
-function updateCSVSortingControls() {
-	var dataSortOption = document.getElementById('dataSortOption'),
-		dataSortOrder = document.getElementById('dataSortOrder');
-	
-	if(dataSortOption.value === 'NearestNeighbor' || dataSortOption.value === 'raw') {
-		dataSortOrder.setAttribute('disabled', true);	
-	} else {
-		dataSortOrder.removeAttribute('disabled');
-	}
+        var tarea = document.getElementById('tarea');
+            tarea.value = '';
 
-	reSortCSV();
-}
+        if((plotType === 'XY') || (plotType === 'map') || (plotType === 'polar') || (plotType === 'image')) {
+            for(var ii = 0; ii < pointsPicked; ii++) {
+                tarea.value = tarea.value + formatVariableInCSV(retData[ii][0], 'X') + ',' + formatVariableInCSV(retData[ii][1], 'Y') + '\n';
+            }
+        } else if((plotType === 'ternary')) {
+            for(var ii = 0; ii < pointsPicked; ii++) {
+                tarea.value = tarea.value + retData[ii][0] + ',' + retData[ii][1] + ',' + retData[ii][2] + '\n';
+            }
+        }
 
-/**
- * Dump data to the CSV text area
- */
-function generateCSVTextFromData(retData) {
+        displayData = retData;
+    }
 
-	var tarea = document.getElementById('tarea');
-		tarea.value = '';
+    /**
+     * Format variable 
+     */
+    function formatVariableInCSV(val, variableType) {
+        if(plotType === 'XY') {
+            if(variableType === 'X' && axesAlignmentData[6]) {
+                var xDateFormatEl = document.getElementById('xDateFormat');
+                return dateConverter.formatDate(dateConverter.fromJD(val), xDateFormatEl.value);			
+            }
+            if(variableType === 'Y' && axesAlignmentData[7]) {
+                var yDateFormatEl = document.getElementById('yDateFormat');
+                return dateConverter.formatDate(dateConverter.fromJD(val), yDateFormatEl.value);
+            }
+        }
+        return val;
+    }
 
-	if((plotType === 'XY') || (plotType === 'map') || (plotType === 'polar') || (plotType === 'image')) {
-		for(var ii = 0; ii < pointsPicked; ii++) {
-			tarea.value = tarea.value + formatVariableInCSV(retData[ii][0], 'X') + ',' + formatVariableInCSV(retData[ii][1], 'Y') + '\n';
-		}
-	} else if((plotType === 'ternary')) {
-		for(var ii = 0; ii < pointsPicked; ii++) {
-			tarea.value = tarea.value + retData[ii][0] + ',' + retData[ii][1] + ',' + retData[ii][2] + '\n';
-		}
-	}
+    /**
+     * Resort data
+     */
+    function reSortCSV() {
+        var dataSortOption = document.getElementById('dataSortOption'),
+            dataSortOrder = document.getElementById('dataSortOrder'),
+            
+            isAscending = dataSortOrder.value === 'ascending',
+            isRaw = dataSortOption.value == 'raw',
+            isConnectivity = dataSortOption.value === 'NearestNeighbor',
+            dataIndex,
+            sortedData = rawCSVData.slice(0),
+            plotDim = (plotType === 'ternary') ? 3 : 2;
 
-	displayData = retData;
-}
+        if(isRaw) {
+            generateCSVTextFromData(sortedData);
+            return;
+        }
 
-/**
- * Format variable 
- */
-function formatVariableInCSV(val, variableType) {
-	if(plotType === 'XY') {
-		if(variableType === 'X' && axesAlignmentData[6]) {
-			var xDateFormatEl = document.getElementById('xDateFormat');
-			return dateConverter.formatDate(dateConverter.fromJD(val), xDateFormatEl.value);			
-		}
-		if(variableType === 'Y' && axesAlignmentData[7]) {
-			var yDateFormatEl = document.getElementById('yDateFormat');
-			return dateConverter.formatDate(dateConverter.fromJD(val), yDateFormatEl.value);
-		}
-	}
-	return val;
-}
+        if(!isConnectivity) {
+            dataIndex = parseInt(dataSortOption.value, 10);
+            if((dataIndex < 0) || (dataIndex >= 3)) return;
 
-/**
- * Resort data
- */
-function reSortCSV() {
-	var dataSortOption = document.getElementById('dataSortOption'),
-		dataSortOrder = document.getElementById('dataSortOrder'),
-		
-		isAscending = dataSortOrder.value === 'ascending',
-		isRaw = dataSortOption.value == 'raw',
-		isConnectivity = dataSortOption.value === 'NearestNeighbor',
-		dataIndex,
-		sortedData = rawCSVData.slice(0),
-		plotDim = (plotType === 'ternary') ? 3 : 2;
+            sortedData.sort(function(a,b) {
+                if(a[dataIndex] > b[dataIndex]) {
+                    return isAscending ? 1 : -1;
+                } else if (a[dataIndex] < b[dataIndex]) {
+                    return isAscending ? -1 : 1;
+                }
+                return 0;			
+            });
 
-	if(isRaw) {
-		generateCSVTextFromData(sortedData);
-		return;
-	}
+            generateCSVTextFromData(sortedData);
+            return;
+        }
 
-	if(!isConnectivity) {
-		dataIndex = parseInt(dataSortOption.value, 10);
-		if((dataIndex < 0) || (dataIndex >= 3)) return;
+        if(isConnectivity) {
+            var mindist, compdist, minindex,
+                swapVariable = [1.0, 1.0, 1.0];
 
-		sortedData.sort(function(a,b) {
-			if(a[dataIndex] > b[dataIndex]) {
-				return isAscending ? 1 : -1;
-			} else if (a[dataIndex] < b[dataIndex]) {
-				return isAscending ? -1 : 1;
-			}
-			return 0;			
-		});
+            for(var ii = 0; ii < pointsPicked-1; ii++) {
+                minindex = -1;
 
-		generateCSVTextFromData(sortedData);
-		return;
-	}
+                for(var jj = ii + 1; jj < pointsPicked; jj++) {
+                    compdist = (sortedData[ii][0] - sortedData[jj][0])*(sortedData[ii][0] - sortedData[jj][0]) + 
+                                (sortedData[ii][1] - sortedData[jj][1])*(sortedData[ii][1] - sortedData[jj][1]);
+                    if(plotDim === 3) {
+                        compdist += (sortedData[ii][2] - sortedData[jj][2])*(sortedData[ii][2] - sortedData[jj][2]);
+                    }
+                    if((compdist < mindist) || (minindex === -1)) {
+                        mindist = compdist;
+                        minindex = jj;
+                    }
+                }
 
-	if(isConnectivity) {
-		var mindist, compdist, minindex,
-			swapVariable = [1.0, 1.0, 1.0];
+                swapVariable[0] = sortedData[minindex][0];
+                sortedData[minindex][0] = sortedData[ii+1][0];
+                sortedData[ii+1][0] = swapVariable[0];
 
-		for(var ii = 0; ii < pointsPicked-1; ii++) {
-			minindex = -1;
+                swapVariable[1] = sortedData[minindex][1];
+                sortedData[minindex][1] = sortedData[ii+1][1];
+                sortedData[ii+1][1] = swapVariable[1];
 
-			for(var jj = ii + 1; jj < pointsPicked; jj++) {
-				compdist = (sortedData[ii][0] - sortedData[jj][0])*(sortedData[ii][0] - sortedData[jj][0]) + 
-							(sortedData[ii][1] - sortedData[jj][1])*(sortedData[ii][1] - sortedData[jj][1]);
-				if(plotDim === 3) {
-					compdist += (sortedData[ii][2] - sortedData[jj][2])*(sortedData[ii][2] - sortedData[jj][2]);
-				}
-				if((compdist < mindist) || (minindex === -1)) {
-					mindist = compdist;
-					minindex = jj;
-				}
-			}
+                if(plotDim === 3) {
+                    swapVariable[2] = sortedData[minindex][2];
+                    sortedData[minindex][2] = sortedData[ii+1][2];
+                    sortedData[ii+1][2] = swapVariable[2];
+                }
+            }
 
-			swapVariable[0] = sortedData[minindex][0];
-			sortedData[minindex][0] = sortedData[ii+1][0];
-			sortedData[ii+1][0] = swapVariable[0];
+            generateCSVTextFromData(sortedData);
+            return;
+        }
 
-			swapVariable[1] = sortedData[minindex][1];
-			sortedData[minindex][1] = sortedData[ii+1][1];
-			sortedData[ii+1][1] = swapVariable[1];
+    }
 
-			if(plotDim === 3) {
-				swapVariable[2] = sortedData[minindex][2];
-				sortedData[minindex][2] = sortedData[ii+1][2];
-				sortedData[ii+1][2] = swapVariable[2];
-			}
-		}
+    return {
+        generate: generateCSV,
+        reSort: reSortCSV,
+        updateSortingControls: updateCSVSortingControls,
+        selectAll: selectAllCSVData,
+        displayData: displayData
+    };
 
-		generateCSVTextFromData(sortedData);
-		return;
-	}
-
-}
+})();
 
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
@@ -2043,10 +2052,10 @@ function vflip() {
 function cropPlot() {// crop image
 
 	redrawCanvas();
-	removeAllMouseEvents();
-	addMouseEvent('mousedown',cropMousedown,true);
-	addMouseEvent('mouseup',cropMouseup,true);
-	addMouseEvent('mousemove',cropMousemove,true);
+	canvasMouseEvents.removeAll();
+	canvasMouseEvents.add('mousedown',cropMousedown,true);
+	canvasMouseEvents.add('mouseup',cropMouseup,true);
+	canvasMouseEvents.add('mousemove',cropMousemove,true);
 }
 
 /**
@@ -2528,18 +2537,11 @@ function init() {// This is run when the page loads.
 	topCanvas = document.getElementById('topCanvas');
 	
 	var canvasDiv = document.getElementById('canvasDiv');
-		
-	zCanvas = document.getElementById('zoomCanvas');
-	zctx = zCanvas.getContext('2d');
-
-	tempCanvas = document.createElement('canvas');
-	tctx = tempCanvas.getContext('2d');
-	tempCanvas.width = zoom_dx;
-	tempCanvas.height = zoom_dy;
+	
 
 	// Position to paste new plots at
-	cx0 = zoom_dx/2;
-	cy0 = zoom_dy/2;
+	cx0 = zoomView.zoom_dx/2;
+	cy0 = zoomView.zoom_dy/2;
 
 	// Set canvas dimensions
 	canvasWidth = parseFloat(canvasDiv.offsetWidth);
@@ -2563,8 +2565,8 @@ function init() {// This is run when the page loads.
 
 
 	// Needed to fix the zoom problem.
-	cheight = canvasHeight - zoom_dy;
-	cwidth = canvasWidth - zoom_dx;
+	cheight = canvasHeight - zoomView.zoom_dy;
+	cwidth = canvasWidth - zoomView.zoom_dx;
 
 	caspectratio = cheight/cwidth;
 
@@ -2574,9 +2576,6 @@ function init() {// This is run when the page loads.
 	hoverCtx = hoverCanvas.getContext('2d');
 	topCtx = topCanvas.getContext('2d');
 	
-	// get the coordinates panel
-	mPosn = document.getElementById('mousePosition');
-
 	// Set canvas default state
 	img = document.createElement('img');
 	img.onload = function() { loadImage(img); originalImage = img; };
@@ -2590,10 +2589,10 @@ function init() {// This is run when the page loads.
 		
 	// specify mouseover function
 	//canvas.addEventListener('click',clickHandler,false);
-	topCanvas.addEventListener('mousemove',updateZoomEventHandler,false);
+	topCanvas.addEventListener('mousemove', zoomView.updateZoomEventHandler, false);
 	
 	// Add support for extended crosshair
-    document.body.addEventListener('keydown', toggleCrosshair, false);
+    document.body.addEventListener('keydown', zoomView.toggleCrosshair, false);
 
 	// Image dropping capabilities
 	topCanvas.addEventListener('dragover',function(event) {event.preventDefault();}, true);
@@ -2605,7 +2604,7 @@ function init() {// This is run when the page loads.
 	// Set defaults everywhere.
 	setDefaultState();
 	
-	initZoom();
+	zoomView.initZoom();
 	
 	originalScreen = getCanvasData();
 	activeScreen = originalScreen;
@@ -2623,7 +2622,7 @@ function setDefaultState() {
 	xyData = [];
 	axesAlignmentData = [];
 	clearPoints();
-	clearSidebar();
+	sidebar.clear();
 }
 
 function checkBrowser() {
@@ -2666,10 +2665,10 @@ var pointsPicked = 0; // number of data points picked.
  */
 function acquireData() {
 	if(axesPicked === 0) {
-		showPopup('alignAxes');
+		popup.show('alignAxes');
 	} else {
-		showSidebar('manualMode');
-		removeAllMouseEvents();
+		sidebar.show('manualMode');
+		canvasMouseEvents.removeAll();
 	}
 }
 
@@ -2681,13 +2680,13 @@ function pickPoints() {// select data points.
 	if (axesPicked === 0) {
 		alert('Define the axes first!');
 	} else {
-		removeAllMouseEvents();
-		addMouseEvent('click',clickPoints,true);
+		canvasMouseEvents.removeAll();
+		canvasMouseEvents.add('click',clickPoints,true);
 		//pointsPicked = 0;
 		//xyData = [];
 		pointsStatus(pointsPicked);
 		//redrawCanvas();
-		showSidebar('manualMode');
+		sidebar.show('manualMode');
 	}
 }
 
@@ -2710,7 +2709,7 @@ function clickPoints(ev) {
 	dataCtx.fill();
 
 	pointsStatus(pointsPicked);
-	updateZoom(ev);
+	zoomView.updateZoom(ev);
 
 }
 
@@ -2723,7 +2722,7 @@ function clearPoints() {// clear all markings.
 	pointsStatus(pointsPicked);
     resetLayers();
 	
-	removeAllMouseEvents();
+	canvasMouseEvents.removeAll();
 }
 
 /**
@@ -2765,8 +2764,8 @@ function pointsStatus(pn) {// displays the number of points picked.
  */
 function deleteSpecificPoint() {
 
-	removeAllMouseEvents();
-	addMouseEvent('click',deleteSpecificPointHandler,true);
+	canvasMouseEvents.removeAll();
+	canvasMouseEvents.add('click',deleteSpecificPointHandler,true);
 }
 
 /**
@@ -2812,7 +2811,7 @@ function deleteSpecificPointHandler(ev) {
 		}
 	}
 
-	updateZoom(ev);
+	zoomView.updateZoom(ev);
 
 }
 /*
@@ -2876,95 +2875,83 @@ function taninverse(y,x) {
 
 */
 
+// Module to manage mouse events on the canvas. This is to ensure events are added and removed in a clean manner
+var canvasMouseEvents = (function () {
 
-/**
- * List of mouse event types.
- */
-var mouseEventType = new Array();
+    // List of mouse event types.
+    var mouseEventType = new Array();
 
-/**
- * List of mouse event functions.
- */
-var mouseEventFunction = new Array();
+    // List of mouse event functions.
+    var mouseEventFunction = new Array();
 
-/**
- * To capture or not.
- */
-var mouseEventCapture = new Array();
+    // To capture or not.
+    var mouseEventCapture = new Array();
 
-/**
- * Total number of active mouse events.
- */
-var mouseEvents = 0;
+    // Total number of active mouse events.
+    var mouseEvents = 0;
 
+    // Add a mouse event.
+    function addMouseEvent(mouseEv, functionName, tf) {
+        var eventExists = false;
+        for(var ii = 0; ii < mouseEvents; ii++)	{
+            if ((mouseEv === mouseEventType[ii]) && (functionName === mouseEventFunction[ii]) && (tf === mouseEventCapture[ii]))
+                eventExists = true;
+        }
 
-/**
- * Add a mouse event.
- * @param {String} mouseEv Type of mouse event.
- * @param {function} functionName Name of the method associated 
- * @param {boolean} tf Capture value.
- */
-function addMouseEvent(mouseEv, functionName, tf) {
-	var eventExists = false;
-	for(var ii = 0; ii < mouseEvents; ii++)	{
-		if ((mouseEv === mouseEventType[ii]) && (functionName === mouseEventFunction[ii]) && (tf === mouseEventCapture[ii]))
-			eventExists = true;
-	}
+        if(eventExists === false) {
+            topCanvas.addEventListener(mouseEv, functionName, tf);
+            mouseEventType[mouseEvents] = mouseEv;
+            mouseEventFunction[mouseEvents] = functionName;
+            mouseEventCapture[mouseEvents] = tf;
+            mouseEvents = mouseEvents + 1;
+        }
+    }
 
-	if(eventExists === false) {
-		topCanvas.addEventListener(mouseEv, functionName, tf);
-		mouseEventType[mouseEvents] = mouseEv;
-		mouseEventFunction[mouseEvents] = functionName;
-		mouseEventCapture[mouseEvents] = tf;
-		mouseEvents = mouseEvents + 1;
-	}
-}
+    // Clear the entire list of active mouse events.
+    function removeAllMouseEvents() {
 
-/**
- * Clear the entire list of active mouse events.
- */
-function removeAllMouseEvents() {
+        if(mouseEvents > 0) {
 
-	if(mouseEvents > 0) {
+            for (var kk = 0; kk < mouseEvents; kk++) {
+                topCanvas.removeEventListener(mouseEventType[kk],mouseEventFunction[kk],mouseEventCapture[kk]);
+            }
+            mouseEvents = 0;
+            mouseEventType = [];
+            moueEventFunction = [];
+            mouseEventCapture = [];
+        }
+        toolbar.clear();
+    }
 
-		for (var kk = 0; kk < mouseEvents; kk++) {
-			topCanvas.removeEventListener(mouseEventType[kk],mouseEventFunction[kk],mouseEventCapture[kk]);
-		}
-		mouseEvents = 0;
-		mouseEventType = [];
-		moueEventFunction = [];
-		mouseEventCapture = [];
-	}
-	clearToolbar();
-}
+    // Remove a particular mouse event.
+    function removeMouseEvent(mouseEv, functionName, tf) {
 
-/**
- * Remove a particular mouse event.
- * @param {String} mouseEv Type of mouse event.
- * @param {function} functionName Name of the method associated 
- * @param {boolean} tf Capture value.
- */
-function removeMouseEvent(mouseEv, functionName, tf) {
+        var eventExists = false;
+        var eventIndex = 0;
 
-	var eventExists = false;
-	var eventIndex = 0;
+        for(var ii = 0; ii < mouseEvents; ii++) {
+            if ((mouseEv === mouseEventType[ii]) && (functionName === mouseEventFunction[ii]) && (tf === mouseEventCapture[ii])) {
+                eventExists = true;
+                eventIndex = ii;
+            }
+        }
 
-	for(var ii = 0; ii < mouseEvents; ii++) {
-		if ((mouseEv === mouseEventType[ii]) && (functionName === mouseEventFunction[ii]) && (tf === mouseEventCapture[ii])) {
-			eventExists = true;
-			eventIndex = ii;
-		}
-	}
+        if(eventExists === true) {
+            topCanvas.removeEventListener(mouseEv, functionName, tf);
+            mouseEvents = mouseEvents - 1;
+            mouseEventType.splice(eventIndex,1);
+            mouseEventFunction.splice(eventIndex,1);
+            mouseEventCapture.splice(eventIndex,1);
+        }
+    }
 
-	if(eventExists === true) {
-		topCanvas.removeEventListener(mouseEv, functionName, tf);
-		mouseEvents = mouseEvents - 1;
-		mouseEventType.splice(eventIndex,1);
-		mouseEventFunction.splice(eventIndex,1);
-		mouseEventCapture.splice(eventIndex,1);
-	}
-}
+    return {
+        add: addMouseEvent,
+        remove: removeMouseEvent,
+        removeAll: removeAllMouseEvents
+    };
 
+})();
 
 /*
     WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
@@ -2989,74 +2976,80 @@ function removeMouseEvent(mouseEv, functionName, tf) {
 
 */
 
-/* This file contains code to export CSV data to an external software called Plotly (http://plot.ly) */
+// This module contains methods to export CSV data to an external software called Plotly (http://plot.ly)
+var plotly = (function() {
+
+    // Dump the contents of the global variable CSVExport.displayData into Plotly
+    function exportData() {
+
+        if(pointsPicked === 0) return;
+
+        var formContainer = document.createElement('div'),
+            formElement = document.createElement('form'),
+            formData = document.createElement('input');
+        
+        
+        formElement.setAttribute('method', 'post');
+        formElement.setAttribute('action', 'https://plot.ly/external');
+        formElement.setAttribute('target', '_blank');
+        
+        formData.setAttribute('type', "text");
+        formData.setAttribute('name', "data");
+
+        formElement.appendChild(formData);
+        formContainer.appendChild(formElement);
+        document.body.appendChild(formContainer);
+        formContainer.style.display = 'none';
 
 
-/* Dump the contents of the global variable displayData into Plotly
-*/
-function exportToPlotly() {
+        var xDisplayData = [],
+            yDisplayData = [],
+            zDisplayData = [],
+            jsonData = { data: [] };
+        
+        if((plotType === 'XY') || (plotType === 'map') || (plotType === 'polar') || (plotType === 'image')) {
+            for(var ii = 0; ii < pointsPicked; ii++) {
+                xDisplayData[ii] = formatVariable(CSVExport.displayData[ii][0], 'X');
+                yDisplayData[ii] = formatVariable(CSVExport.displayData[ii][1], 'Y');
+            }
+            jsonData.data[0] = {x: xDisplayData, y: yDisplayData};
 
-	if(pointsPicked === 0) return;
+        } else if((plotType === 'ternary')) {
+            for(var ii = 0; ii < pointsPicked; ii++) {
+                xDisplayData[ii] = CSVExport.displayData[ii][0];
+                yDisplayData[ii] = CSVExport.displayData[ii][1];
+                zDisplayData[ii] = CSVExport.displayData[ii][2];
+            }
+            jsonData.data[0] = {x: xDisplayData, y: yDisplayData, z: zDisplayData};
+        }
 
-	var formContainer = document.createElement('div'),
-		formElement = document.createElement('form'),
-		formData = document.createElement('input');
-	
-	
-	formElement.setAttribute('method', 'post');
-	formElement.setAttribute('action', 'https://plot.ly/external');
-	formElement.setAttribute('target', '_blank');
-	
-	formData.setAttribute('type', "text");
-	formData.setAttribute('name', "data");
+        formData.setAttribute('value', JSON.stringify(jsonData));
 
-	formElement.appendChild(formData);
-	formContainer.appendChild(formElement);
-	document.body.appendChild(formContainer);
-	formContainer.style.display = 'none';
+        formElement.submit();
 
+        document.body.removeChild(formContainer);
+    }
+    
+    // format variable as per Plotly's requirements
+    function formatVariable(val, variableType) {
+        var formatString = 'yyyy-mm-dd';
 
-	var xDisplayData = [],
-		yDisplayData = [],
-		zDisplayData = [],
-		jsonData = { data: [] };
-	
-	if((plotType === 'XY') || (plotType === 'map') || (plotType === 'polar') || (plotType === 'image')) {
-		for(var ii = 0; ii < pointsPicked; ii++) {
-			xDisplayData[ii] = formatVariableForPlotly(displayData[ii][0], 'X');
-			yDisplayData[ii] = formatVariableForPlotly(displayData[ii][1], 'Y');
-		}
-		jsonData.data[0] = {x: xDisplayData, y: yDisplayData};
+        if(plotType === 'XY') {
+            if(variableType === 'X' && axesAlignmentData[6]) {
+                return dateConverter.formatDate(dateConverter.fromJD(val), formatString);			
+            }
+            if(variableType === 'Y' && axesAlignmentData[7]) {
+                return dateConverter.formatDate(dateConverter.fromJD(val), formatString);
+            }
+        }
+        return val;
+    }
 
-	} else if((plotType === 'ternary')) {
-		for(var ii = 0; ii < pointsPicked; ii++) {
-			xDisplayData[ii] = displayData[ii][0];
-			yDisplayData[ii] = displayData[ii][1];
-			zDisplayData[ii] = displayData[ii][2];
-		}
-		jsonData.data[0] = {x: xDisplayData, y: yDisplayData, z: zDisplayData};
-	}
+    return {
+        exportData: exportData
+    };
+})();
 
-	formData.setAttribute('value', JSON.stringify(jsonData));
-
-	formElement.submit();
-
-	document.body.removeChild(formContainer);
-}
-
-function formatVariableForPlotly(val, variableType) {
-	var formatString = 'yyyy-mm-dd';
-
-	if(plotType === 'XY') {
-		if(variableType === 'X' && axesAlignmentData[6]) {
-			return dateConverter.formatDate(dateConverter.fromJD(val), formatString);			
-		}
-		if(variableType === 'Y' && axesAlignmentData[7]) {
-			return dateConverter.formatDate(dateConverter.fromJD(val), formatString);
-		}
-	}
-	return val;
-}
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
@@ -3080,39 +3073,42 @@ function formatVariableForPlotly(val, variableType) {
 
 */
 
-/**
- * Display a popup window.
- * @param {String} popupid ID of the DIV element containing the popup block.
- */
-function showPopup(popupid) {
-	// Dim lights :)
-	var shadowDiv = document.getElementById('shadow');
-	shadowDiv.style.visibility = "visible";
+// Handle popup windows
+var popup = (function () {
 
-	var pWindow = document.getElementById(popupid);
-	var screenWidth = parseInt(window.innerWidth);
-	var screenHeight = parseInt(window.innerHeight);
-	var pWidth = parseInt(pWindow.offsetWidth);
-	var pHeight = parseInt(pWindow.offsetHeight);
-	var xPos = (screenWidth - pWidth)/2;
-	var yPos = (screenHeight - pHeight)/2;
-	pWindow.style.left = xPos + 'px';
-	pWindow.style.top = yPos + 'px';
-	pWindow.style.visibility = "visible";
-}
+    function show(popupid) {
+        // Dim lights :)
+        var shadowDiv = document.getElementById('shadow');
+        shadowDiv.style.visibility = "visible";
 
-/**
- * Hide a popup window.
- * @param {String} popupid ID of the DIV element containing the popup block.
- */
-function closePopup(popupid) {
-	var shadowDiv = document.getElementById('shadow');
-	shadowDiv.style.visibility = "hidden";
+        var pWindow = document.getElementById(popupid);
+        var screenWidth = parseInt(window.innerWidth);
+        var screenHeight = parseInt(window.innerHeight);
+        var pWidth = parseInt(pWindow.offsetWidth);
+        var pHeight = parseInt(pWindow.offsetHeight);
+        var xPos = (screenWidth - pWidth)/2;
+        var yPos = (screenHeight - pHeight)/2;
+        pWindow.style.left = xPos + 'px';
+        pWindow.style.top = yPos + 'px';
+        pWindow.style.visibility = "visible";
+    }
 
-	var pWindow = document.getElementById(popupid);
-	pWindow.style.visibility = "hidden";
+    function close(popupid) {
 
-}
+        var shadowDiv = document.getElementById('shadow');
+        shadowDiv.style.visibility = "hidden";
+
+        var pWindow = document.getElementById(popupid);
+        pWindow.style.visibility = "hidden";
+    }
+
+    return {
+        show: show,
+        close: close
+    };
+
+})();
+
 
 /**
  * Show a 'processing' note on the top right corner.
@@ -3153,228 +3149,244 @@ function processingNote(pmode) {
 */
 
 
-var sidebarList = ['editImageToolbar','manualMode','autoMode']; 
+var sidebar = (function () {
 
-/**
- * Show a specific sidebar
- * @param {String} sbid Sidebar ID.
- */
-function showSidebar(sbid) {// Shows a specific sidebar
+    // List of sidebars that can be closed via clearSidebar(). Typically, I include all known sidebars here.
+    var sidebarList = ['editImageToolbar','manualMode','autoMode'];
 
-	clearSidebar();
-	var sb = document.getElementById(sbid);
-	sb.style.visibility = "visible";
-}
+    function show(sbid) { // Shows a specific sidebar
 
-/**
- * Hide all sidebars.
- */
-function clearSidebar() {// Clears all open sidebars
-
-      for (ii = 0; ii < sidebarList.length; ii ++) {
-		  var sbv = document.getElementById(sidebarList[ii]);
-		  sbv.style.visibility="hidden";
-      }
-	
-}
-/*
-	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
-
-	Copyright 2010-2013 Ankit Rohatgi <ankitrohatgi@hotmail.com>
-
-	This file is part of WebPlotDigitizer.
-
-    WebPlotDigitizer is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    WebPlotDigitizer is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
-
-
-*/
-
-var toolbarList = ['paintToolbar','colorPickerToolbar']; 
-
-/**
- * Show a specific toolbar
- * @param {String} sbid Sidebar ID.
- */
-function showToolbar(sbid) {// Shows a specific sidebar
-	clearToolbar();
-	var sb = document.getElementById(sbid);
-	sb.style.visibility = "visible";
-}
-
-/**
- * Clear the toolbar area.
- */
-function clearToolbar() {// Clears all open sidebars
-
-      for (ii = 0; ii < toolbarList.length; ii ++) {
-		  var sbv = document.getElementById(toolbarList[ii]);
-		  sbv.style.visibility="hidden";
-      }
-	
-}
-/*
-	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
-
-	Copyright 2010-2013 Ankit Rohatgi <ankitrohatgi@hotmail.com>
-
-	This file is part of WebPlotDigitizer.
-
-    WebPlotDigitizer is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    WebPlotDigitizer is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
-
-
-*/
-
-
-
-/* Zoomed-in view variables */
-var zCanvas; 
-var zctx;
-var tempCanvas;
-var tctx;
-var zoom_dx = 20;
-var zoom_dy = 20;
-var zWindowWidth = 200;
-var zWindowHeight = 200;
-var mPosn;
-var extendedCrosshair = false;
-var pix = [];
-pix[0] = new Array();
-
-var zoomTimeout;
-
-/**
- * Initialize Zoom Window
- */
-function initZoom() {
-	var zCrossHair = document.getElementById("zoomCrossHair");
-	var zchCtx = zCrossHair.getContext("2d");
-	zchCtx.strokeStyle = "rgb(0,0,0)";
-	zchCtx.beginPath();
-	zchCtx.moveTo(zWindowWidth/2, 0);
-	zchCtx.lineTo(zWindowWidth/2, zWindowHeight);
-	zchCtx.moveTo(0, zWindowHeight/2);
-	zchCtx.lineTo(zWindowWidth, zWindowHeight/2);
-	zchCtx.stroke();
-	
-}
-
-
-/**
- *
- */
-function updateZoomEventHandler(ev) {
-	clearTimeout(zoomTimeout);
-	zoomTimeout = setTimeout(updateZoom(ev), 5);
-}
-
-/**
- * Update view.
- */
-function updateZoom(ev) {
-
-	var posn = getPosition(ev);
-
-	var xpos = posn.x;
-	var ypos = posn.y;
-
-	var dx = zoom_dx;
-	var dy = zoom_dy;
-    
-    if (axesPicked != 1) {
-        mPosn.innerHTML = xpos + ', ' + ypos;
-    } else if(axesPicked == 1) {
-        pix[0][0] = parseFloat(xpos);
-        pix[0][1] = parseFloat(ypos);
-        var rpix = pixelToData(pix, 1, plotType);
-	
-		if (plotType === 'image') {
-		  mPosn.innerHTML = rpix[0][0] + ', ' + rpix[0][1];
-		} else {
-			if(plotType === 'XY') {
-				if(axesAlignmentData[6] === true) {
-					mPosn.innerHTML = dateConverter.formatDate(dateConverter.fromJD(rpix[0][0]), axesAlignmentData[8]);
-				} else {
-					mPosn.innerHTML = parseFloat(rpix[0][0]).toExponential(4);
-				}
-
-				if(axesAlignmentData[7] === true) {
-					mPosn.innerHTML += ', ' + dateConverter.formatDate(dateConverter.fromJD(rpix[0][1]), axesAlignmentData[9]);
-				} else {
-					mPosn.innerHTML += ', ' + parseFloat(rpix[0][1]).toExponential(4);
-				}
-			} else {
-				mPosn.innerHTML = parseFloat(rpix[0][0]).toExponential(4) + ', ' + parseFloat(rpix[0][1]).toExponential(4);
-			}
-			if (plotType === 'ternary') {
-				mPosn.innerHTML += ', ' + parseFloat(rpix[0][2]).toExponential(4);
-			}
-		}
+        clear();
+        var sb = document.getElementById(sbid);
+        sb.style.visibility = "visible";
     }
-    
-  	if (extendedCrosshair === true) {
-	    hoverCanvas.width = hoverCanvas.width;
-	    hoverCtx.strokeStyle = "rgba(0,0,0, 0.5)";
-	    hoverCtx.beginPath();
-	    hoverCtx.moveTo(xpos, 0);
-	    hoverCtx.lineTo(xpos, canvasHeight);
-	    hoverCtx.moveTo(0, ypos);
-	    hoverCtx.lineTo(canvasWidth, ypos);
-	    hoverCtx.stroke();
-	}
 
-    
-	if((xpos-dx/2) >= 0 && (ypos-dy/2) >= 0 && (xpos+dx/2) <= canvasWidth && (ypos+dy/2) <= canvasHeight) {
-		var zoomImage = ctx.getImageData(xpos-dx/2,ypos-dy/2,dx,dy);
-	    var dataLayerImage = dataCtx.getImageData(xpos-dx/2,ypos-dy/2,dx,dy);
+    function clear() { // Clears all open sidebars
 
-        // merge data from the two layers.
-        for (var zi = 0; zi < dataLayerImage.data.length; zi+=4) {
-            if ((dataLayerImage.data[zi]+dataLayerImage.data[zi+1]+dataLayerImage.data[zi+2]+dataLayerImage.data[zi+3])!=0) {
-                zoomImage.data[zi] = dataLayerImage.data[zi];
-                zoomImage.data[zi+1] = dataLayerImage.data[zi+1];        
-                zoomImage.data[zi+2] = dataLayerImage.data[zi+2];        
+          for (ii = 0; ii < sidebarList.length; ii ++) {
+              var sbv = document.getElementById(sidebarList[ii]);
+              sbv.style.visibility="hidden";
+          }
+        
+    }
+
+    return {
+        show: show,
+        clear: clear
+    };
+
+})();
+
+
+/*
+	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
+
+	Copyright 2010-2013 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+
+	This file is part of WebPlotDigitizer.
+
+    WebPlotDigitizer is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    WebPlotDigitizer is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
+
+
+*/
+
+var toolbar = (function () {
+
+    // list of all known toolbars!
+    var toolbarList = ['paintToolbar','colorPickerToolbar']; 
+
+    function show(sbid) { // Shows a specific sidebar
+        clear();
+        var sb = document.getElementById(sbid);
+        sb.style.visibility = "visible";
+    }
+
+    function clear() { // Clears all open sidebars
+
+          for (ii = 0; ii < toolbarList.length; ii ++) {
+              var sbv = document.getElementById(toolbarList[ii]);
+              sbv.style.visibility="hidden";
+          }
+        
+    }
+
+    return {
+        show: show,
+        clear: clear
+    };
+})();
+
+/*
+	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
+
+	Copyright 2010-2013 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+
+	This file is part of WebPlotDigitizer.
+
+    WebPlotDigitizer is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    WebPlotDigitizer is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
+
+
+*/
+
+/* Zoomed-in view */
+var zoomView = (function() {
+    var zCanvas, 
+        zctx,
+        tempCanvas,
+        tctx,
+        zoom_dx = 20,
+        zoom_dy = 20,
+        zWindowWidth = 200,
+        zWindowHeight = 200,
+        mPosn,
+        extendedCrosshair = false,
+        pix = [],
+        zoomTimeout;
+
+    pix[0] = new Array();
+
+    function init() {
+
+        zCanvas = document.getElementById('zoomCanvas');
+    	zctx = zCanvas.getContext('2d');
+	    tempCanvas = document.createElement('canvas');
+        tctx = tempCanvas.getContext('2d');
+        tempCanvas.width = zoom_dx;
+        tempCanvas.height = zoom_dy;
+
+        mPosn = document.getElementById('mousePosition');
+
+        var zCrossHair = document.getElementById("zoomCrossHair");
+        var zchCtx = zCrossHair.getContext("2d");
+        zchCtx.strokeStyle = "rgb(0,0,0)";
+        zchCtx.beginPath();
+        zchCtx.moveTo(zWindowWidth/2, 0);
+        zchCtx.lineTo(zWindowWidth/2, zWindowHeight);
+        zchCtx.moveTo(0, zWindowHeight/2);
+        zchCtx.lineTo(zWindowWidth, zWindowHeight/2);
+        zchCtx.stroke();
+    }
+
+    function updateZoomEventHandler(ev) {
+	    clearTimeout(zoomTimeout);
+	    zoomTimeout = setTimeout(updateZoom(ev), 5);
+    }
+
+    function updateZoom(ev) {
+
+        var posn = getPosition(ev);
+        var xpos = posn.x;
+        var ypos = posn.y;
+        var dx = zoom_dx;
+        var dy = zoom_dy;
+        
+        if (axesPicked != 1) {
+            mPosn.innerHTML = xpos + ', ' + ypos;
+        } else if(axesPicked == 1) {
+            pix[0][0] = parseFloat(xpos);
+            pix[0][1] = parseFloat(ypos);
+            var rpix = pixelToData(pix, 1, plotType);
+        
+            if (plotType === 'image') {
+                mPosn.innerHTML = rpix[0][0] + ', ' + rpix[0][1];
+            } else {
+                if(plotType === 'XY') {
+                    if(axesAlignmentData[6] === true) {
+                        mPosn.innerHTML = dateConverter.formatDate(dateConverter.fromJD(rpix[0][0]), axesAlignmentData[8]);
+                    } else {
+                        mPosn.innerHTML = parseFloat(rpix[0][0]).toExponential(4);
+                    }
+
+                    if(axesAlignmentData[7] === true) {
+                        mPosn.innerHTML += ', ' + dateConverter.formatDate(dateConverter.fromJD(rpix[0][1]), axesAlignmentData[9]);
+                    } else {
+                        mPosn.innerHTML += ', ' + parseFloat(rpix[0][1]).toExponential(4);
+                    }
+                } else {
+                    mPosn.innerHTML = parseFloat(rpix[0][0]).toExponential(4) + ', ' + parseFloat(rpix[0][1]).toExponential(4);
+                }
+                if (plotType === 'ternary') {
+                    mPosn.innerHTML += ', ' + parseFloat(rpix[0][2]).toExponential(4);
+                }
             }
         }
         
-        tctx.clearRect(0,0,zoom_dx,zoom_dy);
-		tctx.putImageData(zoomImage,0,0);
+        if (extendedCrosshair === true) {
+            hoverCanvas.width = hoverCanvas.width;
+            hoverCtx.strokeStyle = "rgba(0,0,0, 0.5)";
+            hoverCtx.beginPath();
+            hoverCtx.moveTo(xpos, 0);
+            hoverCtx.lineTo(xpos, canvasHeight);
+            hoverCtx.moveTo(0, ypos);
+            hoverCtx.lineTo(canvasWidth, ypos);
+            hoverCtx.stroke();
+        }
 
-        // Draw directly from canvas. 
-        // Creating a new image here caused a memory leak!
-        zctx.drawImage(tempCanvas, 0, 0, zWindowWidth, zWindowHeight);
-	}
-}
+        
+        if((xpos-dx/2) >= 0 && (ypos-dy/2) >= 0 && (xpos+dx/2) <= canvasWidth && (ypos+dy/2) <= canvasHeight) {
+            var zoomImage = ctx.getImageData(xpos-dx/2,ypos-dy/2,dx,dy);
+            var dataLayerImage = dataCtx.getImageData(xpos-dx/2,ypos-dy/2,dx,dy);
 
-function toggleCrosshair(ev) {
-    if (ev.keyCode === 220) {
-        ev.preventDefault();
-        extendedCrosshair = !(extendedCrosshair);
-        hoverCanvas.width = hoverCanvas.width;
+            // merge data from the two layers.
+            for (var zi = 0; zi < dataLayerImage.data.length; zi+=4) {
+                if ((dataLayerImage.data[zi]+dataLayerImage.data[zi+1]+dataLayerImage.data[zi+2]+dataLayerImage.data[zi+3])!=0) {
+                    zoomImage.data[zi] = dataLayerImage.data[zi];
+                    zoomImage.data[zi+1] = dataLayerImage.data[zi+1];        
+                    zoomImage.data[zi+2] = dataLayerImage.data[zi+2];        
+                }
+            }
+            
+            tctx.clearRect(0,0,zoom_dx,zoom_dy);
+            tctx.putImageData(zoomImage,0,0);
+
+            // Draw directly from canvas. 
+            // Creating a new image here caused a memory leak!
+            zctx.drawImage(tempCanvas, 0, 0, zWindowWidth, zWindowHeight);
+        }
     }
-    return;
-}
+    
+    // Doesn't belong in zoom-view, to be moved out later!
+    function toggleCrosshair(ev) {
+        if (ev.keyCode === 220) {
+            ev.preventDefault();
+            extendedCrosshair = !(extendedCrosshair);
+            hoverCanvas.width = hoverCanvas.width;
+        }
+    }
+
+
+    return {
+        initZoom: init,
+        updateZoomEventHandler: updateZoomEventHandler,
+        updateZoom: updateZoom,
+        toggleCrosshair: toggleCrosshair,
+        zoom_dx: zoom_dx,
+        zoom_dy: zoom_dy,
+        mPosn: mPosn
+    };
+})();
 
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
