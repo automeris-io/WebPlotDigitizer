@@ -75,7 +75,7 @@ function clickPoints(ev) {
 	dataCtx.fill();
 
 	pointsStatus(pointsPicked);
-	updateZoom(ev);
+	zoomView.updateZoom(ev);
 
 }
 
@@ -177,6 +177,6 @@ function deleteSpecificPointHandler(ev) {
 		}
 	}
 
-	updateZoom(ev);
+	zoomView.updateZoom(ev);
 
 }
