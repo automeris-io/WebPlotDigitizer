@@ -71,7 +71,7 @@ function initiatePlotAlignment() {
 function setAxes(ax_mode) {
 
 	plotType = ax_mode;
-	clearSidebar();
+	sidebar.clear();
 	removeAllMouseEvents();
 	addMouseEvent('click',pickCorners,true);
 	axesN = 0;
