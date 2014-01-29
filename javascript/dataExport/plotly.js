@@ -24,7 +24,7 @@
 // This module contains methods to export CSV data to an external software called Plotly (http://plot.ly)
 var plotly = (function() {
 
-    // Dump the contents of the global variable CSVExport.displayData into Plotly
+    // Dump the contents of the global variable displayData into Plotly
     function exportData() {
 
         if(pointsPicked === 0) return;
@@ -46,24 +46,24 @@ var plotly = (function() {
         document.body.appendChild(formContainer);
         formContainer.style.display = 'none';
 
-
         var xDisplayData = [],
             yDisplayData = [],
             zDisplayData = [],
-            jsonData = { data: [] };
+            jsonData = { data: [] },
+            displayData = CSVExport.getDisplayData();
         
         if((plotType === 'XY') || (plotType === 'map') || (plotType === 'polar') || (plotType === 'image')) {
             for(var ii = 0; ii < pointsPicked; ii++) {
-                xDisplayData[ii] = formatVariable(CSVExport.displayData[ii][0], 'X');
-                yDisplayData[ii] = formatVariable(CSVExport.displayData[ii][1], 'Y');
+                xDisplayData[ii] = formatVariable(displayData[ii][0], 'X');
+                yDisplayData[ii] = formatVariable(displayData[ii][1], 'Y');
             }
             jsonData.data[0] = {x: xDisplayData, y: yDisplayData};
 
         } else if((plotType === 'ternary')) {
             for(var ii = 0; ii < pointsPicked; ii++) {
-                xDisplayData[ii] = CSVExport.displayData[ii][0];
-                yDisplayData[ii] = CSVExport.displayData[ii][1];
-                zDisplayData[ii] = CSVExport.displayData[ii][2];
+                xDisplayData[ii] = displayData[ii][0];
+                yDisplayData[ii] = displayData[ii][1];
+                zDisplayData[ii] = displayData[ii][2];
             }
             jsonData.data[0] = {x: xDisplayData, y: yDisplayData, z: zDisplayData};
         }

@@ -25,7 +25,7 @@
 var CSVExport = (function () {
 
     var rawCSVData,
-        displayData;
+        displayData = [];
 
     // Generate CSV.
     function generateCSV() {
@@ -236,14 +236,20 @@ var CSVExport = (function () {
             return;
         }
 
+       
     }
+
+    function getDisplayData() {
+        return displayData;
+    }
+
 
     return {
         generate: generateCSV,
         reSort: reSortCSV,
         updateSortingControls: updateCSVSortingControls,
         selectAll: selectAllCSVData,
-        displayData: displayData
+        getDisplayData: getDisplayData
     };
 
 })();
