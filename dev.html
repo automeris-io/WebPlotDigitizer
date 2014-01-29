@@ -32,34 +32,35 @@
 <title>WebPlotDigitizer - Copyright 2010-2013 Ankit Rohatgi</title>
 <link rel="stylesheet" href="styles.css" type="text/css" media="screen" />
 
-<script src="javascript/main.js" language="Javascript"></script>
-<script src="javascript/applicationCache.js" language="Javascript"></script>
-<script src="javascript/canvasDrawing.js" language="Javascript"></script>
-<script src="javascript/mouseEvents.js" language="Javascript"></script>
-<script src="javascript/zoom.js" language="Javascript"></script>
-<script src="javascript/toolbars.js" language="Javascript"></script>
-<script src="javascript/sidebars.js" language="Javascript"></script>
-<script src="javascript/popups.js" language="Javascript"></script>
-<script src="javascript/imageEditing.js" language="Javascript"></script>
-<script src="javascript/mathFunctions.js" language="Javascript"></script>
-<script src="javascript/alignAxes.js" language="Javascript"></script>
-<script src="javascript/manualDataCollection.js" language="Javascript"></script>
-<script src="javascript/autodetect.js" language="Javascript"></script>
-<script src="javascript/aesystem.js" language="Javascript"></script>
-<script src="javascript/imageProcessing.js" language="Javascript"></script>
-<script src="javascript/coordinateTransform.js" language="Javascript"></script>
-<script src="javascript/csvgenerator.js" language="Javascript"></script>
-<script src="javascript/plotly.js" language="Javascript"></script>
-<script src="javascript/dateConversion.js" language="Javascript"></script>
-<script src="javascript/inputParser.js" language="Javascript"></script>
-<script src="javascript/AEalgos/averagingWindow.js" language="Javascript"></script>
-<script src="javascript/AEalgos/averagingWindowWithStepSize.js" language="Javascript"></script>
-<script src="javascript/AEalgos/blobdetector.js" language="Javascript"></script>
-<script src="javascript/AEalgos/xStep.js" language="Javascript"></script>
-<script src="javascript/AEalgos/yStep.js" language="Javascript"></script>
+<!-- Individual, uncompressed javascript files -->
+<script src="javascript/browser/applicationCache.js"></script>
+<script src="javascript/core/AEalgos/averagingWindow.js"></script>
+<script src="javascript/core/AEalgos/averagingWindowWithStepSize.js"></script>
+<script src="javascript/core/AEalgos/blobdetector.js"></script>
+<script src="javascript/core/AEalgos/xStep.js"></script>
+<script src="javascript/core/AEalgos/yStep.js"></script>
+<script src="javascript/core/aesystem.js"></script>
+<script src="javascript/core/coordinateTransform.js"></script>
+<script src="javascript/core/dateConversion.js"></script>
+<script src="javascript/core/imageProcessing.js"></script>
+<script src="javascript/core/inputParser.js"></script>
+<script src="javascript/core/mathFunctions.js"></script>
+<script src="javascript/dataExport/csvgenerator.js"></script>
+<script src="javascript/dataExport/plotly.js"></script>
+<script src="javascript/main.js"></script>
+<script src="javascript/tools/alignAxes.js"></script>
+<script src="javascript/tools/autodetect.js"></script>
+<script src="javascript/tools/imageEditing.js"></script>
+<script src="javascript/tools/manualDataCollection.js"></script>
+<script src="javascript/widgets/canvasDrawing.js"></script>
+<script src="javascript/widgets/mouseEvents.js"></script>
+<script src="javascript/widgets/popups.js"></script>
+<script src="javascript/widgets/sidebars.js"></script>
+<script src="javascript/widgets/toolbars.js"></script>
+<script src="javascript/widgets/zoom.js"></script>
 
 <!--
-<script src="combined-compiled.js" language="Javascript"></script>
+<script src="combined-compiled.js"></script>
 -->
 
 <!-- Start of StatCounter Code -->
@@ -151,7 +152,7 @@ alt="tumblr visitor stats"></a></div></noscript>
 	<!-- side bars go here -->
 	<div id="manualMode" class="sidebar">
 	<p align="center"><b>Manual Mode</b></p>
-	<p align="center"><input type="button" value="Switch to Auto" onClick="sidebar.show('autoMode');" style="width: 150px;" ></p>
+	<p align="center"><input type="button" value="Switch to Auto" onClick="sidebar.show('autoMode');" style="width: 150px;"></p>
 	<hr />
 	<p align="center"><input type="button" value="Select Points" onClick="pickPoints();" style="width: 150px;"></p>
 	<p align="center"><input type="button" value="Undo" onClick="undoPointSelection();" style="width: 75px;"><input id="clearAllBtn" type="button" value="Clear All" onCLick="clearPoints();" style="width: 75px;"></p>
@@ -162,7 +163,7 @@ alt="tumblr visitor stats"></a></div></noscript>
 
 	<div id="autoMode" class="sidebar">
 	<p align="center"><b>Auto Extract Mode</b></p>
-	<p align="center"><input type="button" value="Switch to Manual" onClick="sidebar.show('manualMode');" style="width: 150px;" ></p>
+	<p align="center"><input type="button" value="Switch to Manual" onClick="sidebar.show('manualMode');" style="width: 150px;"></p>
 	<hr />
 	<p align="center"><input type="button" id="autoFGBtn" value="FG" style="width:75px;" onClick="colorPickerWindow('fg');"><input type="button" id="autoBGBtn" value="BG" style="width:75px;" onClick="colorPickerWindow('bg');"></p>
 	<p align="center"><input type="button" value="Box" style="width:50px;" onClick="boxPaint();"><input type="button" value="Pen" style="width:50px;" onClick="penPaint();"><input type="button" value="Erase" style="width:50px;" onClick="eraser();"></p>
