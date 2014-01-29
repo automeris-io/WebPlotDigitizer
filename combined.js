@@ -1,4 +1,137 @@
 /*
+	WebPlotDigitizer - http://arohatgi.info/WebPlotdigitizer
+
+	Copyright 2010-2013 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+
+	This file is part of WebPlotDigitizer.
+
+    WebPlotDIgitizer is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    WebPlotDigitizer is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
+
+
+*/
+
+/**
+ * This is the entry point and is executed when the page is loaded.
+ */
+
+function init() {// This is run when the page loads.
+
+	checkBrowser();
+	
+	mainCanvas = document.getElementById('mainCanvas');
+	dataCanvas = document.getElementById('dataCanvas');
+	drawCanvas = document.getElementById('drawCanvas');
+	hoverCanvas = document.getElementById('hoverCanvas');
+	topCanvas = document.getElementById('topCanvas');
+	
+	var canvasDiv = document.getElementById('canvasDiv');
+	
+
+	// Position to paste new plots at
+	cx0 = zoomView.zoom_dx/2;
+	cy0 = zoomView.zoom_dy/2;
+
+	// Set canvas dimensions
+	canvasWidth = parseFloat(canvasDiv.offsetWidth);
+	canvasHeight = parseFloat(canvasDiv.offsetHeight);
+	
+	// resize canvas.
+	mainCanvas.height = canvasHeight;
+	mainCanvas.width = canvasWidth;
+	
+	dataCanvas.height = canvasHeight;
+	dataCanvas.width = canvasWidth;
+
+	drawCanvas.height = canvasHeight;
+	drawCanvas.width = canvasWidth;
+	
+	hoverCanvas.height = canvasHeight;
+	hoverCanvas.width = canvasWidth;
+
+	topCanvas.height = canvasHeight;
+	topCanvas.width = canvasWidth;
+
+
+	// Needed to fix the zoom problem.
+	cheight = canvasHeight - zoomView.zoom_dy;
+	cwidth = canvasWidth - zoomView.zoom_dx;
+
+	caspectratio = cheight/cwidth;
+
+	ctx = mainCanvas.getContext('2d');
+	dataCtx = dataCanvas.getContext('2d');
+	drawCtx = drawCanvas.getContext('2d');
+	hoverCtx = hoverCanvas.getContext('2d');
+	topCtx = topCanvas.getContext('2d');
+	
+	// Set canvas default state
+	img = document.createElement('img');
+	img.onload = function() { loadImage(img); originalImage = img; };
+	img.src = "start.png";
+	
+	// testing area for autodetection
+	testImgCanvas = document.getElementById('testImg');
+	testImgCanvas.width = canvasWidth/2;
+	testImgCanvas.height = canvasHeight/2;
+	testImgContext = testImgCanvas.getContext('2d');
+		
+	// specify mouseover function
+	//canvas.addEventListener('click',clickHandler,false);
+	topCanvas.addEventListener('mousemove', zoomView.updateZoomEventHandler, false);
+	
+	// Add support for extended crosshair
+    document.body.addEventListener('keydown', zoomView.toggleCrosshair, false);
+
+	// Image dropping capabilities
+	topCanvas.addEventListener('dragover',function(event) {event.preventDefault();}, true);
+	topCanvas.addEventListener("drop",function(event) {event.preventDefault(); dropHandler(event);}, true);
+
+	// Paste image from clipboard
+	window.addEventListener('paste', function(event) {pasteHandler(event);}, false);
+	
+	// Set defaults everywhere.
+	setDefaultState();
+	
+	zoomView.initZoom();
+	
+	originalScreen = getCanvasData();
+	activeScreen = originalScreen;
+	
+	displayParameters();
+}
+
+
+/**
+ * Reset canvas and zoom window to initial state.
+ */
+function setDefaultState() {
+	axesPicked = 0;
+	pointsPicked = 0;
+	xyData = [];
+	axesAlignmentData = [];
+	clearPoints();
+	sidebar.clear();
+}
+
+function checkBrowser() {
+  if(!window.FileReader) {
+    alert('\tWARNING!\nYou are using an unsupported browser. Please use Google Chrome 6+ or Firefox 3.6+.\n Sorry for the inconvenience.');
+  }
+}
+
+
+/*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
 	Copyright 2010-2013 Ankit Rohatgi <ankitrohatgi@hotmail.com>
@@ -55,6 +188,2292 @@ function AEObject() {
   this.getParamList = function() {};
   this.run = function() {};
 }
+
+/*
+	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
+
+	Copyright 2010-2013 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+
+	This file is part of WebPlotDigitizer.
+
+    WebPlotDigitizer is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    WebPlotDigitizer is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
+
+
+*/
+
+var dataToPixelxy;
+
+/**
+ * Pixel to real coordinate.
+ * @param {Array} pdata Pixel data
+ * @param {Int} pn Number of data points.
+ * @param {String} ptype Plot type
+ */
+ function pixelToData(pdata, pn, ptype) {
+
+    if((axesPicked === 1) && (pn >= 1)) {
+        var rdata = [];
+        
+        if (ptype === 'XY') {
+
+		    var x1 = xyAxes[0][0];
+		    var y1 = xyAxes[0][1];
+		    
+		    var x2 = xyAxes[1][0];
+		    var y2 = xyAxes[1][1];
+		    
+		    var x3 = xyAxes[2][0];
+		    var y3 = xyAxes[2][1];
+
+		    var x4 = xyAxes[3][0];
+		    var y4 = xyAxes[3][1];
+		    
+		    var xmin = axesAlignmentData[0];
+		    var xmax = axesAlignmentData[1];
+		    var ymin = axesAlignmentData[2];
+		    var ymax = axesAlignmentData[3];
+		    
+		    // If x-axis is log scale
+		    if (axesAlignmentData[4] === true) {
+		        xmin = Math.log(xmin)/Math.log(10);
+		        xmax = Math.log(xmax)/Math.log(10);
+		    }
+		    
+		    // If y-axis is log scale
+		    if (axesAlignmentData[5] === true) {
+		        ymin = Math.log(ymin)/Math.log(10);
+		        ymax = Math.log(ymax)/Math.log(10);
+		    }
+
+		    var xm = xmax - xmin;
+		    var ym = ymax - ymin;
+		    
+		    var d12 = Math.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2));
+		    var d34 = Math.sqrt((x3-x4)*(x3-x4) + (y3-y4)*(y3-y4));
+		    
+		    var Lx = xm/d12; 
+		    var Ly = ym/d34;
+		    
+		    var thetax = taninverse(-(y2-y1), (x2-x1));
+		    var thetay = taninverse(-(y4-y3), (x4-x3));
+		    
+		    var theta = thetay-thetax;
+		    
+
+		    for(ii = 0; ii<pn; ii++) {
+		    
+		        var xp = pdata[ii][0];
+		        var yp = pdata[ii][1];
+		        
+		        var dP1 = Math.sqrt((xp-x1)*(xp-x1) + (yp-y1)*(yp-y1));
+		        var thetaP1 = taninverse(-(yp-y1), (xp-x1)) - thetax;
+		        
+		        var dx = dP1*Math.cos(thetaP1) - dP1*Math.sin(thetaP1)/Math.tan(theta);
+		        
+			var xf = dx*Lx + xmin;
+
+			var dP3 = Math.sqrt((xp-x3)*(xp-x3) + (yp-y3)*(yp-y3));				    
+			var thetaP3 = thetay - taninverse(-(yp-y3), (xp-x3));
+
+			var dy = dP3*Math.cos(thetaP3) - dP3*Math.sin(thetaP3)/Math.tan(theta);
+			
+			var yf = dy*Ly + ymin;
+			
+			// if x-axis is log scale
+			if (axesAlignmentData[4] === true)
+			    xf = Math.pow(10,xf);
+			    
+			// if y-axis is log scale
+			if (axesAlignmentData[5] === true)
+			    yf = Math.pow(10,yf);
+
+			rdata[ii] = new Array();
+			rdata[ii][0] = xf;
+			rdata[ii][1] = yf;
+		    }
+
+		} else if (ptype === 'image') {// same as X-Y, but returns int data and doesn't support log scale.
+
+		    var x1 = onScreenDimensions[0];
+		    var y1 = onScreenDimensions[1];
+		    
+		    var x2 = onScreenDimensions[2];
+		    var y2 = onScreenDimensions[1];
+		    
+		    var x3 = onScreenDimensions[0];
+		    var y3 = onScreenDimensions[1];
+
+		    var x4 = onScreenDimensions[0];
+		    var y4 = onScreenDimensions[3];
+		    
+		    var xmin = axesAlignmentData[0];
+		    var xmax = axesAlignmentData[1];
+		    var ymin = axesAlignmentData[2];
+		    var ymax = axesAlignmentData[3];
+		    
+		    var xm = xmax - xmin;
+		    var ym = ymax - ymin;
+
+			// Correction factor to account for the fact that the on screen dimensions are for image
+			// corners and do not account for image pixel being counted from the middle of a pixel.
+			var cfx = 0.5*(x2 - x1)/(xm+1);
+			var cfy = 0.5*(y2 - y1)/(ym+1);
+
+			x1 = x1 + cfx;
+			x2 = x2 - cfx;
+			y1 = y1 + cfy;
+			y2 = y2 - cfy;
+
+		    var d12 = Math.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2));
+		    var d34 = Math.sqrt((x3-x4)*(x3-x4) + (y3-y4)*(y3-y4));
+		    
+		    var Lx = xm/d12; 
+		    var Ly = ym/d34;
+		    
+		    var thetax = taninverse(-(y2-y1), (x2-x1));
+		    var thetay = taninverse(-(y4-y3), (x4-x3));
+		    
+		    var theta = thetay-thetax;
+		    
+
+		    for(ii = 0; ii<pn; ii++) {
+		    
+		        var xp = pdata[ii][0];
+		        var yp = pdata[ii][1];
+		        
+		        var dP1 = Math.sqrt((xp-x1)*(xp-x1) + (yp-y1)*(yp-y1));
+		        var thetaP1 = taninverse(-(yp-y1), (xp-x1)) - thetax;
+		        
+		        var dx = dP1*Math.cos(thetaP1) - dP1*Math.sin(thetaP1)/Math.tan(theta);
+		        
+			var xf = dx*Lx + xmin;
+
+			var dP3 = Math.sqrt((xp-x3)*(xp-x3) + (yp-y3)*(yp-y3));				    
+			var thetaP3 = thetay - taninverse(-(yp-y3), (xp-x3));
+
+			var dy = dP3*Math.cos(thetaP3) - dP3*Math.sin(thetaP3)/Math.tan(theta);
+			
+			var yf = dy*Ly + ymin;
+			
+		
+			rdata[ii] = new Array();
+			rdata[ii][0] = Math.round(xf);
+			rdata[ii][1] = Math.round(yf);
+		    }
+		
+		} else if (ptype === 'map') {
+		    
+		    var mx0 = 0.0; my0 = canvasHeight;
+		    var mx1 = 0.0; my1 = 0.0;
+		    var mx2 = canvasWidth; my2 = 0;
+		    var mx3 = canvasWidth; my3 = canvasHeight;
+		    
+		    var x1 = mx1 - mx0;
+		    var y1 = -(my1 - my0);
+		    
+		    var x3 = mx3 - mx0;
+		    var y3 = -(my3 - my0);
+		    		
+		    var scaleSize = axesAlignmentData[0];
+		    
+		    var sx1 = xyAxes[0][0];
+		    var sy1 = xyAxes[0][1];
+		    var sx2 = xyAxes[1][0];
+		    var sy2 = xyAxes[1][1];
+		    
+		    var scaleLength = scaleSize/Math.sqrt((sx1-sx2)*(sx1-sx2) + (sy1-sy2)*(sy1-sy2));
+		    		    
+		    var xmin = 0;
+		    var xmax = canvasWidth*scaleLength;
+		    
+		    var ymin = 0;
+		    var ymax = canvasHeight*scaleLength;
+
+		    var xm = xmax - xmin;
+		    var ym = ymax - ymin;
+		
+		    var det = x1*y3 - y1*x3;
+
+		    var x0 = xmin;
+		    var y0 = ymin;
+
+		    for(ii = 0; ii<pn; ii++) {
+			var xr = pdata[ii][0] - mx0;
+			var yr = - (pdata[ii][1] - my0);
+			// find the transform
+			var xf = (-y1*xm*xr + x1*xm*yr)/det + x0;
+			var yf = (y3*ym*xr - x3*ym*yr)/det + y0;
+			
+			rdata[ii] = new Array();
+			rdata[ii][0] = xf;
+			rdata[ii][1] = yf;
+		    }
+		    
+		} else if (ptype === 'polar') {
+		    // Center: 0
+		    var x0 = parseFloat(xyAxes[0][0]);
+		    var y0 = parseFloat(xyAxes[0][1]);
+		    
+		    // Known Point: 1
+		    var x1 = parseFloat(xyAxes[1][0]);
+		    var y1 = parseFloat(xyAxes[1][1]);
+		    
+		    // Known Point: 2
+		    var x2 = parseFloat(xyAxes[2][0]);
+		    var y2 = parseFloat(xyAxes[2][1]);
+		    			    
+		    var r1 = parseFloat(axesAlignmentData[0]);
+		    var theta1 = parseFloat(axesAlignmentData[1]); 
+		    
+		    var r2 = parseFloat(axesAlignmentData[2]);
+		    var theta2 = parseFloat(axesAlignmentData[3]); 
+		    
+		    var isDegrees = axesAlignmentData[4];
+		    
+		    var isClockwise = axesAlignmentData[5];
+		    
+		    if (isDegrees === true) {// if degrees
+
+		        theta1 = (Math.PI/180.0)*theta1;
+    			theta2 = (Math.PI/180.0)*theta2;
+		    }
+		    			    
+		    // Distance between 1 and 0.
+		    var dist10 = Math.sqrt((x1-x0)*(x1-x0) + (y1-y0)*(y1-y0)); 
+		    
+		    // Distance between 2 and 0
+		    var dist20 = Math.sqrt((x2-x0)*(x2-x0) + (y2-y0)*(y2-y0)); 
+		    
+		    // Radial Distance between 1 and 2.
+		    var dist12 = dist20 - dist10;
+		    
+		    var phi0 = taninverse(-(y1-y0),x1-x0);
+		    
+		    var alpha0 = phi0 - theta1;
+		    
+		    for(ii = 0; ii<pn; ii++) {
+			    var xp = pdata[ii][0];
+			    var yp = pdata[ii][1];
+			
+		        var rp = ((r2-r1)/dist12)*(Math.sqrt((xp-x0)*(xp-x0)+(yp-y0)*(yp-y0))-dist10) + r1;
+			
+			    var thetap = taninverse(-(yp-y0),xp-x0) - alpha0;
+			
+			    if(isDegrees == true)
+			      thetap = 180.0*thetap/Math.PI;
+			      
+    		    rdata[ii] = new Array();
+                rdata[ii][0] = rp;
+                rdata[ii][1] = thetap;
+			
+		    }
+		    
+		} else if(plotType === 'ternary') {
+
+		    var x0 = xyAxes[0][0];
+		    var y0 = xyAxes[0][1];
+		    
+		    var x1 = xyAxes[1][0];
+		    var y1 = xyAxes[1][1];
+		    
+		    var x2 = xyAxes[2][0];
+		    var y2 = xyAxes[2][1];
+		    
+		    var L = Math.sqrt((x0-x1)*(x0-x1) + (y0-y1)*(y0-y1));
+		    
+		    var phi0 = taninverse(-(y1-y0),x1-x0);
+		    
+		    var root3 = Math.sqrt(3);
+		    
+		    var isRange0to100 = axesAlignmentData[0];
+		    var isOrientationNormal = axesAlignmentData[1];
+		    		    
+		    for(ii = 0; ii<pn; ii++) {
+
+			    var xp = pdata[ii][0];
+			    var yp = pdata[ii][1];
+			
+		        var rp = Math.sqrt((xp-x0)*(xp-x0)+(yp-y0)*(yp-y0));
+			
+			    var thetap = taninverse(-(yp-y0),xp-x0) - phi0;
+			
+			    var xx = (rp*Math.cos(thetap))/L;
+			    var yy = (rp*Math.sin(thetap))/L;
+			
+			    var ap = 1.0 - xx - yy/root3;
+			    var bp = xx - yy/root3;
+			    var cp = 2.0*yy/root3;
+			
+			    if(isOrientationNormal == false) {
+			      // reverse axes orientation
+			      var bpt = bp;
+			      bp = ap;
+			      ap = cp;
+			      cp = bpt;
+			      				  
+			    }
+			
+			    if (isRange0to100 == true) {
+			      ap = ap*100; bp = bp*100; cp = cp*100;
+			    }
+    
+    			rdata[ii] = new Array();
+                rdata[ii][0] = ap;
+                rdata[ii][1] = bp;
+                rdata[ii][2] = cp;
+
+		    }
+		    
+		}
+		
+		return rdata;
+
+    }
+    
+    return 0;
+ }
+
+
+ function dataToPixel(xp, yp, ptype) {
+
+	dataToPixelxy = [];
+
+	if (ptype === 'XY') {
+
+		var x1 = xyAxes[0][0];
+		var y1 = xyAxes[0][1];
+		
+		var x2 = xyAxes[1][0];
+		var y2 = xyAxes[1][1];
+		
+		var x3 = xyAxes[2][0];
+		var y3 = xyAxes[2][1];
+
+		var x4 = xyAxes[3][0];
+		var y4 = xyAxes[3][1];
+		
+		var xmin = axesAlignmentData[0];
+		var xmax = axesAlignmentData[1];
+		var ymin = axesAlignmentData[2];
+		var ymax = axesAlignmentData[3];
+		
+		// If x-axis is log scale
+		if (axesAlignmentData[4] === true) {
+			xmin = Math.log(xmin)/Math.log(10);
+			xmax = Math.log(xmax)/Math.log(10);
+		}
+		
+		// If y-axis is log scale
+		if (axesAlignmentData[5] === true) {
+			ymin = Math.log(ymin)/Math.log(10);
+			ymax = Math.log(ymax)/Math.log(10);
+		}
+
+		// Get intersection point in pixels
+		var xydenom = (x1 - x2)*(y3-y4) - (y1-y2)*(x3 - x4);
+		var xx_pix = ((x1*y2 - y1*x2)*(x3 - x4) - (x1 - x2)*(x3*y4 - y3*x4))/xydenom;
+		var yy_pix = ((x1*y2 - y1*x2)*(y3 - y4) - (y1 - y2)*(x3*y4 - y3*x4))/xydenom;
+
+		// Get intersection point in actual units
+		var tempPix = [];
+		tempPix[0] = new Array();
+		tempPix[0][0] = xx_pix;
+		tempPix[0][1] = yy_pix;
+		var rtnPix = pixelToData(tempPix, 1, 'XY');
+		var xx = rtnPix[0][0];
+		var yx = rtnPix[0][1];
+
+		var xm = xmax - xmin;
+		var ym = ymax - ymin;
+		
+		var d12 = Math.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2));
+		var d34 = Math.sqrt((x3-x4)*(x3-x4) + (y3-y4)*(y3-y4));
+		
+		var Lx = xm/d12; 
+		var Ly = ym/d34;
+		
+		var thetax = taninverse(-(y2-y1), (x2-x1));
+		var thetay = taninverse(-(y4-y3), (x4-x3));
+		
+		var theta = thetay-thetax;
+
+
+		var xf = (xp - xmin)*Math.cos(thetax)/Lx + (yp - yx)*Math.cos(thetay)/Ly + x1;
+		var yf = y3 - (xp - xx)*Math.sin(thetax)/Lx - (yp - ymin)*Math.sin(thetay)/Ly;
+
+		dataToPixelxy[0] = xf;
+		dataToPixelxy[1] = yf;
+
+	}
+
+
+	return 0;
+}
+/*
+	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
+
+	Copyright 2010-2013 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+
+	This file is part of WebPlotDigitizer.
+
+    WebPlotDigitizer is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    WebPlotDigitizer is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
+
+
+*/
+
+/* Parse dates and convert back and forth to Julian days */
+
+var dateConverter = {
+	
+	parse: function(input) {
+				if(input == null) {
+					return null;
+				}
+
+				if(input.indexOf("/") === -1) {
+					return null;
+				}
+
+				return this.toJD(input);
+			},
+
+	// Convert to Julian Date
+	toJD: function(dateString) {
+				var dateParts = dateString.split("/"),
+					year,
+					month,
+					day,
+					tempDate,
+					rtnValue;
+
+				if(dateParts.length <= 0 || dateParts.length > 3) {
+					return null;
+				}
+
+				year = parseInt(dateParts[0], 10);
+
+				month = parseInt(dateParts[1] === undefined ? 0 : dateParts[1], 10);
+
+				date = parseInt(dateParts[2] === undefined ? 1 : dateParts[2], 10);
+
+				if(isNaN(year) || isNaN(month) || isNaN(date)) {
+					return null;
+				}
+
+				if(month > 12 || month < 1) {
+					return null;
+				}
+
+				if(date > 31 || date < 1) {
+					return null;
+				}
+
+				// Temporary till I figure out julian dates:
+				tempDate = new Date();
+				tempDate.setUTCFullYear(year);
+				tempDate.setUTCMonth(month-1);
+				tempDate.setUTCDate(date);
+				rtnValue = parseFloat(Date.parse(tempDate));
+				if(!isNaN(rtnValue)) {
+					return rtnValue;
+				}
+				return null;
+			},
+
+	// Convert back from Julian Date
+	fromJD: function(jd) {
+
+				// Temporary till I figure out julian dates:
+				jd = parseFloat(jd);
+				var msInDay = 24*60*60*1000,
+					roundedDate = parseInt(Math.round(jd/msInDay)*msInDay,10),
+					tempDate = new Date(roundedDate);
+
+				return tempDate;
+			},
+
+	formatDate: function(dateObject, formatString) {
+				var longMonths = [
+									"January", 
+									"February", 
+									"March", 
+									"April", 
+									"May", 
+									"June", 
+									"July", 
+									"August", 
+									"September",
+									"October",
+									"November",
+									"December"
+								],
+					shortMonths = [
+									"Jan",
+									"Feb",
+									"Mar",
+									"Apr",
+									"May",
+									"Jun",
+									"Jul",
+									"Aug",
+									"Sep",
+									"Oct",
+									"Nov",
+									"Dec"
+								];
+				
+				var outputString = formatString;
+
+				outputString = outputString.replace("YYYY", "yyyy");
+				outputString = outputString.replace("YY", "yy");
+				outputString = outputString.replace("MMMM", "mmmm");
+				outputString = outputString.replace("MMM", "mmm");
+				outputString = outputString.replace("MM", "mm");
+				outputString = outputString.replace("DD", "dd");
+
+				outputString = outputString.replace("yyyy", dateObject.getUTCFullYear());
+
+				var twoDigitYear = dateObject.getUTCFullYear()%100;
+				twoDigitYear = twoDigitYear < 10 ? '0' + twoDigitYear : twoDigitYear;
+
+				outputString = outputString.replace("yy", twoDigitYear);
+
+				outputString = outputString.replace("mmmm", longMonths[dateObject.getUTCMonth()]);
+				outputString = outputString.replace("mmm", shortMonths[dateObject.getUTCMonth()]);
+				outputString = outputString.replace("mm", (dateObject.getUTCMonth()+1));
+				
+				outputString = outputString.replace("dd", dateObject.getUTCDate());
+				
+				return outputString;
+			},
+
+	getFormatString: function(dateString) {
+				var dateParts = dateString.split("/"),
+					year,
+					month,
+					date,
+					formatString = 'yyyy/mm/dd';
+				
+				if(dateParts.length >= 1) {
+					formatString = 'yyyy';
+				}
+
+				if(dateParts.length >= 2) {
+					formatString += '/mm';
+				}
+
+				if(dateParts.length === 3) {
+					formatString += '/dd';
+				}
+
+				return formatString;
+			}
+};
+/*
+    WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
+
+    Copyright 2010-2013 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+
+    This file is part of WebPlotDigitizer.
+
+    WebPlotDigitizer is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    WebPlotDigitizer is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
+
+
+*/
+
+/* This file contains image processing functions */
+
+/** 
+ * Finds differences between two sets of ImageData and returns a difference matrix. 'true' where unmatched, 'false' where pixels match.
+ * @params {ImageData} d1 first ImageData
+ * @params {ImageData} d2 second ImageData
+ */
+function findDifference(d1,d2) {
+    var dw = canvasWidth;
+    var dh = canvasHeight;
+    var diff = new Array();
+    
+    for (var rowi = 0; rowi < dh; rowi++) {
+		diff[rowi] = new Array();
+		for(var coli = 0; coli < dw; coli++) {
+			var index = rowi*4*dw + coli*4;
+			diff[rowi][coli] = false;
+			
+			for(var p = 0; p < 4; p++) {
+				if (d1.data[index+p] != d2.data[index+p]) {
+					diff[rowi][coli] = true;
+				}
+			}
+	    
+		}
+    }
+    
+    return diff;
+}
+
+/**
+ * Copies pixels based on the difference matrix. 
+ */
+function copyUsingDifference(copyTo, copyFrom, diff) {
+    var dw = canvasWidth;
+    var dh = canvasHeight;
+    
+    for (var rowi = 0; rowi < dh; rowi++) {
+		for(var coli = 0; coli < dw; coli++) {
+			var index = rowi*4*dw + coli*4;
+				
+			if (diff[rowi][coli] === true)
+			for(var p = 0; p < 4; p++)
+				copyTo.data[index+p] = copyFrom.data[index+p];
+				   
+		}
+    }
+    
+    return copyTo;
+}
+
+/** 
+ * create BW image based on the colors specified.
+ */
+function colorSelect(imgd, mode, colorRGB, tol) {
+    dw = canvasWidth;
+    dh = canvasHeight;
+    
+    redv = colorRGB[0];
+    greenv = colorRGB[1];
+    bluev = colorRGB[2];
+    
+    var seldata = new Array();
+    
+    for (var rowi=0; rowi < dh; rowi++) {
+		seldata[rowi] = new Array();
+		for(var coli=0; coli < dw; coli++) {
+			index = rowi*4*dw + coli*4;
+			ir = imgd.data[index];
+			ig = imgd.data[index+1];
+			ib = imgd.data[index+2];
+			
+			dist = Math.sqrt((ir-redv)*(ir-redv) + (ig-greenv)*(ig-greenv) + (ib+bluev)*(ib+bluev));
+			
+			seldata[rowi][coli] = false;
+			
+			if (mode === 'fg') {
+				if (dist <= tol) {
+					seldata[rowi][coli] = true;
+				}
+
+			} else if (mode === 'bg') {
+
+				if (dist > tol) {
+					seldata[rowi][coli] = true;
+				}
+			}
+		}
+    }
+    
+    return seldata;
+}
+
+/**
+ * create BW image based on the colors but only in valid region of difference matrix.
+ */
+function colorSelectDiff(imgd, mode, colorRGB, tol, diff) {
+
+    dw = canvasWidth;
+    dh = canvasHeight;
+    
+    redv = colorRGB[0];
+    greenv = colorRGB[1];
+    bluev = colorRGB[2];
+    
+    var seldata = new Array();
+    
+    for (var rowi=0; rowi < dh; rowi++) {
+		seldata[rowi] = new Array();
+		for(var coli=0; coli < dw; coli++) {
+			index = rowi*4*dw + coli*4;
+			var ir = imgd.data[index];
+			var ig = imgd.data[index+1];
+			var ib = imgd.data[index+2];
+			
+			var dist = Math.sqrt((ir-redv)*(ir-redv) + (ig-greenv)*(ig-greenv) + (ib-bluev)*(ib-bluev));
+			
+			seldata[rowi][coli] = false;
+			
+			if ((mode === 'fg') && (diff[rowi][coli] === 1)) {
+				if (dist <= tol) {
+					seldata[rowi][coli] = true;
+				}
+			} else if ((mode === 'bg') && (diff[rowi][coli] === 1)) {
+				if (dist > tol) {
+					seldata[rowi][coli] = true;
+				}
+			}
+		}
+    }
+    
+    return seldata;
+}
+
+/**
+ * Select from marked region of interest based on color.
+ */
+function selectFromMarkedRegion(mode, colorRGB, tol) {
+
+    dw = canvasWidth;
+    dh = canvasHeight;
+    
+    redv = colorRGB[0];
+    greenv = colorRGB[1];
+    bluev = colorRGB[2];
+    
+    var markedRegion = dataCtx.getImageData(0,0,canvasWidth,canvasHeight);
+    var imgd = getCanvasData();
+    
+    var seldata = new Array();
+    
+    for (var rowi=0; rowi < dh; rowi++) {
+
+	    seldata[rowi] = new Array();
+	    for(var coli=0; coli < dw; coli++) {
+	        index = rowi*4*dw + coli*4;
+	        
+	        // marked region
+	        var mr = markedRegion.data[index];
+	        var mg = markedRegion.data[index+1];
+	        var mb = markedRegion.data[index+2];
+	        
+	        // plot data
+	        var ir = imgd.data[index];
+	        var ig = imgd.data[index+1];
+	        var ib = imgd.data[index+2];
+	        
+       	    seldata[rowi][coli] = false;
+       	    
+       	    if ((mr === 255) && (mg ===  255) && (mb === 0)) {// yellow marked region
+
+       	        var dist = Math.sqrt((ir-redv)*(ir-redv) + (ig-greenv)*(ig-greenv) + (ib-bluev)*(ib-bluev));
+       	        
+       	        if ((mode === 'fg') && (dist <= tol))
+       	            seldata[rowi][coli] = true;
+       	        else if ((mode === 'bg') && (dist > tol))
+       	            seldata[rowi][coli] = true;
+       	    }
+	    }
+	 }
+	 
+	 return seldata;
+}
+
+/**
+ * Populate an ImageData array based on a binary data matrix.
+ */
+function binaryToImageData(bwdata,imgd) {
+    dw = canvasWidth;
+    dh = canvasHeight;
+         
+    for(var rowi = 0; rowi < dh; rowi++) {
+		for(var coli = 0; coli < dw; coli++) {
+			index = rowi*4*dw + coli*4;
+			if (bwdata[rowi][coli] === false) {
+				imgd.data[index] = 255; imgd.data[index+1] = 255; imgd.data[index+2] = 255; imgd.data[index+3] = 255;
+			} else {
+				imgd.data[index] = 0; imgd.data[index+1] = 0; imgd.data[index+2] = 0; imgd.data[index+3] = 255;
+			}
+		}
+	}
+    
+    return imgd;
+}
+
+
+function getImageDataBasedOnSelection(imgdout, mode, colorRGB, tol) {
+	var dw = canvasWidth,
+		dh = canvasHeight,
+		rowi,
+		coli,
+		index,
+		dist,
+		
+		redv = colorRGB[0],
+		greenv = colorRGB[1],
+		bluev = colorRGB[2],
+		
+		markedRegion = dataCtx.getImageData(0,0,canvasWidth,canvasHeight),
+		
+		imgd = currentScreen,
+		
+		mr, mg, mb,
+		ir, ig, ib,
+		markPixelWhite;
+
+	for(rowi = 0; rowi < dh; rowi++) {
+		for(coli = 0; coli < dw; coli++) {
+			index = rowi*4*dw + coli*4;
+
+	        // marked region RGB
+	        mr = markedRegion.data[index];
+	        mg = markedRegion.data[index+1];
+	        mb = markedRegion.data[index+2];
+	        
+	        // plot data
+	        ir = imgd.data[index];
+	        ig = imgd.data[index+1];
+			ib = imgd.data[index+2];
+
+			// set default to white
+			markPixelWhite = true;
+       	    
+       	    if ((mr === 255) && (mg ===  255) && (mb === 0)) {// yellow marked region
+
+       	        dist = (ir-redv)*(ir-redv) + (ig-greenv)*(ig-greenv) + (ib-bluev)*(ib-bluev);
+       	        
+       	        if ((mode === 'fg') && (dist <= tol*tol)) {
+					markPixelWhite = false;
+
+				} else if ((mode === 'bg') && (dist > tol*tol)) {
+					markPixelWhite = false;
+				}
+			}
+
+			if(markPixelWhite) {
+
+				imgdout.data[index] = 255;
+				imgdout.data[index+1] = 255;
+				imgdout.data[index+2] = 255;
+				imgdout.data[index+3] = 255;
+
+			} else {
+				
+				imgdout.data[index] = 0;
+				imgdout.data[index+1] = 0;
+				imgdout.data[index+2] = 0;
+				imgdout.data[index+3] = 255;
+			}
+		}
+	}
+
+	return imgdout;
+}
+
+/*
+	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
+
+	Copyright 2010-2013 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+
+	This file is part of WebPlotDigitizer.
+
+    WebPlotDigitizer is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    WebPlotDigitizer is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
+
+
+*/
+
+/* Parse user provided expressions, dates etc. */
+
+var InputParser = function () {
+	var self = this;
+
+	self.parse = function(input) {
+		
+		self.isValid = false;
+		self.isDate = false;
+
+		if (input == null) {
+			return null;
+		}
+
+		input = input.trim();
+
+		if (input.indexOf("^") !== -1) {
+			return null;
+		}
+
+		var parsedDate = dateConverter.parse(input);
+		if(parsedDate !== null) {
+			self.isValid = true;
+			self.isDate = true;
+			return parsedDate;
+		}
+
+		var parsedFloat = parseFloat(input);
+		if(!isNaN(parsedFloat)) {
+			self.isValid = true;
+			return parsedFloat;
+		}
+
+		return null;
+	};
+
+	self.isValid = false;
+
+	self.isDate = false;
+};
+/*
+	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
+
+	Copyright 2010-2013 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+
+	This file is part of WebPlotDigitizer.
+
+    WebPlotDigitizer is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    WebPlotDigitizer is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
+
+
+*/
+
+
+/** 
+ * Calculate inverse tan with range between 0, 2*pi.
+ */
+function taninverse(y,x) {
+  var inv_ans;
+  if (y>0) // I & II
+    inv_ans = Math.atan2(y,x);
+  else if (y<=0) // III & IV
+    inv_ans = Math.atan2(y,x) + 2*Math.PI;
+  
+  if(inv_ans >= 2*Math.PI)
+    inv_ans = 0.0;
+  return inv_ans;
+}
+/*
+	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
+
+	Copyright 2010-2013 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+
+	This file is part of WebPlotDigitizer.
+
+    WebPlotDigitizer is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    WebPlotDigitizer is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
+
+
+*/
+
+var averagingWindowAlgo = {
+	getParamList: function () {
+			return [["ΔX","Px","5"],["ΔY","Px","5"]];
+		  },
+
+	run: function() {
+			  
+			  var xPoints = new Array();
+			  var xPointsPicked = 0;
+			  xyData = [];
+			  pointsPicked = 0;
+			  
+			  var xStepEl = document.getElementById("pv0");
+			  var xStep = parseFloat(xStepEl.value);
+			  var yStepEl = document.getElementById("pv1");
+			  var yStep = parseFloat(yStepEl.value);
+			  
+			  var dw = canvasWidth;
+			  var dh = canvasHeight;
+			  
+			  var blobAvg = new Array();
+			  
+			  for(var coli = 0; coli < dw; coli++) {
+
+				blobs = -1;
+				firstbloby = -2.0*yStep;
+				bi = 0;
+				   
+				for(var rowi = 0; rowi < dh; rowi++) {
+					if (binaryData[rowi][coli] === true)	{
+					  if (rowi > firstbloby + yStep) {
+						blobs = blobs + 1;
+						bi = 1;
+						blobAvg[blobs] = rowi;
+						firstbloby = rowi;
+					  } else {
+						bi = bi + 1;
+						blobAvg[blobs] = parseFloat((blobAvg[blobs]*(bi-1.0) + rowi)/parseFloat(bi));
+					  }
+					}
+				}
+				
+				if (blobs >= 0) {
+					xi = coli;
+					for (var blbi = 0; blbi <= blobs; blbi++) {
+					  yi = blobAvg[blbi];
+					  
+					  xPoints[xPointsPicked] = new Array();
+					  xPoints[xPointsPicked][0] = parseFloat(xi);
+					  xPoints[xPointsPicked][1] = parseFloat(yi);
+					  xPoints[xPointsPicked][2] = 1; // 1 if not filtered, 0 if processed already
+					  xPointsPicked = xPointsPicked + 1;
+					}
+				}
+				
+			  }
+			  
+			  if (xPointsPicked === 0)
+				return 0;
+			  
+			  for(var pi = 0; pi < xPointsPicked; pi++) {
+				if(xPoints[pi][2] === 1) {// if still available
+				  var inRange = 1;
+				  var xxi = pi+1;
+				  
+				  var oldX = xPoints[pi][0];
+				  var oldY = xPoints[pi][1];
+				  
+				  var avgX = oldX;
+				  var avgY = oldY;
+				  
+				  var matches = 1;
+				  
+				  while((inRange === 1) && (xxi < xPointsPicked)) {
+					var newX = xPoints[xxi][0];
+					var newY = xPoints[xxi][1];
+				
+					if( (Math.abs(newX-oldX) <= xStep) && (Math.abs(newY-oldY) <= yStep) && (xPoints[xxi][2] === 1)) {
+					  avgX = (avgX*matches + newX)/(matches+1.0);
+					  avgY = (avgY*matches + newY)/(matches+1.0);
+					  matches = matches + 1;
+					  
+					  xPoints[xxi][2] = 0;
+					}
+
+					if (newX > oldX + 2*xStep)
+					  inRange = 0;
+				
+					xxi = xxi + 1;
+				  }
+				  
+				  xPoints[pi][2] = 0; 
+				  
+				  xyData[pointsPicked] = new Array();
+				  xyData[pointsPicked][0] = parseFloat(avgX);
+				  xyData[pointsPicked][1] = parseFloat(avgY);
+				  pointsPicked = pointsPicked + 1;	
+
+				}
+				
+			  }
+			  xPoints = [];	
+			}
+};
+
+/*
+	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
+
+	Copyright 2010-2013 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+
+	This file is part of WebPlotDigitizer.
+
+    WebPlotDigitizer is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    WebPlotDigitizer is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
+
+
+*/
+
+var averagingWindowWithStepSizeAlgo = {
+	getParamList: function () {
+			if (plotType === 'XY') {
+				return [["X_min","Units",axesAlignmentData[0].toString()],["ΔX Step","Units","0.1"],["X_max","Units",axesAlignmentData[1].toString()],["Y_min","Units",axesAlignmentData[2].toString()],["Y_max","Units",axesAlignmentData[3].toString()],["Line width","Px","30"]];
+			} else {
+				closePopup('testImageWindow');
+				showPopup('xyAxesOnly');
+				return [["X_min","Units", "0"],["ΔX Step","Units","0.1"],["X_max","Units", "0"],["Y_min","Units", "0"],["Y_max","Units", "0"],["Line width","Px","30"]];
+			}
+		},
+
+	run: function () {
+
+				// NOTE: This only works for XY Plot
+
+				if(plotType === 'XY') {
+
+					var xPointsPicked = 0;
+					xyData = [];
+					pointsPicked = 0;
+
+			resetLayers();
+
+			var dw = canvasWidth;
+			var dh = canvasHeight;
+
+			// Get values from UI:
+			var param_xmin_el = document.getElementById("pv0");
+			var param_delx_el = document.getElementById("pv1");
+			var param_xmax_el = document.getElementById("pv2");
+			var param_linewidth_el = document.getElementById("pv5");
+			var param_ymin_el = document.getElementById("pv3");
+			var param_ymax_el = document.getElementById("pv4");
+
+			var param_xmin = parseFloat(param_xmin_el.value);
+			var param_delx = parseFloat(param_delx_el.value);
+			var param_xmax = parseFloat(param_xmax_el.value);
+			var param_linewidth = parseFloat(param_linewidth_el.value);
+			var param_ymin = parseFloat(param_ymin_el.value);
+			var param_ymax = parseFloat(param_ymax_el.value);
+
+			var blobx = [];
+			var bloby = [];
+
+
+			// Get corresponding pixels:
+			for(var xi = param_xmin; xi <= param_xmax; xi += param_delx) {
+				var xmin_pix, xmax_pix, ymin_pix, ymax_pix, dpix, r_unit_per_pix, step_pix = 1;
+
+				dataToPixel(xi, param_ymin, 'XY');
+				xmin_pix = dataToPixelxy[0];
+				ymin_pix = dataToPixelxy[1];
+
+				dataToPixel(xi, param_ymax, 'XY');
+				xmax_pix = dataToPixelxy[0];
+				ymax_pix = dataToPixelxy[1];
+
+				dpix = Math.sqrt((ymax_pix-ymin_pix)*(ymax_pix-ymin_pix) + (xmax_pix-xmin_pix)*(xmax_pix-xmin_pix));
+
+				r_unit_per_pix = (param_ymax-param_ymin)/dpix;
+
+				var blobActive = false;
+				var blobEntry = 0;
+				var blobExit = 0;
+
+				// To account for noise or if actual thickness is less than specified thickness.
+				// This flag helps to set blobExit at the end of the thin part or account for noise.
+				var blobExitLocked = false; 
+
+				for(var ii = 0; ii <= dpix; ii++) {
+					var yi = -ii*step_pix*r_unit_per_pix + param_ymax;
+					dataToPixel(xi, yi, 'XY');
+
+					xi_pix = dataToPixelxy[0];
+					yi_pix = dataToPixelxy[1];
+
+					if(xi_pix >= 0 && xi_pix < dw && yi_pix >=0 && yi_pix < dh)	{
+
+						if(binaryData[parseInt(yi_pix, 10)][parseInt(xi_pix, 10)] === true)	{
+
+							if(blobActive === false) {
+								blobEntry = ii;
+								blobExit = blobEntry;
+								blobActive = true;
+								blobExitLocked = false;
+							}
+
+							// Resume collection, it was just noise
+							if(blobExitLocked === true) {
+								blobExit = ii;
+								blobExitLocked = false;
+							}
+						} else	{
+
+							// collection ended before line thickness was hit. It could just be noise
+							// or it could be the actual end.
+							if(blobExitLocked === false) {
+								blobExit = ii;
+								blobExitLocked = true;
+							}					
+						}
+
+						if(blobActive === true)	{
+
+							if((ii > blobEntry + param_linewidth) || (ii == dpix-1)) {
+								blobActive = false;
+
+								if(blobEntry > blobExit) {
+									blobExit = ii;							
+								}
+
+								var mean_ii = (blobEntry + blobExit)/2.0;
+								var mean_yi = -mean_ii*step_pix*r_unit_per_pix + param_ymax;
+
+								dataToPixel(xi, mean_yi, 'XY');
+								xyData[pointsPicked] = new Array();
+								xyData[pointsPicked][0] = parseFloat(dataToPixelxy[0]);
+								xyData[pointsPicked][1] = parseFloat(dataToPixelxy[1]);
+								pointsPicked = pointsPicked + 1;
+							}
+						}
+					}
+
+				}
+			}
+		} else {
+			showPopup('xyAxesOnly');
+		}
+	}
+};
+/*
+	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
+
+	Copyright 2010-2013 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+
+	This file is part of WebPlotDigitizer.
+
+    WebPlotDigitizer is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    WebPlotDigitizer is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
+
+
+*/
+
+var blobDetectorAlgo = {
+	getParamList: function() {
+		return [["Min size","Px","0"],["Max size","Px","1000"]];
+	  },
+	run: function() {
+
+			xyData = [];
+			pointsPicked = 0;
+			
+			var minSize = document.getElementById('pv0').value;
+			var maxSize = document.getElementById('pv1').value;
+			
+			var pixelVisited = []; // flag to determine whether a pixel was visited.
+			
+			// initialize to zero.
+			for (var ri = 0; ri < canvasHeight; ri++) {
+				pixelVisited[ri] = new Array();
+				for(var ci = 0; ci < canvasWidth; ci++) {
+					pixelVisited[ri][ci] = false;
+				}
+			}
+			
+			var objectCount = 0;            // number of objects.
+			var objectArea = [];            // numbers of pixels in each obejct.
+			var objectCentroidx = [];        // location of centroid of each object.
+			var objectCentroidy = [];        // location of centroid of each object.
+			var objectpx = [];          // list of pixels of each object.
+			var objectpy = [];  
+			var objectRange = [];    // span of the object in pixels.
+			
+			for (var rpi = 0; rpi < canvasHeight; rpi++) {
+				for (var cpi = 0; cpi < canvasWidth; cpi++) {
+					if((binaryData[rpi][cpi] === true) && (pixelVisited[rpi][cpi] === false)) {
+						pixelVisited[rpi][cpi] = true;
+						
+						objectCount = objectCount + 1;
+						objectArea[objectCount-1] = 1;
+						
+						objectpx[objectCount-1] = new Array();
+						objectpy[objectCount-1] = new Array();
+						
+						objectpx[objectCount-1][0] = cpi;
+						objectpy[objectCount-1][0] = rpi;
+						
+						objectCentroidx[objectCount-1] = cpi;
+						objectCentroidy[objectCount-1] = rpi;
+						
+						var pxi = 1;
+						var oi = 1;
+						
+						while (pxi <= oi) {
+							ai = objectpy[objectCount-1][pxi-1];
+							bi = objectpx[objectCount-1][pxi-1];
+							
+							for (var pp = -1; pp <= 1; pp++) {
+								for (var qq = -1; qq <=1; qq++) {
+									if (((ai+pp) >= 0) && ((bi+qq) >= 0) && ((ai+pp) < canvasHeight) && ((bi+qq) < canvasWidth)) {
+										if ((binaryData[ai+pp][bi+qq] == true) && (pixelVisited[ai+pp][bi+qq] == false)) {
+											objectArea[objectCount-1] = objectArea[objectCount-1] + 1;
+											oi = objectArea[objectCount-1];
+											objectpy[objectCount-1][oi-1] = ai+pp;
+											objectpx[objectCount-1][oi-1] = bi+qq;
+											
+											objectCentroidy[objectCount-1] = (objectCentroidy[objectCount-1]*(oi-1) + (ai+pp))/oi;
+											objectCentroidx[objectCount-1] = (objectCentroidx[objectCount-1]*(oi-1) + (bi+qq))/oi;
+											
+											pixelVisited[ai+pp][bi+qq] = true;
+										}
+									}
+								}
+							}
+							
+							pxi = pxi + 1;
+						}
+									   
+						
+						// Object is now fully captured. Get object range here.
+						
+									   
+					}
+					pixelVisited[rpi][cpi] = true;
+				}
+			}
+			
+			for (var obi = 0; obi < objectCount; obi++) {
+				var sz = 2.0*Math.sqrt(objectArea[obi]/Math.PI);
+				if ((sz>=minSize) && (sz<=maxSize)) {
+					xyData[pointsPicked] = new Array();
+					xyData[pointsPicked][0] = parseFloat(objectCentroidx[obi]);
+					xyData[pointsPicked][1] = parseFloat(objectCentroidy[obi]);
+					xyData[pointsPicked][2] = objectArea[obi];
+					pointsPicked = pointsPicked + 1;
+				}
+			}
+				 
+		}
+};
+/*
+	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
+
+	Copyright 2010-2013 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+
+	This file is part of WebPlotDigitizer.
+
+    WebPlotDigitizer is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    WebPlotDigitizer is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
+
+
+*/
+
+var xStepAlgo = {
+
+	getParamList: function () {
+			return [["ΔX","Px","5"],["Line Width","Px","15"]];
+		  },
+
+	run: function() {
+		  
+		   var xPointsPicked = 0;
+			  xyData = [];
+			  pointsPicked = 0;
+			  
+			  resetLayers();
+			  
+			  var xStepEl = document.getElementById("pv0");
+			  var xStep = parseFloat(xStepEl.value);
+			  
+			  var LineThicknessEl = document.getElementById("pv1");
+			  var yStep = parseFloat(LineThicknessEl.value);
+			  
+			  var dw = canvasWidth;
+			  var dh = canvasHeight;
+			  
+			  var blobAvg = new Array();
+			  
+			  var dx = 1;
+			  var coli = 0;
+			  
+			  while (coli < dw) {
+					blobs = -1;
+					firstbloby = -2.0*yStep;
+					bi = 0;
+			
+					for(var rowi = 0; rowi < dh; rowi++) {
+						if (binaryData[rowi][coli] === true) {
+							dx = xStep; // First contact has been made, start moving forward with xStep now.
+							
+							if (rowi > firstbloby + yStep) {
+								blobs = blobs + 1;
+								bi = 1;
+								blobAvg[blobs] = rowi;
+								firstbloby = rowi;
+							} else {
+								bi = bi + 1;
+								blobAvg[blobs] = parseFloat((blobAvg[blobs]*(bi-1.0) + rowi)/parseFloat(bi));
+							}
+						}
+						
+					}
+					
+					if (blobs >= 0) {
+						xi = coli;
+						for (var blbi = 0; blbi <= blobs; blbi++) {
+							  yi = blobAvg[blbi];
+							  xyData[pointsPicked] = new Array();
+							  xyData[pointsPicked][0] = parseFloat(xi);
+							  xyData[pointsPicked][1] = parseFloat(yi);
+							  pointsPicked = pointsPicked + 1;	
+			 
+						}
+					}
+
+					
+					coli = coli + dx;
+			  }
+			 
+		}
+};
+
+/*
+	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
+
+	Copyright 2010-2013 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+
+	This file is part of WebPlotDigitizer.
+
+    WebPlotDigitizer is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    WebPlotDigitizer is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
+
+
+*/
+var yStepAlgo = {
+	getParamList: function () {
+		return [["ΔY","Px","5"],["Line Width","Px","15"]];
+	  },
+	  
+	run: function() {
+		  
+		   var xPointsPicked = 0;
+			  xyData = [];
+			  pointsPicked = 0;
+			  
+			  resetLayers();
+					
+			  var yStepEl = document.getElementById("pv0");
+			  var yStep = parseFloat(yStepEl.value);
+			  
+			  var LineThicknessEl = document.getElementById("pv1");
+			  var xStep = parseFloat(LineThicknessEl.value);
+			  
+			  var dw = canvasWidth;
+			  var dh = canvasHeight;
+			  
+			  var blobAvg = new Array();
+			  
+			  var dy = -1;
+			  var rowi = dh-1;
+			  
+			  while (rowi >= 0) {
+					blobs = -1;
+					firstblobx = -2.0*xStep;
+					bi = 0;
+			
+					for(var coli = 0; coli < dw; coli++) {
+						if (binaryData[rowi][coli] === true) {
+							dy = -yStep; // First contact has been made, start moving forward with xStep now.
+							
+							if (coli > firstblobx + xStep) {
+								blobs = blobs + 1;
+								bi = 1;
+								blobAvg[blobs] = coli;
+								firstblobx = coli;
+							} else {
+								bi = bi + 1;
+								blobAvg[blobs] = parseFloat((blobAvg[blobs]*(bi-1.0) + coli)/parseFloat(bi));
+							}
+						}
+						
+					}
+					
+					if (blobs >= 0) {
+						yi = rowi;
+						for (var blbi = 0; blbi <= blobs; blbi++) {
+							  xi = blobAvg[blbi];
+							  xyData[pointsPicked] = new Array();
+							  xyData[pointsPicked][0] = parseFloat(xi);
+							  xyData[pointsPicked][1] = parseFloat(yi);
+							  pointsPicked = pointsPicked + 1;	
+			 
+						}
+					}
+
+					
+					rowi = rowi + dy;
+			  }
+			 
+			 
+		}
+};
+
+/*
+	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
+
+	Copyright 2010-2013 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+
+	This file is part of WebPlotDigitizer.
+
+    WebPlotDigitizer is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    WebPlotDigitizer is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
+
+
+*/
+
+/* Main Canvas Variables */
+
+/** Holds the main canvas element where the original picture is displayed. */
+var mainCanvas; 
+/** Holds the canvas layer in which data is presented */
+var dataCanvas;
+/** Holds the canvas layer where drawing is done. */
+var drawCanvas;
+/** Holds the canvas layer where drawing while mouse is hovering is done. */
+var hoverCanvas;
+/** Holds the top level canvas layer. This layer handles the mouse events. */
+var topCanvas;
+
+/** X-Location of the origin where plot image is drawn. */
+var cx0; 
+/** Y-Location of the origin where plot image is drawn. */
+var cy0;
+/** Actual canvas width. */
+var canvasWidth;
+/** Actual canvas height. */
+var canvasHeight;
+/** Available canvas width. */
+var cwidth;
+/** Available canvas height. */
+var cheight;
+/** Aspect ratio of the image. */
+var caspectratio;
+/** Current image element. */
+var currentImage; 
+/** Original image element. */
+var originalImage;
+/** Current image height. */
+var currentImageHeight; 
+/** Current image width. */
+var currentImageWidth;
+/** canvas data from getImageData */
+var currentImageData; 
+/** source image dimensions with elements [x_min, y_min, x_max, y_max] **/
+var imageDimensions = [];
+/** Image screen dimensions **/
+var onScreenDimensions = [];
+// canvas layer contexts.
+var ctx; 
+var dataCtx;
+var drawCtx;
+var hoverCtx;
+var topCtx;
+
+// Different canvas states. They are all of type ImageData
+
+var originalScreen;
+
+// Canvas Layers
+var mainScreen;
+var dataScreen;
+var drawScreen;
+var hoverScreen;
+var topScreen;
+
+/**
+ * Load an image on the main canvas.
+ * @param {Image} imgel Image to load.
+ */
+function loadImage(imgel) {
+
+	var sheight = parseInt(imgel.height);
+	var swidth = parseInt(imgel.width);
+	var iar = sheight/swidth;
+	
+	var newHeight = sheight;
+	var newWidth = swidth;
+		
+	if (iar > caspectratio)	{
+		newHeight = cheight;
+		newWidth = cheight/iar;
+	} else {
+		newWidth = cwidth;
+		newHeight = cwidth*iar;
+	}
+	
+	currentImage = imgel;
+	currentImageHeight = parseInt(newHeight);
+	currentImageWidth = parseInt(newWidth);
+			
+	ctx.fillStyle = "rgb(255,255,255)";
+	ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+	ctx.drawImage(imgel,cx0,cy0,newWidth,newHeight); 
+	
+	currentScreen = getCanvasData();
+	
+	imageDimensions[0] = 1;		// x_min
+	imageDimensions[1] = 1;		// y_min
+	imageDimensions[2] = swidth;	// x_max
+	imageDimensions[3] = sheight;	// y_max
+	
+	onScreenDimensions[0] = cx0;
+	onScreenDimensions[1] = cy0;
+	onScreenDimensions[2] = newWidth+cx0;
+	onScreenDimensions[3] = newHeight+cy0;
+}
+
+/**
+ * Save the current state.
+ */
+function saveCanvasImage() {
+	var nimagedata = ctx.getImageData(cx0,cy0,currentImageWidth,currentImageHeight);
+	var tCanvas = document.createElement('canvas');
+	
+	tCanvas.width = currentImageWidth;
+	tCanvas.height=  currentImageHeight;
+
+	tCanvasContext = tCanvas.getContext('2d');
+	tCanvasContext.putImageData(nimagedata,0,0);
+
+	newImage = document.createElement('img');
+	newImage.src = tCanvas.toDataURL();
+	newImage.onload = function() { currentImage = newImage; currentScreen = getCanvasData(); };
+}
+
+/**
+ * Returns getImageData from the main canvas.
+ * @returns {ImageData} Current ImageData.
+ */
+function getCanvasData() {
+	var cImgData = ctx.getImageData(0,0,canvasWidth,canvasHeight);
+	return cImgData;
+}
+
+/**
+ * Load image on the main canvas
+ * @param {ImageData} cImgData ImageData.
+ */
+function putCanvasData(cImgData) {
+	mainCanvas.width = mainCanvas.width;
+	ctx.putImageData(cImgData,0,0);
+}
+
+/**
+ * Redraw/Reset canvas.
+ */
+function reloadPlot() {
+	mainCanvas.width = mainCanvas.width; // resets canvas.
+	ctx.drawImage(currentImage, cx0, cy0, currentImageWidth, currentImageHeight); // redraw image.
+}
+
+/**
+ * Redraw/Reset canvas.
+ */
+function redrawCanvas() {
+	mainCanvas.width = mainCanvas.width;
+	putCanvasData(currentScreen);
+}
+
+/**
+ * Resets all canvases except the main canvas.
+ */
+function resetLayers() {
+    dataCanvas.width = dataCanvas.width;
+    drawCanvas.width = drawCanvas.width;
+    hoverCanvas.width = hoverCanvas.width;
+    topCanvas.width = topCanvas.width;
+}
+
+/**
+ * Create PNG in a new window
+ */
+function savePNG() {
+  var saveImageWin = window.open();
+  saveImageWin.location = mainCanvas.toDataURL();
+}
+
+/**
+ * Get position of an event (usu. mouse event) relative to the top left corner of canvas 
+ */
+function getPosition(ev) {
+	var mainCanvasPosition = mainCanvas.getBoundingClientRect();
+	return {
+		x: parseInt(ev.pageX - (mainCanvasPosition.left + window.pageXOffset), 10),
+		y: parseInt(ev.pageY - (mainCanvasPosition.top + window.pageYOffset), 10)
+	};
+}
+
+/**
+ * Handle dropped file on canvas.
+ */
+function dropHandler(ev) {
+	var allDrop = ev.dataTransfer.files;
+	if (allDrop.length == 1) {
+	    fileLoader(allDrop[0]);
+	}
+}
+
+/**
+ * Handle file pasted from clipboard on canvas. Works only in Google Chrome.
+ */
+function pasteHandler(ev) {
+	if(ev.clipboardData !== undefined) {
+		var items = ev.clipboardData.items;
+		if(items !== undefined) {
+			for(var i = 0; i < items.length; i++) {
+				if(items[i].type.indexOf("image") !== -1) {
+					var blob = items[i].getAsFile();
+					var URLObj = window.URL || window.webkitURL;
+					var source = URLObj.createObjectURL(blob);
+					fileLoader(blob);
+				}
+			}
+		}
+	}
+}
+
+/**
+ * Loads a file that was dropped or loaded
+ */
+function fileLoader(fileInfo) {
+    if(fileInfo.type.match("image.*")) {// only load images
+		var droppedFile = new FileReader();
+		droppedFile.onload = function() {
+			var imageInfo = droppedFile.result;
+			var newimg = document.createElement('img');
+			newimg.onload = function() { loadImage(newimg); originalScreen = getCanvasData(); originalImage = newimg; setDefaultState(); };
+			newimg.src = imageInfo;
+		}
+		droppedFile.readAsDataURL(fileInfo);
+	}
+}
+
+/**
+ * Load file when file is chosen
+ */
+function loadNewFile() {
+  var fileLoadElem = document.getElementById('fileLoadBox');
+  if (fileLoadElem.files.length == 1) {
+    var fileInfo = fileLoadElem.files[0];
+    fileLoader(fileInfo);
+  }
+  popup.close('loadNewImage');
+}
+
+/*
+	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
+
+	Copyright 2010-2013 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+
+	This file is part of WebPlotDigitizer.
+
+    WebPlotDigitizer is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    WebPlotDigitizer is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
+
+
+*/
+
+// Module to manage mouse events on the canvas. This is to ensure events are added and removed in a clean manner
+var canvasMouseEvents = (function () {
+
+    // List of mouse event types.
+    var mouseEventType = new Array();
+
+    // List of mouse event functions.
+    var mouseEventFunction = new Array();
+
+    // To capture or not.
+    var mouseEventCapture = new Array();
+
+    // Total number of active mouse events.
+    var mouseEvents = 0;
+
+    // Add a mouse event.
+    function addMouseEvent(mouseEv, functionName, tf) {
+        var eventExists = false;
+        for(var ii = 0; ii < mouseEvents; ii++)	{
+            if ((mouseEv === mouseEventType[ii]) && (functionName === mouseEventFunction[ii]) && (tf === mouseEventCapture[ii]))
+                eventExists = true;
+        }
+
+        if(eventExists === false) {
+            topCanvas.addEventListener(mouseEv, functionName, tf);
+            mouseEventType[mouseEvents] = mouseEv;
+            mouseEventFunction[mouseEvents] = functionName;
+            mouseEventCapture[mouseEvents] = tf;
+            mouseEvents = mouseEvents + 1;
+        }
+    }
+
+    // Clear the entire list of active mouse events.
+    function removeAllMouseEvents() {
+
+        if(mouseEvents > 0) {
+
+            for (var kk = 0; kk < mouseEvents; kk++) {
+                topCanvas.removeEventListener(mouseEventType[kk],mouseEventFunction[kk],mouseEventCapture[kk]);
+            }
+            mouseEvents = 0;
+            mouseEventType = [];
+            moueEventFunction = [];
+            mouseEventCapture = [];
+        }
+        toolbar.clear();
+    }
+
+    // Remove a particular mouse event.
+    function removeMouseEvent(mouseEv, functionName, tf) {
+
+        var eventExists = false;
+        var eventIndex = 0;
+
+        for(var ii = 0; ii < mouseEvents; ii++) {
+            if ((mouseEv === mouseEventType[ii]) && (functionName === mouseEventFunction[ii]) && (tf === mouseEventCapture[ii])) {
+                eventExists = true;
+                eventIndex = ii;
+            }
+        }
+
+        if(eventExists === true) {
+            topCanvas.removeEventListener(mouseEv, functionName, tf);
+            mouseEvents = mouseEvents - 1;
+            mouseEventType.splice(eventIndex,1);
+            mouseEventFunction.splice(eventIndex,1);
+            mouseEventCapture.splice(eventIndex,1);
+        }
+    }
+
+    return {
+        add: addMouseEvent,
+        remove: removeMouseEvent,
+        removeAll: removeAllMouseEvents
+    };
+
+})();
+
+/*
+	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
+
+	Copyright 2010-2013 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+
+	This file is part of WebPlotDigitizer.
+
+    WebPlotDigitizer is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    WebPlotDigitizer is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
+
+
+*/
+
+// Handle popup windows
+var popup = (function () {
+
+    function show(popupid) {
+        // Dim lights :)
+        var shadowDiv = document.getElementById('shadow');
+        shadowDiv.style.visibility = "visible";
+
+        var pWindow = document.getElementById(popupid);
+        var screenWidth = parseInt(window.innerWidth);
+        var screenHeight = parseInt(window.innerHeight);
+        var pWidth = parseInt(pWindow.offsetWidth);
+        var pHeight = parseInt(pWindow.offsetHeight);
+        var xPos = (screenWidth - pWidth)/2;
+        var yPos = (screenHeight - pHeight)/2;
+        pWindow.style.left = xPos + 'px';
+        pWindow.style.top = yPos + 'px';
+        pWindow.style.visibility = "visible";
+    }
+
+    function close(popupid) {
+
+        var shadowDiv = document.getElementById('shadow');
+        shadowDiv.style.visibility = "hidden";
+
+        var pWindow = document.getElementById(popupid);
+        pWindow.style.visibility = "hidden";
+    }
+
+    return {
+        show: show,
+        close: close
+    };
+
+})();
+
+
+/**
+ * Show a 'processing' note on the top right corner.
+ * @param {boolean} pmode set to 'true' to diplay, 'false' to hide.
+ */
+function processingNote(pmode) {
+	var pelem = document.getElementById('wait');
+
+	if(pmode === true) {
+		pelem.style.visibility = 'visible';
+	} else {
+		pelem.style.visibility = 'hidden';
+	}
+
+}
+
+/*
+	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
+
+	Copyright 2010-2013 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+
+	This file is part of WebPlotDigitizer.
+
+    WebPlotDigitizer is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    WebPlotDigitizer is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
+
+
+*/
+
+
+var sidebar = (function () {
+
+    // List of sidebars that can be closed via clearSidebar(). Typically, I include all known sidebars here.
+    var sidebarList = ['editImageToolbar','manualMode','autoMode'];
+
+    function show(sbid) { // Shows a specific sidebar
+
+        clear();
+        var sb = document.getElementById(sbid);
+        sb.style.visibility = "visible";
+    }
+
+    function clear() { // Clears all open sidebars
+
+          for (ii = 0; ii < sidebarList.length; ii ++) {
+              var sbv = document.getElementById(sidebarList[ii]);
+              sbv.style.visibility="hidden";
+          }
+        
+    }
+
+    return {
+        show: show,
+        clear: clear
+    };
+
+})();
+
+
+/*
+	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
+
+	Copyright 2010-2013 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+
+	This file is part of WebPlotDigitizer.
+
+    WebPlotDigitizer is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    WebPlotDigitizer is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
+
+
+*/
+
+var toolbar = (function () {
+
+    // list of all known toolbars!
+    var toolbarList = ['paintToolbar','colorPickerToolbar']; 
+
+    function show(sbid) { // Shows a specific sidebar
+        clear();
+        var sb = document.getElementById(sbid);
+        sb.style.visibility = "visible";
+    }
+
+    function clear() { // Clears all open sidebars
+
+          for (ii = 0; ii < toolbarList.length; ii ++) {
+              var sbv = document.getElementById(toolbarList[ii]);
+              sbv.style.visibility="hidden";
+          }
+        
+    }
+
+    return {
+        show: show,
+        clear: clear
+    };
+})();
+
+/*
+	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
+
+	Copyright 2010-2013 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+
+	This file is part of WebPlotDigitizer.
+
+    WebPlotDigitizer is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    WebPlotDigitizer is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
+
+
+*/
+
+/* Zoomed-in view */
+var zoomView = (function() {
+    var zCanvas, 
+        zctx,
+        tempCanvas,
+        tctx,
+        zoom_dx = 20,
+        zoom_dy = 20,
+        zWindowWidth = 200,
+        zWindowHeight = 200,
+        mPosn,
+        extendedCrosshair = false,
+        pix = [],
+        zoomTimeout;
+
+    pix[0] = new Array();
+
+    function init() {
+
+        zCanvas = document.getElementById('zoomCanvas');
+    	zctx = zCanvas.getContext('2d');
+	    tempCanvas = document.createElement('canvas');
+        tctx = tempCanvas.getContext('2d');
+        tempCanvas.width = zoom_dx;
+        tempCanvas.height = zoom_dy;
+
+        mPosn = document.getElementById('mousePosition');
+
+        var zCrossHair = document.getElementById("zoomCrossHair");
+        var zchCtx = zCrossHair.getContext("2d");
+        zchCtx.strokeStyle = "rgb(0,0,0)";
+        zchCtx.beginPath();
+        zchCtx.moveTo(zWindowWidth/2, 0);
+        zchCtx.lineTo(zWindowWidth/2, zWindowHeight);
+        zchCtx.moveTo(0, zWindowHeight/2);
+        zchCtx.lineTo(zWindowWidth, zWindowHeight/2);
+        zchCtx.stroke();
+    }
+
+    function updateZoomEventHandler(ev) {
+	    clearTimeout(zoomTimeout);
+	    zoomTimeout = setTimeout(updateZoom(ev), 5);
+    }
+
+    function updateZoom(ev) {
+
+        var posn = getPosition(ev);
+        var xpos = posn.x;
+        var ypos = posn.y;
+        var dx = zoom_dx;
+        var dy = zoom_dy;
+        
+        if (axesPicked != 1) {
+            mPosn.innerHTML = xpos + ', ' + ypos;
+        } else if(axesPicked == 1) {
+            pix[0][0] = parseFloat(xpos);
+            pix[0][1] = parseFloat(ypos);
+            var rpix = pixelToData(pix, 1, plotType);
+        
+            if (plotType === 'image') {
+                mPosn.innerHTML = rpix[0][0] + ', ' + rpix[0][1];
+            } else {
+                if(plotType === 'XY') {
+                    if(axesAlignmentData[6] === true) {
+                        mPosn.innerHTML = dateConverter.formatDate(dateConverter.fromJD(rpix[0][0]), axesAlignmentData[8]);
+                    } else {
+                        mPosn.innerHTML = parseFloat(rpix[0][0]).toExponential(4);
+                    }
+
+                    if(axesAlignmentData[7] === true) {
+                        mPosn.innerHTML += ', ' + dateConverter.formatDate(dateConverter.fromJD(rpix[0][1]), axesAlignmentData[9]);
+                    } else {
+                        mPosn.innerHTML += ', ' + parseFloat(rpix[0][1]).toExponential(4);
+                    }
+                } else {
+                    mPosn.innerHTML = parseFloat(rpix[0][0]).toExponential(4) + ', ' + parseFloat(rpix[0][1]).toExponential(4);
+                }
+                if (plotType === 'ternary') {
+                    mPosn.innerHTML += ', ' + parseFloat(rpix[0][2]).toExponential(4);
+                }
+            }
+        }
+        
+        if (extendedCrosshair === true) {
+            hoverCanvas.width = hoverCanvas.width;
+            hoverCtx.strokeStyle = "rgba(0,0,0, 0.5)";
+            hoverCtx.beginPath();
+            hoverCtx.moveTo(xpos, 0);
+            hoverCtx.lineTo(xpos, canvasHeight);
+            hoverCtx.moveTo(0, ypos);
+            hoverCtx.lineTo(canvasWidth, ypos);
+            hoverCtx.stroke();
+        }
+
+        
+        if((xpos-dx/2) >= 0 && (ypos-dy/2) >= 0 && (xpos+dx/2) <= canvasWidth && (ypos+dy/2) <= canvasHeight) {
+            var zoomImage = ctx.getImageData(xpos-dx/2,ypos-dy/2,dx,dy);
+            var dataLayerImage = dataCtx.getImageData(xpos-dx/2,ypos-dy/2,dx,dy);
+
+            // merge data from the two layers.
+            for (var zi = 0; zi < dataLayerImage.data.length; zi+=4) {
+                if ((dataLayerImage.data[zi]+dataLayerImage.data[zi+1]+dataLayerImage.data[zi+2]+dataLayerImage.data[zi+3])!=0) {
+                    zoomImage.data[zi] = dataLayerImage.data[zi];
+                    zoomImage.data[zi+1] = dataLayerImage.data[zi+1];        
+                    zoomImage.data[zi+2] = dataLayerImage.data[zi+2];        
+                }
+            }
+            
+            tctx.clearRect(0,0,zoom_dx,zoom_dy);
+            tctx.putImageData(zoomImage,0,0);
+
+            // Draw directly from canvas. 
+            // Creating a new image here caused a memory leak!
+            zctx.drawImage(tempCanvas, 0, 0, zWindowWidth, zWindowHeight);
+        }
+    }
+    
+    // Doesn't belong in zoom-view, to be moved out later!
+    function toggleCrosshair(ev) {
+        if (ev.keyCode === 220) {
+            ev.preventDefault();
+            extendedCrosshair = !(extendedCrosshair);
+            hoverCanvas.width = hoverCanvas.width;
+        }
+    }
+
+
+    return {
+        initZoom: init,
+        updateZoomEventHandler: updateZoomEventHandler,
+        updateZoom: updateZoom,
+        toggleCrosshair: toggleCrosshair,
+        zoom_dx: zoom_dx,
+        zoom_dy: zoom_dy,
+        mPosn: mPosn
+    };
+})();
 
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
@@ -352,40 +2771,6 @@ function alignAxes() {
 	}
     
 }
-/*
-	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
-
-	Copyright 2010-2013 Ankit Rohatgi <ankitrohatgi@hotmail.com>
-
-	This file is part of WebPlotDigitizer.
-
-    WebPlotDigitizer is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    WebPlotDigitizer is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
-
-
-*/
-
-/* Manage application cache updates */
-
-window.addEventListener('load', function (e) {
-    window.applicationCache.addEventListener('updateready', function (ev) {
-        if(window.applicationCache.status == window.applicationCache.UPDATEREADY) {
-            if(confirm('A new version of WebPlotDigitizer is available. Update?')) {
-                window.location.reload();
-            }
-        }
-    }, false);
-}, false);
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
@@ -873,244 +3258,156 @@ function makeParameterTable() {
 
 */
 
-/* Main Canvas Variables */
-
-/** Holds the main canvas element where the original picture is displayed. */
-var mainCanvas; 
-/** Holds the canvas layer in which data is presented */
-var dataCanvas;
-/** Holds the canvas layer where drawing is done. */
-var drawCanvas;
-/** Holds the canvas layer where drawing while mouse is hovering is done. */
-var hoverCanvas;
-/** Holds the top level canvas layer. This layer handles the mouse events. */
-var topCanvas;
-
-/** X-Location of the origin where plot image is drawn. */
-var cx0; 
-/** Y-Location of the origin where plot image is drawn. */
-var cy0;
-/** Actual canvas width. */
-var canvasWidth;
-/** Actual canvas height. */
-var canvasHeight;
-/** Available canvas width. */
-var cwidth;
-/** Available canvas height. */
-var cheight;
-/** Aspect ratio of the image. */
-var caspectratio;
-/** Current image element. */
-var currentImage; 
-/** Original image element. */
-var originalImage;
-/** Current image height. */
-var currentImageHeight; 
-/** Current image width. */
-var currentImageWidth;
-/** canvas data from getImageData */
-var currentImageData; 
-/** source image dimensions with elements [x_min, y_min, x_max, y_max] **/
-var imageDimensions = [];
-/** Image screen dimensions **/
-var onScreenDimensions = [];
-// canvas layer contexts.
-var ctx; 
-var dataCtx;
-var drawCtx;
-var hoverCtx;
-var topCtx;
-
-// Different canvas states. They are all of type ImageData
-
-var originalScreen;
-
-// Canvas Layers
-var mainScreen;
-var dataScreen;
-var drawScreen;
-var hoverScreen;
-var topScreen;
+var cropStatus = 0;
+var cropCoordinates = [0,0,0,0];
 
 /**
- * Load an image on the main canvas.
- * @param {Image} imgel Image to load.
+ * Flip picture horizontally
  */
-function loadImage(imgel) {
+function hflip() {
+	processingNote(true);
 
-	var sheight = parseInt(imgel.height);
-	var swidth = parseInt(imgel.width);
-	var iar = sheight/swidth;
-	
-	var newHeight = sheight;
-	var newWidth = swidth;
-		
-	if (iar > caspectratio)	{
-		newHeight = cheight;
-		newWidth = cheight/iar;
-	} else {
-		newWidth = cwidth;
-		newHeight = cwidth*iar;
-	}
-	
-	currentImage = imgel;
-	currentImageHeight = parseInt(newHeight);
-	currentImageWidth = parseInt(newWidth);
-			
-	ctx.fillStyle = "rgb(255,255,255)";
-	ctx.fillRect(0, 0, canvasWidth, canvasHeight);
-	ctx.drawImage(imgel,cx0,cy0,newWidth,newHeight); 
-	
-	currentScreen = getCanvasData();
-	
-	imageDimensions[0] = 1;		// x_min
-	imageDimensions[1] = 1;		// y_min
-	imageDimensions[2] = swidth;	// x_max
-	imageDimensions[3] = sheight;	// y_max
-	
-	onScreenDimensions[0] = cx0;
-	onScreenDimensions[1] = cy0;
-	onScreenDimensions[2] = newWidth+cx0;
-	onScreenDimensions[3] = newHeight+cy0;
-}
+	var iData = ctx.getImageData(cx0,cy0,currentImageWidth,currentImageHeight);
 
-/**
- * Save the current state.
- */
-function saveCanvasImage() {
-	var nimagedata = ctx.getImageData(cx0,cy0,currentImageWidth,currentImageHeight);
-	var tCanvas = document.createElement('canvas');
-	
-	tCanvas.width = currentImageWidth;
-	tCanvas.height=  currentImageHeight;
-
-	tCanvasContext = tCanvas.getContext('2d');
-	tCanvasContext.putImageData(nimagedata,0,0);
-
-	newImage = document.createElement('img');
-	newImage.src = tCanvas.toDataURL();
-	newImage.onload = function() { currentImage = newImage; currentScreen = getCanvasData(); };
-}
-
-/**
- * Returns getImageData from the main canvas.
- * @returns {ImageData} Current ImageData.
- */
-function getCanvasData() {
-	var cImgData = ctx.getImageData(0,0,canvasWidth,canvasHeight);
-	return cImgData;
-}
-
-/**
- * Load image on the main canvas
- * @param {ImageData} cImgData ImageData.
- */
-function putCanvasData(cImgData) {
-	mainCanvas.width = mainCanvas.width;
-	ctx.putImageData(cImgData,0,0);
-}
-
-/**
- * Redraw/Reset canvas.
- */
-function reloadPlot() {
-	mainCanvas.width = mainCanvas.width; // resets canvas.
-	ctx.drawImage(currentImage, cx0, cy0, currentImageWidth, currentImageHeight); // redraw image.
-}
-
-/**
- * Redraw/Reset canvas.
- */
-function redrawCanvas() {
-	mainCanvas.width = mainCanvas.width;
-	putCanvasData(currentScreen);
-}
-
-/**
- * Resets all canvases except the main canvas.
- */
-function resetLayers() {
-    dataCanvas.width = dataCanvas.width;
-    drawCanvas.width = drawCanvas.width;
-    hoverCanvas.width = hoverCanvas.width;
-    topCanvas.width = topCanvas.width;
-}
-
-/**
- * Create PNG in a new window
- */
-function savePNG() {
-  var saveImageWin = window.open();
-  saveImageWin.location = mainCanvas.toDataURL();
-}
-
-/**
- * Get position of an event (usu. mouse event) relative to the top left corner of canvas 
- */
-function getPosition(ev) {
-	var mainCanvasPosition = mainCanvas.getBoundingClientRect();
-	return {
-		x: parseInt(ev.pageX - (mainCanvasPosition.left + window.pageXOffset), 10),
-		y: parseInt(ev.pageY - (mainCanvasPosition.top + window.pageYOffset), 10)
-	};
-}
-
-/**
- * Handle dropped file on canvas.
- */
-function dropHandler(ev) {
-	var allDrop = ev.dataTransfer.files;
-	if (allDrop.length == 1) {
-	    fileLoader(allDrop[0]);
-	}
-}
-
-/**
- * Handle file pasted from clipboard on canvas. Works only in Google Chrome.
- */
-function pasteHandler(ev) {
-	if(ev.clipboardData !== undefined) {
-		var items = ev.clipboardData.items;
-		if(items !== undefined) {
-			for(var i = 0; i < items.length; i++) {
-				if(items[i].type.indexOf("image") !== -1) {
-					var blob = items[i].getAsFile();
-					var URLObj = window.URL || window.webkitURL;
-					var source = URLObj.createObjectURL(blob);
-					fileLoader(blob);
-				}
+	for (var rowi = 0; rowi < currentImageHeight; rowi++) {
+		for(var coli = 0; coli < currentImageWidth/2; coli++) {
+			var index = rowi*4*currentImageWidth + coli*4;
+			var mindex = (rowi+1)*4*currentImageWidth - (coli+1)*4;
+			for(var p = 0; p < 4; p++) {
+				var tt = iData.data[index + p];
+				iData.data[index + p] = iData.data[mindex + p];
+				iData.data[mindex + p] = tt;
 			}
 		}
 	}
+	
+	ctx.putImageData(iData,cx0,cy0);
+	saveCanvasImage();
+
+	processingNote(false);
 }
 
 /**
- * Loads a file that was dropped or loaded
+ * Flip picture vertically
  */
-function fileLoader(fileInfo) {
-    if(fileInfo.type.match("image.*")) {// only load images
-		var droppedFile = new FileReader();
-		droppedFile.onload = function() {
-			var imageInfo = droppedFile.result;
-			var newimg = document.createElement('img');
-			newimg.onload = function() { loadImage(newimg); originalScreen = getCanvasData(); originalImage = newimg; setDefaultState(); };
-			newimg.src = imageInfo;
+function vflip() {
+
+	processingNote(true);
+
+	var iData = ctx.getImageData(cx0,cy0,currentImageWidth,currentImageHeight);
+
+	for (var coli = 0; coli < currentImageWidth; coli++) {
+
+		for(var rowi = 0; rowi < currentImageHeight/2; rowi++) {
+
+			var index = rowi*4*currentImageWidth + coli*4;
+			var mindex = (currentImageHeight - (rowi+2))*4*currentImageWidth + coli*4;
+			for(var p = 0; p < 4; p++) {
+
+				var tt = iData.data[index + p];
+				iData.data[index + p] = iData.data[mindex + p];
+				iData.data[mindex + p] = tt;
+			}
 		}
-		droppedFile.readAsDataURL(fileInfo);
 	}
+	
+	ctx.putImageData(iData,cx0,cy0);
+	saveCanvasImage();
+
+	processingNote(false);
 }
 
 /**
- * Load file when file is chosen
+ * Enable crop mode
  */
-function loadNewFile() {
-  var fileLoadElem = document.getElementById('fileLoadBox');
-  if (fileLoadElem.files.length == 1) {
-    var fileInfo = fileLoadElem.files[0];
-    fileLoader(fileInfo);
-  }
-  popup.close('loadNewImage');
+function cropPlot() {// crop image
+
+	redrawCanvas();
+	canvasMouseEvents.removeAll();
+	canvasMouseEvents.add('mousedown',cropMousedown,true);
+	canvasMouseEvents.add('mouseup',cropMouseup,true);
+	canvasMouseEvents.add('mousemove',cropMousemove,true);
 }
+
+/**
+ * Crop mode - mouse down
+ */
+function cropMousedown(ev) {
+	var posn = getPosition(ev),
+		xi = posn.x,
+		yi = posn.y;
+
+	cropCoordinates[0] = xi;
+	cropCoordinates[1] = yi;
+	cropStatus = 1;
+}
+
+/**
+ * Crop mode - mouse up
+ */
+function cropMouseup(ev) {
+
+	var posn = getPosition(ev),
+		xi = posn.x,
+		yi = posn.y;
+
+      cropCoordinates[2] = xi;
+      cropCoordinates[3] = yi;
+      cropStatus = 0;
+      
+      hoverCanvas.width = hoverCanvas.width;
+            
+      cropWidth = cropCoordinates[2]-cropCoordinates[0];
+      cropHeight = cropCoordinates[3]-cropCoordinates[1];
+      if ((cropWidth > 0) && (cropHeight > 0)) {
+
+		var tcan = document.createElement('canvas');
+		var tcontext = tcan.getContext('2d');
+		
+		tcan.width = cropWidth;
+		tcan.height = cropHeight;
+		
+		var cropImageData = ctx.getImageData(cropCoordinates[0],cropCoordinates[1],cropWidth,cropHeight);  
+				
+		tcontext.putImageData(cropImageData,0,0);
+		cropSrc = tcan.toDataURL();
+		cropImg = new Image();
+		cropImg.src = cropSrc;
+		cropImg.onload = function() { loadImage(cropImg); }
+				
+      }
+      
+}
+
+/**
+ * Crop mode - mouse move
+ */
+function cropMousemove(ev) {
+
+	
+	var posn = getPosition(ev),
+		xi = posn.x,
+		yi = posn.y;
+
+      // this paints a rectangle as the mouse moves
+      if(cropStatus == 1) {
+        hoverCanvas.width = hoverCanvas.width;
+		hoverCtx.strokeStyle = "rgb(0,0,0)";
+		hoverCtx.strokeRect(cropCoordinates[0], cropCoordinates[1], xi-cropCoordinates[0], yi-cropCoordinates[1]);
+      }
+}
+
+/**
+ * Restore to original image
+ */
+function restoreOriginalImage() {
+	loadImage(originalImage);
+}
+
+/**
+ * Rotate image by a certain specified angle. Not implemented yet.
+ */
+function rotateCanvas() {}// Rotate by a specified amount.
 
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
@@ -1135,413 +3432,164 @@ function loadNewFile() {
 
 */
 
-var dataToPixelxy;
+
+/* Selected Data Variables */
+var xyData = new Array(); // Raw data
+var pointsPicked = 0; // number of data points picked.
 
 /**
- * Pixel to real coordinate.
- * @param {Array} pdata Pixel data
- * @param {Int} pn Number of data points.
- * @param {String} ptype Plot type
+ * Called when the 'acquire data' button is pressed. 
  */
- function pixelToData(pdata, pn, ptype) {
+function acquireData() {
+	if(axesPicked === 0) {
+		popup.show('alignAxes');
+	} else {
+		sidebar.show('manualMode');
+		canvasMouseEvents.removeAll();
+	}
+}
 
-    if((axesPicked === 1) && (pn >= 1)) {
-        var rdata = [];
-        
-        if (ptype === 'XY') {
+/**
+ * Initiate Manual data acquisition. Enables data capture on the canvas.
+ */ 
+function pickPoints() {// select data points.
 
-		    var x1 = xyAxes[0][0];
-		    var y1 = xyAxes[0][1];
-		    
-		    var x2 = xyAxes[1][0];
-		    var y2 = xyAxes[1][1];
-		    
-		    var x3 = xyAxes[2][0];
-		    var y3 = xyAxes[2][1];
+	if (axesPicked === 0) {
+		alert('Define the axes first!');
+	} else {
+		canvasMouseEvents.removeAll();
+		canvasMouseEvents.add('click',clickPoints,true);
+		//pointsPicked = 0;
+		//xyData = [];
+		pointsStatus(pointsPicked);
+		//redrawCanvas();
+		sidebar.show('manualMode');
+	}
+}
 
-		    var x4 = xyAxes[3][0];
-		    var y4 = xyAxes[3][1];
-		    
-		    var xmin = axesAlignmentData[0];
-		    var xmax = axesAlignmentData[1];
-		    var ymin = axesAlignmentData[2];
-		    var ymax = axesAlignmentData[3];
-		    
-		    // If x-axis is log scale
-		    if (axesAlignmentData[4] === true) {
-		        xmin = Math.log(xmin)/Math.log(10);
-		        xmax = Math.log(xmax)/Math.log(10);
-		    }
-		    
-		    // If y-axis is log scale
-		    if (axesAlignmentData[5] === true) {
-		        ymin = Math.log(ymin)/Math.log(10);
-		        ymax = Math.log(ymax)/Math.log(10);
-		    }
+/**
+ * Triggered by clicking on canvas, stores position in xyData global array.
+ */
+function clickPoints(ev) {
+	var posn = getPosition(ev);
+	var xi = posn.x;
+	var yi = posn.y;
 
-		    var xm = xmax - xmin;
-		    var ym = ymax - ymin;
-		    
-		    var d12 = Math.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2));
-		    var d34 = Math.sqrt((x3-x4)*(x3-x4) + (y3-y4)*(y3-y4));
-		    
-		    var Lx = xm/d12; 
-		    var Ly = ym/d34;
-		    
-		    var thetax = taninverse(-(y2-y1), (x2-x1));
-		    var thetay = taninverse(-(y4-y3), (x4-x3));
-		    
-		    var theta = thetay-thetax;
-		    
+	xyData[pointsPicked] = new Array();
+	xyData[pointsPicked][0] = parseFloat(xi);
+	xyData[pointsPicked][1] = parseFloat(yi);
+	pointsPicked = pointsPicked + 1;	
 
-		    for(ii = 0; ii<pn; ii++) {
-		    
-		        var xp = pdata[ii][0];
-		        var yp = pdata[ii][1];
-		        
-		        var dP1 = Math.sqrt((xp-x1)*(xp-x1) + (yp-y1)*(yp-y1));
-		        var thetaP1 = taninverse(-(yp-y1), (xp-x1)) - thetax;
-		        
-		        var dx = dP1*Math.cos(thetaP1) - dP1*Math.sin(thetaP1)/Math.tan(theta);
-		        
-			var xf = dx*Lx + xmin;
+	dataCtx.beginPath();
+	dataCtx.fillStyle = "rgb(200,0,0)";
+	dataCtx.arc(xi,yi,3,0,2.0*Math.PI,true);
+	dataCtx.fill();
 
-			var dP3 = Math.sqrt((xp-x3)*(xp-x3) + (yp-y3)*(yp-y3));				    
-			var thetaP3 = thetay - taninverse(-(yp-y3), (xp-x3));
+	pointsStatus(pointsPicked);
+	zoomView.updateZoom(ev);
 
-			var dy = dP3*Math.cos(thetaP3) - dP3*Math.sin(thetaP3)/Math.tan(theta);
-			
-			var yf = dy*Ly + ymin;
-			
-			// if x-axis is log scale
-			if (axesAlignmentData[4] === true)
-			    xf = Math.pow(10,xf);
-			    
-			// if y-axis is log scale
-			if (axesAlignmentData[5] === true)
-			    yf = Math.pow(10,yf);
+}
 
-			rdata[ii] = new Array();
-			rdata[ii][0] = xf;
-			rdata[ii][1] = yf;
-		    }
+/**
+ * Called when 'clear all' is hit. Clears data collected, redraws canvas. 
+ */
+function clearPoints() {// clear all markings.
 
-		} else if (ptype === 'image') {// same as X-Y, but returns int data and doesn't support log scale.
+	pointsPicked = 0;
+	pointsStatus(pointsPicked);
+    resetLayers();
+	
+	canvasMouseEvents.removeAll();
+}
 
-		    var x1 = onScreenDimensions[0];
-		    var y1 = onScreenDimensions[1];
-		    
-		    var x2 = onScreenDimensions[2];
-		    var y2 = onScreenDimensions[1];
-		    
-		    var x3 = onScreenDimensions[0];
-		    var y3 = onScreenDimensions[1];
-
-		    var x4 = onScreenDimensions[0];
-		    var y4 = onScreenDimensions[3];
-		    
-		    var xmin = axesAlignmentData[0];
-		    var xmax = axesAlignmentData[1];
-		    var ymin = axesAlignmentData[2];
-		    var ymax = axesAlignmentData[3];
-		    
-		    var xm = xmax - xmin;
-		    var ym = ymax - ymin;
-
-			// Correction factor to account for the fact that the on screen dimensions are for image
-			// corners and do not account for image pixel being counted from the middle of a pixel.
-			var cfx = 0.5*(x2 - x1)/(xm+1);
-			var cfy = 0.5*(y2 - y1)/(ym+1);
-
-			x1 = x1 + cfx;
-			x2 = x2 - cfx;
-			y1 = y1 + cfy;
-			y2 = y2 - cfy;
-
-		    var d12 = Math.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2));
-		    var d34 = Math.sqrt((x3-x4)*(x3-x4) + (y3-y4)*(y3-y4));
-		    
-		    var Lx = xm/d12; 
-		    var Ly = ym/d34;
-		    
-		    var thetax = taninverse(-(y2-y1), (x2-x1));
-		    var thetay = taninverse(-(y4-y3), (x4-x3));
-		    
-		    var theta = thetay-thetax;
-		    
-
-		    for(ii = 0; ii<pn; ii++) {
-		    
-		        var xp = pdata[ii][0];
-		        var yp = pdata[ii][1];
-		        
-		        var dP1 = Math.sqrt((xp-x1)*(xp-x1) + (yp-y1)*(yp-y1));
-		        var thetaP1 = taninverse(-(yp-y1), (xp-x1)) - thetax;
-		        
-		        var dx = dP1*Math.cos(thetaP1) - dP1*Math.sin(thetaP1)/Math.tan(theta);
-		        
-			var xf = dx*Lx + xmin;
-
-			var dP3 = Math.sqrt((xp-x3)*(xp-x3) + (yp-y3)*(yp-y3));				    
-			var thetaP3 = thetay - taninverse(-(yp-y3), (xp-x3));
-
-			var dy = dP3*Math.cos(thetaP3) - dP3*Math.sin(thetaP3)/Math.tan(theta);
-			
-			var yf = dy*Ly + ymin;
-			
+/**
+ * Deletes the last point picked.
+ */
+function undoPointSelection() {
+	if (pointsPicked >= 1) {
+		pointsPicked = pointsPicked - 1;
+		pointsStatus(pointsPicked);
 		
-			rdata[ii] = new Array();
-			rdata[ii][0] = Math.round(xf);
-			rdata[ii][1] = Math.round(yf);
-		    }
-		
-		} else if (ptype === 'map') {
-		    
-		    var mx0 = 0.0; my0 = canvasHeight;
-		    var mx1 = 0.0; my1 = 0.0;
-		    var mx2 = canvasWidth; my2 = 0;
-		    var mx3 = canvasWidth; my3 = canvasHeight;
-		    
-		    var x1 = mx1 - mx0;
-		    var y1 = -(my1 - my0);
-		    
-		    var x3 = mx3 - mx0;
-		    var y3 = -(my3 - my0);
-		    		
-		    var scaleSize = axesAlignmentData[0];
-		    
-		    var sx1 = xyAxes[0][0];
-		    var sy1 = xyAxes[0][1];
-		    var sx2 = xyAxes[1][0];
-		    var sy2 = xyAxes[1][1];
-		    
-		    var scaleLength = scaleSize/Math.sqrt((sx1-sx2)*(sx1-sx2) + (sy1-sy2)*(sy1-sy2));
-		    		    
-		    var xmin = 0;
-		    var xmax = canvasWidth*scaleLength;
-		    
-		    var ymin = 0;
-		    var ymax = canvasHeight*scaleLength;
+        resetLayers();
 
-		    var xm = xmax - xmin;
-		    var ym = ymax - ymin;
-		
-		    var det = x1*y3 - y1*x3;
+		for(ii = 0; ii < pointsPicked; ii++) {
+			xi = xyData[ii][0];	
+			yi = xyData[ii][1];
 
-		    var x0 = xmin;
-		    var y0 = ymin;
-
-		    for(ii = 0; ii<pn; ii++) {
-			var xr = pdata[ii][0] - mx0;
-			var yr = - (pdata[ii][1] - my0);
-			// find the transform
-			var xf = (-y1*xm*xr + x1*xm*yr)/det + x0;
-			var yf = (y3*ym*xr - x3*ym*yr)/det + y0;
-			
-			rdata[ii] = new Array();
-			rdata[ii][0] = xf;
-			rdata[ii][1] = yf;
-		    }
-		    
-		} else if (ptype === 'polar') {
-		    // Center: 0
-		    var x0 = parseFloat(xyAxes[0][0]);
-		    var y0 = parseFloat(xyAxes[0][1]);
-		    
-		    // Known Point: 1
-		    var x1 = parseFloat(xyAxes[1][0]);
-		    var y1 = parseFloat(xyAxes[1][1]);
-		    
-		    // Known Point: 2
-		    var x2 = parseFloat(xyAxes[2][0]);
-		    var y2 = parseFloat(xyAxes[2][1]);
-		    			    
-		    var r1 = parseFloat(axesAlignmentData[0]);
-		    var theta1 = parseFloat(axesAlignmentData[1]); 
-		    
-		    var r2 = parseFloat(axesAlignmentData[2]);
-		    var theta2 = parseFloat(axesAlignmentData[3]); 
-		    
-		    var isDegrees = axesAlignmentData[4];
-		    
-		    var isClockwise = axesAlignmentData[5];
-		    
-		    if (isDegrees === true) {// if degrees
-
-		        theta1 = (Math.PI/180.0)*theta1;
-    			theta2 = (Math.PI/180.0)*theta2;
-		    }
-		    			    
-		    // Distance between 1 and 0.
-		    var dist10 = Math.sqrt((x1-x0)*(x1-x0) + (y1-y0)*(y1-y0)); 
-		    
-		    // Distance between 2 and 0
-		    var dist20 = Math.sqrt((x2-x0)*(x2-x0) + (y2-y0)*(y2-y0)); 
-		    
-		    // Radial Distance between 1 and 2.
-		    var dist12 = dist20 - dist10;
-		    
-		    var phi0 = taninverse(-(y1-y0),x1-x0);
-		    
-		    var alpha0 = phi0 - theta1;
-		    
-		    for(ii = 0; ii<pn; ii++) {
-			    var xp = pdata[ii][0];
-			    var yp = pdata[ii][1];
-			
-		        var rp = ((r2-r1)/dist12)*(Math.sqrt((xp-x0)*(xp-x0)+(yp-y0)*(yp-y0))-dist10) + r1;
-			
-			    var thetap = taninverse(-(yp-y0),xp-x0) - alpha0;
-			
-			    if(isDegrees == true)
-			      thetap = 180.0*thetap/Math.PI;
-			      
-    		    rdata[ii] = new Array();
-                rdata[ii][0] = rp;
-                rdata[ii][1] = thetap;
-			
-		    }
-		    
-		} else if(plotType === 'ternary') {
-
-		    var x0 = xyAxes[0][0];
-		    var y0 = xyAxes[0][1];
-		    
-		    var x1 = xyAxes[1][0];
-		    var y1 = xyAxes[1][1];
-		    
-		    var x2 = xyAxes[2][0];
-		    var y2 = xyAxes[2][1];
-		    
-		    var L = Math.sqrt((x0-x1)*(x0-x1) + (y0-y1)*(y0-y1));
-		    
-		    var phi0 = taninverse(-(y1-y0),x1-x0);
-		    
-		    var root3 = Math.sqrt(3);
-		    
-		    var isRange0to100 = axesAlignmentData[0];
-		    var isOrientationNormal = axesAlignmentData[1];
-		    		    
-		    for(ii = 0; ii<pn; ii++) {
-
-			    var xp = pdata[ii][0];
-			    var yp = pdata[ii][1];
-			
-		        var rp = Math.sqrt((xp-x0)*(xp-x0)+(yp-y0)*(yp-y0));
-			
-			    var thetap = taninverse(-(yp-y0),xp-x0) - phi0;
-			
-			    var xx = (rp*Math.cos(thetap))/L;
-			    var yy = (rp*Math.sin(thetap))/L;
-			
-			    var ap = 1.0 - xx - yy/root3;
-			    var bp = xx - yy/root3;
-			    var cp = 2.0*yy/root3;
-			
-			    if(isOrientationNormal == false) {
-			      // reverse axes orientation
-			      var bpt = bp;
-			      bp = ap;
-			      ap = cp;
-			      cp = bpt;
-			      				  
-			    }
-			
-			    if (isRange0to100 == true) {
-			      ap = ap*100; bp = bp*100; cp = cp*100;
-			    }
-    
-    			rdata[ii] = new Array();
-                rdata[ii][0] = ap;
-                rdata[ii][1] = bp;
-                rdata[ii][2] = cp;
-
-		    }
-		    
+			dataCtx.beginPath();
+			dataCtx.fillStyle = "rgb(200,0,0)";
+			dataCtx.arc(xi,yi,3,0,2.0*Math.PI,true);
+			dataCtx.fill();
 		}
-		
-		return rdata;
-
-    }
-    
-    return 0;
- }
-
-
- function dataToPixel(xp, yp, ptype) {
-
-	dataToPixelxy = [];
-
-	if (ptype === 'XY') {
-
-		var x1 = xyAxes[0][0];
-		var y1 = xyAxes[0][1];
-		
-		var x2 = xyAxes[1][0];
-		var y2 = xyAxes[1][1];
-		
-		var x3 = xyAxes[2][0];
-		var y3 = xyAxes[2][1];
-
-		var x4 = xyAxes[3][0];
-		var y4 = xyAxes[3][1];
-		
-		var xmin = axesAlignmentData[0];
-		var xmax = axesAlignmentData[1];
-		var ymin = axesAlignmentData[2];
-		var ymax = axesAlignmentData[3];
-		
-		// If x-axis is log scale
-		if (axesAlignmentData[4] === true) {
-			xmin = Math.log(xmin)/Math.log(10);
-			xmax = Math.log(xmax)/Math.log(10);
-		}
-		
-		// If y-axis is log scale
-		if (axesAlignmentData[5] === true) {
-			ymin = Math.log(ymin)/Math.log(10);
-			ymax = Math.log(ymax)/Math.log(10);
-		}
-
-		// Get intersection point in pixels
-		var xydenom = (x1 - x2)*(y3-y4) - (y1-y2)*(x3 - x4);
-		var xx_pix = ((x1*y2 - y1*x2)*(x3 - x4) - (x1 - x2)*(x3*y4 - y3*x4))/xydenom;
-		var yy_pix = ((x1*y2 - y1*x2)*(y3 - y4) - (y1 - y2)*(x3*y4 - y3*x4))/xydenom;
-
-		// Get intersection point in actual units
-		var tempPix = [];
-		tempPix[0] = new Array();
-		tempPix[0][0] = xx_pix;
-		tempPix[0][1] = yy_pix;
-		var rtnPix = pixelToData(tempPix, 1, 'XY');
-		var xx = rtnPix[0][0];
-		var yx = rtnPix[0][1];
-
-		var xm = xmax - xmin;
-		var ym = ymax - ymin;
-		
-		var d12 = Math.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2));
-		var d34 = Math.sqrt((x3-x4)*(x3-x4) + (y3-y4)*(y3-y4));
-		
-		var Lx = xm/d12; 
-		var Ly = ym/d34;
-		
-		var thetax = taninverse(-(y2-y1), (x2-x1));
-		var thetay = taninverse(-(y4-y3), (x4-x3));
-		
-		var theta = thetay-thetax;
-
-
-		var xf = (xp - xmin)*Math.cos(thetax)/Lx + (yp - yx)*Math.cos(thetay)/Ly + x1;
-		var yf = y3 - (xp - xx)*Math.sin(thetax)/Lx - (yp - ymin)*Math.sin(thetay)/Ly;
-
-		dataToPixelxy[0] = xf;
-		dataToPixelxy[1] = yf;
 
 	}
+}
 
+/**
+ * Updates the displayed number of points on the sidebar.
+ */
+function pointsStatus(pn) {// displays the number of points picked.
 
-	return 0;
+	var points = document.getElementById('pointsStatus');
+	var autoPoints = document.getElementById('autoPointsStatus');
+	points.innerHTML = pn;
+	autoPoints.innerHTML = pn;
+}
+
+/**
+ * Delete specific point close to clicked position.
+ */
+function deleteSpecificPoint() {
+
+	canvasMouseEvents.removeAll();
+	canvasMouseEvents.add('click',deleteSpecificPointHandler,true);
+}
+
+/**
+ * Handle clicks when in specific point deletion mode
+ */
+function deleteSpecificPointHandler(ev) {
+
+	var posn = getPosition(ev);
+	var xi = parseFloat(posn.x);
+	var yi = parseFloat(posn.y);
+	
+	var minDistance = 10.0;
+	var foundPoint = 0;
+	var foundIndex = 0;
+
+	for (var ii = 0; ii < pointsPicked; ii ++) {
+		var xd = parseFloat(xyData[ii][0]);
+		var yd = parseFloat(xyData[ii][1]);
+		var distance = Math.sqrt((xd-xi)*(xd-xi) + (yd-yi)*(yd-yi));
+
+		if (distance < minDistance) {
+			foundPoint = 1;
+			foundIndex = ii;
+			minDistance = distance;
+		}
+	}
+
+	if (foundPoint === 1) {
+		xyData.splice(foundIndex,1);
+
+		pointsPicked = pointsPicked - 1;
+		pointsStatus(pointsPicked);
+			
+        resetLayers();
+
+		for(ii = 0; ii < pointsPicked; ii++) {
+			xp = xyData[ii][0];	
+			yp = xyData[ii][1];
+			dataCtx.beginPath();
+			dataCtx.fillStyle = "rgb(200,0,0)";
+			dataCtx.arc(xp,yp,3,0,2.0*Math.PI,true);
+			dataCtx.fill();
+		}
+	}
+
+	zoomView.updateZoom(ev);
+
 }
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
@@ -1570,7 +3618,7 @@ var dataToPixelxy;
 var CSVExport = (function () {
 
     var rawCSVData,
-        displayData;
+        displayData = [];
 
     // Generate CSV.
     function generateCSV() {
@@ -1781,1174 +3829,20 @@ var CSVExport = (function () {
             return;
         }
 
+       
     }
+
+    function getDisplayData() {
+        return displayData;
+    }
+
 
     return {
         generate: generateCSV,
         reSort: reSortCSV,
         updateSortingControls: updateCSVSortingControls,
         selectAll: selectAllCSVData,
-        displayData: displayData
-    };
-
-})();
-
-/*
-	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
-
-	Copyright 2010-2013 Ankit Rohatgi <ankitrohatgi@hotmail.com>
-
-	This file is part of WebPlotDigitizer.
-
-    WebPlotDigitizer is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    WebPlotDigitizer is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
-
-
-*/
-
-/* Parse dates and convert back and forth to Julian days */
-
-var dateConverter = {
-	
-	parse: function(input) {
-				if(input == null) {
-					return null;
-				}
-
-				if(input.indexOf("/") === -1) {
-					return null;
-				}
-
-				return this.toJD(input);
-			},
-
-	// Convert to Julian Date
-	toJD: function(dateString) {
-				var dateParts = dateString.split("/"),
-					year,
-					month,
-					day,
-					tempDate,
-					rtnValue;
-
-				if(dateParts.length <= 0 || dateParts.length > 3) {
-					return null;
-				}
-
-				year = parseInt(dateParts[0], 10);
-
-				month = parseInt(dateParts[1] === undefined ? 0 : dateParts[1], 10);
-
-				date = parseInt(dateParts[2] === undefined ? 1 : dateParts[2], 10);
-
-				if(isNaN(year) || isNaN(month) || isNaN(date)) {
-					return null;
-				}
-
-				if(month > 12 || month < 1) {
-					return null;
-				}
-
-				if(date > 31 || date < 1) {
-					return null;
-				}
-
-				// Temporary till I figure out julian dates:
-				tempDate = new Date();
-				tempDate.setUTCFullYear(year);
-				tempDate.setUTCMonth(month-1);
-				tempDate.setUTCDate(date);
-				rtnValue = parseFloat(Date.parse(tempDate));
-				if(!isNaN(rtnValue)) {
-					return rtnValue;
-				}
-				return null;
-			},
-
-	// Convert back from Julian Date
-	fromJD: function(jd) {
-
-				// Temporary till I figure out julian dates:
-				jd = parseFloat(jd);
-				var msInDay = 24*60*60*1000,
-					roundedDate = parseInt(Math.round(jd/msInDay)*msInDay,10),
-					tempDate = new Date(roundedDate);
-
-				return tempDate;
-			},
-
-	formatDate: function(dateObject, formatString) {
-				var longMonths = [
-									"January", 
-									"February", 
-									"March", 
-									"April", 
-									"May", 
-									"June", 
-									"July", 
-									"August", 
-									"September",
-									"October",
-									"November",
-									"December"
-								],
-					shortMonths = [
-									"Jan",
-									"Feb",
-									"Mar",
-									"Apr",
-									"May",
-									"Jun",
-									"Jul",
-									"Aug",
-									"Sep",
-									"Oct",
-									"Nov",
-									"Dec"
-								];
-				
-				var outputString = formatString;
-
-				outputString = outputString.replace("YYYY", "yyyy");
-				outputString = outputString.replace("YY", "yy");
-				outputString = outputString.replace("MMMM", "mmmm");
-				outputString = outputString.replace("MMM", "mmm");
-				outputString = outputString.replace("MM", "mm");
-				outputString = outputString.replace("DD", "dd");
-
-				outputString = outputString.replace("yyyy", dateObject.getUTCFullYear());
-
-				var twoDigitYear = dateObject.getUTCFullYear()%100;
-				twoDigitYear = twoDigitYear < 10 ? '0' + twoDigitYear : twoDigitYear;
-
-				outputString = outputString.replace("yy", twoDigitYear);
-
-				outputString = outputString.replace("mmmm", longMonths[dateObject.getUTCMonth()]);
-				outputString = outputString.replace("mmm", shortMonths[dateObject.getUTCMonth()]);
-				outputString = outputString.replace("mm", (dateObject.getUTCMonth()+1));
-				
-				outputString = outputString.replace("dd", dateObject.getUTCDate());
-				
-				return outputString;
-			},
-
-	getFormatString: function(dateString) {
-				var dateParts = dateString.split("/"),
-					year,
-					month,
-					date,
-					formatString = 'yyyy/mm/dd';
-				
-				if(dateParts.length >= 1) {
-					formatString = 'yyyy';
-				}
-
-				if(dateParts.length >= 2) {
-					formatString += '/mm';
-				}
-
-				if(dateParts.length === 3) {
-					formatString += '/dd';
-				}
-
-				return formatString;
-			}
-};
-/*
-	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
-
-	Copyright 2010-2013 Ankit Rohatgi <ankitrohatgi@hotmail.com>
-
-	This file is part of WebPlotDigitizer.
-
-    WebPlotDigitizer is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    WebPlotDigitizer is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
-
-
-*/
-
-var cropStatus = 0;
-var cropCoordinates = [0,0,0,0];
-
-/**
- * Flip picture horizontally
- */
-function hflip() {
-	processingNote(true);
-
-	var iData = ctx.getImageData(cx0,cy0,currentImageWidth,currentImageHeight);
-
-	for (var rowi = 0; rowi < currentImageHeight; rowi++) {
-		for(var coli = 0; coli < currentImageWidth/2; coli++) {
-			var index = rowi*4*currentImageWidth + coli*4;
-			var mindex = (rowi+1)*4*currentImageWidth - (coli+1)*4;
-			for(var p = 0; p < 4; p++) {
-				var tt = iData.data[index + p];
-				iData.data[index + p] = iData.data[mindex + p];
-				iData.data[mindex + p] = tt;
-			}
-		}
-	}
-	
-	ctx.putImageData(iData,cx0,cy0);
-	saveCanvasImage();
-
-	processingNote(false);
-}
-
-/**
- * Flip picture vertically
- */
-function vflip() {
-
-	processingNote(true);
-
-	var iData = ctx.getImageData(cx0,cy0,currentImageWidth,currentImageHeight);
-
-	for (var coli = 0; coli < currentImageWidth; coli++) {
-
-		for(var rowi = 0; rowi < currentImageHeight/2; rowi++) {
-
-			var index = rowi*4*currentImageWidth + coli*4;
-			var mindex = (currentImageHeight - (rowi+2))*4*currentImageWidth + coli*4;
-			for(var p = 0; p < 4; p++) {
-
-				var tt = iData.data[index + p];
-				iData.data[index + p] = iData.data[mindex + p];
-				iData.data[mindex + p] = tt;
-			}
-		}
-	}
-	
-	ctx.putImageData(iData,cx0,cy0);
-	saveCanvasImage();
-
-	processingNote(false);
-}
-
-/**
- * Enable crop mode
- */
-function cropPlot() {// crop image
-
-	redrawCanvas();
-	canvasMouseEvents.removeAll();
-	canvasMouseEvents.add('mousedown',cropMousedown,true);
-	canvasMouseEvents.add('mouseup',cropMouseup,true);
-	canvasMouseEvents.add('mousemove',cropMousemove,true);
-}
-
-/**
- * Crop mode - mouse down
- */
-function cropMousedown(ev) {
-	var posn = getPosition(ev),
-		xi = posn.x,
-		yi = posn.y;
-
-	cropCoordinates[0] = xi;
-	cropCoordinates[1] = yi;
-	cropStatus = 1;
-}
-
-/**
- * Crop mode - mouse up
- */
-function cropMouseup(ev) {
-
-	var posn = getPosition(ev),
-		xi = posn.x,
-		yi = posn.y;
-
-      cropCoordinates[2] = xi;
-      cropCoordinates[3] = yi;
-      cropStatus = 0;
-      
-      hoverCanvas.width = hoverCanvas.width;
-            
-      cropWidth = cropCoordinates[2]-cropCoordinates[0];
-      cropHeight = cropCoordinates[3]-cropCoordinates[1];
-      if ((cropWidth > 0) && (cropHeight > 0)) {
-
-		var tcan = document.createElement('canvas');
-		var tcontext = tcan.getContext('2d');
-		
-		tcan.width = cropWidth;
-		tcan.height = cropHeight;
-		
-		var cropImageData = ctx.getImageData(cropCoordinates[0],cropCoordinates[1],cropWidth,cropHeight);  
-				
-		tcontext.putImageData(cropImageData,0,0);
-		cropSrc = tcan.toDataURL();
-		cropImg = new Image();
-		cropImg.src = cropSrc;
-		cropImg.onload = function() { loadImage(cropImg); }
-				
-      }
-      
-}
-
-/**
- * Crop mode - mouse move
- */
-function cropMousemove(ev) {
-
-	
-	var posn = getPosition(ev),
-		xi = posn.x,
-		yi = posn.y;
-
-      // this paints a rectangle as the mouse moves
-      if(cropStatus == 1) {
-        hoverCanvas.width = hoverCanvas.width;
-		hoverCtx.strokeStyle = "rgb(0,0,0)";
-		hoverCtx.strokeRect(cropCoordinates[0], cropCoordinates[1], xi-cropCoordinates[0], yi-cropCoordinates[1]);
-      }
-}
-
-/**
- * Restore to original image
- */
-function restoreOriginalImage() {
-	loadImage(originalImage);
-}
-
-/**
- * Rotate image by a certain specified angle. Not implemented yet.
- */
-function rotateCanvas() {}// Rotate by a specified amount.
-
-/*
-    WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
-
-    Copyright 2010-2013 Ankit Rohatgi <ankitrohatgi@hotmail.com>
-
-    This file is part of WebPlotDigitizer.
-
-    WebPlotDigitizer is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    WebPlotDigitizer is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
-
-
-*/
-
-/* This file contains image processing functions */
-
-/** 
- * Finds differences between two sets of ImageData and returns a difference matrix. 'true' where unmatched, 'false' where pixels match.
- * @params {ImageData} d1 first ImageData
- * @params {ImageData} d2 second ImageData
- */
-function findDifference(d1,d2) {
-    var dw = canvasWidth;
-    var dh = canvasHeight;
-    var diff = new Array();
-    
-    for (var rowi = 0; rowi < dh; rowi++) {
-		diff[rowi] = new Array();
-		for(var coli = 0; coli < dw; coli++) {
-			var index = rowi*4*dw + coli*4;
-			diff[rowi][coli] = false;
-			
-			for(var p = 0; p < 4; p++) {
-				if (d1.data[index+p] != d2.data[index+p]) {
-					diff[rowi][coli] = true;
-				}
-			}
-	    
-		}
-    }
-    
-    return diff;
-}
-
-/**
- * Copies pixels based on the difference matrix. 
- */
-function copyUsingDifference(copyTo, copyFrom, diff) {
-    var dw = canvasWidth;
-    var dh = canvasHeight;
-    
-    for (var rowi = 0; rowi < dh; rowi++) {
-		for(var coli = 0; coli < dw; coli++) {
-			var index = rowi*4*dw + coli*4;
-				
-			if (diff[rowi][coli] === true)
-			for(var p = 0; p < 4; p++)
-				copyTo.data[index+p] = copyFrom.data[index+p];
-				   
-		}
-    }
-    
-    return copyTo;
-}
-
-/** 
- * create BW image based on the colors specified.
- */
-function colorSelect(imgd, mode, colorRGB, tol) {
-    dw = canvasWidth;
-    dh = canvasHeight;
-    
-    redv = colorRGB[0];
-    greenv = colorRGB[1];
-    bluev = colorRGB[2];
-    
-    var seldata = new Array();
-    
-    for (var rowi=0; rowi < dh; rowi++) {
-		seldata[rowi] = new Array();
-		for(var coli=0; coli < dw; coli++) {
-			index = rowi*4*dw + coli*4;
-			ir = imgd.data[index];
-			ig = imgd.data[index+1];
-			ib = imgd.data[index+2];
-			
-			dist = Math.sqrt((ir-redv)*(ir-redv) + (ig-greenv)*(ig-greenv) + (ib+bluev)*(ib+bluev));
-			
-			seldata[rowi][coli] = false;
-			
-			if (mode === 'fg') {
-				if (dist <= tol) {
-					seldata[rowi][coli] = true;
-				}
-
-			} else if (mode === 'bg') {
-
-				if (dist > tol) {
-					seldata[rowi][coli] = true;
-				}
-			}
-		}
-    }
-    
-    return seldata;
-}
-
-/**
- * create BW image based on the colors but only in valid region of difference matrix.
- */
-function colorSelectDiff(imgd, mode, colorRGB, tol, diff) {
-
-    dw = canvasWidth;
-    dh = canvasHeight;
-    
-    redv = colorRGB[0];
-    greenv = colorRGB[1];
-    bluev = colorRGB[2];
-    
-    var seldata = new Array();
-    
-    for (var rowi=0; rowi < dh; rowi++) {
-		seldata[rowi] = new Array();
-		for(var coli=0; coli < dw; coli++) {
-			index = rowi*4*dw + coli*4;
-			var ir = imgd.data[index];
-			var ig = imgd.data[index+1];
-			var ib = imgd.data[index+2];
-			
-			var dist = Math.sqrt((ir-redv)*(ir-redv) + (ig-greenv)*(ig-greenv) + (ib-bluev)*(ib-bluev));
-			
-			seldata[rowi][coli] = false;
-			
-			if ((mode === 'fg') && (diff[rowi][coli] === 1)) {
-				if (dist <= tol) {
-					seldata[rowi][coli] = true;
-				}
-			} else if ((mode === 'bg') && (diff[rowi][coli] === 1)) {
-				if (dist > tol) {
-					seldata[rowi][coli] = true;
-				}
-			}
-		}
-    }
-    
-    return seldata;
-}
-
-/**
- * Select from marked region of interest based on color.
- */
-function selectFromMarkedRegion(mode, colorRGB, tol) {
-
-    dw = canvasWidth;
-    dh = canvasHeight;
-    
-    redv = colorRGB[0];
-    greenv = colorRGB[1];
-    bluev = colorRGB[2];
-    
-    var markedRegion = dataCtx.getImageData(0,0,canvasWidth,canvasHeight);
-    var imgd = getCanvasData();
-    
-    var seldata = new Array();
-    
-    for (var rowi=0; rowi < dh; rowi++) {
-
-	    seldata[rowi] = new Array();
-	    for(var coli=0; coli < dw; coli++) {
-	        index = rowi*4*dw + coli*4;
-	        
-	        // marked region
-	        var mr = markedRegion.data[index];
-	        var mg = markedRegion.data[index+1];
-	        var mb = markedRegion.data[index+2];
-	        
-	        // plot data
-	        var ir = imgd.data[index];
-	        var ig = imgd.data[index+1];
-	        var ib = imgd.data[index+2];
-	        
-       	    seldata[rowi][coli] = false;
-       	    
-       	    if ((mr === 255) && (mg ===  255) && (mb === 0)) {// yellow marked region
-
-       	        var dist = Math.sqrt((ir-redv)*(ir-redv) + (ig-greenv)*(ig-greenv) + (ib-bluev)*(ib-bluev));
-       	        
-       	        if ((mode === 'fg') && (dist <= tol))
-       	            seldata[rowi][coli] = true;
-       	        else if ((mode === 'bg') && (dist > tol))
-       	            seldata[rowi][coli] = true;
-       	    }
-	    }
-	 }
-	 
-	 return seldata;
-}
-
-/**
- * Populate an ImageData array based on a binary data matrix.
- */
-function binaryToImageData(bwdata,imgd) {
-    dw = canvasWidth;
-    dh = canvasHeight;
-         
-    for(var rowi = 0; rowi < dh; rowi++) {
-		for(var coli = 0; coli < dw; coli++) {
-			index = rowi*4*dw + coli*4;
-			if (bwdata[rowi][coli] === false) {
-				imgd.data[index] = 255; imgd.data[index+1] = 255; imgd.data[index+2] = 255; imgd.data[index+3] = 255;
-			} else {
-				imgd.data[index] = 0; imgd.data[index+1] = 0; imgd.data[index+2] = 0; imgd.data[index+3] = 255;
-			}
-		}
-	}
-    
-    return imgd;
-}
-
-
-function getImageDataBasedOnSelection(imgdout, mode, colorRGB, tol) {
-	var dw = canvasWidth,
-		dh = canvasHeight,
-		rowi,
-		coli,
-		index,
-		dist,
-		
-		redv = colorRGB[0],
-		greenv = colorRGB[1],
-		bluev = colorRGB[2],
-		
-		markedRegion = dataCtx.getImageData(0,0,canvasWidth,canvasHeight),
-		
-		imgd = currentScreen,
-		
-		mr, mg, mb,
-		ir, ig, ib,
-		markPixelWhite;
-
-	for(rowi = 0; rowi < dh; rowi++) {
-		for(coli = 0; coli < dw; coli++) {
-			index = rowi*4*dw + coli*4;
-
-	        // marked region RGB
-	        mr = markedRegion.data[index];
-	        mg = markedRegion.data[index+1];
-	        mb = markedRegion.data[index+2];
-	        
-	        // plot data
-	        ir = imgd.data[index];
-	        ig = imgd.data[index+1];
-			ib = imgd.data[index+2];
-
-			// set default to white
-			markPixelWhite = true;
-       	    
-       	    if ((mr === 255) && (mg ===  255) && (mb === 0)) {// yellow marked region
-
-       	        dist = (ir-redv)*(ir-redv) + (ig-greenv)*(ig-greenv) + (ib-bluev)*(ib-bluev);
-       	        
-       	        if ((mode === 'fg') && (dist <= tol*tol)) {
-					markPixelWhite = false;
-
-				} else if ((mode === 'bg') && (dist > tol*tol)) {
-					markPixelWhite = false;
-				}
-			}
-
-			if(markPixelWhite) {
-
-				imgdout.data[index] = 255;
-				imgdout.data[index+1] = 255;
-				imgdout.data[index+2] = 255;
-				imgdout.data[index+3] = 255;
-
-			} else {
-				
-				imgdout.data[index] = 0;
-				imgdout.data[index+1] = 0;
-				imgdout.data[index+2] = 0;
-				imgdout.data[index+3] = 255;
-			}
-		}
-	}
-
-	return imgdout;
-}
-
-/*
-	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
-
-	Copyright 2010-2013 Ankit Rohatgi <ankitrohatgi@hotmail.com>
-
-	This file is part of WebPlotDigitizer.
-
-    WebPlotDigitizer is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    WebPlotDigitizer is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
-
-
-*/
-
-/* Parse user provided expressions, dates etc. */
-
-var InputParser = function () {
-	var self = this;
-
-	self.parse = function(input) {
-		
-		self.isValid = false;
-		self.isDate = false;
-
-		if (input == null) {
-			return null;
-		}
-
-		input = input.trim();
-
-		if (input.indexOf("^") !== -1) {
-			return null;
-		}
-
-		var parsedDate = dateConverter.parse(input);
-		if(parsedDate !== null) {
-			self.isValid = true;
-			self.isDate = true;
-			return parsedDate;
-		}
-
-		var parsedFloat = parseFloat(input);
-		if(!isNaN(parsedFloat)) {
-			self.isValid = true;
-			return parsedFloat;
-		}
-
-		return null;
-	};
-
-	self.isValid = false;
-
-	self.isDate = false;
-};
-/*
-	WebPlotDigitizer - http://arohatgi.info/WebPlotdigitizer
-
-	Copyright 2010-2013 Ankit Rohatgi <ankitrohatgi@hotmail.com>
-
-	This file is part of WebPlotDigitizer.
-
-    WebPlotDIgitizer is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    WebPlotDigitizer is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
-
-
-*/
-
-/**
- * This is the entry point and is executed when the page is loaded.
- */
-
-function init() {// This is run when the page loads.
-
-	checkBrowser();
-	
-	mainCanvas = document.getElementById('mainCanvas');
-	dataCanvas = document.getElementById('dataCanvas');
-	drawCanvas = document.getElementById('drawCanvas');
-	hoverCanvas = document.getElementById('hoverCanvas');
-	topCanvas = document.getElementById('topCanvas');
-	
-	var canvasDiv = document.getElementById('canvasDiv');
-	
-
-	// Position to paste new plots at
-	cx0 = zoomView.zoom_dx/2;
-	cy0 = zoomView.zoom_dy/2;
-
-	// Set canvas dimensions
-	canvasWidth = parseFloat(canvasDiv.offsetWidth);
-	canvasHeight = parseFloat(canvasDiv.offsetHeight);
-	
-	// resize canvas.
-	mainCanvas.height = canvasHeight;
-	mainCanvas.width = canvasWidth;
-	
-	dataCanvas.height = canvasHeight;
-	dataCanvas.width = canvasWidth;
-
-	drawCanvas.height = canvasHeight;
-	drawCanvas.width = canvasWidth;
-	
-	hoverCanvas.height = canvasHeight;
-	hoverCanvas.width = canvasWidth;
-
-	topCanvas.height = canvasHeight;
-	topCanvas.width = canvasWidth;
-
-
-	// Needed to fix the zoom problem.
-	cheight = canvasHeight - zoomView.zoom_dy;
-	cwidth = canvasWidth - zoomView.zoom_dx;
-
-	caspectratio = cheight/cwidth;
-
-	ctx = mainCanvas.getContext('2d');
-	dataCtx = dataCanvas.getContext('2d');
-	drawCtx = drawCanvas.getContext('2d');
-	hoverCtx = hoverCanvas.getContext('2d');
-	topCtx = topCanvas.getContext('2d');
-	
-	// Set canvas default state
-	img = document.createElement('img');
-	img.onload = function() { loadImage(img); originalImage = img; };
-	img.src = "start.png";
-	
-	// testing area for autodetection
-	testImgCanvas = document.getElementById('testImg');
-	testImgCanvas.width = canvasWidth/2;
-	testImgCanvas.height = canvasHeight/2;
-	testImgContext = testImgCanvas.getContext('2d');
-		
-	// specify mouseover function
-	//canvas.addEventListener('click',clickHandler,false);
-	topCanvas.addEventListener('mousemove', zoomView.updateZoomEventHandler, false);
-	
-	// Add support for extended crosshair
-    document.body.addEventListener('keydown', zoomView.toggleCrosshair, false);
-
-	// Image dropping capabilities
-	topCanvas.addEventListener('dragover',function(event) {event.preventDefault();}, true);
-	topCanvas.addEventListener("drop",function(event) {event.preventDefault(); dropHandler(event);}, true);
-
-	// Paste image from clipboard
-	window.addEventListener('paste', function(event) {pasteHandler(event);}, false);
-	
-	// Set defaults everywhere.
-	setDefaultState();
-	
-	zoomView.initZoom();
-	
-	originalScreen = getCanvasData();
-	activeScreen = originalScreen;
-	
-	displayParameters();
-}
-
-
-/**
- * Reset canvas and zoom window to initial state.
- */
-function setDefaultState() {
-	axesPicked = 0;
-	pointsPicked = 0;
-	xyData = [];
-	axesAlignmentData = [];
-	clearPoints();
-	sidebar.clear();
-}
-
-function checkBrowser() {
-  if(!window.FileReader) {
-    alert('\tWARNING!\nYou are using an unsupported browser. Please use Google Chrome 6+ or Firefox 3.6+.\n Sorry for the inconvenience.');
-  }
-}
-
-
-/*
-	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
-
-	Copyright 2010-2013 Ankit Rohatgi <ankitrohatgi@hotmail.com>
-
-	This file is part of WebPlotDigitizer.
-
-    WebPlotDigitizer is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    WebPlotDigitizer is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
-
-
-*/
-
-
-/* Selected Data Variables */
-var xyData = new Array(); // Raw data
-var pointsPicked = 0; // number of data points picked.
-
-/**
- * Called when the 'acquire data' button is pressed. 
- */
-function acquireData() {
-	if(axesPicked === 0) {
-		popup.show('alignAxes');
-	} else {
-		sidebar.show('manualMode');
-		canvasMouseEvents.removeAll();
-	}
-}
-
-/**
- * Initiate Manual data acquisition. Enables data capture on the canvas.
- */ 
-function pickPoints() {// select data points.
-
-	if (axesPicked === 0) {
-		alert('Define the axes first!');
-	} else {
-		canvasMouseEvents.removeAll();
-		canvasMouseEvents.add('click',clickPoints,true);
-		//pointsPicked = 0;
-		//xyData = [];
-		pointsStatus(pointsPicked);
-		//redrawCanvas();
-		sidebar.show('manualMode');
-	}
-}
-
-/**
- * Triggered by clicking on canvas, stores position in xyData global array.
- */
-function clickPoints(ev) {
-	var posn = getPosition(ev);
-	var xi = posn.x;
-	var yi = posn.y;
-
-	xyData[pointsPicked] = new Array();
-	xyData[pointsPicked][0] = parseFloat(xi);
-	xyData[pointsPicked][1] = parseFloat(yi);
-	pointsPicked = pointsPicked + 1;	
-
-	dataCtx.beginPath();
-	dataCtx.fillStyle = "rgb(200,0,0)";
-	dataCtx.arc(xi,yi,3,0,2.0*Math.PI,true);
-	dataCtx.fill();
-
-	pointsStatus(pointsPicked);
-	zoomView.updateZoom(ev);
-
-}
-
-/**
- * Called when 'clear all' is hit. Clears data collected, redraws canvas. 
- */
-function clearPoints() {// clear all markings.
-
-	pointsPicked = 0;
-	pointsStatus(pointsPicked);
-    resetLayers();
-	
-	canvasMouseEvents.removeAll();
-}
-
-/**
- * Deletes the last point picked.
- */
-function undoPointSelection() {
-	if (pointsPicked >= 1) {
-		pointsPicked = pointsPicked - 1;
-		pointsStatus(pointsPicked);
-		
-        resetLayers();
-
-		for(ii = 0; ii < pointsPicked; ii++) {
-			xi = xyData[ii][0];	
-			yi = xyData[ii][1];
-
-			dataCtx.beginPath();
-			dataCtx.fillStyle = "rgb(200,0,0)";
-			dataCtx.arc(xi,yi,3,0,2.0*Math.PI,true);
-			dataCtx.fill();
-		}
-
-	}
-}
-
-/**
- * Updates the displayed number of points on the sidebar.
- */
-function pointsStatus(pn) {// displays the number of points picked.
-
-	var points = document.getElementById('pointsStatus');
-	var autoPoints = document.getElementById('autoPointsStatus');
-	points.innerHTML = pn;
-	autoPoints.innerHTML = pn;
-}
-
-/**
- * Delete specific point close to clicked position.
- */
-function deleteSpecificPoint() {
-
-	canvasMouseEvents.removeAll();
-	canvasMouseEvents.add('click',deleteSpecificPointHandler,true);
-}
-
-/**
- * Handle clicks when in specific point deletion mode
- */
-function deleteSpecificPointHandler(ev) {
-
-	var posn = getPosition(ev);
-	var xi = parseFloat(posn.x);
-	var yi = parseFloat(posn.y);
-	
-	var minDistance = 10.0;
-	var foundPoint = 0;
-	var foundIndex = 0;
-
-	for (var ii = 0; ii < pointsPicked; ii ++) {
-		var xd = parseFloat(xyData[ii][0]);
-		var yd = parseFloat(xyData[ii][1]);
-		var distance = Math.sqrt((xd-xi)*(xd-xi) + (yd-yi)*(yd-yi));
-
-		if (distance < minDistance) {
-			foundPoint = 1;
-			foundIndex = ii;
-			minDistance = distance;
-		}
-	}
-
-	if (foundPoint === 1) {
-		xyData.splice(foundIndex,1);
-
-		pointsPicked = pointsPicked - 1;
-		pointsStatus(pointsPicked);
-			
-        resetLayers();
-
-		for(ii = 0; ii < pointsPicked; ii++) {
-			xp = xyData[ii][0];	
-			yp = xyData[ii][1];
-			dataCtx.beginPath();
-			dataCtx.fillStyle = "rgb(200,0,0)";
-			dataCtx.arc(xp,yp,3,0,2.0*Math.PI,true);
-			dataCtx.fill();
-		}
-	}
-
-	zoomView.updateZoom(ev);
-
-}
-/*
-	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
-
-	Copyright 2010-2013 Ankit Rohatgi <ankitrohatgi@hotmail.com>
-
-	This file is part of WebPlotDigitizer.
-
-    WebPlotDigitizer is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    WebPlotDigitizer is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
-
-
-*/
-
-
-/** 
- * Calculate inverse tan with range between 0, 2*pi.
- */
-function taninverse(y,x) {
-  var inv_ans;
-  if (y>0) // I & II
-    inv_ans = Math.atan2(y,x);
-  else if (y<=0) // III & IV
-    inv_ans = Math.atan2(y,x) + 2*Math.PI;
-  
-  if(inv_ans >= 2*Math.PI)
-    inv_ans = 0.0;
-  return inv_ans;
-}
-/*
-	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
-
-	Copyright 2010-2013 Ankit Rohatgi <ankitrohatgi@hotmail.com>
-
-	This file is part of WebPlotDigitizer.
-
-    WebPlotDigitizer is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    WebPlotDigitizer is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
-
-
-*/
-
-// Module to manage mouse events on the canvas. This is to ensure events are added and removed in a clean manner
-var canvasMouseEvents = (function () {
-
-    // List of mouse event types.
-    var mouseEventType = new Array();
-
-    // List of mouse event functions.
-    var mouseEventFunction = new Array();
-
-    // To capture or not.
-    var mouseEventCapture = new Array();
-
-    // Total number of active mouse events.
-    var mouseEvents = 0;
-
-    // Add a mouse event.
-    function addMouseEvent(mouseEv, functionName, tf) {
-        var eventExists = false;
-        for(var ii = 0; ii < mouseEvents; ii++)	{
-            if ((mouseEv === mouseEventType[ii]) && (functionName === mouseEventFunction[ii]) && (tf === mouseEventCapture[ii]))
-                eventExists = true;
-        }
-
-        if(eventExists === false) {
-            topCanvas.addEventListener(mouseEv, functionName, tf);
-            mouseEventType[mouseEvents] = mouseEv;
-            mouseEventFunction[mouseEvents] = functionName;
-            mouseEventCapture[mouseEvents] = tf;
-            mouseEvents = mouseEvents + 1;
-        }
-    }
-
-    // Clear the entire list of active mouse events.
-    function removeAllMouseEvents() {
-
-        if(mouseEvents > 0) {
-
-            for (var kk = 0; kk < mouseEvents; kk++) {
-                topCanvas.removeEventListener(mouseEventType[kk],mouseEventFunction[kk],mouseEventCapture[kk]);
-            }
-            mouseEvents = 0;
-            mouseEventType = [];
-            moueEventFunction = [];
-            mouseEventCapture = [];
-        }
-        toolbar.clear();
-    }
-
-    // Remove a particular mouse event.
-    function removeMouseEvent(mouseEv, functionName, tf) {
-
-        var eventExists = false;
-        var eventIndex = 0;
-
-        for(var ii = 0; ii < mouseEvents; ii++) {
-            if ((mouseEv === mouseEventType[ii]) && (functionName === mouseEventFunction[ii]) && (tf === mouseEventCapture[ii])) {
-                eventExists = true;
-                eventIndex = ii;
-            }
-        }
-
-        if(eventExists === true) {
-            topCanvas.removeEventListener(mouseEv, functionName, tf);
-            mouseEvents = mouseEvents - 1;
-            mouseEventType.splice(eventIndex,1);
-            mouseEventFunction.splice(eventIndex,1);
-            mouseEventCapture.splice(eventIndex,1);
-        }
-    }
-
-    return {
-        add: addMouseEvent,
-        remove: removeMouseEvent,
-        removeAll: removeAllMouseEvents
+        getDisplayData: getDisplayData
     };
 
 })();
@@ -2979,7 +3873,7 @@ var canvasMouseEvents = (function () {
 // This module contains methods to export CSV data to an external software called Plotly (http://plot.ly)
 var plotly = (function() {
 
-    // Dump the contents of the global variable CSVExport.displayData into Plotly
+    // Dump the contents of the global variable displayData into Plotly
     function exportData() {
 
         if(pointsPicked === 0) return;
@@ -3001,24 +3895,24 @@ var plotly = (function() {
         document.body.appendChild(formContainer);
         formContainer.style.display = 'none';
 
-
         var xDisplayData = [],
             yDisplayData = [],
             zDisplayData = [],
-            jsonData = { data: [] };
+            jsonData = { data: [] },
+            displayData = CSVExport.getDisplayData();
         
         if((plotType === 'XY') || (plotType === 'map') || (plotType === 'polar') || (plotType === 'image')) {
             for(var ii = 0; ii < pointsPicked; ii++) {
-                xDisplayData[ii] = formatVariable(CSVExport.displayData[ii][0], 'X');
-                yDisplayData[ii] = formatVariable(CSVExport.displayData[ii][1], 'Y');
+                xDisplayData[ii] = formatVariable(displayData[ii][0], 'X');
+                yDisplayData[ii] = formatVariable(displayData[ii][1], 'Y');
             }
             jsonData.data[0] = {x: xDisplayData, y: yDisplayData};
 
         } else if((plotType === 'ternary')) {
             for(var ii = 0; ii < pointsPicked; ii++) {
-                xDisplayData[ii] = CSVExport.displayData[ii][0];
-                yDisplayData[ii] = CSVExport.displayData[ii][1];
-                zDisplayData[ii] = CSVExport.displayData[ii][2];
+                xDisplayData[ii] = displayData[ii][0];
+                yDisplayData[ii] = displayData[ii][1];
+                zDisplayData[ii] = displayData[ii][2];
             }
             jsonData.data[0] = {x: xDisplayData, y: yDisplayData, z: zDisplayData};
         }
@@ -3073,321 +3967,17 @@ var plotly = (function() {
 
 */
 
-// Handle popup windows
-var popup = (function () {
+/* Manage application cache updates */
 
-    function show(popupid) {
-        // Dim lights :)
-        var shadowDiv = document.getElementById('shadow');
-        shadowDiv.style.visibility = "visible";
-
-        var pWindow = document.getElementById(popupid);
-        var screenWidth = parseInt(window.innerWidth);
-        var screenHeight = parseInt(window.innerHeight);
-        var pWidth = parseInt(pWindow.offsetWidth);
-        var pHeight = parseInt(pWindow.offsetHeight);
-        var xPos = (screenWidth - pWidth)/2;
-        var yPos = (screenHeight - pHeight)/2;
-        pWindow.style.left = xPos + 'px';
-        pWindow.style.top = yPos + 'px';
-        pWindow.style.visibility = "visible";
-    }
-
-    function close(popupid) {
-
-        var shadowDiv = document.getElementById('shadow');
-        shadowDiv.style.visibility = "hidden";
-
-        var pWindow = document.getElementById(popupid);
-        pWindow.style.visibility = "hidden";
-    }
-
-    return {
-        show: show,
-        close: close
-    };
-
-})();
-
-
-/**
- * Show a 'processing' note on the top right corner.
- * @param {boolean} pmode set to 'true' to diplay, 'false' to hide.
- */
-function processingNote(pmode) {
-	var pelem = document.getElementById('wait');
-
-	if(pmode === true) {
-		pelem.style.visibility = 'visible';
-	} else {
-		pelem.style.visibility = 'hidden';
-	}
-
-}
-
-/*
-	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
-
-	Copyright 2010-2013 Ankit Rohatgi <ankitrohatgi@hotmail.com>
-
-	This file is part of WebPlotDigitizer.
-
-    WebPlotDigitizer is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    WebPlotDigitizer is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
-
-
-*/
-
-
-var sidebar = (function () {
-
-    // List of sidebars that can be closed via clearSidebar(). Typically, I include all known sidebars here.
-    var sidebarList = ['editImageToolbar','manualMode','autoMode'];
-
-    function show(sbid) { // Shows a specific sidebar
-
-        clear();
-        var sb = document.getElementById(sbid);
-        sb.style.visibility = "visible";
-    }
-
-    function clear() { // Clears all open sidebars
-
-          for (ii = 0; ii < sidebarList.length; ii ++) {
-              var sbv = document.getElementById(sidebarList[ii]);
-              sbv.style.visibility="hidden";
-          }
-        
-    }
-
-    return {
-        show: show,
-        clear: clear
-    };
-
-})();
-
-
-/*
-	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
-
-	Copyright 2010-2013 Ankit Rohatgi <ankitrohatgi@hotmail.com>
-
-	This file is part of WebPlotDigitizer.
-
-    WebPlotDigitizer is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    WebPlotDigitizer is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
-
-
-*/
-
-var toolbar = (function () {
-
-    // list of all known toolbars!
-    var toolbarList = ['paintToolbar','colorPickerToolbar']; 
-
-    function show(sbid) { // Shows a specific sidebar
-        clear();
-        var sb = document.getElementById(sbid);
-        sb.style.visibility = "visible";
-    }
-
-    function clear() { // Clears all open sidebars
-
-          for (ii = 0; ii < toolbarList.length; ii ++) {
-              var sbv = document.getElementById(toolbarList[ii]);
-              sbv.style.visibility="hidden";
-          }
-        
-    }
-
-    return {
-        show: show,
-        clear: clear
-    };
-})();
-
-/*
-	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
-
-	Copyright 2010-2013 Ankit Rohatgi <ankitrohatgi@hotmail.com>
-
-	This file is part of WebPlotDigitizer.
-
-    WebPlotDigitizer is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    WebPlotDigitizer is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
-
-
-*/
-
-/* Zoomed-in view */
-var zoomView = (function() {
-    var zCanvas, 
-        zctx,
-        tempCanvas,
-        tctx,
-        zoom_dx = 20,
-        zoom_dy = 20,
-        zWindowWidth = 200,
-        zWindowHeight = 200,
-        mPosn,
-        extendedCrosshair = false,
-        pix = [],
-        zoomTimeout;
-
-    pix[0] = new Array();
-
-    function init() {
-
-        zCanvas = document.getElementById('zoomCanvas');
-    	zctx = zCanvas.getContext('2d');
-	    tempCanvas = document.createElement('canvas');
-        tctx = tempCanvas.getContext('2d');
-        tempCanvas.width = zoom_dx;
-        tempCanvas.height = zoom_dy;
-
-        mPosn = document.getElementById('mousePosition');
-
-        var zCrossHair = document.getElementById("zoomCrossHair");
-        var zchCtx = zCrossHair.getContext("2d");
-        zchCtx.strokeStyle = "rgb(0,0,0)";
-        zchCtx.beginPath();
-        zchCtx.moveTo(zWindowWidth/2, 0);
-        zchCtx.lineTo(zWindowWidth/2, zWindowHeight);
-        zchCtx.moveTo(0, zWindowHeight/2);
-        zchCtx.lineTo(zWindowWidth, zWindowHeight/2);
-        zchCtx.stroke();
-    }
-
-    function updateZoomEventHandler(ev) {
-	    clearTimeout(zoomTimeout);
-	    zoomTimeout = setTimeout(updateZoom(ev), 5);
-    }
-
-    function updateZoom(ev) {
-
-        var posn = getPosition(ev);
-        var xpos = posn.x;
-        var ypos = posn.y;
-        var dx = zoom_dx;
-        var dy = zoom_dy;
-        
-        if (axesPicked != 1) {
-            mPosn.innerHTML = xpos + ', ' + ypos;
-        } else if(axesPicked == 1) {
-            pix[0][0] = parseFloat(xpos);
-            pix[0][1] = parseFloat(ypos);
-            var rpix = pixelToData(pix, 1, plotType);
-        
-            if (plotType === 'image') {
-                mPosn.innerHTML = rpix[0][0] + ', ' + rpix[0][1];
-            } else {
-                if(plotType === 'XY') {
-                    if(axesAlignmentData[6] === true) {
-                        mPosn.innerHTML = dateConverter.formatDate(dateConverter.fromJD(rpix[0][0]), axesAlignmentData[8]);
-                    } else {
-                        mPosn.innerHTML = parseFloat(rpix[0][0]).toExponential(4);
-                    }
-
-                    if(axesAlignmentData[7] === true) {
-                        mPosn.innerHTML += ', ' + dateConverter.formatDate(dateConverter.fromJD(rpix[0][1]), axesAlignmentData[9]);
-                    } else {
-                        mPosn.innerHTML += ', ' + parseFloat(rpix[0][1]).toExponential(4);
-                    }
-                } else {
-                    mPosn.innerHTML = parseFloat(rpix[0][0]).toExponential(4) + ', ' + parseFloat(rpix[0][1]).toExponential(4);
-                }
-                if (plotType === 'ternary') {
-                    mPosn.innerHTML += ', ' + parseFloat(rpix[0][2]).toExponential(4);
-                }
+window.addEventListener('load', function (e) {
+    window.applicationCache.addEventListener('updateready', function (ev) {
+        if(window.applicationCache.status == window.applicationCache.UPDATEREADY) {
+            if(confirm('A new version of WebPlotDigitizer is available. Update?')) {
+                window.location.reload();
             }
         }
-        
-        if (extendedCrosshair === true) {
-            hoverCanvas.width = hoverCanvas.width;
-            hoverCtx.strokeStyle = "rgba(0,0,0, 0.5)";
-            hoverCtx.beginPath();
-            hoverCtx.moveTo(xpos, 0);
-            hoverCtx.lineTo(xpos, canvasHeight);
-            hoverCtx.moveTo(0, ypos);
-            hoverCtx.lineTo(canvasWidth, ypos);
-            hoverCtx.stroke();
-        }
-
-        
-        if((xpos-dx/2) >= 0 && (ypos-dy/2) >= 0 && (xpos+dx/2) <= canvasWidth && (ypos+dy/2) <= canvasHeight) {
-            var zoomImage = ctx.getImageData(xpos-dx/2,ypos-dy/2,dx,dy);
-            var dataLayerImage = dataCtx.getImageData(xpos-dx/2,ypos-dy/2,dx,dy);
-
-            // merge data from the two layers.
-            for (var zi = 0; zi < dataLayerImage.data.length; zi+=4) {
-                if ((dataLayerImage.data[zi]+dataLayerImage.data[zi+1]+dataLayerImage.data[zi+2]+dataLayerImage.data[zi+3])!=0) {
-                    zoomImage.data[zi] = dataLayerImage.data[zi];
-                    zoomImage.data[zi+1] = dataLayerImage.data[zi+1];        
-                    zoomImage.data[zi+2] = dataLayerImage.data[zi+2];        
-                }
-            }
-            
-            tctx.clearRect(0,0,zoom_dx,zoom_dy);
-            tctx.putImageData(zoomImage,0,0);
-
-            // Draw directly from canvas. 
-            // Creating a new image here caused a memory leak!
-            zctx.drawImage(tempCanvas, 0, 0, zWindowWidth, zWindowHeight);
-        }
-    }
-    
-    // Doesn't belong in zoom-view, to be moved out later!
-    function toggleCrosshair(ev) {
-        if (ev.keyCode === 220) {
-            ev.preventDefault();
-            extendedCrosshair = !(extendedCrosshair);
-            hoverCanvas.width = hoverCanvas.width;
-        }
-    }
-
-
-    return {
-        initZoom: init,
-        updateZoomEventHandler: updateZoomEventHandler,
-        updateZoom: updateZoom,
-        toggleCrosshair: toggleCrosshair,
-        zoom_dx: zoom_dx,
-        zoom_dy: zoom_dy,
-        mPosn: mPosn
-    };
-})();
-
+    }, false);
+}, false);
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
