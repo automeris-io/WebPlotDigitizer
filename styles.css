@@ -68,6 +68,7 @@ textarea { resize: none; }
 
 #topToolbarContainer {
     display: inline-block;
+    overflow: hidden;
 }
 
 #graphicsContainer {
@@ -81,8 +82,8 @@ textarea { resize: none; }
 }
 
 #canvasDiv {
-	height:400px; // temporary
-    width:600px; // temporary
+	height:400px; /* temporary */
+    width:600px; /* temporary */
 	background: white;
 	padding:0;
 	margin:0;

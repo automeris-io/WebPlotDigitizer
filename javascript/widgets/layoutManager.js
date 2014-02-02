@@ -25,18 +25,25 @@
 
 var layoutManager = (function () {
     var layoutTimer,
-        $graphicsContainer, // only for now, widgets should store this themselves
+        $graphicsContainer,
         $sidebarContainer,
         $mainContainer;
 
     // Redo layout when window is resized
     function adjustLayout() {
+        var windowWidth = parseInt(document.body.offsetWidth,10),
+            windowHeight = parseInt(document.body.offsetHeight,10);
 
+        $sidebarContainer.style.height = windowHeight + 'px';
+        $mainContainer.style.width = windowWidth - $sidebarContainer.offsetWidth + 'px';
+        $mainContainer.style.height = windowHeight + 'px';
+        $graphicsContainer.style.height = windowHeight - 60 + 'px';
     }
 
+    // event handler
     function adjustLayoutOnResize(ev) {
         clearTimeout(layoutTimer);
-        layoutTimer = setTimeout(adjustLayout, 500);
+        layoutTimer = setTimeout(adjustLayout, 200);
     }
  
     // Set initial layout. Called right when the app is loaded.
@@ -54,7 +61,7 @@ var layoutManager = (function () {
         $mainContainer.style.height = windowHeight + 'px';
         $graphicsContainer.style.height = windowHeight - 60 + 'px';
 
-        document.addEventListener('resize', adjustLayoutOnResize, false);
+        window.addEventListener('resize', adjustLayoutOnResize, false);
     }
 
     return {
