@@ -110,6 +110,8 @@ function initApp() {// This is run when the page loads.
 	activeScreen = originalScreen;
 	
 	displayParameters();
+
+    layoutManager.initialLayout();
 }
 
 
