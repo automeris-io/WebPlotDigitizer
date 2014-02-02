@@ -21,11 +21,12 @@
 
 */
 
+document.addEventListener("DOMContentLoaded", initApp, true);
+
 /**
  * This is the entry point and is executed when the page is loaded.
  */
-
-function init() {// This is run when the page loads.
+function initApp() {// This is run when the page loads.
 
 	checkBrowser();
 	
