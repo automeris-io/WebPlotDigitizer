@@ -52,16 +52,12 @@ var layoutManager = (function () {
         $graphicsContainer = document.getElementById('graphicsContainer');
         $sidebarContainer = document.getElementById('sidebarContainer');
         $mainContainer = document.getElementById('mainContainer');
-
-        var windowWidth = parseInt(document.body.offsetWidth,10),
-            windowHeight = parseInt(document.body.offsetHeight,10);
-
-        $sidebarContainer.style.height = windowHeight + 'px';
-        $mainContainer.style.width = windowWidth - $sidebarContainer.offsetWidth + 'px';
-        $mainContainer.style.height = windowHeight + 'px';
-        $graphicsContainer.style.height = windowHeight - 60 + 'px';
-
+        
+        adjustLayout();
+         
         window.addEventListener('resize', adjustLayoutOnResize, false);
+
+        document.getElementById('loadingCurtain').style.display = 'none';
     }
 
     return {
