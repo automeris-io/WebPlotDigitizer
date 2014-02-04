@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", initApp, true);
  */
 function initApp() {// This is run when the page loads.
 
-	checkBrowser();
+	browserInfor.checkBrowser();
 	
 	mainCanvas = document.getElementById('mainCanvas');
 	dataCanvas = document.getElementById('dataCanvas');
@@ -125,12 +125,6 @@ function setDefaultState() {
 	axesAlignmentData = [];
 	clearPoints();
 	sidebar.clear();
-}
-
-function checkBrowser() {
-  if(!window.FileReader) {
-    alert('\tWARNING!\nYou are using an unsupported browser. Please use Google Chrome 6+ or Firefox 3.6+.\n Sorry for the inconvenience.');
-  }
 }
 
 
