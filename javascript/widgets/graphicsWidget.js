@@ -59,6 +59,12 @@ var graphicsWidget = (function () {
 
     function resize(cwidth, cheight) {
 
+        cwidth = parseInt(cwidth, 10);
+        cheight = parseInt(cheight, 10);
+
+        $canvasDiv.style.width = cwidth + 'px';
+        $canvasDiv.style.height = cheight + 'px';
+
         $mainCanvas.width = cwidth;
         $dataCanvas.width = cwidth;
         $drawCanvas.width = cwidth;
@@ -75,24 +81,55 @@ var graphicsWidget = (function () {
 
         width = cwidth;
         height = cheight;
+
+        drawImage();
     }
 
     function resetAllLayers() {
+        $mainCanvas.width = $mainCanvas.width;
+        resetDrawingLayers();
+    }
+
+    function resetDrawingLayers() {
+        $dataCanvas.width = $dataCanvas.width;
+        $drawCanvas.width = $drawCanvas.width;
+        $hoverCanvas.width = $hoverCanvas.width;
+        $topCanvas.width = $topCanvas.width;
+    }
+
+    function drawImage() {
+        if(originalImage == null) return;
+        
+        mainCtx.fillStyle = "rgb(255, 255, 255)";
+        mainCtx.fillRect(0, 0, width, height);
+        mainCtx.drawImage(originalImage, 0, 0, width, height); 
     }
 
     function zoomIn() {
+        setZoomRatio(zoomRatio*1.2);
     }
 
     function zoomOut() {
+        setZoomRatio(zoomRatio/1.2);
     }
 
     function zoomFit() {
+        if(displayAspectRatio > aspectRatio) {
+            zoomRatio = height/(originalHeight*1.0);
+            resize(height*aspectRatio, height);
+        } else {
+            zoomRatio = width/(originalWidth*1.0);
+            resize(width, width/aspectRatio);
+        }
     }
 
-    function zoom100perc {
+    function zoom100perc() {
+        setZoomRatio(1.0);
     }
 
     function setZoomRatio(zratio) {
+        zoomRatio = zratio;
+        resize(originalWidth*zoomRatio, originalHeight*zoomRatio);
     }
 
     function getDrawCtx() {
@@ -117,18 +154,34 @@ var graphicsWidget = (function () {
         drawCtx = $drawCanvas.getContext('2d');
 
         $canvasDiv = document.getElementById('canvasDiv');
-        resize($canvasDiv.width, $canvasDiv.height);
+
+        var viewportSize = layoutManager.getGraphicsViewportSize();
+        
+        resize(viewportSize.width, viewportSize.height);
 
         // zoom event handler
-        $topCanvas.addEventListener('mousemove', zoomView.updateZoomEventHandler, false);
+        //$topCanvas.addEventListener('mousemove', zoomView.updateZoomEventHandler, false);
 
         // Image dropping capabilities
-        $topCanvas.addEventListener('dragover',function(event) {event.preventDefault();}, true);
-        $topCanvas.addEventListener("drop",function(event) {event.preventDefault(); dropHandler(event);}, true);
+        //$topCanvas.addEventListener('dragover',function(event) {event.preventDefault();}, true);
+        //$topCanvas.addEventListener("drop",function(event) {event.preventDefault(); dropHandler(event);}, true);
         
     }
 
-    function loadImage(imgel) {
+    function loadImage() {
+        originalWidth = originalImage.width;
+        originalHeight = originalImage.height;
+        aspectRatio = originalWidth/(originalHeight*1.0);
+        resetAllLayers();
+        zoomFit();
+    }
+
+    function loadImageFromSrc(imgSrc) {
+        originalImage = document.createElement('img');
+        originalImage.onload = function () {
+            loadImage();
+        };
+        originalImage.src = imgSrc;
     }
 
     return {
@@ -138,6 +191,6 @@ var graphicsWidget = (function () {
         zoomFit: zoomFit,
         zoom100perc: zoom100perc,
         setZoomRatio: setZoomRatio,
-        loadImageFromURL: loadImage
+        loadImageFromURL: loadImageFromSrc
     };
 })();

@@ -178,10 +178,7 @@ function redrawCanvas() {
  * Resets all canvases except the main canvas.
  */
 function resetLayers() {
-    dataCanvas.width = dataCanvas.width;
-    drawCanvas.width = drawCanvas.width;
-    hoverCanvas.width = hoverCanvas.width;
-    topCanvas.width = topCanvas.width;
+   
 }
 
 /**
