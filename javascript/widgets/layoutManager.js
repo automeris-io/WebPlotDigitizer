@@ -40,10 +40,17 @@ var layoutManager = (function () {
         $graphicsContainer.style.height = windowHeight - 60 + 'px';
     }
 
+    function getGraphicsViewportSize() {
+        return {
+            width: $graphicsContainer.offsetWidth,
+            height: $graphicsContainer.offsetHeight
+        };
+    }
+
     // event handler
     function adjustLayoutOnResize(ev) {
         clearTimeout(layoutTimer);
-        layoutTimer = setTimeout(adjustLayout, 200);
+        layoutTimer = setTimeout(adjustLayout, 80);
     }
  
     // Set initial layout. Called right when the app is loaded.
@@ -52,16 +59,14 @@ var layoutManager = (function () {
         $graphicsContainer = document.getElementById('graphicsContainer');
         $sidebarContainer = document.getElementById('sidebarContainer');
         $mainContainer = document.getElementById('mainContainer');
-        
         adjustLayout();
          
         window.addEventListener('resize', adjustLayoutOnResize, false);
-
-        document.getElementById('loadingCurtain').style.display = 'none';
     }
 
     return {
-        initialLayout: initialLayout
+        initialLayout: initialLayout,
+        getGraphicsViewportSize: getGraphicsViewportSize
     };
 
 })();
