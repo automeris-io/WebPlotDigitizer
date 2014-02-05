@@ -97,11 +97,11 @@ Loading application, please wait...
         <div id="topContainer">
             <div id="menuButtonsContainer">
                 <!-- Permanent set of tools -->
-                <input type="button" onClick="popup.show('loadNewImage');" value="Load File" style="margin: 0px;">
-                <input type="button" onClick="sidebar.show('editImageToolbar');" value="Edit Image" style="margin: 0px;">
-                <input type="button" id="plottypebtn" value="Define Axes" onClick="popup.show('axesList');" style="margin: 0px;">
-                <input type="button" onClick="acquireData();" value="Acquire Data" style="margin: 0px;">
-                <input type="button" onClick="popup.show('helpWindow');" value="Help" style="margin: 0px;">
+                <input type="button" onClick="popup.show('loadNewImage');" value="Load File">
+                <input type="button" onClick="sidebar.show('editImageToolbar');" value="Edit Image">
+                <input type="button" id="plottypebtn" value="Define Axes" onClick="popup.show('axesList');">
+                <input type="button" onClick="acquireData();" value="Acquire Data">
+                <input type="button" onClick="popup.show('helpWindow');" value="Help">
             </div>
 
            
@@ -121,11 +121,11 @@ Loading application, please wait...
                 </div>
             </div>
 
-             <div style="display:inline-block; position: absolute; top: 10px; right: 290px;" >
-                <input type="button" value="+" onclick="graphicsWidget.zoomIn()" style="margin: 0px; border:none;"/>
-                <input type="button" value="-" onclick="graphicsWidget.zoomOut()" style="margin: 0px; border: none;"/>
-                <input type="button" value="100%" onclick="graphicsWidget.zoom100perc()" style="margin: 0px; border: none;"/>
-                <input type="button" value="Fit" onclick="graphicsWidget.zoomFit()" style="margin: 0px; border: none;"/>
+             <div style="display:inline-block; position: absolute; top: 4px; right: 290px;" >
+                <input type="button" value="+" onclick="graphicsWidget.zoomIn()" style="border:none;"/>
+                <input type="button" value="-" onclick="graphicsWidget.zoomOut()" style="border: none;"/>
+                <input type="button" value="100%" onclick="graphicsWidget.zoom100perc()" style="border: none;"/>
+                <input type="button" value="Fit" onclick="graphicsWidget.zoomFit()" style="border: none;"/>
             </div>
 
         </div>

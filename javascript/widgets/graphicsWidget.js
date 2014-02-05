@@ -70,16 +70,16 @@ var graphicsWidget = (function () {
     // get image pixel when screen pixel is provided
     function imagePx(screenX, screenY) {
         return {
-            x: screenX/zoomFactor,
-            y: screenY/zoomFactor
+            x: screenX/zoomRatio,
+            y: screenY/zoomRatio
         };
     }
 
     // get screen pixel when image pixel is provided
     function screenPx(imageX, imageY) {
         return {
-            x: imageX*zoomFactor,
-            y: imageY*zoomFactor
+            x: imageX*zoomRatio,
+            y: imageY*zoomRatio
         };
     }
 
@@ -178,9 +178,10 @@ var graphicsWidget = (function () {
     }
 
     function hoverOverCanvas(ev) {
-        var pos = posn(ev);
-        var xpos = pos.x;
-        var ypos = pos.y;
+        var pos = posn(ev),
+            xpos = pos.x,
+            ypos = pos.y,
+            imagePos = imagePx(xpos, ypos);
 
         if(extendedCrosshair) {
             $hoverCanvas.width = $hoverCanvas.width;
@@ -192,6 +193,9 @@ var graphicsWidget = (function () {
             hoverCtx.lineTo(width, ypos);
             hoverCtx.stroke();
         }
+
+        zoomView.setZoomImage();
+        zoomView.setCoords(imagePos.x, imagePos.y);
     }
 
     function hoverOverCanvasHandler(ev) {

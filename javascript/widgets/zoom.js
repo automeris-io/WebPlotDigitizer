@@ -27,14 +27,13 @@ var zoomView = (function() {
         zctx,
         tempCanvas,
         tctx,
-        zoom_dx = 30,
-        zoom_dy = 30,
         zWindowWidth = 250,
         zWindowHeight = 250,
-        mPosn,
+        $mPosn,
         extendedCrosshair = false,
         pix = [],
-        zoomTimeout;
+        zoomTimeout,
+        zoomRatio;
 
     pix[0] = new Array();
 
@@ -44,10 +43,10 @@ var zoomView = (function() {
     	zctx = zCanvas.getContext('2d');
 	    tempCanvas = document.createElement('canvas');
         tctx = tempCanvas.getContext('2d');
-        tempCanvas.width = zoom_dx;
-        tempCanvas.height = zoom_dy;
+        //tempCanvas.width = zoom_dx;
+        //tempCanvas.height = zoom_dy;
 
-        mPosn = document.getElementById('mousePosition');
+        $mPosn = document.getElementById('mousePosition');
 
         var zCrossHair = document.getElementById("zoomCrossHair");
         var zchCtx = zCrossHair.getContext("2d");
@@ -121,18 +120,27 @@ var zoomView = (function() {
         }
     }
 
+    function setZoomRatio(zratio) {
+    }
+
+    function getZoomRatio() {
+        return zoomRatio;
+    }
+
     function setZoomImage(imgData, x0, y0, zwidth, zheight) {
 
     }
 
     function setCoords(imageX, imageY) {
-
+        $mPosn.innerText = imageX.toFixed(2) + ', ' + imageY.toFixed(2);
     }
 
     return {
         initZoom: init,
         setZoomImage: setZoomImage,
-        setCoords: setCoords
+        setCoords: setCoords,
+        setZoomRatio: setZoomRatio,
+        getZoomRatio: getZoomRatio
     };
 })();
 
