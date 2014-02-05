@@ -60,11 +60,6 @@ var zoomView = (function() {
         zchCtx.stroke();
     }
 
-    function updateZoomEventHandler(ev) {
-	    clearTimeout(zoomTimeout);
-	    zoomTimeout = setTimeout(updateZoom(ev), 5);
-    }
-
     function updateZoom(ev) {
 
         var posn = getPosition(ev);
@@ -104,18 +99,6 @@ var zoomView = (function() {
             }
         }
         
-        if (extendedCrosshair === true) {
-            hoverCanvas.width = hoverCanvas.width;
-            hoverCtx.strokeStyle = "rgba(0,0,0, 0.5)";
-            hoverCtx.beginPath();
-            hoverCtx.moveTo(xpos, 0);
-            hoverCtx.lineTo(xpos, canvasHeight);
-            hoverCtx.moveTo(0, ypos);
-            hoverCtx.lineTo(canvasWidth, ypos);
-            hoverCtx.stroke();
-        }
-
-        
         if((xpos-dx/2) >= 0 && (ypos-dy/2) >= 0 && (xpos+dx/2) <= canvasWidth && (ypos+dy/2) <= canvasHeight) {
             var zoomImage = ctx.getImageData(xpos-dx/2,ypos-dy/2,dx,dy);
             var dataLayerImage = dataCtx.getImageData(xpos-dx/2,ypos-dy/2,dx,dy);
@@ -137,25 +120,19 @@ var zoomView = (function() {
             zctx.drawImage(tempCanvas, 0, 0, zWindowWidth, zWindowHeight);
         }
     }
-    
-    // Doesn't belong in zoom-view, to be moved out later!
-    function toggleCrosshair(ev) {
-        if (ev.keyCode === 220) {
-            ev.preventDefault();
-            extendedCrosshair = !(extendedCrosshair);
-            hoverCanvas.width = hoverCanvas.width;
-        }
+
+    function setZoomImage(imgData, x0, y0, zwidth, zheight) {
+
     }
 
+    function setCoords(imageX, imageY) {
+
+    }
 
     return {
         initZoom: init,
-        updateZoomEventHandler: updateZoomEventHandler,
-        updateZoom: updateZoom,
-        toggleCrosshair: toggleCrosshair,
-        zoom_dx: zoom_dx,
-        zoom_dy: zoom_dy,
-        mPosn: mPosn
+        setZoomImage: setZoomImage,
+        setCoords: setCoords
     };
 })();
 
