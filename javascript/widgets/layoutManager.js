@@ -37,7 +37,7 @@ var layoutManager = (function () {
         $sidebarContainer.style.height = windowHeight + 'px';
         $mainContainer.style.width = windowWidth - $sidebarContainer.offsetWidth + 'px';
         $mainContainer.style.height = windowHeight + 'px';
-        $graphicsContainer.style.height = windowHeight - 60 + 'px';
+        $graphicsContainer.style.height = windowHeight - 44 + 'px';
     }
 
     function getGraphicsViewportSize() {
