@@ -97,12 +97,14 @@ Loading application, please wait...
         <div id="topContainer">
             <div id="menuButtonsContainer">
                 <!-- Permanent set of tools -->
-                <input type="button" onClick="popup.show('loadNewImage');" value="Load File" style="margin: 0 1px;">
-                <input type="button" onClick="sidebar.show('editImageToolbar');" value="Edit Image" style="margin: 0 1px;">
-                <input type="button" id="plottypebtn" value="Define Axes" onClick="popup.show('axesList');" style="margin: 0 1px;">
-                <input type="button" onClick="acquireData();" value="Acquire Data" style="margin: 0 1px;">
-                <input type="button" onClick="popup.show('helpWindow');" value="Help" style="margin: 0 1px;">
+                <input type="button" onClick="popup.show('loadNewImage');" value="Load File" style="margin: 0px;">
+                <input type="button" onClick="sidebar.show('editImageToolbar');" value="Edit Image" style="margin: 0px;">
+                <input type="button" id="plottypebtn" value="Define Axes" onClick="popup.show('axesList');" style="margin: 0px;">
+                <input type="button" onClick="acquireData();" value="Acquire Data" style="margin: 0px;">
+                <input type="button" onClick="popup.show('helpWindow');" value="Help" style="margin: 0px;">
             </div>
+
+           
             <div id="topToolbarContainer">
                 <!-- controls that show on top -->
                 <div style="position:relative;"> 
@@ -115,8 +117,17 @@ Loading application, please wait...
                     <p align="right"><span id="colorBox" style="height:15px; border: thin black solid; background: blue;">&nbsp;&nbsp;&nbsp;</span><input type="radio" value="fg_chosen" id="fgChosenRadio" name="colorChooser"> FG <input type="radio" id="bgChosenRadio" value="bg_chosen" name="colorChooser"> BG <input type="button" value="Color Picker" onClick="popup.show('colorPicker');"><input type="button" value="RGB"> Threshold <input type="button" value="Test"></p>
                     </div>
 
+                   
                 </div>
             </div>
+
+             <div style="display:inline-block; position: absolute; top: 10px; right: 290px;" >
+                <input type="button" value="+" onclick="graphicsWidget.zoomIn()" style="margin: 0px; border:none;"/>
+                <input type="button" value="-" onclick="graphicsWidget.zoomOut()" style="margin: 0px; border: none;"/>
+                <input type="button" value="100%" onclick="graphicsWidget.zoom100perc()" style="margin: 0px; border: none;"/>
+                <input type="button" value="Fit" onclick="graphicsWidget.zoomFit()" style="margin: 0px; border: none;"/>
+            </div>
+
         </div>
 
         <div id="graphicsContainer">

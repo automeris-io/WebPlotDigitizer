@@ -41,9 +41,6 @@ function initApp() {// This is run when the page loads.
 	testImgCanvas.height = canvasHeight/2;
 	testImgContext = testImgCanvas.getContext('2d');
 		
-	// Add support for extended crosshair
-    document.body.addEventListener('keydown', zoomView.toggleCrosshair, false);
-
 	// Set defaults everywhere.
 	setDefaultState();
 	

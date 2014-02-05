@@ -55,7 +55,33 @@ var graphicsWidget = (function () {
         
         originalImage,
         scaledImage,
-        zoomRatio;
+        zoomRatio,
+        extendedCrosshair = false,
+        hoverTimer;
+
+    function posn(ev) { // get screen pixel from event
+        var mainCanvasPosition = $mainCanvas.getBoundingClientRect();
+        return {
+            x: parseInt(ev.pageX - (mainCanvasPosition.left + window.pageXOffset), 10),
+            y: parseInt(ev.pageY - (mainCanvasPosition.top + window.pageYOffset), 10)
+        };
+    }
+
+    // get image pixel when screen pixel is provided
+    function imagePx(screenX, screenY) {
+        return {
+            x: screenX/zoomFactor,
+            y: screenY/zoomFactor
+        };
+    }
+
+    // get screen pixel when image pixel is provided
+    function screenPx(imageX, imageY) {
+        return {
+            x: imageX*zoomFactor,
+            y: imageY*zoomFactor
+        };
+    }
 
     function resize(cwidth, cheight) {
 
@@ -114,6 +140,9 @@ var graphicsWidget = (function () {
     }
 
     function zoomFit() {
+        var viewportSize = layoutManager.getGraphicsViewportSize();
+        resize(viewportSize.width, viewportSize.height);
+
         if(displayAspectRatio > aspectRatio) {
             zoomRatio = height/(originalHeight*1.0);
             resize(height*aspectRatio, height);
@@ -140,6 +169,40 @@ var graphicsWidget = (function () {
         return dataCtx;
     }
 
+    function toggleExtendedCrosshair(ev) {
+         if (ev.keyCode === 220) {
+            ev.preventDefault();
+            extendedCrosshair = !(extendedCrosshair);
+            $hoverCanvas.width = $hoverCanvas.width;
+        }
+    }
+
+    function hoverOverCanvas(ev) {
+        var pos = posn(ev);
+        var xpos = pos.x;
+        var ypos = pos.y;
+
+        if(extendedCrosshair) {
+            $hoverCanvas.width = $hoverCanvas.width;
+            hoverCtx.strokeStyle = "rgba(0,0,0, 0.5)";
+            hoverCtx.beginPath();
+            hoverCtx.moveTo(xpos, 0);
+            hoverCtx.lineTo(xpos, height);
+            hoverCtx.moveTo(0, ypos);
+            hoverCtx.lineTo(width, ypos);
+            hoverCtx.stroke();
+        }
+    }
+
+    function hoverOverCanvasHandler(ev) {
+        clearTimeout(hoverTimer);
+        hoverTimer = setTimeout(hoverOverCanvas(ev), 10);
+    }
+
+    function dropHandler(ev) {
+
+    }
+
     function init() {
         $mainCanvas = document.getElementById('mainCanvas');
         $dataCanvas = document.getElementById('dataCanvas');
@@ -155,16 +218,20 @@ var graphicsWidget = (function () {
 
         $canvasDiv = document.getElementById('canvasDiv');
 
-        var viewportSize = layoutManager.getGraphicsViewportSize();
-        
-        resize(viewportSize.width, viewportSize.height);
+        // Extended crosshair
+        document.body.addEventListener('keydown', toggleExtendedCrosshair, false);
 
-        // zoom event handler
-        //$topCanvas.addEventListener('mousemove', zoomView.updateZoomEventHandler, false);
+        // hovering over canvas
+        $topCanvas.addEventListener('mousemove', hoverOverCanvasHandler, false);
 
-        // Image dropping capabilities
-        //$topCanvas.addEventListener('dragover',function(event) {event.preventDefault();}, true);
-        //$topCanvas.addEventListener("drop",function(event) {event.preventDefault(); dropHandler(event);}, true);
+        // drag over canvas
+        $topCanvas.addEventListener('dragover', function(evt) {
+                evt.preventDefault();
+            }, true);
+        $topCanvas.addEventListener("drop", function(evt) { 
+                evt.preventDefault(); 
+                dropHandler(evt);
+            }, true);
         
     }
 
@@ -191,6 +258,8 @@ var graphicsWidget = (function () {
         zoomFit: zoomFit,
         zoom100perc: zoom100perc,
         setZoomRatio: setZoomRatio,
-        loadImageFromURL: loadImageFromSrc
+        loadImageFromURL: loadImageFromSrc,
+        setTool: null,
+        removeTool: null,
     };
 })();
