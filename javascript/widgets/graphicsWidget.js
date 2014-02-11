@@ -54,6 +54,7 @@ var graphicsWidget = (function () {
         displayAspectRatio,
         
         originalImage,
+        originalImageData,
         scaledImage,
         zoomRatio,
         extendedCrosshair = false,
@@ -194,8 +195,53 @@ var graphicsWidget = (function () {
             hoverCtx.stroke();
         }
 
-        zoomView.setZoomImage();
+        setZoomImage(imagePos.x, imagePos.y);
         zoomView.setCoords(imagePos.x, imagePos.y);
+    }
+
+    function setZoomImage(ix, iy) {
+        var zsize = zoomView.getSize(),
+            zratio = zoomView.getZoomRatio(),
+            ix0, iy0,
+            zw, zh,
+            iw, ih,
+            idata,
+            ixmin, iymin, ixmax, iymax,
+            zxmin = 0, zymin = 0, zxmax = zsize.width, zymax = zsize.height;
+
+        iw = zsize.width/zratio;
+        ih = zsize.height/zratio;
+        
+        ix0 = ix - iw/2.0; iy0 = iy - ih/2.0;
+        
+        ixmin = ix0; iymin = iy0;
+        ixmax = ix0 + iw; iymax = iy0 + ih;
+
+        if(ix0 < 0) {
+            ixmin = 0;
+            zxmin = -ix0*zratio;
+        }
+        if(iy0 < 0) {
+            iymin = 0;
+            zymin = -iy0*zratio;
+        }
+        if(ix0 + iw >= originalWidth) {
+            ixmax = originalWidth;
+            zxmax = zxmax - zratio*(originalWidth - (ix0 + iw));
+        }
+        if(iy0 + ih >= originalHeight) {
+            iymax = originalHeight;
+            zymax = zymax - zratio*(originalHeight - (iy0 + ih));
+        }
+        idata = oriImageCtx.getImageData(parseInt(ixmin, 10), 
+                                         parseInt(iymin, 10), 
+                                         parseInt(ixmax-ixmin, 10), 
+                                         parseInt(iymax-iymin, 10));
+
+        zoomView.setZoomImage(idata, parseInt(zxmin, 10), 
+                                     parseInt(zymin, 10), 
+                                     parseInt(zxmax - zxmin, 10), 
+                                     parseInt(zymax - zymin, 10));
     }
 
     function hoverOverCanvasHandler(ev) {
@@ -213,12 +259,16 @@ var graphicsWidget = (function () {
         $drawCanvas = document.getElementById('drawCanvas');
         $hoverCanvas = document.getElementById('hoverCanvas');
         $topCanvas = document.getElementById('topCanvas');
+        
+        $oriImageCanvas = document.createElement('canvas');
 
         mainCtx = $mainCanvas.getContext('2d');
         dataCtx = $dataCanvas.getContext('2d');
         hoverCtx = $hoverCanvas.getContext('2d');
         topCtx = $topCanvas.getContext('2d');
         drawCtx = $drawCanvas.getContext('2d');
+
+        oriImageCtx = $oriImageCanvas.getContext('2d');
 
         $canvasDiv = document.getElementById('canvasDiv');
 
@@ -240,9 +290,18 @@ var graphicsWidget = (function () {
     }
 
     function loadImage() {
+        
+        if($mainCanvas == null) {
+            init();
+        }
+
         originalWidth = originalImage.width;
         originalHeight = originalImage.height;
         aspectRatio = originalWidth/(originalHeight*1.0);
+        $oriImageCanvas.width = originalWidth;
+        $oriImageCanvas.height = originalHeight;
+        oriImageCtx.drawImage(originalImage, 0, 0, originalWidth, originalHeight);
+        originalImageData = oriImageCtx.getImageData(0, 0, originalWidth, originalHeight);
         resetAllLayers();
         zoomFit();
     }
@@ -256,7 +315,6 @@ var graphicsWidget = (function () {
     }
 
     return {
-        init: init,
         zoomIn: zoomIn,
         zoomOut: zoomOut,
         zoomFit: zoomFit,
