@@ -43,8 +43,6 @@ var zoomView = (function() {
     	zctx = zCanvas.getContext('2d');
 	    tempCanvas = document.createElement('canvas');
         tctx = tempCanvas.getContext('2d');
-        //tempCanvas.width = zoom_dx;
-        //tempCanvas.height = zoom_dy;
 
         $mPosn = document.getElementById('mousePosition');
 
@@ -57,78 +55,31 @@ var zoomView = (function() {
         zchCtx.moveTo(0, zWindowHeight/2);
         zchCtx.lineTo(zWindowWidth, zWindowHeight/2);
         zchCtx.stroke();
+
+        zoomRatio = 5;
     }
-
-    function updateZoom(ev) {
-
-        var posn = getPosition(ev);
-        var xpos = posn.x;
-        var ypos = posn.y;
-        var dx = zoom_dx;
-        var dy = zoom_dy;
-        
-        if (axesPicked != 1) {
-            mPosn.innerHTML = xpos + ', ' + ypos;
-        } else if(axesPicked == 1) {
-            pix[0][0] = parseFloat(xpos);
-            pix[0][1] = parseFloat(ypos);
-            var rpix = pixelToData(pix, 1, plotType);
-        
-            if (plotType === 'image') {
-                mPosn.innerHTML = rpix[0][0] + ', ' + rpix[0][1];
-            } else {
-                if(plotType === 'XY') {
-                    if(axesAlignmentData[6] === true) {
-                        mPosn.innerHTML = dateConverter.formatDate(dateConverter.fromJD(rpix[0][0]), axesAlignmentData[8]);
-                    } else {
-                        mPosn.innerHTML = parseFloat(rpix[0][0]).toExponential(4);
-                    }
-
-                    if(axesAlignmentData[7] === true) {
-                        mPosn.innerHTML += ', ' + dateConverter.formatDate(dateConverter.fromJD(rpix[0][1]), axesAlignmentData[9]);
-                    } else {
-                        mPosn.innerHTML += ', ' + parseFloat(rpix[0][1]).toExponential(4);
-                    }
-                } else {
-                    mPosn.innerHTML = parseFloat(rpix[0][0]).toExponential(4) + ', ' + parseFloat(rpix[0][1]).toExponential(4);
-                }
-                if (plotType === 'ternary') {
-                    mPosn.innerHTML += ', ' + parseFloat(rpix[0][2]).toExponential(4);
-                }
-            }
-        }
-        
-        if((xpos-dx/2) >= 0 && (ypos-dy/2) >= 0 && (xpos+dx/2) <= canvasWidth && (ypos+dy/2) <= canvasHeight) {
-            var zoomImage = ctx.getImageData(xpos-dx/2,ypos-dy/2,dx,dy);
-            var dataLayerImage = dataCtx.getImageData(xpos-dx/2,ypos-dy/2,dx,dy);
-
-            // merge data from the two layers.
-            for (var zi = 0; zi < dataLayerImage.data.length; zi+=4) {
-                if ((dataLayerImage.data[zi]+dataLayerImage.data[zi+1]+dataLayerImage.data[zi+2]+dataLayerImage.data[zi+3])!=0) {
-                    zoomImage.data[zi] = dataLayerImage.data[zi];
-                    zoomImage.data[zi+1] = dataLayerImage.data[zi+1];        
-                    zoomImage.data[zi+2] = dataLayerImage.data[zi+2];        
-                }
-            }
-            
-            tctx.clearRect(0,0,zoom_dx,zoom_dy);
-            tctx.putImageData(zoomImage,0,0);
-
-            // Draw directly from canvas. 
-            // Creating a new image here caused a memory leak!
-            zctx.drawImage(tempCanvas, 0, 0, zWindowWidth, zWindowHeight);
-        }
-    }
-
+ 
     function setZoomRatio(zratio) {
+        zoomRatio = zratio;
     }
 
     function getZoomRatio() {
         return zoomRatio;
     }
 
-    function setZoomImage(imgData, x0, y0, zwidth, zheight) {
+    function getSize() {
+         return {
+            width: zWindowWidth,
+            height: zWindowHeight
+        };
 
+    }
+
+    function setZoomImage(imgData, x0, y0, zwidth, zheight) {
+        tempCanvas.width = zwidth/zoomRatio;
+        tempCanvas.height = zheight/zoomRatio;
+        tctx.putImageData(imgData, 0, 0);
+        zctx.drawImage(tempCanvas, x0, y0, zwidth, zheight);
     }
 
     function setCoords(imageX, imageY) {
@@ -140,7 +91,8 @@ var zoomView = (function() {
         setZoomImage: setZoomImage,
         setCoords: setCoords,
         setZoomRatio: setZoomRatio,
-        getZoomRatio: getZoomRatio
+        getZoomRatio: getZoomRatio,
+        getSize: getSize
     };
 })();
 

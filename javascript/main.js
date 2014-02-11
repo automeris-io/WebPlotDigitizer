@@ -30,7 +30,6 @@ function initApp() {// This is run when the page loads.
 
 	browserInfo.checkBrowser();
     layoutManager.initialLayout();
-    graphicsWidget.init();
     graphicsWidget.loadImageFromURL('start.png');
 	
     zoomView.initZoom();
@@ -41,6 +40,7 @@ function initApp() {// This is run when the page loads.
 	testImgCanvas.height = canvasHeight/2;
 	testImgContext = testImgCanvas.getContext('2d');
 		
+
 	// Set defaults everywhere.
 	setDefaultState();
 	
