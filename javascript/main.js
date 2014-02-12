@@ -32,8 +32,6 @@ function initApp() {// This is run when the page loads.
     layoutManager.initialLayout();
     graphicsWidget.loadImageFromURL('start.png');
 	
-    zoomView.initZoom();
-
 	// testing area for autodetection
 	testImgCanvas = document.getElementById('testImg');
 	testImgCanvas.width = canvasWidth/2;

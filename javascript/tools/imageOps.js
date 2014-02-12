@@ -21,6 +21,54 @@
 
 */
 
+var imageOps = (function () {
+
+    function hflip(idata, iwidth, iheight) {
+        var rowi, coli, index, mindex, tval, p;
+        for(rowi = 0; rowi < iheight; rowi++) {
+            for(coli = 0; coli < iwidth/2; coli++) {
+                index = 4*(rowi*iwidth + coli);
+                mindex = 4*((rowi+1)*iwidth - (coli+1));
+                for(p = 0; p < 4; p++) {
+                    tval = idata.data[index + p];
+                    idata.data[index + p] = idata.data[mindex + p];
+                    idata.data[mindex + p] = tval;
+                }
+            }
+        }
+        return {
+            imageData: idata,
+            width: iwidth,
+            height: iheight
+        };
+    }
+
+    function vflip(idata, iwidth, iheight) {
+        var rowi, coli, index, mindex, tval, p;
+        for(rowi = 0; rowi < iheight/2; rowi++) {
+            for(coli = 0; coli < iwidth; coli++) {
+                index = 4*(rowi*iwidth + coli);
+                mindex = 4*((iheight - (rowi+2))*iwidth + coli);
+                for(p = 0; p < 4; p++) {
+                    tval = idata.data[index + p];
+                    idata.data[index + p] = idata.data[mindex + p];
+                    idata.data[mindex + p] = tval;
+                }
+            }
+        }
+        return {
+            imageData: idata,
+            width: iwidth,
+            height: iheight
+        };
+    }
+
+    return {
+        hflip: hflip,
+        vflip: vflip
+    };
+})();
+
 var cropStatus = 0;
 var cropCoordinates = [0,0,0,0];
 
@@ -29,55 +77,14 @@ var cropCoordinates = [0,0,0,0];
  */
 function hflip() {
 	processingNote(true);
-
-	var iData = ctx.getImageData(cx0,cy0,currentImageWidth,currentImageHeight);
-
-	for (var rowi = 0; rowi < currentImageHeight; rowi++) {
-		for(var coli = 0; coli < currentImageWidth/2; coli++) {
-			var index = rowi*4*currentImageWidth + coli*4;
-			var mindex = (rowi+1)*4*currentImageWidth - (coli+1)*4;
-			for(var p = 0; p < 4; p++) {
-				var tt = iData.data[index + p];
-				iData.data[index + p] = iData.data[mindex + p];
-				iData.data[mindex + p] = tt;
-			}
-		}
-	}
-	
-	ctx.putImageData(iData,cx0,cy0);
-	saveCanvasImage();
-
+    graphicsWidget.runImageOp(imageOps.hflip);
 	processingNote(false);
 }
 
-/**
- * Flip picture vertically
- */
 function vflip() {
-
-	processingNote(true);
-
-	var iData = ctx.getImageData(cx0,cy0,currentImageWidth,currentImageHeight);
-
-	for (var coli = 0; coli < currentImageWidth; coli++) {
-
-		for(var rowi = 0; rowi < currentImageHeight/2; rowi++) {
-
-			var index = rowi*4*currentImageWidth + coli*4;
-			var mindex = (currentImageHeight - (rowi+2))*4*currentImageWidth + coli*4;
-			for(var p = 0; p < 4; p++) {
-
-				var tt = iData.data[index + p];
-				iData.data[index + p] = iData.data[mindex + p];
-				iData.data[mindex + p] = tt;
-			}
-		}
-	}
-	
-	ctx.putImageData(iData,cx0,cy0);
-	saveCanvasImage();
-
-	processingNote(false);
+    processingNote(true);
+    graphicsWidget.runImageOp(imageOps.vflip);
+    processingNote(false);
 }
 
 /**
