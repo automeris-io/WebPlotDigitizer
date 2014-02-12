@@ -53,7 +53,6 @@ var graphicsWidget = (function () {
         aspectRatio,
         displayAspectRatio,
         
-        originalImage,
         originalImageData,
         scaledImage,
         zoomRatio,
@@ -125,11 +124,11 @@ var graphicsWidget = (function () {
     }
 
     function drawImage() {
-        if(originalImage == null) return;
+        if(originalImageData == null) return;
         
         mainCtx.fillStyle = "rgb(255, 255, 255)";
         mainCtx.fillRect(0, 0, width, height);
-        mainCtx.drawImage(originalImage, 0, 0, width, height); 
+        mainCtx.drawImage($oriImageCanvas, 0, 0, width, height);
     }
 
     function zoomIn() {
@@ -287,9 +286,10 @@ var graphicsWidget = (function () {
                 dropHandler(evt);
             }, true);
         
+        zoomView.initZoom(); 
     }
 
-    function loadImage() {
+    function loadImage(originalImage) {
         
         if($mainCanvas == null) {
             init();
@@ -307,11 +307,29 @@ var graphicsWidget = (function () {
     }
 
     function loadImageFromSrc(imgSrc) {
-        originalImage = document.createElement('img');
+        var originalImage = document.createElement('img');
         originalImage.onload = function () {
-            loadImage();
+            loadImage(originalImage);
         };
         originalImage.src = imgSrc;
+    }
+
+    function loadImageFromData(idata, iwidth, iheight) {
+        originalWidth = iwidth;
+        originalHeight = iheight;
+        aspectRatio = originalWidth/(originalHeight*1.0);
+        $oriImageCanvas.width = originalWidth;
+        $oriImageCanvas.height = originalHeight;
+        oriImageCtx.putImageData(idata, 0, 0);
+        originalImageData = idata;
+        resetAllLayers();
+        zoomFit();
+    }
+
+    // run an external operation on the image data. this would normally mean a reset.
+    function runImageOp(operFn) {
+       var opResult = operFn(originalImageData, originalWidth, originalHeight);
+       loadImageFromData(opResult.imageData, opResult.width, opResult.height);
     }
 
     return {
@@ -321,6 +339,7 @@ var graphicsWidget = (function () {
         zoom100perc: zoom100perc,
         setZoomRatio: setZoomRatio,
         loadImageFromURL: loadImageFromSrc,
+        runImageOp: runImageOp,
         setTool: null,
         removeTool: null,
     };
