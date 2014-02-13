@@ -21,8 +21,8 @@
 
 */
 
-
-var sidebar = (function () {
+var wpd = wpd || {};
+wpd.sidebar = (function () {
 
     // List of sidebars that can be closed via clearSidebar(). Typically, I include all known sidebars here.
     var sidebarList = ['editImageToolbar','manualMode','autoMode'];

@@ -40,7 +40,7 @@ var axesAlignmentData = [];
 var plotType; 
 
 /**
- * Start the alignment process here. Called from the Plot Type option popup.
+ * Start the alignment process here. Called from the Plot Type option wpd.popup.
  */ 
 function initiatePlotAlignment() {
   axesPicked = 0;
@@ -50,7 +50,7 @@ function initiatePlotAlignment() {
   mapEl = document.getElementById('r_map');
   imageEl = document.getElementById('r_image');
   
-  popup.close('axesList');
+  wpd.popup.close('axesList');
   
   if (xyEl.checked === true)
     setAxes('XY');
@@ -71,7 +71,7 @@ function initiatePlotAlignment() {
 function setAxes(ax_mode) {
 
 	plotType = ax_mode;
-	sidebar.clear();
+	wpd.sidebar.clear();
 	canvasMouseEvents.removeAll();
 	canvasMouseEvents.add('click',pickCorners,true);
 	axesN = 0;
@@ -79,16 +79,16 @@ function setAxes(ax_mode) {
 
 	if ((plotType === 'XY')||(plotType === 'bar')) {
 		axesNmax = 4;
-		popup.show('xyAxesInfo');
+		wpd.popup.show('xyAxesInfo');
 	} else if (plotType === 'polar') {
 		axesNmax = 3;
-		popup.show('polarAxesInfo');
+		wpd.popup.show('polarAxesInfo');
 	} else if (plotType === 'ternary') {
 		axesNmax = 3;
-		popup.show('ternaryAxesInfo');
+		wpd.popup.show('ternaryAxesInfo');
 	} else if (plotType === 'map') {
 		axesNmax = 2;
-		popup.show('mapAxesInfo');
+		wpd.popup.show('mapAxesInfo');
 	} else if (plotType === 'image') {
 		axesNmax = 0;
 		alignAxes();
@@ -114,7 +114,7 @@ function pickCorners(ev) {
 		dataCtx.arc(xi,yi,3,0,2.0*Math.PI,true);
 		dataCtx.fill();
 		
-		zoomView.updateZoom(ev);
+		wpd.zoomView.updateZoom(ev);
 
 		if (axesN === axesNmax) {
 				axesPicked = 1;
@@ -122,13 +122,13 @@ function pickCorners(ev) {
 				canvasMouseEvents.remove('click',pickCorners,true);
 				
 				if (plotType === 'XY') {
-					popup.show('xyAlignment');
+					wpd.popup.show('xyAlignment');
 				} else if (plotType === 'polar') {
-					popup.show('polarAlignment');
+					wpd.popup.show('polarAlignment');
 				} else if (plotType === 'ternary') {
-					popup.show('ternaryAlignment');
+					wpd.popup.show('ternaryAlignment');
 				} else if (plotType === 'map') {
-					popup.show('mapAlignment');
+					wpd.popup.show('mapAlignment');
 				}
 
 				dataCanvas.width = dataCanvas.width;
@@ -159,8 +159,8 @@ function alignAxes() {
 
 		var raiseError = function(parsedValue) {
 				if(!inputParser.isValid || parsedValue == null) {
-					popup.close('xyAlignment');
-					popup.show('inputError');
+					wpd.popup.close('xyAlignment');
+					wpd.popup.show('inputError');
 					return null;
 				} 
 				return parsedValue;
@@ -206,8 +206,8 @@ function alignAxes() {
 
 		// Date checks:
 		if ((x1Date !== x2Date) || (y1Date !== y2Date)) {
-			popup.close('xyAlignment');
-			popup.show('inputError');
+			wpd.popup.close('xyAlignment');
+			wpd.popup.show('inputError');
 			return;
 		}
 
@@ -225,7 +225,7 @@ function alignAxes() {
 			axesAlignmentData[7] = false;
 		}
 
-	    popup.close('xyAlignment');
+	    wpd.popup.close('xyAlignment');
     } else if (plotType == 'polar') {
 	    var r1El = document.getElementById('rpoint1');
 	    var theta1El = document.getElementById('thetapoint1');
@@ -252,7 +252,7 @@ function alignAxes() {
 	        axesAlignmentData[5] = false;
 	
 	
-	    popup.close('polarAlignment');
+	    wpd.popup.close('polarAlignment');
 
     } else if (plotType === 'ternary') {
 
@@ -270,7 +270,7 @@ function alignAxes() {
 	    else
 	      axesAlignmentData[1] = false;
 		
-	    popup.close('ternaryAlignment');
+	    wpd.popup.close('ternaryAlignment');
 
     } else if (plotType === 'map') {
 
@@ -278,7 +278,7 @@ function alignAxes() {
 	
 	    axesAlignmentData[0] = parseFloat(scaleLength.value);
 	
-	    popup.close('mapAlignment');
+	    wpd.popup.close('mapAlignment');
 
     } else if (plotType === 'image') {
 

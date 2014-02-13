@@ -20,30 +20,27 @@
 
 
 */
+
 var wpd = wpd || {};
-wpd.toolbar = (function () {
+// maintain and manage current state of the application
+wpd.appState = (function () {
+    var isAligned = false,
+        axesType,
+        pointsPicked = 0;
 
-    // list of all known toolbars!
-    var toolbarList = ['paintToolbar','colorPickerToolbar']; 
-
-    function show(sbid) { // Shows a specific sidebar
-        clear();
-        var sb = document.getElementById(sbid);
-        sb.style.visibility = "visible";
-    }
-
-    function clear() { // Clears all open sidebars
-
-          for (ii = 0; ii < toolbarList.length; ii ++) {
-              var sbv = document.getElementById(toolbarList[ii]);
-              sbv.style.visibility="hidden";
-          }
-        
+    function reset() {
+        isAligned = false;
+        axesType = null;
+        pointsPicked = 0;
     }
 
     return {
-        show: show,
-        clear: clear
+        aligned: function(is_aligned) {
+            if(is_aligned != null) {
+                isAligned = is_aligned;
+            }
+            return isAligned;
+        },
+        reset: reset
     };
 })();
-

@@ -77,13 +77,13 @@ var cropCoordinates = [0,0,0,0];
  */
 function hflip() {
 	processingNote(true);
-    graphicsWidget.runImageOp(imageOps.hflip);
+    wpd.graphicsWidget.runImageOp(imageOps.hflip);
 	processingNote(false);
 }
 
 function vflip() {
     processingNote(true);
-    graphicsWidget.runImageOp(imageOps.vflip);
+    wpd.graphicsWidget.runImageOp(imageOps.vflip);
     processingNote(false);
 }
 

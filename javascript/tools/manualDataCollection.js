@@ -31,9 +31,9 @@ var pointsPicked = 0; // number of data points picked.
  */
 function acquireData() {
 	if(axesPicked === 0) {
-		popup.show('alignAxes');
+		wpd.popup.show('alignAxes');
 	} else {
-		sidebar.show('manualMode');
+		wpd.sidebar.show('manualMode');
 		canvasMouseEvents.removeAll();
 	}
 }
@@ -52,7 +52,7 @@ function pickPoints() {// select data points.
 		//xyData = [];
 		pointsStatus(pointsPicked);
 		//redrawCanvas();
-		sidebar.show('manualMode');
+		wpd.sidebar.show('manualMode');
 	}
 }
 
@@ -86,7 +86,7 @@ function clearPoints() {// clear all markings.
 
 	pointsPicked = 0;
 	pointsStatus(pointsPicked);
-    resetLayers();
+    //resetLayers();
 	
 	canvasMouseEvents.removeAll();
 }
@@ -99,7 +99,7 @@ function undoPointSelection() {
 		pointsPicked = pointsPicked - 1;
 		pointsStatus(pointsPicked);
 		
-        resetLayers();
+        //resetLayers();
 
 		for(ii = 0; ii < pointsPicked; ii++) {
 			xi = xyData[ii][0];	
@@ -165,7 +165,7 @@ function deleteSpecificPointHandler(ev) {
 		pointsPicked = pointsPicked - 1;
 		pointsStatus(pointsPicked);
 			
-        resetLayers();
+        //resetLayers();
 
 		for(ii = 0; ii < pointsPicked; ii++) {
 			xp = xyData[ii][0];	
@@ -177,6 +177,6 @@ function deleteSpecificPointHandler(ev) {
 		}
 	}
 
-	zoomView.updateZoom(ev);
+	wpd.zoomView.updateZoom(ev);
 
 }

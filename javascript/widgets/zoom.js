@@ -22,7 +22,8 @@
 */
 
 /* Zoomed-in view */
-var zoomView = (function() {
+var wpd = wpd || {};
+wpd.zoomView = (function() {
     var zCanvas, 
         zctx,
         tempCanvas,
