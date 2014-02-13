@@ -249,8 +249,28 @@ var graphicsWidget = (function () {
     }
 
     function dropHandler(ev) {
-
+        var allDrop = ev.dataTransfer.files;
+        if (allDrop.length === 1) {
+            fileLoader(allDrop[0]);
+        }
     }
+
+    function pasteHandler(ev) {
+        if(ev.clipboardData !== undefined) {
+            var items = ev.clipboardData.items;
+            if(items !== undefined) {
+                for(var i = 0; i < items.length; i++) {
+                    if(items[i].type.indexOf("image") !== -1) {
+                        var blob = items[i].getAsFile();
+                        var URLObj = window.URL || window.webkitURL;
+                        var source = URLObj.createObjectURL(blob);
+                        fileLoader(blob);
+                    }
+                }
+            }
+        }
+    }
+
 
     function init() {
         $mainCanvas = document.getElementById('mainCanvas');
@@ -286,7 +306,12 @@ var graphicsWidget = (function () {
                 dropHandler(evt);
             }, true);
         
-        zoomView.initZoom(); 
+        zoomView.initZoom();
+        
+        document.getElementById('fileLoadBox').addEventListener("change", loadNewFile); 
+
+        // Paste image from clipboard
+        window.addEventListener('paste', function(event) {pasteHandler(event);}, false);
     }
 
     function loadImage(originalImage) {
@@ -324,6 +349,25 @@ var graphicsWidget = (function () {
         originalImageData = idata;
         resetAllLayers();
         zoomFit();
+    }
+
+    function fileLoader(fileInfo) {
+        if(fileInfo.type.match("image.*")) {
+            var droppedFile = new FileReader();
+            droppedFile.onload = function() {
+                var imageInfo = droppedFile.result;
+                loadImageFromSrc(imageInfo);
+            };
+            droppedFile.readAsDataURL(fileInfo);
+        }
+    }
+
+    function loadNewFile() {
+        var fileLoadElem = document.getElementById('fileLoadBox');
+        if(fileLoadElem.files.length == 1) {
+            var fileInfo = fileLoadElem.files[0];
+            fileLoader(fileInfo);
+        }
     }
 
     // run an external operation on the image data. this would normally mean a reset.
