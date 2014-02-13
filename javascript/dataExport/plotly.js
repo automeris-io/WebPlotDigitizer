@@ -22,7 +22,8 @@
 */
 
 // This module contains methods to export CSV data to an external software called Plotly (http://plot.ly)
-var plotly = (function() {
+var wpd = wpd || {};
+wpd.plotly = (function() {
 
     // Dump the contents of the global variable displayData into Plotly
     function exportData() {
@@ -50,7 +51,7 @@ var plotly = (function() {
             yDisplayData = [],
             zDisplayData = [],
             jsonData = { data: [] },
-            displayData = CSVExport.getDisplayData();
+            displayData = wpd.CSVExport.getDisplayData();
         
         if((plotType === 'XY') || (plotType === 'map') || (plotType === 'polar') || (plotType === 'image')) {
             for(var ii = 0; ii < pointsPicked; ii++) {

@@ -22,7 +22,8 @@
 */
 
 // Handle popup windows
-var popup = (function () {
+var wpd = wpd || {};
+wpd.popup = (function () {
 
     function show(popupid) {
         // Dim lights :)

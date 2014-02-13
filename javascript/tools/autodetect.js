@@ -43,9 +43,9 @@ var binaryData;
 function colorPickerWindow(cmode) {
     colorPickerMode = cmode;
     if(cmode === 'fg') {    
-      popup.show('colorPickerFG');
+      wpd.popup.show('colorPickerFG');
     } else if(cmode === 'bg') {
-       popup.show('colorPickerBG');
+       wpd.popup.show('colorPickerBG');
     }
 }
 
@@ -87,7 +87,7 @@ function colorPicker(ev) {
 			redEl = document.getElementById('color_red_fg');
 			greenEl = document.getElementById('color_green_fg');
 			blueEl = document.getElementById('color_blue_fg');
-			popup.show('colorPickerFG');
+			wpd.popup.show('colorPickerFG');
 
 		} else if (colorPickerMode === 'bg') {
 
@@ -96,7 +96,7 @@ function colorPicker(ev) {
 			redEl = document.getElementById('color_red_bg');
 			greenEl = document.getElementById('color_green_bg');
 			blueEl = document.getElementById('color_blue_bg');
-			popup.show('colorPickerBG');
+			wpd.popup.show('colorPickerBG');
 		}
 		
 		redEl.value = PickedColor[0];
@@ -207,7 +207,7 @@ function boxPaintMousedrag(ev) {
 function penPaint() {
 
 	canvasMouseEvents.removeAll();
-	toolbar.show('paintToolbar');
+	wpd.toolbar.show('paintToolbar');
 	canvasMouseEvents.add('mousedown',penPaintMousedown,true);
 	canvasMouseEvents.add('mouseup',penPaintMouseup,true);
 	canvasMouseEvents.add('mousemove',penPaintMousedrag,true);
@@ -268,7 +268,7 @@ function penPaintMousedrag(ev) {
 function eraser() {
 
 	canvasMouseEvents.removeAll();
-	toolbar.show('paintToolbar');
+	wpd.toolbar.show('paintToolbar');
 	canvasMouseEvents.add('mousedown',eraserMousedown,true);
 	canvasMouseEvents.add('mouseup',eraserMouseup,true);
 	canvasMouseEvents.add('mousemove',eraserMousedrag,true);
@@ -383,7 +383,7 @@ function saveTest() {
  */
 function launchTestWindow() {
   processingNote(true);
-  setTimeout("updateTestWindow();popup.show('testImageWindow');",100);
+  setTimeout("updateTestWindow();wpd.popup.show('testImageWindow');",100);
 }
 
 /**
@@ -409,7 +409,7 @@ function scanPlot() {
 	
 	cdistance = parseInt(colorDistanceEl.value);
   
-    popup.close("testImageWindow");
+    wpd.popup.close("testImageWindow");
     
     binaryData = selectFromMarkedRegion(colmode, chosenColor, cdistance);
 

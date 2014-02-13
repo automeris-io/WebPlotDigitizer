@@ -21,8 +21,8 @@
 
 */
 
-
-var CSVExport = (function () {
+var wpd = wpd || {};
+wpd.CSVExport = (function () {
 
     var rawCSVData,
         displayData = [];
@@ -31,7 +31,7 @@ var CSVExport = (function () {
     function generateCSV() {
 
         if((axesPicked === 1) && (pointsPicked >= 1)) {
-            popup.show('csvWindow');
+            wpd.popup.show('csvWindow');
                 
             rawCSVData = pixelToData(xyData, pointsPicked, plotType);
 

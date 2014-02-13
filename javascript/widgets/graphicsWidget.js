@@ -22,8 +22,8 @@
 */
 
 /* Multi-layered canvas widet to display plot, data, graphics etc. */
-
-var graphicsWidget = (function () {
+var wpd = wpd || {};
+wpd.graphicsWidget = (function () {
 
     var $mainCanvas, // original picture is displayed here
         $dataCanvas, // data points
@@ -140,7 +140,7 @@ var graphicsWidget = (function () {
     }
 
     function zoomFit() {
-        var viewportSize = layoutManager.getGraphicsViewportSize();
+        var viewportSize = wpd.layoutManager.getGraphicsViewportSize();
         resize(viewportSize.width, viewportSize.height);
 
         if(displayAspectRatio > aspectRatio) {
@@ -195,12 +195,12 @@ var graphicsWidget = (function () {
         }
 
         setZoomImage(imagePos.x, imagePos.y);
-        zoomView.setCoords(imagePos.x, imagePos.y);
+        wpd.zoomView.setCoords(imagePos.x, imagePos.y);
     }
 
     function setZoomImage(ix, iy) {
-        var zsize = zoomView.getSize(),
-            zratio = zoomView.getZoomRatio(),
+        var zsize = wpd.zoomView.getSize(),
+            zratio = wpd.zoomView.getZoomRatio(),
             ix0, iy0,
             zw, zh,
             iw, ih,
@@ -237,7 +237,7 @@ var graphicsWidget = (function () {
                                          parseInt(ixmax-ixmin, 10), 
                                          parseInt(iymax-iymin, 10));
 
-        zoomView.setZoomImage(idata, parseInt(zxmin, 10), 
+        wpd.zoomView.setZoomImage(idata, parseInt(zxmin, 10), 
                                      parseInt(zymin, 10), 
                                      parseInt(zxmax - zxmin, 10), 
                                      parseInt(zymax - zymin, 10));
@@ -306,7 +306,7 @@ var graphicsWidget = (function () {
                 dropHandler(evt);
             }, true);
         
-        zoomView.initZoom();
+        wpd.zoomView.initZoom();
         
         document.getElementById('fileLoadBox').addEventListener("change", loadNewFile); 
 

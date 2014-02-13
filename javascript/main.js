@@ -21,43 +21,29 @@
 
 */
 
-document.addEventListener("DOMContentLoaded", initApp, true);
+var wpd = wpd || {};
 
 /**
  * This is the entry point and is executed when the page is loaded.
  */
-function initApp() {// This is run when the page loads.
+wpd.initApp = function() {// This is run when the page loads.
 
-	browserInfo.checkBrowser();
-    layoutManager.initialLayout();
-    graphicsWidget.loadImageFromURL('start.png');
+	wpd.browserInfo.checkBrowser();
+    wpd.layoutManager.initialLayout();
+    wpd.graphicsWidget.loadImageFromURL('start.png');
 	
 	// testing area for autodetection
-	testImgCanvas = document.getElementById('testImg');
-	testImgCanvas.width = canvasWidth/2;
-	testImgCanvas.height = canvasHeight/2;
-	testImgContext = testImgCanvas.getContext('2d');
+	// testImgCanvas = document.getElementById('testImg');
+	// testImgCanvas.width = canvasWidth/2;
+	// testImgCanvas.height = canvasHeight/2;
+	// testImgContext = testImgCanvas.getContext('2d');
 		
-
 	// Set defaults everywhere.
-	setDefaultState();
-	
-	displayParameters();
+	// setDefaultState();
+	// displayParameters();
 
     document.getElementById('loadingCurtain').style.display = 'none';
 }
 
-
-/**
- * Reset canvas and zoom window to initial state.
- */
-function setDefaultState() {
-	axesPicked = 0;
-	pointsPicked = 0;
-	xyData = [];
-	axesAlignmentData = [];
-	clearPoints();
-	sidebar.clear();
-}
-
+document.addEventListener("DOMContentLoaded", wpd.initApp, true);
 

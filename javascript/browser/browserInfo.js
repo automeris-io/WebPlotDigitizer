@@ -22,8 +22,8 @@
 */
 
 // browserInfo.js - browser and available HTML5 feature detection
-
-var browserInfo = (function () {
+var wpd = wpd || {};
+wpd.browserInfo = (function () {
 
     function checkBrowser() {
         if(!window.FileReader) {

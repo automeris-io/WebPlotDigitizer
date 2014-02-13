@@ -22,8 +22,8 @@
 */
 
 // layoutManager.js - manage layout of main sections on the screen.
-
-var layoutManager = (function () {
+var wpd = wpd || {};
+wpd.layoutManager = (function () {
     var layoutTimer,
         $graphicsContainer,
         $sidebarContainer,
