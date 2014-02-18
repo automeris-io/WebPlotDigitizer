@@ -66,7 +66,7 @@ var canvasMouseEvents = (function () {
             moueEventFunction = [];
             mouseEventCapture = [];
         }
-        toolbar.clear();
+        wpd.toolbar.clear();
     }
 
     // Remove a particular mouse event.
