@@ -97,20 +97,14 @@ wpd.DataSeries = (function () {
 // Plot information
 wpd.PlotData = (function () {
     var PlotData = function() {
-        this.calibration = null;
         this.axes = null;
         this.dataSeriesColl = [];
     };
 
     PlotData.prototype.reset = function () {
-        this.calibration = null;
         this.axes = null;
         this.dataSeriesColl = [];
     };
-
-    PlotData.prototype.isCalibrated = function() {
-        return !(this.calibration == null);
-    };
-
+   
     return PlotData;
 })();
