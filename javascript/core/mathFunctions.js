@@ -25,14 +25,16 @@
 /** 
  * Calculate inverse tan with range between 0, 2*pi.
  */
-function taninverse(y,x) {
-  var inv_ans;
-  if (y>0) // I & II
+var wpd = wpd || {};
+
+wpd.taninverse = function(y,x) {
+    var inv_ans;
+    if (y>0) // I & II
     inv_ans = Math.atan2(y,x);
-  else if (y<=0) // III & IV
+    else if (y<=0) // III & IV
     inv_ans = Math.atan2(y,x) + 2*Math.PI;
-  
-  if(inv_ans >= 2*Math.PI)
+
+    if(inv_ans >= 2*Math.PI)
     inv_ans = 0.0;
-  return inv_ans;
-}
+    return inv_ans;
+};
