@@ -43,7 +43,6 @@
 <script src="javascript/core/appState.js"></script>
 <script src="javascript/core/dataObjects.js"></script>
 <script src="javascript/core/aesystem.js"></script>
-<script src="javascript/core/coordinateTransform.js"></script>
 <script src="javascript/core/dateConversion.js"></script>
 <script src="javascript/core/imageProcessing.js"></script>
 <script src="javascript/core/inputParser.js"></script>
@@ -335,7 +334,7 @@ Loading application, please wait...
 	<p align="center"><img src="images/xyaxes.png" /></p>
 	<p align="center">Click four known points on the axes in the <font color="red">order shown in red</font>. Two on the X axis (X1, X2) and two on the Y axis (Y1, Y2).</p>
 	<p>&nbsp;</p>
-	<p align="center"><input type="button" value="Proceed" onClick="wpd.popup.close('xyAxesInfo')"></p>
+	<p align="center"><input type="button" value="Proceed" onClick="wpd.xyCalibration.pickCorners();"></p>
 	</div>
 
 	<div id="mapAxesInfo" class="popup" style="width: 350px;"> 

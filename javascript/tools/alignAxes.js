@@ -21,6 +21,83 @@
 
 */
 
+var wpd = wpd || {};
+
+wpd.xyCalibration = (function () {
+
+    function start() {
+        wpd.popup.show('xyAxesInfo');
+    }
+
+    function pickCorners() {
+        wpd.popup.close('xyAxesInfo');
+        var tool = new wpd.AxesCornersTool();
+        wpd.graphicsWidget.setTool(tool);
+        tool.onComplete = align;
+    }
+
+    function align() {
+
+    }
+
+    return {
+        start: start,
+        pickCorners: pickCorners,
+        align: align
+    };
+})();
+
+
+wpd.AxesCornersTool = (function () {
+
+    var Tool = function() {
+        var points = [],
+            ctx = wpd.graphicsWidget.getAllContexts();
+        wpd.graphicsWidget.resetData();
+
+        this.onMouseClick = function(ev, pos, imagePos) {
+            
+            var len = points.length;
+            points[len] = imagePos.x;
+            points[len+1] = imagePos.y;
+
+            ctx.dataCtx.beginPath();
+    		ctx.dataCtx.fillStyle = "rgb(200,0,0)";
+	    	ctx.dataCtx.arc(pos.x, pos.y, 3, 0, 2.0*Math.PI, true);
+		    ctx.dataCtx.fill();
+
+            ctx.oriDataCtx.beginPath();
+    		ctx.oriDataCtx.fillStyle = "rgb(200,0,0)";
+	    	ctx.oriDataCtx.arc(parseInt(imagePos.x,10), parseInt(imagePos.y,10), 3, 0, 2.0*Math.PI, true);
+		    ctx.oriDataCtx.fill();
+
+            if(len/2 === 4) {
+                wpd.graphicsWidget.removeTool();
+                wpd.graphicsWidget.resetData();
+                this.onComplete(points);
+            }
+
+            wpd.graphicsWidget.updateZoomOnEvent(ev);
+        };
+
+        this.onRedraw = function() {
+            for(var i = 0; i < points.length; i+=2) {
+                var pos = wpd.graphicsWidget.screenPx(points[i], points[i+1]);
+                ctx.dataCtx.beginPath();
+        		ctx.dataCtx.fillStyle = "rgb(200,0,0)";
+	        	ctx.dataCtx.arc(parseInt(pos.x, 10), parseInt(pos.y, 10), 3, 0, 2.0*Math.PI, true);
+		        ctx.dataCtx.fill();
+            }
+        };
+
+        this.onComplete = function(points) {};
+    };
+
+    return Tool;
+})();
+
+
+
 /** Have the axes been picked? true/false. */
 var axesPicked; // axes picked?
 
@@ -53,7 +130,7 @@ function initiatePlotAlignment() {
   wpd.popup.close('axesList');
   
   if (xyEl.checked === true)
-    setAxes('XY');
+    wpd.xyCalibration.start();
   else if(polarEl.checked === true)
     setAxes('polar');
   else if(ternaryEl.checked === true)
