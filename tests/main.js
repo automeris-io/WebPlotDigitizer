@@ -1,4 +1,5 @@
 var wpd = require('./wpdcore.js');
+var assert = require('assert');
 
 var plotData = new wpd.PlotData();
 var axes = new wpd.XYAxes();
@@ -11,8 +12,10 @@ calibration.addPoint(0,0,0,1);
 
 var isCalibrated = axes.calibrate(calibration, false, false);
 
-if(!isCalibrated) {
-    console.error("Calibration failed!");
-}
+assert.equal(isCalibrated, true);
 
-console.log(axes.pixelToData(50,50));
+var data = axes.pixelToData(50,50);
+
+assert.equal(data[0].toFixed(2), 0.5);
+assert.equal(data[1].toFixed(2), 0.5);
+
