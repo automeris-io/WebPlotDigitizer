@@ -158,9 +158,8 @@ wpd.alignAxes = (function () {
 
 })();
 
-/**
- * Store the alignment data.
- */
+
+/*
 function alignAxes() {
     if (plotType === 'XY') {
 	    var xminEl = document.getElementById('xmin');
@@ -314,3 +313,5 @@ function alignAxes() {
 	}
     
 }
+
+*/
