@@ -73,6 +73,154 @@ wpd.xyCalibration = (function () {
     };
 })();
 
+wpd.polarCalibration = (function () {
+    var calib;
+
+    function start() {
+        calib = null;
+        wpd.popup.show('polarAxesInfo');
+    }
+
+    function pickCorners() {
+        wpd.popup.close('polarAxesInfo');
+        var tool = new wpd.AxesCornersTool(3, 2);
+        wpd.graphicsWidget.setTool(tool);
+        tool.onComplete = getCornerValues;
+    }
+
+    function getCornerValues(cal) {
+        calib = cal;
+        wpd.popup.show('polarAlignment');
+    }
+
+    function align() {
+        var r1 = parseFloat(document.getElementById('rpoint1').value),
+	        theta1 = parseFloat(document.getElementById('thetapoint1').value),
+	        r2 = parseFloat(document.getElementById('rpoint2').value),
+	        theta2 = parseFloat(document.getElementById('thetapoint2').value),
+	        degrees = document.getElementById('degrees').checked,
+	        radians = document.getElementById('radians').checked,
+	        orientation = document.getElementById('clockwise').checked,
+            axes = new wpd.PolarAxes(),
+            plot,
+            isDegrees = degrees;
+
+        calib.setDataAt(1, r1, theta1);
+        calib.setDataAt(2, r2, thera2);
+        axes.calibrate(calib, isDegrees, orientation);
+
+        plot = wpd.appData.getPlotData();
+        plot.axes = axes;
+        wpd.appData.isAligned(true);
+        wpd.popup.close('polarAlignment');
+        calib = null;
+    }
+
+    return {
+        start: start,
+        pickCorners: pickCorners,
+        align: align
+    };
+
+})();
+
+wpd.ternaryCalibration = (function () {
+    var calib;
+
+    function start() {
+        calib = null;
+        wpd.popup.show('ternaryAxesInfo');
+    }
+
+    function pickCorners() {
+        wpd.popup.close('ternaryAxesInfo');
+        var tool = new wpd.AxesCornersTool(3, 3);
+        wpd.graphicsWidget.setTool(tool);
+        tool.onComplete = getCornerValues;
+    }
+
+    function getCornerValues(cal) {
+        calib = cal;
+        wpd.popup.show('ternaryAlignment');
+    }
+
+    function align() {
+        var range1 = document.getElementById('range0to1').checked,
+	        range100 = document.getElementById('range0to100').checked,
+	        ternaryNormal = document.getElementById('ternarynormal').checked,
+            axes = new wpd.TernaryAxes(),
+            plot;
+
+        axes.calibrate(calib, range100, ternaryNormal);
+        plot = wpd.appData.getPlotData();
+        plot.axes = axes;
+        wpd.appData.isAligned(true);
+        wpd.popup.close('ternaryAlignment');
+        calib = null;
+    }
+
+    return {
+        start: start,
+        pickCorners: pickCorners,
+        align: align
+    };
+
+})();
+
+wpd.mapCalibration = (function () {
+    var calib;
+
+    function start() {
+        calib = null;
+        wpd.popup.show('mapAxesInfo');
+    }
+
+    function pickCorners() {
+        wpd.popup.close('mapAxesInfo');
+        var tool = new wpd.AxesCornersTool(2, 2);
+        wpd.graphicsWidget.setTool(tool);
+        tool.onComplete = getCornerValues;
+    }
+
+    function getCornerValues(cal) {
+        calib = cal;
+        wpd.popup.show('mapAlignment');
+    }
+
+    function align() {
+        var scaleLength = parseFloat(document.getElementById('scaleLength')),
+            axes = new wpd.MapAxes(),
+            plot;
+
+        axes.calibrate(calib, scaleLength);
+        plot = wpd.appData.getPlotData();
+        plot.axes = axes;
+        wpd.appData.isAligned(true);
+        wpd.popup.close('mapAlignment');
+        calib = null;
+    }
+
+    return {
+        start: start,
+        pickCorners: pickCorners,
+        align: align
+    };
+
+})();
+
+
+wpd.imageCalibration = (function () {
+
+    function start() {
+        // Image alignment 
+    }
+
+    return {
+        start: start
+    };
+
+})();
+
 
 
 wpd.AxesCornersTool = (function () {
@@ -158,160 +306,3 @@ wpd.alignAxes = (function () {
 
 })();
 
-
-/*
-function alignAxes() {
-    if (plotType === 'XY') {
-	    var xminEl = document.getElementById('xmin');
-	    var xmaxEl = document.getElementById('xmax');
-	    var yminEl = document.getElementById('ymin');
-	    var ymaxEl = document.getElementById('ymax');
-	    var xlogEl = document.getElementById('xlog');
-	    var ylogEl = document.getElementById('ylog');
-
-		var inputParser = new InputParser(),
-			parsedVal,
-			x1Date = false,
-			y1Date = false,
-			x2Date = false,
-			y2Date = false;
-
-		var raiseError = function(parsedValue) {
-				if(!inputParser.isValid || parsedValue == null) {
-					wpd.popup.close('xyAlignment');
-					wpd.popup.show('inputError');
-					return null;
-				} 
-				return parsedValue;
-			};
-
-		parsedVal = raiseError(inputParser.parse(xminEl.value));
-		if(parsedVal === null) { return; }		
-	    axesAlignmentData[0] = parsedVal;
-		if(inputParser.isDate) {
-			x1Date = true;
-		}
-
-		parsedVal = raiseError(inputParser.parse(xmaxEl.value));
-		if(parsedVal === null) { return; }		
-	    axesAlignmentData[1] = parsedVal;
-		if(inputParser.isDate) {
-			x2Date = true;
-		}
-
-		parsedVal = raiseError(inputParser.parse(yminEl.value));
-		if(parsedVal === null) { return; }		
-	    axesAlignmentData[2] = parsedVal;
-		if(inputParser.isDate) {
-			y1Date = true;
-		}
-
-		parsedVal = raiseError(inputParser.parse(ymaxEl.value));
-		if(parsedVal === null) { return; }		
-	    axesAlignmentData[3] = parsedVal;
-		if(inputParser.isDate) {
-			y2Date = true;
-		}
-
-	    if (xlogEl.checked === true)
-	        axesAlignmentData[4] = true;
-	    else
-	        axesAlignmentData[4] = false;
-	        
-	    if (ylogEl.checked === true)
-	        axesAlignmentData[5] = true;
-	    else
-	        axesAlignmentData[5] = false;
-
-		// Date checks:
-		if ((x1Date !== x2Date) || (y1Date !== y2Date)) {
-			wpd.popup.close('xyAlignment');
-			wpd.popup.show('inputError');
-			return;
-		}
-
-		if(x1Date && x2Date) {
-			axesAlignmentData[6] = true;
-			axesAlignmentData[8] = dateConverter.getFormatString(xminEl.value);
-		} else {
-			axesAlignmentData[6] = false;
-		}
-
-		if(y1Date && y2Date) {
-			axesAlignmentData[7] = true;
-			axesAlignmentData[9] = dateConverter.getFormatString(yminEl.value);
-		} else {
-			axesAlignmentData[7] = false;
-		}
-
-	    wpd.popup.close('xyAlignment');
-    } else if (plotType == 'polar') {
-	    var r1El = document.getElementById('rpoint1');
-	    var theta1El = document.getElementById('thetapoint1');
-	    var r2El = document.getElementById('rpoint2');
-	    var theta2El = document.getElementById('thetapoint2');
-	
-	    var degreesEl = document.getElementById('degrees');
-	    var radiansEl = document.getElementById('radians');
-	    var orientationEl = document.getElementById('clockwise');
-	
-	    axesAlignmentData[0] = parseFloat(r1El.value);
-	    axesAlignmentData[1] = parseFloat(theta1El.value);
-	    axesAlignmentData[2] = parseFloat(r2El.value);
-	    axesAlignmentData[3] = parseFloat(theta2El.value);
-	
-	    if (degreesEl.checked === true)
-	        axesAlignmentData[4] = true;
-	    else
-	        axesAlignmentData[4] = false;
-	
-	    if (orientationEl.checked === true)
-	        axesAlignmentData[5] = true;
-	    else
-	        axesAlignmentData[5] = false;
-	
-	
-	    wpd.popup.close('polarAlignment');
-
-    } else if (plotType === 'ternary') {
-
-	    var range1El = document.getElementById('range0to1');
-	    var range100El = document.getElementById('range0to100');
-	    var ternaryNormalEl = document.getElementById('ternarynormal');
-	
-	    if (range100El.checked === true)
-	      axesAlignmentData[0] = true;
-	    else
-	      axesAlignmentData[0] = false;
-	
-	    if (ternaryNormalEl.checked === true)
-	      axesAlignmentData[1] = true;
-	    else
-	      axesAlignmentData[1] = false;
-		
-	    wpd.popup.close('ternaryAlignment');
-
-    } else if (plotType === 'map') {
-
-	    var scaleLength = document.getElementById('scaleLength');
-	
-	    axesAlignmentData[0] = parseFloat(scaleLength.value);
-	
-	    wpd.popup.close('mapAlignment');
-
-    } else if (plotType === 'image') {
-
-	  axesPicked = 1;
-	  axesAlignmentData[0] = imageDimensions[0]; // xmin
-	  axesAlignmentData[1] = imageDimensions[2]; // xmax
-	  axesAlignmentData[2] = imageDimensions[1]; // ymin
-	  axesAlignmentData[3] = imageDimensions[3]; // ymax
-    }
-
-	if(axesPicked === 1) {
-		acquireData();
-	}
-    
-}
-
-*/
