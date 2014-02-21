@@ -28,7 +28,48 @@ wpd.PolarAxes = (function () {
         var isCalibrated = false,
             isDegrees = false,
             isClockwise = false,
+
+            x0, y0, x1, y1, x2, y2, r1, theta1, r2, theta2,
+            dist10, dist20, dist12, phi0, alpha0;
+
             processCalibration = function(cal, is_degrees, is_clockwise) {  
+                var cp0 = cal.getPoint(0),
+                    cp1 = cal.getPoint(1),
+                    cp2 = cal.getPoint(2);
+                x0 = cp0.px;
+                y0 = cp0.py;
+                x1 = cp1.px;
+                y1 = cp1.py;
+                x2 = cp2.px;
+                y2 = cp2.py;
+
+                r1 = cp1.dx;
+                theta1 = cp1.dy;
+                
+                r2 = cp2.dx;
+                theta2 = cp2.dy;
+
+                isDegrees = is_degrees;
+                isClockwise = is_clockwise;
+                
+                if (isDegrees === true) {// if degrees
+    		        theta1 = (Math.PI/180.0)*theta1;
+        			theta2 = (Math.PI/180.0)*theta2;
+		        }
+		    			    
+		        // Distance between 1 and 0.
+		        dist10 = Math.sqrt((x1-x0)*(x1-x0) + (y1-y0)*(y1-y0)); 
+		    
+		        // Distance between 2 and 0
+		        dist20 = Math.sqrt((x2-x0)*(x2-x0) + (y2-y0)*(y2-y0)); 
+		    
+		        // Radial Distance between 1 and 2.
+		        dist12 = dist20 - dist10;
+		    
+		        phi0 = wpd.taninverse(-(y1-y0),x1-x0);
+		    
+		        alpha0 = phi0 - theta1;
+                
                 return true;
             };
 
@@ -42,7 +83,24 @@ wpd.PolarAxes = (function () {
         };
 
         this.pixelToData = function(pxi, pyi) {
-            var data = [];
+            var data = [],
+                rp,
+                thetap;
+
+            xp = parseFloat(pxi);
+            yp = parseFloat(py1);
+
+            rp = ((r2-r1)/dist12)*(Math.sqrt((xp-x0)*(xp-x0)+(yp-y0)*(yp-y0))-dist10) + r1;
+			
+			thetap = wpd.taninverse(-(yp-y0),xp-x0) - alpha0;
+			
+		    if(isDegrees == true) {
+		        thetap = 180.0*thetap/Math.PI;
+            }
+
+            data[0] = rp;
+            data[1] = thetap;
+
             return data;
         };
 
