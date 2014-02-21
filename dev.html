@@ -270,7 +270,7 @@ Loading application, please wait...
 	<p>&nbsp;</p>
 	<p align="center"><input type="text" size="6" id="scaleLength" value="1"> Units</p>
 	<p>&nbsp;</p>
-	<p align="center"><input type="button" id="xybtn" value="OK" onClick="alignAxes();"></p>
+	<p align="center"><input type="button" id="xybtn" value="OK" onClick="wpd.mapCalibration.align();"></p>
 	</div>
 
 	<div id="polarAlignment" class="popup" style="width: 200px;">
@@ -282,7 +282,7 @@ Loading application, please wait...
 	<p align="center">Θ<sub>2</sub>: <input type="text" size="6" id="thetapoint2" value="1"></p>
 	<p align="center"><input type="radio" id="degrees" name="angleUnits" checked> Degrees <input type="radio" id="radians" name="angleUnits"> Radians</p>
 	<p align="center"><input type="checkbox" id="clockwise"> Clockwise</p>
-	<p align="center"><input type="button" value="OK" onClick="alignAxes();"></p>
+	<p align="center"><input type="button" value="OK" onClick="wpd.polarCalibration.align();"></p>
 	</div>
 
 	<div id="ternaryAlignment" class="popup">
@@ -300,7 +300,7 @@ Loading application, please wait...
 	<table><tr><td><p align="center"><input type="radio" id="range0to1" name="ternaryRange" checked> 0 to 1&nbsp;&nbsp;</p></td><td><p align="center">&nbsp;&nbsp;<input type="radio" id="range0to100" name="ternaryRange"> 0 to 100</p></td></tr></table>
 	</center>
 	<p>&nbsp;</p>
-	<p align="center"><input type="button" value="OK" onClick="alignAxes();"></p>
+	<p align="center"><input type="button" value="OK" onClick="wpd.ternaryCalibration.align();"></p>
 	</div>
 
 	<div id="csvWindow" class="popup" style="width: 580px; height: 480px;">
@@ -350,7 +350,7 @@ Loading application, please wait...
 	<p align="center"><img src="images/map.png" /></p>
 	<p align="center">Click on the two ends of the scale bar on the map.</p>
 	<p>&nbsp;</p>
-	<p align="center"><input type="button" value="Proceed" onClick="wpd.popup.close('mapAxesInfo')"></p>
+	<p align="center"><input type="button" value="Proceed" onClick="wpd.mapCalibration.pickCorners();"></p>
 	</div>
 
 	<div id="polarAxesInfo" class="popup" style="width: 350px;">
@@ -359,7 +359,7 @@ Loading application, please wait...
 	<p align="center"><img src="images/polaraxes.png" /></p>
 	<p align="center">Click on the center, followed by two known points.</p>
 	<p>&nbsp;</p>
-	<p align="center"><input type="button" value="Proceed" onClick="wpd.popup.close('polarAxesInfo')"></p>
+	<p align="center"><input type="button" value="Proceed" onClick="wpd.polarCalibration.pickCorners();"></p>
 	</div>
 
 	<div id="ternaryAxesInfo" class="popup" style="width: 350px;">
@@ -368,7 +368,7 @@ Loading application, please wait...
 	<p align="center"><img src="images/ternaryaxes.png" /></p>
 	<p align="center">Click on the three corners in the order shown above.</p>
 	<p>&nbsp;</p>
-	<p align="center"><input type="button" value="Proceed" onClick="wpd.popup.close('ternaryAxesInfo')"></p>
+	<p align="center"><input type="button" value="Proceed" onClick="wpd.ternaryCalibration.pickCorners();"></p>
 	</div>
 
 	<div id="colorPickerFG" class="popup" style="width:400px;">
