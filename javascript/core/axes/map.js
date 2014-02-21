@@ -26,6 +26,7 @@ var wpd = wpd || {};
 wpd.MapAxes = (function () {
     var AxesObj = function () {
         var isCalibrated = false,
+            scaleLength,
             processCalibration = function(cal) {  
                 return true;
             };
@@ -34,13 +35,15 @@ wpd.MapAxes = (function () {
             return isCalibrated;
         };
 
-        this.calibrate = function (calib) {
-            isCalibrated = processCalibration(calib);
+        this.calibrate = function (calib, scaleLength) {
+            isCalibrated = processCalibration(calib, scaleLength);
             return isCalibrated;
         };
 
         this.pixelToData = function(pxi, pyi) {
             var data = [];
+            data[0] = 0;
+            data[1] = 1;
             return data;
         };
 
