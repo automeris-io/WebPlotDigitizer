@@ -26,7 +26,9 @@ var wpd = wpd || {};
 wpd.TernaryAxes = (function () {
     var AxesObj = function () {
         var isCalibrated = false,
-            processCalibration = function(cal) {  
+            range100 = false,
+            isNormal = false,
+            processCalibration = function(cal, range100, is_normal) {  
                 return true;
             };
 
@@ -34,13 +36,16 @@ wpd.TernaryAxes = (function () {
             return isCalibrated;
         };
 
-        this.calibrate = function (calib) {
-            isCalibrated = processCalibration(calib);
+        this.calibrate = function (calib, range100, is_normal) {
+            isCalibrated = processCalibration(calib, range100, is_normal);
             return isCalibrated;
         };
 
         this.pixelToData = function(pxi, pyi) {
             var data = [];
+            data[0] = 0;
+            data[1] = 1;
+            data[2] = 2;
             return data;
         };
 

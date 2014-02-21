@@ -106,7 +106,7 @@ wpd.polarCalibration = (function () {
             isDegrees = degrees;
 
         calib.setDataAt(1, r1, theta1);
-        calib.setDataAt(2, r2, thera2);
+        calib.setDataAt(2, r2, theta2);
         axes.calibrate(calib, isDegrees, orientation);
 
         plot = wpd.appData.getPlotData();
