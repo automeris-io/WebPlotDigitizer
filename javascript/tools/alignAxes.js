@@ -25,19 +25,45 @@ var wpd = wpd || {};
 
 wpd.xyCalibration = (function () {
 
+    var calib;
+
     function start() {
+        calib = null;
         wpd.popup.show('xyAxesInfo');
     }
 
     function pickCorners() {
         wpd.popup.close('xyAxesInfo');
-        var tool = new wpd.AxesCornersTool();
+        var tool = new wpd.AxesCornersTool(4, 2);
         wpd.graphicsWidget.setTool(tool);
-        tool.onComplete = align;
+        tool.onComplete = getCornerValues;
+    }
+
+    function getCornerValues(cal) {
+        calib = cal;
+        wpd.popup.show('xyAlignment');
     }
 
     function align() {
+        var xmin = parseFloat(document.getElementById('xmin').value),
+	        xmax = parseFloat(document.getElementById('xmax').value),
+	        ymin = parseFloat(document.getElementById('ymin').value),
+	        ymax = parseFloat(document.getElementById('ymax').value),
+	        xlog = document.getElementById('xlog').value,
+	        ylog = document.getElementById('ylog').value,
+            axes = new wpd.XYAxes(),
+            plot;
 
+        calib.setDataAt(0, xmin, ymin);
+        calib.setDataAt(1, xmax, ymin);
+        calib.setDataAt(2, xmin, ymin);
+        calib.setDataAt(3, xmax, ymax);
+        axes.calibrate(calib, xlog, ylog);
+        plot = wpd.appData.getPlotData();
+        plot.axes = axes;
+        wpd.appData.isAligned(true);
+        wpd.popup.close('xyAlignment');
+        calib = null;
     }
 
     return {
@@ -48,11 +74,14 @@ wpd.xyCalibration = (function () {
 })();
 
 
+
 wpd.AxesCornersTool = (function () {
 
-    var Tool = function() {
+    var Tool = function(maxPoints, dimensions) {
         var points = [],
-            ctx = wpd.graphicsWidget.getAllContexts();
+            ctx = wpd.graphicsWidget.getAllContexts(),
+            cal = new wpd.Calibration(dimensions);
+
         wpd.graphicsWidget.resetData();
 
         this.onMouseClick = function(ev, pos, imagePos) {
@@ -71,10 +100,12 @@ wpd.AxesCornersTool = (function () {
 	    	ctx.oriDataCtx.arc(parseInt(imagePos.x,10), parseInt(imagePos.y,10), 3, 0, 2.0*Math.PI, true);
 		    ctx.oriDataCtx.fill();
 
-            if(len/2 === 4) {
+            cal.addPoint(imagePos.x, imagePos.y, 0, 0);
+
+            if(len/2+1 === maxPoints) {
                 wpd.graphicsWidget.removeTool();
                 wpd.graphicsWidget.resetData();
-                this.onComplete(points);
+                this.onComplete(cal);
             }
 
             wpd.graphicsWidget.updateZoomOnEvent(ev);
@@ -90,130 +121,42 @@ wpd.AxesCornersTool = (function () {
             }
         };
 
-        this.onComplete = function(points) {};
+        this.onComplete = function(cal) {};
     };
 
     return Tool;
 })();
 
 
+wpd.alignAxes = (function () {
 
-/** Have the axes been picked? true/false. */
-var axesPicked; // axes picked?
+    function initiatePlotAlignment() {
+        xyEl = document.getElementById('r_xy');
+        polarEl = document.getElementById('r_polar');
+        ternaryEl = document.getElementById('r_ternary');
+        mapEl = document.getElementById('r_map');
+        imageEl = document.getElementById('r_image');
 
-/** Number of axes points picked. */
-var axesN; 
+        wpd.popup.close('axesList');
 
-/** Total number of axes points needed to align. */
-var axesNmax;
+        if (xyEl.checked === true) {
+            wpd.xyCalibration.start();
+        } else if(polarEl.checked === true) {
+            wpd.polarCalibration.start();
+        } else if(ternaryEl.checked === true) {
+            wpd.ternaryCalibration.start();
+        } else if(mapEl.checked === true) {
+            wpd.mapCalibration.start();
+        } else if(imageEl.checked === true) {
+            wpd.imageCalibration.start();
+        }
+    }
 
-/** XY-Axes data. */
-var xyAxes;
+    return {
+        initiate: initiatePlotAlignment
+    };
 
-/** Axes alignment data */
-var axesAlignmentData = [];
-
-/** Plot type. Options: 'XY', 'bar', 'polar', 'ternary' or 'map' */
-var plotType; 
-
-/**
- * Start the alignment process here. Called from the Plot Type option wpd.popup.
- */ 
-function initiatePlotAlignment() {
-  axesPicked = 0;
-  xyEl = document.getElementById('r_xy');
-  polarEl = document.getElementById('r_polar');
-  ternaryEl = document.getElementById('r_ternary');
-  mapEl = document.getElementById('r_map');
-  imageEl = document.getElementById('r_image');
-  
-  wpd.popup.close('axesList');
-  
-  if (xyEl.checked === true)
-    wpd.xyCalibration.start();
-  else if(polarEl.checked === true)
-    setAxes('polar');
-  else if(ternaryEl.checked === true)
-    setAxes('ternary');
-  else if(mapEl.checked === true)
-    setAxes('map');
-  else if(imageEl.checked === true)
-    setAxes('image');
-}
-
-/**
- * Entry point for Axes alignment. 
- * @param {String} ax_mode Plot Type. Options: 'XY', 'bar', 'polar', 'ternary'
- */
-function setAxes(ax_mode) {
-
-	plotType = ax_mode;
-	wpd.sidebar.clear();
-	canvasMouseEvents.removeAll();
-	canvasMouseEvents.add('click',pickCorners,true);
-	axesN = 0;
-	xyAxes = [];
-
-	if ((plotType === 'XY')||(plotType === 'bar')) {
-		axesNmax = 4;
-		wpd.popup.show('xyAxesInfo');
-	} else if (plotType === 'polar') {
-		axesNmax = 3;
-		wpd.popup.show('polarAxesInfo');
-	} else if (plotType === 'ternary') {
-		axesNmax = 3;
-		wpd.popup.show('ternaryAxesInfo');
-	} else if (plotType === 'map') {
-		axesNmax = 2;
-		wpd.popup.show('mapAxesInfo');
-	} else if (plotType === 'image') {
-		axesNmax = 0;
-		alignAxes();
-	}
-}
-
-/**
- * Handles mouseclick in axis alignment mode. Axes point are defined using this.
- * @param {Event} ev Mouse event.
- */
-function pickCorners(ev) {
-	if (axesN < axesNmax) {
-		var posn = getPosition(ev);
-		var xi = posn.x;
-		var yi = posn.y;
-		xyAxes[axesN] = new Array();
-		xyAxes[axesN][0] = parseFloat(xi);
-		xyAxes[axesN][1] = parseFloat(yi);
-		axesN = axesN + 1;	
-
-		dataCtx.beginPath();
-		dataCtx.fillStyle = "rgb(0,0,200)";
-		dataCtx.arc(xi,yi,3,0,2.0*Math.PI,true);
-		dataCtx.fill();
-		
-		wpd.zoomView.updateZoom(ev);
-
-		if (axesN === axesNmax) {
-				axesPicked = 1;
-				
-				canvasMouseEvents.remove('click',pickCorners,true);
-				
-				if (plotType === 'XY') {
-					wpd.popup.show('xyAlignment');
-				} else if (plotType === 'polar') {
-					wpd.popup.show('polarAlignment');
-				} else if (plotType === 'ternary') {
-					wpd.popup.show('ternaryAlignment');
-				} else if (plotType === 'map') {
-					wpd.popup.show('mapAlignment');
-				}
-
-				dataCanvas.width = dataCanvas.width;
-		}
-	}
-	
-}
-
+})();
 
 /**
  * Store the alignment data.

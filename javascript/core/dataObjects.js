@@ -46,6 +46,7 @@ wpd.Calibration = (function () {
                 dp[dlen+2] = dzi;
             }
         };
+
         this.getPoint = function(index) {
             if(index < 0 || index >= px.length) return null;
 
@@ -56,6 +57,21 @@ wpd.Calibration = (function () {
                 dy: dp[dimensions*index+1],
                 dz: dimensions === 2 ? null : dp[dimensions*index + 2]
             };
+        };
+
+        this.setDataAt = function(index, dxi, dyi, dzi) {
+            if(index < 0 || index >= px.length) return;
+            dp[dimensions*index] = dxi;
+            dp[dimensions*index + 1] = dyi;
+            if(dimensions === 3) {
+                dp[dimensions*index + 2] = dzi;
+            }
+        };
+
+        this.dump = function() {
+            console.log(px);
+            console.log(py);
+            console.log(dp);
         };
     };
     return Calib;

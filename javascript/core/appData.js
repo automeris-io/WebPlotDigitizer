@@ -23,24 +23,32 @@
 
 var wpd = wpd || {};
 // maintain and manage current state of the application
-wpd.appState = (function () {
+wpd.appData = (function () {
     var isAligned = false,
-        axesType,
-        pointsPicked = 0;
+        plotData;
 
     function reset() {
         isAligned = false;
-        axesType = null;
-        pointsPicked = 0;
+        plotData = null
+    }
+
+    function getPlotData() {
+        if(plotData == null) {
+            plotData = new wpd.PlotData();
+        }
+        return plotData;
+    }
+
+    function isAlignedFn(is_aligned) {
+        if(is_aligned != null) {
+            isAligned = is_aligned;
+        }
+        return isAligned;
     }
 
     return {
-        aligned: function(is_aligned) {
-            if(is_aligned != null) {
-                isAligned = is_aligned;
-            }
-            return isAligned;
-        },
+        isAligned: isAlignedFn,
+        getPlotData: getPlotData,
         reset: reset
     };
 })();
