@@ -141,8 +141,8 @@ wpd.XYAxes = (function () {
 
         this.dataToPixel = function(x, y) {
             return {
-                px: 0,
-                py: 0
+                x: 0,
+                y: 0
             };
         };
     };
