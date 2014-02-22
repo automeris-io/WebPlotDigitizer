@@ -1,9 +1,7 @@
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 	
-	Version 2.5
-
-	Copyright 2010 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2014 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
@@ -49,6 +47,7 @@ textarea { resize: none; }
 #allContainer {
     width: 100%;
     height: 100%;
+    margin-left: 5px;
 }
 
 #mainContainer {

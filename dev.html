@@ -107,7 +107,7 @@ Loading application, please wait...
                 <input type="button" onClick="wpd.popup.show('loadNewImage');" value="Load File">
                 <!-- <input type="button" onClick="wpd.sidebar.show('editImageToolbar');" value="Edit Image"> -->
                 <input type="button" id="plottypebtn" value="Define Axes" onClick="wpd.popup.show('axesList');">
-                <input type="button" onClick="acquireData();" value="Acquire Data">
+                <input type="button" onClick="wpd.acquireData.load();" value="Acquire Data">
                 <input type="button" onClick="wpd.popup.show('helpWindow');" value="Help">
             </div>
 
@@ -162,6 +162,20 @@ Loading application, please wait...
         
         <div style="position:relative;">
             <!-- side bars go here -->
+            <div id="acquireDataSidebar" class="sidebar">
+            <p><b>Manual</b></p>
+            <p align="center"><input type="button" value="Pick Manually" onClick="wpd.acquireData.manualSelection();" style="width: 150px;"></p>
+            <p align="center"><input type="button" value="Undo" onClick="undoPointSelection();" style="width: 75px;"><input id="clearAllBtn" type="button" value="Clear All" onCLick="clearPoints();" style="width: 75px;"></p>
+            <p align="center"><input type="button" value="Delete Point" onClick="deleteSpecificPoint();" style="width:150px;"></p>
+            <p>&nbsp;</p>
+            <p><b>Automatic</b></p>
+            <p align="center"><input type="button" id="autoFGBtn" value="FG" style="width:75px;" onClick="colorPickerWindow('fg');"><input type="button" id="autoBGBtn" value="BG" style="width:75px;" onClick="colorPickerWindow('bg');"></p>
+            <p align="center"><input type="button" value="Box" style="width:50px;" onClick="boxPaint();"><input type="button" value="Pen" style="width:50px;" onClick="penPaint();"><input type="button" value="Erase" style="width:50px;" onClick="eraser();"></p>
+            <p align="center"><input type="button" value="Extract!" style="width: 150px;" onClick="launchTestWindow();"></p>
+            <p align="center"><input type="button" value="Create .CSV" id="saveBtn" onClick="wpd.CSVExport.generate();" style="width:150px;"></p>
+            <p align="center">Points Picked:<span id="pointsStatus">0</span></p>
+            </div>
+
             <div id="manualMode" class="sidebar">
             <p align="center"><b>Manual Mode</b></p>
             <p align="center"><input type="button" value="Switch to Auto" onClick="wpd.sidebar.show('autoMode');" style="width: 150px;"></p>
