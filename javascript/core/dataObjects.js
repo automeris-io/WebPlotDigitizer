@@ -88,6 +88,13 @@ wpd.DataSeries = (function () {
             pixels[plen+1] = pyi;
         };
 
+        this.getPixel = function(index) {
+            return {
+                x: pixels[2*index],
+                y: pixels[2*index + 1]
+            };
+        };
+
         this.insertPixel = function(pxi, pyi, index) {
 
         };
@@ -104,7 +111,7 @@ wpd.DataSeries = (function () {
         this.removeNearestPixel = function(x, y, threshold) {
         };
 
-        this.reset = function() { pixels = []; };
+        this.clearAll = function() { pixels = []; };
         this.getCount = function() { return pixels.length/2; }
     };
 })();
@@ -115,11 +122,24 @@ wpd.PlotData = (function () {
     var PlotData = function() {
         this.axes = null;
         this.dataSeriesColl = [];
+        this.activeSeriesIndex = 0;
+
+        this.getActiveDataSeries = function() {
+            if (this.dataSeriesColl[this.activeSeriesIndex] == null) {
+                this.dataSeriesColl[this.activeSeriesIndex] = new wpd.DataSeries();
+            }
+            return this.dataSeriesColl[this.activeSeriesIndex];
+        };
+
+        this.getDataSeriesCount = function() {
+            return this.dataSeriesColl.length;
+        };
     };
 
     PlotData.prototype.reset = function () {
         this.axes = null;
         this.dataSeriesColl = [];
+        this.activeSeriesIndex = 0;
     };
    
     return PlotData;

@@ -21,162 +21,140 @@
 
 */
 
+var wpd = wpd || {};
 
-/* Selected Data Variables */
-var xyData = new Array(); // Raw data
-var pointsPicked = 0; // number of data points picked.
+wpd.acquireData = (function () {
+    function load() {
+        if(!wpd.appData.isAligned()) {
+            wpd.popup.show('alignAxes');
+        } else {
+            wpd.sidebar.show('acquireDataSidebar');
+            wpd.graphicsWidget.resetData();
+            wpd.graphicsWidget.removeTool();
+        }
+    };
 
-/**
- * Called when the 'acquire data' button is pressed. 
- */
-function acquireData() {
-	if(axesPicked === 0) {
-		wpd.popup.show('alignAxes');
-	} else {
-		wpd.sidebar.show('manualMode');
-		canvasMouseEvents.removeAll();
-	}
-}
+    function manualSelection() {
+        var tool = new wpd.ManualSelectionTool();
+        wpd.graphicsWidget.setTool(tool);
+    };
 
-/**
- * Initiate Manual data acquisition. Enables data capture on the canvas.
- */ 
-function pickPoints() {// select data points.
+    function deletePoint() {
+        var tool = new wpd.DeleteDataPointTool();
+        wpd.graphicsWidget.setTool(tool);
+    };
 
-	if (axesPicked === 0) {
-		alert('Define the axes first!');
-	} else {
-		canvasMouseEvents.removeAll();
-		canvasMouseEvents.add('click',clickPoints,true);
-		//pointsPicked = 0;
-		//xyData = [];
-		pointsStatus(pointsPicked);
-		//redrawCanvas();
-		wpd.sidebar.show('manualMode');
-	}
-}
+    function clearAll() {
+        wpd.appData.getPlotData().getActiveDataSeries().clearAll()
+        wpd.graphicsWidget.resetData();
+        wpd.dataPointCounter.setCount();
+    };
 
-/**
- * Triggered by clicking on canvas, stores position in xyData global array.
- */
-function clickPoints(ev) {
-	var posn = getPosition(ev);
-	var xi = posn.x;
-	var yi = posn.y;
+    function undo() {
+        wpd.appData.getPlotData().getActiveDataSeries().removeLastPixel();
+        redrawData();
+        wpd.dataPointCounter.setCount();
+    };
 
-	xyData[pointsPicked] = new Array();
-	xyData[pointsPicked][0] = parseFloat(xi);
-	xyData[pointsPicked][1] = parseFloat(yi);
-	pointsPicked = pointsPicked + 1;	
+    function redrawData() {
+        var ctx = wpd.graphicsWidget.getAllContexts(),
+            plotData = wpd.appData.getPlotData(),
+            activeDataSeries = plotData.getActiveDataSeries(),
+            dindex,
+            imagePos,
+            pos;
 
-	dataCtx.beginPath();
-	dataCtx.fillStyle = "rgb(200,0,0)";
-	dataCtx.arc(xi,yi,3,0,2.0*Math.PI,true);
-	dataCtx.fill();
+        for(dindex = 0; dindex < activeDataSeries.getCount(); dindex++) {
+            imagePos = activeDataSeries.getPixel(dindex);
+            pos = wpd.graphicsWidget.screenPx(imagePos.x, imagePos.y);
 
-	pointsStatus(pointsPicked);
-	zoomView.updateZoom(ev);
+            ctx.dataCtx.beginPath();
+    		ctx.dataCtx.fillStyle = "rgb(200,0,0)";
+	    	ctx.dataCtx.arc(parseInt(pos.x,10), parseInt(pos.y,10), 3, 0, 2.0*Math.PI, true);
+		    ctx.dataCtx.fill();
 
-}
+            ctx.oriDataCtx.beginPath();
+    		ctx.oriDataCtx.fillStyle = "rgb(200,0,0)";
+	    	ctx.oriDataCtx.arc(parseInt(imagePos.x,10), parseInt(imagePos.y,10), 3, 0, 2.0*Math.PI, true);
+		    ctx.oriDataCtx.fill();
+        }
+    };
 
-/**
- * Called when 'clear all' is hit. Clears data collected, redraws canvas. 
- */
-function clearPoints() {// clear all markings.
+    return {
+        load: load,
+        manualSelection: manualSelection,
+        deletePoint: deletePoint,
+        clearAll: clearAll,
+        undo: undo,
+        redrawData: redrawData
+    };
+})();
 
-	pointsPicked = 0;
-	pointsStatus(pointsPicked);
-    //resetLayers();
-	
-	canvasMouseEvents.removeAll();
-}
 
-/**
- * Deletes the last point picked.
- */
-function undoPointSelection() {
-	if (pointsPicked >= 1) {
-		pointsPicked = pointsPicked - 1;
-		pointsStatus(pointsPicked);
-		
-        //resetLayers();
+wpd.ManualSelectionTool = (function () {
+    var Tool = function () {
+        var ctx = wpd.graphicsWidget.getAllContexts(),
+            plotData = wpd.appData.getPlotData();
 
-		for(ii = 0; ii < pointsPicked; ii++) {
-			xi = xyData[ii][0];	
-			yi = xyData[ii][1];
+        this.onRedraw = function() {
+            wpd.acquireData.redrawData();
+        };
 
-			dataCtx.beginPath();
-			dataCtx.fillStyle = "rgb(200,0,0)";
-			dataCtx.arc(xi,yi,3,0,2.0*Math.PI,true);
-			dataCtx.fill();
-		}
+        this.onMouseClick = function(ev, pos, imagePos) {
+            var activeDataSeries = plotData.getActiveDataSeries();
+            activeDataSeries.addPixel(imagePos.x, imagePos.y);
 
-	}
-}
+            ctx.dataCtx.beginPath();
+    		ctx.dataCtx.fillStyle = "rgb(200,0,0)";
+	    	ctx.dataCtx.arc(pos.x, pos.y, 3, 0, 2.0*Math.PI, true);
+		    ctx.dataCtx.fill();
 
-/**
- * Updates the displayed number of points on the sidebar.
- */
-function pointsStatus(pn) {// displays the number of points picked.
+            ctx.oriDataCtx.beginPath();
+    		ctx.oriDataCtx.fillStyle = "rgb(200,0,0)";
+	    	ctx.oriDataCtx.arc(parseInt(imagePos.x,10), parseInt(imagePos.y,10), 3, 0, 2.0*Math.PI, true);
+		    ctx.oriDataCtx.fill();
+            
+            wpd.graphicsWidget.updateZoomOnEvent(ev);
+            wpd.dataPointCounter.setCount();
+        };
+    };
+    return Tool;
+})();
 
-	var points = document.getElementById('pointsStatus');
-	var autoPoints = document.getElementById('autoPointsStatus');
-	points.innerHTML = pn;
-	autoPoints.innerHTML = pn;
-}
 
-/**
- * Delete specific point close to clicked position.
- */
-function deleteSpecificPoint() {
+wpd.DeleteDataPointTool = (function () {
+    var Tool = function () {
+        var ctx = wpd.graphicsWidget.getAllContexts(),
+            plotData = wpd.appData.getPlotData();
 
-	canvasMouseEvents.removeAll();
-	canvasMouseEvents.add('click',deleteSpecificPointHandler,true);
-}
+        this.onRedraw = function() {
+            wpd.acquireData.redrawData();
+        };
 
-/**
- * Handle clicks when in specific point deletion mode
- */
-function deleteSpecificPointHandler(ev) {
+        this.onMouseClick = function(ev, pos, imagePos) {
+            var activeDataSeries = plotData.getActiveDataSeries();
+            activeDataSeries.deleteNearestPixel(imagePos.x, imagePos.y);
+            wpd.acquireData.redrawData();
+            wpd.graphicsWidget.updateZoomOnEvent(ev);
+            wpd.dataPointCounter.setCount();
+        };
+    };
+    return Tool;
+})();
 
-	var posn = getPosition(ev);
-	var xi = parseFloat(posn.x);
-	var yi = parseFloat(posn.y);
-	
-	var minDistance = 10.0;
-	var foundPoint = 0;
-	var foundIndex = 0;
 
-	for (var ii = 0; ii < pointsPicked; ii ++) {
-		var xd = parseFloat(xyData[ii][0]);
-		var yd = parseFloat(xyData[ii][1]);
-		var distance = Math.sqrt((xd-xi)*(xd-xi) + (yd-yi)*(yd-yi));
+wpd.dataPointCounter = (function () {
+    var $counter;
 
-		if (distance < minDistance) {
-			foundPoint = 1;
-			foundIndex = ii;
-			minDistance = distance;
-		}
-	}
+    function setCount() {
+        if($counter == null) {
+            $counter = document.getElementById('pointsStatus');
+        }
+        $counter.innerHTML = wpd.appData.getPlotData().getActiveDataSeries().getCount();
+    }
 
-	if (foundPoint === 1) {
-		xyData.splice(foundIndex,1);
+    return {
+        setCount: setCount
+    };
+})();
 
-		pointsPicked = pointsPicked - 1;
-		pointsStatus(pointsPicked);
-			
-        //resetLayers();
-
-		for(ii = 0; ii < pointsPicked; ii++) {
-			xp = xyData[ii][0];	
-			yp = xyData[ii][1];
-			dataCtx.beginPath();
-			dataCtx.fillStyle = "rgb(200,0,0)";
-			dataCtx.arc(xp,yp,3,0,2.0*Math.PI,true);
-			dataCtx.fill();
-		}
-	}
-
-	wpd.zoomView.updateZoom(ev);
-
-}
