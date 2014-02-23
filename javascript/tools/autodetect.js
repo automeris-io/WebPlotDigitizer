@@ -21,10 +21,118 @@
 
 */
 
-/* Autodetection variables */
-var fg_color = [0,0,0];
-var bg_color = [255,255,255];
-var colorPickerMode = 'fg';
+var wpd = wpd || {};
+
+wpd.autoDetect = (function () {
+    return {
+    };
+})();
+
+
+wpd.colorPicker = (function () {
+    var fg_color = [0,0,0],
+        bg_color = [255,255,255],
+        colorPickerMode = 'fg';
+
+    function startFGPicker() {
+        document.getElementById('color_red_fg').value = fg_color[0];
+	    document.getElementById('color_green_fg').value = fg_color[1];
+		document.getElementById('color_blue_fg') = fg_color[2];
+        wpd.popup.show('colorPickerFG');
+    }
+
+    function startBGPicker() {
+        document.getElementById('color_red_bg').value = bg_color[0];
+	    document.getElementById('color_green_bg').value = bg_color[1];
+		document.getElementById('color_blue_bg') = bg_color[2];
+        wpd.popup.show('colorPickerBG');
+    }
+
+    function pickFGColor(mode) {
+        wpd.popup.close('colorPickerFG');
+        var tool = new wpd.ColorPickerTool();
+        tool.onComplete = function(col) {
+                fg_color = col;
+                wpd.graphicsWidget.removeTool();
+                startFGPicker();
+            };
+        wpd.graphicsWidget.setTool(tool); 
+    }
+
+    function pickBGColor(mode) {
+        wpd.popup.close('colorPickerBG');
+        var tool = new wpd.ColorPickerTool();
+        tool.onComplete = function(col) {
+                fg_color = col;
+                wpd.graphicsWidget.removeTool();
+                startBGPicker();
+            };
+        wpd.graphicsWidget.setTool(tool); 
+    }
+
+    function setFGColor() {
+        fg_color[0] = parseInt(document.getElementById('color_red_fg').value, 10);
+	    fg_color[1] = parseInt(document.getElementById('color_green_fg').value, 10);
+		fg_color[2] = parseInt(document.getElementById('color_blue_fg').value, 10);
+        wpd.popup.close('colorPickerFG');
+    }
+
+    function setBGColor() {
+        bg_color[0] = parseInt(document.getElementById('color_red_bg').value, 10);
+	    bg_color[1] = parseInt(document.getElementById('color_green_bg').value, 10);
+		bg_color[2] = parseInt(document.getElementById('color_blue_bg').value, 10);
+        wpd.popup.close('colorPickerBG');
+    }
+    
+    function getFGColor() {
+        return fg_color;
+    }
+
+    function getBGColor() {
+        return bg_color;
+    }
+
+    return {
+        startFGPicker: startFGPicker,
+        startBGPicker: startBGPicker,
+
+        pickFGColor: pickFGColor,
+        pickBFColor: pickBGColor,
+
+        setFGColor: setFGColor,
+        setBFColor: setBGColor,
+
+        getFGColor: getFGColor,
+        getBGColor: getBGColor
+    };
+})();
+
+wpd.ColorPickerTool = (function () {
+    var ctx = wpd.graphicsWidget.getAllContexts();
+
+    var Tool = function () {
+        this.onMouseClick = function(ev, pos, imagePos) {
+            var pixData = ctx.oriImageCtx.getImageData(imagePos.x, imagePos.y, 1, 1);
+            onComplete([pixData.data[0], pixData.data[1], pixData.data[2]]);
+        };
+        this.onComplete = function(col) {};
+    };
+    return Tool;
+})();
+
+wpd.dataMask = (function () {
+})();
+
+wpd.BoxMaskTool = (function () {
+})();
+
+wpd.PenMaskTool = (function () {
+})();
+
+wpd.EraseMaskTool = (function () {
+})();
+
+
 
 var testImgCanvas;
 var testImgContext;
@@ -36,111 +144,6 @@ var drawingEraser = false;
 
 var binaryData;
 
-/**
- * Opens the color picker.
- * @params {String} cmode 'fg' or 'bg'
- */
-function colorPickerWindow(cmode) {
-    colorPickerMode = cmode;
-    if(cmode === 'fg') {    
-      wpd.popup.show('colorPickerFG');
-    } else if(cmode === 'bg') {
-       wpd.popup.show('colorPickerBG');
-    }
-}
-
-/**
- * Initiate color picking on canvas.
- */
-function pickColor() {
-	//colorPickerMode = cmode;
-	canvasMouseEvents.removeAll();
-	canvasMouseEvents.add('click',colorPicker,true);
-}
-
-/**
- * Handle clicks when picking color.
- */
-function colorPicker(ev) {
-
-	var posn = getPosition(ev);
-	var xi = posn.x;
-	var yi = posn.y;
-	
-	var iData = ctx.getImageData(cx0,cy0,currentImageWidth,currentImageHeight);
-	if ((xi < currentImageWidth+cx0) && (yi < currentImageHeight+cy0) && (xi > cx0) && (yi > cy0)) {
-		var ii = xi - cx0;
-		var jj = yi - cy0;
-
-		var index = jj*4*currentImageWidth + ii*4;
-		var PickedColor = [iData.data[index], iData.data[index+1], iData.data[index+2]];
-		
-		var redEl = document.getElementById('color_red');
-		var greenEl = document.getElementById('color_green');
-		var blueEl = document.getElementById('color_blue');
-				
-		canvasMouseEvents.remove('click',colorPicker,true);
-		
-		if(colorPickerMode === 'fg') {
-			assignColor('fg',PickedColor);
-			
-			redEl = document.getElementById('color_red_fg');
-			greenEl = document.getElementById('color_green_fg');
-			blueEl = document.getElementById('color_blue_fg');
-			wpd.popup.show('colorPickerFG');
-
-		} else if (colorPickerMode === 'bg') {
-
-		  	assignColor('bg',PickedColor);
-			
-			redEl = document.getElementById('color_red_bg');
-			greenEl = document.getElementById('color_green_bg');
-			blueEl = document.getElementById('color_blue_bg');
-			wpd.popup.show('colorPickerBG');
-		}
-		
-		redEl.value = PickedColor[0];
-		greenEl.value = PickedColor[1];
-		blueEl.value = PickedColor[2];
-	}	
-}
-
-/**
- * This function assigns the color to the global variables.
- */
-function assignColor(color_mode, color_value) {
-
-  if(color_mode === 'fg') {
-    if(!color_value) {
-      redEl = document.getElementById('color_red_fg');
-      greenEl = document.getElementById('color_green_fg');
-      blueEl = document.getElementById('color_blue_fg');
-      color_value = new Array();
-      color_value[0] = redEl.value;
-      color_value[1] = greenEl.value;
-      color_value[2] = blueEl.value;
-    }
-    fg_color = color_value;
-    var fgbtn = document.getElementById('autoFGBtn');
-    fgbtn.style.borderColor = "rgb(" + fg_color[0] +"," + fg_color[1] +"," + fg_color[2] +")";
-
-  } else if(color_mode === 'bg') {
-
-    if(!color_value) {
-      redEl = document.getElementById('color_red_bg');
-      greenEl = document.getElementById('color_green_bg');
-      blueEl = document.getElementById('color_blue_bg');
-      color_value = new Array();
-      color_value[0] = redEl.value;
-      color_value[1] = greenEl.value;
-      color_value[2] = blueEl.value;
-    }
-    bg_color = color_value;
-    var bgbtn = document.getElementById('autoBGBtn');
-    bgbtn.style.borderColor = "rgb(" + bg_color[0] +"," + bg_color[1] +"," + bg_color[2] +")";
-    
-  }
-}
 
 /**
  * Enable Box painting on canvas.

@@ -81,7 +81,11 @@ wpd.Calibration = (function () {
 wpd.DataSeries = (function () {
     return function (dim) {
         var pixels = []; // flat array to store (x,y) pixel info.
-        
+
+        this.name = "Data Series";
+
+        this.variableNames = ['x', 'y'];
+
         this.addPixel = function(pxi, pyi) {
             var plen = pixels.length;
             pixels[plen] = pxi;

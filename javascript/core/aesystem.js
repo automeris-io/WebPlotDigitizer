@@ -21,38 +21,26 @@
 
 */
 
-var loadScript;
-/**
- * Loads an external JS file.
- */
-function loadJS(jsfile) {
+var wpd = wpd || {};
 
-  if(jsfile != '') {
-    unloadJS();
-    
-    loadScript=document.createElement('script');
-    loadScript.setAttribute("type","text/javascript");
-    loadScript.setAttribute("src", jsfile);
-    loadScript.setAttribute("Id","loadedJS");
-    loadScript.setAttribute("onerror","alert('Error loading file!');");
-    
-    if (typeof loadScript!="undefined")
-      document.getElementsByTagName("head")[0].appendChild(loadScript);
-    else
-      alert('Error loading script!');
-     
-  }
-}
+wpd.detectionAlgoManager = (function () {
+    var activeAlgorithm = null;
 
-function unloadJS() {
+    function setActiveAlgo(algo) {
+    };
 
-  var getJSelement = document.getElementById('loadedJS');
-  if (getJSelement)
-    getJSelement.parentNode.removeChild(getJSelement);
-}
+    function getActiveAlgo() {
+        return activeAlgorithm;
+    };
 
-function AEObject() {
-  this.getParamList = function() {};
-  this.run = function() {};
-}
+    function getAllApplicableAlgorithms() {
+        // algorithms applicable to the current axes type
+    };
+
+    return {
+        setActiveAlgo: setActiveAlgo,
+        getActiveAlgo: getActiveAlgo,
+        getAllApplicableAlgorithms: getAllApplicableAlgorithms
+    };
+})();
 

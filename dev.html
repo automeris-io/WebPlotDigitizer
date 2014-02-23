@@ -165,8 +165,8 @@ Loading application, please wait...
             <div id="acquireDataSidebar" class="sidebar">
             <p><b>Manual</b></p>
             <p align="center"><input type="button" value="Pick Manually" onClick="wpd.acquireData.manualSelection();" style="width: 150px;"></p>
-            <p align="center"><input type="button" value="Undo" onClick="undoPointSelection();" style="width: 75px;"><input id="clearAllBtn" type="button" value="Clear All" onCLick="clearPoints();" style="width: 75px;"></p>
-            <p align="center"><input type="button" value="Delete Point" onClick="deleteSpecificPoint();" style="width:150px;"></p>
+            <p align="center"><input type="button" value="Undo" onClick="wpd.acquireData.undo();" style="width: 75px;"><input id="clearAllBtn" type="button" value="Clear All" onCLick="wpd.acquireData.clearAll();" style="width: 75px;"></p>
+            <p align="center"><input type="button" value="Delete Point" onClick="wpd.acquireData.deletePoint();" style="width:150px;"></p>
             <p>&nbsp;</p>
             <p><b>Automatic</b></p>
             <p align="center"><input type="button" id="autoFGBtn" value="FG" style="width:75px;" onClick="colorPickerWindow('fg');"><input type="button" id="autoBGBtn" value="BG" style="width:75px;" onClick="colorPickerWindow('bg');"></p>
@@ -175,31 +175,7 @@ Loading application, please wait...
             <p align="center"><input type="button" value="Create .CSV" id="saveBtn" onClick="wpd.CSVExport.generate();" style="width:150px;"></p>
             <p align="center">Points Picked:<span id="pointsStatus">0</span></p>
             </div>
-
-            <div id="manualMode" class="sidebar">
-            <p align="center"><b>Manual Mode</b></p>
-            <p align="center"><input type="button" value="Switch to Auto" onClick="wpd.sidebar.show('autoMode');" style="width: 150px;"></p>
-            <hr />
-            <p align="center"><input type="button" value="Select Points" onClick="pickPoints();" style="width: 150px;"></p>
-            <p align="center"><input type="button" value="Undo" onClick="undoPointSelection();" style="width: 75px;"><input id="clearAllBtn" type="button" value="Clear All" onCLick="clearPoints();" style="width: 75px;"></p>
-            <p align="center"><input type="button" value="Delete Point" onClick="deleteSpecificPoint();" style="width:150px;"></p>
-            <p align="center"><input type="button" value="Create .CSV" id="saveBtn" onClick="wpd.CSVExport.generate();" style="width:150px;"></p>
-            <p align="center">Points Picked:<span id="pointsStatus">0</span></p>
-            </div>
-
-            <div id="autoMode" class="sidebar">
-            <p align="center"><b>Auto Extract Mode</b></p>
-            <p align="center"><input type="button" value="Switch to Manual" onClick="wpd.sidebar.show('manualMode');" style="width: 150px;"></p>
-            <hr />
-            <p align="center"><input type="button" id="autoFGBtn" value="FG" style="width:75px;" onClick="colorPickerWindow('fg');"><input type="button" id="autoBGBtn" value="BG" style="width:75px;" onClick="colorPickerWindow('bg');"></p>
-            <p align="center"><input type="button" value="Box" style="width:50px;" onClick="boxPaint();"><input type="button" value="Pen" style="width:50px;" onClick="penPaint();"><input type="button" value="Erase" style="width:50px;" onClick="eraser();"></p>
-            <p align="center"><input type="button" value="Extract!" style="width: 150px;" onClick="launchTestWindow();"></p>
-            <hr />
-            <p align="center"><input id="removeLastBtn" type="button" value="Delete" onClick="deleteSpecificPoint();" style="width: 75px;"><input id="clearAllBtn" type="button" value="Clear All" onCLick="clearPoints();" style="width: 75px;"></p>
-            <p align="center"><input type="button" value="Create .CSV" id="saveBtn" onClick="wpd.CSVExport.generate();" style="width:150px;"></p>
-            <p align="center">Points Picked:<span id="autoPointsStatus">0</span></p>
-            </div>
-
+ 
             <div id="editImageToolbar" class="sidebar">
             <p align="center"><b>Edit Image</b></p>
             <p align="center"><input type="button" value="H. Flip" style="width: 75px;" onClick="hflip();"><input type="button" value="V. Flip" style="width: 75px;" onClick="vflip();"></p>
