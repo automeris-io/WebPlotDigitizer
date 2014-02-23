@@ -21,7 +21,7 @@
 
 */
 
-/* Multi-layered canvas widet to display plot, data, graphics etc. */
+/* Multi-layered canvas widget to display plot, data, graphics etc. */
 var wpd = wpd || {};
 wpd.graphicsWidget = (function () {
 
@@ -180,8 +180,12 @@ wpd.graphicsWidget = (function () {
     }
 
     function resetData() {
-        $oriDataCanvas.height = $oriDataCanvas.height;
         $oriDataCanvas.width = $oriDataCanvas.width;
+        $dataCanvas.width = $dataCanvas.width;
+    }
+
+    function resetHover() {
+        $hoverCanvas.width = $hoverCanvas.width;
     }
 
     function toggleExtendedCrosshair(ev) {
@@ -376,6 +380,7 @@ wpd.graphicsWidget = (function () {
         originalImageData = oriImageCtx.getImageData(0, 0, originalWidth, originalHeight);
         resetAllLayers();
         zoomFit();
+        removeTool();
     }
 
     function loadImageFromSrc(imgSrc) {
@@ -398,6 +403,7 @@ wpd.graphicsWidget = (function () {
         originalImageData = idata;
         resetAllLayers();
         zoomFit();
+        removeTool();
     }
 
     function fileLoader(fileInfo) {
@@ -426,10 +432,16 @@ wpd.graphicsWidget = (function () {
     }
 
     function setTool(tool) {
+        if(activeTool != null && activeTool.onRemove != undefined) {
+            activeTool.onRemove();
+        }
         activeTool = tool;
     }
 
     function removeTool() {
+        if(activeTool != null && activeTool.onRemove != undefined) {
+            activeTool.onRemove();
+        }
         activeTool = null;
     }
 
@@ -485,6 +497,7 @@ wpd.graphicsWidget = (function () {
         removeTool: removeTool,
         getAllContexts: getAllContexts,
         resetData: resetData,
+        resetHover: resetHover,
         imagePx: imagePx,
         screenPx: screenPx,
         updateZoomOnEvent: updateZoomOnEvent

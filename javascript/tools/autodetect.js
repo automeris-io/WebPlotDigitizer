@@ -37,14 +37,14 @@ wpd.colorPicker = (function () {
     function startFGPicker() {
         document.getElementById('color_red_fg').value = fg_color[0];
 	    document.getElementById('color_green_fg').value = fg_color[1];
-		document.getElementById('color_blue_fg') = fg_color[2];
+		document.getElementById('color_blue_fg').value = fg_color[2];
         wpd.popup.show('colorPickerFG');
     }
 
     function startBGPicker() {
         document.getElementById('color_red_bg').value = bg_color[0];
 	    document.getElementById('color_green_bg').value = bg_color[1];
-		document.getElementById('color_blue_bg') = bg_color[2];
+		document.getElementById('color_blue_bg').value = bg_color[2];
         wpd.popup.show('colorPickerBG');
     }
 
@@ -120,18 +120,215 @@ wpd.ColorPickerTool = (function () {
     return Tool;
 })();
 
+
 wpd.dataMask = (function () {
+    var mask;
+
+    function grabMask() {
+    }
+
+    function getMask() {
+    }
+
+    function resetMask() {
+        mask = [];
+    }
+
+    function markBox() {
+        var tool = new wpd.BoxMaskTool();
+        wpd.graphicsWidget.setTool(tool);
+    }
+
+    function markPen() {
+        var tool = new wpd.PenMaskTool();
+        wpd.graphicsWidget.setTool(tool);
+    }
+
+    function eraseMarks() {
+        var tool = new wpd.EraseMaskTool();
+        wpd.graphicsWidget.setTool(tool);
+    }
+
+    return {
+        grabMask: grabMask,
+        getMask: getMask,
+        resetMask: resetMask,
+        markBox: markBox,
+        markPen: markPen,
+        eraseMarks: eraseMarks
+    };
 })();
 
 wpd.BoxMaskTool = (function () {
+    var Tool = function () {
+        var isDrawing = false,
+            topImageCorner,
+            topScreenCorner,
+            ctx = wpd.graphicsWidget.getAllContexts(),
+            moveTimer,
+            screen_pos,
+            mouseMoveHandler = function() {
+                wpd.graphicsWidget.resetHover();
+                ctx.hoverCtx.strokeStyle = "rgb(0,0,0)";
+    		    ctx.hoverCtx.strokeRect(topScreenCorner.x, topScreenCorner.y, screen_pos.x - topScreenCorner.x, screen_pos.y - topScreenCorner.y);
+            };
+
+        this.onMouseDown = function(ev, pos, imagePos) {
+            if(isDrawing === true) return;
+            isDrawing = true;
+            topImageCorner = imagePos;
+            topScreenCorner = pos;
+        };
+
+        this.onMouseMove = function(ev, pos, imagePos) {
+            if(isDrawing === false) return;
+            screen_pos = pos;
+            clearTimeout(moveTimer);
+            moveTimer = setTimeout(mouseMoveHandler, 10);
+        };
+
+        this.onMouseUp = function(ev, pos, imagePos) {
+            if(isDrawing === false) return;
+            isDrawing = false;
+            wpd.graphicsWidget.resetHover();
+            ctx.dataCtx.fillStyle = "rgba(255,255,0,1)";
+    	    ctx.dataCtx.fillRect(topScreenCorner.x, topScreenCorner.y, pos.x-topScreenCorner.x, pos.y-topScreenCorner.y);
+            ctx.oriDataCtx.fillStyle = "rgba(255,255,0,1)";
+            ctx.oriDataCtx.fillRect(topImageCorner.x, topImageCorner.y, imagePos.x - topImageCorner.x, imagePos.y - topImageCorner.y);
+        };
+
+        this.onRedraw = function() {
+        };
+    };
+    return Tool;
 })();
 
 wpd.PenMaskTool = (function () {
+    var Tool = function () {
+        var strokeWidth,
+            ctx = wpd.graphicsWidget.getAllContexts(),
+            isDrawing = false,
+            moveTimer,
+            screen_pos, image_pos,
+            mouseMoveHandler = function() {
+                ctx.dataCtx.strokeStyle = "rgba(255,255,0,1)";
+        	    ctx.dataCtx.lineTo(screen_pos.x,screen_pos.y);
+                ctx.oriDataCtx.stroke();
+
+                ctx.oriDataCtx.strokeStyle = "rgba(255,255,0,1)";
+        	    ctx.oriDataCtx.lineTo(image_pos.x,image_pos.y);
+                ctx.oriDataCtx.stroke();
+            };
+
+        this.onMouseDown = function(ev, pos, imagePos) {
+            if(isDrawing === true) return;
+            isDrawing = true;
+            ctx.dataCtx.strokeStyle = "rgba(255,255,0,1)";
+        	ctx.dataCtx.lineWidth = 20;
+	        ctx.dataCtx.beginPath();
+        	ctx.dataCtx.moveTo(pos.x,pos.y);
+
+            ctx.oriDataCtx.strokeStyle = "rgba(255,255,0,1)";
+        	ctx.oriDataCtx.lineWidth = 20;
+	        ctx.oriDataCtx.beginPath();
+        	ctx.oriDataCtx.moveTo(imagePos.x,imagePos.y);
+        };
+
+        this.onMouseMove = function(ev, pos, imagePos) {
+            if(isDrawing === false) return;
+            screen_pos = pos;
+            image_pos = imagePos;
+            clearTimeout(moveTimer);
+            moveTimer = setTimeout(mouseMoveHandler, 10);
+        };
+
+        this.onMouseUp = function(ev, pos, imagePos) {
+            ctx.dataCtx.closePath();
+            ctx.dataCtx.lineWidth = 1;
+            ctx.oriDataCtx.closePath();
+            ctx.oriDataCtx.lineWidth = 1;
+            isDrawing = false;
+        };
+
+        this.onRemove = function() {
+            // hide toolbar for stroke width
+        };
+
+        this.onRedraw = function() {
+            // call generic data redraw method
+        };
+    };
+    return Tool;
 })();
 
 wpd.EraseMaskTool = (function () {
-})();
+    var Tool = function() {
+        var strokeWidth,
+            ctx = wpd.graphicsWidget.getAllContexts(),
+            isDrawing = false,
+            moveTimer,
+            screen_pos, image_pos,
+            mouseMoveHandler = function() {
 
+	            ctx.dataCtx.globalCompositeOperation = "destination-out";
+                ctx.oriDataCtx.globalCompositeOperation = "destination-out";
+
+                ctx.dataCtx.strokeStyle = "rgba(255,255,0,1)";
+        	    ctx.dataCtx.lineTo(screen_pos.x,screen_pos.y);
+                ctx.oriDataCtx.stroke();
+
+                ctx.oriDataCtx.strokeStyle = "rgba(255,255,0,1)";
+        	    ctx.oriDataCtx.lineTo(image_pos.x,image_pos.y);
+                ctx.oriDataCtx.stroke();
+            };
+
+        this.onMouseDown = function(ev, pos, imagePos) {
+            if(isDrawing === true) return;
+            isDrawing = true;
+	        ctx.dataCtx.globalCompositeOperation = "destination-out";
+            ctx.oriDataCtx.globalCompositeOperation = "destination-out";
+
+            ctx.dataCtx.strokeStyle = "rgba(0,0,0,1)";
+        	ctx.dataCtx.lineWidth = 20;
+	        ctx.dataCtx.beginPath();
+        	ctx.dataCtx.moveTo(pos.x,pos.y);
+
+            ctx.oriDataCtx.strokeStyle = "rgba(0,0,0,1)";
+        	ctx.oriDataCtx.lineWidth = 20;
+	        ctx.oriDataCtx.beginPath();
+        	ctx.oriDataCtx.moveTo(imagePos.x,imagePos.y);
+        };
+
+        this.onMouseMove = function(ev, pos, imagePos) {
+            if(isDrawing === false) return;
+            screen_pos = pos;
+            image_pos = imagePos;
+            clearTimeout(moveTimer);
+            moveTimer = setTimeout(mouseMoveHandler, 10);
+        };
+
+        this.onMouseUp = function(ev, pos, imagePos) {
+            ctx.dataCtx.closePath();
+            ctx.dataCtx.lineWidth = 1;
+            ctx.oriDataCtx.closePath();
+            ctx.oriDataCtx.lineWidth = 1;
+
+            ctx.dataCtx.globalCompositeOperation = "source-over";
+            ctx.oriDataCtx.globalCompositeOperation = "source-over";
+
+            isDrawing = false;
+        };
+
+        this.onRemove = function() {
+            // hide toolbar for stroke width
+        };
+
+        this.onRedraw = function() {
+            // call generic data redraw method
+        };
+    };
+    return Tool;
+})();
 
 
 var testImgCanvas;
@@ -143,192 +340,6 @@ var drawingPen = false;
 var drawingEraser = false;
 
 var binaryData;
-
-
-/**
- * Enable Box painting on canvas.
- */ 
-function boxPaint() {
-
-	canvasMouseEvents.removeAll();
-	canvasMouseEvents.add('mousedown',boxPaintMousedown,true);
-	canvasMouseEvents.add('mouseup',boxPaintMouseup,true);
-	canvasMouseEvents.add('mousemove',boxPaintMousedrag,true);
-
-}
-
-/**
- * Handle mouse clicks when painting boxes - Mouse down
- */
-function boxPaintMousedown(ev) {
-
-	var posn = getPosition(ev);
-
-	boxCoordinates[0] = posn.x;
-	boxCoordinates[1] = posn.y;
-	drawingBox = true;
-}
-
-/**
- * Handle mouse clicks when painting boxes - Mouse up
- */
-function boxPaintMouseup(ev) {
-	
-	var posn = getPosition(ev);
-
-	boxCoordinates[2] = posn.x;
-	boxCoordinates[3] = posn.y;
-
-    hoverCanvas.width = hoverCanvas.width;
-	dataCtx.fillStyle = "rgba(255,255,0,1)";
-	dataCtx.fillRect(boxCoordinates[0], boxCoordinates[1], boxCoordinates[2]-boxCoordinates[0], boxCoordinates[3]-boxCoordinates[1]);
-
-	drawingBox = false;
-}
-
-/**
- * Handle mouse clicks when painting boxes - Mouse drag
- */
-function boxPaintMousedrag(ev) {
-
-	if(drawingBox === true) {
-
-		var posn = getPosition(ev);
-		var xt = posn.x;
-		var yt = posn.y;
-
-		//putCanvasData(markedScreen);
-		hoverCanvas.width = hoverCanvas.width;
-		hoverCtx.strokeStyle = "rgb(0,0,0)";
-		hoverCtx.strokeRect(boxCoordinates[0], boxCoordinates[1], xt-boxCoordinates[0], yt-boxCoordinates[1]);
-	}
-}
-
-/**
- * Enable pen like painting on screen.
- */
-function penPaint() {
-
-	canvasMouseEvents.removeAll();
-	wpd.toolbar.show('paintToolbar');
-	canvasMouseEvents.add('mousedown',penPaintMousedown,true);
-	canvasMouseEvents.add('mouseup',penPaintMouseup,true);
-	canvasMouseEvents.add('mousemove',penPaintMousedrag,true);
-}
-
-/**
- * Manage clicks when painting with pen tool - Mouse down
- */
-function penPaintMousedown(ev) {
-
-	if (drawingPen === false) {
-		
-		var posn = getPosition(ev);
-		var xt = posn.x;
-		var yt = posn.y;
-
-	    drawingPen = true;
-	    ctx.strokeStyle = "rgba(255,255,0,1)";
-	    
-	    thkRange = document.getElementById('paintThickness');
-	    
-	    dataCtx.lineWidth = parseInt(thkRange.value);
-	    dataCtx.beginPath();
-	    dataCtx.moveTo(xt,yt);
-	}
-}
-
-/**
- * Manage clicks when painting with pen tool - Mouse up
- */
-function penPaintMouseup(ev) {
-
-    dataCtx.closePath();
-    dataCtx.lineWidth = 1;
-    drawingPen = false;
-}
-
-/**
- * Manage clicks when painting with pen tool - Mouse drag
- */
-function penPaintMousedrag(ev) {
-
-    if(drawingPen === true) {
-
-		var posn = getPosition(ev);
-		var xt = posn.x;
-		var yt = posn.y;
-
-	    dataCtx.strokeStyle = "rgba(255,255,0,1)";
-	    dataCtx.lineTo(xt,yt);
-	    dataCtx.stroke();
-    }
-}
-
-/**
- * Initiate the eraser.
- */
-function eraser() {
-
-	canvasMouseEvents.removeAll();
-	wpd.toolbar.show('paintToolbar');
-	canvasMouseEvents.add('mousedown',eraserMousedown,true);
-	canvasMouseEvents.add('mouseup',eraserMouseup,true);
-	canvasMouseEvents.add('mousemove',eraserMousedrag,true);
-	dataCtx.globalCompositeOperation = "destination-out";
-}
-
-/**
- * Manage mouse events when erasing - Mouse down
- */
-function eraserMousedown(ev) {
-
-    if(drawingEraser === false) {
-
-		var posn = getPosition(ev);
-		var xt = posn.x;
-		var yt = posn.y;
-
-	    drawingEraser = true;
-	    dataCtx.globalCompositeOperation = "destination-out";
-	    dataCtx.strokeStyle = "rgba(0,0,0,1)";
-	
-	    thkRange = document.getElementById('paintThickness');
-	
-	    dataCtx.lineWidth = parseInt(thkRange.value);
-	    dataCtx.beginPath();
-	    dataCtx.moveTo(xt,yt);
-    }
-}
-
-/**
- * Manage mouse events when erasing - Mouse up - this is slow!
- */
-function eraserMouseup(ev) {
-
-    dataCtx.closePath();
-    dataCtx.lineWidth = 1;
-    dataCtx.globalCompositeOperation = "source-over";
-    drawingEraser = false;
-}
-
-/**
- * Manage mouse events when erasing - Mouse drag
- */
-function eraserMousedrag(ev) {
-
-    if(drawingEraser === true) {
-	
-		var posn = getPosition(ev);
-		var xt = posn.x;
-		var yt = posn.y;
-
-	    dataCtx.globalCompositeOperation = "destination-out";
-	    dataCtx.strokeStyle = "rgba(0,0,0,1)";
-	    dataCtx.lineTo(xt,yt);
-	    dataCtx.stroke();
-    }
-}
 
 /**
  * Filter based on color and display a test image on the scan settings dialog.
