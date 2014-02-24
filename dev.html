@@ -32,25 +32,23 @@
 <link rel="stylesheet" href="widgets.css" type="text/css" media="screen" />
 
 <!-- Individual, uncompressed javascript files -->
+
 <script src="javascript/browser/applicationCache.js"></script>
 <script src="javascript/browser/browserInfo.js"></script>
 <script src="javascript/core/AEalgos/averagingWindow.js"></script>
 <script src="javascript/core/AEalgos/averagingWindowWithStepSize.js"></script>
 <script src="javascript/core/AEalgos/blobdetector.js"></script>
-
 <script src="javascript/core/AEalgos/xStep.js"></script>
 <script src="javascript/core/AEalgos/yStep.js"></script>
+<script src="javascript/core/aesystem.js"></script>
 <script src="javascript/core/appData.js"></script>
 <script src="javascript/core/autoDetection.js"></script>
-
-<script src="javascript/core/axes/xy.js"></script>
-<script src="javascript/core/axes/polar.js"></script>
-<script src="javascript/core/axes/map.js"></script>
 <script src="javascript/core/axes/image.js"></script>
+<script src="javascript/core/axes/map.js"></script>
+<script src="javascript/core/axes/polar.js"></script>
 <script src="javascript/core/axes/ternary.js"></script>
-
+<script src="javascript/core/axes/xy.js"></script>
 <script src="javascript/core/dataObjects.js"></script>
-<script src="javascript/core/aesystem.js"></script>
 <script src="javascript/core/dateConversion.js"></script>
 <script src="javascript/core/imageProcessing.js"></script>
 <script src="javascript/core/inputParser.js"></script>
@@ -63,12 +61,12 @@
 <script src="javascript/tools/imageOps.js"></script>
 <script src="javascript/tools/manualDataCollection.js"></script>
 <script src="javascript/widgets/graphicsWidget.js"></script>
+<script src="javascript/widgets/layoutManager.js"></script>
 <script src="javascript/widgets/popups.js"></script>
 <script src="javascript/widgets/sidebars.js"></script>
 <script src="javascript/widgets/toolbars.js"></script>
+<script src="javascript/widgets/webcam.js"></script>
 <script src="javascript/widgets/zoom.js"></script>
-<script src="javascript/widgets/layoutManager.js"></script>
-
 <!--
 <script src="combined-compiled.js"></script>
 -->
@@ -108,7 +106,7 @@ Loading application, please wait...
                     <div class="wpd-menu-dropdown">
                         <ul>
                             <li id="wpd-filemenu-loadimage" onclick="wpd.popup.show('loadNewImage');">Load Image</li>
-                            <li id="wpd-filemenu-capture">Capture Webcam</li>
+                            <li id="wpd-filemenu-capture" onclick="wpd.webcamCapture.start();">Capture Webcam</li>
                             <li id="wpd-filemenu-runscript">Run Script</li>
                         </ul>
                     </div>
@@ -250,6 +248,13 @@ Loading application, please wait...
 	<p>&nbsp;</p>
 	<p align="center"><!-- <input type="button" value="Load Pasted Image" onClick="loadPastedFileInWindow();">&nbsp;--><input type="button" value="Cancel" onClick="wpd.popup.close('loadNewImage');"></p>
 	</div>
+
+    <div id="webcamCapture" class="popup" style="width: 650px;">
+    <p class="popupheading">Webcam Capture</p>
+    <p>&nbsp;</p>
+    <p align="center"><video id="webcamVideo" autoplay="true" height="350"></video></p>
+    <p align="center"><input type="button" value="Capture" onclick="wpd.webcamCapture.capture();"/> <input type="button" value="Cancel" onclick="wpd.webcamCapture.cancel();"/></p>
+    </div>
 
 	<div id="axesList" class="popup" style="width: 400px;">
 	<p align="center" class="popupheading">Choose Plot Type</p>
