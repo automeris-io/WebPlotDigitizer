@@ -2,8 +2,6 @@
 <!-- 
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Version 2.7
-
 	Copyright 2010-2013 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
@@ -20,8 +18,8 @@
 
     You should have received a copy of the GNU General Public License
     along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
-
 -->
+
 <!-- <html manifest="dev.appcache"> -->
 
 <head>
@@ -31,6 +29,7 @@
 <meta name="Author" content="Ankit Rohatgi"/>
 <title>WebPlotDigitizer - Copyright 2010-2013 Ankit Rohatgi</title>
 <link rel="stylesheet" href="styles.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="widgets.css" type="text/css" media="screen" />
 
 <!-- Individual, uncompressed javascript files -->
 <script src="javascript/browser/applicationCache.js"></script>
@@ -42,6 +41,7 @@
 <script src="javascript/core/AEalgos/xStep.js"></script>
 <script src="javascript/core/AEalgos/yStep.js"></script>
 <script src="javascript/core/appData.js"></script>
+<script src="javascript/core/autoDetection.js"></script>
 
 <script src="javascript/core/axes/xy.js"></script>
 <script src="javascript/core/axes/polar.js"></script>
@@ -103,12 +103,52 @@ Loading application, please wait...
     <div id="mainContainer">
         <div id="topContainer">
             <div id="menuButtonsContainer">
-                <!-- Permanent set of tools -->
-                <input type="button" onClick="wpd.popup.show('loadNewImage');" value="Load File">
-                <!-- <input type="button" onClick="wpd.sidebar.show('editImageToolbar');" value="Edit Image"> -->
-                <input type="button" id="plottypebtn" value="Define Axes" onClick="wpd.popup.show('axesList');">
-                <input type="button" onClick="wpd.acquireData.load();" value="Acquire Data">
-                <input type="button" onClick="wpd.popup.show('helpWindow');" value="Help">
+                <div class="wpd-menu">
+                    <div class="wpd-menu-header">File</div>
+                    <div class="wpd-menu-dropdown">
+                        <ul>
+                            <li id="wpd-filemenu-loadimage" onclick="wpd.popup.show('loadNewImage');">Load Image</li>
+                            <li id="wpd-filemenu-capture">Capture Webcam</li>
+                            <li id="wpd-filemenu-runscript">Run Script</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="wpd-menu">
+                    <div class="wpd-menu-header">Axes</div>
+                    <div class="wpd-menu-dropdown">
+                        <ul>
+                            <li id="wpd-axesmenu-defineaxes" onclick="wpd.popup.show('axesList');">Define Axes</li>
+                            <li id="wpd-axesmenu-importcalibration">Import Calibration</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="wpd-menu">
+                    <div class="wpd-menu-header">Data</div>
+                    <div class="wpd-menu-dropdown">
+                        <ul>
+                            <li id="wpd-datamenu-acquire" onclick="wpd.acquireData.load();">Acquire Data</li>
+                            <li id="wpd-datamenu-manage">Manage Data Series</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="wpd-menu">
+                    <div class="wpd-menu-header">Analyze</div>
+                    <div class="wpd-menu-dropdown">
+                        <ul>
+                            <li id="wpd-analyzemenu-distance">Measure Distance</li>
+                            <li id="wpd-analyzemenu-color">Color Picker</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="wpd-menu">
+                    <div class="wpd-menu-header">Help</div>
+                    <div class="wpd-menu-dropdown">
+                        <ul>
+                            <li id="wpd-helpmenu-about" onclick="wpd.popup.show('helpWindow');">About WebPlotDigitizer</li>
+                            <li id="wpd-helpmenu-manual">User Manual</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
 
            

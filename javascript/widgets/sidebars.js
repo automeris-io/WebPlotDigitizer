@@ -25,7 +25,7 @@ var wpd = wpd || {};
 wpd.sidebar = (function () {
 
     // List of sidebars that can be closed via clearSidebar(). Typically, I include all known sidebars here.
-    var sidebarList = ['editImageToolbar','manualMode','autoMode'];
+    var sidebarList = ['editImageToolbar','acquireDataSidebar'];
 
     function show(sbid) { // Shows a specific sidebar
 
@@ -36,7 +36,7 @@ wpd.sidebar = (function () {
 
     function clear() { // Clears all open sidebars
 
-          for (ii = 0; ii < sidebarList.length; ii ++) {
+          for (var ii = 0; ii < sidebarList.length; ii ++) {
               var sbv = document.getElementById(sidebarList[ii]);
               sbv.style.visibility="hidden";
           }

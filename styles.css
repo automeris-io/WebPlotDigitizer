@@ -42,8 +42,6 @@ tr,td {
 	padding:0;
 }
 
-textarea { resize: none; }
-
 #allContainer {
     width: 100%;
     height: 100%;
@@ -61,8 +59,10 @@ textarea { resize: none; }
 
 #menuButtonsContainer {
     padding-top: 4px;
-    padding-left: 3px;
+    padding-left: 5px;
+    padding-right: 5px;
     display: inline-block;
+    border-bottom: thin black solid;
 }
 
 #topToolbarContainer {
@@ -126,59 +126,6 @@ textarea { resize: none; }
 	top:0px;
 	font-size:12px;
 	text-align:center;
-}
-
-input[type="button"] {
-	font-family: Verdana, Sans Serif;
-	
-	font-size: 12px;
-	font-weight:500;
-	color:black;
-	background: #f8f8f8;
-	border: thin #dadada solid;
-	height:22px;
-    margin: 0px;
-}
-
-input[type="button"]:hover {
-    background-color: #FFD8C7;
-	border: thin black solid;
-}
-
-input[type="button"]:active {
-	background-color: #FF9466;
-}
-
-input[type="button"]:focus {
-    outline-width: 0;
-}
-
-/* Sort of a hack to make button look right in Firefox */
-input[type="button"]::-moz-focus-inner {
-	margin-top: -1px;
-}
-
-input[type="checkbox"] {
-	height:20px;
-	width:20px;
-	border: thin black solid;
-	background: white;
-}
-
-input[type="text"] {
-	font-family: Verdana, Sans Serif;
-	font-size: 12px;
-	background: white;
-	border: thin black solid;
-	height:15px;
-}
-
-input[type="range"] {
-	height: 15px;
-	background: white;
-	border: thin black solid;
-	
-	box-shadow: 0px 0px 3px grey;
 }
 
 select {

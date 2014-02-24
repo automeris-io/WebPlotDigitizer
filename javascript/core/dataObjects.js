@@ -124,27 +124,40 @@ wpd.DataSeries = (function () {
 // Plot information
 wpd.PlotData = (function () {
     var PlotData = function() {
+
+        var activeSeriesIndex = 0,
+            autoDetector = new wpd.AutoDetector();
+
         this.axes = null;
         this.dataSeriesColl = [];
         this.activeSeriesIndex = 0;
 
         this.getActiveDataSeries = function() {
-            if (this.dataSeriesColl[this.activeSeriesIndex] == null) {
-                this.dataSeriesColl[this.activeSeriesIndex] = new wpd.DataSeries();
+            if (this.dataSeriesColl[activeSeriesIndex] == null) {
+                this.dataSeriesColl[activeSeriesIndex] = new wpd.DataSeries();
             }
-            return this.dataSeriesColl[this.activeSeriesIndex];
+            return this.dataSeriesColl[activeSeriesIndex];
         };
 
         this.getDataSeriesCount = function() {
             return this.dataSeriesColl.length;
         };
+
+        this.setActiveDataSeriesIndex = function(index) {
+            activeSeriesIndex = index;
+        };
+
+        this.getAutoDetector = function() {
+            return autoDetector;
+        };
+
+        this.reset = function() {
+            this.axes = null;
+            this.dataSeriesColl = [];
+            activeSeriesIndex = 0;
+            autoDetector = new wpd.AutoDetector();
+        };
     };
 
-    PlotData.prototype.reset = function () {
-        this.axes = null;
-        this.dataSeriesColl = [];
-        this.activeSeriesIndex = 0;
-    };
-   
     return PlotData;
 })();
