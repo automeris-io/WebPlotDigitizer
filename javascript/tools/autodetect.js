@@ -23,18 +23,10 @@
 
 var wpd = wpd || {};
 
-wpd.autoDetect = (function () {
-    return {
-    };
-})();
-
-
 wpd.colorPicker = (function () {
-    var fg_color = [0,0,0],
-        bg_color = [255,255,255],
-        colorPickerMode = 'fg';
 
     function startFGPicker() {
+        var fg_color = wpd.appData.getPlotData().getAutoDetector().fgColor;
         document.getElementById('color_red_fg').value = fg_color[0];
 	    document.getElementById('color_green_fg').value = fg_color[1];
 		document.getElementById('color_blue_fg').value = fg_color[2];
@@ -42,6 +34,7 @@ wpd.colorPicker = (function () {
     }
 
     function startBGPicker() {
+        var bg_color = wpd.appData.getPlotData().getAutoDetector().bgColor;
         document.getElementById('color_red_bg').value = bg_color[0];
 	    document.getElementById('color_green_bg').value = bg_color[1];
 		document.getElementById('color_blue_bg').value = bg_color[2];
@@ -52,7 +45,7 @@ wpd.colorPicker = (function () {
         wpd.popup.close('colorPickerFG');
         var tool = new wpd.ColorPickerTool();
         tool.onComplete = function(col) {
-                fg_color = col;
+                wpd.appData.getPlotData().getAutoDetector().fgColor = col;
                 wpd.graphicsWidget.removeTool();
                 startFGPicker();
             };
@@ -63,7 +56,7 @@ wpd.colorPicker = (function () {
         wpd.popup.close('colorPickerBG');
         var tool = new wpd.ColorPickerTool();
         tool.onComplete = function(col) {
-                fg_color = col;
+                wpd.appData.getPlotData().getAutoDetector().bgColor = col;
                 wpd.graphicsWidget.removeTool();
                 startBGPicker();
             };
@@ -71,46 +64,38 @@ wpd.colorPicker = (function () {
     }
 
     function setFGColor() {
+        var fg_color = [];
         fg_color[0] = parseInt(document.getElementById('color_red_fg').value, 10);
 	    fg_color[1] = parseInt(document.getElementById('color_green_fg').value, 10);
 		fg_color[2] = parseInt(document.getElementById('color_blue_fg').value, 10);
+        wpd.appData.getPlotData().getAutoDetector().fgColor = fg_color;
         wpd.popup.close('colorPickerFG');
     }
 
     function setBGColor() {
+        var bg_color = [];
         bg_color[0] = parseInt(document.getElementById('color_red_bg').value, 10);
 	    bg_color[1] = parseInt(document.getElementById('color_green_bg').value, 10);
 		bg_color[2] = parseInt(document.getElementById('color_blue_bg').value, 10);
+        wpd.appData.getPlotData().getAutoDetector().bgColor = bg_color;
         wpd.popup.close('colorPickerBG');
     }
     
-    function getFGColor() {
-        return fg_color;
-    }
-
-    function getBGColor() {
-        return bg_color;
-    }
-
     return {
         startFGPicker: startFGPicker,
         startBGPicker: startBGPicker,
 
         pickFGColor: pickFGColor,
-        pickBFColor: pickBGColor,
+        pickBGColor: pickBGColor,
 
         setFGColor: setFGColor,
-        setBFColor: setBGColor,
-
-        getFGColor: getFGColor,
-        getBGColor: getBGColor
+        setBGColor: setBGColor
     };
 })();
 
 wpd.ColorPickerTool = (function () {
-    var ctx = wpd.graphicsWidget.getAllContexts();
-
     var Tool = function () {
+        var ctx = wpd.graphicsWidget.getAllContexts();
         this.onMouseClick = function(ev, pos, imagePos) {
             var pixData = ctx.oriImageCtx.getImageData(imagePos.x, imagePos.y, 1, 1);
             onComplete([pixData.data[0], pixData.data[1], pixData.data[2]]);
@@ -120,18 +105,8 @@ wpd.ColorPickerTool = (function () {
     return Tool;
 })();
 
-
 wpd.dataMask = (function () {
-    var mask;
-
     function grabMask() {
-    }
-
-    function getMask() {
-    }
-
-    function resetMask() {
-        mask = [];
     }
 
     function markBox() {
@@ -151,8 +126,6 @@ wpd.dataMask = (function () {
 
     return {
         grabMask: grabMask,
-        getMask: getMask,
-        resetMask: resetMask,
         markBox: markBox,
         markPen: markPen,
         eraseMarks: eraseMarks
@@ -331,15 +304,28 @@ wpd.EraseMaskTool = (function () {
 })();
 
 
-var testImgCanvas;
-var testImgContext;
 
-var boxCoordinates = [0,0,1,1];
-var drawingBox = false;
-var drawingPen = false;
-var drawingEraser = false;
+wpd.detectionAlgoSettings = (function () {
 
-var binaryData;
+    var testImgCanvas,
+        testImgContext;
+
+    function updateTestImage () {
+    }
+
+    function showSettingsWindow () {
+    }
+
+    function scan() {
+    }
+
+    return {
+        updateTestImage: updateTestImage,
+        showSettingsWindow: showSettingsWindow,
+        scan: scan
+    };
+
+})();
 
 /**
  * Filter based on color and display a test image on the scan settings dialog.
