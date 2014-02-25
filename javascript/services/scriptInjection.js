@@ -24,40 +24,31 @@
 var wpd = wpd || {};
 
 wpd.scriptInjector = (function () {
-    var $scriptFileInput,
-        $script;
-
+    
     function start() {
         wpd.popup.show('runScriptPopup');
-        if($scriptFileInput == null) {
-            $scriptFileInput = document.getElementById('runScriptFileInput');
-            $scriptFileInput.addEventListener("change", loadScript, false);
-        }
     }
 
     function cancel() {
         wpd.popup.close('runScriptPopup');
     }
 
-    function loadScript(ev) {
+    function load() {
+        var $scriptFileInput = document.getElementById('runScriptFileInput');
         wpd.popup.close('runScriptPopup');
-        if(ev.target.files.length == 1) {
+        if($scriptFileInput.files.length == 1) {
             var fileReader = new FileReader();
             fileReader.onload = function() {
                 eval(fileReader.result);
                 wpdscript.run();
             };
-            fileReader.readAsText(ev.target.files[0]);
+            fileReader.readAsText($scriptFileInput.files[0]);
         }
-    }
-
-    function execScript() {
     }
 
     return {
         start: start,
         cancel: cancel,
-        loadScript: loadScript,
-        execScript: execScript
+        load: load
     };
 })();
