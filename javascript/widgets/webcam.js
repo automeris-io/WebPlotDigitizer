@@ -32,6 +32,7 @@ wpd.webcamCapture = (function () {
     }
 
     function unsupportedBrowser() {
+        wpd.messagePopup.show('Webcam Capture','Your browser does not support webcam capture using HTML5 APIs. A recent version of Google Chrome is recommended.');
     }
 
     function getUserMedia() {

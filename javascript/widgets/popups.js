@@ -37,6 +37,7 @@ wpd.popup = (function () {
         var pHeight = parseInt(pWindow.offsetHeight);
         var xPos = (screenWidth - pWidth)/2;
         var yPos = (screenHeight - pHeight)/2;
+        yPos = yPos > 60 ? 60 : yPos;
         pWindow.style.left = xPos + 'px';
         pWindow.style.top = yPos + 'px';
         pWindow.style.visibility = "visible";
@@ -58,19 +59,34 @@ wpd.popup = (function () {
 
 })();
 
+wpd.busyNote = (function () {
+    function show() {
+        document.getElementById('wait').style.visibility = 'visible';
+    }
 
-/**
- * Show a 'processing' note on the top right corner.
- * @param {boolean} pmode set to 'true' to diplay, 'false' to hide.
- */
-function processingNote(pmode) {
-	var pelem = document.getElementById('wait');
+    function close() {
+        document.getElementById('wait').style.visibility = 'hidden';
+    }
 
-	if(pmode === true) {
-		pelem.style.visibility = 'visible';
-	} else {
-		pelem.style.visibility = 'hidden';
-	}
+    return {
+        show: show,
+        close: close
+    };
+})();
 
-}
+wpd.messagePopup = (function () {
+    function show(title, msg) {
+        wpd.popup.show('messagePopup');
+        document.getElementById('message-popup-heading').innerHTML = title;
+        document.getElementById('message-popup-text').innerHTML = msg;
+    }
 
+    function close() {
+        wpd.popup.close('messagePopup');
+    }
+
+    return {
+        show: show,
+        close: close
+    };
+})();

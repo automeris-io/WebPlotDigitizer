@@ -25,6 +25,7 @@
 /* Generic Menus */
 
 .wpd-menu {
+    font-size: 13px;
 	display: inline-block;
 	position: relative;
 	cursor: default;
@@ -62,11 +63,11 @@
     padding: 1px;
 	margin: 0px;
 	white-space: nowrap;
-	border: thin #999999 solid;
+	border: thin #dddddd solid;
 }
 
 .wpd-menu-dropdown > ul > li {
-	padding: 4px;
+	padding: 3px 5px 3px 5px;
 }
 
 .wpd-disabled-menu-item {
