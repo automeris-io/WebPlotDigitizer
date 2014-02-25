@@ -188,7 +188,7 @@ wpd.mapCalibration = (function () {
     }
 
     function align() {
-        var scaleLength = parseFloat(document.getElementById('scaleLength')),
+        var scaleLength = parseFloat(document.getElementById('scaleLength').value),
             axes = new wpd.MapAxes(),
             plot;
 
