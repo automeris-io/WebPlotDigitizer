@@ -1,7 +1,7 @@
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Copyright 2010-2013 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2014 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
@@ -64,6 +64,7 @@ wpd.xyCalibration = (function () {
         wpd.appData.isAligned(true);
         wpd.popup.close('xyAlignment');
         calib = null;
+        wpd.alignAxes.alignmentCompleted();
     }
 
     return {
@@ -114,6 +115,7 @@ wpd.polarCalibration = (function () {
         wpd.appData.isAligned(true);
         wpd.popup.close('polarAlignment');
         calib = null;
+        wpd.alignAxes.alignmentCompleted();
     }
 
     return {
@@ -157,6 +159,7 @@ wpd.ternaryCalibration = (function () {
         wpd.appData.isAligned(true);
         wpd.popup.close('ternaryAlignment');
         calib = null;
+        wpd.alignAxes.alignmentCompleted();
     }
 
     return {
@@ -198,6 +201,7 @@ wpd.mapCalibration = (function () {
         wpd.appData.isAligned(true);
         wpd.popup.close('mapAlignment');
         calib = null;
+        wpd.alignAxes.alignmentCompleted();
     }
 
     return {
@@ -300,8 +304,13 @@ wpd.alignAxes = (function () {
         }
     }
 
+    function alignmentCompleted() {
+        wpd.sidebar.show('acquireDataSidebar');
+    }
+
     return {
-        initiate: initiatePlotAlignment
+        initiate: initiatePlotAlignment,
+        alignmentCompleted: alignmentCompleted
     };
 
 })();
