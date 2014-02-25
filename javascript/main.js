@@ -1,7 +1,7 @@
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotdigitizer
 
-	Copyright 2010-2013 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2014 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
@@ -23,26 +23,13 @@
 
 var wpd = wpd || {};
 
-/**
- * This is the entry point and is executed when the page is loaded.
- */
 wpd.initApp = function() {// This is run when the page loads.
 
 	wpd.browserInfo.checkBrowser();
     wpd.layoutManager.initialLayout();
     wpd.graphicsWidget.loadImageFromURL('start.png');
-	
-	// testing area for autodetection
-	// testImgCanvas = document.getElementById('testImg');
-	// testImgCanvas.width = canvasWidth/2;
-	// testImgCanvas.height = canvasHeight/2;
-	// testImgContext = testImgCanvas.getContext('2d');
-		
-	// Set defaults everywhere.
-	// setDefaultState();
-	// displayParameters();
+	document.getElementById('loadingCurtain').style.display = 'none';
 
-    document.getElementById('loadingCurtain').style.display = 'none';
 }
 
 document.addEventListener("DOMContentLoaded", wpd.initApp, true);

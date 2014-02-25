@@ -1,7 +1,7 @@
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Copyright 2010-2013 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2014 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
@@ -26,7 +26,7 @@ var wpd = wpd || {};
 wpd.acquireData = (function () {
     function load() {
         if(!wpd.appData.isAligned()) {
-            wpd.popup.show('alignAxes');
+            wpd.messagePopup.show("Acquire Data", "Please calibrate the axes before acquiring data.");
         } else {
             wpd.sidebar.show('acquireDataSidebar');
             wpd.graphicsWidget.resetData();
@@ -46,6 +46,7 @@ wpd.acquireData = (function () {
 
     function clearAll() {
         wpd.appData.getPlotData().getActiveDataSeries().clearAll()
+        wpd.graphicsWidget.removeTool();
         wpd.graphicsWidget.resetData();
         wpd.dataPointCounter.setCount();
     };
