@@ -52,6 +52,7 @@ wpd.acquireData = (function () {
 
     function undo() {
         wpd.appData.getPlotData().getActiveDataSeries().removeLastPixel();
+        wpd.graphicsWidget.resetData();
         redrawData();
         wpd.dataPointCounter.setCount();
     };
@@ -133,7 +134,8 @@ wpd.DeleteDataPointTool = (function () {
 
         this.onMouseClick = function(ev, pos, imagePos) {
             var activeDataSeries = plotData.getActiveDataSeries();
-            activeDataSeries.deleteNearestPixel(imagePos.x, imagePos.y);
+            activeDataSeries.removeNearestPixel(imagePos.x, imagePos.y);
+            wpd.graphicsWidget.resetData();
             wpd.acquireData.redrawData();
             wpd.graphicsWidget.updateZoomOnEvent(ev);
             wpd.dataPointCounter.setCount();

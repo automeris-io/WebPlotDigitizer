@@ -169,10 +169,10 @@ Loading application, please wait...
             </div>
 
              <div style="display:inline-block; position: absolute; top: 4px; right: 290px;" >
-                <input type="button" value="+" onclick="wpd.graphicsWidget.zoomIn()" style="border:none;"/>
-                <input type="button" value="-" onclick="wpd.graphicsWidget.zoomOut()" style="border: none;"/>
-                <input type="button" value="100%" onclick="wpd.graphicsWidget.zoom100perc()" style="border: none;"/>
-                <input type="button" value="Fit" onclick="wpd.graphicsWidget.zoomFit()" style="border: none;"/>
+                <input type="button" value="+" onclick="wpd.graphicsWidget.zoomIn();" style="border:none;"/>
+                <input type="button" value="-" onclick="wpd.graphicsWidget.zoomOut();" style="border: none;"/>
+                <input type="button" value="100%" onclick="wpd.graphicsWidget.zoom100perc();" style="border: none;"/>
+                <input type="button" value="Fit" onclick="wpd.graphicsWidget.zoomFit();" style="border: none;"/>
             </div>
 
         </div>
@@ -209,8 +209,8 @@ Loading application, please wait...
             <p align="center"><input type="button" value="Delete Point" onClick="wpd.acquireData.deletePoint();" style="width:150px;"></p>
             <p>&nbsp;</p>
             <p><b>Automatic</b></p>
-            <p align="center"><input type="button" id="autoFGBtn" value="FG" style="width:75px;" onClick="colorPickerWindow('fg');"><input type="button" id="autoBGBtn" value="BG" style="width:75px;" onClick="colorPickerWindow('bg');"></p>
-            <p align="center"><input type="button" value="Box" style="width:50px;" onClick="boxPaint();"><input type="button" value="Pen" style="width:50px;" onClick="penPaint();"><input type="button" value="Erase" style="width:50px;" onClick="eraser();"></p>
+            <p align="center"><input type="button" id="autoFGBtn" value="FG" style="width:75px;" onClick="wpd.colorPicker.startFGPicker();"><input type="button" id="autoBGBtn" value="BG" style="width:75px;" onClick="wpd.colorPicker.startBGPicker();"></p>
+            <p align="center"><input type="button" value="Box" style="width:50px;" onClick="wpd.dataMask.markBox();"><input type="button" value="Pen" style="width:50px;" onClick="wpd.dataMask.markPen();"><input type="button" value="Erase" style="width:50px;" onClick="wpd.dataMask.eraseMarks();"></p>
             <p align="center"><input type="button" value="Extract!" style="width: 150px;" onClick="launchTestWindow();"></p>
             <p align="center"><input type="button" value="Create .CSV" id="saveBtn" onClick="wpd.CSVExport.generate();" style="width:150px;"></p>
             <p align="center">Points Picked:<span id="pointsStatus">0</span></p>
@@ -421,9 +421,9 @@ Loading application, please wait...
 	<p align="center">&nbsp;</p>
 	<p align="center">R:<input type="text" value="0" id="color_red_fg" size="3">&nbsp;
 	G:<input type="text" id="color_green_fg" value="0" size="3">&nbsp; B:<input type="text" id="color_blue_fg" value="0" size="3">
-	 <input type="button" value="Color Picker" onClick="wpd.popup.close('colorPickerFG');pickColor();"></p>
+	 <input type="button" value="Color Picker" onClick="wpd.colorPicker.pickFGColor();"></p>
 	<p align="center">&nbsp;</p>
-	<p align="center"><input type="button" value="Done" onClick="assignColor('fg');wpd.popup.close('colorPickerFG');"></p>
+	<p align="center"><input type="button" value="Done" onClick="wpd.colorPicker.setFGColor();"></p>
 	</div>
 
 	<div id="colorPickerBG" class="popup" style="width:400px;">
@@ -431,9 +431,9 @@ Loading application, please wait...
 	<p align="center">&nbsp;</p>
 	<p align="center">R:<input type="text" value="255" id="color_red_bg" size="3">&nbsp;
 	G:<input type="text" id="color_green_bg" value="255" size="3">&nbsp; B:<input type="text" id="color_blue_bg" value="255" size="3">
-	 <input type="button" value="Color Picker" onClick="wpd.popup.close('colorPickerBG');pickColor();"></p>
+	 <input type="button" value="Color Picker" onClick="wpd.colorPicker.pickBGColor();"></p>
 	<p align="center">&nbsp;</p>
-	<p align="center"><input type="button" value="Done" onClick="assignColor('bg');wpd.popup.close('colorPickerBG');"></p>
+	<p align="center"><input type="button" value="Done" onClick="wpd.colorPicker.setBGColor();"></p>
 	</div>
 
 	<div id="alignAxes" class="popup" style="width:300px;">

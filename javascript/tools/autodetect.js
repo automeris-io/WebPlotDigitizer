@@ -98,7 +98,7 @@ wpd.ColorPickerTool = (function () {
         var ctx = wpd.graphicsWidget.getAllContexts();
         this.onMouseClick = function(ev, pos, imagePos) {
             var pixData = ctx.oriImageCtx.getImageData(imagePos.x, imagePos.y, 1, 1);
-            onComplete([pixData.data[0], pixData.data[1], pixData.data[2]]);
+            this.onComplete([pixData.data[0], pixData.data[1], pixData.data[2]]);
         };
         this.onComplete = function(col) {};
     };
@@ -186,7 +186,7 @@ wpd.PenMaskTool = (function () {
             mouseMoveHandler = function() {
                 ctx.dataCtx.strokeStyle = "rgba(255,255,0,1)";
         	    ctx.dataCtx.lineTo(screen_pos.x,screen_pos.y);
-                ctx.oriDataCtx.stroke();
+                ctx.dataCtx.stroke();
 
                 ctx.oriDataCtx.strokeStyle = "rgba(255,255,0,1)";
         	    ctx.oriDataCtx.lineTo(image_pos.x,image_pos.y);
@@ -248,7 +248,7 @@ wpd.EraseMaskTool = (function () {
 
                 ctx.dataCtx.strokeStyle = "rgba(255,255,0,1)";
         	    ctx.dataCtx.lineTo(screen_pos.x,screen_pos.y);
-                ctx.oriDataCtx.stroke();
+                ctx.dataCtx.stroke();
 
                 ctx.oriDataCtx.strokeStyle = "rgba(255,255,0,1)";
         	    ctx.oriDataCtx.lineTo(image_pos.x,image_pos.y);

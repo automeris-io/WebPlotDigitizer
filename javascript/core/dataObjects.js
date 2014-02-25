@@ -100,19 +100,35 @@ wpd.DataSeries = (function () {
         };
 
         this.insertPixel = function(pxi, pyi, index) {
-
+            pixels.splice(2*index, 0, pxi);
+            pixels.splice(2*index + 1, 0, pyi); 
         };
 
         this.removePixelAtIndex = function(index) {
-
+            if(2*index < pixels.length) {
+                pixels.splice(2*index, 2);
+            }
         };
 
         this.removeLastPixel = function() {
-            var pIndex = pixels.length/2;
+            var pIndex = pixels.length/2 - 1;
             this.removePixelAtIndex(pIndex);
         };
 
         this.removeNearestPixel = function(x, y, threshold) {
+            threshold = (threshold == null) ? 50 : parseFloat(threshold);
+            var minDist, minIndex = -1, 
+                i, dist;
+            for(i = 0; i < pixels.length; i+= 2) {
+                dist = Math.sqrt((x - pixels[i])*(x - pixels[i]) + (y - pixels[i+1])*(y - pixels[i+1]));
+                if((minIndex < 0 && dist <= threshold) || (minIndex >= 0 && dist < minDist)) {
+                    minIndex = i/2;
+                    minDist = dist;
+                }
+            }
+            if(minIndex >= 0) {
+                this.removePixelAtIndex(minIndex);
+            }
         };
 
         this.clearAll = function() { pixels = []; };
