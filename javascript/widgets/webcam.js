@@ -73,7 +73,9 @@ wpd.webcamCapture = (function () {
     }
 
     function cameraOff() {
-        cameraStream.stop();
+        if(cameraStream != undefined) {
+            cameraStream.stop();
+        }
         wpd.popup.close('webcamCapture'); 
     }
 

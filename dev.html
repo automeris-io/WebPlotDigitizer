@@ -67,6 +67,7 @@
 <script src="javascript/widgets/toolbars.js"></script>
 <script src="javascript/widgets/webcam.js"></script>
 <script src="javascript/widgets/zoom.js"></script>
+<script src="javascript/services/scriptInjection.js"></script>
 <!--
 <script src="combined-compiled.js"></script>
 -->
@@ -107,7 +108,7 @@ Loading application, please wait...
                         <ul>
                             <li id="wpd-filemenu-loadimage" onclick="wpd.popup.show('loadNewImage');">Load Image</li>
                             <li id="wpd-filemenu-capture" onclick="wpd.webcamCapture.start();">Webcam Capture</li>
-                            <li id="wpd-filemenu-runscript">Run Script</li>
+                            <li id="wpd-filemenu-runscript" onclick="wpd.scriptInjector.start();">Run Script</li>
                         </ul>
                     </div>
                 </div>
@@ -250,6 +251,16 @@ Loading application, please wait...
 	<p>&nbsp;</p>
 	<p align="center"><!-- <input type="button" value="Load Pasted Image" onClick="loadPastedFileInWindow();">&nbsp;--><input type="button" value="Cancel" onClick="wpd.popup.close('loadNewImage');"></p>
 	</div>
+
+    <div id="runScriptPopup" class="popup" style="width: 500px;">
+    <p class="popupheading">Run Script</p>
+    <p>&nbsp;</p>
+    <p align="center">Load a Javascript file to further extend the capabilities of WebPlotDigitizer. As of now, this is intended only for developers who may already be familiar with some of the source code. The API for these scripts may be documented in the future.</p>
+    <p>&nbsp;</p>
+    <p align="center"><input type="file" id="runScriptFileInput"/></p>
+    <p>&nbsp;</p>
+    <p align="center"><input type="button" value="Cancel" onclick="wpd.scriptInjector.cancel();"/></p>
+    </div>
 
     <div id="webcamCapture" class="popup" style="width: 650px;">
     <p class="popupheading">Webcam Capture</p>
@@ -454,18 +465,15 @@ Loading application, please wait...
 
 
 	<div id="helpWindow" class="popup" style="width: 550px;">
-	<p align="center" class="popupheading">WebPlotDigitizer v3.0 - Web Based Plot Digitizer</p>
+	<p class="popupheading">WebPlotDigitizer - Web Based Plot Digitizer</p>
 	<p>&nbsp;</p>
-	<p align="center"><b>Instructions and Video Tutorials</b></p>
-	<p align="center"><a href="http://arohatgi.info/WebPlotDigitizer/?page_id=58" target="manual">http://arohatgi.info/WebPlotDigitizer/?page_id=58</a></p>
-	<hr/>
-	<p align="center"><b>Report Bugs/Issues</b></p>
-	<p align="center"><a href="https://github.com/ankitrohatgi/WebPlotDigitizer/issues" target="bugs">https://github.com/ankitrohatgi/WebPlotDigitizer/issues</a></p>
-	<hr/>
-	<p align="center">This program is distributed under the GNU General Public License Version 3.</p>
+    <p align="center">Version 3.0</p>
+	<p align="center">This program is distributed under the <a href="https://www.gnu.org/licenses/gpl-3.0-standalone.html" target="_blank">GNU General Public License Version 3</a>.</p>
 	<p align="center">Copyright 2010-2014 Ankit Rohatgi &lt;ankitrohatgi@hotmail.com&gt;</p>
 	<p align="center"><a href="http://arohatgi.info/WebPlotDigitizer" target="website">http://arohatgi.info/WebPlotDigitizer</a></p>
 	<p>&nbsp;</p>
+    <p align="center"><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=CVFJGV5SNEV9J&lc=US&item_name=WebPlotDigitizer&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted" target="_blank">Donate via PayPal</a></p>
+    <p>&nbsp;</p>
 	<p align="center"><input type="button" value="Close" onClick="wpd.popup.close('helpWindow');"></p>
 	</div>
 
