@@ -106,7 +106,7 @@ Loading application, please wait...
                     <div class="wpd-menu-dropdown">
                         <ul>
                             <li id="wpd-filemenu-loadimage" onclick="wpd.popup.show('loadNewImage');">Load Image</li>
-                            <li id="wpd-filemenu-capture" onclick="wpd.webcamCapture.start();">Capture Webcam</li>
+                            <li id="wpd-filemenu-capture" onclick="wpd.webcamCapture.start();">Webcam Capture</li>
                             <li id="wpd-filemenu-runscript">Run Script</li>
                         </ul>
                     </div>
@@ -144,6 +144,8 @@ Loading application, please wait...
                         <ul>
                             <li id="wpd-helpmenu-about" onclick="wpd.popup.show('helpWindow');">About WebPlotDigitizer</li>
                             <li id="wpd-helpmenu-manual">User Manual</li>
+                            <li id="wpd-helpmenu-github">GitHub</li>
+                            <li id="wpd-helpmenu-issues" onclick="wpd.popup.show('helpWindow');">Issues/Suggestions</li>
                         </ul>
                     </div>
                 </div>
@@ -254,6 +256,14 @@ Loading application, please wait...
     <p>&nbsp;</p>
     <p align="center"><video id="webcamVideo" autoplay="true" height="350"></video></p>
     <p align="center"><input type="button" value="Capture" onclick="wpd.webcamCapture.capture();"/> <input type="button" value="Cancel" onclick="wpd.webcamCapture.cancel();"/></p>
+    </div>
+
+    <div id="messagePopup" class="popup" style="width: 300px;">
+    <p id="message-popup-heading" class="popupheading"></p>
+    <p>&nbsp;</p>
+    <p align="center" id="message-popup-text"></p>
+    <p>&nbsp;</p>
+    <p align="center"><input type="button" value="OK" onclick="wpd.messagePopup.close()"/></p>
     </div>
 
 	<div id="axesList" class="popup" style="width: 400px;">
