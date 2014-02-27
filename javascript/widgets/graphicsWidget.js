@@ -225,7 +225,8 @@ wpd.graphicsWidget = (function () {
             iw, ih,
             idata, ddata,
             ixmin, iymin, ixmax, iymax,
-            zxmin = 0, zymin = 0, zxmax = zsize.width, zymax = zsize.height;
+            zxmin = 0, zymin = 0, zxmax = zsize.width, zymax = zsize.height,
+            xcorr, ycorr;
 
         iw = zsize.width/zratio;
         ih = zsize.height/zratio;
@@ -269,8 +270,12 @@ wpd.graphicsWidget = (function () {
             }
         }
 
-        wpd.zoomView.setZoomImage(idata, parseInt(zxmin, 10), 
-                                     parseInt(zymin, 10), 
+        // Make this accurate to subpixel level
+        xcorr = zratio*(parseInt(ixmin,10) - ixmin);
+        ycorr = zratio*(parseInt(iymin,10) - iymin);
+
+        wpd.zoomView.setZoomImage(idata, parseInt(zxmin + xcorr, 10), 
+                                     parseInt(zymin + ycorr, 10), 
                                      parseInt(zxmax - zxmin, 10), 
                                      parseInt(zymax - zymin, 10));
     }

@@ -146,7 +146,6 @@ wpd.PlotData = (function () {
 
         this.axes = null;
         this.dataSeriesColl = [];
-        this.activeSeriesIndex = 0;
 
         this.getActiveDataSeries = function() {
             if (this.dataSeriesColl[activeSeriesIndex] == null) {
@@ -165,6 +164,23 @@ wpd.PlotData = (function () {
 
         this.getAutoDetector = function() {
             return autoDetector;
+        };
+
+        this.getDataFromActiveSeries = function() {
+            if(this.dataSeriesColl[activeSeriesIndex] == null || this.axes == null) {
+                return null;
+            }
+            var i, pt, ptData, rtnData = [], dimi;
+            for(i = 0; i < this.dataSeriesColl[activeSeriesIndex].getCount(); i++) {
+                pt = this.dataSeriesColl[activeSeriesIndex].getPixel(i);
+                ptData = [];
+                ptData = this.axes.pixelToData(pt.x, pt.y);
+                rtnData[i] = [];
+                for(dimi = 0; dimi < ptData.length; dimi++) {
+                    rtnData[i][dimi] = ptData[dimi];
+                }
+            }
+            return rtnData;
         };
 
         this.reset = function() {
