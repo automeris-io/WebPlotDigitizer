@@ -22,6 +22,115 @@
 */
 
 var wpd = wpd || {};
+wpd.dataTable = (function () {
+
+    var rawData,
+        sortedData,
+        formattedData,
+        tableText;
+
+    function getSeriesData() {
+        rawData = wpd.appData.getPlotData().getDataFromActiveSeries();
+        console.log(rawData);
+    }
+
+    function sortRawData() {
+        sortedData = rawData;
+    }
+
+    function getVariableNames() {
+    }
+
+    function updateSortingControls() {
+    }
+
+    function makeTable() {
+        if(rawData == null || rawData.length === 0) {
+            return;
+        }
+        var dimCount = wpd.appData.getPlotData().axes.getDimensions(),
+            rowCount = rawData.length,
+            rowi, dimi, rowValues,
+            $digitizedDataTable = document.getElementById('digitizedDataTable');
+
+        tableText = '';
+        for(rowi = 0; rowi < rowCount; rowi++) {
+            rowValues = [];
+            for(dimi = 0; dimi < dimCount; dimi++) {
+                rowValues[dimi] = sortedData[rowi][dimi];
+            }
+            tableText += rowValues.join(', ');
+            tableText += '\n';
+        }
+        $digitizedDataTable.value = tableText;
+    }
+
+    function getSortedData() {
+        return sortedData;
+    }
+
+    function showTable() {
+        if(!wpd.appData.isAligned()) {
+            return;
+        }
+        wpd.popup.show('csvWindow');
+        getSeriesData();
+        updateSortingControls();
+        sortRawData();
+        makeTable();
+    }
+
+    function generateCSV() {
+
+        var formContainer,
+            formElement,
+            formData,
+            jsonData = JSON.stringify(tableText);
+            
+        // Create a hidden form and submit
+        formContainer = document.createElement('div'),
+        formElement = document.createElement('form'),
+        formData = document.createElement('input');
+
+        formElement.setAttribute('method', 'post');
+        formElement.setAttribute('action', 'php/csvexport.php');
+
+        formData.setAttribute('type', "text");
+        formData.setAttribute('name', "data");
+
+        formElement.appendChild(formData);
+        formContainer.appendChild(formElement);
+        document.body.appendChild(formContainer);
+        formContainer.style.display = 'none';
+
+        formData.setAttribute('value', jsonData);
+        formElement.submit();
+        document.body.removeChild(formContainer);
+    }
+
+    function exportToPlotly() {
+    }
+
+    function selectAll() {
+        var $digitizedDataTable = document.getElementById('digitizedDataTable');
+        $digitizedDataTable.focus();
+        $digitizedDataTable.select();
+    }
+
+    function reSort() {
+    }
+
+    return {
+        getSeriesData: getSeriesData,
+        showTable: showTable,
+        updateSortingControls: updateSortingControls,
+        reSort: reSort,
+        selectAll: selectAll,
+        generateCSV: generateCSV,
+        exportToPlotly: exportToPlotly
+    };
+})();
+
 wpd.CSVExport = (function () {
 
     var rawCSVData,

@@ -213,20 +213,6 @@ wpd.mapCalibration = (function () {
 })();
 
 
-wpd.imageCalibration = (function () {
-
-    function start() {
-        // Image alignment 
-    }
-
-    return {
-        start: start
-    };
-
-})();
-
-
-
 wpd.AxesCornersTool = (function () {
 
     var Tool = function(maxPoints, dimensions) {
@@ -249,7 +235,7 @@ wpd.AxesCornersTool = (function () {
 
             ctx.oriDataCtx.beginPath();
     		ctx.oriDataCtx.fillStyle = "rgb(200,0,0)";
-	    	ctx.oriDataCtx.arc(parseInt(imagePos.x,10), parseInt(imagePos.y,10), 3, 0, 2.0*Math.PI, true);
+	    	ctx.oriDataCtx.arc(imagePos.x, imagePos.y, 3, 0, 2.0*Math.PI, true);
 		    ctx.oriDataCtx.fill();
 
             cal.addPoint(imagePos.x, imagePos.y, 0, 0);
@@ -268,7 +254,7 @@ wpd.AxesCornersTool = (function () {
                 var pos = wpd.graphicsWidget.screenPx(points[i], points[i+1]);
                 ctx.dataCtx.beginPath();
         		ctx.dataCtx.fillStyle = "rgb(200,0,0)";
-	        	ctx.dataCtx.arc(parseInt(pos.x, 10), parseInt(pos.y, 10), 3, 0, 2.0*Math.PI, true);
+	        	ctx.dataCtx.arc(pos.x, pos.y, 3, 0, 2.0*Math.PI, true);
 		        ctx.dataCtx.fill();
             }
         };

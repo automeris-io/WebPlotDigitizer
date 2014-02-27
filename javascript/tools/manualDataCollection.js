@@ -72,12 +72,12 @@ wpd.acquireData = (function () {
 
             ctx.dataCtx.beginPath();
     		ctx.dataCtx.fillStyle = "rgb(200,0,0)";
-	    	ctx.dataCtx.arc(parseInt(pos.x,10), parseInt(pos.y,10), 3, 0, 2.0*Math.PI, true);
+	    	ctx.dataCtx.arc(pos.x, pos.y, 3, 0, 2.0*Math.PI, true);
 		    ctx.dataCtx.fill();
 
             ctx.oriDataCtx.beginPath();
     		ctx.oriDataCtx.fillStyle = "rgb(200,0,0)";
-	    	ctx.oriDataCtx.arc(parseInt(imagePos.x,10), parseInt(imagePos.y,10), 3, 0, 2.0*Math.PI, true);
+	    	ctx.oriDataCtx.arc(imagePos.x, imagePos.y, 3, 0, 2.0*Math.PI, true);
 		    ctx.oriDataCtx.fill();
         }
     };
@@ -113,7 +113,7 @@ wpd.ManualSelectionTool = (function () {
 
             ctx.oriDataCtx.beginPath();
     		ctx.oriDataCtx.fillStyle = "rgb(200,0,0)";
-	    	ctx.oriDataCtx.arc(parseInt(imagePos.x,10), parseInt(imagePos.y,10), 3, 0, 2.0*Math.PI, true);
+	    	ctx.oriDataCtx.arc(imagePos.x, imagePos.y, 3, 0, 2.0*Math.PI, true);
 		    ctx.oriDataCtx.fill();
             
             wpd.graphicsWidget.updateZoomOnEvent(ev);
