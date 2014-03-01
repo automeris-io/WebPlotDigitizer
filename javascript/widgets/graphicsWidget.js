@@ -33,7 +33,7 @@ wpd.graphicsWidget = (function () {
 
         $oriImageCanvas,
         $oriDataCanvas,
-        
+
         $canvasDiv,
 
         mainCtx,
@@ -85,6 +85,20 @@ wpd.graphicsWidget = (function () {
         };
     }
 
+    function getDisplaySize() {
+        return {
+            width: width,
+            height: height
+        };
+    }
+
+    function getImageSize() {
+        return {
+            width: originalWidth,
+            height: originalHeight
+        };
+    }
+
     function getAllContexts() {
         return {
             mainCtx: mainCtx,
@@ -96,7 +110,7 @@ wpd.graphicsWidget = (function () {
             oriDataCtx: oriDataCtx
         };
     }
-
+ 
     function resize(cwidth, cheight) {
 
         cwidth = parseInt(cwidth, 10);
@@ -147,6 +161,10 @@ wpd.graphicsWidget = (function () {
         if(activeTool != null && activeTool.onRedraw != undefined) {
             activeTool.onRedraw();
         }
+    }
+
+    function copyImageDataLayerToScreen() {
+        dataCtx.drawImage($oriDataCanvas, 0, 0, width, height); 
     }
 
     function zoomIn() {
@@ -324,7 +342,7 @@ wpd.graphicsWidget = (function () {
         $drawCanvas = document.getElementById('drawCanvas');
         $hoverCanvas = document.getElementById('hoverCanvas');
         $topCanvas = document.getElementById('topCanvas');
-        
+
         $oriImageCanvas = document.createElement('canvas');
         $oriDataCanvas = document.createElement('canvas');
 
@@ -505,6 +523,9 @@ wpd.graphicsWidget = (function () {
         resetHover: resetHover,
         imagePx: imagePx,
         screenPx: screenPx,
-        updateZoomOnEvent: updateZoomOnEvent
+        updateZoomOnEvent: updateZoomOnEvent,
+        getDisplaySize: getDisplaySize,
+        getImageSize: getImageSize,
+        copyImageDataLayerToScreen: copyImageDataLayerToScreen
     };
 })();

@@ -78,8 +78,8 @@
 textarea { resize: none; }
 
 input[type="button"] {
-	font-family: Verdana, Sans Serif;
-	
+	font-family: Verdana,sans-serif;
+    padding: 2px 3px 2px 3px;	
 	font-size: 12px;
 	font-weight:500;
 	color:black;
@@ -130,3 +130,6 @@ input[type="range"] {
 	box-shadow: 0px 0px 3px grey;
 }
 
+.vertical-spacer {
+    height: 3px;
+}

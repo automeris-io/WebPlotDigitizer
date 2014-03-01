@@ -24,23 +24,19 @@
 var wpd = wpd || {};
 wpd.sidebar = (function () {
 
-    // List of sidebars that can be closed via clearSidebar(). Typically, I include all known sidebars here.
-    var sidebarList = ['editImageToolbar','acquireDataSidebar'];
-
     function show(sbid) { // Shows a specific sidebar
-
         clear();
         var sb = document.getElementById(sbid);
         sb.style.visibility = "visible";
     }
 
     function clear() { // Clears all open sidebars
+        var sidebarList = document.getElementsByClassName('sidebar'),
+            ii;
 
-          for (var ii = 0; ii < sidebarList.length; ii ++) {
-              var sbv = document.getElementById(sidebarList[ii]);
-              sbv.style.visibility="hidden";
-          }
-        
+        for (ii = 0; ii < sidebarList.length; ii ++) {
+            sidebarList[ii].style.visibility="hidden";
+        }
     }
 
     return {
