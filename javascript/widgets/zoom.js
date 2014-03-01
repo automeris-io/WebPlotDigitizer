@@ -79,6 +79,7 @@ wpd.zoomView = (function() {
         tempCanvas.width = zwidth/zoomRatio;
         tempCanvas.height = zheight/zoomRatio;
         tctx.putImageData(imgData, 0, 0);
+        zCanvas.width = zCanvas.width;
         zctx.drawImage(tempCanvas, x0, y0, zwidth, zheight);
     }
 

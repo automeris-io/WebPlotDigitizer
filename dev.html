@@ -58,6 +58,7 @@
 <script src="javascript/main.js"></script>
 <script src="javascript/tools/alignAxes.js"></script>
 <script src="javascript/tools/autodetect.js"></script>
+<script src="javascript/tools/mask.js"></script>
 <script src="javascript/tools/imageOps.js"></script>
 <script src="javascript/tools/manualDataCollection.js"></script>
 <script src="javascript/widgets/graphicsWidget.js"></script>
@@ -204,19 +205,18 @@ Loading application, please wait...
         <div style="position:relative;">
             <!-- side bars go here -->
             <div id="acquireDataSidebar" class="sidebar">
-            <p><b>Manual</b></p>
-            <p align="center"><input type="button" value="Pick Manually" onClick="wpd.acquireData.manualSelection();" style="width: 150px;"></p>
-            <p align="center"><input type="button" value="Undo" onClick="wpd.acquireData.undo();" style="width: 75px;"><input id="clearAllBtn" type="button" value="Clear All" onCLick="wpd.acquireData.clearAll();" style="width: 75px;"></p>
-            <p align="center"><input type="button" value="Delete Point" onClick="wpd.acquireData.deletePoint();" style="width:150px;"></p>
-            <p>&nbsp;</p>
-            <p><b>Automatic</b></p>
-            <p align="center"><input type="button" id="autoFGBtn" value="FG" style="width:75px;" onClick="wpd.colorPicker.startFGPicker();"><input type="button" id="autoBGBtn" value="BG" style="width:75px;" onClick="wpd.colorPicker.startBGPicker();"></p>
-            <p align="center"><input type="button" value="Box" style="width:50px;" onClick="wpd.dataMask.markBox();"><input type="button" value="Pen" style="width:50px;" onClick="wpd.dataMask.markPen();"><input type="button" value="Erase" style="width:50px;" onClick="wpd.dataMask.eraseMarks();"></p>
-            <p align="center"><input type="button" value="Extract!" style="width: 150px;" onClick="launchTestWindow();"></p>
-            <p align="center"><input type="button" value="View Data" id="saveBtn" onClick="wpd.dataTable.showTable();" style="width:150px;"></p>
-            <p align="center">Points Picked:<span id="pointsStatus">0</span></p>
+            <p class="sidebar-title">Acquire Data</p>
+            <p><input type="button" value="Add Point" onClick="wpd.acquireData.manualSelection();" style="width:90px;"><input type="button" value="Adjust Point" onClick="wpd.acquireData.undo();" style="width: 90px;">
+            <p><input type="button" value="Delete Point" onClick="wpd.acquireData.deletePoint();" style="width:90px;"><input id="clearAllBtn" type="button" value="Clear Points" onCLick="wpd.acquireData.clearAll();" style="width: 90px;"></p>
+            <div class="vertical-spacer"></div>
+            <p>Mask <input type="button" value="Box" style="width:50px;" onClick="wpd.dataMask.markBox();"><input type="button" value="Pen" style="width:45px;" onClick="wpd.dataMask.markPen();"><input type="button" value="Erase" style="width:50px;" onClick="wpd.dataMask.eraseMarks();"></p>
+            <div class="vertical-spacer"></div>
+            <p><input type="button" value="Automatic Extraction" style="width: 180px;" onClick="wpd.autoExtractSettings.showWindow();"></p>
+            <p><input type="button" value="View Data" id="saveBtn" onClick="wpd.dataTable.showTable();" style="width:180px;"></p>
+            <div class="vertical-spacer"></div>
+            <p>Points Picked:<span id="pointsStatus">0</span></p>
             </div>
- 
+             
             <div id="editImageToolbar" class="sidebar">
             <p align="center"><b>Edit Image</b></p>
             <p align="center"><input type="button" value="H. Flip" style="width: 75px;" onClick="hflip();"><input type="button" value="V. Flip" style="width: 75px;" onClick="vflip();"></p>
@@ -226,6 +226,26 @@ Loading application, please wait...
             <p align="center"><input type="button" value="Restore" style="width: 150px;" onClick="restoreOriginalImage();"></p>
             <p align="center"><input type="button" value="Save .PNG" style="width: 150px;" onClick="savePNG();"></p>
             </div>
+
+            <div id="auto-extraction-sidebar" class="sidebar">
+            <p class="sidebar-title">Algorithm Settings</p>
+            <table>
+            <tr><td>Foreground Color </td><td>&nbsp;&nbsp;<input type="button" id="fg-color-button" value=" " onClick="wpd.colorPicker.startFGPicker();" style="width: 50px;"/></td></tr>
+            <tr><td>Background Color </td><td>&nbsp;&nbsp;<input type="button" id="bg-color-button" value=" " onClick="wpd.colorPicker.startBGPicker();" style="width: 50px;"/></td></tr>
+            <tr><td>Color Distance </td><td>&nbsp;&nbsp;<input type="text" size="3" id="color-distance-value" onchange="wpd.colorPicker.changeColorDistance();"/></td></tr>
+            </table>
+            <p><input type="button" value="Test Color Detection" onclick="wpd.colorPicker.testColorDetection();" style="width: 180px;"></p>
+            <div class="vertical-spacer"></div>
+            <!-- algo parameters go here -->
+            <table>
+            <tr><td>X Min</td><td>&nbsp;&nbsp;<input type="text" size="3"/></td><td>X Min</td><td>&nbsp;&nbsp;<input type="text" size="3"/></td></tr>
+            <tr><td>X Min</td><td>&nbsp;&nbsp;<input type="text" size="3"/></td><td>X Min</td><td>&nbsp;&nbsp;<input type="text" size="3"/></td></tr>
+            <tr><td>X Min</td><td>&nbsp;&nbsp;<input type="text" size="3"/></td><td>X Min</td><td>&nbsp;&nbsp;<input type="text" size="3"/></td></tr>
+            </table>
+
+            <p><input type="button" value="Try" style="width:90px;"/><input type="button" value="Done" style="width:90px;"/></p>
+            </div>
+
         </div>
 
     </div>
@@ -251,6 +271,28 @@ Loading application, please wait...
 	<p>&nbsp;</p>
 	<p align="center"><!-- <input type="button" value="Load Pasted Image" onClick="loadPastedFileInWindow();">&nbsp;--><input type="button" value="Cancel" onClick="wpd.popup.close('loadNewImage');"></p>
 	</div>
+
+
+    <div id="auto-extract-algo-popup" class="popup" style="width: 400px;">
+    <p class="popupheading">Select Extraction Algorithm</p>
+    <p>&nbsp;</p>
+    <p align="center">
+        <select>
+            <optgroup label="Generic">
+                <option value="averagingWindow">Averaging Window</option>
+                <option value="averagingWindow">X Step</option>
+            </optgroup>
+            <optgroup label="Blobs">
+                <option value="blobDetector">Blob Centroids</option>
+            </optgroup>
+            <optgroup label="Data Points">
+                <option value="dataPointExtractor">Data Points</option>
+            </optgroup>
+        </select>
+    </p>
+    <p>&nbsp;</p>
+    <p align="center"><input type="button" value="Select" onclick="wpd.autoExtractSettings.selectAlgo();"/> <input type="button" value="Cancel" onclick="wpd.autoExtractSettings.cancel();"/></p>
+    </div> 
 
     <div id="runScriptPopup" class="popup" style="width: 500px;">
     <p class="popupheading">Run Script</p>
@@ -283,10 +325,11 @@ Loading application, please wait...
 	<center>
 	<table>
 	<tr><td align="left"><label><input type="radio" name="plotlisting" id="r_xy" checked> 2D (X-Y) Plot</label></td></tr>
+	<!-- <tr><td align="left"><label><input type="radio" name="plotlisting" id="r_bar"> 2D Bar Plot</label></td></tr> -->
 	<tr><td align="left"><label><input type="radio" name="plotlisting" id="r_polar"> Polar Diagram</label></td></tr>
 	<tr><td align="left"><label><input type="radio" name="plotlisting" id="r_ternary"> Ternary Diagram</label></td></tr>
 	<tr><td align="left"><label><input type="radio" name="plotlisting" id="r_map"> Map With Scale Bar</label></td></tr>
-	<tr><td align="left"><label><input type="radio" name="plotlisting" id="r_image"> Image (Align to image pixels)</label></td></tr>
+	<tr><td align="left"><label><input type="radio" name="plotlisting" id="r_image"> Image</label></td></tr>
 	</table>
 	</center>
 	<p>&nbsp;</p>
@@ -447,27 +490,10 @@ Loading application, please wait...
 	<p align="center"><input type="button" value="Done" onClick="wpd.colorPicker.setBGColor();"></p>
 	</div>
 
-	<div id="xyAxesOnly" class="popup" style="width:300px;">
-	<p align="center" class="popupheading">X Step With Actual Units.</p>
-	<p align="center">&nbsp;</p>
-	<p align="center">This algorithm is applicable to XY plots only. Other plots may be supported in future versions.</p>
-	<p align="center">&nbsp;</p>
-	<p align="center"><input type="button" value="OK" onClick="wpd.popup.close('xyAxesOnly'); popup.show('testImageWindow');"></p>
-	</div>
-
-	<div id="inputError" class="popup" style="width:300px;">
-	<p align="center" class="popupheading">Invalid Input!</p>
-	<p align="center">&nbsp;</p>
-	<p align="center">One of the values entered were invalid. Please check the values entered for axes calibration.</p>
-	<p align="center">&nbsp;</p>
-	<p align="center"><input type="button" value="OK" onClick="wpd.popup.close('inputError'); popup.show('xyAlignment');"></p>
-	</div>
-
-
 	<div id="helpWindow" class="popup" style="width: 550px;">
 	<p class="popupheading">WebPlotDigitizer - Web Based Plot Digitizer</p>
 	<p>&nbsp;</p>
-    <p align="center">Version 3.0</p>
+    <p align="center">Version 3.0 (April 2014)</p>
 	<p align="center">This program is distributed under the <a href="https://www.gnu.org/licenses/gpl-3.0-standalone.html" target="_blank">GNU General Public License Version 3</a>.</p>
 	<p align="center">Copyright 2010-2014 Ankit Rohatgi &lt;ankitrohatgi@hotmail.com&gt;</p>
 	<p align="center"><a href="http://arohatgi.info/WebPlotDigitizer" target="website">http://arohatgi.info/WebPlotDigitizer</a></p>
@@ -475,37 +501,6 @@ Loading application, please wait...
     <p align="center"><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=CVFJGV5SNEV9J&lc=US&item_name=WebPlotDigitizer&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted" target="_blank">Donate via PayPal</a></p>
     <p>&nbsp;</p>
 	<p align="center"><input type="button" value="Close" onClick="wpd.popup.close('helpWindow');"></p>
-	</div>
-
-	<div id="testImageWindow" class="popup">
-	<table>
-	<tr><td>
-	<p align="center" class="popupheading">Fine Tuning</p>
-	<p align="center">Detection Mode: <input type="radio" name="colorSelectionMode" id="colorModeFG" checked>Foreground <input type="radio" name="colorSelectionMode" id="colorModeBG"> Background</p>
-	<p align="center"> Color Distance: <input type="text" value="80" id="colorDistance" size="3">&nbsp;&nbsp;<input type="button" value="Re-scan" onclick="processingNote(true); setTimeout('updateTestWindow();',100);"><input type="button" value="Save Scan" onClick="saveTest();"></p>
-	<p align="center"><canvas id="testImg" width="400" height="300"></canvas></p>
-	</td>
-	<td valign="top" width="220px">
-	<p><b>Choose Algorithm</b></p>
-	<p>
-	    <select id="curvesAlgoSelect" onChange="displayParameters();">
-		<optgroup label="Curve Tracing">
-		<option value="averagingWindowAlgo">Averaging Window (default)</option>
-		<option value="xStepAlgo">X Step</option>
-		<option value="yStepAlgo">Y Step</option>
-		<option value="averagingWindowWithStepSizeAlgo">X Step With Actual Units</option>
-		</optgroup>
-		<optgroup label="Object Recognition">
-		<option value="blobDetectorAlgo">Blob Detection</option>
-		</optgroup>
-		
-	    </select>
-	</p>
-	<p><span id="URLinput" style="display:none;"><input type="text" id="customURL" size="12"><input type="button" value="Load" id="loadCustomAlgo"></span><span id="paramZone"></span></p>
-	</td>
-	</tr>
-	</table>
-	<p align="center"><input type="button" value="Get Points" onClick="scanPlot();">&nbsp;&nbsp;<input type="button" value="Cancel" onClick="wpd.popup.close('testImageWindow');"></p>
 	</div>
 	
 	<div id="wait" style="position:absolute; top:0px; right: 30px; border: thin white solid; background: black; color: white; width:200px; margin: 0px 0px; padding: 0px 0px; visibility:hidden;">

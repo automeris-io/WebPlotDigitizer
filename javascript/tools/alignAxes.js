@@ -291,7 +291,7 @@ wpd.alignAxes = (function () {
     }
 
     function alignmentCompleted() {
-        wpd.sidebar.show('acquireDataSidebar');
+        wpd.acquireData.showSidebar();
     }
 
     return {

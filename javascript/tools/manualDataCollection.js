@@ -32,31 +32,31 @@ wpd.acquireData = (function () {
             wpd.graphicsWidget.resetData();
             wpd.graphicsWidget.removeTool();
         }
-    };
+    }
 
     function manualSelection() {
         var tool = new wpd.ManualSelectionTool();
         wpd.graphicsWidget.setTool(tool);
-    };
+    }
 
     function deletePoint() {
         var tool = new wpd.DeleteDataPointTool();
         wpd.graphicsWidget.setTool(tool);
-    };
+    }
 
     function clearAll() {
         wpd.appData.getPlotData().getActiveDataSeries().clearAll()
         wpd.graphicsWidget.removeTool();
         wpd.graphicsWidget.resetData();
         wpd.dataPointCounter.setCount();
-    };
+    }
 
     function undo() {
         wpd.appData.getPlotData().getActiveDataSeries().removeLastPixel();
         wpd.graphicsWidget.resetData();
         redrawData();
         wpd.dataPointCounter.setCount();
-    };
+    }
 
     function redrawData() {
         var ctx = wpd.graphicsWidget.getAllContexts(),
@@ -80,7 +80,11 @@ wpd.acquireData = (function () {
 	    	ctx.oriDataCtx.arc(imagePos.x, imagePos.y, 3, 0, 2.0*Math.PI, true);
 		    ctx.oriDataCtx.fill();
         }
-    };
+    }
+
+    function showSidebar() {
+        wpd.sidebar.show('acquireDataSidebar');
+    }
 
     return {
         load: load,
@@ -88,7 +92,8 @@ wpd.acquireData = (function () {
         deletePoint: deletePoint,
         clearAll: clearAll,
         undo: undo,
-        redrawData: redrawData
+        redrawData: redrawData,
+        showSidebar: showSidebar
     };
 })();
 

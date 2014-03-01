@@ -171,12 +171,17 @@ select {
 .popup p { padding:0; margin: 5px 5px;}
 
 
+.sidebar-title {
+    padding-bottom: 10px;
+    font-weight: bold;
+}
+
 .sidebar {
 	padding:0px 0px;
 	margin:0;
 	background:white;
 	position:absolute; 
-	width:200px;
+	width:250px;
 	top:0px;
 	visibility: hidden;
 	font-size:12px;
