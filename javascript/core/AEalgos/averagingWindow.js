@@ -21,6 +21,25 @@
 
 */
 
+
+var wpd = wpd || {};
+
+wpd.AveragingWindowAlgo = (function () {
+
+    var Algo = function () {
+
+        this.getParamList = function () {
+        };
+
+        this.setParam = function (index, val) {
+        };
+
+        this.run = function (plotData) {
+        };
+    };
+    return Algo;
+})();
+
 var averagingWindowAlgo = {
 	getParamList: function () {
 			return [["ΔX","Px","5"],["ΔY","Px","5"]];
