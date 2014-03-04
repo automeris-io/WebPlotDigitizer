@@ -29,12 +29,15 @@ wpd.autoExtraction = (function () {
     }
 
     function changeAlgorithm() {
+
     }
 
     function runAlgo() {
+
     }
 
     function done() {
+
     }
   
     return {
@@ -44,7 +47,6 @@ wpd.autoExtraction = (function () {
         done: done
     };
 })();
-
 
 
 

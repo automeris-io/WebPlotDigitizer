@@ -107,21 +107,15 @@ wpd.colorPicker = (function () {
         wpd.appData.getPlotData().getAutoDetector().colorDistance = color_distance;
     }
 
-    function testColorDetection() {
-
-        wpd.graphicsWidget.removeTool();
-        wpd.graphicsWidget.resetData();
-        
-        var ctx = wpd.graphicsWidget.getAllContexts(),
+    function paintFilteredColor() {
+         var ctx = wpd.graphicsWidget.getAllContexts(),
             autoDetector = wpd.appData.getPlotData().getAutoDetector(),
             imageSize = wpd.graphicsWidget.getImageSize(),
             maski,
             img_index,
             imgx, imgy,
-            dataLayer,
-            pseudoTool = new wpd.FilterColorPseudoTool();
+            dataLayer;
 
-        wpd.graphicsWidget.setTool(pseudoTool);
         dataLayer = ctx.oriDataCtx.getImageData(0, 0, imageSize.width, imageSize.height);
         autoDetector.generateBinaryData();
         
@@ -149,8 +143,18 @@ wpd.colorPicker = (function () {
         ctx.oriDataCtx.putImageData(dataLayer, 0, 0);
         wpd.graphicsWidget.copyImageDataLayerToScreen();
     }
+
+    function testColorDetection() {
+        wpd.graphicsWidget.removeTool();
+        wpd.graphicsWidget.resetData();
+        wpd.graphicsWidget.setRepainter(new wpd.ColorFilterRepainter());
+        paintFilteredColor(); 
+    }
     
     function startPicker() {
+        wpd.graphicsWidget.removeTool();
+        wpd.graphicsWidget.removeRepainter();
+        wpd.graphicsWidget.resetData();
         if(wpd.appData.getPlotData().getAutoDetector().colorDetectionMode === 'fg') {
             startFGPicker();
         } else {
@@ -173,7 +177,8 @@ wpd.colorPicker = (function () {
         setBGColor: setBGColor,
         changeColorDistance: changeColorDistance,
         init: init,
-        testColorDetection: testColorDetection
+        testColorDetection: testColorDetection,
+        paintFilteredColor: paintFilteredColor
     };
 })();
 
@@ -189,11 +194,14 @@ wpd.ColorPickerTool = (function () {
     return Tool;
 })();
 
-wpd.FilterColorPseudoTool = (function () {
-    var Tool = function () {
-        this.onRemove = function () {
-            wpd.graphicsWidget.resetData();
+
+wpd.ColorFilterRepainter = (function () {
+    var Painter = function () {
+        this.painterName = 'colorFilterRepainter';
+
+        this.onRedraw = function () {
+            wpd.colorPicker.paintFilteredColor();
         };
-    };
-    return Tool;
+    }
+    return Painter;
 })();
