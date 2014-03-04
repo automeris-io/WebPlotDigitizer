@@ -59,6 +59,7 @@
 <script src="javascript/tools/alignAxes.js"></script>
 <script src="javascript/tools/autodetect.js"></script>
 <script src="javascript/tools/mask.js"></script>
+<script src="javascript/tools/colorPicker.js"></script>
 <script src="javascript/tools/imageOps.js"></script>
 <script src="javascript/tools/manualDataCollection.js"></script>
 <script src="javascript/widgets/graphicsWidget.js"></script>
@@ -206,12 +207,10 @@ Loading application, please wait...
             <!-- side bars go here -->
             <div id="acquireDataSidebar" class="sidebar">
             <p class="sidebar-title">Acquire Data</p>
-            <p><input type="button" value="Add Point" onClick="wpd.acquireData.manualSelection();" style="width:90px;"><input type="button" value="Adjust Point" onClick="wpd.acquireData.undo();" style="width: 90px;">
-            <p><input type="button" value="Delete Point" onClick="wpd.acquireData.deletePoint();" style="width:90px;"><input id="clearAllBtn" type="button" value="Clear Points" onCLick="wpd.acquireData.clearAll();" style="width: 90px;"></p>
+            <p><input type="button" value="Add Point" onClick="wpd.acquireData.manualSelection();" style="width:90px;" id="manual-select-button"><input type="button" value="Adjust Point" onClick="wpd.acquireData.undo();" style="width: 90px;">
+            <p><input type="button" value="Delete Point" onClick="wpd.acquireData.deletePoint();" style="width:90px;" id="delete-point-button"><input id="clearAllBtn" type="button" value="Clear Points" onCLick="wpd.acquireData.clearAll();" style="width: 90px;"></p>
             <div class="vertical-spacer"></div>
-            <p>Mask <input type="button" value="Box" style="width:50px;" onClick="wpd.dataMask.markBox();"><input type="button" value="Pen" style="width:45px;" onClick="wpd.dataMask.markPen();"><input type="button" value="Erase" style="width:50px;" onClick="wpd.dataMask.eraseMarks();"></p>
-            <div class="vertical-spacer"></div>
-            <p><input type="button" value="Automatic Extraction" style="width: 180px;" onClick="wpd.autoExtractSettings.showWindow();"></p>
+            <p><input type="button" value="Automatic Extraction" style="width: 180px;" onClick="wpd.autoExtraction.start();"></p>
             <p><input type="button" value="View Data" id="saveBtn" onClick="wpd.dataTable.showTable();" style="width:180px;"></p>
             <div class="vertical-spacer"></div>
             <p>Points Picked:<span id="pointsStatus">0</span></p>
@@ -221,21 +220,33 @@ Loading application, please wait...
             <p align="center"><b>Edit Image</b></p>
             <p align="center"><input type="button" value="H. Flip" style="width: 75px;" onClick="hflip();"><input type="button" value="V. Flip" style="width: 75px;" onClick="vflip();"></p>
             <p align="center"><input type="button" value="Crop" style="width: 150px;" onClick="cropPlot();"></p>
-            <!-- <p align="center"><input type="button" value="Edge Detect" style="width: 150px;" onClick=""></p> -->
-            <!-- <p align="center"><input type="text" value="90.0" style="width: 75px;"><input type="button" value="Rotate" style="width: 75px;" onClick="wpd.popup.show('na');"></p> -->
             <p align="center"><input type="button" value="Restore" style="width: 150px;" onClick="restoreOriginalImage();"></p>
             <p align="center"><input type="button" value="Save .PNG" style="width: 150px;" onClick="savePNG();"></p>
             </div>
 
             <div id="auto-extraction-sidebar" class="sidebar">
-            <p class="sidebar-title">Algorithm Settings</p>
-            <table>
-            <tr><td>Foreground Color </td><td>&nbsp;&nbsp;<input type="button" id="fg-color-button" value=" " onClick="wpd.colorPicker.startFGPicker();" style="width: 50px;"/></td></tr>
-            <tr><td>Background Color </td><td>&nbsp;&nbsp;<input type="button" id="bg-color-button" value=" " onClick="wpd.colorPicker.startBGPicker();" style="width: 50px;"/></td></tr>
-            <tr><td>Color Distance </td><td>&nbsp;&nbsp;<input type="text" size="3" id="color-distance-value" onchange="wpd.colorPicker.changeColorDistance();"/></td></tr>
-            </table>
-            <p><input type="button" value="Test Color Detection" onclick="wpd.colorPicker.testColorDetection();" style="width: 180px;"></p>
-            <div class="vertical-spacer"></div>
+            <p class="sidebar-title">Automatic Extraction</p>
+            <p>Algorithm
+            <select>
+                <optgroup label="Generic">
+                    <option value="averagingWindow">Averaging Window</option>
+                    <option value="averagingWindow">X Step</option>
+                </optgroup>
+                <optgroup label="Blobs">
+                    <option value="blobDetector">Blob Centroids</option>
+                </optgroup>
+                <optgroup label="Data Points">
+                    <option value="dataPointExtractor">Data Points</option>
+              </optgroup>
+            </select>
+            </p>
+            <hr/>
+            <p>Mask <input type="button" value="Box" style="width:50px;" onClick="wpd.dataMask.markBox();" id="box-mask"><input type="button" value="Pen" style="width:45px;" onClick="wpd.dataMask.markPen();" id="pen-mask"><input type="button" value="Erase" style="width:50px;" onClick="wpd.dataMask.eraseMarks();" id="erase-mask"><input type="button" value="View" style="width:40px;" onclick="wpd.dataMask.viewMask();" id="view-mask"/></p>
+            <hr/>
+            <p>Color <select id="color-detection-mode-select" onchange="wpd.colorPicker.changeDetectionMode();"><option value="fg">Foreground Color</option><option value="bg">Background Color</option></select><input type="button" id="color-button" value=" " onClick="wpd.colorPicker.startPicker();" style="width: 25px;"/></p>
+            <p>Distance <td><td><input type="text" size="3" id="color-distance-value" onchange="wpd.colorPicker.changeColorDistance();"/>
+            <input type="button" value="Filter Colors" onclick="wpd.colorPicker.testColorDetection();" style="width: 90px;"></p>
+            <hr/>
             <!-- algo parameters go here -->
             <table>
             <tr><td>X Min</td><td>&nbsp;&nbsp;<input type="text" size="3"/></td><td>X Min</td><td>&nbsp;&nbsp;<input type="text" size="3"/></td></tr>
@@ -243,7 +254,7 @@ Loading application, please wait...
             <tr><td>X Min</td><td>&nbsp;&nbsp;<input type="text" size="3"/></td><td>X Min</td><td>&nbsp;&nbsp;<input type="text" size="3"/></td></tr>
             </table>
 
-            <p><input type="button" value="Try" style="width:90px;"/><input type="button" value="Done" style="width:90px;"/></p>
+            <p><input type="button" value="Try" style="width:120px;"/><input type="button" value="Done" style="width:120px;"/></p>
             </div>
 
         </div>
@@ -271,29 +282,7 @@ Loading application, please wait...
 	<p>&nbsp;</p>
 	<p align="center"><!-- <input type="button" value="Load Pasted Image" onClick="loadPastedFileInWindow();">&nbsp;--><input type="button" value="Cancel" onClick="wpd.popup.close('loadNewImage');"></p>
 	</div>
-
-
-    <div id="auto-extract-algo-popup" class="popup" style="width: 400px;">
-    <p class="popupheading">Select Extraction Algorithm</p>
-    <p>&nbsp;</p>
-    <p align="center">
-        <select>
-            <optgroup label="Generic">
-                <option value="averagingWindow">Averaging Window</option>
-                <option value="averagingWindow">X Step</option>
-            </optgroup>
-            <optgroup label="Blobs">
-                <option value="blobDetector">Blob Centroids</option>
-            </optgroup>
-            <optgroup label="Data Points">
-                <option value="dataPointExtractor">Data Points</option>
-            </optgroup>
-        </select>
-    </p>
-    <p>&nbsp;</p>
-    <p align="center"><input type="button" value="Select" onclick="wpd.autoExtractSettings.selectAlgo();"/> <input type="button" value="Cancel" onclick="wpd.autoExtractSettings.cancel();"/></p>
-    </div> 
-
+ 
     <div id="runScriptPopup" class="popup" style="width: 500px;">
     <p class="popupheading">Run Script</p>
     <p>&nbsp;</p>

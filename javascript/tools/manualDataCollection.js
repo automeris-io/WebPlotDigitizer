@@ -103,11 +103,15 @@ wpd.ManualSelectionTool = (function () {
         var ctx = wpd.graphicsWidget.getAllContexts(),
             plotData = wpd.appData.getPlotData();
 
-        this.onRedraw = function() {
+        this.onAttach = function () {
+            document.getElementById('manual-select-button').classList.add('pressed-button');
+        };
+
+        this.onRedraw = function () {
             wpd.acquireData.redrawData();
         };
 
-        this.onMouseClick = function(ev, pos, imagePos) {
+        this.onMouseClick = function (ev, pos, imagePos) {
             var activeDataSeries = plotData.getActiveDataSeries();
             activeDataSeries.addPixel(imagePos.x, imagePos.y);
 
@@ -124,6 +128,10 @@ wpd.ManualSelectionTool = (function () {
             wpd.graphicsWidget.updateZoomOnEvent(ev);
             wpd.dataPointCounter.setCount();
         };
+
+        this.onRemove = function () {
+            document.getElementById('manual-select-button').classList.remove('pressed-button');
+        };
     };
     return Tool;
 })();
@@ -133,6 +141,10 @@ wpd.DeleteDataPointTool = (function () {
     var Tool = function () {
         var ctx = wpd.graphicsWidget.getAllContexts(),
             plotData = wpd.appData.getPlotData();
+
+        this.onAttach = function () {
+            document.getElementById('delete-point-button').classList.add('pressed-button');
+        };
 
         this.onRedraw = function() {
             wpd.acquireData.redrawData();
@@ -145,6 +157,10 @@ wpd.DeleteDataPointTool = (function () {
             wpd.acquireData.redrawData();
             wpd.graphicsWidget.updateZoomOnEvent(ev);
             wpd.dataPointCounter.setCount();
+        };
+
+        this.onRemove = function () {
+            document.getElementById('delete-point-button').classList.remove('pressed-button');
         };
     };
     return Tool;

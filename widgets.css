@@ -98,6 +98,10 @@ input[type="button"]:active {
 	background-color: #FF9466;
 }
 
+input[type="button"].pressed-button {
+	background-color: #FF9466;
+}
+
 input[type="button"]:focus {
     outline-width: 0;
 }
@@ -118,7 +122,7 @@ input[type="text"] {
 	font-family: Verdana, Sans Serif;
 	font-size: 12px;
 	background: white;
-	border: thin black solid;
+	border: thin #aaaaaa solid;
 	height:15px;
 }
 
@@ -132,4 +136,10 @@ input[type="range"] {
 
 .vertical-spacer {
     height: 3px;
+}
+
+hr {
+    height: 1px;
+    border: none;
+    background-color: #dddddd;
 }

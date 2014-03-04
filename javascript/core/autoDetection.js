@@ -35,6 +35,11 @@ wpd.AutoDetector = (function () {
         this.imageData = null;
 
         this.generateBinaryData = function() {
+
+            if(this.mask == null || this.mask.length === 0) {
+                return;
+            }
+
             this.binaryData = [];
             var maski, img_index, dist, 
                 ref_color = this.colorDetectionMode === 'fg' ? this.fgColor : this.bgColor;
