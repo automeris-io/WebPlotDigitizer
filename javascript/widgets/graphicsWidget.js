@@ -59,7 +59,8 @@ wpd.graphicsWidget = (function () {
         extendedCrosshair = false,
         hoverTimer,
         
-        activeTool;
+        activeTool,
+        repaintHandler;
 
     function posn(ev) { // get screen pixel from event
         var mainCanvasPosition = $mainCanvas.getBoundingClientRect();
@@ -158,9 +159,38 @@ wpd.graphicsWidget = (function () {
         mainCtx.fillRect(0, 0, width, height);
         mainCtx.drawImage($oriImageCanvas, 0, 0, width, height);
 
+        if(repaintHandler != null && repaintHandler.onRedraw != undefined) {
+            repaintHandler.onRedraw();
+        }
+
         if(activeTool != null && activeTool.onRedraw != undefined) {
             activeTool.onRedraw();
         }
+                
+    }
+
+    function setRepainter(fhandle) {
+        
+        if(repaintHandler != null && repaintHandler.painterName != undefined && fhandle != null && fhandle.painterName != undefined) {
+            if(repaintHandler.painterName == fhandle.painterName) {
+                return;  // Avoid same handler to be attached repeatedly.
+            }
+        }
+
+        if(repaintHandler != null && repaintHandler.onRemove != undefined) {
+            repaintHandler.onRemove();
+        }
+        repaintHandler = fhandle;
+        if(repaintHandler != null && repaintHandler.onAttach != undefined) {
+            repaintHandler.onAttach();
+        }
+    }
+
+    function removeRepainter() {
+        if(repaintHandler != null && repaintHandler.onRemove != undefined) {
+            repaintHandler.onRemove();
+        }
+        repaintHandler = null;
     }
 
     function copyImageDataLayerToScreen() {
@@ -376,6 +406,7 @@ wpd.graphicsWidget = (function () {
         $topCanvas.addEventListener("click", onMouseClick, false);
         $topCanvas.addEventListener("mouseup", onMouseUp, false);
         $topCanvas.addEventListener("mousedown", onMouseDown, false);
+        $topCanvas.addEventListener("mouseout", onMouseOut, false);
         
         wpd.zoomView.initZoom();
         
@@ -459,6 +490,9 @@ wpd.graphicsWidget = (function () {
             activeTool.onRemove();
         }
         activeTool = tool;
+        if(activeTool != null && activeTool.onAttach != undefined) {
+            activeTool.onAttach();
+        }
     }
 
     function removeTool() {
@@ -508,6 +542,16 @@ wpd.graphicsWidget = (function () {
         }
     }
 
+    function onMouseOut(ev) {
+        if(activeTool != null && activeTool.onMouseOut != undefined) {
+            var pos = posn(ev),
+                xpos = pos.x,
+                ypos = pos.y,
+                imagePos = imagePx(xpos, ypos);
+            activeTool.onMouseOut(ev, pos, imagePos);
+        }
+    }
+
     return {
         zoomIn: zoomIn,
         zoomOut: zoomOut,
@@ -526,6 +570,8 @@ wpd.graphicsWidget = (function () {
         updateZoomOnEvent: updateZoomOnEvent,
         getDisplaySize: getDisplaySize,
         getImageSize: getImageSize,
-        copyImageDataLayerToScreen: copyImageDataLayerToScreen
+        copyImageDataLayerToScreen: copyImageDataLayerToScreen,
+        setRepainter: setRepainter,
+        removeRepainter: removeRepainter
     };
 })();
