@@ -136,7 +136,8 @@ Loading application, please wait...
                     <div class="wpd-menu-header">Analyze</div>
                     <div class="wpd-menu-dropdown">
                         <ul>
-                            <li id="wpd-analyzemenu-distance">Measure Distance</li>
+                            <li id="wpd-analyzemenu-distance">Measure Distances</li>
+                            <li id="wpd-analyzemenu-angles">Measure Angles</li>
                             <li id="wpd-analyzemenu-color">Color Picker</li>
                         </ul>
                     </div>
@@ -146,9 +147,9 @@ Loading application, please wait...
                     <div class="wpd-menu-dropdown">
                         <ul>
                             <li id="wpd-helpmenu-about" onclick="wpd.popup.show('helpWindow');">About WebPlotDigitizer</li>
-                            <li id="wpd-helpmenu-manual">User Manual</li>
-                            <li id="wpd-helpmenu-github">GitHub</li>
-                            <li id="wpd-helpmenu-issues" onclick="wpd.popup.show('helpWindow');">Issues/Suggestions</li>
+                            <li id="wpd-helpmenu-manual"><a href="http://google.com" target="_blank">User Manual</a></li>
+                            <li id="wpd-helpmenu-github"><a href="https://github.com/ankitrohatgi/WebPlotDigitizer" target="_blank">GitHub Page</a></li>
+                            <li id="wpd-helpmenu-issues"><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=CVFJGV5SNEV9J&lc=US&item_name=WebPlotDigitizer&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted" target="_blank">Donate (PayPal)</a></li>
                         </ul>
                     </div>
                 </div>
@@ -202,6 +203,8 @@ Loading application, please wait...
             [<span id="mousePosition"></span>]
             </div>
         </div>
+
+        <div id="zoom-settings-container"><input type="button" id="zoom-settings-button" value="⚙" onclick="wpd.zoomView.showSettingsWindow();"/></div>
         
         <div style="position:relative;">
             <!-- side bars go here -->
@@ -282,6 +285,28 @@ Loading application, please wait...
 	<p>&nbsp;</p>
 	<p align="center"><!-- <input type="button" value="Load Pasted Image" onClick="loadPastedFileInWindow();">&nbsp;--><input type="button" value="Cancel" onClick="wpd.popup.close('loadNewImage');"></p>
 	</div>
+
+    <div id="zoom-settings-popup" class="popup" style="width: 300px;">
+    <p class="popupheading">Magnified View Settings</p>
+    <p>&nbsp;</p>
+    <center>
+    <table>
+    <tr><td><p>Magnification: </p></td><td><p><input type="text" id="zoom-magnification-value" size="3"/> Times</p></td></tr>
+    <tr>
+        <td><p>Crosshair Color: </p></td>
+        <td><p>
+        <select id="zoom-crosshair-color-value">
+            <option value="black">Black</option>
+            <option value="red">Red</option>
+            <option value="yellow">Yellow</option>
+        </select>
+        </td>
+    </tr>
+    </table>
+    </center>
+    <p>&nbsp;</p>
+    <p align="center"><input type="button" value="Apply" onclick="wpd.zoomView.applySettings();"/> <input type="button" value="Cancel" onclick="wpd.popup.close('zoom-settings-popup');"/></p>
+    </div>
  
     <div id="runScriptPopup" class="popup" style="width: 500px;">
     <p class="popupheading">Run Script</p>
@@ -487,8 +512,6 @@ Loading application, please wait...
 	<p align="center">Copyright 2010-2014 Ankit Rohatgi &lt;ankitrohatgi@hotmail.com&gt;</p>
 	<p align="center"><a href="http://arohatgi.info/WebPlotDigitizer" target="website">http://arohatgi.info/WebPlotDigitizer</a></p>
 	<p>&nbsp;</p>
-    <p align="center"><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=CVFJGV5SNEV9J&lc=US&item_name=WebPlotDigitizer&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted" target="_blank">Donate via PayPal</a></p>
-    <p>&nbsp;</p>
 	<p align="center"><input type="button" value="Close" onClick="wpd.popup.close('helpWindow');"></p>
 	</div>
 	
