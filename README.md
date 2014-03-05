@@ -24,7 +24,7 @@ This tool has to hosted on a HTTP server for some javascript features to functio
 Version 3
 ---------
 
-This project is currently being re-written from scrach under the name WebPlotDigitizer 3. The repository for the re-write can be found at [http://github.com/ankitrohatgi/WebPlotDigitizer3](http://github.com/ankitrohatgi/WebPlotDigitizer3)
+Currently, a massive rewrite is underway to meet many of the requested features and future goals.
 
 Contact
 -------
