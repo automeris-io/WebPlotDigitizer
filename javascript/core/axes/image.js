@@ -40,14 +40,14 @@ wpd.ImageAxes = (function () {
         };
 
         this.pixelToData = function(pxi, pyi) {
-            var data = [];
+            var data = [pxi, pyi];
             return data;
         };
 
-        this.dataToPixel = function(a, b, c) {
+        this.dataToPixel = function(x, y) {
             return {
-                x: 0,
-                y: 0
+                x: x,
+                y: y
             };
         };
     };
