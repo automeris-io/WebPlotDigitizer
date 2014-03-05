@@ -29,8 +29,8 @@ wpd.acquireData = (function () {
             wpd.messagePopup.show("Acquire Data", "Please calibrate the axes before acquiring data.");
         } else {
             wpd.sidebar.show('acquireDataSidebar');
-            wpd.graphicsWidget.resetData();
             wpd.graphicsWidget.removeTool();
+            wpd.graphicsWidget.setRepainter(new wpd.DataPointsRepainter());
         }
     }
 
@@ -57,31 +57,7 @@ wpd.acquireData = (function () {
         redrawData();
         wpd.dataPointCounter.setCount();
     }
-
-    function redrawData() {
-        var ctx = wpd.graphicsWidget.getAllContexts(),
-            plotData = wpd.appData.getPlotData(),
-            activeDataSeries = plotData.getActiveDataSeries(),
-            dindex,
-            imagePos,
-            pos;
-
-        for(dindex = 0; dindex < activeDataSeries.getCount(); dindex++) {
-            imagePos = activeDataSeries.getPixel(dindex);
-            pos = wpd.graphicsWidget.screenPx(imagePos.x, imagePos.y);
-
-            ctx.dataCtx.beginPath();
-    		ctx.dataCtx.fillStyle = "rgb(200,0,0)";
-	    	ctx.dataCtx.arc(pos.x, pos.y, 3, 0, 2.0*Math.PI, true);
-		    ctx.dataCtx.fill();
-
-            ctx.oriDataCtx.beginPath();
-    		ctx.oriDataCtx.fillStyle = "rgb(200,0,0)";
-	    	ctx.oriDataCtx.arc(imagePos.x, imagePos.y, 3, 0, 2.0*Math.PI, true);
-		    ctx.oriDataCtx.fill();
-        }
-    }
-
+ 
     function showSidebar() {
         wpd.sidebar.show('acquireDataSidebar');
     }
@@ -92,7 +68,6 @@ wpd.acquireData = (function () {
         deletePoint: deletePoint,
         clearAll: clearAll,
         undo: undo,
-        redrawData: redrawData,
         showSidebar: showSidebar
     };
 })();
@@ -105,12 +80,10 @@ wpd.ManualSelectionTool = (function () {
 
         this.onAttach = function () {
             document.getElementById('manual-select-button').classList.add('pressed-button');
+            wpd.graphicsWidget.setRepainter(new wpd.DataPointsRepainter());
         };
 
-        this.onRedraw = function () {
-            wpd.acquireData.redrawData();
-        };
-
+       
         this.onMouseClick = function (ev, pos, imagePos) {
             var activeDataSeries = plotData.getActiveDataSeries();
             activeDataSeries.addPixel(imagePos.x, imagePos.y);
@@ -144,10 +117,7 @@ wpd.DeleteDataPointTool = (function () {
 
         this.onAttach = function () {
             document.getElementById('delete-point-button').classList.add('pressed-button');
-        };
-
-        this.onRedraw = function() {
-            wpd.acquireData.redrawData();
+            wpd.graphicsWidget.setRepainter(new wpd.DataPointsRepainter());
         };
 
         this.onMouseClick = function(ev, pos, imagePos) {
@@ -164,6 +134,48 @@ wpd.DeleteDataPointTool = (function () {
         };
     };
     return Tool;
+})();
+
+
+wpd.DataPointsRepainter = (function () {
+    var Painter = function () {
+
+        var drawPoints = function () {
+            var ctx = wpd.graphicsWidget.getAllContexts(),
+                 plotData = wpd.appData.getPlotData(),
+                 activeDataSeries = plotData.getActiveDataSeries(),
+                 dindex,
+                 imagePos,
+                 pos;
+
+            for(dindex = 0; dindex < activeDataSeries.getCount(); dindex++) {
+                imagePos = activeDataSeries.getPixel(dindex);
+                pos = wpd.graphicsWidget.screenPx(imagePos.x, imagePos.y);
+
+                ctx.dataCtx.beginPath();
+                ctx.dataCtx.fillStyle = "rgb(200,0,0)";
+                ctx.dataCtx.arc(pos.x, pos.y, 3, 0, 2.0*Math.PI, true);
+                ctx.dataCtx.fill();
+
+                ctx.oriDataCtx.beginPath();
+                ctx.oriDataCtx.fillStyle = "rgb(200,0,0)";
+                ctx.oriDataCtx.arc(imagePos.x, imagePos.y, 3, 0, 2.0*Math.PI, true);
+                ctx.oriDataCtx.fill();
+            }
+        };
+        
+        this.painterName = 'dataPointsRepainter';
+
+        this.onAttach = function () {
+            wpd.graphicsWidget.resetData();
+            drawPoints();
+        };
+
+        this.onRedraw = function () {
+            drawPoints();
+        };
+    };
+    return Painter;
 })();
 
 
