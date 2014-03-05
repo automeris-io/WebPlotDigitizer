@@ -286,7 +286,10 @@ wpd.alignAxes = (function () {
         } else if(mapEl.checked === true) {
             wpd.mapCalibration.start();
         } else if(imageEl.checked === true) {
-            wpd.imageCalibration.start();
+            var imageAxes = new wpd.ImageAxes();
+            imageAxes.calibrate();
+            wpd.appData.getPlotData().axes = imageAxes;
+            wpd.appData.isAligned(true);
         }
     }
 

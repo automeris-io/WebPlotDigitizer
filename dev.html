@@ -165,7 +165,7 @@ Loading application, please wait...
                     </div>
                     
                     <div id="colorPickerToolbar" class="toolbar" style="width:500px;">
-                    <p align="right"><span id="colorBox" style="height:15px; border: thin black solid; background: blue;">&nbsp;&nbsp;&nbsp;</span><input type="radio" value="fg_chosen" id="fgChosenRadio" name="colorChooser"> FG <input type="radio" id="bgChosenRadio" value="bg_chosen" name="colorChooser"> BG <input type="button" value="Color Picker" onClick="wpd.popup.show('colorPicker');"><input type="button" value="RGB"> Threshold <input type="button" value="Test"></p>
+                    <p align="right"><span id="colorBox" style="height:15px; border: thin black solid; background: blue;">&nbsp;&nbsp;&nbsp;</span><input type="radio" value="fg_chosen" id="fgChosenRadio" name="colorChooser"> FG <input type="radio" id="bgChosenRadio" value="bg_chosen" name="colorChooser"> BG <input type="button" value="Color Picker" onclick="wpd.popup.show('colorPicker');"><input type="button" value="RGB"> Threshold <input type="button" value="Test"></p>
                     </div>
 
                    
@@ -210,21 +210,21 @@ Loading application, please wait...
             <!-- side bars go here -->
             <div id="acquireDataSidebar" class="sidebar">
             <p class="sidebar-title">Acquire Data</p>
-            <p><input type="button" value="Add Point" onClick="wpd.acquireData.manualSelection();" style="width:90px;" id="manual-select-button"><input type="button" value="Adjust Point" onClick="wpd.acquireData.undo();" style="width: 90px;">
-            <p><input type="button" value="Delete Point" onClick="wpd.acquireData.deletePoint();" style="width:90px;" id="delete-point-button"><input id="clearAllBtn" type="button" value="Clear Points" onCLick="wpd.acquireData.clearAll();" style="width: 90px;"></p>
+            <p><input type="button" value="Add Point" onclick="wpd.acquireData.manualSelection();" style="width:90px;" id="manual-select-button"><input type="button" value="Adjust Point" onClick="wpd.acquireData.undo();" style="width: 90px;">
+            <p><input type="button" value="Delete Point" onclick="wpd.acquireData.deletePoint();" style="width:90px;" id="delete-point-button"><input id="clearAllBtn" type="button" value="Clear Points" onCLick="wpd.acquireData.clearAll();" style="width: 90px;"></p>
             <div class="vertical-spacer"></div>
-            <p><input type="button" value="Automatic Extraction" style="width: 180px;" onClick="wpd.autoExtraction.start();"></p>
-            <p><input type="button" value="View Data" id="saveBtn" onClick="wpd.dataTable.showTable();" style="width:180px;"></p>
+            <p><input type="button" value="Automatic Extraction" style="width: 180px;" onclick="wpd.autoExtraction.start();"></p>
+            <p><input type="button" value="View Data" id="saveBtn" onclick="wpd.dataTable.showTable();" style="width:180px;"></p>
             <div class="vertical-spacer"></div>
             <p>Points Picked:<span id="pointsStatus">0</span></p>
             </div>
              
             <div id="editImageToolbar" class="sidebar">
             <p align="center"><b>Edit Image</b></p>
-            <p align="center"><input type="button" value="H. Flip" style="width: 75px;" onClick="hflip();"><input type="button" value="V. Flip" style="width: 75px;" onClick="vflip();"></p>
-            <p align="center"><input type="button" value="Crop" style="width: 150px;" onClick="cropPlot();"></p>
-            <p align="center"><input type="button" value="Restore" style="width: 150px;" onClick="restoreOriginalImage();"></p>
-            <p align="center"><input type="button" value="Save .PNG" style="width: 150px;" onClick="savePNG();"></p>
+            <p align="center"><input type="button" value="H. Flip" style="width: 75px;" onclick="hflip();"><input type="button" value="V. Flip" style="width: 75px;" onClick="vflip();"></p>
+            <p align="center"><input type="button" value="Crop" style="width: 150px;" onclick="cropPlot();"></p>
+            <p align="center"><input type="button" value="Restore" style="width: 150px;" onclick="restoreOriginalImage();"></p>
+            <p align="center"><input type="button" value="Save .PNG" style="width: 150px;" onclick="savePNG();"></p>
             </div>
 
             <div id="auto-extraction-sidebar" class="sidebar">
@@ -244,9 +244,9 @@ Loading application, please wait...
             </select>
             </p>
             <hr/>
-            <p>Mask <input type="button" value="Box" style="width:50px;" onClick="wpd.dataMask.markBox();" id="box-mask"><input type="button" value="Pen" style="width:45px;" onClick="wpd.dataMask.markPen();" id="pen-mask"><input type="button" value="Erase" style="width:50px;" onClick="wpd.dataMask.eraseMarks();" id="erase-mask"><input type="button" value="View" style="width:40px;" onclick="wpd.dataMask.viewMask();" id="view-mask"/></p>
+            <p>Mask <input type="button" value="Box" style="width:50px;" onclick="wpd.dataMask.markBox();" id="box-mask"><input type="button" value="Pen" style="width:45px;" onClick="wpd.dataMask.markPen();" id="pen-mask"><input type="button" value="Erase" style="width:50px;" onClick="wpd.dataMask.eraseMarks();" id="erase-mask"><input type="button" value="View" style="width:40px;" onclick="wpd.dataMask.viewMask();" id="view-mask"/></p>
             <hr/>
-            <p>Color <select id="color-detection-mode-select" onchange="wpd.colorPicker.changeDetectionMode();"><option value="fg">Foreground Color</option><option value="bg">Background Color</option></select><input type="button" id="color-button" value=" " onClick="wpd.colorPicker.startPicker();" style="width: 25px;"/></p>
+            <p>Color <select id="color-detection-mode-select" onchange="wpd.colorPicker.changeDetectionMode();"><option value="fg">Foreground Color</option><option value="bg">Background Color</option></select><input type="button" id="color-button" value=" " onclick="wpd.colorPicker.startPicker();" style="width: 25px;"/></p>
             <p>Distance <td><td><input type="text" size="3" id="color-distance-value" onchange="wpd.colorPicker.changeColorDistance();"/>
             <input type="button" value="Filter Colors" onclick="wpd.colorPicker.testColorDetection();" style="width: 90px;"></p>
             <hr/>
@@ -273,17 +273,9 @@ Loading application, please wait...
 	<div id="loadNewImage" class="popup" style="width: 400px;">
 	<p align="center" class="popupheading">Load Image File</p>
 	<p>&nbsp;</p>
-	<!-- <p align="center">Load file from disk</p> -->
 	<p align="center"><input type="file" id="fileLoadBox" onchange="wpd.popup.close('loadNewImage');"></p>
-	<!--
-	<hr/>
-	<p align="center">Or paste image in the box below</p>
-	<p align="center">
-		<div contenteditable="true" style="width: 400px; height: 300px; border: thin grey solid; overflow: scroll;" id="pasteImageBox" onpaste="alert(this);"></div>
-	</p>
-	-->
 	<p>&nbsp;</p>
-	<p align="center"><!-- <input type="button" value="Load Pasted Image" onClick="loadPastedFileInWindow();">&nbsp;--><input type="button" value="Cancel" onClick="wpd.popup.close('loadNewImage');"></p>
+	<p align="center"><input type="button" value="Cancel" onClick="wpd.popup.close('loadNewImage');"></p>
 	</div>
 
     <div id="zoom-settings-popup" class="popup" style="width: 300px;">
@@ -347,7 +339,7 @@ Loading application, please wait...
 	</table>
 	</center>
 	<p>&nbsp;</p>
-	<p align="center"><input type="button" value="Align Axes" onClick="wpd.alignAxes.initiate();">&nbsp;<input type="button" value="Cancel" onClick="wpd.popup.close('axesList');"></p>
+	<p align="center"><input type="button" value="Align Axes" onclick="wpd.alignAxes.initiate();">&nbsp;<input type="button" value="Cancel" onClick="wpd.popup.close('axesList');"></p>
 	</div>
 
 	<div id="xyAlignment" class="popup" style="width: 400px;">
@@ -374,7 +366,7 @@ Loading application, please wait...
 	</table>
 	<p align="center" class="footnote">*For dates, use yyyy/mm/dd format (e.g. 2013/10/23 or 2013/10). For exponents, enter values as 1e-3 for 10^-3.</p>
 	<p>&nbsp;</p>
-	<p align="center"><input type="button" id="xybtn" value="OK" onClick="wpd.xyCalibration.align();"></p>
+	<p align="center"><input type="button" id="xybtn" value="OK" onclick="wpd.xyCalibration.align();"></p>
 	</center>
 	</div>
 
@@ -383,7 +375,7 @@ Loading application, please wait...
 	<p>&nbsp;</p>
 	<p align="center"><input type="text" size="6" id="scaleLength" value="1"> Units</p>
 	<p>&nbsp;</p>
-	<p align="center"><input type="button" id="xybtn" value="OK" onClick="wpd.mapCalibration.align();"></p>
+	<p align="center"><input type="button" id="xybtn" value="OK" onclick="wpd.mapCalibration.align();"></p>
 	</div>
 
 	<div id="polarAlignment" class="popup" style="width: 200px;">
@@ -395,7 +387,7 @@ Loading application, please wait...
 	<p align="center">Θ<sub>2</sub>: <input type="text" size="6" id="thetapoint2" value="1"></p>
 	<p align="center"><input type="radio" id="degrees" name="angleUnits" checked> Degrees <input type="radio" id="radians" name="angleUnits"> Radians</p>
 	<p align="center"><input type="checkbox" id="clockwise"> Clockwise</p>
-	<p align="center"><input type="button" value="OK" onClick="wpd.polarCalibration.align();"></p>
+	<p align="center"><input type="button" value="OK" onclick="wpd.polarCalibration.align();"></p>
 	</div>
 
 	<div id="ternaryAlignment" class="popup">
@@ -413,17 +405,17 @@ Loading application, please wait...
 	<table><tr><td><p align="center"><input type="radio" id="range0to1" name="ternaryRange" checked> 0 to 1&nbsp;&nbsp;</p></td><td><p align="center">&nbsp;&nbsp;<input type="radio" id="range0to100" name="ternaryRange"> 0 to 100</p></td></tr></table>
 	</center>
 	<p>&nbsp;</p>
-	<p align="center"><input type="button" value="OK" onClick="wpd.ternaryCalibration.align();"></p>
+	<p align="center"><input type="button" value="OK" onclick="wpd.ternaryCalibration.align();"></p>
 	</div>
 
 	<div id="csvWindow" class="popup" style="width: 580px; height: 480px;">
 	<p align="center" class="popupheading">Acquired Data</p>
 	<p align="center">
 		Sort by:
-		<select id="dataSortOption" onChange="wpd.CSVExport.updateSortingControls();">
+		<select id="dataSortOption" onchange="wpd.CSVExport.updateSortingControls();">
 		</select> 
 		Order: 
-		<select id="dataSortOrder" onChange="wpd.CSVExport.reSort();">
+		<select id="dataSortOrder" onchange="wpd.CSVExport.reSort();">
 			<option value="ascending">Ascending</option>
 			<option value="descending">Descending</option>
 		</select>
@@ -433,7 +425,7 @@ Loading application, please wait...
 		Date Formatting: 
 		<span id="csvDateFormattingX">X <input type="label" size="15" id="xDateFormat" value="yyyy/mm/dd" /> </span>
 		<span id="csvDateFormattingY">Y <input type="label" size="15" id="yDateFormat" value="yyyy/mm/dd" /> </span>
-		<input type="button" value="Format" onClick="wpd.CSVExport.reSort();"/>
+		<input type="button" value="Format" onclick="wpd.CSVExport.reSort();"/>
 		</span>
 	</p>
 	<p align="center">Variables: <span id="dataVariables">x, y</span></p>
@@ -454,7 +446,7 @@ Loading application, please wait...
 	<p align="center"><img src="images/xyaxes.png" /></p>
 	<p align="center">Click four known points on the axes in the <font color="red">order shown in red</font>. Two on the X axis (X1, X2) and two on the Y axis (Y1, Y2).</p>
 	<p>&nbsp;</p>
-	<p align="center"><input type="button" value="Proceed" onClick="wpd.xyCalibration.pickCorners();"></p>
+	<p align="center"><input type="button" value="Proceed" onclick="wpd.xyCalibration.pickCorners();"></p>
 	</div>
 
 	<div id="mapAxesInfo" class="popup" style="width: 350px;"> 
@@ -463,7 +455,7 @@ Loading application, please wait...
 	<p align="center"><img src="images/map.png" /></p>
 	<p align="center">Click on the two ends of the scale bar on the map.</p>
 	<p>&nbsp;</p>
-	<p align="center"><input type="button" value="Proceed" onClick="wpd.mapCalibration.pickCorners();"></p>
+	<p align="center"><input type="button" value="Proceed" onclick="wpd.mapCalibration.pickCorners();"></p>
 	</div>
 
 	<div id="polarAxesInfo" class="popup" style="width: 350px;">
@@ -472,7 +464,7 @@ Loading application, please wait...
 	<p align="center"><img src="images/polaraxes.png" /></p>
 	<p align="center">Click on the center, followed by two known points.</p>
 	<p>&nbsp;</p>
-	<p align="center"><input type="button" value="Proceed" onClick="wpd.polarCalibration.pickCorners();"></p>
+	<p align="center"><input type="button" value="Proceed" onclick="wpd.polarCalibration.pickCorners();"></p>
 	</div>
 
 	<div id="ternaryAxesInfo" class="popup" style="width: 350px;">
@@ -481,7 +473,7 @@ Loading application, please wait...
 	<p align="center"><img src="images/ternaryaxes.png" /></p>
 	<p align="center">Click on the three corners in the order shown above.</p>
 	<p>&nbsp;</p>
-	<p align="center"><input type="button" value="Proceed" onClick="wpd.ternaryCalibration.pickCorners();"></p>
+	<p align="center"><input type="button" value="Proceed" onclick="wpd.ternaryCalibration.pickCorners();"></p>
 	</div>
 
 	<div id="colorPickerFG" class="popup" style="width:400px;">
@@ -489,9 +481,9 @@ Loading application, please wait...
 	<p align="center">&nbsp;</p>
 	<p align="center">R:<input type="text" value="0" id="color_red_fg" size="3">&nbsp;
 	G:<input type="text" id="color_green_fg" value="0" size="3">&nbsp; B:<input type="text" id="color_blue_fg" value="0" size="3">
-	 <input type="button" value="Color Picker" onClick="wpd.colorPicker.pickFGColor();"></p>
+	 <input type="button" value="Color Picker" onclick="wpd.colorPicker.pickFGColor();"></p>
 	<p align="center">&nbsp;</p>
-	<p align="center"><input type="button" value="Done" onClick="wpd.colorPicker.setFGColor();"></p>
+	<p align="center"><input type="button" value="Done" onclick="wpd.colorPicker.setFGColor();"></p>
 	</div>
 
 	<div id="colorPickerBG" class="popup" style="width:400px;">
@@ -499,9 +491,9 @@ Loading application, please wait...
 	<p align="center">&nbsp;</p>
 	<p align="center">R:<input type="text" value="255" id="color_red_bg" size="3">&nbsp;
 	G:<input type="text" id="color_green_bg" value="255" size="3">&nbsp; B:<input type="text" id="color_blue_bg" value="255" size="3">
-	 <input type="button" value="Color Picker" onClick="wpd.colorPicker.pickBGColor();"></p>
+	 <input type="button" value="Color Picker" onclick="wpd.colorPicker.pickBGColor();"></p>
 	<p align="center">&nbsp;</p>
-	<p align="center"><input type="button" value="Done" onClick="wpd.colorPicker.setBGColor();"></p>
+	<p align="center"><input type="button" value="Done" onclick="wpd.colorPicker.setBGColor();"></p>
 	</div>
 
 	<div id="helpWindow" class="popup" style="width: 550px;">
@@ -512,7 +504,7 @@ Loading application, please wait...
 	<p align="center">Copyright 2010-2014 Ankit Rohatgi &lt;ankitrohatgi@hotmail.com&gt;</p>
 	<p align="center"><a href="http://arohatgi.info/WebPlotDigitizer" target="website">http://arohatgi.info/WebPlotDigitizer</a></p>
 	<p>&nbsp;</p>
-	<p align="center"><input type="button" value="Close" onClick="wpd.popup.close('helpWindow');"></p>
+	<p align="center"><input type="button" value="Close" onclick="wpd.popup.close('helpWindow');"></p>
 	</div>
 	
 	<div id="wait" style="position:absolute; top:0px; right: 30px; border: thin white solid; background: black; color: white; width:200px; margin: 0px 0px; padding: 0px 0px; visibility:hidden;">

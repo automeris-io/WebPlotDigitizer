@@ -25,18 +25,13 @@ var wpd = wpd || {};
 
 wpd.ImageAxes = (function () {
     var AxesObj = function () {
-        var isCalibrated = false,
-            processCalibration = function(cal) {  
-                return true;
-            };
 
         this.isCalibrated = function() {
-            return isCalibrated;
+            return true;
         };
 
-        this.calibrate = function (calib) {
-            isCalibrated = processCalibration(calib);
-            return isCalibrated;
+        this.calibrate = function () {
+            return true;
         };
 
         this.pixelToData = function(pxi, pyi) {
