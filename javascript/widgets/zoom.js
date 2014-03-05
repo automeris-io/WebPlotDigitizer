@@ -33,7 +33,8 @@ wpd.zoomView = (function() {
         extendedCrosshair = false,
         pix = [],
         zoomTimeout,
-        zoomRatio;
+        zoomRatio,
+        crosshairColorText = 'black';
 
     pix[0] = new Array();
 
@@ -46,17 +47,33 @@ wpd.zoomView = (function() {
 
         $mPosn = document.getElementById('mousePosition');
 
+        zoomRatio = 5;
+
+        drawCrosshair();
+    }
+
+    function drawCrosshair() {
         var zCrossHair = document.getElementById("zoomCrossHair");
         var zchCtx = zCrossHair.getContext("2d");
-        zchCtx.strokeStyle = "rgb(0,0,0)";
+        
+        zCrossHair.width = zCrossHair.width;
+
+        if(crosshairColorText === 'black') {
+            zchCtx.strokeStyle = "rgb(0,0,0)";
+        } else if(crosshairColorText === 'red') {
+            zchCtx.strokeStyle = "rgb(255,0,0)";
+        } else if(crosshairColorText === 'yellow') {
+            zchCtx.strokeStyle = "rgb(255,255,0)";
+        } else {
+            zchCtx.strokeStyle = "rgb(0,0,0)";
+        }
+
         zchCtx.beginPath();
         zchCtx.moveTo(zWindowWidth/2, 0);
         zchCtx.lineTo(zWindowWidth/2, zWindowHeight);
         zchCtx.moveTo(0, zWindowHeight/2);
         zchCtx.lineTo(zWindowWidth, zWindowHeight/2);
         zchCtx.stroke();
-
-        zoomRatio = 5;
     }
  
     function setZoomRatio(zratio) {
@@ -93,13 +110,28 @@ wpd.zoomView = (function() {
         }
     }
 
+    function showSettingsWindow() {
+        document.getElementById('zoom-magnification-value').value = zoomRatio;
+        document.getElementById('zoom-crosshair-color-value').value = crosshairColorText;
+        wpd.popup.show('zoom-settings-popup');
+    }
+
+    function applySettings() {
+        zoomRatio = document.getElementById('zoom-magnification-value').value;
+        crosshairColorText = document.getElementById('zoom-crosshair-color-value').value;
+        drawCrosshair();
+        wpd.popup.close('zoom-settings-popup');
+    }
+
     return {
         initZoom: init,
         setZoomImage: setZoomImage,
         setCoords: setCoords,
         setZoomRatio: setZoomRatio,
         getZoomRatio: getZoomRatio,
-        getSize: getSize
+        getSize: getSize,
+        showSettingsWindow: showSettingsWindow,
+        applySettings: applySettings
     };
 })();
 

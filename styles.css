@@ -191,3 +191,17 @@ select {
 
 .footnote {font-size: 10px;}
 
+#zoom-settings-container {
+    position: absolute;
+    top: 5px;
+    right: 20px;
+    z-index: 3;
+}
+
+#zoom-settings-button {
+    width: 20px;
+    height: 20px;
+    font-size:14px;
+    padding: 0px;
+}
+
