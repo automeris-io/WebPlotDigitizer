@@ -31,15 +31,18 @@ wpd.dataMask = (function () {
             maskDataPx = ctx.oriDataCtx.getImageData(0, 0, imageSize.width, imageSize.height),
             maskData = [],
             i,
-            mi = 0;
+            mi = 0,
+            autoDetector = wpd.appData.getPlotData().getAutoDetector();
         for(i = 0; i < maskDataPx.data.length; i+=4) {
             if (maskDataPx.data[i] === 255 && maskDataPx.data[i+1] === 255 && maskDataPx.data[i+2] === 0) {
                 maskData[mi] = i/4; mi++;
             }
         }
-        wpd.appData.getPlotData().getAutoDetector().mask = maskData;
+        autoDetector.mask = maskData;
         if(grabImageData === true) {
-            wpd.appData.getPlotData().getAutoDetector().imageData = ctx.oriImageCtx.getImageData(0, 0, imageSize.width, imageSize.height);
+            autoDetector.imageData = ctx.oriImageCtx.getImageData(0, 0, imageSize.width, imageSize.height);
+            autoDetector.imageWidth = imageSize.width;
+            autoDetector.imageHeight = imageSize.height;
         }
     }
 

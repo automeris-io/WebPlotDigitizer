@@ -59,13 +59,13 @@ wpd.zoomView = (function() {
         zCrossHair.width = zCrossHair.width;
 
         if(crosshairColorText === 'black') {
-            zchCtx.strokeStyle = "rgb(0,0,0)";
+            zchCtx.strokeStyle = "rgba(0,0,0,1)";
         } else if(crosshairColorText === 'red') {
-            zchCtx.strokeStyle = "rgb(255,0,0)";
+            zchCtx.strokeStyle = "rgba(255,0,0,1)";
         } else if(crosshairColorText === 'yellow') {
-            zchCtx.strokeStyle = "rgb(255,255,0)";
+            zchCtx.strokeStyle = "rgba(255,255,0,1)";
         } else {
-            zchCtx.strokeStyle = "rgb(0,0,0)";
+            zchCtx.strokeStyle = "rgba(0,0,0,1)";
         }
 
         zchCtx.beginPath();
