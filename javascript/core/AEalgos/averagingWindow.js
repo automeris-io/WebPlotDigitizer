@@ -44,6 +44,7 @@ wpd.AveragingWindowAlgo = (function () {
 
         this.run = function (plotData) {
             var autoDetector = plotData.getAutoDetector(),
+                dataSeries = plotData.getActiveDataSeries(),
                 xPoints = new Array(),
                 xPointsPicked = 0,
                 pointsPicked = 0,
@@ -61,6 +62,7 @@ wpd.AveragingWindowAlgo = (function () {
                 matches;       
 
 
+            dataSeries.clearAll();
 
 			for(coli = 0; coli < dw; coli++) {
 
@@ -137,7 +139,9 @@ wpd.AveragingWindowAlgo = (function () {
 				  xyData[pointsPicked] = [];
 				  xyData[pointsPicked][0] = parseFloat(avgX);
 				  xyData[pointsPicked][1] = parseFloat(avgY);
-				  pointsPicked = pointsPicked + 1;	
+				  pointsPicked = pointsPicked + 1;
+
+                  dataSeries.addPixel(parseFloat(avgX), parseFloat(avgY));
 
 				}
 				
