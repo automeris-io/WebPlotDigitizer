@@ -54,7 +54,7 @@ wpd.acquireData = (function () {
     function undo() {
         wpd.appData.getPlotData().getActiveDataSeries().removeLastPixel();
         wpd.graphicsWidget.resetData();
-        redrawData();
+        wpd.graphicsWidget.forceHandlerRepaint();
         wpd.dataPointCounter.setCount();
     }
  
@@ -124,7 +124,7 @@ wpd.DeleteDataPointTool = (function () {
             var activeDataSeries = plotData.getActiveDataSeries();
             activeDataSeries.removeNearestPixel(imagePos.x, imagePos.y);
             wpd.graphicsWidget.resetData();
-            wpd.acquireData.redrawData();
+            wpd.graphicsWidget.forceHandlerRepaint();
             wpd.graphicsWidget.updateZoomOnEvent(ev);
             wpd.dataPointCounter.setCount();
         };
@@ -175,7 +175,8 @@ wpd.DataPointsRepainter = (function () {
             drawPoints();
         };
 
-        this.forceDraw = function () {
+        this.onForcedRedraw = function () {
+            wpd.graphicsWidget.resetData();
             drawPoints();
         };
     };
@@ -184,13 +185,12 @@ wpd.DataPointsRepainter = (function () {
 
 
 wpd.dataPointCounter = (function () {
-    var $counter;
-
     function setCount() {
-        if($counter == null) {
-            $counter = document.getElementById('pointsStatus');
+        var $counters = document.getElementsByClassName('data-point-counter'),
+            ci;
+        for(ci = 0; ci < $counters.length; ci++) {
+            $counters[ci].innerHTML = wpd.appData.getPlotData().getActiveDataSeries().getCount();
         }
-        $counter.innerHTML = wpd.appData.getPlotData().getActiveDataSeries().getCount();
     }
 
     return {

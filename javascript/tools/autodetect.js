@@ -41,16 +41,40 @@ wpd.autoExtraction = (function () {
     }
 
     function displayAlgoParameters(algo) {
+        var $paramContainer = document.getElementById('algo-parameter-container'),
+            algoParams = algo.getParamList(),
+            pi,
+            tableString = "";
 
+        
+        for(pi = 0; pi < algoParams.length; pi++) {
+            tableString += algoParams[pi][0] + 
+                ' <input type="text" size=3 id="algo-param-' + pi + 
+                '" class="algo-params" value="'+ algoParams[pi][2] + '"/> ' 
+                + algoParams[pi][1];
+            if(pi != algoParams.length - 1) {
+                tableString += ', ';
+            } 
+        }
+        tableString += "</table>";
+        $paramContainer.innerHTML = tableString;
     }
 
     function runAlgo() {
-        var repainter = new wpd.DataPointsRepainter();
+        var algo = wpd.appData.getPlotData().getAutoDetector().algorithm,
+            repainter = new wpd.DataPointsRepainter(),
+            $paramFields = document.getElementsByClassName('algo-params'),
+            pi,
+            paramId, paramIndex;
+        for(pi = 0; pi < $paramFields.length; pi++) {
+            paramId = $paramFields[pi].id;
+            paramIndex = parseInt(paramId.replace('algo-param-', ''), 10);
+            algo.setParam(paramIndex, parseFloat($paramFields[pi].value));
+        }
         wpd.graphicsWidget.setRepainter(repainter);
-        // grab parameter values
-        wpd.appData.getPlotData().getAutoDetector().algorithm.run(wpd.appData.getPlotData());
-
-        repainter.forceDraw();
+        algo.run(wpd.appData.getPlotData());
+        wpd.graphicsWidget.forceHandlerRepaint();
+        wpd.dataPointCounter.setCount();
     }
   
     return {
