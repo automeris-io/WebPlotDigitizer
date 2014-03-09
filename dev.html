@@ -230,10 +230,10 @@ Loading application, please wait...
             <div id="auto-extraction-sidebar" class="sidebar">
             <p class="sidebar-title">Automatic Extraction</p>
             <p>Algorithm
-            <select>
+            <select id="auto-extract-algo-name" onchange="wpd.autoExtraction.changeAlgorithm();">
                 <optgroup label="Generic">
                     <option value="averagingWindow">Averaging Window</option>
-                    <option value="averagingWindow">X Step</option>
+                    <option value="XStep">X Step</option>
                 </optgroup>
                 <optgroup label="Blobs">
                     <option value="blobDetector">Blob Centroids</option>
@@ -257,7 +257,7 @@ Loading application, please wait...
             <tr><td>X Min</td><td>&nbsp;&nbsp;<input type="text" size="3"/></td><td>X Min</td><td>&nbsp;&nbsp;<input type="text" size="3"/></td></tr>
             </table>
 
-            <p><input type="button" value="Try" style="width:110px;"/><input type="button" value="Done" style="width:110px;" onclick="wpd.acquireData.load();"/></p>
+            <p><input type="button" value="Try" style="width:110px;" onclick="wpd.autoExtraction.runAlgo();"/><input type="button" value="Done" style="width:110px;" onclick="wpd.acquireData.load();"/></p>
             </div>
 
         </div>

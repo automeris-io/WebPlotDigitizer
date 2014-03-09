@@ -26,25 +26,33 @@ wpd.autoExtraction = (function () {
     function start() {
         wpd.sidebar.show('auto-extraction-sidebar');
         wpd.colorPicker.init();
+        changeAlgorithm();
     }
 
     function changeAlgorithm() {
+        var autoDetector = wpd.appData.getPlotData().getAutoDetector(),
+            algoName = document.getElementById('auto-extract-algo-name').value;
+
+        if(algoName === "averagingWindow") {
+            autoDetector.algorithm = new wpd.AveragingWindowAlgo();
+        }
+
+        displayAlgoParameters(autoDetector.algorithm);
+    }
+
+    function displayAlgoParameters(algo) {
 
     }
 
     function runAlgo() {
-
-    }
-
-    function done() {
-
+        // grab parameter values
+        wpd.appData.getPlotData().getAutoDetector().algorithm.run(wpd.appData.getPlotData());
     }
   
     return {
         start: start,
         changeAlgorithm: changeAlgorithm,
-        runAlgo: runAlgo,
-        done: done
+        runAlgo: runAlgo
     };
 })();
 
