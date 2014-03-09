@@ -61,7 +61,8 @@ wpd.autoExtraction = (function () {
     }
 
     function runAlgo() {
-        var algo = wpd.appData.getPlotData().getAutoDetector().algorithm,
+        var autoDetector = wpd.appData.getPlotData().getAutoDetector(),
+            algo = autoDetector.algorithm,
             repainter = new wpd.DataPointsRepainter(),
             $paramFields = document.getElementsByClassName('algo-params'),
             pi,
@@ -71,6 +72,8 @@ wpd.autoExtraction = (function () {
             paramIndex = parseInt(paramId.replace('algo-param-', ''), 10);
             algo.setParam(paramIndex, parseFloat($paramFields[pi].value));
         }
+        wpd.graphicsWidget.removeTool();
+        autoDetector.generateBinaryData();
         wpd.graphicsWidget.setRepainter(repainter);
         algo.run(wpd.appData.getPlotData());
         wpd.graphicsWidget.forceHandlerRepaint();
