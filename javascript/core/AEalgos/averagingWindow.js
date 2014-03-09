@@ -31,7 +31,7 @@ wpd.AveragingWindowAlgo = (function () {
         var xStep = 5, yStep = 5;
 
         this.getParamList = function () {
-			return [["ΔX","Px","5"],["ΔY","Px","5"]];
+			return [['ΔX','Px',5],['ΔY','Px',5]];
         };
 
         this.setParam = function (index, val) {
@@ -48,7 +48,6 @@ wpd.AveragingWindowAlgo = (function () {
                 xPoints = new Array(),
                 xPointsPicked = 0,
                 pointsPicked = 0,
-                xyData = [],
                 dw = autoDetector.imageWidth,
                 dh = autoDetector.imageHeight,
                 blobAvg = [],
@@ -136,9 +135,6 @@ wpd.AveragingWindowAlgo = (function () {
 				  
 				  xPoints[pi][2] = false; 
 				  
-				  xyData[pointsPicked] = [];
-				  xyData[pointsPicked][0] = parseFloat(avgX);
-				  xyData[pointsPicked][1] = parseFloat(avgY);
 				  pointsPicked = pointsPicked + 1;
 
                   dataSeries.addPixel(parseFloat(avgX), parseFloat(avgY));
@@ -147,7 +143,6 @@ wpd.AveragingWindowAlgo = (function () {
 				
 			  }
 
-              console.log(xyData);
 			  xPoints = [];
         };
     };

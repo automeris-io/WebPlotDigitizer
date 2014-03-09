@@ -169,6 +169,12 @@ wpd.graphicsWidget = (function () {
                 
     }
 
+    function forceHandlerRepaint() {
+        if(repaintHandler != null && repaintHandler.onForcedRedraw != undefined) {
+            repaintHandler.onForcedRedraw();
+        }
+    }
+
     function setRepainter(fhandle) {
         
         if(repaintHandler != null && repaintHandler.painterName != undefined && fhandle != null && fhandle.painterName != undefined) {
@@ -572,6 +578,7 @@ wpd.graphicsWidget = (function () {
         getImageSize: getImageSize,
         copyImageDataLayerToScreen: copyImageDataLayerToScreen,
         setRepainter: setRepainter,
-        removeRepainter: removeRepainter
+        removeRepainter: removeRepainter,
+        forceHandlerRepaint: forceHandlerRepaint
     };
 })();
