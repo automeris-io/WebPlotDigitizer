@@ -174,6 +174,10 @@ wpd.DataPointsRepainter = (function () {
         this.onRedraw = function () {
             drawPoints();
         };
+
+        this.forceDraw = function () {
+            drawPoints();
+        };
     };
     return Painter;
 })();

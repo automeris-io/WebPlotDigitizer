@@ -45,8 +45,12 @@ wpd.autoExtraction = (function () {
     }
 
     function runAlgo() {
+        var repainter = new wpd.DataPointsRepainter();
+        wpd.graphicsWidget.setRepainter(repainter);
         // grab parameter values
         wpd.appData.getPlotData().getAutoDetector().algorithm.run(wpd.appData.getPlotData());
+
+        repainter.forceDraw();
     }
   
     return {
