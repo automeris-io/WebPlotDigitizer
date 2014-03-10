@@ -169,6 +169,8 @@ wpd.AutoDetector = (function () {
         this.algorithm = null;
         this.binaryData = null;
         this.imageData = null;
+        this.imageWidth = 0;
+        this.imageHeight = 0;
 
         this.generateBinaryData = function() {
 
@@ -621,304 +623,6 @@ var dateConverter = {
 			}
 };
 /*
-    WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
-
-    Copyright 2010-2014 Ankit Rohatgi <ankitrohatgi@hotmail.com>
-
-    This file is part of WebPlotDigitizer.
-
-    WebPlotDigitizer is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    WebPlotDigitizer is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
-
-
-*/
-
-/* This file contains image processing functions */
-
-/** 
- * Finds differences between two sets of ImageData and returns a difference matrix. 'true' where unmatched, 'false' where pixels match.
- * @params {ImageData} d1 first ImageData
- * @params {ImageData} d2 second ImageData
- */
-function findDifference(d1,d2) {
-    var dw = canvasWidth;
-    var dh = canvasHeight;
-    var diff = new Array();
-    
-    for (var rowi = 0; rowi < dh; rowi++) {
-		diff[rowi] = new Array();
-		for(var coli = 0; coli < dw; coli++) {
-			var index = rowi*4*dw + coli*4;
-			diff[rowi][coli] = false;
-			
-			for(var p = 0; p < 4; p++) {
-				if (d1.data[index+p] != d2.data[index+p]) {
-					diff[rowi][coli] = true;
-				}
-			}
-	    
-		}
-    }
-    
-    return diff;
-}
-
-/**
- * Copies pixels based on the difference matrix. 
- */
-function copyUsingDifference(copyTo, copyFrom, diff) {
-    var dw = canvasWidth;
-    var dh = canvasHeight;
-    
-    for (var rowi = 0; rowi < dh; rowi++) {
-		for(var coli = 0; coli < dw; coli++) {
-			var index = rowi*4*dw + coli*4;
-				
-			if (diff[rowi][coli] === true)
-			for(var p = 0; p < 4; p++)
-				copyTo.data[index+p] = copyFrom.data[index+p];
-				   
-		}
-    }
-    
-    return copyTo;
-}
-
-/** 
- * create BW image based on the colors specified.
- */
-function colorSelect(imgd, mode, colorRGB, tol) {
-    dw = canvasWidth;
-    dh = canvasHeight;
-    
-    redv = colorRGB[0];
-    greenv = colorRGB[1];
-    bluev = colorRGB[2];
-    
-    var seldata = new Array();
-    
-    for (var rowi=0; rowi < dh; rowi++) {
-		seldata[rowi] = new Array();
-		for(var coli=0; coli < dw; coli++) {
-			index = rowi*4*dw + coli*4;
-			ir = imgd.data[index];
-			ig = imgd.data[index+1];
-			ib = imgd.data[index+2];
-			
-			dist = Math.sqrt((ir-redv)*(ir-redv) + (ig-greenv)*(ig-greenv) + (ib+bluev)*(ib+bluev));
-			
-			seldata[rowi][coli] = false;
-			
-			if (mode === 'fg') {
-				if (dist <= tol) {
-					seldata[rowi][coli] = true;
-				}
-
-			} else if (mode === 'bg') {
-
-				if (dist > tol) {
-					seldata[rowi][coli] = true;
-				}
-			}
-		}
-    }
-    
-    return seldata;
-}
-
-/**
- * create BW image based on the colors but only in valid region of difference matrix.
- */
-function colorSelectDiff(imgd, mode, colorRGB, tol, diff) {
-
-    dw = canvasWidth;
-    dh = canvasHeight;
-    
-    redv = colorRGB[0];
-    greenv = colorRGB[1];
-    bluev = colorRGB[2];
-    
-    var seldata = new Array();
-    
-    for (var rowi=0; rowi < dh; rowi++) {
-		seldata[rowi] = new Array();
-		for(var coli=0; coli < dw; coli++) {
-			index = rowi*4*dw + coli*4;
-			var ir = imgd.data[index];
-			var ig = imgd.data[index+1];
-			var ib = imgd.data[index+2];
-			
-			var dist = Math.sqrt((ir-redv)*(ir-redv) + (ig-greenv)*(ig-greenv) + (ib-bluev)*(ib-bluev));
-			
-			seldata[rowi][coli] = false;
-			
-			if ((mode === 'fg') && (diff[rowi][coli] === 1)) {
-				if (dist <= tol) {
-					seldata[rowi][coli] = true;
-				}
-			} else if ((mode === 'bg') && (diff[rowi][coli] === 1)) {
-				if (dist > tol) {
-					seldata[rowi][coli] = true;
-				}
-			}
-		}
-    }
-    
-    return seldata;
-}
-
-/**
- * Select from marked region of interest based on color.
- */
-function selectFromMarkedRegion(mode, colorRGB, tol) {
-
-    dw = canvasWidth;
-    dh = canvasHeight;
-    
-    redv = colorRGB[0];
-    greenv = colorRGB[1];
-    bluev = colorRGB[2];
-    
-    var markedRegion = dataCtx.getImageData(0,0,canvasWidth,canvasHeight);
-    var imgd = getCanvasData();
-    
-    var seldata = new Array();
-    
-    for (var rowi=0; rowi < dh; rowi++) {
-
-	    seldata[rowi] = new Array();
-	    for(var coli=0; coli < dw; coli++) {
-	        index = rowi*4*dw + coli*4;
-	        
-	        // marked region
-	        var mr = markedRegion.data[index];
-	        var mg = markedRegion.data[index+1];
-	        var mb = markedRegion.data[index+2];
-	        
-	        // plot data
-	        var ir = imgd.data[index];
-	        var ig = imgd.data[index+1];
-	        var ib = imgd.data[index+2];
-	        
-       	    seldata[rowi][coli] = false;
-       	    
-       	    if ((mr === 255) && (mg ===  255) && (mb === 0)) {// yellow marked region
-
-       	        var dist = Math.sqrt((ir-redv)*(ir-redv) + (ig-greenv)*(ig-greenv) + (ib-bluev)*(ib-bluev));
-       	        
-       	        if ((mode === 'fg') && (dist <= tol))
-       	            seldata[rowi][coli] = true;
-       	        else if ((mode === 'bg') && (dist > tol))
-       	            seldata[rowi][coli] = true;
-       	    }
-	    }
-	 }
-	 
-	 return seldata;
-}
-
-/**
- * Populate an ImageData array based on a binary data matrix.
- */
-function binaryToImageData(bwdata,imgd) {
-    dw = canvasWidth;
-    dh = canvasHeight;
-         
-    for(var rowi = 0; rowi < dh; rowi++) {
-		for(var coli = 0; coli < dw; coli++) {
-			index = rowi*4*dw + coli*4;
-			if (bwdata[rowi][coli] === false) {
-				imgd.data[index] = 255; imgd.data[index+1] = 255; imgd.data[index+2] = 255; imgd.data[index+3] = 255;
-			} else {
-				imgd.data[index] = 0; imgd.data[index+1] = 0; imgd.data[index+2] = 0; imgd.data[index+3] = 255;
-			}
-		}
-	}
-    
-    return imgd;
-}
-
-
-function getImageDataBasedOnSelection(imgdout, mode, colorRGB, tol) {
-	var dw = canvasWidth,
-		dh = canvasHeight,
-		rowi,
-		coli,
-		index,
-		dist,
-		
-		redv = colorRGB[0],
-		greenv = colorRGB[1],
-		bluev = colorRGB[2],
-		
-		markedRegion = dataCtx.getImageData(0,0,canvasWidth,canvasHeight),
-		
-		imgd = currentScreen,
-		
-		mr, mg, mb,
-		ir, ig, ib,
-		markPixelWhite;
-
-	for(rowi = 0; rowi < dh; rowi++) {
-		for(coli = 0; coli < dw; coli++) {
-			index = rowi*4*dw + coli*4;
-
-	        // marked region RGB
-	        mr = markedRegion.data[index];
-	        mg = markedRegion.data[index+1];
-	        mb = markedRegion.data[index+2];
-	        
-	        // plot data
-	        ir = imgd.data[index];
-	        ig = imgd.data[index+1];
-			ib = imgd.data[index+2];
-
-			// set default to white
-			markPixelWhite = true;
-       	    
-       	    if ((mr === 255) && (mg ===  255) && (mb === 0)) {// yellow marked region
-
-       	        dist = (ir-redv)*(ir-redv) + (ig-greenv)*(ig-greenv) + (ib-bluev)*(ib-bluev);
-       	        
-       	        if ((mode === 'fg') && (dist <= tol*tol)) {
-					markPixelWhite = false;
-
-				} else if ((mode === 'bg') && (dist > tol*tol)) {
-					markPixelWhite = false;
-				}
-			}
-
-			if(markPixelWhite) {
-
-				imgdout.data[index] = 255;
-				imgdout.data[index+1] = 255;
-				imgdout.data[index+2] = 255;
-				imgdout.data[index+3] = 255;
-
-			} else {
-				
-				imgdout.data[index] = 0;
-				imgdout.data[index+1] = 0;
-				imgdout.data[index+2] = 0;
-				imgdout.data[index+3] = 255;
-			}
-		}
-	}
-
-	return imgdout;
-}
-
-/*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
 	Copyright 2010-2014 Ankit Rohatgi <ankitrohatgi@hotmail.com>
@@ -1051,122 +755,126 @@ wpd.AveragingWindowAlgo = (function () {
 
     var Algo = function () {
 
+        var xStep = 5, yStep = 5;
+
         this.getParamList = function () {
+			return [['ΔX','Px',5],['ΔY','Px',5]];
         };
 
         this.setParam = function (index, val) {
+            if(index === 0) {
+                xStep = val;
+            } else if(index === 1) {
+                yStep = val;
+            }
         };
 
         this.run = function (plotData) {
-        };
-    };
-    return Algo;
-})();
+            var autoDetector = plotData.getAutoDetector(),
+                dataSeries = plotData.getActiveDataSeries(),
+                xPoints = new Array(),
+                xPointsPicked = 0,
+                pointsPicked = 0,
+                dw = autoDetector.imageWidth,
+                dh = autoDetector.imageHeight,
+                blobAvg = [],
+                coli, rowi,
+                firstbloby,
+                bi,
+                blobs,
+                blbi,
+                xi, yi,
+                pi, inRange, xxi, oldX, oldY, avgX, avgY, newX, newY,
+                matches;       
 
-var averagingWindowAlgo = {
-	getParamList: function () {
-			return [["ΔX","Px","5"],["ΔY","Px","5"]];
-		  },
 
-	run: function() {
-			  
-			  var xPoints = new Array();
-			  var xPointsPicked = 0;
-			  xyData = [];
-			  pointsPicked = 0;
-			  
-			  var xStepEl = document.getElementById("pv0");
-			  var xStep = parseFloat(xStepEl.value);
-			  var yStepEl = document.getElementById("pv1");
-			  var yStep = parseFloat(yStepEl.value);
-			  
-			  var dw = canvasWidth;
-			  var dh = canvasHeight;
-			  
-			  var blobAvg = new Array();
-			  
-			  for(var coli = 0; coli < dw; coli++) {
+            dataSeries.clearAll();
+
+			for(coli = 0; coli < dw; coli++) {
 
 				blobs = -1;
 				firstbloby = -2.0*yStep;
 				bi = 0;
 				   
-				for(var rowi = 0; rowi < dh; rowi++) {
-					if (binaryData[rowi][coli] === true)	{
-					  if (rowi > firstbloby + yStep) {
-						blobs = blobs + 1;
-						bi = 1;
-						blobAvg[blobs] = rowi;
-						firstbloby = rowi;
-					  } else {
-						bi = bi + 1;
-						blobAvg[blobs] = parseFloat((blobAvg[blobs]*(bi-1.0) + rowi)/parseFloat(bi));
-					  }
+				for(rowi = 0; rowi < dh; rowi++) {
+					if (autoDetector.binaryData[rowi*dw + coli] === true)	{
+					    if (rowi > firstbloby + yStep) {
+						    blobs = blobs + 1;
+						    bi = 1;
+						    blobAvg[blobs] = rowi;
+						    firstbloby = rowi;
+					    } else {
+						    bi = bi + 1;
+					    	blobAvg[blobs] = parseFloat((blobAvg[blobs]*(bi-1.0) + rowi)/parseFloat(bi));
+					    }
 					}
 				}
 				
 				if (blobs >= 0) {
 					xi = coli;
-					for (var blbi = 0; blbi <= blobs; blbi++) {
+					for (blbi = 0; blbi <= blobs; blbi++) {
 					  yi = blobAvg[blbi];
 					  
-					  xPoints[xPointsPicked] = new Array();
+					  xPoints[xPointsPicked] = [];
 					  xPoints[xPointsPicked][0] = parseFloat(xi);
 					  xPoints[xPointsPicked][1] = parseFloat(yi);
-					  xPoints[xPointsPicked][2] = 1; // 1 if not filtered, 0 if processed already
+					  xPoints[xPointsPicked][2] = true; // true if not filtered, false if processed already
 					  xPointsPicked = xPointsPicked + 1;
 					}
 				}
 				
 			  }
 			  
-			  if (xPointsPicked === 0)
-				return 0;
+			  if (xPointsPicked === 0) {
+                    return;
+              }
 			  
-			  for(var pi = 0; pi < xPointsPicked; pi++) {
-				if(xPoints[pi][2] === 1) {// if still available
-				  var inRange = 1;
-				  var xxi = pi+1;
+			  for(pi = 0; pi < xPointsPicked; pi++) {
+				if(xPoints[pi][2] === true) {// if still available
+				  inRange = true;
+				  xxi = pi+1;
 				  
-				  var oldX = xPoints[pi][0];
-				  var oldY = xPoints[pi][1];
+				  oldX = xPoints[pi][0];
+				  oldY = xPoints[pi][1];
 				  
-				  var avgX = oldX;
-				  var avgY = oldY;
+				  avgX = oldX;
+				  avgY = oldY;
 				  
-				  var matches = 1;
+				  matches = 1;
 				  
-				  while((inRange === 1) && (xxi < xPointsPicked)) {
-					var newX = xPoints[xxi][0];
-					var newY = xPoints[xxi][1];
+				  while((inRange === true) && (xxi < xPointsPicked)) {
+                    newX = xPoints[xxi][0];
+					newY = xPoints[xxi][1];
 				
-					if( (Math.abs(newX-oldX) <= xStep) && (Math.abs(newY-oldY) <= yStep) && (xPoints[xxi][2] === 1)) {
-					  avgX = (avgX*matches + newX)/(matches+1.0);
-					  avgY = (avgY*matches + newY)/(matches+1.0);
-					  matches = matches + 1;
-					  
-					  xPoints[xxi][2] = 0;
+					if( (Math.abs(newX-oldX) <= xStep) && (Math.abs(newY-oldY) <= yStep) && (xPoints[xxi][2] === true)) {
+					    avgX = (avgX*matches + newX)/(matches+1.0);
+					    avgY = (avgY*matches + newY)/(matches+1.0);
+					    matches = matches + 1;
+					    xPoints[xxi][2] = false;
 					}
 
-					if (newX > oldX + 2*xStep)
-					  inRange = 0;
+					if (newX > oldX + 2*xStep) {
+					    inRange = false;
+                    }
 				
 					xxi = xxi + 1;
 				  }
 				  
-				  xPoints[pi][2] = 0; 
+				  xPoints[pi][2] = false; 
 				  
-				  xyData[pointsPicked] = new Array();
-				  xyData[pointsPicked][0] = parseFloat(avgX);
-				  xyData[pointsPicked][1] = parseFloat(avgY);
-				  pointsPicked = pointsPicked + 1;	
+				  pointsPicked = pointsPicked + 1;
+
+                  dataSeries.addPixel(parseFloat(avgX), parseFloat(avgY));
 
 				}
 				
 			  }
-			  xPoints = [];	
-			}
-};
+
+			  xPoints = [];
+        };
+    };
+    return Algo;
+})();
 
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
@@ -2342,6 +2050,12 @@ wpd.graphicsWidget = (function () {
                 
     }
 
+    function forceHandlerRepaint() {
+        if(repaintHandler != null && repaintHandler.onForcedRedraw != undefined) {
+            repaintHandler.onForcedRedraw();
+        }
+    }
+
     function setRepainter(fhandle) {
         
         if(repaintHandler != null && repaintHandler.painterName != undefined && fhandle != null && fhandle.painterName != undefined) {
@@ -2745,7 +2459,8 @@ wpd.graphicsWidget = (function () {
         getImageSize: getImageSize,
         copyImageDataLayerToScreen: copyImageDataLayerToScreen,
         setRepainter: setRepainter,
-        removeRepainter: removeRepainter
+        removeRepainter: removeRepainter,
+        forceHandlerRepaint: forceHandlerRepaint
     };
 })();
 /*
@@ -3163,13 +2878,13 @@ wpd.zoomView = (function() {
         zCrossHair.width = zCrossHair.width;
 
         if(crosshairColorText === 'black') {
-            zchCtx.strokeStyle = "rgb(0,0,0)";
+            zchCtx.strokeStyle = "rgba(0,0,0,1)";
         } else if(crosshairColorText === 'red') {
-            zchCtx.strokeStyle = "rgb(255,0,0)";
+            zchCtx.strokeStyle = "rgba(255,0,0,1)";
         } else if(crosshairColorText === 'yellow') {
-            zchCtx.strokeStyle = "rgb(255,255,0)";
+            zchCtx.strokeStyle = "rgba(255,255,0,1)";
         } else {
-            zchCtx.strokeStyle = "rgb(0,0,0)";
+            zchCtx.strokeStyle = "rgba(0,0,0,1)";
         }
 
         zchCtx.beginPath();
@@ -3573,25 +3288,64 @@ wpd.autoExtraction = (function () {
     function start() {
         wpd.sidebar.show('auto-extraction-sidebar');
         wpd.colorPicker.init();
+        changeAlgorithm();
     }
 
     function changeAlgorithm() {
+        var autoDetector = wpd.appData.getPlotData().getAutoDetector(),
+            algoName = document.getElementById('auto-extract-algo-name').value;
 
+        if(algoName === "averagingWindow") {
+            autoDetector.algorithm = new wpd.AveragingWindowAlgo();
+        }
+
+        displayAlgoParameters(autoDetector.algorithm);
+    }
+
+    function displayAlgoParameters(algo) {
+        var $paramContainer = document.getElementById('algo-parameter-container'),
+            algoParams = algo.getParamList(),
+            pi,
+            tableString = "";
+
+        
+        for(pi = 0; pi < algoParams.length; pi++) {
+            tableString += algoParams[pi][0] + 
+                ' <input type="text" size=3 id="algo-param-' + pi + 
+                '" class="algo-params" value="'+ algoParams[pi][2] + '"/> ' 
+                + algoParams[pi][1];
+            if(pi != algoParams.length - 1) {
+                tableString += ', ';
+            } 
+        }
+        tableString += "</table>";
+        $paramContainer.innerHTML = tableString;
     }
 
     function runAlgo() {
-
-    }
-
-    function done() {
-
+        var autoDetector = wpd.appData.getPlotData().getAutoDetector(),
+            algo = autoDetector.algorithm,
+            repainter = new wpd.DataPointsRepainter(),
+            $paramFields = document.getElementsByClassName('algo-params'),
+            pi,
+            paramId, paramIndex;
+        for(pi = 0; pi < $paramFields.length; pi++) {
+            paramId = $paramFields[pi].id;
+            paramIndex = parseInt(paramId.replace('algo-param-', ''), 10);
+            algo.setParam(paramIndex, parseFloat($paramFields[pi].value));
+        }
+        wpd.graphicsWidget.removeTool();
+        autoDetector.generateBinaryData();
+        wpd.graphicsWidget.setRepainter(repainter);
+        algo.run(wpd.appData.getPlotData());
+        wpd.graphicsWidget.forceHandlerRepaint();
+        wpd.dataPointCounter.setCount();
     }
   
     return {
         start: start,
         changeAlgorithm: changeAlgorithm,
-        runAlgo: runAlgo,
-        done: done
+        runAlgo: runAlgo
     };
 })();
 
@@ -4091,7 +3845,7 @@ wpd.acquireData = (function () {
     function undo() {
         wpd.appData.getPlotData().getActiveDataSeries().removeLastPixel();
         wpd.graphicsWidget.resetData();
-        redrawData();
+        wpd.graphicsWidget.forceHandlerRepaint();
         wpd.dataPointCounter.setCount();
     }
  
@@ -4161,7 +3915,7 @@ wpd.DeleteDataPointTool = (function () {
             var activeDataSeries = plotData.getActiveDataSeries();
             activeDataSeries.removeNearestPixel(imagePos.x, imagePos.y);
             wpd.graphicsWidget.resetData();
-            wpd.acquireData.redrawData();
+            wpd.graphicsWidget.forceHandlerRepaint();
             wpd.graphicsWidget.updateZoomOnEvent(ev);
             wpd.dataPointCounter.setCount();
         };
@@ -4211,19 +3965,23 @@ wpd.DataPointsRepainter = (function () {
         this.onRedraw = function () {
             drawPoints();
         };
+
+        this.onForcedRedraw = function () {
+            wpd.graphicsWidget.resetData();
+            drawPoints();
+        };
     };
     return Painter;
 })();
 
 
 wpd.dataPointCounter = (function () {
-    var $counter;
-
     function setCount() {
-        if($counter == null) {
-            $counter = document.getElementById('pointsStatus');
+        var $counters = document.getElementsByClassName('data-point-counter'),
+            ci;
+        for(ci = 0; ci < $counters.length; ci++) {
+            $counters[ci].innerHTML = wpd.appData.getPlotData().getActiveDataSeries().getCount();
         }
-        $counter.innerHTML = wpd.appData.getPlotData().getActiveDataSeries().getCount();
     }
 
     return {
@@ -4264,15 +4022,18 @@ wpd.dataMask = (function () {
             maskDataPx = ctx.oriDataCtx.getImageData(0, 0, imageSize.width, imageSize.height),
             maskData = [],
             i,
-            mi = 0;
+            mi = 0,
+            autoDetector = wpd.appData.getPlotData().getAutoDetector();
         for(i = 0; i < maskDataPx.data.length; i+=4) {
             if (maskDataPx.data[i] === 255 && maskDataPx.data[i+1] === 255 && maskDataPx.data[i+2] === 0) {
                 maskData[mi] = i/4; mi++;
             }
         }
-        wpd.appData.getPlotData().getAutoDetector().mask = maskData;
+        autoDetector.mask = maskData;
         if(grabImageData === true) {
-            wpd.appData.getPlotData().getAutoDetector().imageData = ctx.oriImageCtx.getImageData(0, 0, imageSize.width, imageSize.height);
+            autoDetector.imageData = ctx.oriImageCtx.getImageData(0, 0, imageSize.width, imageSize.height);
+            autoDetector.imageWidth = imageSize.width;
+            autoDetector.imageHeight = imageSize.height;
         }
     }
 

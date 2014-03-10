@@ -50,7 +50,6 @@
 <script src="javascript/core/axes/xy.js"></script>
 <script src="javascript/core/dataObjects.js"></script>
 <script src="javascript/core/dateConversion.js"></script>
-<script src="javascript/core/imageProcessing.js"></script>
 <script src="javascript/core/inputParser.js"></script>
 <script src="javascript/core/mathFunctions.js"></script>
 <script src="javascript/dataExport/csvgenerator.js"></script>
@@ -216,7 +215,7 @@ Loading application, please wait...
             <p><input type="button" value="Automatic Extraction" style="width: 180px;" onclick="wpd.autoExtraction.start();"></p>
             <p><input type="button" value="View Data" id="saveBtn" onclick="wpd.dataTable.showTable();" style="width:180px;"></p>
             <div class="vertical-spacer"></div>
-            <p>Points Picked:<span id="pointsStatus">0</span></p>
+            <p>Data Points: <span class="data-point-counter">0</span></p>
             </div>
              
             <div id="editImageToolbar" class="sidebar">
@@ -230,10 +229,10 @@ Loading application, please wait...
             <div id="auto-extraction-sidebar" class="sidebar">
             <p class="sidebar-title">Automatic Extraction</p>
             <p>Algorithm
-            <select>
+            <select id="auto-extract-algo-name" onchange="wpd.autoExtraction.changeAlgorithm();">
                 <optgroup label="Generic">
                     <option value="averagingWindow">Averaging Window</option>
-                    <option value="averagingWindow">X Step</option>
+                    <option value="XStep">X Step</option>
                 </optgroup>
                 <optgroup label="Blobs">
                     <option value="blobDetector">Blob Centroids</option>
@@ -243,6 +242,7 @@ Loading application, please wait...
               </optgroup>
             </select>
             </p>
+            <div id="algo-parameter-container" style="margin-left: 10px; margin-top: 5px;"></div>
             <hr/>
             <p>Mask <input type="button" value="Box" style="width:50px;" onclick="wpd.dataMask.markBox();" id="box-mask"><input type="button" value="Pen" style="width:45px;" onClick="wpd.dataMask.markPen();" id="pen-mask"><input type="button" value="Erase" style="width:50px;" onClick="wpd.dataMask.eraseMarks();" id="erase-mask"><input type="button" value="View" style="width:40px;" onclick="wpd.dataMask.viewMask();" id="view-mask"/></p>
             <hr/>
@@ -250,14 +250,8 @@ Loading application, please wait...
             <p>Distance <td><td><input type="text" size="3" id="color-distance-value" onchange="wpd.colorPicker.changeColorDistance();"/>
             <input type="button" value="Filter Colors" onclick="wpd.colorPicker.testColorDetection();" style="width: 90px;"></p>
             <hr/>
-            <!-- algo parameters go here -->
-            <table>
-            <tr><td>X Min</td><td>&nbsp;&nbsp;<input type="text" size="3"/></td><td>X Min</td><td>&nbsp;&nbsp;<input type="text" size="3"/></td></tr>
-            <tr><td>X Min</td><td>&nbsp;&nbsp;<input type="text" size="3"/></td><td>X Min</td><td>&nbsp;&nbsp;<input type="text" size="3"/></td></tr>
-            <tr><td>X Min</td><td>&nbsp;&nbsp;<input type="text" size="3"/></td><td>X Min</td><td>&nbsp;&nbsp;<input type="text" size="3"/></td></tr>
-            </table>
-
-            <p><input type="button" value="Try" style="width:110px;"/><input type="button" value="Done" style="width:110px;" onclick="wpd.acquireData.load();"/></p>
+            <p><input type="button" value="Run" style="width:110px;" onclick="wpd.autoExtraction.runAlgo();"/><input type="button" value="Manual Mode" style="width:110px;" onclick="wpd.acquireData.load();"/></p>
+            <p>Data Points: <span class="data-point-counter">0</span></p>
             </div>
 
         </div>
