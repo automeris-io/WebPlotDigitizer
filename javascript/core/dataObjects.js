@@ -99,7 +99,14 @@ wpd.DataSeries = (function () {
             };
         };
 
-        this.insertPixel = function(pxi, pyi, index) {
+        this.setPixelAt = function(index, pxi, pyi) {
+            if(2*index < pixels.length) {
+                pixels[2*index] = pxi;
+                pixels[2*index + 1] = pyi;
+            }
+        };
+
+        this.insertPixel = function(index, pxi, pyi) {
             pixels.splice(2*index, 0, pxi);
             pixels.splice(2*index + 1, 0, pyi); 
         };
