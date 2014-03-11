@@ -60,7 +60,9 @@ wpd.graphicsWidget = (function () {
         hoverTimer,
         
         activeTool,
-        repaintHandler;
+        repaintHandler,
+        
+        isCanvasInFocus = false;
 
     function posn(ev) { // get screen pixel from event
         var mainCanvasPosition = $mainCanvas.getBoundingClientRect();
@@ -233,6 +235,10 @@ wpd.graphicsWidget = (function () {
         resize(originalWidth*zoomRatio, originalHeight*zoomRatio);
     }
 
+    function getZoomRatio() {
+        return zoomRatio;
+    }
+
     function resetData() {
         $oriDataCanvas.width = $oriDataCanvas.width;
         $dataCanvas.width = $dataCanvas.width;
@@ -343,6 +349,11 @@ wpd.graphicsWidget = (function () {
         wpd.zoomView.setCoords(imagePos.x, imagePos.y);
     }
 
+    function updateZoomToImagePosn(x, y) {
+        setZoomImage(x, y);
+        wpd.zoomView.setCoords(x, y);
+    }
+
     function hoverOverCanvasHandler(ev) {
         clearTimeout(hoverTimer);
         hoverTimer = setTimeout(hoverOverCanvas(ev), 10);
@@ -413,6 +424,18 @@ wpd.graphicsWidget = (function () {
         $topCanvas.addEventListener("mouseup", onMouseUp, false);
         $topCanvas.addEventListener("mousedown", onMouseDown, false);
         $topCanvas.addEventListener("mouseout", onMouseOut, false);
+        document.addEventListener("mousedown", function(ev) {
+            if(ev.target === $topCanvas) {
+                isCanvasInFocus = true;
+            } else {
+                isCanvasInFocus = false;
+            }
+        }, false);
+        document.addEventListener("keydown", function (ev) {
+            if(isCanvasInFocus) {
+                onKeyDown(ev);
+            }
+        }, true);
         
         wpd.zoomView.initZoom();
         
@@ -558,12 +581,19 @@ wpd.graphicsWidget = (function () {
         }
     }
 
+    function onKeyDown(ev) {
+        if(activeTool != null && activeTool.onKeyDown != undefined) {
+            activeTool.onKeyDown(ev);
+        }
+    }
+
     return {
         zoomIn: zoomIn,
         zoomOut: zoomOut,
         zoomFit: zoomFit,
         zoom100perc: zoom100perc,
         setZoomRatio: setZoomRatio,
+        getZoomRatio: getZoomRatio,
         loadImageFromURL: loadImageFromSrc,
         runImageOp: runImageOp,
         setTool: setTool,
@@ -574,6 +604,7 @@ wpd.graphicsWidget = (function () {
         imagePx: imagePx,
         screenPx: screenPx,
         updateZoomOnEvent: updateZoomOnEvent,
+        updateZoomToImagePosn: updateZoomToImagePosn,
         getDisplaySize: getDisplaySize,
         getImageSize: getImageSize,
         copyImageDataLayerToScreen: copyImageDataLayerToScreen,

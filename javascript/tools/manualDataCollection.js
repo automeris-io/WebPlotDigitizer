@@ -105,6 +105,29 @@ wpd.ManualSelectionTool = (function () {
         this.onRemove = function () {
             document.getElementById('manual-select-button').classList.remove('pressed-button');
         };
+
+        this.onKeyDown = function (ev) {
+            var activeDataSeries = plotData.getActiveDataSeries(),
+                lastPtIndex = activeDataSeries.getCount() - 1,
+                lastPt = activeDataSeries.getPixel(lastPtIndex),
+                stepSize = 0.5/wpd.graphicsWidget.getZoomRatio();
+
+            if(wpd.keyCodes.isUp(ev.keyCode)) {
+                lastPt.y = lastPt.y - stepSize;
+            } else if(wpd.keyCodes.isDown(ev.keyCode)) {
+                lastPt.y = lastPt.y + stepSize;
+            } else if(wpd.keyCodes.isLeft(ev.keyCode)) {
+                lastPt.x = lastPt.x - stepSize;
+            } else if(wpd.keyCodes.isRight(ev.keyCode)) {
+                lastPt.x = lastPt.x + stepSize;
+            }
+
+            activeDataSeries.setPixelAt(lastPtIndex, lastPt.x, lastPt.y);
+            wpd.graphicsWidget.resetData();
+            wpd.graphicsWidget.forceHandlerRepaint();
+            wpd.graphicsWidget.updateZoomToImagePosn(lastPt.x, lastPt.y);
+            ev.preventDefault();
+        };
     };
     return Tool;
 })();
