@@ -512,6 +512,28 @@ wpd.graphicsWidget = (function () {
         }
     }
 
+    function saveImage() {
+        var exportCanvas = document.createElement('canvas'),
+            exportCtx = exportCanvas.getContext('2d'),
+            exportData,
+            di,
+            dLayer;
+        exportCanvas.width = originalWidth;
+        exportCanvas.height = originalHeight;
+        exportCtx.drawImage($oriImageCanvas, 0, 0, originalWidth, originalHeight);
+        exportData = exportCtx.getImageData(0, 0, originalWidth, originalHeight);
+        dLayer = oriDataCtx.getImageData(0, 0, originalWidth, originalHeight);
+        for(di = 0; di < exportData.data.length; di+=4) {
+            if(dLayer.data[di] != 0 || dLayer.data[di+1] != 0 || dLayer.data[di+2] != 0) {
+                exportData.data[di] = dLayer.data[di];
+                exportData.data[di+1] = dLayer.data[di+1];
+                exportData.data[di+2] = dLayer.data[di+2];
+            }
+        }
+        exportCtx.putImageData(exportData, 0, 0);
+        window.open(exportCanvas.toDataURL(), "_blank");
+    }
+
     // run an external operation on the image data. this would normally mean a reset.
     function runImageOp(operFn) {
        var opResult = operFn(originalImageData, originalWidth, originalHeight);
@@ -621,6 +643,8 @@ wpd.graphicsWidget = (function () {
         setRepainter: setRepainter,
         removeRepainter: removeRepainter,
         forceHandlerRepaint: forceHandlerRepaint,
-        getRepainter: getRepainter
+        getRepainter: getRepainter,
+
+        saveImage: saveImage
     };
 })();

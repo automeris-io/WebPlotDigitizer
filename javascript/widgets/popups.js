@@ -90,3 +90,8 @@ wpd.messagePopup = (function () {
         close: close
     };
 })();
+
+wpd.unsupported = function () {
+    wpd.messagePopup.show("Unsupported Feature!", "This feature has not been implemented in the current version. This may be available in a future release.");
+};
+
