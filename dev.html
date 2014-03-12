@@ -111,6 +111,7 @@ Loading application, please wait...
                             <li id="wpd-filemenu-loadimage" onclick="wpd.popup.show('loadNewImage');">Load Image</li>
                             <li id="wpd-filemenu-capture" onclick="wpd.webcamCapture.start();">Webcam Capture</li>
                             <li id="wpd-filemenu-runscript" onclick="wpd.scriptInjector.start();">Run Script</li>
+                            <li id="wpd-filemenu-saveimage" onclick="wpd.scriptInjector.start();">Save Image</li>
                         </ul>
                     </div>
                 </div>
@@ -136,9 +137,8 @@ Loading application, please wait...
                     <div class="wpd-menu-header">Analyze</div>
                     <div class="wpd-menu-dropdown">
                         <ul>
-                            <li id="wpd-analyzemenu-distance">Measure Distances</li>
-                            <li id="wpd-analyzemenu-angles">Measure Angles</li>
-                            <li id="wpd-analyzemenu-color">Color Picker</li>
+                            <li id="wpd-analyzemenu-distance" onclick="wpd.sidebar.show('measure-distances-sidebar');">Measure Distances</li>
+                            <li id="wpd-analyzemenu-angles" onclick="wpd.sidebar.show('measure-angles-sidebar');">Measure Angles</li>
                         </ul>
                     </div>
                 </div>
@@ -208,12 +208,15 @@ Loading application, please wait...
         
         <div style="position:relative;">
             <!-- side bars go here -->
+
+            <!-- manual mode -->
             <div id="acquireDataSidebar" class="sidebar">
-            <p class="sidebar-title">Acquire Data</p>
+            <p class="sidebar-title">Manual Mode <input type="button" value="Automatic Mode" style="width: 120px;" onclick="wpd.autoExtraction.start();"></p>
+            <hr/>
             <p><input type="button" value="Add Point" onclick="wpd.acquireData.manualSelection();" style="width:90px;" id="manual-select-button"><input type="button" value="Adjust Point" onClick="wpd.acquireData.undo();" style="width: 90px;">
             <p><input type="button" value="Delete Point" onclick="wpd.acquireData.deletePoint();" style="width:90px;" id="delete-point-button"><input id="clearAllBtn" type="button" value="Clear Points" onCLick="wpd.acquireData.clearAll();" style="width: 90px;"></p>
             <div class="vertical-spacer"></div>
-            <p><input type="button" value="Automatic Extraction" style="width: 180px;" onclick="wpd.autoExtraction.start();"></p>
+            <hr/>
             <p><input type="button" value="View Data" id="saveBtn" onclick="wpd.dataTable.showTable();" style="width:180px;"></p>
             <div class="vertical-spacer"></div>
             <p>Data Points: <span class="data-point-counter">0</span></p>
@@ -227,8 +230,16 @@ Loading application, please wait...
             <p align="center"><input type="button" value="Save .PNG" style="width: 150px;" onclick="savePNG();"></p>
             </div>
 
+            <!-- automatic mode -->
             <div id="auto-extraction-sidebar" class="sidebar">
-            <p class="sidebar-title">Automatic Extraction</p>
+            <p class="sidebar-title">Automatic Mode <input type="button" value="Manual Mode" style="width:110px;" onclick="wpd.acquireData.load();"/></p>
+            <hr/>
+            <p>Mask <input type="button" value="Box" style="width:50px;" onclick="wpd.dataMask.markBox();" id="box-mask"><input type="button" value="Pen" style="width:45px;" onClick="wpd.dataMask.markPen();" id="pen-mask"><input type="button" value="Erase" style="width:50px;" onClick="wpd.dataMask.eraseMarks();" id="erase-mask"><input type="button" value="View" style="width:40px;" onclick="wpd.dataMask.viewMask();" id="view-mask"/></p>
+            <hr/>
+            <p>Color <select id="color-detection-mode-select" onchange="wpd.colorPicker.changeDetectionMode();"><option value="fg">Foreground Color</option><option value="bg">Background Color</option></select><input type="button" id="color-button" value=" " onclick="wpd.colorPicker.startPicker();" style="width: 25px;"/></p>
+            <p>Distance <td><td><input type="text" size="3" id="color-distance-value" onchange="wpd.colorPicker.changeColorDistance();"/>
+            <input type="button" value="Filter Colors" onclick="wpd.colorPicker.testColorDetection();" style="width: 90px;"></p>
+            <hr/>
             <p>Algorithm
             <select id="auto-extract-algo-name" onchange="wpd.autoExtraction.changeAlgorithm();">
                 <optgroup label="Generic">
@@ -244,16 +255,48 @@ Loading application, please wait...
             </select>
             </p>
             <div id="algo-parameter-container" style="margin-left: 10px; margin-top: 5px;"></div>
+            <div class="vertical-spacer"/>
+            <p style="margin-left: 10px;margin-top: 5px;">
+                <input type="button" value="Run" style="width:50px;" onclick="wpd.autoExtraction.runAlgo();"/>
+                <input type="button" value="Clear All" style="width:80px;" onclick="wpd.autoExtraction.runAlgo();"/>
+                <input type="button" value="View Data" style="width:80px;" onclick="wpd.autoExtraction.runAlgo();"/>
+            </p>
             <hr/>
-            <p>Mask <input type="button" value="Box" style="width:50px;" onclick="wpd.dataMask.markBox();" id="box-mask"><input type="button" value="Pen" style="width:45px;" onClick="wpd.dataMask.markPen();" id="pen-mask"><input type="button" value="Erase" style="width:50px;" onClick="wpd.dataMask.eraseMarks();" id="erase-mask"><input type="button" value="View" style="width:40px;" onclick="wpd.dataMask.viewMask();" id="view-mask"/></p>
-            <hr/>
-            <p>Color <select id="color-detection-mode-select" onchange="wpd.colorPicker.changeDetectionMode();"><option value="fg">Foreground Color</option><option value="bg">Background Color</option></select><input type="button" id="color-button" value=" " onclick="wpd.colorPicker.startPicker();" style="width: 25px;"/></p>
-            <p>Distance <td><td><input type="text" size="3" id="color-distance-value" onchange="wpd.colorPicker.changeColorDistance();"/>
-            <input type="button" value="Filter Colors" onclick="wpd.colorPicker.testColorDetection();" style="width: 90px;"></p>
-            <hr/>
-            <p><input type="button" value="Run" style="width:110px;" onclick="wpd.autoExtraction.runAlgo();"/><input type="button" value="Manual Mode" style="width:110px;" onclick="wpd.acquireData.load();"/></p>
             <p>Data Points: <span class="data-point-counter">0</span></p>
             </div>
+
+            <!-- distance measurement -->
+            <div id="measure-distances-sidebar" class="sidebar">
+            <p class="sidebar-title">Measure Distances</p>
+            <p>
+                <input type="button" value="Add Pairs" style="width: 100px;"/>
+                <input type="button" value="Adjust Points" style="width: 100px;"/>
+            </p>
+            <p>
+                <input type="button" value="Delete Pairs" style="width: 100px;"/>
+                <input type="button" value="Clear All" style="width: 100px;"/>
+            </p>
+            <p>
+                <input type="button" value="View Data" style="width: 100px;"/>
+            </p>
+            </div>
+
+            <!-- angle measurement -->
+            <div id="measure-angles-sidebar" class="sidebar">
+            <p class="sidebar-title">Measure Angles</p>
+            <p>
+                <input type="button" value="Add Angle" style="width: 100px;"/>
+                <input type="button" value="Adjust Points" style="width: 100px;"/>
+            </p>
+            <p>
+                <input type="button" value="Delete Angles" style="width: 100px;"/>
+                <input type="button" value="Clear All" style="width: 100px;"/>
+            </p>
+            <p>
+                <input type="button" value="View Data" style="width: 100px;"/>
+            </p>
+            </div>
+
 
         </div>
 

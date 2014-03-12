@@ -194,6 +194,10 @@ wpd.graphicsWidget = (function () {
         }
     }
 
+    function getRepainter() {
+        return repaintHandler;
+    }
+
     function removeRepainter() {
         if(repaintHandler != null && repaintHandler.onRemove != undefined) {
             repaintHandler.onRemove();
@@ -594,22 +598,29 @@ wpd.graphicsWidget = (function () {
         zoom100perc: zoom100perc,
         setZoomRatio: setZoomRatio,
         getZoomRatio: getZoomRatio,
+
         loadImageFromURL: loadImageFromSrc,
         runImageOp: runImageOp,
+
         setTool: setTool,
         removeTool: removeTool,
+
         getAllContexts: getAllContexts,
         resetData: resetData,
         resetHover: resetHover,
         imagePx: imagePx,
         screenPx: screenPx,
+
         updateZoomOnEvent: updateZoomOnEvent,
         updateZoomToImagePosn: updateZoomToImagePosn,
+
         getDisplaySize: getDisplaySize,
         getImageSize: getImageSize,
+
         copyImageDataLayerToScreen: copyImageDataLayerToScreen,
         setRepainter: setRepainter,
         removeRepainter: removeRepainter,
-        forceHandlerRepaint: forceHandlerRepaint
+        forceHandlerRepaint: forceHandlerRepaint,
+        getRepainter: getRepainter
     };
 })();

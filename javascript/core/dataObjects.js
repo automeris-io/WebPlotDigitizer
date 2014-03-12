@@ -80,7 +80,9 @@ wpd.Calibration = (function () {
 // Data from a series
 wpd.DataSeries = (function () {
     return function (dim) {
-        var pixels = []; // flat array to store (x,y) pixel info.
+        var pixels = [], // flat array to store (x,y) pixel info.
+            connections = [],
+            selections = [];
 
         this.name = "Data Series";
 
@@ -114,6 +116,7 @@ wpd.DataSeries = (function () {
         this.removePixelAtIndex = function(index) {
             if(2*index < pixels.length) {
                 pixels.splice(2*index, 2);
+                this.unselectPixel(index);
             }
         };
 
@@ -140,6 +143,30 @@ wpd.DataSeries = (function () {
 
         this.clearAll = function() { pixels = []; };
         this.getCount = function() { return pixels.length/2; }
+ 
+        this.selectPixel = function(index) {
+            var i;
+            for(i = 0; i < selections.length; i++) {
+                if(selections[i] === index) {
+                    return;
+                }
+            }
+            selections[selections.length] = index;
+        };
+
+        this.unselectPixel = function(index) {
+            var i, spliceAtIndex = -1;
+            for(i = 0; i < selections.length; i++) {
+                if(selections[i] === index) {
+                    spliceAtIndex = i;
+                    break;
+                }
+            }
+            if(spliceAtIndex >= 0) {
+                selections.splice(spliceAtIndex, 1);
+            }
+        };
+
     };
 })();
 
@@ -199,4 +226,64 @@ wpd.PlotData = (function () {
     };
 
     return PlotData;
+})();
+
+
+wpd.ConnectedPoints = (function () {
+    var CPoints = function (connectivity) {
+
+        var connections = [],
+            selectedConnections;
+
+        this.addConnection = function (plist) {
+            connections[connections.length] = plist;
+        };
+
+        this.clearAll = function () {
+            connections = [];
+        };
+
+        this.getConnectionAt = function (index) {
+            if(index < connections.length) {
+                return connections[index];
+            }   
+        };
+
+        this.replaceConnectionAt = function (index, plist) {
+            if(index < connections.length) {
+                connections[index] = plist;
+            }
+        };
+
+        this.deleteConnectionAt = function (index) {
+            if(index < connections.length) {
+                connections.splice(index, 1);
+            }
+        };
+
+        this.connectionCount = function () {
+            return connections.length;
+        };
+
+        this.getDistance = function(index) {
+            if(index < connections.length && connectivity === 2) {
+                var dist = Math.sqrt((connections[index][0] - connections[index][2])*(connections[index][0] - connections[index][2])
+                    + (connections[index][1] - connections[index][3])*(connections[index][1] - connections[index][3]));
+                return dist; // this is in pixels!
+            }
+        };
+
+        this.getAngle = function(index, isDegrees) {
+            if(index < connections.length && connectivity === 3) {
+                var ang = wpd.taninverse(connections[index][3] - connections[index][1], connections[index][2] - connections[index][0]);
+
+                if(isDegrees) {
+                    ang = 180.0*ang/Math.PI;
+                }
+
+                return ang;
+            }
+        };
+    };
+    return CPoints;
 })();
