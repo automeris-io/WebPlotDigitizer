@@ -427,7 +427,7 @@ wpd.graphicsWidget = (function () {
         $topCanvas.addEventListener("click", onMouseClick, false);
         $topCanvas.addEventListener("mouseup", onMouseUp, false);
         $topCanvas.addEventListener("mousedown", onMouseDown, false);
-        $topCanvas.addEventListener("mouseout", onMouseOut, false);
+        $topCanvas.addEventListener("mouseout", onMouseOut, true);
         document.addEventListener("mousedown", function(ev) {
             if(ev.target === $topCanvas) {
                 isCanvasInFocus = true;

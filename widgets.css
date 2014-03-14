@@ -143,3 +143,7 @@ hr {
     border: none;
     background-color: #dddddd;
 }
+
+select {
+    border: none;
+}
