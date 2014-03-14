@@ -391,6 +391,7 @@ wpd.alignAxes = (function () {
             imageAxes.calibrate();
             wpd.appData.getPlotData().axes = imageAxes;
             wpd.appData.isAligned(true);
+            wpd.acquireData.showSidebar();
         }
 
         if(calibrator != null) {
