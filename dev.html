@@ -147,7 +147,7 @@ Loading application, please wait...
                     <div class="wpd-menu-dropdown">
                         <ul>
                             <li id="wpd-helpmenu-about" onclick="wpd.popup.show('helpWindow');">About WebPlotDigitizer</li>
-                            <li id="wpd-helpmenu-manual"><a href="http://google.com" target="_blank">User Manual</a></li>
+                            <li id="wpd-helpmenu-manual"><a href="http://arohatgi.info/WebPlotDigitizer/userManual.pdf" target="_blank">User Manual</a></li>
                             <li id="wpd-helpmenu-github"><a href="https://github.com/ankitrohatgi/WebPlotDigitizer" target="_blank">GitHub Page</a></li>
                             <li id="wpd-helpmenu-issues"><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=CVFJGV5SNEV9J&lc=US&item_name=WebPlotDigitizer&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted" target="_blank">Donate (PayPal)</a></li>
                         </ul>
@@ -208,6 +208,13 @@ Loading application, please wait...
         
         <div style="position:relative;">
             <!-- side bars go here -->
+
+            <!-- axes calibration -->
+            <div id="axes-calibration-sidebar" class="sidebar">
+            <p class="sidebar-title">Axes Calibration</p>
+            <p>Click points to select and use cursor keys to adjust positions. Use Shift+Arrow for faster movement. Click complete when finished.</p>
+            <p align="center"><input type="button" value="Complete!" style="width: 120px;" onclick="wpd.alignAxes.getCornerValues();"/></p>
+            </div>
 
             <!-- manual mode -->
             <div id="acquireDataSidebar" class="sidebar">
@@ -381,7 +388,7 @@ Loading application, please wait...
 	</table>
 	</center>
 	<p>&nbsp;</p>
-	<p align="center"><input type="button" value="Align Axes" onclick="wpd.alignAxes.initiate();">&nbsp;<input type="button" value="Cancel" onClick="wpd.popup.close('axesList');"></p>
+	<p align="center"><input type="button" value="Align Axes" onclick="wpd.alignAxes.start();">&nbsp;<input type="button" value="Cancel" onClick="wpd.popup.close('axesList');"></p>
 	</div>
 
 	<div id="xyAlignment" class="popup" style="width: 400px;">
@@ -408,7 +415,7 @@ Loading application, please wait...
 	</table>
 	<p align="center" class="footnote">*For dates, use yyyy/mm/dd format (e.g. 2013/10/23 or 2013/10). For exponents, enter values as 1e-3 for 10^-3.</p>
 	<p>&nbsp;</p>
-	<p align="center"><input type="button" id="xybtn" value="OK" onclick="wpd.xyCalibration.align();"></p>
+	<p align="center"><input type="button" id="xybtn" value="OK" onclick="wpd.alignAxes.align();"></p>
 	</center>
 	</div>
 
@@ -417,7 +424,7 @@ Loading application, please wait...
 	<p>&nbsp;</p>
 	<p align="center"><input type="text" size="6" id="scaleLength" value="1"> Units</p>
 	<p>&nbsp;</p>
-	<p align="center"><input type="button" id="xybtn" value="OK" onclick="wpd.mapCalibration.align();"></p>
+	<p align="center"><input type="button" id="xybtn" value="OK" onclick="wpd.alignAxes.align();"></p>
 	</div>
 
 	<div id="polarAlignment" class="popup" style="width: 200px;">
@@ -429,7 +436,7 @@ Loading application, please wait...
 	<p align="center">Θ<sub>2</sub>: <input type="text" size="6" id="thetapoint2" value="1"></p>
 	<p align="center"><input type="radio" id="degrees" name="angleUnits" checked> Degrees <input type="radio" id="radians" name="angleUnits"> Radians</p>
 	<p align="center"><input type="checkbox" id="clockwise"> Clockwise</p>
-	<p align="center"><input type="button" value="OK" onclick="wpd.polarCalibration.align();"></p>
+	<p align="center"><input type="button" value="OK" onclick="wpd.alignAxes.align();"></p>
 	</div>
 
 	<div id="ternaryAlignment" class="popup">
@@ -447,7 +454,7 @@ Loading application, please wait...
 	<table><tr><td><p align="center"><input type="radio" id="range0to1" name="ternaryRange" checked> 0 to 1&nbsp;&nbsp;</p></td><td><p align="center">&nbsp;&nbsp;<input type="radio" id="range0to100" name="ternaryRange"> 0 to 100</p></td></tr></table>
 	</center>
 	<p>&nbsp;</p>
-	<p align="center"><input type="button" value="OK" onclick="wpd.ternaryCalibration.align();"></p>
+	<p align="center"><input type="button" value="OK" onclick="wpd.alignAxes.align();"></p>
 	</div>
 
 	<div id="csvWindow" class="popup" style="width: 580px; height: 480px;">
@@ -549,7 +556,7 @@ Loading application, please wait...
 	<p align="center"><input type="button" value="Close" onclick="wpd.popup.close('helpWindow');"></p>
 	</div>
 	
-	<div id="wait" style="position:absolute; top:0px; right: 30px; border: thin white solid; background: black; color: white; width:200px; margin: 0px 0px; padding: 0px 0px; visibility:hidden;">
+	<div id="wait" style="position:absolute; top:0px; right: 30px; border: thin white solid; background: black; color: white; width:200px; margin: 0px 0px; padding: 0px 0px; visibility:hidden; z-index:100;">
 	<p align="center" style="padding:0px 0px; margin: 0px 0px;"><b>Processing...</b></p>
 	</div>
 

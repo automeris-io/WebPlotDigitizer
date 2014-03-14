@@ -28,12 +28,15 @@ wpd.Calibration = (function () {
 
     var Calib = function(dim) {
         // Pixel information
-        var px = [];
-        var py = [];
+        var px = [],
+            py = [],
 
-        // Data information
-        var dimensions = dim == null ? 2 : dim;
-        var dp = [];
+            // Data information
+            dimensions = dim == null ? 2 : dim,
+            dp = [],
+            selections = [];
+
+        this.labels = [];
 
         this.getCount = function () { return px.length; };
         this.getDimensions = function() { return dimensions; };
@@ -59,6 +62,14 @@ wpd.Calibration = (function () {
             };
         };
 
+        this.changePointPx = function(index, npx, npy) {
+            if(index < 0 || index >= px.length) {
+                return;
+            }
+            px[index] = npx;
+            py[index] = npy;
+        };
+
         this.setDataAt = function(index, dxi, dyi, dzi) {
             if(index < 0 || index >= px.length) return;
             dp[dimensions*index] = dxi;
@@ -66,6 +77,24 @@ wpd.Calibration = (function () {
             if(dimensions === 3) {
                 dp[dimensions*index + 2] = dzi;
             }
+        };
+
+        this.selectPoint = function(index) {
+            if(selections.indexOf(index) < 0) {
+                selections[selections.length] = index;
+            }
+        };
+
+        this.getSelectedPoints = function () {
+            return selections;
+        };
+
+        this.unselectAll = function() {
+            selections = [];
+        };
+
+        this.isPointSelected = function(index) {
+            return selections.indexOf(index) >= 0;
         };
 
         this.dump = function() {
