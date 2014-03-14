@@ -88,7 +88,7 @@ wpd.PolarAxes = (function () {
                 thetap;
 
             xp = parseFloat(pxi);
-            yp = parseFloat(py1);
+            yp = parseFloat(pyi);
 
             rp = ((r2-r1)/dist12)*(Math.sqrt((xp-x0)*(xp-x0)+(yp-y0)*(yp-y0))-dist10) + r1;
 			
