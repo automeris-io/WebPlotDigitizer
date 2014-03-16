@@ -145,7 +145,6 @@ wpd.DataSeries = (function () {
         this.removePixelAtIndex = function(index) {
             if(2*index < pixels.length) {
                 pixels.splice(2*index, 2);
-                this.unselectPixel(index);
             }
         };
 
@@ -154,7 +153,7 @@ wpd.DataSeries = (function () {
             this.removePixelAtIndex(pIndex);
         };
 
-        this.removeNearestPixel = function(x, y, threshold) {
+        this.findNearestPixel = function(x, y, threshold) {
             threshold = (threshold == null) ? 50 : parseFloat(threshold);
             var minDist, minIndex = -1, 
                 i, dist;
@@ -165,6 +164,11 @@ wpd.DataSeries = (function () {
                     minDist = dist;
                 }
             }
+            return minIndex;
+        };
+
+        this.removeNearestPixel = function(x, y, threshold) {
+            var minIndex = this.findNearestPixel(x, y, threshold);
             if(minIndex >= 0) {
                 this.removePixelAtIndex(minIndex);
             }
@@ -174,26 +178,25 @@ wpd.DataSeries = (function () {
         this.getCount = function() { return pixels.length/2; }
  
         this.selectPixel = function(index) {
-            var i;
-            for(i = 0; i < selections.length; i++) {
-                if(selections[i] === index) {
-                    return;
-                }
+            if(selections.indexOf(index) >= 0) {
+                return;
             }
             selections[selections.length] = index;
         };
 
-        this.unselectPixel = function(index) {
-            var i, spliceAtIndex = -1;
-            for(i = 0; i < selections.length; i++) {
-                if(selections[i] === index) {
-                    spliceAtIndex = i;
-                    break;
-                }
+        this.unselectAll = function () {
+            selections = [];
+        };
+
+        this.selectNearestPixel = function(x, y, threshold) {
+            var minIndex = this.findNearestPixel(x, y, threshold);
+            if(minIndex >= 0) {
+                this.selectPixel(minIndex);
             }
-            if(spliceAtIndex >= 0) {
-                selections.splice(spliceAtIndex, 1);
-            }
+        };
+
+        this.getSelectedPixels = function () {
+            return selections;
         };
 
     };
