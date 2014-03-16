@@ -222,23 +222,13 @@ wpd.AxesCornersTool = (function () {
 
                 wpd.graphicsWidget.updateZoomOnEvent(ev);
             } else {
-                var thresh = 15.0/wpd.graphicsWidget.getZoomRatio(),
-                    ci,
-                    cpoint,
-                    cal = wpd.alignAxes.getActiveCalib(),
-                    dist;
+                var cal = wpd.alignAxes.getActiveCalib();
+                cal.unselectAll();
+                //cal.selectNearestPoint(imagePos.x, imagePos.y, 15.0/wpd.graphicsWidget.getZoomRatio());
+                cal.selectNearestPoint(imagePos.x, imagePos.y);
+                wpd.graphicsWidget.forceHandlerRepaint();
+                wpd.graphicsWidget.updateZoomOnEvent(ev);
 
-                for (ci = 0; ci < cal.getCount(); ci++) {
-                    cpoint = cal.getPoint(ci);
-                    dist = Math.sqrt((cpoint.px - imagePos.x)*(cpoint.px - imagePos.x) + (cpoint.py - imagePos.y)*(cpoint.py - imagePos.y));
-                    if(dist <= thresh) {
-                        cal.unselectAll();
-                        cal.selectPoint(ci);
-                        wpd.graphicsWidget.forceHandlerRepaint();
-                        wpd.graphicsWidget.updateZoomOnEvent(ev);
-                        return;
-                    }
-                }
             }
         };
 

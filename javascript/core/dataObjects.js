@@ -79,9 +79,31 @@ wpd.Calibration = (function () {
             }
         };
 
+        this.findNearestPoint = function(x, y, threshold) {
+            threshold = (threshold == null) ? 50 : parseFloat(threshold);
+            var minDist, minIndex = -1, 
+                i, dist;
+            for(i = 0; i < px.length; i++) {
+                dist = Math.sqrt((x - px[i])*(x - px[i]) + (y - py[i])*(y - py[i]));
+                if((minIndex < 0 && dist <= threshold) || (minIndex >= 0 && dist < minDist)) {
+                    minIndex = i;
+                    minDist = dist;
+                }
+            }
+            return minIndex;
+        };
+
+
         this.selectPoint = function(index) {
             if(selections.indexOf(index) < 0) {
                 selections[selections.length] = index;
+            }
+        };
+
+        this.selectNearestPoint = function (x, y, threshold) {
+            var minIndex = this.findNearestPoint(x, y, threshold);
+            if (minIndex >= 0) {
+                this.selectPoint(minIndex);
             }
         };
 
