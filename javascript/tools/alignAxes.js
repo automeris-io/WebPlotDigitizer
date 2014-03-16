@@ -197,7 +197,8 @@ wpd.AxesCornersTool = (function () {
 
     var Tool = function(maxPoints, dimensions, pointLabels) {
         var pointCount = 0,
-            ncal = new wpd.Calibration(dimensions); 
+            ncal = new wpd.Calibration(dimensions),
+            isCapturingCorners = true; 
 
         ncal.labels = pointLabels;
         wpd.alignAxes.setActiveCalib(ncal);
@@ -205,19 +206,40 @@ wpd.AxesCornersTool = (function () {
 
         this.onMouseClick = function(ev, pos, imagePos) {
 
-            pointCount = pointCount + 1;
-            
-            var calib =  wpd.alignAxes.getActiveCalib();
-            calib.addPoint(imagePos.x, imagePos.y, 0, 0);
-            calib.unselectAll();
-            calib.selectPoint(pointCount-1);
-            wpd.graphicsWidget.forceHandlerRepaint(); 
+            if(isCapturingCorners) {
+                pointCount = pointCount + 1;
+                
+                var calib =  wpd.alignAxes.getActiveCalib();
+                calib.addPoint(imagePos.x, imagePos.y, 0, 0);
+                calib.unselectAll();
+                calib.selectPoint(pointCount-1);
+                wpd.graphicsWidget.forceHandlerRepaint(); 
 
-            if(pointCount === maxPoints) {
-                wpd.alignAxes.calibrationCompleted();
+                if(pointCount === maxPoints) {
+                    isCapturingCorners = false;
+                    wpd.alignAxes.calibrationCompleted();
+                }
+
+                wpd.graphicsWidget.updateZoomOnEvent(ev);
+            } else {
+                var thresh = 15.0/wpd.graphicsWidget.getZoomRatio(),
+                    ci,
+                    cpoint,
+                    cal = wpd.alignAxes.getActiveCalib(),
+                    dist;
+
+                for (ci = 0; ci < cal.getCount(); ci++) {
+                    cpoint = cal.getPoint(ci);
+                    dist = Math.sqrt((cpoint.px - imagePos.x)*(cpoint.px - imagePos.x) + (cpoint.py - imagePos.y)*(cpoint.py - imagePos.y));
+                    if(dist <= thresh) {
+                        cal.unselectAll();
+                        cal.selectPoint(ci);
+                        wpd.graphicsWidget.forceHandlerRepaint();
+                        wpd.graphicsWidget.updateZoomOnEvent(ev);
+                        return;
+                    }
+                }
             }
-
-            wpd.graphicsWidget.updateZoomOnEvent(ev);
         };
 
         this.onKeyDown = function(ev) {
@@ -261,6 +283,8 @@ wpd.AlignmentCornersRepainter = (function () {
     var Tool = function () {
 
         var ctx = wpd.graphicsWidget.getAllContexts();
+
+        this.painterName = 'AlignmentCornersReptainer';
 
         this.onForcedRedraw = function () {
             wpd.graphicsWidget.resetData();
@@ -306,64 +330,6 @@ wpd.AlignmentCornersRepainter = (function () {
     return Tool;
 })();
 
-wpd.AdjustAlignmentCornersTool = (function () {
-    var Tool = function() {
-
-        this.onMouseClick = function(ev, pos, imagePos) {
-            var thresh = 15.0/wpd.graphicsWidget.getZoomRatio(),
-                ci,
-                cpoint,
-                cal = wpd.alignAxes.getActiveCalib(),
-                dist;
-
-            for (ci = 0; ci < cal.getCount(); ci++) {
-                cpoint = cal.getPoint(ci);
-                dist = Math.sqrt((cpoint.px - imagePos.x)*(cpoint.px - imagePos.x) + (cpoint.py - imagePos.y)*(cpoint.py - imagePos.y));
-                if(dist <= thresh) {
-                    cal.unselectAll();
-                    cal.selectPoint(ci);
-                    wpd.graphicsWidget.forceHandlerRepaint();
-                    wpd.graphicsWidget.updateZoomOnEvent(ev);
-                    return;
-                }
-            }
-        };
-        
-        this.onKeyDown = function(ev) {
-            var cal = wpd.alignAxes.getActiveCalib();
-
-            if(cal.getSelectedPoints().length === 0) {
-                return;
-            }
-
-            var selPoint = cal.getPoint(cal.getSelectedPoints()[0]),
-                pointPx = selPoint.px,
-                pointPy = selPoint.py,
-                stepSize = ev.shiftKey === true ? 5/wpd.graphicsWidget.getZoomRatio() : 0.5/wpd.graphicsWidget.getZoomRatio();
-
-            if(wpd.keyCodes.isUp(ev.keyCode)) {
-                pointPy = pointPy - stepSize;
-            } else if(wpd.keyCodes.isDown(ev.keyCode)) {
-                pointPy = pointPy + stepSize;
-            } else if(wpd.keyCodes.isLeft(ev.keyCode)) {
-                pointPx = pointPx - stepSize;
-            } else if(wpd.keyCodes.isRight(ev.keyCode)) {
-                pointPx = pointPx + stepSize;
-            } else {
-                return;
-            }
-            
-            cal.changePointPx(cal.getSelectedPoints()[0], pointPx, pointPy);
-            wpd.graphicsWidget.forceHandlerRepaint();
-            wpd.graphicsWidget.updateZoomToImagePosn(pointPx, pointPy);
-            ev.preventDefault();
-            ev.stopPropagation();
-        };
-    };
-    return Tool;
-})();
-
-
 wpd.alignAxes = (function () {
 
     var calib, calibrator;
@@ -401,7 +367,6 @@ wpd.alignAxes = (function () {
     }
 
     function calibrationCompleted() {
-        wpd.graphicsWidget.setTool(new wpd.AdjustAlignmentCornersTool());
         wpd.sidebar.show('axes-calibration-sidebar');
     }
 

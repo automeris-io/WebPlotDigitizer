@@ -62,9 +62,14 @@ wpd.acquireData = (function () {
         wpd.sidebar.show('acquireDataSidebar');
     }
 
+    function adjustPoints() {
+        wpd.graphicsWidget.setTool(new wpd.AdjustDataPointTool());
+    }
+
     return {
         load: load,
         manualSelection: manualSelection,
+        adjustPoints: adjustPoints,
         deletePoint: deletePoint,
         clearAll: clearAll,
         undo: undo,
@@ -169,19 +174,29 @@ wpd.DataPointsRepainter = (function () {
                  activeDataSeries = plotData.getActiveDataSeries(),
                  dindex,
                  imagePos,
-                 pos;
+                 pos,
+                 isSelected;
 
             for(dindex = 0; dindex < activeDataSeries.getCount(); dindex++) {
                 imagePos = activeDataSeries.getPixel(dindex);
+                isSelected = activeDataSeries.getSelectedPixels().indexOf(dindex) >= 0;
                 pos = wpd.graphicsWidget.screenPx(imagePos.x, imagePos.y);
 
                 ctx.dataCtx.beginPath();
-                ctx.dataCtx.fillStyle = "rgb(200,0,0)";
+                if(isSelected) {
+                    ctx.dataCtx.fillStyle = "rgb(0,200,0)";
+                } else {
+                    ctx.dataCtx.fillStyle = "rgb(200,0,0)";
+                }
                 ctx.dataCtx.arc(pos.x, pos.y, 3, 0, 2.0*Math.PI, true);
                 ctx.dataCtx.fill();
 
                 ctx.oriDataCtx.beginPath();
-                ctx.oriDataCtx.fillStyle = "rgb(200,0,0)";
+                if(isSelected) {
+                    ctx.oriDataCtx.fillStyle = "rgb(0,200,0)";
+                } else {
+                    ctx.oriDataCtx.fillStyle = "rgb(200,0,0)";
+                }
                 ctx.oriDataCtx.arc(imagePos.x, imagePos.y, 3, 0, 2.0*Math.PI, true);
                 ctx.oriDataCtx.fill();
             }
@@ -206,6 +221,61 @@ wpd.DataPointsRepainter = (function () {
     return Painter;
 })();
 
+
+wpd.AdjustDataPointTool = (function () {
+    var Tool = function () {
+
+        this.onAttach = function () {
+            document.getElementById('manual-adjust-button').classList.add('pressed-button');
+            wpd.graphicsWidget.setRepainter(new wpd.DataPointsRepainter());
+        }; 
+        
+        this.onRemove = function () {
+            var dataSeries = wpd.appData.getPlotData().getActiveDataSeries();
+            dataSeries.unselectAll();
+            document.getElementById('manual-adjust-button').classList.remove('pressed-button');
+        };
+
+        this.onMouseClick = function (ev, pos, imagePos) {
+            var dataSeries = wpd.appData.getPlotData().getActiveDataSeries();
+            dataSeries.unselectAll();
+            dataSeries.selectNearestPixel(imagePos.x, imagePos.y);
+            wpd.graphicsWidget.forceHandlerRepaint();
+            wpd.graphicsWidget.updateZoomOnEvent(ev);
+        };
+
+        this.onKeyDown = function (ev) {
+            var activeDataSeries = wpd.appData.getPlotData().getActiveDataSeries(),
+                selIndex = activeDataSeries.getSelectedPixels()[0];
+
+            if(selIndex == null) { return; }
+
+            var selPoint = activeDataSeries.getPixel(selIndex),
+                pointPx = selPoint.x,
+                pointPy = selPoint.y,
+                stepSize = ev.shiftKey === true ? 5/wpd.graphicsWidget.getZoomRatio() : 0.5/wpd.graphicsWidget.getZoomRatio();
+
+            if(wpd.keyCodes.isUp(ev.keyCode)) {
+                pointPy = pointPy - stepSize;
+            } else if(wpd.keyCodes.isDown(ev.keyCode)) {
+                pointPy = pointPy + stepSize;
+            } else if(wpd.keyCodes.isLeft(ev.keyCode)) {
+                pointPx = pointPx - stepSize;
+            } else if(wpd.keyCodes.isRight(ev.keyCode)) {
+                pointPx = pointPx + stepSize;
+            } else {
+                return;
+            }
+            
+            activeDataSeries.setPixelAt(selIndex, pointPx, pointPy);
+            wpd.graphicsWidget.forceHandlerRepaint();
+            wpd.graphicsWidget.updateZoomToImagePosn(pointPx, pointPy);
+            ev.preventDefault();
+            ev.stopPropagation(); 
+        };
+    };
+    return Tool;
+})();
 
 wpd.dataPointCounter = (function () {
     function setCount() {
