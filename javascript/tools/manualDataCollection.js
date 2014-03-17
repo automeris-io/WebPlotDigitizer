@@ -233,6 +233,7 @@ wpd.AdjustDataPointTool = (function () {
         this.onRemove = function () {
             var dataSeries = wpd.appData.getPlotData().getActiveDataSeries();
             dataSeries.unselectAll();
+            wpd.graphicsWidget.forceHandlerRepaint();
             document.getElementById('manual-adjust-button').classList.remove('pressed-button');
         };
 
