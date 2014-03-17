@@ -22,42 +22,44 @@
 */
 
 /* Parse user provided expressions, dates etc. */
+var wpd = wpd || {};
 
-var InputParser = function () {
-	var self = this;
+wpd.InputParser = (function () {
+    var Parser = function () {
+        this.parse = function (input) {
+            this.isValid = false;
+            this.isDate = false;
 
-	self.parse = function(input) {
-		
-		self.isValid = false;
-		self.isDate = false;
+            if(input == null) {
+                return null;
+            }
 
-		if (input == null) {
-			return null;
-		}
+            input = input.trim();
 
-		input = input.trim();
+            if(input.indexOf('^') >= 0) {
+                return null;
+            }
 
-		if (input.indexOf("^") !== -1) {
-			return null;
-		}
+            var parsedDate = wpd.dateConverter.parse(input);
+            if(parsedDate != null) {
+                this.isValid = true;
+                this.isDate = true;
+                return parsedDate;
+            }
 
-		var parsedDate = dateConverter.parse(input);
-		if(parsedDate !== null) {
-			self.isValid = true;
-			self.isDate = true;
-			return parsedDate;
-		}
+            var parsedFloat = parseFloat(input);
+            if(!isNaN(parsedFloat)) {
+                this.isValid = true;
+                return parsedFloat;
+            }
 
-		var parsedFloat = parseFloat(input);
-		if(!isNaN(parsedFloat)) {
-			self.isValid = true;
-			return parsedFloat;
-		}
+            return null;
+        };
 
-		return null;
-	};
+        this.isValid = false;
 
-	self.isValid = false;
+        this.isDate = false;
+    };
+    return Parser;
+})();
 
-	self.isDate = false;
-};
