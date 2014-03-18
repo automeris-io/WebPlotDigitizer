@@ -45,6 +45,11 @@ wpd.ImageAxes = (function () {
                 y: y
             };
         };
+
+        this.pixelToLiveString = function (pxi, pyi) {
+            var dataVal = this.pixelToData(pxi, pyi);
+            return dataVal[0].toFixed(2) + ', ' + dataVal[1].toFixed(2);
+        };
     };
 
     AxesObj.prototype.numCalibrationPointsRequired = function() {

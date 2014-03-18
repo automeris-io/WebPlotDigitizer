@@ -102,9 +102,8 @@ wpd.zoomView = (function() {
 
     function setCoords(imageX, imageY) {
         if(wpd.appData.isAligned()) {
-            var plotData = wpd.appData.getPlotData(),
-                dataCoords = plotData.axes.pixelToData(imageX, imageY);
-            $mPosn.innerText = dataCoords[0] + ', ' + dataCoords[1];
+            var plotData = wpd.appData.getPlotData();
+            $mPosn.innerText = plotData.axes.pixelToLiveString(imageX, imageY);
         } else {
             $mPosn.innerText = imageX.toFixed(2) + ', ' + imageY.toFixed(2);
         }

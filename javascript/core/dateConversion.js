@@ -86,6 +86,10 @@ wpd.dateConverter = (function () {
         return tempDate;
     }
     
+    function formatDateNumber(dateNumber, formatString) {
+        return formatDate(fromJD(dateNumber), formatString);
+    }
+
     function formatDate(dateObject, formatString) {
         var longMonths = [
                             "January", 
@@ -164,7 +168,9 @@ wpd.dateConverter = (function () {
 
     return {
         parse: parse,
-        getFormatString: getFormatString
+        getFormatString: getFormatString,
+        formatDate: formatDate,
+        formatDateNumber: formatDateNumber
     };
 })();
 
