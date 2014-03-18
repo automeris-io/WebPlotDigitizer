@@ -168,6 +168,24 @@ wpd.XYAxes = (function () {
                 y: 0
             };
         };
+
+        this.pixelToLiveString = function(pxi, pyi) {
+            var rtnString = '',
+                dataVal = this.pixelToData(pxi, pyi);
+            if(isXDate) {
+                rtnString += wpd.dateConverter.formatDateNumber(dataVal[0], initialFormattingX);
+            } else {
+                rtnString += dataVal[0].toExponential(4);
+            }
+            rtnString += ', ';
+
+            if(isYDate) {
+                rtnString += wpd.dateConverter.formatDateNumber(dataVal[1], initialFormattingY);
+            } else {
+                rtnString += dataVal[1].toExponential(4);
+            }
+            return rtnString;
+        };
     };
 
     AxesObj.prototype.numCalibrationPointsRequired = function() {
