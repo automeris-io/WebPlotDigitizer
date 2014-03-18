@@ -163,7 +163,8 @@ wpd.dateConverter = (function () {
     }
 
     return {
-        parse: parse
+        parse: parse,
+        getFormatString: getFormatString
     };
 })();
 

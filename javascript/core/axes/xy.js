@@ -31,6 +31,10 @@ wpd.XYAxes = (function () {
             isLogScaleX = false,
             isLogScaleY = false,
 
+            isXDate = false, isYDate = false,
+
+            initialFormattingX, initialFormattingY,
+
             x1, x2, x3, x4, y1, y2, y3, y4,
             xmin, xmax, ymin, ymax, xm, ym,
             d12, d34, Lx, Ly, 
@@ -45,7 +49,8 @@ wpd.XYAxes = (function () {
                 var cp1 = cal.getPoint(0),
                     cp2 = cal.getPoint(1),
                     cp3 = cal.getPoint(2),
-                    cp4 = cal.getPoint(3);
+                    cp4 = cal.getPoint(3),
+                    ip = new wpd.InputParser();
                 
                 x1 = cp1.px;
                 y1 = cp1.py;
@@ -60,6 +65,24 @@ wpd.XYAxes = (function () {
                 xmax = cp2.dx;
                 ymin = cp3.dy;
                 ymax = cp4.dy;
+
+                // Check for dates, validity etc.
+
+                // Validate X-Axes:
+                xmin = ip.parse(xmin);
+                if(!ip.isValid) { return false; }
+                isXDate = ip.isDate;
+                xmax = ip.parse(xmax);
+                if(!ip.isValid || (ip.isDate != isXDate)) { return false; }
+                initialFormattingX = ip.formatting; 
+
+                // Validate Y-Axes:
+                ymin = ip.parse(ymin);
+                if(!ip.isValid) { return false; }
+                isYDate = ip.isDate;
+                ymax = ip.parse(ymax);
+                if(!ip.isValid || (ip.isDate != isYDate)) { return false; }
+                initialFormattingY = ip.formatting; 
 
                 isLogScaleX = isLogX;
                 isLogScaleY = isLogY;

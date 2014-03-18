@@ -29,6 +29,7 @@ wpd.InputParser = (function () {
         this.parse = function (input) {
             this.isValid = false;
             this.isDate = false;
+            this.formatting = null;
 
             if(input == null) {
                 return null;
@@ -44,6 +45,7 @@ wpd.InputParser = (function () {
             if(parsedDate != null) {
                 this.isValid = true;
                 this.isDate = true;
+                this.formatting = wpd.dateConverter.getFormatString(input);
                 return parsedDate;
             }
 
@@ -59,6 +61,8 @@ wpd.InputParser = (function () {
         this.isValid = false;
 
         this.isDate = false;
+
+        this.formatting = null;
     };
     return Parser;
 })();
