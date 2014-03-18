@@ -337,9 +337,31 @@ wpd.Calibration = (function () {
             }
         };
 
+        this.findNearestPoint = function(x, y, threshold) {
+            threshold = (threshold == null) ? 50 : parseFloat(threshold);
+            var minDist, minIndex = -1, 
+                i, dist;
+            for(i = 0; i < px.length; i++) {
+                dist = Math.sqrt((x - px[i])*(x - px[i]) + (y - py[i])*(y - py[i]));
+                if((minIndex < 0 && dist <= threshold) || (minIndex >= 0 && dist < minDist)) {
+                    minIndex = i;
+                    minDist = dist;
+                }
+            }
+            return minIndex;
+        };
+
+
         this.selectPoint = function(index) {
             if(selections.indexOf(index) < 0) {
                 selections[selections.length] = index;
+            }
+        };
+
+        this.selectNearestPoint = function (x, y, threshold) {
+            var minIndex = this.findNearestPoint(x, y, threshold);
+            if (minIndex >= 0) {
+                this.selectPoint(minIndex);
             }
         };
 
@@ -403,7 +425,6 @@ wpd.DataSeries = (function () {
         this.removePixelAtIndex = function(index) {
             if(2*index < pixels.length) {
                 pixels.splice(2*index, 2);
-                this.unselectPixel(index);
             }
         };
 
@@ -412,7 +433,7 @@ wpd.DataSeries = (function () {
             this.removePixelAtIndex(pIndex);
         };
 
-        this.removeNearestPixel = function(x, y, threshold) {
+        this.findNearestPixel = function(x, y, threshold) {
             threshold = (threshold == null) ? 50 : parseFloat(threshold);
             var minDist, minIndex = -1, 
                 i, dist;
@@ -423,6 +444,11 @@ wpd.DataSeries = (function () {
                     minDist = dist;
                 }
             }
+            return minIndex;
+        };
+
+        this.removeNearestPixel = function(x, y, threshold) {
+            var minIndex = this.findNearestPixel(x, y, threshold);
             if(minIndex >= 0) {
                 this.removePixelAtIndex(minIndex);
             }
@@ -432,26 +458,25 @@ wpd.DataSeries = (function () {
         this.getCount = function() { return pixels.length/2; }
  
         this.selectPixel = function(index) {
-            var i;
-            for(i = 0; i < selections.length; i++) {
-                if(selections[i] === index) {
-                    return;
-                }
+            if(selections.indexOf(index) >= 0) {
+                return;
             }
             selections[selections.length] = index;
         };
 
-        this.unselectPixel = function(index) {
-            var i, spliceAtIndex = -1;
-            for(i = 0; i < selections.length; i++) {
-                if(selections[i] === index) {
-                    spliceAtIndex = i;
-                    break;
-                }
+        this.unselectAll = function () {
+            selections = [];
+        };
+
+        this.selectNearestPixel = function(x, y, threshold) {
+            var minIndex = this.findNearestPixel(x, y, threshold);
+            if(minIndex >= 0) {
+                this.selectPixel(minIndex);
             }
-            if(spliceAtIndex >= 0) {
-                selections.splice(spliceAtIndex, 1);
-            }
+        };
+
+        this.getSelectedPixels = function () {
+            return selections;
         };
 
     };
@@ -598,153 +623,158 @@ wpd.ConnectedPoints = (function () {
 */
 
 /* Parse dates and convert back and forth to Julian days */
+var wpd = wpd || {};
 
-var dateConverter = {
-	
-	parse: function(input) {
-				if(input == null) {
-					return null;
-				}
+wpd.dateConverter = (function () {
 
-				if(input.indexOf("/") === -1) {
-					return null;
-				}
+    function parse(input) {
+        if(input == null) { return null; }
 
-				return this.toJD(input);
-			},
+        if(input.indexOf('/') < 0) { return null; }
 
-	// Convert to Julian Date
-	toJD: function(dateString) {
-				var dateParts = dateString.split("/"),
-					year,
-					month,
-					day,
-					tempDate,
-					rtnValue;
+        return toJD(input);
+    }
 
-				if(dateParts.length <= 0 || dateParts.length > 3) {
-					return null;
-				}
+    function toJD(dateString) {
+	    var dateParts = dateString.split("/"),
+			year,
+			month,
+			day,
+			tempDate,
+			rtnValue;
 
-				year = parseInt(dateParts[0], 10);
+        if(dateParts.length <= 0 || dateParts.length > 3) {
+            return null;
+        }
 
-				month = parseInt(dateParts[1] === undefined ? 0 : dateParts[1], 10);
+        year = parseInt(dateParts[0], 10);
 
-				date = parseInt(dateParts[2] === undefined ? 1 : dateParts[2], 10);
+        month = parseInt(dateParts[1] === undefined ? 0 : dateParts[1], 10);
 
-				if(isNaN(year) || isNaN(month) || isNaN(date)) {
-					return null;
-				}
+        date = parseInt(dateParts[2] === undefined ? 1 : dateParts[2], 10);
 
-				if(month > 12 || month < 1) {
-					return null;
-				}
+        if(isNaN(year) || isNaN(month) || isNaN(date)) {
+            return null;
+        }
 
-				if(date > 31 || date < 1) {
-					return null;
-				}
+        if(month > 12 || month < 1) {
+            return null;
+        }
 
-				// Temporary till I figure out julian dates:
-				tempDate = new Date();
-				tempDate.setUTCFullYear(year);
-				tempDate.setUTCMonth(month-1);
-				tempDate.setUTCDate(date);
-				rtnValue = parseFloat(Date.parse(tempDate));
-				if(!isNaN(rtnValue)) {
-					return rtnValue;
-				}
-				return null;
-			},
+        if(date > 31 || date < 1) {
+            return null;
+        }
 
-	// Convert back from Julian Date
-	fromJD: function(jd) {
+        // Temporary till I figure out julian dates:
+        tempDate = new Date();
+        tempDate.setUTCFullYear(year);
+        tempDate.setUTCMonth(month-1);
+        tempDate.setUTCDate(date);
+        rtnValue = parseFloat(Date.parse(tempDate));
+        if(!isNaN(rtnValue)) {
+            return rtnValue;
+        }
+        return null;
+    }
 
-				// Temporary till I figure out julian dates:
-				jd = parseFloat(jd);
-				var msInDay = 24*60*60*1000,
-					roundedDate = parseInt(Math.round(jd/msInDay)*msInDay,10),
-					tempDate = new Date(roundedDate);
+    function fromJD(jd) {
+        // Temporary till I figure out julian dates:
+        jd = parseFloat(jd);
+        var msInDay = 24*60*60*1000,
+            roundedDate = parseInt(Math.round(jd/msInDay)*msInDay,10),
+            tempDate = new Date(roundedDate);
 
-				return tempDate;
-			},
+        return tempDate;
+    }
+    
+    function formatDateNumber(dateNumber, formatString) {
+        return formatDate(fromJD(dateNumber), formatString);
+    }
 
-	formatDate: function(dateObject, formatString) {
-				var longMonths = [
-									"January", 
-									"February", 
-									"March", 
-									"April", 
-									"May", 
-									"June", 
-									"July", 
-									"August", 
-									"September",
-									"October",
-									"November",
-									"December"
-								],
-					shortMonths = [
-									"Jan",
-									"Feb",
-									"Mar",
-									"Apr",
-									"May",
-									"Jun",
-									"Jul",
-									"Aug",
-									"Sep",
-									"Oct",
-									"Nov",
-									"Dec"
-								];
+    function formatDate(dateObject, formatString) {
+        var longMonths = [
+                            "January", 
+                            "February", 
+                            "March", 
+                            "April", 
+                            "May", 
+                            "June", 
+                            "July", 
+                            "August", 
+                            "September",
+                            "October",
+                            "November",
+                            "December"
+                        ],
+            shortMonths = [
+                            "Jan",
+                            "Feb",
+                            "Mar",
+                            "Apr",
+                            "May",
+                            "Jun",
+                            "Jul",
+                            "Aug",
+                            "Sep",
+                            "Oct",
+                            "Nov",
+                            "Dec"
+                        ];
+        
+        var outputString = formatString;
+
+        outputString = outputString.replace("YYYY", "yyyy");
+        outputString = outputString.replace("YY", "yy");
+        outputString = outputString.replace("MMMM", "mmmm");
+        outputString = outputString.replace("MMM", "mmm");
+        outputString = outputString.replace("MM", "mm");
+        outputString = outputString.replace("DD", "dd");
+
+        outputString = outputString.replace("yyyy", dateObject.getUTCFullYear());
+
+        var twoDigitYear = dateObject.getUTCFullYear()%100;
+        twoDigitYear = twoDigitYear < 10 ? '0' + twoDigitYear : twoDigitYear;
+
+        outputString = outputString.replace("yy", twoDigitYear);
+
+        outputString = outputString.replace("mmmm", longMonths[dateObject.getUTCMonth()]);
+        outputString = outputString.replace("mmm", shortMonths[dateObject.getUTCMonth()]);
+        outputString = outputString.replace("mm", (dateObject.getUTCMonth()+1));
+        outputString = outputString.replace("dd", dateObject.getUTCDate());
 				
-				var outputString = formatString;
+		return outputString;
+    }
 
-				outputString = outputString.replace("YYYY", "yyyy");
-				outputString = outputString.replace("YY", "yy");
-				outputString = outputString.replace("MMMM", "mmmm");
-				outputString = outputString.replace("MMM", "mmm");
-				outputString = outputString.replace("MM", "mm");
-				outputString = outputString.replace("DD", "dd");
+    function getFormatString(dateString) {
+    	var dateParts = dateString.split("/"),
+            year,
+            month,
+            date,
+            formatString = 'yyyy/mm/dd';
+        
+        if(dateParts.length >= 1) {
+            formatString = 'yyyy';
+        }
 
-				outputString = outputString.replace("yyyy", dateObject.getUTCFullYear());
+        if(dateParts.length >= 2) {
+            formatString += '/mm';
+        }
 
-				var twoDigitYear = dateObject.getUTCFullYear()%100;
-				twoDigitYear = twoDigitYear < 10 ? '0' + twoDigitYear : twoDigitYear;
+        if(dateParts.length === 3) {
+            formatString += '/dd';
+        }
 
-				outputString = outputString.replace("yy", twoDigitYear);
+        return formatString;
+    }
 
-				outputString = outputString.replace("mmmm", longMonths[dateObject.getUTCMonth()]);
-				outputString = outputString.replace("mmm", shortMonths[dateObject.getUTCMonth()]);
-				outputString = outputString.replace("mm", (dateObject.getUTCMonth()+1));
-				
-				outputString = outputString.replace("dd", dateObject.getUTCDate());
-				
-				return outputString;
-			},
+    return {
+        parse: parse,
+        getFormatString: getFormatString,
+        formatDate: formatDate,
+        formatDateNumber: formatDateNumber
+    };
+})();
 
-	getFormatString: function(dateString) {
-				var dateParts = dateString.split("/"),
-					year,
-					month,
-					date,
-					formatString = 'yyyy/mm/dd';
-				
-				if(dateParts.length >= 1) {
-					formatString = 'yyyy';
-				}
-
-				if(dateParts.length >= 2) {
-					formatString += '/mm';
-				}
-
-				if(dateParts.length === 3) {
-					formatString += '/dd';
-				}
-
-				return formatString;
-			}
-};
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
@@ -769,45 +799,51 @@ var dateConverter = {
 */
 
 /* Parse user provided expressions, dates etc. */
+var wpd = wpd || {};
 
-var InputParser = function () {
-	var self = this;
+wpd.InputParser = (function () {
+    var Parser = function () {
+        this.parse = function (input) {
+            this.isValid = false;
+            this.isDate = false;
+            this.formatting = null;
 
-	self.parse = function(input) {
-		
-		self.isValid = false;
-		self.isDate = false;
+            if(input == null) {
+                return null;
+            }
 
-		if (input == null) {
-			return null;
-		}
+            input = input.trim();
 
-		input = input.trim();
+            if(input.indexOf('^') >= 0) {
+                return null;
+            }
 
-		if (input.indexOf("^") !== -1) {
-			return null;
-		}
+            var parsedDate = wpd.dateConverter.parse(input);
+            if(parsedDate != null) {
+                this.isValid = true;
+                this.isDate = true;
+                this.formatting = wpd.dateConverter.getFormatString(input);
+                return parsedDate;
+            }
 
-		var parsedDate = dateConverter.parse(input);
-		if(parsedDate !== null) {
-			self.isValid = true;
-			self.isDate = true;
-			return parsedDate;
-		}
+            var parsedFloat = parseFloat(input);
+            if(!isNaN(parsedFloat)) {
+                this.isValid = true;
+                return parsedFloat;
+            }
 
-		var parsedFloat = parseFloat(input);
-		if(!isNaN(parsedFloat)) {
-			self.isValid = true;
-			return parsedFloat;
-		}
+            return null;
+        };
 
-		return null;
-	};
+        this.isValid = false;
 
-	self.isValid = false;
+        this.isDate = false;
 
-	self.isDate = false;
-};
+        this.formatting = null;
+    };
+    return Parser;
+})();
+
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
@@ -1502,6 +1538,11 @@ wpd.ImageAxes = (function () {
                 y: y
             };
         };
+
+        this.pixelToLiveString = function (pxi, pyi) {
+            var dataVal = this.pixelToData(pxi, pyi);
+            return dataVal[0].toFixed(2) + ', ' + dataVal[1].toFixed(2);
+        };
     };
 
     AxesObj.prototype.numCalibrationPointsRequired = function() {
@@ -1576,6 +1617,11 @@ wpd.MapAxes = (function () {
                 x: 0,
                 y: 0
             };
+        };
+
+        this.pixelToLiveString = function (pxi, pyi) {
+            var dataVal = this.pixelToData(pxi, pyi);
+            return dataVal[0].toExponential(4) + ', ' + dataVal[1].toExponential(4);
         };
     };
 
@@ -1703,6 +1749,11 @@ wpd.PolarAxes = (function () {
                 y: 0
             };
         };
+
+        this.pixelToLiveString = function (pxi, pyi) {
+            var dataVal = this.pixelToData(pxi, pyi);
+            return dataVal[0].toExponential(4) + ', ' + dataVal[1].toExponential(4);
+        };
     };
 
     AxesObj.prototype.numCalibrationPointsRequired = function() {
@@ -1829,6 +1880,11 @@ wpd.TernaryAxes = (function () {
                 y: 0
             };
         };
+
+        this.pixelToLiveString = function (pxi, pyi) {
+            var dataVal = this.pixelToData(pxi, pyi);
+            return dataVal[0].toExponential(4) + ', ' + dataVal[1].toExponential(4) + ', ' + dataVal[2].toExponential(4);
+        };
     };
 
     AxesObj.prototype.numCalibrationPointsRequired = function() {
@@ -1875,6 +1931,10 @@ wpd.XYAxes = (function () {
             isLogScaleX = false,
             isLogScaleY = false,
 
+            isXDate = false, isYDate = false,
+
+            initialFormattingX, initialFormattingY,
+
             x1, x2, x3, x4, y1, y2, y3, y4,
             xmin, xmax, ymin, ymax, xm, ym,
             d12, d34, Lx, Ly, 
@@ -1889,7 +1949,8 @@ wpd.XYAxes = (function () {
                 var cp1 = cal.getPoint(0),
                     cp2 = cal.getPoint(1),
                     cp3 = cal.getPoint(2),
-                    cp4 = cal.getPoint(3);
+                    cp4 = cal.getPoint(3),
+                    ip = new wpd.InputParser();
                 
                 x1 = cp1.px;
                 y1 = cp1.py;
@@ -1904,6 +1965,24 @@ wpd.XYAxes = (function () {
                 xmax = cp2.dx;
                 ymin = cp3.dy;
                 ymax = cp4.dy;
+
+                // Check for dates, validity etc.
+
+                // Validate X-Axes:
+                xmin = ip.parse(xmin);
+                if(!ip.isValid) { return false; }
+                isXDate = ip.isDate;
+                xmax = ip.parse(xmax);
+                if(!ip.isValid || (ip.isDate != isXDate)) { return false; }
+                initialFormattingX = ip.formatting; 
+
+                // Validate Y-Axes:
+                ymin = ip.parse(ymin);
+                if(!ip.isValid) { return false; }
+                isYDate = ip.isDate;
+                ymax = ip.parse(ymax);
+                if(!ip.isValid || (ip.isDate != isYDate)) { return false; }
+                initialFormattingY = ip.formatting; 
 
                 isLogScaleX = isLogX;
                 isLogScaleY = isLogY;
@@ -1988,6 +2067,24 @@ wpd.XYAxes = (function () {
                 x: 0,
                 y: 0
             };
+        };
+
+        this.pixelToLiveString = function(pxi, pyi) {
+            var rtnString = '',
+                dataVal = this.pixelToData(pxi, pyi);
+            if(isXDate) {
+                rtnString += wpd.dateConverter.formatDateNumber(dataVal[0], initialFormattingX);
+            } else {
+                rtnString += dataVal[0].toExponential(4);
+            }
+            rtnString += ', ';
+
+            if(isYDate) {
+                rtnString += wpd.dateConverter.formatDateNumber(dataVal[1], initialFormattingY);
+            } else {
+                rtnString += dataVal[1].toExponential(4);
+            }
+            return rtnString;
         };
     };
 
@@ -2801,14 +2898,20 @@ wpd.busyNote = (function () {
 })();
 
 wpd.messagePopup = (function () {
-    function show(title, msg) {
+    var close_callback;
+
+    function show(title, msg, callback) {
         wpd.popup.show('messagePopup');
         document.getElementById('message-popup-heading').innerHTML = title;
         document.getElementById('message-popup-text').innerHTML = msg;
+        close_callback = callback;
     }
 
     function close() {
         wpd.popup.close('messagePopup');
+        if(close_callback != null) {
+            close_callback();
+        }
     }
 
     return {
@@ -3115,9 +3218,8 @@ wpd.zoomView = (function() {
 
     function setCoords(imageX, imageY) {
         if(wpd.appData.isAligned()) {
-            var plotData = wpd.appData.getPlotData(),
-                dataCoords = plotData.axes.pixelToData(imageX, imageY);
-            $mPosn.innerText = dataCoords[0] + ', ' + dataCoords[1];
+            var plotData = wpd.appData.getPlotData();
+            $mPosn.innerText = plotData.axes.pixelToLiveString(imageX, imageY);
         } else {
             $mPosn.innerText = imageX.toFixed(2) + ', ' + imageY.toFixed(2);
         }
@@ -3190,10 +3292,10 @@ wpd.xyCalibration = (function () {
     }
 
     function align() {
-        var xmin = parseFloat(document.getElementById('xmin').value),
-	        xmax = parseFloat(document.getElementById('xmax').value),
-	        ymin = parseFloat(document.getElementById('ymin').value),
-	        ymax = parseFloat(document.getElementById('ymax').value),
+        var xmin = document.getElementById('xmin').value,
+	        xmax = document.getElementById('xmax').value,
+	        ymin = document.getElementById('ymin').value,
+	        ymax = document.getElementById('ymax').value,
 	        xlog = document.getElementById('xlog').value,
 	        ylog = document.getElementById('ylog').value,
             axes = new wpd.XYAxes(),
@@ -3204,10 +3306,15 @@ wpd.xyCalibration = (function () {
         calib.setDataAt(1, xmax, ymin);
         calib.setDataAt(2, xmin, ymin);
         calib.setDataAt(3, xmax, ymax);
-        axes.calibrate(calib, xlog, ylog);
+        if(!axes.calibrate(calib, xlog, ylog)) {
+            wpd.popup.close('xyAlignment');
+            wpd.messagePopup.show('Invalid Inputs', 'Please enter valid values for calibration.', getCornerValues);
+            return false;
+        }
         plot = wpd.appData.getPlotData();
         plot.axes = axes;
         wpd.popup.close('xyAlignment');
+        return true;
     }
 
     return {
@@ -3254,6 +3361,7 @@ wpd.polarCalibration = (function () {
         plot = wpd.appData.getPlotData();
         plot.axes = axes;
         wpd.popup.close('polarAlignment');
+        return true;
     }
 
     return {
@@ -3293,6 +3401,7 @@ wpd.ternaryCalibration = (function () {
         plot = wpd.appData.getPlotData();
         plot.axes = axes;
         wpd.popup.close('ternaryAlignment');
+        return true;
     }
 
     return {
@@ -3331,6 +3440,7 @@ wpd.mapCalibration = (function () {
         plot = wpd.appData.getPlotData();
         plot.axes = axes;
         wpd.popup.close('mapAlignment');
+        return true;
     }
 
     return {
@@ -3347,7 +3457,8 @@ wpd.AxesCornersTool = (function () {
 
     var Tool = function(maxPoints, dimensions, pointLabels) {
         var pointCount = 0,
-            ncal = new wpd.Calibration(dimensions); 
+            ncal = new wpd.Calibration(dimensions),
+            isCapturingCorners = true; 
 
         ncal.labels = pointLabels;
         wpd.alignAxes.setActiveCalib(ncal);
@@ -3355,19 +3466,30 @@ wpd.AxesCornersTool = (function () {
 
         this.onMouseClick = function(ev, pos, imagePos) {
 
-            pointCount = pointCount + 1;
-            
-            var calib =  wpd.alignAxes.getActiveCalib();
-            calib.addPoint(imagePos.x, imagePos.y, 0, 0);
-            calib.unselectAll();
-            calib.selectPoint(pointCount-1);
-            wpd.graphicsWidget.forceHandlerRepaint(); 
+            if(isCapturingCorners) {
+                pointCount = pointCount + 1;
+                
+                var calib =  wpd.alignAxes.getActiveCalib();
+                calib.addPoint(imagePos.x, imagePos.y, 0, 0);
+                calib.unselectAll();
+                calib.selectPoint(pointCount-1);
+                wpd.graphicsWidget.forceHandlerRepaint(); 
 
-            if(pointCount === maxPoints) {
-                wpd.alignAxes.calibrationCompleted();
+                if(pointCount === maxPoints) {
+                    isCapturingCorners = false;
+                    wpd.alignAxes.calibrationCompleted();
+                }
+
+                wpd.graphicsWidget.updateZoomOnEvent(ev);
+            } else {
+                var cal = wpd.alignAxes.getActiveCalib();
+                cal.unselectAll();
+                //cal.selectNearestPoint(imagePos.x, imagePos.y, 15.0/wpd.graphicsWidget.getZoomRatio());
+                cal.selectNearestPoint(imagePos.x, imagePos.y);
+                wpd.graphicsWidget.forceHandlerRepaint();
+                wpd.graphicsWidget.updateZoomOnEvent(ev);
+
             }
-
-            wpd.graphicsWidget.updateZoomOnEvent(ev);
         };
 
         this.onKeyDown = function(ev) {
@@ -3411,6 +3533,8 @@ wpd.AlignmentCornersRepainter = (function () {
     var Tool = function () {
 
         var ctx = wpd.graphicsWidget.getAllContexts();
+
+        this.painterName = 'AlignmentCornersReptainer';
 
         this.onForcedRedraw = function () {
             wpd.graphicsWidget.resetData();
@@ -3456,64 +3580,6 @@ wpd.AlignmentCornersRepainter = (function () {
     return Tool;
 })();
 
-wpd.AdjustAlignmentCornersTool = (function () {
-    var Tool = function() {
-
-        this.onMouseClick = function(ev, pos, imagePos) {
-            var thresh = 15.0/wpd.graphicsWidget.getZoomRatio(),
-                ci,
-                cpoint,
-                cal = wpd.alignAxes.getActiveCalib(),
-                dist;
-
-            for (ci = 0; ci < cal.getCount(); ci++) {
-                cpoint = cal.getPoint(ci);
-                dist = Math.sqrt((cpoint.px - imagePos.x)*(cpoint.px - imagePos.x) + (cpoint.py - imagePos.y)*(cpoint.py - imagePos.y));
-                if(dist <= thresh) {
-                    cal.unselectAll();
-                    cal.selectPoint(ci);
-                    wpd.graphicsWidget.forceHandlerRepaint();
-                    wpd.graphicsWidget.updateZoomOnEvent(ev);
-                    return;
-                }
-            }
-        };
-        
-        this.onKeyDown = function(ev) {
-            var cal = wpd.alignAxes.getActiveCalib();
-
-            if(cal.getSelectedPoints().length === 0) {
-                return;
-            }
-
-            var selPoint = cal.getPoint(cal.getSelectedPoints()[0]),
-                pointPx = selPoint.px,
-                pointPy = selPoint.py,
-                stepSize = ev.shiftKey === true ? 5/wpd.graphicsWidget.getZoomRatio() : 0.5/wpd.graphicsWidget.getZoomRatio();
-
-            if(wpd.keyCodes.isUp(ev.keyCode)) {
-                pointPy = pointPy - stepSize;
-            } else if(wpd.keyCodes.isDown(ev.keyCode)) {
-                pointPy = pointPy + stepSize;
-            } else if(wpd.keyCodes.isLeft(ev.keyCode)) {
-                pointPx = pointPx - stepSize;
-            } else if(wpd.keyCodes.isRight(ev.keyCode)) {
-                pointPx = pointPx + stepSize;
-            } else {
-                return;
-            }
-            
-            cal.changePointPx(cal.getSelectedPoints()[0], pointPx, pointPy);
-            wpd.graphicsWidget.forceHandlerRepaint();
-            wpd.graphicsWidget.updateZoomToImagePosn(pointPx, pointPy);
-            ev.preventDefault();
-            ev.stopPropagation();
-        };
-    };
-    return Tool;
-})();
-
-
 wpd.alignAxes = (function () {
 
     var calib, calibrator;
@@ -3551,7 +3617,6 @@ wpd.alignAxes = (function () {
     }
 
     function calibrationCompleted() {
-        wpd.graphicsWidget.setTool(new wpd.AdjustAlignmentCornersTool());
         wpd.sidebar.show('axes-calibration-sidebar');
     }
 
@@ -3564,7 +3629,9 @@ wpd.alignAxes = (function () {
         wpd.graphicsWidget.removeTool();
         wpd.graphicsWidget.removeRepainter();
         wpd.graphicsWidget.resetData();
-        calibrator.align();
+        if(!calibrator.align()) {
+            return;
+        }
         wpd.appData.isAligned(true);
         wpd.acquireData.showSidebar();
     }
@@ -4222,9 +4289,14 @@ wpd.acquireData = (function () {
         wpd.sidebar.show('acquireDataSidebar');
     }
 
+    function adjustPoints() {
+        wpd.graphicsWidget.setTool(new wpd.AdjustDataPointTool());
+    }
+
     return {
         load: load,
         manualSelection: manualSelection,
+        adjustPoints: adjustPoints,
         deletePoint: deletePoint,
         clearAll: clearAll,
         undo: undo,
@@ -4329,19 +4401,29 @@ wpd.DataPointsRepainter = (function () {
                  activeDataSeries = plotData.getActiveDataSeries(),
                  dindex,
                  imagePos,
-                 pos;
+                 pos,
+                 isSelected;
 
             for(dindex = 0; dindex < activeDataSeries.getCount(); dindex++) {
                 imagePos = activeDataSeries.getPixel(dindex);
+                isSelected = activeDataSeries.getSelectedPixels().indexOf(dindex) >= 0;
                 pos = wpd.graphicsWidget.screenPx(imagePos.x, imagePos.y);
 
                 ctx.dataCtx.beginPath();
-                ctx.dataCtx.fillStyle = "rgb(200,0,0)";
+                if(isSelected) {
+                    ctx.dataCtx.fillStyle = "rgb(0,200,0)";
+                } else {
+                    ctx.dataCtx.fillStyle = "rgb(200,0,0)";
+                }
                 ctx.dataCtx.arc(pos.x, pos.y, 3, 0, 2.0*Math.PI, true);
                 ctx.dataCtx.fill();
 
                 ctx.oriDataCtx.beginPath();
-                ctx.oriDataCtx.fillStyle = "rgb(200,0,0)";
+                if(isSelected) {
+                    ctx.oriDataCtx.fillStyle = "rgb(0,200,0)";
+                } else {
+                    ctx.oriDataCtx.fillStyle = "rgb(200,0,0)";
+                }
                 ctx.oriDataCtx.arc(imagePos.x, imagePos.y, 3, 0, 2.0*Math.PI, true);
                 ctx.oriDataCtx.fill();
             }
@@ -4366,6 +4448,62 @@ wpd.DataPointsRepainter = (function () {
     return Painter;
 })();
 
+
+wpd.AdjustDataPointTool = (function () {
+    var Tool = function () {
+
+        this.onAttach = function () {
+            document.getElementById('manual-adjust-button').classList.add('pressed-button');
+            wpd.graphicsWidget.setRepainter(new wpd.DataPointsRepainter());
+        }; 
+        
+        this.onRemove = function () {
+            var dataSeries = wpd.appData.getPlotData().getActiveDataSeries();
+            dataSeries.unselectAll();
+            wpd.graphicsWidget.forceHandlerRepaint();
+            document.getElementById('manual-adjust-button').classList.remove('pressed-button');
+        };
+
+        this.onMouseClick = function (ev, pos, imagePos) {
+            var dataSeries = wpd.appData.getPlotData().getActiveDataSeries();
+            dataSeries.unselectAll();
+            dataSeries.selectNearestPixel(imagePos.x, imagePos.y);
+            wpd.graphicsWidget.forceHandlerRepaint();
+            wpd.graphicsWidget.updateZoomOnEvent(ev);
+        };
+
+        this.onKeyDown = function (ev) {
+            var activeDataSeries = wpd.appData.getPlotData().getActiveDataSeries(),
+                selIndex = activeDataSeries.getSelectedPixels()[0];
+
+            if(selIndex == null) { return; }
+
+            var selPoint = activeDataSeries.getPixel(selIndex),
+                pointPx = selPoint.x,
+                pointPy = selPoint.y,
+                stepSize = ev.shiftKey === true ? 5/wpd.graphicsWidget.getZoomRatio() : 0.5/wpd.graphicsWidget.getZoomRatio();
+
+            if(wpd.keyCodes.isUp(ev.keyCode)) {
+                pointPy = pointPy - stepSize;
+            } else if(wpd.keyCodes.isDown(ev.keyCode)) {
+                pointPy = pointPy + stepSize;
+            } else if(wpd.keyCodes.isLeft(ev.keyCode)) {
+                pointPx = pointPx - stepSize;
+            } else if(wpd.keyCodes.isRight(ev.keyCode)) {
+                pointPx = pointPx + stepSize;
+            } else {
+                return;
+            }
+            
+            activeDataSeries.setPixelAt(selIndex, pointPx, pointPy);
+            wpd.graphicsWidget.forceHandlerRepaint();
+            wpd.graphicsWidget.updateZoomToImagePosn(pointPx, pointPy);
+            ev.preventDefault();
+            ev.stopPropagation(); 
+        };
+    };
+    return Tool;
+})();
 
 wpd.dataPointCounter = (function () {
     function setCount() {
