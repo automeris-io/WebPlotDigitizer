@@ -75,14 +75,20 @@ wpd.busyNote = (function () {
 })();
 
 wpd.messagePopup = (function () {
-    function show(title, msg) {
+    var close_callback;
+
+    function show(title, msg, callback) {
         wpd.popup.show('messagePopup');
         document.getElementById('message-popup-heading').innerHTML = title;
         document.getElementById('message-popup-text').innerHTML = msg;
+        close_callback = callback;
     }
 
     function close() {
         wpd.popup.close('messagePopup');
+        if(close_callback != null) {
+            close_callback();
+        }
     }
 
     return {

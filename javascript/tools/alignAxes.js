@@ -40,10 +40,10 @@ wpd.xyCalibration = (function () {
     }
 
     function align() {
-        var xmin = parseFloat(document.getElementById('xmin').value),
-	        xmax = parseFloat(document.getElementById('xmax').value),
-	        ymin = parseFloat(document.getElementById('ymin').value),
-	        ymax = parseFloat(document.getElementById('ymax').value),
+        var xmin = document.getElementById('xmin').value,
+	        xmax = document.getElementById('xmax').value,
+	        ymin = document.getElementById('ymin').value,
+	        ymax = document.getElementById('ymax').value,
 	        xlog = document.getElementById('xlog').value,
 	        ylog = document.getElementById('ylog').value,
             axes = new wpd.XYAxes(),
@@ -54,10 +54,15 @@ wpd.xyCalibration = (function () {
         calib.setDataAt(1, xmax, ymin);
         calib.setDataAt(2, xmin, ymin);
         calib.setDataAt(3, xmax, ymax);
-        axes.calibrate(calib, xlog, ylog);
+        if(!axes.calibrate(calib, xlog, ylog)) {
+            wpd.popup.close('xyAlignment');
+            wpd.messagePopup.show('Invalid Inputs', 'Please enter valid values for calibration.', getCornerValues);
+            return false;
+        }
         plot = wpd.appData.getPlotData();
         plot.axes = axes;
         wpd.popup.close('xyAlignment');
+        return true;
     }
 
     return {
@@ -104,6 +109,7 @@ wpd.polarCalibration = (function () {
         plot = wpd.appData.getPlotData();
         plot.axes = axes;
         wpd.popup.close('polarAlignment');
+        return true;
     }
 
     return {
@@ -143,6 +149,7 @@ wpd.ternaryCalibration = (function () {
         plot = wpd.appData.getPlotData();
         plot.axes = axes;
         wpd.popup.close('ternaryAlignment');
+        return true;
     }
 
     return {
@@ -181,6 +188,7 @@ wpd.mapCalibration = (function () {
         plot = wpd.appData.getPlotData();
         plot.axes = axes;
         wpd.popup.close('mapAlignment');
+        return true;
     }
 
     return {
@@ -369,7 +377,9 @@ wpd.alignAxes = (function () {
         wpd.graphicsWidget.removeTool();
         wpd.graphicsWidget.removeRepainter();
         wpd.graphicsWidget.resetData();
-        calibrator.align();
+        if(!calibrator.align()) {
+            return;
+        }
         wpd.appData.isAligned(true);
         wpd.acquireData.showSidebar();
     }
