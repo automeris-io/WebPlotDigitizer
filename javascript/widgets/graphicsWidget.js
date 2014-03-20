@@ -454,7 +454,8 @@ wpd.graphicsWidget = (function () {
         if($mainCanvas == null) {
             init();
         }
-
+        wpd.appData.reset();
+        wpd.sidebar.clear();
         originalWidth = originalImage.width;
         originalHeight = originalImage.height;
         aspectRatio = originalWidth/(originalHeight*1.0);
@@ -479,6 +480,7 @@ wpd.graphicsWidget = (function () {
     }
 
     function loadImageFromData(idata, iwidth, iheight) {
+        wpd.appData.reset();
         originalWidth = iwidth;
         originalHeight = iheight;
         aspectRatio = originalWidth/(originalHeight*1.0);

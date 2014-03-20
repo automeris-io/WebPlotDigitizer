@@ -29,6 +29,7 @@ wpd.acquireData = (function () {
             wpd.messagePopup.show("Acquire Data", "Please calibrate the axes before acquiring data.");
         } else {
             wpd.sidebar.show('acquireDataSidebar');
+            wpd.dataPointCounter.setCount();
             wpd.graphicsWidget.removeTool();
             wpd.graphicsWidget.setRepainter(new wpd.DataPointsRepainter());
         }
