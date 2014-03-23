@@ -33,7 +33,6 @@
 
 <!-- Individual, uncompressed javascript files -->
 <!--
-<script src="javascript/browser/applicationCache.js"></script>
 <script src="javascript/browser/browserInfo.js"></script>
 <script src="javascript/core/AEalgos/averagingWindow.js"></script>
 <script src="javascript/core/AEalgos/averagingWindowWithStepSize.js"></script>
@@ -54,6 +53,7 @@
 <script src="javascript/core/mathFunctions.js"></script>
 <script src="javascript/dataExport/csvgenerator.js"></script>
 <script src="javascript/dataExport/plotly.js"></script>
+<script src="javascript/dataExport/saveResume.js"></script>
 <script src="javascript/main.js"></script>
 <script src="javascript/services/scriptInjection.js"></script>
 <script src="javascript/tools/alignAxes.js"></script>
@@ -74,6 +74,8 @@
 
 <script src="combined-compiled.js"></script>
 
+<!-- thirdparty libraries etc. -->
+<script src="thirdparty/bson.js"></script>
 
 <!-- Start of StatCounter Code -->
 <!--
@@ -462,23 +464,22 @@ Loading application, please wait...
 	<p align="center" class="popupheading">Acquired Data</p>
 	<p align="center">
 		Sort by:
-		<select id="dataSortOption" onchange="wpd.CSVExport.updateSortingControls();">
+		<select id="data-sort-variables" onchange="wpd.dataTable.reSort();">
 		</select> 
 		Order: 
-		<select id="dataSortOrder" onchange="wpd.CSVExport.reSort();">
+		<select id="data-sort-order" onchange="wpd.dataTable.reSort();">
 			<option value="ascending">Ascending</option>
 			<option value="descending">Descending</option>
 		</select>
 	</p>
 	<p align="center">
-		<span id="csvDateFormatting">
-		Date Formatting: 
-		<span id="csvDateFormattingX">X <input type="label" size="15" id="xDateFormat" value="yyyy/mm/dd" /> </span>
-		<span id="csvDateFormattingY">Y <input type="label" size="15" id="yDateFormat" value="yyyy/mm/dd" /> </span>
-		<input type="button" value="Format" onclick="wpd.CSVExport.reSort();"/>
+		<span id="data-date-formatting-container">
+		Date Formatting:
+        <span id="data-date-formatting"></span>         
+		<input type="button" value="Format" onclick="wpd.dataTable.reSort();"/>
 		</span>
 	</p>
-	<p align="center">Variables: <span id="dataVariables">x, y</span></p>
+	<p align="center">Variables: <span id="dataVariables"></span></p>
 	<p align="center"><textarea id="digitizedDataTable" style="width: 480px; height: 250px;"></textarea></p>
 	<p align="center">
 		<input type="button" value="Select All" onclick="wpd.dataTable.selectAll();"/>
