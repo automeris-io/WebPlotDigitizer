@@ -186,6 +186,22 @@ wpd.XYAxes = (function () {
             }
             return rtnString;
         };
+
+        this.isDate = function (varIndex) {
+            if(varIndex === 0) {
+                return isXDate;
+            } else {
+                return isYDate;
+            }
+        };
+
+        this.getInitialDateFormat = function (varIndex) {
+            if(varIndex === 0) {
+                return initialFormattingX;
+            } else {
+                return initialFormattingY;
+            }
+        };
     };
 
     AxesObj.prototype.numCalibrationPointsRequired = function() {
@@ -194,6 +210,10 @@ wpd.XYAxes = (function () {
 
     AxesObj.prototype.getDimensions = function() {
         return 2;
+    };
+
+    AxesObj.prototype.getAxesLabels = function() {
+        return ['X', 'Y'];
     };
 
     return AxesObj;
