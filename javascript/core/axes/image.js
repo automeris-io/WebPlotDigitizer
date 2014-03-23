@@ -62,7 +62,7 @@ wpd.ImageAxes = (function () {
 
     AxesObj.prototype.getAxesLabels = function() {
         return ['X', 'Y'];
-    }
+    };
 
 
     return AxesObj;

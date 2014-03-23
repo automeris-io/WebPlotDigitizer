@@ -73,6 +73,10 @@ wpd.MapAxes = (function () {
         return 2;
     };
 
+    AxesObj.prototype.getAxesLabels = function() {
+        return ['X', 'Y'];
+    };
+
     return AxesObj;
 })();
 

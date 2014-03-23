@@ -127,6 +127,10 @@ wpd.TernaryAxes = (function () {
         return 3;
     };
 
+    AxesObj.prototype.getAxesLabels = function() {
+        return ['a', 'b', 'c'];
+    };
+
     return AxesObj;
 })();
 
