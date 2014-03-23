@@ -226,6 +226,52 @@ wpd.dataTable = (function () {
     }
 
     function exportToPlotly() {
+        if(rawData == null || rawData.length === 0) {
+            return;
+        }
+
+        var formContainer = document.createElement('div'),
+            formElement = document.createElement('form'),
+            formData = document.createElement('input');
+        
+        
+        formElement.setAttribute('method', 'post');
+        formElement.setAttribute('action', 'https://plot.ly/external');
+        formElement.setAttribute('target', '_blank');
+        
+        formData.setAttribute('type', "text");
+        formData.setAttribute('name', "data");
+
+        formElement.appendChild(formData);
+        formContainer.appendChild(formElement);
+        document.body.appendChild(formContainer);
+        formContainer.style.display = 'none';
+
+        var jsonData = { data: [] },
+            axes = wpd.appData.getPlotData().axes,
+            dimCount = axes.getDimensions(),
+            rowCount = rawData.length,
+            rowi, dimi,
+            axesLabels = axes.getAxesLabels();
+
+        jsonData.data[0] = {};
+        for(rowi = 0; rowi < rowCount; rowi++) {
+            rowValues = [];
+            for(dimi = 0; dimi < dimCount; dimi++) {
+                if(rowi === 0) {
+                    jsonData.data[0][axesLabels[dimi]] = [];
+                }
+                if(axes.isDate != null && axes.isDate(dimi)) {
+                    jsonData.data[0][axesLabels[dimi]][rowi] = wpd.dateConverter.formatDateNumber(sortedData[rowi][dimi], 'yyyy-mm-dd');
+                } else {
+                    jsonData.data[0][axesLabels[dimi]][rowi] = sortedData[rowi][dimi];
+                }
+            }
+        }
+        console.log(jsonData); 
+        formData.setAttribute('value', JSON.stringify(jsonData));
+        formElement.submit();
+        document.body.removeChild(formContainer); 
     }
 
     function selectAll() {
