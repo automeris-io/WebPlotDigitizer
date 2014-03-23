@@ -123,6 +123,10 @@ wpd.PolarAxes = (function () {
 
     AxesObj.prototype.getDimensions = function() {
         return 2;
+    };    
+    
+    AxesObj.prototype.getAxesLabels = function() {
+        return ['r', 'θ'];
     };
 
     return AxesObj;
