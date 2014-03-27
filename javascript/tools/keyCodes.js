@@ -36,6 +36,12 @@ wpd.keyCodes = (function () {
         },
         isRight: function(code) {
             return code === 39;
+        },
+        isAlphabet: function(code, alpha) {
+            if (code > 90 || code < 65) {
+                return false;
+            }
+            return String.fromCharCode(code).toLowerCase() === alpha;
         }
     };
 })();

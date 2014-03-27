@@ -252,7 +252,8 @@ wpd.dataTable = (function () {
             dimCount = axes.getDimensions(),
             rowCount = rawData.length,
             rowi, dimi,
-            axesLabels = axes.getAxesLabels();
+            //axesLabels = axes.getAxesLabels(); - if I do this then plotly doesn't make a plot by default
+            axesLabels = ['x', 'y', 'z'];
 
         jsonData.data[0] = {};
         for(rowi = 0; rowi < rowCount; rowi++) {
