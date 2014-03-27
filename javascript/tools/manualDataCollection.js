@@ -32,6 +32,8 @@ wpd.acquireData = (function () {
             wpd.dataPointCounter.setCount();
             wpd.graphicsWidget.removeTool();
             wpd.graphicsWidget.setRepainter(new wpd.DataPointsRepainter());
+
+            manualSelection();
         }
     }
 
@@ -148,6 +150,7 @@ wpd.ManualSelectionTool = (function () {
                 || wpd.keyCodes.isAlphabet(ev.keyCode, 'd')) {
 
                 wpd.acquireData.switchToolOnKeyPress(String.fromCharCode(ev.keyCode).toLowerCase());
+                return;
             } else {
                 return;
             }
@@ -280,6 +283,15 @@ wpd.AdjustDataPointTool = (function () {
         };
 
         this.onKeyDown = function (ev) {
+
+            if(wpd.keyCodes.isAlphabet(ev.keyCode, 'a') 
+                || wpd.keyCodes.isAlphabet(ev.keyCode, 's') 
+                || wpd.keyCodes.isAlphabet(ev.keyCode, 'd')) {
+
+                wpd.acquireData.switchToolOnKeyPress(String.fromCharCode(ev.keyCode).toLowerCase());
+                return;
+            }
+
             var activeDataSeries = wpd.appData.getPlotData().getActiveDataSeries(),
                 selIndex = activeDataSeries.getSelectedPixels()[0];
 
@@ -298,11 +310,6 @@ wpd.AdjustDataPointTool = (function () {
                 pointPx = pointPx - stepSize;
             } else if(wpd.keyCodes.isRight(ev.keyCode)) {
                 pointPx = pointPx + stepSize;
-            } else if(wpd.keyCodes.isAlphabet(ev.keyCode, 'a') 
-                || wpd.keyCodes.isAlphabet(ev.keyCode, 's') 
-                || wpd.keyCodes.isAlphabet(ev.keyCode, 'd')) {
-
-                wpd.acquireData.switchToolOnKeyPress(String.fromCharCode(ev.keyCode).toLowerCase());
             } else {
                 return;
             }
