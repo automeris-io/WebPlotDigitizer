@@ -67,6 +67,22 @@ wpd.acquireData = (function () {
         wpd.graphicsWidget.setTool(new wpd.AdjustDataPointTool());
     }
 
+    function switchToolOnKeyPress(alphaKey) {
+        switch(alphaKey) {
+            case 'd': 
+                deletePoint();
+                break;
+            case 'a': 
+                manualSelection();
+                break;
+            case 's': 
+                adjustPoints();
+                break;
+            default: 
+                break;
+        }
+    }
+
     return {
         load: load,
         manualSelection: manualSelection,
@@ -74,7 +90,8 @@ wpd.acquireData = (function () {
         deletePoint: deletePoint,
         clearAll: clearAll,
         undo: undo,
-        showSidebar: showSidebar
+        showSidebar: showSidebar,
+        switchToolOnKeyPress: switchToolOnKeyPress
     };
 })();
 
@@ -126,6 +143,13 @@ wpd.ManualSelectionTool = (function () {
                 lastPt.x = lastPt.x - stepSize;
             } else if(wpd.keyCodes.isRight(ev.keyCode)) {
                 lastPt.x = lastPt.x + stepSize;
+            } else if(wpd.keyCodes.isAlphabet(ev.keyCode, 'a') 
+                || wpd.keyCodes.isAlphabet(ev.keyCode, 's') 
+                || wpd.keyCodes.isAlphabet(ev.keyCode, 'd')) {
+
+                wpd.acquireData.switchToolOnKeyPress(String.fromCharCode(ev.keyCode).toLowerCase());
+            } else {
+                return;
             }
 
             activeDataSeries.setPixelAt(lastPtIndex, lastPt.x, lastPt.y);
@@ -156,6 +180,15 @@ wpd.DeleteDataPointTool = (function () {
             wpd.graphicsWidget.forceHandlerRepaint();
             wpd.graphicsWidget.updateZoomOnEvent(ev);
             wpd.dataPointCounter.setCount();
+        };
+
+        this.onKeyDown = function (ev) {
+            if(wpd.keyCodes.isAlphabet(ev.keyCode, 'a') 
+                || wpd.keyCodes.isAlphabet(ev.keyCode, 's') 
+                || wpd.keyCodes.isAlphabet(ev.keyCode, 'd')) {
+
+                wpd.acquireData.switchToolOnKeyPress(String.fromCharCode(ev.keyCode).toLowerCase());
+            }
         };
 
         this.onRemove = function () {
@@ -265,6 +298,11 @@ wpd.AdjustDataPointTool = (function () {
                 pointPx = pointPx - stepSize;
             } else if(wpd.keyCodes.isRight(ev.keyCode)) {
                 pointPx = pointPx + stepSize;
+            } else if(wpd.keyCodes.isAlphabet(ev.keyCode, 'a') 
+                || wpd.keyCodes.isAlphabet(ev.keyCode, 's') 
+                || wpd.keyCodes.isAlphabet(ev.keyCode, 'd')) {
+
+                wpd.acquireData.switchToolOnKeyPress(String.fromCharCode(ev.keyCode).toLowerCase());
             } else {
                 return;
             }
