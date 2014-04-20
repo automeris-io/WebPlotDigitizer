@@ -61,6 +61,7 @@
 <script src="javascript/tools/keyCodes.js"></script>
 <script src="javascript/tools/manualDataCollection.js"></script>
 <script src="javascript/tools/mask.js"></script>
+<script src="javascript/tools/distanceMeasurement.js"></script>
 <script src="javascript/widgets/dataTable.js"></script>
 <script src="javascript/widgets/graphicsWidget.js"></script>
 <script src="javascript/widgets/layoutManager.js"></script>
@@ -139,8 +140,8 @@ Loading application, please wait...
                     <div class="wpd-menu-header">Analyze</div>
                     <div class="wpd-menu-dropdown">
                         <ul>
-                            <li id="wpd-analyzemenu-distance" onclick="wpd.sidebar.show('measure-distances-sidebar');">Measure Distances</li>
-                            <li id="wpd-analyzemenu-angles" onclick="wpd.sidebar.show('measure-angles-sidebar');">Measure Angles</li>
+                            <li id="wpd-analyzemenu-distance" onclick="wpd.distanceMeasurement.start();">Measure Distances</li>
+                            <li id="wpd-analyzemenu-angles" onclick="wpd.angleMeasurement.start();">Measure Angles</li>
                         </ul>
                     </div>
                 </div>
@@ -220,7 +221,7 @@ Loading application, please wait...
 
             <!-- manual mode -->
             <div id="acquireDataSidebar" class="sidebar">
-            <p class="sidebar-title">Manual Mode <input type="button" value="Automatic Mode" style="width: 115px;" onclick="wpd.autoExtraction.start();"></p>
+            <p class="sidebar-title">Manual Mode <input type="button" value="Automatic Mode" style="width: 125px;" onclick="wpd.autoExtraction.start();"></p>
             <hr/>
             <p>
                 <input type="button" value="Add Point (A)" onclick="wpd.acquireData.manualSelection();" style="width:110px;" id="manual-select-button">
@@ -282,15 +283,12 @@ Loading application, please wait...
             <div id="measure-distances-sidebar" class="sidebar">
             <p class="sidebar-title">Measure Distances</p>
             <p>
-                <input type="button" value="Add Pairs" style="width: 100px;"/>
-                <input type="button" value="Adjust Points" style="width: 100px;"/>
+                <input type="button" value="Add Pair (A)" style="width: 100px;" id="add-pair-button" onclick="wpd.distanceMeasurement.addPair();"/>
+                <input type="button" value="Delete Pair (D)" style="width: 100px;" id="delete-pair-button" onclick="wpd.distanceMeasurement.deletePair();"/> 
             </p>
             <p>
-                <input type="button" value="Delete Pairs" style="width: 100px;"/>
-                <input type="button" value="Clear All" style="width: 100px;"/>
-            </p>
-            <p>
-                <input type="button" value="View Data" style="width: 100px;"/>
+                <input type="button" value="Clear All" style="width: 100px;" id="clear-all-pairs-button" onclick="wpd.distanceMeasurement.clearAll();"/>
+                <input type="button" value="View Data" style="width: 100px;" id="view-measurement-data-button"/>
             </p>
             </div>
 
@@ -298,14 +296,11 @@ Loading application, please wait...
             <div id="measure-angles-sidebar" class="sidebar">
             <p class="sidebar-title">Measure Angles</p>
             <p>
-                <input type="button" value="Add Angle" style="width: 100px;"/>
-                <input type="button" value="Adjust Points" style="width: 100px;"/>
+                <input type="button" value="Add Angle" style="width: 100px;" id="add-angle-button" onclick="wpd.angleMeasurement.addAngle();"/>
+                <input type="button" value="Delete Angle" style="width: 100px;" id="delete-angle-button" onclick="wpd.angleMeasurement.deleteAngle();"/>
             </p>
             <p>
-                <input type="button" value="Delete Angles" style="width: 100px;"/>
-                <input type="button" value="Clear All" style="width: 100px;"/>
-            </p>
-            <p>
+                <input type="button" value="Clear All" style="width: 100px;" onclick="wpd.angleMeasurement.clearAll();"/>
                 <input type="button" value="View Data" style="width: 100px;"/>
             </p>
             </div>
