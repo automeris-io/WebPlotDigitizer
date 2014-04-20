@@ -235,6 +235,9 @@ wpd.PlotData = (function () {
         this.axes = null;
         this.dataSeriesColl = [];
 
+        this.angleMeasurementData = null;
+        this.distanceMeasurementData = null;
+
         this.getActiveDataSeries = function() {
             if (this.dataSeriesColl[activeSeriesIndex] == null) {
                 this.dataSeriesColl[activeSeriesIndex] = new wpd.DataSeries();
@@ -273,6 +276,8 @@ wpd.PlotData = (function () {
 
         this.reset = function() {
             this.axes = null;
+            this.angleMeasurementData = null;
+            this.distanceMeasurementData = null;
             this.dataSeriesColl = [];
             activeSeriesIndex = 0;
             autoDetector = new wpd.AutoDetector();
