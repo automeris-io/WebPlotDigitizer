@@ -292,7 +292,8 @@ wpd.ConnectedPoints = (function () {
     var CPoints = function (connectivity) {
 
         var connections = [],
-            selectedConnections;
+            selectedConnectionIndex,
+            selectedPointIndex;
 
         this.addConnection = function (plist) {
             connections[connections.length] = plist;
@@ -342,6 +343,49 @@ wpd.ConnectedPoints = (function () {
 
                 return ang;
             }
+        };
+
+        this.findNearestPointAndConnection = function (x, y) {
+            var minConnIndex = -1,
+                minPointIndex = -1,
+                minDist, dist,
+                ci, pi;
+
+            for (ci = 0; ci < connections.length; ci++) {
+                for (pi = 0; pi < connectivity*2; pi+=2) {
+                    dist = (connections[ci][pi] - x)*(connections[ci][pi] - x) + (connections[ci][pi+1] - x)*(connections[ci][pi+1] - x);
+                    if (minPointIndex === -1 || dist < minDist) {
+                        minConnIndex = ci;
+                        minPointIndex = pi;
+                        minDist = dist;
+                    }
+                }
+            }
+
+            return {
+                connectionIndex: minConnIndex,
+                pointIndex: minPointIndex
+            }
+        };
+
+        this.selectNearestPoint = function (x, y) {
+            var nearestPt = this.findNearestPointAndConnection(x, y);
+            if (nearestPt.connectionIndex >= 0) {
+                selectedConnectionIndex = nearestPt.connectionIndex;
+                selectedPointIndex = nearestPt.pointIndex;
+            }
+        };
+
+        this.isPointSelected = function (connectionIndex, pointIndex) {
+            if (selectedPointIndex === pointIndex && selectedConnectionIndex === connectionIndex) {
+                return true;
+            }
+            return false;
+        };
+
+        this.setPointAt = function (connectionIndex, pointIndex, x, y) {
+            connections[connectionIndex][pointIndex*2] = x;
+            connections[connectionIndex][pointIndex*2 + 1] = x;
         };
     };
     return CPoints;
