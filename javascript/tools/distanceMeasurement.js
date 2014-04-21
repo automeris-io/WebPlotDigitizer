@@ -33,6 +33,7 @@ wpd.distanceMeasurement = (function () {
             plotData.distanceMeasurementData = new wpd.ConnectedPoints(2);
         }
         wpd.sidebar.show('measure-distances-sidebar');
+        wpd.graphicsWidget.setRepainter(new wpd.MeasurementRepainter('distance'));
     }
 
     function addPair() {
@@ -66,6 +67,7 @@ wpd.angleMeasurement = (function () {
             plotData.angleMeasurementData = new wpd.ConnectedPoints(3);
         }
         wpd.sidebar.show('measure-angles-sidebar');
+        wpd.graphicsWidget.setRepainter(new wpd.MeasurementRepainter('angle'));
     }
 
     function addAngle() {
@@ -136,13 +138,13 @@ wpd.AddMeasurementTool = (function () {
                     // draw line from previous point to current
                     var prevScreenPx = wpd.graphicsWidget.screenPx(plist[(pointsCaptured-2)*2], plist[(pointsCaptured-2)*2 + 1]);
                     ctx.dataCtx.beginPath();
-                    ctx.dataCtx.strokeStyle = "rgb(0,0,0)";
+                    ctx.dataCtx.strokeStyle = "rgb(0,0,10)";
                     ctx.dataCtx.moveTo(prevScreenPx.x, prevScreenPx.y);
                     ctx.dataCtx.lineTo(pos.x, pos.y);
                     ctx.dataCtx.stroke();
 
                     ctx.oriDataCtx.beginPath();
-                    ctx.oriDataCtx.strokeStyle = "rgb(0,0,0)";
+                    ctx.oriDataCtx.strokeStyle = "rgb(0,0,10)";
                     ctx.oriDataCtx.moveTo(plist[(pointsCaptured-2)*2], plist[(pointsCaptured-2)*2 + 1]);
                     ctx.oriDataCtx.lineTo(imagePos.x, imagePos.y);
                     ctx.oriDataCtx.stroke();
@@ -164,8 +166,6 @@ wpd.AddMeasurementTool = (function () {
         };
 
         this.onMouseMove = function (ev, pos, imagePos) {
-            // if isCapturing and pointsCaptured > 1
-            // then clear previous hover lines and show a hover line to the current mouse position
             if(isCapturing && pointsCaptured >= 1) {
                 wpd.graphicsWidget.resetHover();
                 var prevScreenPx = wpd.graphicsWidget.screenPx(plist[(pointsCaptured-1)*2], plist[(pointsCaptured-1)*2 + 1]);
@@ -204,6 +204,27 @@ wpd.DeleteMeasurementTool = (function () {
             document.getElementById(btnId).classList.remove('pressed-button');
         };
 
+        this.onMouseClick = function (ev, pos, imagePos) {
+            // just ask connection model to remove the closest connection near the click.
+        };
+
+    };
+    return Tool;
+})();
+
+wpd.AdjustMeasurementTool = (function () {
+    var Tool = function (mode) {
+        this.onAttach = function () {
+            wpd.graphicsWidget.setRepainter(new wpd.MeasurementRepainter(mode));
+        };
+
+        this.onMouseClick = function (ev, pos, imagePos) {
+            // select the nearest point
+        };
+
+        this.onKeyDown = function (ev) {
+            // move the selected point or switch tools
+        };
     };
     return Tool;
 })();
@@ -212,7 +233,13 @@ wpd.MeasurementRepainter = (function () {
     var Painter = function (mode) {
         var isDistanceMode = mode === 'distance',
             isAngleMode = mode === 'angle',
-            ctx = wpd.graphicsWidget.getAllContexts();
+            ctx = wpd.graphicsWidget.getAllContexts(),
+            
+            drawDistances = function () {
+            },
+            
+            drawAngles = function () {
+            };
 
         this.painterName = 'measurementRepainter-'+mode;
 
