@@ -292,8 +292,8 @@ wpd.ConnectedPoints = (function () {
     var CPoints = function (connectivity) {
 
         var connections = [],
-            selectedConnectionIndex,
-            selectedPointIndex;
+            selectedConnectionIndex = -1,
+            selectedPointIndex = -1;
 
         this.addConnection = function (plist) {
             connections[connections.length] = plist;
@@ -333,14 +333,15 @@ wpd.ConnectedPoints = (function () {
             }
         };
 
-        this.getAngle = function(index, isDegrees) {
+        this.getAngle = function(index) {
             if(index < connections.length && connectivity === 3) {
-                var ang = wpd.taninverse(connections[index][3] - connections[index][1], connections[index][2] - connections[index][0]);
 
-                if(isDegrees) {
-                    ang = 180.0*ang/Math.PI;
-                }
+                var ang1 = wpd.taninverse(-(connections[index][5] - connections[index][3]), connections[index][4] - connections[index][2]),
+                    ang2 = wpd.taninverse(-(connections[index][1] - connections[index][3]), connections[index][0] - connections[index][2]),
+                    ang = ang1 - ang2;
 
+                ang = 180.0*ang/Math.PI;
+                ang = ang < 0 ? ang + 360 : ang;
                 return ang;
             }
         };
@@ -353,10 +354,10 @@ wpd.ConnectedPoints = (function () {
 
             for (ci = 0; ci < connections.length; ci++) {
                 for (pi = 0; pi < connectivity*2; pi+=2) {
-                    dist = (connections[ci][pi] - x)*(connections[ci][pi] - x) + (connections[ci][pi+1] - x)*(connections[ci][pi+1] - x);
+                    dist = (connections[ci][pi] - x)*(connections[ci][pi] - x) + (connections[ci][pi+1] - y)*(connections[ci][pi+1] - y);
                     if (minPointIndex === -1 || dist < minDist) {
                         minConnIndex = ci;
-                        minPointIndex = pi;
+                        minPointIndex = pi/2;
                         minDist = dist;
                     }
                 }
@@ -376,6 +377,13 @@ wpd.ConnectedPoints = (function () {
             }
         };
 
+        this.deleteNearestConnection = function (x, y) {
+            var nearestPt = this.findNearestPointAndConnection(x, y);
+            if (nearestPt.connectionIndex >= 0) {
+                this.deleteConnectionAt(nearestPt.connectionIndex);
+            }
+        };
+
         this.isPointSelected = function (connectionIndex, pointIndex) {
             if (selectedPointIndex === pointIndex && selectedConnectionIndex === connectionIndex) {
                 return true;
@@ -383,9 +391,28 @@ wpd.ConnectedPoints = (function () {
             return false;
         };
 
+        this.getSelectedConnectionAndPoint = function () {
+            return {
+                connectionIndex: selectedConnectionIndex,
+                pointIndex: selectedPointIndex
+            };
+        };
+
+        this.unselectConnectionAndPoint = function () {
+            selectedConnectionIndex = -1;
+            selectedPointIndex = -1;
+        };
+
         this.setPointAt = function (connectionIndex, pointIndex, x, y) {
             connections[connectionIndex][pointIndex*2] = x;
-            connections[connectionIndex][pointIndex*2 + 1] = x;
+            connections[connectionIndex][pointIndex*2 + 1] = y;
+        };
+
+        this.getPointAt = function (connectionIndex, pointIndex) {
+            return {
+                x: connections[connectionIndex][pointIndex*2],
+                y: connections[connectionIndex][pointIndex*2 + 1]
+            };
         };
     };
     return CPoints;
