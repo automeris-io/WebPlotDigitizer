@@ -94,6 +94,92 @@ wpd.angleMeasurement = (function () {
     };
 })();
 
+wpd.measurementData = (function () {
+    var latestMode,
+        tableText;
+
+    function showAngleData() {
+        latestMode = 'angle';
+        wpd.popup.show('measurement-data-window');
+        var data = wpd.appData.getPlotData().angleMeasurementData,
+            conn_count = data.connectionCount(),
+            conni,
+            theta,
+            $tableArea = document.getElementById('measurement-data-table');
+        tableText = '';
+
+        for(conni = 0; conni < conn_count; conni++) {
+            tableText += conni.toString() + ', ' + data.getAngle(conni) + '\n';
+        }
+
+        $tableArea.value = tableText;
+    }
+
+    function showDistanceData() {
+        latestMode = 'distance';
+        wpd.popup.show('measurement-data-window');
+
+        var data = wpd.appData.getPlotData().distanceMeasurementData,
+            conn_count = data.connectionCount(),
+            conni,
+            theta,
+            $tableArea = document.getElementById('measurement-data-table');
+        tableText = '';
+
+        for(conni = 0; conni < conn_count; conni++) {
+            tableText += conni.toString() + ', ' + data.getDistance(conni) + '\n';
+        }
+
+        $tableArea.value = tableText;
+    }
+
+    function selectAll() {
+        var $tableArea = document.getElementById('measurement-data-table');
+        $tableArea.focus();
+        $tableArea.select();
+    }
+
+    function generateCSV() {
+        var formContainer,
+            formElement,
+            formData,
+            jsonData = JSON.stringify(tableText);
+            
+        // Create a hidden form and submit
+        formContainer = document.createElement('div'),
+        formElement = document.createElement('form'),
+        formData = document.createElement('input');
+
+        formElement.setAttribute('method', 'post');
+        formElement.setAttribute('action', 'php/csvexport.php');
+
+        formData.setAttribute('type', "text");
+        formData.setAttribute('name', "data");
+
+        formElement.appendChild(formData);
+        formContainer.appendChild(formElement);
+        document.body.appendChild(formContainer);
+        formContainer.style.display = 'none';
+
+        formData.setAttribute('value', jsonData);
+        formElement.submit();
+        document.body.removeChild(formContainer);
+    }
+
+    function close() {
+        tableText = '';
+        wpd.popup.close('measurement-data-window');
+    }
+
+    return {
+        showAngleData: showAngleData,
+        showDistanceData: showDistanceData,
+        selectAll: selectAll,
+        generateCSV: generateCSV,
+        close: close 
+    };
+})();
+
 wpd.AddMeasurementTool = (function () {
     var Tool = function (mode) {
         var isDistanceMode = mode === 'distance',
