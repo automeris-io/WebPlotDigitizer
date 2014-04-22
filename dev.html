@@ -288,7 +288,7 @@ Loading application, please wait...
             </p>
             <p>
                 <input type="button" value="Clear All" style="width: 100px;" id="clear-all-pairs-button" onclick="wpd.distanceMeasurement.clearAll();"/>
-                <input type="button" value="View Data" style="width: 100px;" id="view-measurement-data-button"/>
+                <input type="button" value="View Data" style="width: 100px;" id="view-measurement-data-button" onclick="wpd.measurementData.showDistanceData();"/>
             </p>
             </div>
 
@@ -296,12 +296,12 @@ Loading application, please wait...
             <div id="measure-angles-sidebar" class="sidebar">
             <p class="sidebar-title">Measure Angles</p>
             <p>
-                <input type="button" value="Add Angle" style="width: 100px;" id="add-angle-button" onclick="wpd.angleMeasurement.addAngle();"/>
-                <input type="button" value="Delete Angle" style="width: 100px;" id="delete-angle-button" onclick="wpd.angleMeasurement.deleteAngle();"/>
+                <input type="button" value="Add Angle (A)" style="width: 100px;" id="add-angle-button" onclick="wpd.angleMeasurement.addAngle();"/>
+                <input type="button" value="Delete Angle (D)" style="width: 100px;" id="delete-angle-button" onclick="wpd.angleMeasurement.deleteAngle();"/>
             </p>
             <p>
                 <input type="button" value="Clear All" style="width: 100px;" onclick="wpd.angleMeasurement.clearAll();"/>
-                <input type="button" value="View Data" style="width: 100px;"/>
+                <input type="button" value="View Data" style="width: 100px;" onclick="wpd.measurementData.showAngleData();"/>
             </p>
             </div>
 
@@ -484,6 +484,16 @@ Loading application, please wait...
 	<p align="center" class="footnote">*Plotly is a secure data analysis and graphing site with data sharing and access controls.</p>
 	<p align="center" class="footnote">Visit <a href="http://plot.ly" target="plotlyWebsite">http://plot.ly</a> for details.</p>
 	</div>
+
+    <div id="measurement-data-window" class="popup" style="width: 580px;">
+    <p align="center" class="popupheading">Measurement Data</p>
+    <p align="center"><textarea id="measurement-data-table" style="width: 480px; height: 250px;"></textarea></p>
+    <p align="center">
+        <input type="button" value="Select All" onclick="wpd.measurementData.selectAll();"/>
+        <input type="button" value="Download .CSV" onclick="wpd.measurementData.generateCSV();"/>
+        <input type="button" value="Close" onclick="wpd.measurementData.close();"/>
+    </p>
+    </div>
 
 	<div id="xyAxesInfo" class="popup" style="width: 350px;"> 
 	<p align="center" class="popupheading">Align X-Y Axes</p>
