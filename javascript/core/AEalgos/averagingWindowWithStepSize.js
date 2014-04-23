@@ -20,55 +20,68 @@
 
 
 */
+var wpd = wpd || {};
 
-var averagingWindowWithStepSizeAlgo = {
-	getParamList: function () {
-			if (plotType === 'XY') {
-				return [["X_min","Units",axesAlignmentData[0].toString()],["ΔX Step","Units","0.1"],["X_max","Units",axesAlignmentData[1].toString()],["Y_min","Units",axesAlignmentData[2].toString()],["Y_max","Units",axesAlignmentData[3].toString()],["Line width","Px","30"]];
-			} else {
-				closePopup('testImageWindow');
-				showPopup('xyAxesOnly');
-				return [["X_min","Units", "0"],["ΔX Step","Units","0.1"],["X_max","Units", "0"],["Y_min","Units", "0"],["Y_max","Units", "0"],["Line width","Px","30"]];
-			}
-		},
+wpd.averagingWindowWithStepSizeAlgo = (function () {
+    var Algo = function () {
 
+        var param_xmin, param_delx, param_xmax,
+            param_linewidth, param_ymin, param_ymax;
+
+        this.getParamList = function () {
+            return [["X_min","Units", 0],["ΔX Step","Units", 0.1],["X_max","Units", 0],["Y_min","Units", 0],["Y_max","Units", 0],["Line width","Px",30]];
+        };
+
+        this.setParam = function (index, val) {
+            if (index === 0) {
+                param_xmin = val;
+            } else if (index === 1) {
+                param_delx = val;
+            } else if (index === 2) {
+                param_xmax = val;
+            } else if (index === 3) {
+                param_ymin = val;
+            } else if (index === 4) {
+                param_ymax = val;
+            } else if (index === 5) {
+                param_linewidth = val;
+            }
+        };
+
+        this.run = function (plotData) {
+            var autoDetector = plotData.getAutoDetector(),
+                dataSeries = plotData.getActiveDataSeries(),
+                xPoints = new Array(),
+                xPointsPicked = 0,
+                pointsPicked = 0,
+                dw = autoDetector.imageWidth,
+                dh = autoDetector.imageHeight,
+                blobx = [],
+                bloby = [],
+                xi, xmin_pix, xmax_pix, ymin_pix, ymax_pix, dpix, r_unit_per_pix, step_pix = 1,
+                blobActive, blobEntry, blobExit,
+                blobExitLocked,
+                ii, yi,
+                mean_ii,
+                mean_yi,
+
+
+
+
+        };
+
+    };
+    return Algo;
+})();
+
+/* 
 	run: function () {
 
-				// NOTE: This only works for XY Plot
-
-				if(plotType === 'XY') {
-
-					var xPointsPicked = 0;
-					xyData = [];
-					pointsPicked = 0;
-
-			resetLayers();
-
-			var dw = canvasWidth;
-			var dh = canvasHeight;
-
-			// Get values from UI:
-			var param_xmin_el = document.getElementById("pv0");
-			var param_delx_el = document.getElementById("pv1");
-			var param_xmax_el = document.getElementById("pv2");
-			var param_linewidth_el = document.getElementById("pv5");
-			var param_ymin_el = document.getElementById("pv3");
-			var param_ymax_el = document.getElementById("pv4");
-
-			var param_xmin = parseFloat(param_xmin_el.value);
-			var param_delx = parseFloat(param_delx_el.value);
-			var param_xmax = parseFloat(param_xmax_el.value);
-			var param_linewidth = parseFloat(param_linewidth_el.value);
-			var param_ymin = parseFloat(param_ymin_el.value);
-			var param_ymax = parseFloat(param_ymax_el.value);
-
-			var blobx = [];
-			var bloby = [];
-
+			
+			
 
 			// Get corresponding pixels:
-			for(var xi = param_xmin; xi <= param_xmax; xi += param_delx) {
-				var xmin_pix, xmax_pix, ymin_pix, ymax_pix, dpix, r_unit_per_pix, step_pix = 1;
+			for(xi = param_xmin; xi <= param_xmax; xi += param_delx) {
 
 				dataToPixel(xi, param_ymin, 'XY');
 				xmin_pix = dataToPixelxy[0];
@@ -82,16 +95,16 @@ var averagingWindowWithStepSizeAlgo = {
 
 				r_unit_per_pix = (param_ymax-param_ymin)/dpix;
 
-				var blobActive = false;
-				var blobEntry = 0;
-				var blobExit = 0;
+				blobActive = false;
+				blobEntry = 0;
+				blobExit = 0;
 
 				// To account for noise or if actual thickness is less than specified thickness.
 				// This flag helps to set blobExit at the end of the thin part or account for noise.
-				var blobExitLocked = false; 
+				blobExitLocked = false; 
 
-				for(var ii = 0; ii <= dpix; ii++) {
-					var yi = -ii*step_pix*r_unit_per_pix + param_ymax;
+				for(ii = 0; ii <= dpix; ii++) {
+					yi = -ii*step_pix*r_unit_per_pix + param_ymax;
 					dataToPixel(xi, yi, 'XY');
 
 					xi_pix = dataToPixelxy[0];
@@ -132,8 +145,8 @@ var averagingWindowWithStepSizeAlgo = {
 									blobExit = ii;							
 								}
 
-								var mean_ii = (blobEntry + blobExit)/2.0;
-								var mean_yi = -mean_ii*step_pix*r_unit_per_pix + param_ymax;
+							    mean_ii = (blobEntry + blobExit)/2.0;
+							    mean_yi = -mean_ii*step_pix*r_unit_per_pix + param_ymax;
 
 								dataToPixel(xi, mean_yi, 'XY');
 								xyData[pointsPicked] = new Array();
@@ -146,8 +159,7 @@ var averagingWindowWithStepSizeAlgo = {
 
 				}
 			}
-		} else {
-			showPopup('xyAxesOnly');
 		}
-	}
 };
+
+*/
