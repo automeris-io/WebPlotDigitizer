@@ -123,11 +123,16 @@ wpd.measurementData = (function () {
             conn_count = data.connectionCount(),
             conni,
             theta,
-            $tableArea = document.getElementById('measurement-data-table');
+            $tableArea = document.getElementById('measurement-data-table'),
+            axes = wpd.appData.getPlotData().axes;
         tableText = '';
 
         for(conni = 0; conni < conn_count; conni++) {
-            tableText += conni.toString() + ', ' + data.getDistance(conni) + '\n';
+            if(wpd.appData.isAligned() === true && axes instanceof wpd.MapAxes) {
+                tableText += conni.toString() + ', ' + axes.pixelToDataDistance(data.getDistance(conni)) + '\n';
+            } else {
+                tableText += conni.toString() + ', ' + data.getDistance(conni) + '\n';
+            }
         }
 
         $tableArea.value = tableText;
@@ -442,13 +447,19 @@ wpd.MeasurementRepainter = (function () {
                     x1, y1,
                     spx0, spx1,
                     dist,
-                    isSelected0, isSelected1;
+                    isSelected0, isSelected1,
+                    axes = wpd.appData.getPlotData().axes;
+
                 for(conni = 0; conni < conn_count; conni++) {
                     plist = distData.getConnectionAt(conni);
                     x0 = plist[0]; y0 = plist[1]; x1 = plist[2]; y1 = plist[3];
                     isSelected0 = distData.isPointSelected(conni, 0);
                     isSelected1 = distData.isPointSelected(conni, 1);
-                    dist = '[' + conni.toString() + ']: ' + distData.getDistance(conni).toFixed(2);
+                    if(wpd.appData.isAligned() === true && axes instanceof wpd.MapAxes) {
+                        dist = '[' + conni.toString() + ']: ' + axes.pixelToDataDistance(distData.getDistance(conni)).toFixed(2);
+                    } else {
+                        dist = '[' + conni.toString() + ']: ' + distData.getDistance(conni).toFixed(2) + ' px';
+                    }
                     spx0 = wpd.graphicsWidget.screenPx(x0, y0);
                     spx1 = wpd.graphicsWidget.screenPx(x1, y1);
 

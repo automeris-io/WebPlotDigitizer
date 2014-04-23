@@ -52,6 +52,10 @@ wpd.MapAxes = (function () {
             return data;
         };
 
+        this.pixelToDataDistance = function(distancePx) {
+            return distancePx*scaleLength/dist;
+        };
+
         this.dataToPixel = function(a, b, c) {
             return {
                 x: 0,
@@ -75,7 +79,7 @@ wpd.MapAxes = (function () {
 
     AxesObj.prototype.getAxesLabels = function() {
         return ['X', 'Y'];
-    };
+    }; 
 
     return AxesObj;
 })();

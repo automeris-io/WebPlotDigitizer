@@ -32,7 +32,7 @@
 <link rel="stylesheet" href="widgets.css" type="text/css" media="screen" />
 
 <!-- Individual, uncompressed javascript files -->
-<!--
+
 <script src="javascript/browser/browserInfo.js"></script>
 <script src="javascript/core/AEalgos/averagingWindow.js"></script>
 <script src="javascript/core/AEalgos/averagingWindowWithStepSize.js"></script>
@@ -51,7 +51,6 @@
 <script src="javascript/core/dateConversion.js"></script>
 <script src="javascript/core/inputParser.js"></script>
 <script src="javascript/core/mathFunctions.js"></script>
-<script src="javascript/dataExport/saveResume.js"></script>
 <script src="javascript/main.js"></script>
 <script src="javascript/services/scriptInjection.js"></script>
 <script src="javascript/tools/alignAxes.js"></script>
@@ -70,12 +69,9 @@
 <script src="javascript/widgets/toolbars.js"></script>
 <script src="javascript/widgets/webcam.js"></script>
 <script src="javascript/widgets/zoom.js"></script>
--->
-
+<!--
 <script src="combined-compiled.js"></script>
-
-<!-- thirdparty libraries etc. -->
-<script src="thirdparty/bson.js"></script>
+-->
 
 <!-- Start of StatCounter Code -->
 <!--
@@ -123,7 +119,7 @@ Loading application, please wait...
                     <div class="wpd-menu-dropdown">
                         <ul>
                             <li id="wpd-axesmenu-defineaxes" onclick="wpd.popup.show('axesList');">Define Axes</li>
-                            <li id="wpd-axesmenu-importcalibration" onclick="wpd.unsupported();">Import Calibration</li>
+                            <!-- <li id="wpd-axesmenu-importcalibration" onclick="wpd.unsupported();">Import Calibration</li> -->
                         </ul>
                     </div>
                 </div>
@@ -132,7 +128,7 @@ Loading application, please wait...
                     <div class="wpd-menu-dropdown">
                         <ul>
                             <li id="wpd-datamenu-acquire" onclick="wpd.acquireData.load();">Acquire Data</li>
-                            <li id="wpd-datamenu-manage" onclick="wpd.unsupported();">Manage Data Series</li>
+                            <!-- <li id="wpd-datamenu-manage" onclick="wpd.unsupported();">Manage Data Series</li> -->
                         </ul>
                     </div>
                 </div>
@@ -288,7 +284,7 @@ Loading application, please wait...
             </p>
             <p>
                 <input type="button" value="Clear All" style="width: 100px;" id="clear-all-pairs-button" onclick="wpd.distanceMeasurement.clearAll();"/>
-                <input type="button" value="View Data" style="width: 100px;" id="view-measurement-data-button"/>
+                <input type="button" value="View Data" style="width: 100px;" id="view-measurement-data-button" onclick="wpd.measurementData.showDistanceData();"/>
             </p>
             </div>
 
@@ -296,12 +292,12 @@ Loading application, please wait...
             <div id="measure-angles-sidebar" class="sidebar">
             <p class="sidebar-title">Measure Angles</p>
             <p>
-                <input type="button" value="Add Angle" style="width: 100px;" id="add-angle-button" onclick="wpd.angleMeasurement.addAngle();"/>
-                <input type="button" value="Delete Angle" style="width: 100px;" id="delete-angle-button" onclick="wpd.angleMeasurement.deleteAngle();"/>
+                <input type="button" value="Add Angle (A)" style="width: 100px;" id="add-angle-button" onclick="wpd.angleMeasurement.addAngle();"/>
+                <input type="button" value="Delete Angle (D)" style="width: 100px;" id="delete-angle-button" onclick="wpd.angleMeasurement.deleteAngle();"/>
             </p>
             <p>
                 <input type="button" value="Clear All" style="width: 100px;" onclick="wpd.angleMeasurement.clearAll();"/>
-                <input type="button" value="View Data" style="width: 100px;"/>
+                <input type="button" value="View Data" style="width: 100px;" onclick="wpd.measurementData.showAngleData();"/>
             </p>
             </div>
 
@@ -484,6 +480,16 @@ Loading application, please wait...
 	<p align="center" class="footnote">*Plotly is a secure data analysis and graphing site with data sharing and access controls.</p>
 	<p align="center" class="footnote">Visit <a href="http://plot.ly" target="plotlyWebsite">http://plot.ly</a> for details.</p>
 	</div>
+
+    <div id="measurement-data-window" class="popup" style="width: 580px;">
+    <p align="center" class="popupheading">Measurement Data</p>
+    <p align="center"><textarea id="measurement-data-table" style="width: 480px; height: 250px;"></textarea></p>
+    <p align="center">
+        <input type="button" value="Select All" onclick="wpd.measurementData.selectAll();"/>
+        <input type="button" value="Download .CSV" onclick="wpd.measurementData.generateCSV();"/>
+        <input type="button" value="Close" onclick="wpd.measurementData.close();"/>
+    </p>
+    </div>
 
 	<div id="xyAxesInfo" class="popup" style="width: 350px;"> 
 	<p align="center" class="popupheading">Align X-Y Axes</p>
