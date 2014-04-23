@@ -27,12 +27,14 @@ wpd.MapAxes = (function () {
     var AxesObj = function () {
         var isCalibrated = false,
             scaleLength,
+            scaleUnits,
             dist,
-            processCalibration = function(cal, scale_length) {
+            processCalibration = function(cal, scale_length, scale_units) {
                 var cp0 = cal.getPoint(0),
                     cp1 = cal.getPoint(1);
                 dist = Math.sqrt((cp0.px-cp1.px)*(cp0.px-cp1.px) + (cp0.py-cp1.py)*(cp0.py-cp1.py));
                 scaleLength = parseFloat(scale_length);
+                scaleUnits = scale_units;
                 return true;
             };
 
@@ -40,8 +42,8 @@ wpd.MapAxes = (function () {
             return isCalibrated;
         };
 
-        this.calibrate = function (calib, scale_length) {
-            isCalibrated = processCalibration(calib, scale_length);
+        this.calibrate = function (calib, scale_length, scale_units) {
+            isCalibrated = processCalibration(calib, scale_length, scale_units);
             return isCalibrated;
         };
 
@@ -66,6 +68,10 @@ wpd.MapAxes = (function () {
         this.pixelToLiveString = function (pxi, pyi) {
             var dataVal = this.pixelToData(pxi, pyi);
             return dataVal[0].toExponential(4) + ', ' + dataVal[1].toExponential(4);
+        };
+
+        this.getUnits = function () {
+            return scaleUnits;
         };
     };
 

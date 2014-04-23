@@ -180,11 +180,12 @@ wpd.mapCalibration = (function () {
 
     function align() {
         var scaleLength = parseFloat(document.getElementById('scaleLength').value),
+            scaleUnits = document.getElementById('scaleUnits').value,
             axes = new wpd.MapAxes(),
             plot,
             calib = wpd.alignAxes.getActiveCalib();
 
-        axes.calibrate(calib, scaleLength);
+        axes.calibrate(calib, scaleLength, scaleUnits);
         plot = wpd.appData.getPlotData();
         plot.axes = axes;
         wpd.popup.close('mapAlignment');

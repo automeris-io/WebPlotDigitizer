@@ -456,7 +456,7 @@ wpd.MeasurementRepainter = (function () {
                     isSelected0 = distData.isPointSelected(conni, 0);
                     isSelected1 = distData.isPointSelected(conni, 1);
                     if(wpd.appData.isAligned() === true && axes instanceof wpd.MapAxes) {
-                        dist = '[' + conni.toString() + ']: ' + axes.pixelToDataDistance(distData.getDistance(conni)).toFixed(2);
+                        dist = '[' + conni.toString() + ']: ' + axes.pixelToDataDistance(distData.getDistance(conni)).toFixed(2) + ' ' + axes.getUnits();
                     } else {
                         dist = '[' + conni.toString() + ']: ' + distData.getDistance(conni).toFixed(2) + ' px';
                     }
