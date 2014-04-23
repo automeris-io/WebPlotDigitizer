@@ -1,5 +1,59 @@
 RELEASE NOTES
 
+Version 3.0
+===========
+To be Released: April 30, 2014
+
+A complete overhaul of the app was required to introduce some of the new features and improve maintainability.
+
+Plot display:
+    - Added ability to zoom in/out an image
+    - Graphics widget can now handle relatively larger images
+
+Zoom view:
+    - Larger zoom view
+    - Added ability to adjust magnification
+    - Added ability to change crosshair color
+
+Axes alignment:
+    - Added ability to adjust points using keyboard keys. Pressing shift along with cursor keys moves the points faster.
+    - Added labels for points which persist when alignment values are entered.
+    - Unit can be defined for map axes. This is useful when making distance measurements.
+
+Manual data acquisition:
+    - Points can now be adjusted using keyboard cursor keys
+
+Automatic data acquisition:
+    - New mask display and color selection views improve overall detection accuracy.
+    - Improved workflow eliminates the need for the popup window for fine tuning. These controls are now available from the sidebar itself.
+
+Data table:
+    - Digitized data can now be exported to a CSV file without the user having to copy-paste values.
+
+Measurements:
+    - Added ability to measure distances and angles in images. For map axes, the distances are calculated in the specified units.
+
+Scripts:
+    - Added preliminary support to allow custom user scripts
+
+Webcam support:
+    - Added webcam image capture ability (works only in Google Chrome or Firefox)
+
+Image Editing:
+    - Image editing functions (flip, crop etc.) have been temporarily hidden. These will be added back in the future releases.
+
+Detection algorithms:
+    - Only averaging window and X step are enabled in this version. Other algorithms will be included in a future release.
+
+Code improvements:
+    - New modular code structure improves maintainability and ease of adding new features
+    - Noticeable performance improvements in many areas
+    - More efficient use of memory
+
+UI improvements:
+    - Added button highlighting, cleaner stylesheets
+
+
 Version 2.6
 ===========
 Released: October 20, 2013
