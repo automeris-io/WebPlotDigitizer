@@ -35,6 +35,14 @@ wpd.autoExtraction = (function () {
 
         if(algoName === "averagingWindow") {
             autoDetector.algorithm = new wpd.AveragingWindowAlgo();
+        } else if (algoName === 'XStep') {
+            if (wpd.appData.getPlotData().axes instanceof wpd.XYAxes) {
+                autoDetector.algorithm = new wpd.AveragingWindowWithStepSizeAlgo();
+            } else {
+                wpd.messagePopup.show('Not supported!', 'This algorithm is only supported for simple XY plots.');
+                document.getElementById('auto-extract-algo-name').value = 'averagingWindow';
+                autoDetector.algorithm = new wpd.AveragingWindowAlgo();
+            }
         }
 
         displayAlgoParameters(autoDetector.algorithm);
@@ -44,17 +52,14 @@ wpd.autoExtraction = (function () {
         var $paramContainer = document.getElementById('algo-parameter-container'),
             algoParams = algo.getParamList(),
             pi,
-            tableString = "";
+            tableString = "<table>";
 
         
         for(pi = 0; pi < algoParams.length; pi++) {
-            tableString += algoParams[pi][0] + 
-                ' <input type="text" size=3 id="algo-param-' + pi + 
-                '" class="algo-params" value="'+ algoParams[pi][2] + '"/> ' 
-                + algoParams[pi][1];
-            if(pi != algoParams.length - 1) {
-                tableString += ', ';
-            } 
+            tableString += '<tr><td>' + algoParams[pi][0] + 
+                '</td><td><input type="text" size=3 id="algo-param-' + pi + 
+                '" class="algo-params" value="'+ algoParams[pi][2] + '"/></td><td>' 
+                + algoParams[pi][1] + '</td></tr>';
         }
         tableString += "</table>";
         $paramContainer.innerHTML = tableString;

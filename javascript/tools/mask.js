@@ -187,18 +187,20 @@ wpd.PenMaskTool = (function () {
             wpd.graphicsWidget.setRepainter(new wpd.MaskPainter());
             document.getElementById('pen-mask').classList.add('pressed-button');
             document.getElementById('view-mask').classList.add('pressed-button');
+            wpd.toolbar.show('paintToolbar');
         };
 
         this.onMouseDown = function(ev, pos, imagePos) {
             if(isDrawing === true) return;
+            var lwidth = parseInt(document.getElementById('paintThickness').value, 10);
             isDrawing = true;
             ctx.dataCtx.strokeStyle = "rgba(255,255,0,0.8)";
-        	ctx.dataCtx.lineWidth = 20;
+        	ctx.dataCtx.lineWidth = lwidth*wpd.graphicsWidget.getZoomRatio();
 	        ctx.dataCtx.beginPath();
         	ctx.dataCtx.moveTo(pos.x,pos.y);
 
             ctx.oriDataCtx.strokeStyle = "rgba(255,255,0,0.8)";
-        	ctx.oriDataCtx.lineWidth = 20;
+        	ctx.oriDataCtx.lineWidth = lwidth;
 	        ctx.oriDataCtx.beginPath();
         	ctx.oriDataCtx.moveTo(imagePos.x,imagePos.y);
         };
@@ -228,6 +230,7 @@ wpd.PenMaskTool = (function () {
             document.getElementById('pen-mask').classList.remove('pressed-button');
             document.getElementById('view-mask').classList.remove('pressed-button');
             wpd.dataMask.grabMask(true);
+            wpd.toolbar.clear();
         };
 
     };
@@ -259,21 +262,23 @@ wpd.EraseMaskTool = (function () {
              wpd.graphicsWidget.setRepainter(new wpd.MaskPainter());
              document.getElementById('erase-mask').classList.add('pressed-button');
              document.getElementById('view-mask').classList.add('pressed-button');
+             wpd.toolbar.show('paintToolbar');
         };
 
         this.onMouseDown = function(ev, pos, imagePos) {
             if(isDrawing === true) return;
+            var lwidth = parseInt(document.getElementById('paintThickness').value, 10);
             isDrawing = true;
 	        ctx.dataCtx.globalCompositeOperation = "destination-out";
             ctx.oriDataCtx.globalCompositeOperation = "destination-out";
 
             ctx.dataCtx.strokeStyle = "rgba(0,0,0,1)";
-        	ctx.dataCtx.lineWidth = 20;
+        	ctx.dataCtx.lineWidth = lwidth*wpd.graphicsWidget.getZoomRatio();
 	        ctx.dataCtx.beginPath();
         	ctx.dataCtx.moveTo(pos.x,pos.y);
 
             ctx.oriDataCtx.strokeStyle = "rgba(0,0,0,1)";
-        	ctx.oriDataCtx.lineWidth = 20;
+        	ctx.oriDataCtx.lineWidth = lwidth;
 	        ctx.oriDataCtx.beginPath();
         	ctx.oriDataCtx.moveTo(imagePos.x,imagePos.y);
         };
@@ -307,6 +312,7 @@ wpd.EraseMaskTool = (function () {
             document.getElementById('erase-mask').classList.remove('pressed-button');
             document.getElementById('view-mask').classList.remove('pressed-button');
             wpd.dataMask.grabMask(true);
+            wpd.toolbar.clear();
         };
        
     };

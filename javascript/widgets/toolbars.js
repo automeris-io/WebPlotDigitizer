@@ -23,22 +23,19 @@
 var wpd = wpd || {};
 wpd.toolbar = (function () {
 
-    // list of all known toolbars!
-    var toolbarList = ['paintToolbar','colorPickerToolbar']; 
-
-    function show(sbid) { // Shows a specific sidebar
+    function show(tbid) { // Shows a specific toolbar
         clear();
-        var sb = document.getElementById(sbid);
-        sb.style.visibility = "visible";
+        var tb = document.getElementById(tbid);
+        tb.style.visibility = "visible";
     }
 
-    function clear() { // Clears all open sidebars
+    function clear() { // Clears all open toolbars
+        var toolbarList = document.getElementsByClassName('toolbar'),
+            ii;
 
-          for (ii = 0; ii < toolbarList.length; ii ++) {
-              var sbv = document.getElementById(toolbarList[ii]);
-              sbv.style.visibility="hidden";
-          }
-        
+        for (ii = 0; ii < toolbarList.length; ii++) {
+             toolbarList[ii].style.visibility="hidden";
+        }        
     }
 
     return {

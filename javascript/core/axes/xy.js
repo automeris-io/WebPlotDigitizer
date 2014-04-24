@@ -117,7 +117,15 @@ wpd.XYAxes = (function () {
                 calibration = cal;
                 return true;
             };
-
+        
+        this.getBounds = function() {
+            return {
+                x1: xmin,
+                x2: xmax,
+                y3: ymin,
+                y4: ymax
+            };
+        };
 
         this.isCalibrated = function() {
             return isCalibrated;
@@ -163,9 +171,25 @@ wpd.XYAxes = (function () {
         };
 
         this.dataToPixel = function(x, y) {
+            var xydenom, xx_pix, yy_pix, 
+                rtnPix, xx, yx, xf, yf;
+
+            // Get intersection point in pixels
+            xydenom = (x1 - x2)*(y3 - y4) - (y1 - y2)*(x3 - x4);
+            xx_pix = ((x1*y2 - y1*x2)*(x3 - x4) - (x1 - x2)*(x3*y4 - y3*x4))/xydenom;
+            yy_pix = ((x1*y2 - y1*x2)*(y3 - y4) - (y1 - y2)*(x3*y4 - y3*x4))/xydenom;
+
+            // Get intersection point in actual units
+        	rtnPix = this.pixelToData(xx_pix, yy_pix);
+	    	xx = rtnPix[0];
+		    yx = rtnPix[1];
+
+            xf = (x - xmin)*Math.cos(thetax)/Lx + (y - yx)*Math.cos(thetay)/Ly + x1;
+            yf = y3 - (x - xx)*Math.sin(thetax)/Lx - (y - ymin)*Math.sin(thetay)/Ly;
+
             return {
-                x: 0,
-                y: 0
+                x: xf,
+                y: yf
             };
         };
 

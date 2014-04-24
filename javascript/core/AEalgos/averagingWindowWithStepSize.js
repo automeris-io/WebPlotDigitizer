@@ -22,13 +22,22 @@
 */
 var wpd = wpd || {};
 
-wpd.averagingWindowWithStepSizeAlgo = (function () {
+wpd.AveragingWindowWithStepSizeAlgo = (function () {
     var Algo = function () {
 
         var param_xmin, param_delx, param_xmax,
             param_linewidth, param_ymin, param_ymax;
 
         this.getParamList = function () {
+            var isAligned = wpd.appData.isAligned(),
+                axes = wpd.appData.getPlotData().axes;
+
+            if(isAligned && axes instanceof wpd.XYAxes) {
+                var bounds = axes.getBounds();
+                return [["X_min","Units", bounds.x1],["ΔX Step","Units", 0.1],["X_max","Units", bounds.x2],["Y_min","Units", bounds.y3],["Y_max","Units", bounds.y4],["Line width","Px",30]];
+
+            } 
+
             return [["X_min","Units", 0],["ΔX Step","Units", 0.1],["X_max","Units", 0],["Y_min","Units", 0],["Y_max","Units", 0],["Line width","Px",30]];
         };
 
@@ -51,82 +60,63 @@ wpd.averagingWindowWithStepSizeAlgo = (function () {
         this.run = function (plotData) {
             var autoDetector = plotData.getAutoDetector(),
                 dataSeries = plotData.getActiveDataSeries(),
-                xPoints = new Array(),
-                xPointsPicked = 0,
+                axes = plotData.axes,
                 pointsPicked = 0,
                 dw = autoDetector.imageWidth,
                 dh = autoDetector.imageHeight,
                 blobx = [],
                 bloby = [],
-                xi, xmin_pix, xmax_pix, ymin_pix, ymax_pix, dpix, r_unit_per_pix, step_pix = 1,
+                xi, xmin_pix, xmax_pix, ymin_pix, ymax_pix, dpix, r_unit_per_pix, step_pix,
                 blobActive, blobEntry, blobExit,
                 blobExitLocked,
                 ii, yi,
                 mean_ii,
                 mean_yi,
+                pdata;
 
+            dataSeries.clearAll();
 
+            for (xi = param_xmin; xi <= param_xmax; xi+= param_delx) {
+                step_pix = 1;
 
+                pdata = axes.dataToPixel(xi, param_ymin);
+                xmin_pix = pdata.x;
+                ymin_pix = pdata.y;
 
-        };
+                pdata = axes.dataToPixel(xi, param_ymax);
+                xmax_pix = pdata.x;
+                ymax_pix = pdata.y;
 
-    };
-    return Algo;
-})();
+                dpix = Math.sqrt((ymax_pix-ymin_pix)*(ymax_pix-ymin_pix) + (xmax_pix-xmin_pix)*(xmax_pix-xmin_pix));
+                r_unit_per_pix = (param_ymax-param_ymin)/dpix;
 
-/* 
-	run: function () {
-
-			
-			
-
-			// Get corresponding pixels:
-			for(xi = param_xmin; xi <= param_xmax; xi += param_delx) {
-
-				dataToPixel(xi, param_ymin, 'XY');
-				xmin_pix = dataToPixelxy[0];
-				ymin_pix = dataToPixelxy[1];
-
-				dataToPixel(xi, param_ymax, 'XY');
-				xmax_pix = dataToPixelxy[0];
-				ymax_pix = dataToPixelxy[1];
-
-				dpix = Math.sqrt((ymax_pix-ymin_pix)*(ymax_pix-ymin_pix) + (xmax_pix-xmin_pix)*(xmax_pix-xmin_pix));
-
-				r_unit_per_pix = (param_ymax-param_ymin)/dpix;
-
-				blobActive = false;
-				blobEntry = 0;
-				blobExit = 0;
-
-				// To account for noise or if actual thickness is less than specified thickness.
+                blobActive = false;
+                blobEntry = 0;
+                blobExit = 0;
+                // To account for noise or if actual thickness is less than specified thickness.
 				// This flag helps to set blobExit at the end of the thin part or account for noise.
-				blobExitLocked = false; 
+				blobExitLocked = false;
 
-				for(ii = 0; ii <= dpix; ii++) {
-					yi = -ii*step_pix*r_unit_per_pix + param_ymax;
-					dataToPixel(xi, yi, 'XY');
+                for (ii = 0; ii <= dpix; ii++) {
+                    yi = -ii*step_pix*r_unit_per_pix + param_ymax;
+                    pdata = axes.dataToPixel(xi, yi);
+                    xi_pix = pdata.x;
+                    yi_pix = pdata.y;
 
-					xi_pix = dataToPixelxy[0];
-					yi_pix = dataToPixelxy[1];
-
-					if(xi_pix >= 0 && xi_pix < dw && yi_pix >=0 && yi_pix < dh)	{
-
-						if(binaryData[parseInt(yi_pix, 10)][parseInt(xi_pix, 10)] === true)	{
-
-							if(blobActive === false) {
+                    if(xi_pix >= 0 && xi_pix < dw && yi_pix >=0 && yi_pix < dh)	{
+                        if (autoDetector.binaryData[parseInt(yi_pix, 10)*dw + parseInt(xi_pix, 10)] === true) {
+                            if(blobActive === false) {
 								blobEntry = ii;
 								blobExit = blobEntry;
 								blobActive = true;
 								blobExitLocked = false;
 							}
-
-							// Resume collection, it was just noise
+                            // Resume collection, it was just noise
 							if(blobExitLocked === true) {
 								blobExit = ii;
 								blobExitLocked = false;
 							}
-						} else	{
+                        } else	{
 
 							// collection ended before line thickness was hit. It could just be noise
 							// or it could be the actual end.
@@ -136,7 +126,7 @@ wpd.averagingWindowWithStepSizeAlgo = (function () {
 							}					
 						}
 
-						if(blobActive === true)	{
+                        if(blobActive === true)	{
 
 							if((ii > blobEntry + param_linewidth) || (ii == dpix-1)) {
 								blobActive = false;
@@ -145,21 +135,21 @@ wpd.averagingWindowWithStepSizeAlgo = (function () {
 									blobExit = ii;							
 								}
 
-							    mean_ii = (blobEntry + blobExit)/2.0;
-							    mean_yi = -mean_ii*step_pix*r_unit_per_pix + param_ymax;
+								mean_ii = (blobEntry + blobExit)/2.0;
+								mean_yi = -mean_ii*step_pix*r_unit_per_pix + param_ymax;
 
-								dataToPixel(xi, mean_yi, 'XY');
-								xyData[pointsPicked] = new Array();
-								xyData[pointsPicked][0] = parseFloat(dataToPixelxy[0]);
-								xyData[pointsPicked][1] = parseFloat(dataToPixelxy[1]);
+								pdata = axes.dataToPixel(xi, mean_yi);
+								dataSeries.addPixel(parseFloat(pdata.x), parseFloat(pdata.y));
 								pointsPicked = pointsPicked + 1;
 							}
 						}
-					}
+                    }
+                }
+            }
 
-				}
-			}
-		}
-};
+        };
 
-*/
+    };
+    return Algo;
+})();
+
