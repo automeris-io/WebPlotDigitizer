@@ -269,7 +269,6 @@ wpd.dataTable = (function () {
                 }
             }
         }
-        console.log(jsonData); 
         formData.setAttribute('value', JSON.stringify(jsonData));
         formElement.submit();
         document.body.removeChild(formContainer); 

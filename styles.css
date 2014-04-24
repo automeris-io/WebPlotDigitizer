@@ -67,7 +67,6 @@ tr,td {
 
 #topToolbarContainer {
     display: inline-block;
-    overflow: hidden;
 }
 
 #graphicsContainer {
@@ -146,9 +145,10 @@ select {
     margin: 0;
     height: 25px;
     position: absolute;
-    top:0px;
+    top:-15px;
     left:5px;
     visibility: hidden;
+    z-index:4;
 }
 
 .toolbar p { padding:0; margin:0; }

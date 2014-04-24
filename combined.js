@@ -1133,100 +1133,103 @@ wpd.AveragingWindowAlgo = (function () {
 
 
 */
+var wpd = wpd || {};
 
-var averagingWindowWithStepSizeAlgo = {
-	getParamList: function () {
-			if (plotType === 'XY') {
-				return [["X_min","Units",axesAlignmentData[0].toString()],["ΔX Step","Units","0.1"],["X_max","Units",axesAlignmentData[1].toString()],["Y_min","Units",axesAlignmentData[2].toString()],["Y_max","Units",axesAlignmentData[3].toString()],["Line width","Px","30"]];
-			} else {
-				closePopup('testImageWindow');
-				showPopup('xyAxesOnly');
-				return [["X_min","Units", "0"],["ΔX Step","Units","0.1"],["X_max","Units", "0"],["Y_min","Units", "0"],["Y_max","Units", "0"],["Line width","Px","30"]];
-			}
-		},
+wpd.AveragingWindowWithStepSizeAlgo = (function () {
+    var Algo = function () {
 
-	run: function () {
+        var param_xmin, param_delx, param_xmax,
+            param_linewidth, param_ymin, param_ymax;
 
-				// NOTE: This only works for XY Plot
+        this.getParamList = function () {
+            var isAligned = wpd.appData.isAligned(),
+                axes = wpd.appData.getPlotData().axes;
 
-				if(plotType === 'XY') {
+            if(isAligned && axes instanceof wpd.XYAxes) {
+                var bounds = axes.getBounds();
+                return [["X_min","Units", bounds.x1],["ΔX Step","Units", 0.1],["X_max","Units", bounds.x2],["Y_min","Units", bounds.y3],["Y_max","Units", bounds.y4],["Line width","Px",30]];
 
-					var xPointsPicked = 0;
-					xyData = [];
-					pointsPicked = 0;
+            } 
 
-			resetLayers();
+            return [["X_min","Units", 0],["ΔX Step","Units", 0.1],["X_max","Units", 0],["Y_min","Units", 0],["Y_max","Units", 0],["Line width","Px",30]];
+        };
 
-			var dw = canvasWidth;
-			var dh = canvasHeight;
+        this.setParam = function (index, val) {
+            if (index === 0) {
+                param_xmin = val;
+            } else if (index === 1) {
+                param_delx = val;
+            } else if (index === 2) {
+                param_xmax = val;
+            } else if (index === 3) {
+                param_ymin = val;
+            } else if (index === 4) {
+                param_ymax = val;
+            } else if (index === 5) {
+                param_linewidth = val;
+            }
+        };
 
-			// Get values from UI:
-			var param_xmin_el = document.getElementById("pv0");
-			var param_delx_el = document.getElementById("pv1");
-			var param_xmax_el = document.getElementById("pv2");
-			var param_linewidth_el = document.getElementById("pv5");
-			var param_ymin_el = document.getElementById("pv3");
-			var param_ymax_el = document.getElementById("pv4");
+        this.run = function (plotData) {
+            var autoDetector = plotData.getAutoDetector(),
+                dataSeries = plotData.getActiveDataSeries(),
+                axes = plotData.axes,
+                pointsPicked = 0,
+                dw = autoDetector.imageWidth,
+                dh = autoDetector.imageHeight,
+                blobx = [],
+                bloby = [],
+                xi, xmin_pix, xmax_pix, ymin_pix, ymax_pix, dpix, r_unit_per_pix, step_pix,
+                blobActive, blobEntry, blobExit,
+                blobExitLocked,
+                ii, yi,
+                mean_ii,
+                mean_yi,
+                pdata;
 
-			var param_xmin = parseFloat(param_xmin_el.value);
-			var param_delx = parseFloat(param_delx_el.value);
-			var param_xmax = parseFloat(param_xmax_el.value);
-			var param_linewidth = parseFloat(param_linewidth_el.value);
-			var param_ymin = parseFloat(param_ymin_el.value);
-			var param_ymax = parseFloat(param_ymax_el.value);
+            dataSeries.clearAll();
 
-			var blobx = [];
-			var bloby = [];
+            for (xi = param_xmin; xi <= param_xmax; xi+= param_delx) {
+                step_pix = 1;
 
+                pdata = axes.dataToPixel(xi, param_ymin);
+                xmin_pix = pdata.x;
+                ymin_pix = pdata.y;
 
-			// Get corresponding pixels:
-			for(var xi = param_xmin; xi <= param_xmax; xi += param_delx) {
-				var xmin_pix, xmax_pix, ymin_pix, ymax_pix, dpix, r_unit_per_pix, step_pix = 1;
+                pdata = axes.dataToPixel(xi, param_ymax);
+                xmax_pix = pdata.x;
+                ymax_pix = pdata.y;
 
-				dataToPixel(xi, param_ymin, 'XY');
-				xmin_pix = dataToPixelxy[0];
-				ymin_pix = dataToPixelxy[1];
+                dpix = Math.sqrt((ymax_pix-ymin_pix)*(ymax_pix-ymin_pix) + (xmax_pix-xmin_pix)*(xmax_pix-xmin_pix));
+                r_unit_per_pix = (param_ymax-param_ymin)/dpix;
 
-				dataToPixel(xi, param_ymax, 'XY');
-				xmax_pix = dataToPixelxy[0];
-				ymax_pix = dataToPixelxy[1];
-
-				dpix = Math.sqrt((ymax_pix-ymin_pix)*(ymax_pix-ymin_pix) + (xmax_pix-xmin_pix)*(xmax_pix-xmin_pix));
-
-				r_unit_per_pix = (param_ymax-param_ymin)/dpix;
-
-				var blobActive = false;
-				var blobEntry = 0;
-				var blobExit = 0;
-
-				// To account for noise or if actual thickness is less than specified thickness.
+                blobActive = false;
+                blobEntry = 0;
+                blobExit = 0;
+                // To account for noise or if actual thickness is less than specified thickness.
 				// This flag helps to set blobExit at the end of the thin part or account for noise.
-				var blobExitLocked = false; 
+				blobExitLocked = false;
 
-				for(var ii = 0; ii <= dpix; ii++) {
-					var yi = -ii*step_pix*r_unit_per_pix + param_ymax;
-					dataToPixel(xi, yi, 'XY');
+                for (ii = 0; ii <= dpix; ii++) {
+                    yi = -ii*step_pix*r_unit_per_pix + param_ymax;
+                    pdata = axes.dataToPixel(xi, yi);
+                    xi_pix = pdata.x;
+                    yi_pix = pdata.y;
 
-					xi_pix = dataToPixelxy[0];
-					yi_pix = dataToPixelxy[1];
-
-					if(xi_pix >= 0 && xi_pix < dw && yi_pix >=0 && yi_pix < dh)	{
-
-						if(binaryData[parseInt(yi_pix, 10)][parseInt(xi_pix, 10)] === true)	{
-
-							if(blobActive === false) {
+                    if(xi_pix >= 0 && xi_pix < dw && yi_pix >=0 && yi_pix < dh)	{
+                        if (autoDetector.binaryData[parseInt(yi_pix, 10)*dw + parseInt(xi_pix, 10)] === true) {
+                            if(blobActive === false) {
 								blobEntry = ii;
 								blobExit = blobEntry;
 								blobActive = true;
 								blobExitLocked = false;
 							}
-
-							// Resume collection, it was just noise
+                            // Resume collection, it was just noise
 							if(blobExitLocked === true) {
 								blobExit = ii;
 								blobExitLocked = false;
 							}
-						} else	{
+                        } else	{
 
 							// collection ended before line thickness was hit. It could just be noise
 							// or it could be the actual end.
@@ -1236,7 +1239,7 @@ var averagingWindowWithStepSizeAlgo = {
 							}					
 						}
 
-						if(blobActive === true)	{
+                        if(blobActive === true)	{
 
 							if((ii > blobEntry + param_linewidth) || (ii == dpix-1)) {
 								blobActive = false;
@@ -1245,25 +1248,24 @@ var averagingWindowWithStepSizeAlgo = {
 									blobExit = ii;							
 								}
 
-								var mean_ii = (blobEntry + blobExit)/2.0;
-								var mean_yi = -mean_ii*step_pix*r_unit_per_pix + param_ymax;
+								mean_ii = (blobEntry + blobExit)/2.0;
+								mean_yi = -mean_ii*step_pix*r_unit_per_pix + param_ymax;
 
-								dataToPixel(xi, mean_yi, 'XY');
-								xyData[pointsPicked] = new Array();
-								xyData[pointsPicked][0] = parseFloat(dataToPixelxy[0]);
-								xyData[pointsPicked][1] = parseFloat(dataToPixelxy[1]);
+								pdata = axes.dataToPixel(xi, mean_yi);
+								dataSeries.addPixel(parseFloat(pdata.x), parseFloat(pdata.y));
 								pointsPicked = pointsPicked + 1;
 							}
 						}
-					}
+                    }
+                }
+            }
 
-				}
-			}
-		} else {
-			showPopup('xyAxesOnly');
-		}
-	}
-};
+        };
+
+    };
+    return Algo;
+})();
+
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
@@ -1668,12 +1670,14 @@ wpd.MapAxes = (function () {
     var AxesObj = function () {
         var isCalibrated = false,
             scaleLength,
+            scaleUnits,
             dist,
-            processCalibration = function(cal, scale_length) {
+            processCalibration = function(cal, scale_length, scale_units) {
                 var cp0 = cal.getPoint(0),
                     cp1 = cal.getPoint(1);
                 dist = Math.sqrt((cp0.px-cp1.px)*(cp0.px-cp1.px) + (cp0.py-cp1.py)*(cp0.py-cp1.py));
                 scaleLength = parseFloat(scale_length);
+                scaleUnits = scale_units;
                 return true;
             };
 
@@ -1681,8 +1685,8 @@ wpd.MapAxes = (function () {
             return isCalibrated;
         };
 
-        this.calibrate = function (calib, scale_length) {
-            isCalibrated = processCalibration(calib, scale_length);
+        this.calibrate = function (calib, scale_length, scale_units) {
+            isCalibrated = processCalibration(calib, scale_length, scale_units);
             return isCalibrated;
         };
 
@@ -1707,6 +1711,10 @@ wpd.MapAxes = (function () {
         this.pixelToLiveString = function (pxi, pyi) {
             var dataVal = this.pixelToData(pxi, pyi);
             return dataVal[0].toExponential(4) + ', ' + dataVal[1].toExponential(4);
+        };
+
+        this.getUnits = function () {
+            return scaleUnits;
         };
     };
 
@@ -2114,7 +2122,15 @@ wpd.XYAxes = (function () {
                 calibration = cal;
                 return true;
             };
-
+        
+        this.getBounds = function() {
+            return {
+                x1: xmin,
+                x2: xmax,
+                y3: ymin,
+                y4: ymax
+            };
+        };
 
         this.isCalibrated = function() {
             return isCalibrated;
@@ -2160,9 +2176,25 @@ wpd.XYAxes = (function () {
         };
 
         this.dataToPixel = function(x, y) {
+            var xydenom, xx_pix, yy_pix, 
+                rtnPix, xx, yx, xf, yf;
+
+            // Get intersection point in pixels
+            xydenom = (x1 - x2)*(y3 - y4) - (y1 - y2)*(x3 - x4);
+            xx_pix = ((x1*y2 - y1*x2)*(x3 - x4) - (x1 - x2)*(x3*y4 - y3*x4))/xydenom;
+            yy_pix = ((x1*y2 - y1*x2)*(y3 - y4) - (y1 - y2)*(x3*y4 - y3*x4))/xydenom;
+
+            // Get intersection point in actual units
+        	rtnPix = this.pixelToData(xx_pix, yy_pix);
+	    	xx = rtnPix[0];
+		    yx = rtnPix[1];
+
+            xf = (x - xmin)*Math.cos(thetax)/Lx + (y - yx)*Math.cos(thetay)/Ly + x1;
+            yf = y3 - (x - xx)*Math.sin(thetax)/Lx - (y - ymin)*Math.sin(thetay)/Ly;
+
             return {
-                x: 0,
-                y: 0
+                x: xf,
+                y: yf
             };
         };
 
@@ -2487,7 +2519,6 @@ wpd.dataTable = (function () {
                 }
             }
         }
-        console.log(jsonData); 
         formData.setAttribute('value', JSON.stringify(jsonData));
         formElement.submit();
         document.body.removeChild(formContainer); 
@@ -2670,6 +2701,7 @@ wpd.graphicsWidget = (function () {
         $drawCanvas.width = $drawCanvas.width;
         $hoverCanvas.width = $hoverCanvas.width;
         $topCanvas.width = $topCanvas.width;
+        $oriDataCanvas.width = $oriDataCanvas.width;
     }
 
     function drawImage() {
@@ -2974,6 +3006,7 @@ wpd.graphicsWidget = (function () {
         }
         wpd.appData.reset();
         wpd.sidebar.clear();
+        removeTool();
         originalWidth = originalImage.width;
         originalHeight = originalImage.height;
         aspectRatio = originalWidth/(originalHeight*1.0);
@@ -2986,7 +3019,6 @@ wpd.graphicsWidget = (function () {
         originalImageData = oriImageCtx.getImageData(0, 0, originalWidth, originalHeight);
         resetAllLayers();
         zoomFit();
-        removeTool();
     }
 
     function loadImageFromSrc(imgSrc) {
@@ -2999,6 +3031,7 @@ wpd.graphicsWidget = (function () {
 
     function loadImageFromData(idata, iwidth, iheight) {
         wpd.appData.reset();
+        removeTool();
         originalWidth = iwidth;
         originalHeight = iheight;
         aspectRatio = originalWidth/(originalHeight*1.0);
@@ -3010,7 +3043,6 @@ wpd.graphicsWidget = (function () {
         originalImageData = idata;
         resetAllLayers();
         zoomFit();
-        removeTool();
     }
 
     function fileLoader(fileInfo) {
@@ -3379,7 +3411,7 @@ wpd.sidebar = (function () {
         var sidebarList = document.getElementsByClassName('sidebar'),
             ii;
 
-        for (ii = 0; ii < sidebarList.length; ii ++) {
+        for (ii = 0; ii < sidebarList.length; ii++) {
             sidebarList[ii].style.visibility="hidden";
         }
     }
@@ -3417,22 +3449,19 @@ wpd.sidebar = (function () {
 var wpd = wpd || {};
 wpd.toolbar = (function () {
 
-    // list of all known toolbars!
-    var toolbarList = ['paintToolbar','colorPickerToolbar']; 
-
-    function show(sbid) { // Shows a specific sidebar
+    function show(tbid) { // Shows a specific toolbar
         clear();
-        var sb = document.getElementById(sbid);
-        sb.style.visibility = "visible";
+        var tb = document.getElementById(tbid);
+        tb.style.visibility = "visible";
     }
 
-    function clear() { // Clears all open sidebars
+    function clear() { // Clears all open toolbars
+        var toolbarList = document.getElementsByClassName('toolbar'),
+            ii;
 
-          for (ii = 0; ii < toolbarList.length; ii ++) {
-              var sbv = document.getElementById(toolbarList[ii]);
-              sbv.style.visibility="hidden";
-          }
-        
+        for (ii = 0; ii < toolbarList.length; ii++) {
+             toolbarList[ii].style.visibility="hidden";
+        }        
     }
 
     return {
@@ -3851,11 +3880,12 @@ wpd.mapCalibration = (function () {
 
     function align() {
         var scaleLength = parseFloat(document.getElementById('scaleLength').value),
+            scaleUnits = document.getElementById('scaleUnits').value,
             axes = new wpd.MapAxes(),
             plot,
             calib = wpd.alignAxes.getActiveCalib();
 
-        axes.calibrate(calib, scaleLength);
+        axes.calibrate(calib, scaleLength, scaleUnits);
         plot = wpd.appData.getPlotData();
         plot.axes = axes;
         wpd.popup.close('mapAlignment');
@@ -4111,6 +4141,14 @@ wpd.autoExtraction = (function () {
 
         if(algoName === "averagingWindow") {
             autoDetector.algorithm = new wpd.AveragingWindowAlgo();
+        } else if (algoName === 'XStep') {
+            if (wpd.appData.getPlotData().axes instanceof wpd.XYAxes) {
+                autoDetector.algorithm = new wpd.AveragingWindowWithStepSizeAlgo();
+            } else {
+                wpd.messagePopup.show('Not supported!', 'This algorithm is only supported for simple XY plots.');
+                document.getElementById('auto-extract-algo-name').value = 'averagingWindow';
+                autoDetector.algorithm = new wpd.AveragingWindowAlgo();
+            }
         }
 
         displayAlgoParameters(autoDetector.algorithm);
@@ -4120,17 +4158,14 @@ wpd.autoExtraction = (function () {
         var $paramContainer = document.getElementById('algo-parameter-container'),
             algoParams = algo.getParamList(),
             pi,
-            tableString = "";
+            tableString = "<table>";
 
         
         for(pi = 0; pi < algoParams.length; pi++) {
-            tableString += algoParams[pi][0] + 
-                ' <input type="text" size=3 id="algo-param-' + pi + 
-                '" class="algo-params" value="'+ algoParams[pi][2] + '"/> ' 
-                + algoParams[pi][1];
-            if(pi != algoParams.length - 1) {
-                tableString += ', ';
-            } 
+            tableString += '<tr><td>' + algoParams[pi][0] + 
+                '</td><td><input type="text" size=3 id="algo-param-' + pi + 
+                '" class="algo-params" value="'+ algoParams[pi][2] + '"/></td><td>' 
+                + algoParams[pi][1] + '</td></tr>';
         }
         tableString += "</table>";
         $paramContainer.innerHTML = tableString;
@@ -5129,18 +5164,20 @@ wpd.PenMaskTool = (function () {
             wpd.graphicsWidget.setRepainter(new wpd.MaskPainter());
             document.getElementById('pen-mask').classList.add('pressed-button');
             document.getElementById('view-mask').classList.add('pressed-button');
+            wpd.toolbar.show('paintToolbar');
         };
 
         this.onMouseDown = function(ev, pos, imagePos) {
             if(isDrawing === true) return;
+            var lwidth = parseInt(document.getElementById('paintThickness').value, 10);
             isDrawing = true;
             ctx.dataCtx.strokeStyle = "rgba(255,255,0,0.8)";
-        	ctx.dataCtx.lineWidth = 20;
+        	ctx.dataCtx.lineWidth = lwidth*wpd.graphicsWidget.getZoomRatio();
 	        ctx.dataCtx.beginPath();
         	ctx.dataCtx.moveTo(pos.x,pos.y);
 
             ctx.oriDataCtx.strokeStyle = "rgba(255,255,0,0.8)";
-        	ctx.oriDataCtx.lineWidth = 20;
+        	ctx.oriDataCtx.lineWidth = lwidth;
 	        ctx.oriDataCtx.beginPath();
         	ctx.oriDataCtx.moveTo(imagePos.x,imagePos.y);
         };
@@ -5170,6 +5207,7 @@ wpd.PenMaskTool = (function () {
             document.getElementById('pen-mask').classList.remove('pressed-button');
             document.getElementById('view-mask').classList.remove('pressed-button');
             wpd.dataMask.grabMask(true);
+            wpd.toolbar.clear();
         };
 
     };
@@ -5201,21 +5239,23 @@ wpd.EraseMaskTool = (function () {
              wpd.graphicsWidget.setRepainter(new wpd.MaskPainter());
              document.getElementById('erase-mask').classList.add('pressed-button');
              document.getElementById('view-mask').classList.add('pressed-button');
+             wpd.toolbar.show('paintToolbar');
         };
 
         this.onMouseDown = function(ev, pos, imagePos) {
             if(isDrawing === true) return;
+            var lwidth = parseInt(document.getElementById('paintThickness').value, 10);
             isDrawing = true;
 	        ctx.dataCtx.globalCompositeOperation = "destination-out";
             ctx.oriDataCtx.globalCompositeOperation = "destination-out";
 
             ctx.dataCtx.strokeStyle = "rgba(0,0,0,1)";
-        	ctx.dataCtx.lineWidth = 20;
+        	ctx.dataCtx.lineWidth = lwidth*wpd.graphicsWidget.getZoomRatio();
 	        ctx.dataCtx.beginPath();
         	ctx.dataCtx.moveTo(pos.x,pos.y);
 
             ctx.oriDataCtx.strokeStyle = "rgba(0,0,0,1)";
-        	ctx.oriDataCtx.lineWidth = 20;
+        	ctx.oriDataCtx.lineWidth = lwidth;
 	        ctx.oriDataCtx.beginPath();
         	ctx.oriDataCtx.moveTo(imagePos.x,imagePos.y);
         };
@@ -5249,6 +5289,7 @@ wpd.EraseMaskTool = (function () {
             document.getElementById('erase-mask').classList.remove('pressed-button');
             document.getElementById('view-mask').classList.remove('pressed-button');
             wpd.dataMask.grabMask(true);
+            wpd.toolbar.clear();
         };
        
     };
@@ -5770,7 +5811,7 @@ wpd.MeasurementRepainter = (function () {
                     isSelected0 = distData.isPointSelected(conni, 0);
                     isSelected1 = distData.isPointSelected(conni, 1);
                     if(wpd.appData.isAligned() === true && axes instanceof wpd.MapAxes) {
-                        dist = '[' + conni.toString() + ']: ' + axes.pixelToDataDistance(distData.getDistance(conni)).toFixed(2);
+                        dist = '[' + conni.toString() + ']: ' + axes.pixelToDataDistance(distData.getDistance(conni)).toFixed(2) + ' ' + axes.getUnits();
                     } else {
                         dist = '[' + conni.toString() + ']: ' + distData.getDistance(conni).toFixed(2) + ' px';
                     }

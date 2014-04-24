@@ -152,6 +152,7 @@ wpd.graphicsWidget = (function () {
         $drawCanvas.width = $drawCanvas.width;
         $hoverCanvas.width = $hoverCanvas.width;
         $topCanvas.width = $topCanvas.width;
+        $oriDataCanvas.width = $oriDataCanvas.width;
     }
 
     function drawImage() {
@@ -456,6 +457,7 @@ wpd.graphicsWidget = (function () {
         }
         wpd.appData.reset();
         wpd.sidebar.clear();
+        removeTool();
         originalWidth = originalImage.width;
         originalHeight = originalImage.height;
         aspectRatio = originalWidth/(originalHeight*1.0);
@@ -468,7 +470,6 @@ wpd.graphicsWidget = (function () {
         originalImageData = oriImageCtx.getImageData(0, 0, originalWidth, originalHeight);
         resetAllLayers();
         zoomFit();
-        removeTool();
     }
 
     function loadImageFromSrc(imgSrc) {
@@ -481,6 +482,7 @@ wpd.graphicsWidget = (function () {
 
     function loadImageFromData(idata, iwidth, iheight) {
         wpd.appData.reset();
+        removeTool();
         originalWidth = iwidth;
         originalHeight = iheight;
         aspectRatio = originalWidth/(originalHeight*1.0);
@@ -492,7 +494,6 @@ wpd.graphicsWidget = (function () {
         originalImageData = idata;
         resetAllLayers();
         zoomFit();
-        removeTool();
     }
 
     function fileLoader(fileInfo) {

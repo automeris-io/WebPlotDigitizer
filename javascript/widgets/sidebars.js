@@ -34,7 +34,7 @@ wpd.sidebar = (function () {
         var sidebarList = document.getElementsByClassName('sidebar'),
             ii;
 
-        for (ii = 0; ii < sidebarList.length; ii ++) {
+        for (ii = 0; ii < sidebarList.length; ii++) {
             sidebarList[ii].style.visibility="hidden";
         }
     }

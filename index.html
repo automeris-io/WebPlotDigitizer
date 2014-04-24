@@ -32,7 +32,7 @@
 <link rel="stylesheet" href="widgets.css" type="text/css" media="screen" />
 
 <!-- Individual, uncompressed javascript files -->
-
+<!-- 
 <script src="javascript/browser/browserInfo.js"></script>
 <script src="javascript/core/AEalgos/averagingWindow.js"></script>
 <script src="javascript/core/AEalgos/averagingWindowWithStepSize.js"></script>
@@ -69,9 +69,10 @@
 <script src="javascript/widgets/toolbars.js"></script>
 <script src="javascript/widgets/webcam.js"></script>
 <script src="javascript/widgets/zoom.js"></script>
-<!--
-<script src="combined-compiled.js"></script>
 -->
+
+<script src="combined-compiled.js"></script>
+
 
 <!-- Start of StatCounter Code -->
 <!--
@@ -257,10 +258,10 @@ Loading application, please wait...
                     <option value="XStep">X Step</option>
                 </optgroup>
                 <optgroup label="Blobs">
-                    <option value="blobDetector">Blob Centroids</option>
+                    <option value="blobDetector" disabled>Blob Centroids</option>
                 </optgroup>
                 <optgroup label="Data Points">
-                    <option value="dataPointExtractor">Data Points</option>
+                    <option value="dataPointExtractor" disabled>Data Points</option>
               </optgroup>
             </select>
             </p>
@@ -415,7 +416,7 @@ Loading application, please wait...
 	<div id="mapAlignment" class="popup" style="width: 200px;">
 	<p align="center" class="popupheading">Scale Size</p>
 	<p>&nbsp;</p>
-	<p align="center"><input type="text" size="6" id="scaleLength" value="1"> Units</p>
+	<p align="center"><input type="text" size="6" id="scaleLength" value="1"> <input type="text" size="6" id="scaleUnits" value="Units"/></p>
 	<p>&nbsp;</p>
 	<p align="center"><input type="button" id="xybtn" value="OK" onclick="wpd.alignAxes.align();"></p>
 	</div>
