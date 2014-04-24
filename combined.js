@@ -993,7 +993,7 @@ wpd.AveragingWindowAlgo = (function () {
         var xStep = 5, yStep = 5;
 
         this.getParamList = function () {
-			return [['ΔX','Px',5],['ΔY','Px',5]];
+			return [['ΔX', 'Px', 10], ['ΔY', 'Px', 10]];
         };
 
         this.setParam = function (index, val) {
