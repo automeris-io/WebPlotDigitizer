@@ -226,6 +226,14 @@ wpd.XYAxes = (function () {
                 return initialFormattingY;
             }
         };
+
+        this.isLogX = function () {
+            return isLogScaleX;
+        };
+
+        this.isLogY = function () {
+            return isLogScaleY;
+        };
     };
 
     AxesObj.prototype.numCalibrationPointsRequired = function() {

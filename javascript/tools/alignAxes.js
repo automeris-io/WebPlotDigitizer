@@ -44,8 +44,8 @@ wpd.xyCalibration = (function () {
 	        xmax = document.getElementById('xmax').value,
 	        ymin = document.getElementById('ymin').value,
 	        ymax = document.getElementById('ymax').value,
-	        xlog = document.getElementById('xlog').value,
-	        ylog = document.getElementById('ylog').value,
+	        xlog = document.getElementById('xlog').checked,
+	        ylog = document.getElementById('ylog').checked,
             axes = new wpd.XYAxes(),
             plot,
             calib = wpd.alignAxes.getActiveCalib();
