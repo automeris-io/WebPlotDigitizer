@@ -2231,6 +2231,14 @@ wpd.XYAxes = (function () {
                 return initialFormattingY;
             }
         };
+
+        this.isLogX = function () {
+            return isLogScaleX;
+        };
+
+        this.isLogY = function () {
+            return isLogScaleY;
+        };
     };
 
     AxesObj.prototype.numCalibrationPointsRequired = function() {
@@ -3007,6 +3015,7 @@ wpd.graphicsWidget = (function () {
         wpd.appData.reset();
         wpd.sidebar.clear();
         removeTool();
+        removeRepainter();
         originalWidth = originalImage.width;
         originalHeight = originalImage.height;
         aspectRatio = originalWidth/(originalHeight*1.0);
@@ -3032,6 +3041,7 @@ wpd.graphicsWidget = (function () {
     function loadImageFromData(idata, iwidth, iheight) {
         wpd.appData.reset();
         removeTool();
+        removeRepainter();
         originalWidth = iwidth;
         originalHeight = iheight;
         aspectRatio = originalWidth/(originalHeight*1.0);
@@ -3667,9 +3677,9 @@ wpd.zoomView = (function() {
     function setCoords(imageX, imageY) {
         if(wpd.appData.isAligned()) {
             var plotData = wpd.appData.getPlotData();
-            $mPosn.innerText = plotData.axes.pixelToLiveString(imageX, imageY);
+            $mPosn.innerHTML = plotData.axes.pixelToLiveString(imageX, imageY);
         } else {
-            $mPosn.innerText = imageX.toFixed(2) + ', ' + imageY.toFixed(2);
+            $mPosn.innerHTML = imageX.toFixed(2) + ', ' + imageY.toFixed(2);
         }
     }
 
@@ -3744,8 +3754,8 @@ wpd.xyCalibration = (function () {
 	        xmax = document.getElementById('xmax').value,
 	        ymin = document.getElementById('ymin').value,
 	        ymax = document.getElementById('ymax').value,
-	        xlog = document.getElementById('xlog').value,
-	        ylog = document.getElementById('ylog').value,
+	        xlog = document.getElementById('xlog').checked,
+	        ylog = document.getElementById('ylog').checked,
             axes = new wpd.XYAxes(),
             plot,
             calib = wpd.alignAxes.getActiveCalib();
@@ -4142,10 +4152,13 @@ wpd.autoExtraction = (function () {
         if(algoName === "averagingWindow") {
             autoDetector.algorithm = new wpd.AveragingWindowAlgo();
         } else if (algoName === 'XStep') {
-            if (wpd.appData.getPlotData().axes instanceof wpd.XYAxes) {
+
+            var axes = wpd.appData.getPlotData().axes;
+
+            if (axes instanceof wpd.XYAxes && axes.isLogX() === false && axes.isLogY() === false) {
                 autoDetector.algorithm = new wpd.AveragingWindowWithStepSizeAlgo();
             } else {
-                wpd.messagePopup.show('Not supported!', 'This algorithm is only supported for simple XY plots.');
+                wpd.messagePopup.show('Not supported!', 'This algorithm is only supported for non log scale XY plots.');
                 document.getElementById('auto-extract-algo-name').value = 'averagingWindow';
                 autoDetector.algorithm = new wpd.AveragingWindowAlgo();
             }
@@ -5388,7 +5401,7 @@ wpd.distanceMeasurement = (function () {
             plotData.distanceMeasurementData = new wpd.ConnectedPoints(2);
         }
         wpd.sidebar.show('measure-distances-sidebar');
-        wpd.graphicsWidget.setTool(new wpd.AdjustMeasurementTool('distance'));
+        wpd.graphicsWidget.setTool(new wpd.AddMeasurementTool('distance'));
         wpd.graphicsWidget.forceHandlerRepaint();
     }
 
@@ -5423,7 +5436,7 @@ wpd.angleMeasurement = (function () {
             plotData.angleMeasurementData = new wpd.ConnectedPoints(3);
         }
         wpd.sidebar.show('measure-angles-sidebar');
-        wpd.graphicsWidget.setTool(new wpd.AdjustMeasurementTool('angle'));
+        wpd.graphicsWidget.setTool(new wpd.AddMeasurementTool('angle'));
         wpd.graphicsWidget.forceHandlerRepaint();
     }
 

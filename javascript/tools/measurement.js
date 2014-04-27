@@ -33,7 +33,7 @@ wpd.distanceMeasurement = (function () {
             plotData.distanceMeasurementData = new wpd.ConnectedPoints(2);
         }
         wpd.sidebar.show('measure-distances-sidebar');
-        wpd.graphicsWidget.setTool(new wpd.AdjustMeasurementTool('distance'));
+        wpd.graphicsWidget.setTool(new wpd.AddMeasurementTool('distance'));
         wpd.graphicsWidget.forceHandlerRepaint();
     }
 
@@ -68,7 +68,7 @@ wpd.angleMeasurement = (function () {
             plotData.angleMeasurementData = new wpd.ConnectedPoints(3);
         }
         wpd.sidebar.show('measure-angles-sidebar');
-        wpd.graphicsWidget.setTool(new wpd.AdjustMeasurementTool('angle'));
+        wpd.graphicsWidget.setTool(new wpd.AddMeasurementTool('angle'));
         wpd.graphicsWidget.forceHandlerRepaint();
     }
 

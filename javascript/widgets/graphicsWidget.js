@@ -458,6 +458,7 @@ wpd.graphicsWidget = (function () {
         wpd.appData.reset();
         wpd.sidebar.clear();
         removeTool();
+        removeRepainter();
         originalWidth = originalImage.width;
         originalHeight = originalImage.height;
         aspectRatio = originalWidth/(originalHeight*1.0);
@@ -483,6 +484,7 @@ wpd.graphicsWidget = (function () {
     function loadImageFromData(idata, iwidth, iheight) {
         wpd.appData.reset();
         removeTool();
+        removeRepainter();
         originalWidth = iwidth;
         originalHeight = iheight;
         aspectRatio = originalWidth/(originalHeight*1.0);

@@ -36,10 +36,13 @@ wpd.autoExtraction = (function () {
         if(algoName === "averagingWindow") {
             autoDetector.algorithm = new wpd.AveragingWindowAlgo();
         } else if (algoName === 'XStep') {
-            if (wpd.appData.getPlotData().axes instanceof wpd.XYAxes) {
+
+            var axes = wpd.appData.getPlotData().axes;
+
+            if (axes instanceof wpd.XYAxes && axes.isLogX() === false && axes.isLogY() === false) {
                 autoDetector.algorithm = new wpd.AveragingWindowWithStepSizeAlgo();
             } else {
-                wpd.messagePopup.show('Not supported!', 'This algorithm is only supported for simple XY plots.');
+                wpd.messagePopup.show('Not supported!', 'This algorithm is only supported for non log scale XY plots.');
                 document.getElementById('auto-extract-algo-name').value = 'averagingWindow';
                 autoDetector.algorithm = new wpd.AveragingWindowAlgo();
             }
