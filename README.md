@@ -9,29 +9,28 @@ This tool has been developed using HTML5, CSS3 and Javascript and therefore runs
 Homepage
 --------
 
-This project is hosted on [http://arohatgi.info/WebPlotDigitizer](http://arohatgi.info/WebPlotDigitizer).
+This project is hosted on [http://arohatgi.info/WebPlotDigitizer](http://arohatgi.info/WebPlotDigitizer)
+
+Demonstration Video
+-------------------
+
+Version 3.0 demonstration video: [http://youtu.be/G8KPVVFrb6U](http://youtu.be/G8KPVVFrb6U)
+
 
 Usage
 -----
 
-Instructions and video tutorials are available at [http://arohatgi.info/WebPlotDigitizer/?page_id=58](http://arohatgi.info/WebPlotDigitizer/?page_id=58).
+Instructions and video tutorials are available at [http://arohatgi.info/WebPlotDigitizer/?page_id=58](http://arohatgi.info/WebPlotDigitizer/?page_id=58)
 
 Offline Development/Usage
 -------------------------
 
-This tool has to hosted on a HTTP server for some javascript features to function correctly. Therefore, host this on a server (ex: Apache) while developing or using offline.
+This tool has to hosted on a HTTP server with PHP for some javascript features and PHP scripts to function correctly.
 
-Version 3
----------
-
-Currently, a massive rewrite is underway to meet many of the requested features and future goals.
 
 Contact
 -------
 
 Ankit Rohatgi <ankitrohatgi@hotmail.com>
-
-
-
 
 
