@@ -5937,35 +5937,22 @@ wpd.saveResume = (function () {
         // None of this works...
 
         var appData = wpd.appData,
-            //appDataBSON = BSON.serialize(appData),
-            appDataJSON = JSON.stringify(appData.getPlotData().getAutoDetector().imageData),
-            
-            formContainer,
-            formElement,
-            formData;
+            imageData = appData.getPlotData().getAutoDetector().imageData,
 
-        // Create a hidden form and submit
-        formContainer = document.createElement('div'),
-        formElement = document.createElement('form'),
-        formData = document.createElement('input');
+            oReq = new XMLHttpRequest(),
+            form = new FormData();
 
-        formElement.setAttribute('method', 'post');
-        //formElement.setAttribute('action', 'php/bson.php');
-        formElement.setAttribute('action', 'php/bson.php');
+        oReq.open("POST", 'php/test.php', true);
+        oReq.onload = function (oEvent) {
+            console.log('done');
+        };
 
-        formData.setAttribute('type', "text");
-        formData.setAttribute('name', "data");
+        // var testObj = { x: [1, 2, 3, 4], y: [0, 1, 2], z: 'hello' };
+        var blob = new Blob(BSON.serialize(imageData), {type: 'application/bson'});
+        form.append('file.bson', blob, 'file.bson');
+        oReq.send(form);
+        
 
-        formElement.appendChild(formData);
-        formContainer.appendChild(formElement);
-        document.body.appendChild(formContainer);
-        formContainer.style.display = 'none';
-
-        //formData.setAttribute('value', appDataBSON);
-        formData.setAttribute('value', appDataJSON);
-
-        formElement.submit();
-        document.body.removeChild(formContainer);
     }
 
     return {
