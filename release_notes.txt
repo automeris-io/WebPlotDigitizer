@@ -2,7 +2,7 @@ RELEASE NOTES
 
 Version 3.0
 ===========
-To be Released: April 30, 2014
+Released: May 11, 2014
 
 A complete overhaul of the app was required to introduce some of the new features and improve maintainability.
 
