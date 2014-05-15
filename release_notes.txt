@@ -1,5 +1,12 @@
 RELEASE NOTES
 
+Version 3.1
+===========
+Released: May 14, 2014
+
+- Prevent browsers from caching HTML page of the app.
+
+
 Version 3.0
 ===========
 Released: May 11, 2014
