@@ -25,10 +25,10 @@ var wpd = wpd || {};
 
 wpd.initApp = function() {// This is run when the page loads.
 
-	wpd.browserInfo.checkBrowser();
+    wpd.browserInfo.checkBrowser();
     wpd.layoutManager.initialLayout();
     wpd.graphicsWidget.loadImageFromURL('start.png');
-	document.getElementById('loadingCurtain').style.display = 'none';
+    document.getElementById('loadingCurtain').style.display = 'none';
     wpd.messagePopup.show('Unstable Version Warning!', 'You are using a beta version of WebPlotDigitizer. There may be some issues with the software that are expected.');
 
 }
@@ -3248,7 +3248,7 @@ wpd.layoutManager = (function () {
             windowHeight = parseInt(document.body.offsetHeight,10);
 
         $sidebarContainer.style.height = windowHeight + 'px';
-        $mainContainer.style.width = windowWidth - $sidebarContainer.offsetWidth + 'px';
+        $mainContainer.style.width = windowWidth - $sidebarContainer.offsetWidth - 5 + 'px';
         $mainContainer.style.height = windowHeight + 'px';
         $graphicsContainer.style.height = windowHeight - 44 + 'px';
     }
