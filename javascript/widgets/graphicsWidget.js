@@ -62,9 +62,8 @@ wpd.graphicsWidget = (function () {
         activeTool,
         repaintHandler,
         
-        isCanvasInFocus = false,
+        isCanvasInFocus = false;
         
-        onImageLoad = function () { };
 
     function posn(ev) { // get screen pixel from event
         var mainCanvasPosition = $mainCanvas.getBoundingClientRect();
@@ -450,10 +449,6 @@ wpd.graphicsWidget = (function () {
 
         // Paste image from clipboard
         window.addEventListener('paste', function(event) {pasteHandler(event);}, false);
-    }
-
-    function callOnImageLoad(delegateMethod) {
-        onImageLoad = delegateMethod;
     }
 
     function loadImage(originalImage) {
