@@ -231,7 +231,8 @@ wpd.PlotData = (function () {
 
         var activeSeriesIndex = 0,
             autoDetector = new wpd.AutoDetector();
-
+        
+        this.topColors = null;
         this.axes = null;
         this.dataSeriesColl = [];
 
