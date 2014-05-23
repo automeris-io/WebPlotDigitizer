@@ -62,7 +62,9 @@ wpd.graphicsWidget = (function () {
         activeTool,
         repaintHandler,
         
-        isCanvasInFocus = false;
+        isCanvasInFocus = false,
+        
+        onImageLoad = function () { };
 
     function posn(ev) { // get screen pixel from event
         var mainCanvasPosition = $mainCanvas.getBoundingClientRect();
@@ -450,6 +452,10 @@ wpd.graphicsWidget = (function () {
         window.addEventListener('paste', function(event) {pasteHandler(event);}, false);
     }
 
+    function callOnImageLoad(delegateMethod) {
+        onImageLoad = delegateMethod;
+    }
+
     function loadImage(originalImage) {
         
         if($mainCanvas == null) {
@@ -466,11 +472,11 @@ wpd.graphicsWidget = (function () {
         $oriImageCanvas.height = originalHeight;
         $oriDataCanvas.width = originalWidth;
         $oriDataCanvas.height = originalHeight;
-
         oriImageCtx.drawImage(originalImage, 0, 0, originalWidth, originalHeight);
         originalImageData = oriImageCtx.getImageData(0, 0, originalWidth, originalHeight);
         resetAllLayers();
         zoomFit();
+        wpd.appData.plotLoaded(originalImageData);
     }
 
     function loadImageFromSrc(imgSrc) {
@@ -496,6 +502,7 @@ wpd.graphicsWidget = (function () {
         originalImageData = idata;
         resetAllLayers();
         zoomFit();
+        wpd.appData.plotLoaded(originalImageData);
     }
 
     function fileLoader(fileInfo) {
@@ -543,6 +550,10 @@ wpd.graphicsWidget = (function () {
     function runImageOp(operFn) {
        var opResult = operFn(originalImageData, originalWidth, originalHeight);
        loadImageFromData(opResult.imageData, opResult.width, opResult.height);
+    }
+
+    function getImageData() {
+        return originalImageData;
     }
 
     function setTool(tool) {

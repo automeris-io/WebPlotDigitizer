@@ -20,10 +20,11 @@
 
 
 */
+wpd = wpd || {};
 
-var imageOps = (function () {
+wpd.imageOps = (function () {
 
-    function hflip(idata, iwidth, iheight) {
+    function hflipOp(idata, iwidth, iheight) {
         var rowi, coli, index, mindex, tval, p;
         for(rowi = 0; rowi < iheight; rowi++) {
             for(coli = 0; coli < iwidth/2; coli++) {
@@ -43,7 +44,7 @@ var imageOps = (function () {
         };
     }
 
-    function vflip(idata, iwidth, iheight) {
+    function vflipOp(idata, iwidth, iheight) {
         var rowi, coli, index, mindex, tval, p;
         for(rowi = 0; rowi < iheight/2; rowi++) {
             for(coli = 0; coli < iwidth; coli++) {
@@ -63,119 +64,17 @@ var imageOps = (function () {
         };
     }
 
+    function hflip() {
+        wpd.graphicsWidget.runImageOp(hflipOp);
+    }
+
+    function vflip() {
+        wpd.graphicsWidget.runImageOp(vflipOp);
+    }
+
     return {
         hflip: hflip,
         vflip: vflip
     };
 })();
-
-var cropStatus = 0;
-var cropCoordinates = [0,0,0,0];
-
-/**
- * Flip picture horizontally
- */
-function hflip() {
-	processingNote(true);
-    wpd.graphicsWidget.runImageOp(imageOps.hflip);
-	processingNote(false);
-}
-
-function vflip() {
-    processingNote(true);
-    wpd.graphicsWidget.runImageOp(imageOps.vflip);
-    processingNote(false);
-}
-
-/**
- * Enable crop mode
- */
-function cropPlot() {// crop image
-
-	redrawCanvas();
-	canvasMouseEvents.removeAll();
-	canvasMouseEvents.add('mousedown',cropMousedown,true);
-	canvasMouseEvents.add('mouseup',cropMouseup,true);
-	canvasMouseEvents.add('mousemove',cropMousemove,true);
-}
-
-/**
- * Crop mode - mouse down
- */
-function cropMousedown(ev) {
-	var posn = getPosition(ev),
-		xi = posn.x,
-		yi = posn.y;
-
-	cropCoordinates[0] = xi;
-	cropCoordinates[1] = yi;
-	cropStatus = 1;
-}
-
-/**
- * Crop mode - mouse up
- */
-function cropMouseup(ev) {
-
-	var posn = getPosition(ev),
-		xi = posn.x,
-		yi = posn.y;
-
-      cropCoordinates[2] = xi;
-      cropCoordinates[3] = yi;
-      cropStatus = 0;
-      
-      hoverCanvas.width = hoverCanvas.width;
-            
-      cropWidth = cropCoordinates[2]-cropCoordinates[0];
-      cropHeight = cropCoordinates[3]-cropCoordinates[1];
-      if ((cropWidth > 0) && (cropHeight > 0)) {
-
-		var tcan = document.createElement('canvas');
-		var tcontext = tcan.getContext('2d');
-		
-		tcan.width = cropWidth;
-		tcan.height = cropHeight;
-		
-		var cropImageData = ctx.getImageData(cropCoordinates[0],cropCoordinates[1],cropWidth,cropHeight);  
-				
-		tcontext.putImageData(cropImageData,0,0);
-		cropSrc = tcan.toDataURL();
-		cropImg = new Image();
-		cropImg.src = cropSrc;
-		cropImg.onload = function() { loadImage(cropImg); }
-				
-      }
-      
-}
-
-/**
- * Crop mode - mouse move
- */
-function cropMousemove(ev) {
-
-	
-	var posn = getPosition(ev),
-		xi = posn.x,
-		yi = posn.y;
-
-      // this paints a rectangle as the mouse moves
-      if(cropStatus == 1) {
-        hoverCanvas.width = hoverCanvas.width;
-		hoverCtx.strokeStyle = "rgb(0,0,0)";
-		hoverCtx.strokeRect(cropCoordinates[0], cropCoordinates[1], xi-cropCoordinates[0], yi-cropCoordinates[1]);
-      }
-}
-
-/**
- * Restore to original image
- */
-function restoreOriginalImage() {
-	loadImage(originalImage);
-}
-
-/**
- * Rotate image by a certain specified angle. Not implemented yet.
- */
-function rotateCanvas() {}// Rotate by a specified amount.
 

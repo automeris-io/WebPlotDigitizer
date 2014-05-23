@@ -46,9 +46,15 @@ wpd.appData = (function () {
         return isAligned;
     }
 
+    function plotLoaded(imageData) {
+        getPlotData().topColors = wpd.colorAnalyzer.getTopColors(imageData);
+        console.log(getPlotData().topColors);
+    }
+
     return {
         isAligned: isAlignedFn,
         getPlotData: getPlotData,
-        reset: reset
+        reset: reset,
+        plotLoaded: plotLoaded
     };
 })();
