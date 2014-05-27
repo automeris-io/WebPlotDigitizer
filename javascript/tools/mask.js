@@ -24,7 +24,7 @@
 var wpd = wpd || {};
 wpd.dataMask = (function () {
 
-    function grabMask(grabImageData) {
+    function grabMask() {
         // Mask is just a list of pixels with the yellow color in the data layer
         var ctx = wpd.graphicsWidget.getAllContexts(),
             imageSize = wpd.graphicsWidget.getImageSize(),
@@ -39,11 +39,6 @@ wpd.dataMask = (function () {
             }
         }
         autoDetector.mask = maskData;
-        if(grabImageData === true) {
-            autoDetector.imageData = ctx.oriImageCtx.getImageData(0, 0, imageSize.width, imageSize.height);
-            autoDetector.imageWidth = imageSize.width;
-            autoDetector.imageHeight = imageSize.height;
-        }
     }
 
     function drawMask() {
@@ -160,7 +155,7 @@ wpd.BoxMaskTool = (function () {
         this.onRemove = function () {
             document.getElementById('box-mask').classList.remove('pressed-button');
             document.getElementById('view-mask').classList.remove('pressed-button');
-            wpd.dataMask.grabMask(true);
+            wpd.dataMask.grabMask();
         };
     };
     return Tool;
@@ -229,7 +224,7 @@ wpd.PenMaskTool = (function () {
         this.onRemove = function() {
             document.getElementById('pen-mask').classList.remove('pressed-button');
             document.getElementById('view-mask').classList.remove('pressed-button');
-            wpd.dataMask.grabMask(true);
+            wpd.dataMask.grabMask();
             wpd.toolbar.clear();
         };
 
@@ -311,7 +306,7 @@ wpd.EraseMaskTool = (function () {
         this.onRemove = function() {
             document.getElementById('erase-mask').classList.remove('pressed-button');
             document.getElementById('view-mask').classList.remove('pressed-button');
-            wpd.dataMask.grabMask(true);
+            wpd.dataMask.grabMask();
             wpd.toolbar.clear();
         };
        
@@ -330,7 +325,7 @@ wpd.ViewMaskTool = (function() {
 
         this.onRemove = function () {
             document.getElementById('view-mask').classList.remove('pressed-button');
-            wpd.dataMask.grabMask(true);
+            wpd.dataMask.grabMask();
         };
     };
 
@@ -365,7 +360,7 @@ wpd.MaskPainter = (function() {
         this.painterName = 'dataMaskPainter';
 
         this.onRedraw = function () {
-            wpd.dataMask.grabMask(true);
+            wpd.dataMask.grabMask();
             painter();
         };
 

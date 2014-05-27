@@ -74,13 +74,19 @@ wpd.autoExtraction = (function () {
             repainter = new wpd.DataPointsRepainter(),
             $paramFields = document.getElementsByClassName('algo-params'),
             pi,
-            paramId, paramIndex;
+            paramId, paramIndex,
+            ctx = wpd.graphicsWidget.getAllContexts(),
+            imageSize = wpd.graphicsWidget.getImageSize();
+
         for(pi = 0; pi < $paramFields.length; pi++) {
             paramId = $paramFields[pi].id;
             paramIndex = parseInt(paramId.replace('algo-param-', ''), 10);
             algo.setParam(paramIndex, parseFloat($paramFields[pi].value));
         }
+
         wpd.graphicsWidget.removeTool();
+
+        autoDetector.imageData = ctx.oriImageCtx.getImageData(0, 0, imageSize.width, imageSize.height);
         autoDetector.generateBinaryData();
         wpd.graphicsWidget.setRepainter(repainter);
         algo.run(wpd.appData.getPlotData());
