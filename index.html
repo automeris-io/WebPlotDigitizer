@@ -496,20 +496,28 @@ Problems loading? Make sure you have a recent version of Google Chrome, Firefox,
 	<div id="colorPickerFG" class="popup" style="width:400px;">
 	<p align="center" class="popupheading">Specify Plot (Foreground) Color</p>
 	<p align="center">&nbsp;</p>
+    <div style="text-align:center;"><div id="selectedFGColorBox" class="largeColorBox"></div></div>
+	<p align="center">&nbsp;</p>
 	<p align="center">R:<input type="text" value="0" id="color_red_fg" size="3">&nbsp;
 	G:<input type="text" id="color_green_fg" value="0" size="3">&nbsp; B:<input type="text" id="color_blue_fg" value="0" size="3">
 	 <input type="button" value="Color Picker" onclick="wpd.colorPicker.pickFGColor();"></p>
 	<p align="center">&nbsp;</p>
+    <p>Dominant Colors: <div id="fgColorOptions" style="text-align:center;"></div></p>
+    <p>&nbsp;</p>
 	<p align="center"><input type="button" value="Done" onclick="wpd.colorPicker.setFGColor();"></p>
 	</div>
 
 	<div id="colorPickerBG" class="popup" style="width:400px;">
 	<p align="center" class="popupheading">Specify Background Color</p>
 	<p align="center">&nbsp;</p>
+    <div style="text-align:center;"><div id="selectedBGColorBox" class="largeColorBox"></div></div>
+	<p align="center">&nbsp;</p>
 	<p align="center">R:<input type="text" value="255" id="color_red_bg" size="3">&nbsp;
 	G:<input type="text" id="color_green_bg" value="255" size="3">&nbsp; B:<input type="text" id="color_blue_bg" value="255" size="3">
 	 <input type="button" value="Color Picker" onclick="wpd.colorPicker.pickBGColor();"></p>
 	<p align="center">&nbsp;</p>
+    <p>Dominant Colors: <div id="bgColorOptions" style="text-align:center;"></div></p>
+    <p>&nbsp;</p>
 	<p align="center"><input type="button" value="Done" onclick="wpd.colorPicker.setBGColor();"></p>
 	</div>
 

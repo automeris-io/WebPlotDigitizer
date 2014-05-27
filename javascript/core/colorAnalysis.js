@@ -74,9 +74,10 @@ wpd.colorAnalyzer = (function () {
             groupi,
             groupMatched,
             rtnVal = [],
-            avColor;
+            avColor,
+            tolerance = 120;
 
-        colorGroupColl[0] = new wpd.ColorGroup(); // initial group
+        colorGroupColl[0] = new wpd.ColorGroup(tolerance); // initial group
         
         for (pixi = 0; pixi < imageData.data.length; pixi += 4) {
             r = imageData.data[pixi];
@@ -94,7 +95,7 @@ wpd.colorAnalyzer = (function () {
             }
 
             if (!groupMatched) {
-                colorGroupColl[colorGroupColl.length] = new wpd.ColorGroup();
+                colorGroupColl[colorGroupColl.length] = new wpd.ColorGroup(tolerance);
                 colorGroupColl[colorGroupColl.length - 1].addPixel(r, g, b);
             }
         }
