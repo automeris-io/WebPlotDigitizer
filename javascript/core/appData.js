@@ -48,7 +48,6 @@ wpd.appData = (function () {
 
     function plotLoaded(imageData) {
         getPlotData().topColors = wpd.colorAnalyzer.getTopColors(imageData);
-        console.log(getPlotData().topColors);
     }
 
     return {

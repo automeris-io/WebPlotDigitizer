@@ -131,7 +131,6 @@ wpd.appData = (function () {
 
     function plotLoaded(imageData) {
         getPlotData().topColors = wpd.colorAnalyzer.getTopColors(imageData);
-        console.log(getPlotData().topColors);
     }
 
     return {
@@ -168,6 +167,7 @@ var wpd = wpd || {};
 
 wpd.AutoDetector = (function () {
     var obj = function () {
+
         this.fgColor = [0, 0, 200];
         this.bgColor = [255, 255, 255];
         this.mask = null;
@@ -179,13 +179,8 @@ wpd.AutoDetector = (function () {
         this.imageWidth = 0;
         this.imageHeight = 0;
 
-        this.generateBinaryData = function() {
+        this.generateBinaryDataFromMask = function () {
 
-            if(this.mask == null || this.mask.length === 0) {
-                return;
-            }
-
-            this.binaryData = [];
             var maski, img_index, dist, 
                 ref_color = this.colorDetectionMode === 'fg' ? this.fgColor : this.bgColor;
 
@@ -204,6 +199,48 @@ wpd.AutoDetector = (function () {
                         this.binaryData[img_index] = true;
                     }
                 }
+            }
+        };
+
+        this.generateBinaryDataUsingFullImage = function () {
+            
+            var dist, img_index,
+                ref_color = this.colorDetectionMode === 'fg' ? this.fgColor : this.bgColor; 
+
+            for(img_index = 0; img_index < this.imageData.data.length/4; img_index++) {
+                dist = Math.sqrt( (this.imageData.data[img_index*4] - ref_color[0])*(this.imageData.data[img_index*4] - ref_color[0]) + 
+                    (this.imageData.data[img_index*4+1] - ref_color[1])*(this.imageData.data[img_index*4+1] - ref_color[1]) + 
+                    (this.imageData.data[img_index*4+2] - ref_color[2])*(this.imageData.data[img_index*4+2] - ref_color[2]));
+
+                if(this.colorDetectionMode === 'fg') {
+                    if(dist <= this.colorDistance) {
+                        this.binaryData[img_index] = true;
+                    }
+                } else {
+                    if(dist >= this.colorDistance) {
+                        this.binaryData[img_index] = true;
+                    }
+                }
+            }
+        };
+
+        this.generateBinaryData = function () {
+
+            this.binaryData = [];
+
+            if(this.imageData == null) {
+                this.imageHeight = 0;
+                this.imageWidth = 0;
+                return;
+            }
+
+            this.imageHeight = this.imageData.height;
+            this.imageWidth = this.imageData.width;
+
+            if (this.mask == null || this.mask.length === 0) {
+                this.generateBinaryDataUsingFullImage();
+            } else {
+                this.generateBinaryDataFromMask();
             }
         };
     };
@@ -4336,13 +4373,19 @@ wpd.autoExtraction = (function () {
             repainter = new wpd.DataPointsRepainter(),
             $paramFields = document.getElementsByClassName('algo-params'),
             pi,
-            paramId, paramIndex;
+            paramId, paramIndex,
+            ctx = wpd.graphicsWidget.getAllContexts(),
+            imageSize = wpd.graphicsWidget.getImageSize();
+
         for(pi = 0; pi < $paramFields.length; pi++) {
             paramId = $paramFields[pi].id;
             paramIndex = parseInt(paramId.replace('algo-param-', ''), 10);
             algo.setParam(paramIndex, parseFloat($paramFields[pi].value));
         }
+
         wpd.graphicsWidget.removeTool();
+
+        autoDetector.imageData = ctx.oriImageCtx.getImageData(0, 0, imageSize.width, imageSize.height);
         autoDetector.generateBinaryData();
         wpd.graphicsWidget.setRepainter(repainter);
         algo.run(wpd.appData.getPlotData());
@@ -5107,7 +5150,7 @@ wpd.dataPointCounter = (function () {
 var wpd = wpd || {};
 wpd.dataMask = (function () {
 
-    function grabMask(grabImageData) {
+    function grabMask() {
         // Mask is just a list of pixels with the yellow color in the data layer
         var ctx = wpd.graphicsWidget.getAllContexts(),
             imageSize = wpd.graphicsWidget.getImageSize(),
@@ -5122,11 +5165,6 @@ wpd.dataMask = (function () {
             }
         }
         autoDetector.mask = maskData;
-        if(grabImageData === true) {
-            autoDetector.imageData = ctx.oriImageCtx.getImageData(0, 0, imageSize.width, imageSize.height);
-            autoDetector.imageWidth = imageSize.width;
-            autoDetector.imageHeight = imageSize.height;
-        }
     }
 
     function drawMask() {
@@ -5243,7 +5281,7 @@ wpd.BoxMaskTool = (function () {
         this.onRemove = function () {
             document.getElementById('box-mask').classList.remove('pressed-button');
             document.getElementById('view-mask').classList.remove('pressed-button');
-            wpd.dataMask.grabMask(true);
+            wpd.dataMask.grabMask();
         };
     };
     return Tool;
@@ -5312,7 +5350,7 @@ wpd.PenMaskTool = (function () {
         this.onRemove = function() {
             document.getElementById('pen-mask').classList.remove('pressed-button');
             document.getElementById('view-mask').classList.remove('pressed-button');
-            wpd.dataMask.grabMask(true);
+            wpd.dataMask.grabMask();
             wpd.toolbar.clear();
         };
 
@@ -5394,7 +5432,7 @@ wpd.EraseMaskTool = (function () {
         this.onRemove = function() {
             document.getElementById('erase-mask').classList.remove('pressed-button');
             document.getElementById('view-mask').classList.remove('pressed-button');
-            wpd.dataMask.grabMask(true);
+            wpd.dataMask.grabMask();
             wpd.toolbar.clear();
         };
        
@@ -5413,7 +5451,7 @@ wpd.ViewMaskTool = (function() {
 
         this.onRemove = function () {
             document.getElementById('view-mask').classList.remove('pressed-button');
-            wpd.dataMask.grabMask(true);
+            wpd.dataMask.grabMask();
         };
     };
 
@@ -5448,7 +5486,7 @@ wpd.MaskPainter = (function() {
         this.painterName = 'dataMaskPainter';
 
         this.onRedraw = function () {
-            wpd.dataMask.grabMask(true);
+            wpd.dataMask.grabMask();
             painter();
         };
 
