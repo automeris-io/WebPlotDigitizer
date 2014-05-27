@@ -24,11 +24,11 @@
 var wpd = wpd || {};
 
 wpd.initApp = function() {// This is run when the page loads.
-
     wpd.browserInfo.checkBrowser();
     wpd.layoutManager.initialLayout();
     wpd.graphicsWidget.loadImageFromURL('start.png');
     document.getElementById('loadingCurtain').style.display = 'none';
+
     wpd.messagePopup.show('Unstable Version Warning!', 'You are using a beta version of WebPlotDigitizer. There may be some issues with the software that are expected.');
 
 }
@@ -129,10 +129,16 @@ wpd.appData = (function () {
         return isAligned;
     }
 
+    function plotLoaded(imageData) {
+        getPlotData().topColors = wpd.colorAnalyzer.getTopColors(imageData);
+        console.log(getPlotData().topColors);
+    }
+
     return {
         isAligned: isAlignedFn,
         getPlotData: getPlotData,
-        reset: reset
+        reset: reset,
+        plotLoaded: plotLoaded
     };
 })();
 /*
@@ -204,6 +210,138 @@ wpd.AutoDetector = (function () {
     return obj;
 })();
 
+/*
+	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
+
+	Copyright 2010-2014 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+
+	This file is part of WebPlotDigitizer.
+
+    WebPlotDigitizer is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    WebPlotDigitizer is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
+
+
+*/
+
+wpd = wpd || {};
+
+wpd.ColorGroup = (function () {
+    var CGroup = function(tolerance) {
+        
+        var totalPixelCount = 0,
+            averageColor = {r: 0, g: 0, b: 0};
+        
+        tolerance = tolerance == null ? 100 : tolerance;
+
+        this.getPixelCount = function () {
+            return totalPixelCount;
+        }
+
+        this.getAverageColor = function () {
+            return averageColor;
+        }
+
+        this.isColorInGroup = function (r, g, b) {
+            if (totalPixelCount === 0) {
+                return true;
+            }
+
+            var dist = (averageColor.r - r)*(averageColor.r - r)
+                + (averageColor.g - g)*(averageColor.g - g)
+                + (averageColor.b - b)*(averageColor.b - b);
+
+            return (dist <= tolerance*tolerance);
+        };
+
+        this.addPixel = function (r, g, b) {
+            averageColor.r = (averageColor.r*totalPixelCount + r)/(totalPixelCount + 1.0);
+            averageColor.g = (averageColor.g*totalPixelCount + g)/(totalPixelCount + 1.0);
+            averageColor.b = (averageColor.b*totalPixelCount + b)/(totalPixelCount + 1.0);
+            totalPixelCount = totalPixelCount + 1;
+        };
+
+    };
+    return CGroup;
+})();
+
+
+
+wpd.colorAnalyzer = (function () {
+
+    function getTopColors (imageData) {
+
+        var colorGroupColl = [], // collection of color groups
+            pixi,
+            r, g, b,
+            groupi,
+            groupMatched,
+            rtnVal = [],
+            avColor,
+            tolerance = 120;
+
+        colorGroupColl[0] = new wpd.ColorGroup(tolerance); // initial group
+        
+        for (pixi = 0; pixi < imageData.data.length; pixi += 4) {
+            r = imageData.data[pixi];
+            g = imageData.data[pixi + 1];
+            b = imageData.data[pixi + 2];
+
+            groupMatched = false;
+
+            for (groupi = 0; groupi < colorGroupColl.length; groupi++) {
+                if (colorGroupColl[groupi].isColorInGroup(r, g, b)) {
+                    colorGroupColl[groupi].addPixel(r, g, b);
+                    groupMatched = true;
+                    break;
+                }
+            }
+
+            if (!groupMatched) {
+                colorGroupColl[colorGroupColl.length] = new wpd.ColorGroup(tolerance);
+                colorGroupColl[colorGroupColl.length - 1].addPixel(r, g, b);
+            }
+        }
+        
+        // sort groups
+        colorGroupColl.sort(function(a, b) {
+            if ( a.getPixelCount() > b.getPixelCount() ) {
+                return -1;
+            } else if (a.getPixelCount() < b.getPixelCount() ) {
+                return 1;
+            }
+            return 0;
+        });
+
+        for (groupi = 0; groupi < colorGroupColl.length; groupi++) {
+            
+            avColor = colorGroupColl[groupi].getAverageColor();
+
+            rtnVal[groupi] = {
+                r: parseInt(avColor.r, 10),
+                g: parseInt(avColor.g, 10),
+                b: parseInt(avColor.b, 10),
+                pixels: colorGroupColl[groupi].getPixelCount(),
+                percentage: 100.0*colorGroupColl[groupi].getPixelCount()/(0.25*imageData.data.length)
+            };
+        }
+
+        return rtnVal;
+    }
+
+    return {
+        getTopColors: getTopColors
+    };
+})();
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
@@ -490,7 +628,8 @@ wpd.PlotData = (function () {
 
         var activeSeriesIndex = 0,
             autoDetector = new wpd.AutoDetector();
-
+        
+        this.topColors = null;
         this.axes = null;
         this.dataSeriesColl = [];
 
@@ -2621,6 +2760,7 @@ wpd.graphicsWidget = (function () {
         repaintHandler,
         
         isCanvasInFocus = false;
+        
 
     function posn(ev) { // get screen pixel from event
         var mainCanvasPosition = $mainCanvas.getBoundingClientRect();
@@ -3024,11 +3164,11 @@ wpd.graphicsWidget = (function () {
         $oriImageCanvas.height = originalHeight;
         $oriDataCanvas.width = originalWidth;
         $oriDataCanvas.height = originalHeight;
-
         oriImageCtx.drawImage(originalImage, 0, 0, originalWidth, originalHeight);
         originalImageData = oriImageCtx.getImageData(0, 0, originalWidth, originalHeight);
         resetAllLayers();
         zoomFit();
+        wpd.appData.plotLoaded(originalImageData);
     }
 
     function loadImageFromSrc(imgSrc) {
@@ -3054,6 +3194,7 @@ wpd.graphicsWidget = (function () {
         originalImageData = idata;
         resetAllLayers();
         zoomFit();
+        wpd.appData.plotLoaded(originalImageData);
     }
 
     function fileLoader(fileInfo) {
@@ -3101,6 +3242,10 @@ wpd.graphicsWidget = (function () {
     function runImageOp(operFn) {
        var opResult = operFn(originalImageData, originalWidth, originalHeight);
        loadImageFromData(opResult.imageData, opResult.width, opResult.height);
+    }
+
+    function getImageData() {
+        return originalImageData;
     }
 
     function setTool(tool) {
@@ -4261,22 +4406,69 @@ wpd.colorPicker = (function () {
     }
 
     function startFGPicker() {
-        var fg_color = wpd.appData.getPlotData().getAutoDetector().fgColor;
+        var fg_color = wpd.appData.getPlotData().getAutoDetector().fgColor,
+            $selectedColor = document.getElementById('selectedFGColorBox');
+
+        $selectedColor.style.backgroundColor = 'rgb('+fg_color[0]+','+fg_color[1]+','+fg_color[2]+')';
         document.getElementById('color_red_fg').value = fg_color[0];
 	    document.getElementById('color_green_fg').value = fg_color[1];
 		document.getElementById('color_blue_fg').value = fg_color[2];
+        renderColorOptions('fg');
         wpd.popup.show('colorPickerFG');
     }
 
     function startBGPicker() {
-        var bg_color = wpd.appData.getPlotData().getAutoDetector().bgColor;
+        var bg_color = wpd.appData.getPlotData().getAutoDetector().bgColor,
+            $selectedColor = document.getElementById('selectedBGColorBox');
+
+        $selectedColor.style.backgroundColor = 'rgb('+bg_color[0]+','+bg_color[1]+','+bg_color[2]+')';
         document.getElementById('color_red_bg').value = bg_color[0];
 	    document.getElementById('color_green_bg').value = bg_color[1];
 		document.getElementById('color_blue_bg').value = bg_color[2];
+        renderColorOptions('bg');
         wpd.popup.show('colorPickerBG');
     }
 
-    function pickFGColor(mode) {
+    function renderColorOptions(mode) {
+        var containerDivId = mode === 'fg' ? "fgColorOptions" : "bgColorOptions",
+            $container = document.getElementById(containerDivId),
+            topColors = wpd.appData.getPlotData().topColors,
+            colorCount = topColors.length > 10 ? 10 : topColors.length,
+            colori,
+            containerHtml = "",
+            perc,
+            colorString;
+
+        for (colori = 0; colori < colorCount; colori++) {
+
+            colorString = 'rgb(' + topColors[colori].r + ',' + topColors[colori].g + ',' + topColors[colori].b + ');';
+            perc = topColors[colori].percentage.toFixed(3) + "%";
+
+            containerHtml += '<div class="colorOptionBox" style="background-color: ' + colorString + '\" title=\"' + perc 
+                + '" onclick="wpd.colorPicker.selectTopColor('+ colori +',\''+ mode +'\');"></div>';
+        }
+
+        $container.innerHTML = containerHtml;
+    }
+
+    function selectTopColor(colorIndex, mode) {
+        var color = [],
+            topColors = wpd.appData.getPlotData().topColors;
+
+        color[0] = topColors[colorIndex].r;
+        color[1] = topColors[colorIndex].g;
+        color[2] = topColors[colorIndex].b;
+        
+        if (mode === 'fg') {
+            wpd.appData.getPlotData().getAutoDetector().fgColor = color;
+            startFGPicker();
+        } else {
+            wpd.appData.getPlotData().getAutoDetector().bgColor = color;
+            startBGPicker();
+        }
+    }
+
+    function pickFGColor() {
         wpd.popup.close('colorPickerFG');
         var tool = new wpd.ColorPickerTool();
         tool.onComplete = function(col) {
@@ -4287,7 +4479,7 @@ wpd.colorPicker = (function () {
         wpd.graphicsWidget.setTool(tool); 
     }
 
-    function pickBGColor(mode) {
+    function pickBGColor() {
         wpd.popup.close('colorPickerBG');
         var tool = new wpd.ColorPickerTool();
         tool.onComplete = function(col) {
@@ -4394,7 +4586,8 @@ wpd.colorPicker = (function () {
         changeColorDistance: changeColorDistance,
         init: init,
         testColorDetection: testColorDetection,
-        paintFilteredColor: paintFilteredColor
+        paintFilteredColor: paintFilteredColor,
+        selectTopColor: selectTopColor
     };
 })();
 
@@ -4443,10 +4636,11 @@ wpd.ColorFilterRepainter = (function () {
 
 
 */
+wpd = wpd || {};
 
-var imageOps = (function () {
+wpd.imageOps = (function () {
 
-    function hflip(idata, iwidth, iheight) {
+    function hflipOp(idata, iwidth, iheight) {
         var rowi, coli, index, mindex, tval, p;
         for(rowi = 0; rowi < iheight; rowi++) {
             for(coli = 0; coli < iwidth/2; coli++) {
@@ -4466,7 +4660,7 @@ var imageOps = (function () {
         };
     }
 
-    function vflip(idata, iwidth, iheight) {
+    function vflipOp(idata, iwidth, iheight) {
         var rowi, coli, index, mindex, tval, p;
         for(rowi = 0; rowi < iheight/2; rowi++) {
             for(coli = 0; coli < iwidth; coli++) {
@@ -4486,121 +4680,19 @@ var imageOps = (function () {
         };
     }
 
+    function hflip() {
+        wpd.graphicsWidget.runImageOp(hflipOp);
+    }
+
+    function vflip() {
+        wpd.graphicsWidget.runImageOp(vflipOp);
+    }
+
     return {
         hflip: hflip,
         vflip: vflip
     };
 })();
-
-var cropStatus = 0;
-var cropCoordinates = [0,0,0,0];
-
-/**
- * Flip picture horizontally
- */
-function hflip() {
-	processingNote(true);
-    wpd.graphicsWidget.runImageOp(imageOps.hflip);
-	processingNote(false);
-}
-
-function vflip() {
-    processingNote(true);
-    wpd.graphicsWidget.runImageOp(imageOps.vflip);
-    processingNote(false);
-}
-
-/**
- * Enable crop mode
- */
-function cropPlot() {// crop image
-
-	redrawCanvas();
-	canvasMouseEvents.removeAll();
-	canvasMouseEvents.add('mousedown',cropMousedown,true);
-	canvasMouseEvents.add('mouseup',cropMouseup,true);
-	canvasMouseEvents.add('mousemove',cropMousemove,true);
-}
-
-/**
- * Crop mode - mouse down
- */
-function cropMousedown(ev) {
-	var posn = getPosition(ev),
-		xi = posn.x,
-		yi = posn.y;
-
-	cropCoordinates[0] = xi;
-	cropCoordinates[1] = yi;
-	cropStatus = 1;
-}
-
-/**
- * Crop mode - mouse up
- */
-function cropMouseup(ev) {
-
-	var posn = getPosition(ev),
-		xi = posn.x,
-		yi = posn.y;
-
-      cropCoordinates[2] = xi;
-      cropCoordinates[3] = yi;
-      cropStatus = 0;
-      
-      hoverCanvas.width = hoverCanvas.width;
-            
-      cropWidth = cropCoordinates[2]-cropCoordinates[0];
-      cropHeight = cropCoordinates[3]-cropCoordinates[1];
-      if ((cropWidth > 0) && (cropHeight > 0)) {
-
-		var tcan = document.createElement('canvas');
-		var tcontext = tcan.getContext('2d');
-		
-		tcan.width = cropWidth;
-		tcan.height = cropHeight;
-		
-		var cropImageData = ctx.getImageData(cropCoordinates[0],cropCoordinates[1],cropWidth,cropHeight);  
-				
-		tcontext.putImageData(cropImageData,0,0);
-		cropSrc = tcan.toDataURL();
-		cropImg = new Image();
-		cropImg.src = cropSrc;
-		cropImg.onload = function() { loadImage(cropImg); }
-				
-      }
-      
-}
-
-/**
- * Crop mode - mouse move
- */
-function cropMousemove(ev) {
-
-	
-	var posn = getPosition(ev),
-		xi = posn.x,
-		yi = posn.y;
-
-      // this paints a rectangle as the mouse moves
-      if(cropStatus == 1) {
-        hoverCanvas.width = hoverCanvas.width;
-		hoverCtx.strokeStyle = "rgb(0,0,0)";
-		hoverCtx.strokeRect(cropCoordinates[0], cropCoordinates[1], xi-cropCoordinates[0], yi-cropCoordinates[1]);
-      }
-}
-
-/**
- * Restore to original image
- */
-function restoreOriginalImage() {
-	loadImage(originalImage);
-}
-
-/**
- * Rotate image by a certain specified angle. Not implemented yet.
- */
-function rotateCanvas() {}// Rotate by a specified amount.
 
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer

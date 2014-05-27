@@ -45,22 +45,69 @@ wpd.colorPicker = (function () {
     }
 
     function startFGPicker() {
-        var fg_color = wpd.appData.getPlotData().getAutoDetector().fgColor;
+        var fg_color = wpd.appData.getPlotData().getAutoDetector().fgColor,
+            $selectedColor = document.getElementById('selectedFGColorBox');
+
+        $selectedColor.style.backgroundColor = 'rgb('+fg_color[0]+','+fg_color[1]+','+fg_color[2]+')';
         document.getElementById('color_red_fg').value = fg_color[0];
 	    document.getElementById('color_green_fg').value = fg_color[1];
 		document.getElementById('color_blue_fg').value = fg_color[2];
+        renderColorOptions('fg');
         wpd.popup.show('colorPickerFG');
     }
 
     function startBGPicker() {
-        var bg_color = wpd.appData.getPlotData().getAutoDetector().bgColor;
+        var bg_color = wpd.appData.getPlotData().getAutoDetector().bgColor,
+            $selectedColor = document.getElementById('selectedBGColorBox');
+
+        $selectedColor.style.backgroundColor = 'rgb('+bg_color[0]+','+bg_color[1]+','+bg_color[2]+')';
         document.getElementById('color_red_bg').value = bg_color[0];
 	    document.getElementById('color_green_bg').value = bg_color[1];
 		document.getElementById('color_blue_bg').value = bg_color[2];
+        renderColorOptions('bg');
         wpd.popup.show('colorPickerBG');
     }
 
-    function pickFGColor(mode) {
+    function renderColorOptions(mode) {
+        var containerDivId = mode === 'fg' ? "fgColorOptions" : "bgColorOptions",
+            $container = document.getElementById(containerDivId),
+            topColors = wpd.appData.getPlotData().topColors,
+            colorCount = topColors.length > 10 ? 10 : topColors.length,
+            colori,
+            containerHtml = "",
+            perc,
+            colorString;
+
+        for (colori = 0; colori < colorCount; colori++) {
+
+            colorString = 'rgb(' + topColors[colori].r + ',' + topColors[colori].g + ',' + topColors[colori].b + ');';
+            perc = topColors[colori].percentage.toFixed(3) + "%";
+
+            containerHtml += '<div class="colorOptionBox" style="background-color: ' + colorString + '\" title=\"' + perc 
+                + '" onclick="wpd.colorPicker.selectTopColor('+ colori +',\''+ mode +'\');"></div>';
+        }
+
+        $container.innerHTML = containerHtml;
+    }
+
+    function selectTopColor(colorIndex, mode) {
+        var color = [],
+            topColors = wpd.appData.getPlotData().topColors;
+
+        color[0] = topColors[colorIndex].r;
+        color[1] = topColors[colorIndex].g;
+        color[2] = topColors[colorIndex].b;
+        
+        if (mode === 'fg') {
+            wpd.appData.getPlotData().getAutoDetector().fgColor = color;
+            startFGPicker();
+        } else {
+            wpd.appData.getPlotData().getAutoDetector().bgColor = color;
+            startBGPicker();
+        }
+    }
+
+    function pickFGColor() {
         wpd.popup.close('colorPickerFG');
         var tool = new wpd.ColorPickerTool();
         tool.onComplete = function(col) {
@@ -71,7 +118,7 @@ wpd.colorPicker = (function () {
         wpd.graphicsWidget.setTool(tool); 
     }
 
-    function pickBGColor(mode) {
+    function pickBGColor() {
         wpd.popup.close('colorPickerBG');
         var tool = new wpd.ColorPickerTool();
         tool.onComplete = function(col) {
@@ -178,7 +225,8 @@ wpd.colorPicker = (function () {
         changeColorDistance: changeColorDistance,
         init: init,
         testColorDetection: testColorDetection,
-        paintFilteredColor: paintFilteredColor
+        paintFilteredColor: paintFilteredColor,
+        selectTopColor: selectTopColor
     };
 })();
 

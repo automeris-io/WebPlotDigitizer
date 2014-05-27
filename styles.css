@@ -205,3 +205,18 @@ select {
     padding: 0px;
 }
 
+.colorOptionBox {
+    display: inline-block;
+    height: 20px;
+    width: 20px;
+    border: thin black solid;
+    margin-left: 5px;
+}
+
+.largeColorBox {
+    display: inline-block;
+    height:40px;
+    width: 40px;
+    border: thin black solid;
+}
+
