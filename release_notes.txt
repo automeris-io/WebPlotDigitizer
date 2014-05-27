@@ -1,5 +1,19 @@
 RELEASE NOTES
 
+Version 3.2
+===========
+Released May 27, 2014
+
+- Color picker for FG and BG color also show a list of dominant colors in the image. 
+    - This makes it more convenient to select plots.
+    - In the future, the underlying algorithm will help improve automatic extraction.
+
+- Bug fixes: The following issues have been fixed:
+    - Under some screen resolutions, Firefox on Windows 7, would not show the zoom view or the sidebar buttons.
+    - Clicking "Run" for auto detect without making a mask would throw an error in the javascript console.
+        - Now, the entire image will be used by default if no mask is drawn.
+
+
 Version 3.1
 ===========
 Released: May 14, 2014
