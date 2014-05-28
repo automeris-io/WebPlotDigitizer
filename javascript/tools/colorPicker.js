@@ -164,6 +164,8 @@ wpd.colorPicker = (function () {
             dataLayer;
 
         dataLayer = ctx.oriDataCtx.getImageData(0, 0, imageSize.width, imageSize.height);
+
+        autoDetector.imageData = ctx.oriImageCtx.getImageData(0, 0, imageSize.width, imageSize.height);
         autoDetector.generateBinaryData();
         
         if(autoDetector.mask == null || autoDetector.mask.length === 0) {

@@ -29,7 +29,7 @@ wpd.initApp = function() {// This is run when the page loads.
     wpd.graphicsWidget.loadImageFromURL('start.png');
     document.getElementById('loadingCurtain').style.display = 'none';
 
-    wpd.messagePopup.show('Unstable Version Warning!', 'You are using a beta version of WebPlotDigitizer. There may be some issues with the software that are expected.');
+    //wpd.messagePopup.show('Unstable Version Warning!', 'You are using a beta version of WebPlotDigitizer. There may be some issues with the software that are expected.');
 
 }
 
@@ -4568,6 +4568,8 @@ wpd.colorPicker = (function () {
             dataLayer;
 
         dataLayer = ctx.oriDataCtx.getImageData(0, 0, imageSize.width, imageSize.height);
+
+        autoDetector.imageData = ctx.oriImageCtx.getImageData(0, 0, imageSize.width, imageSize.height);
         autoDetector.generateBinaryData();
         
         if(autoDetector.mask == null || autoDetector.mask.length === 0) {
