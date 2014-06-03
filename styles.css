@@ -180,11 +180,10 @@ select {
 	padding:0px 0px;
 	margin:0;
 	background:white;
-	position:absolute; 
 	width:250px;
-	top:0px;
-	visibility: hidden;
+	display: none;
 	font-size:12px;
+    overflow: auto;
 }
 
 .sidebar p { padding: 0; margin: 1px 1px; font-size:12px;}
