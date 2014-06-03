@@ -46,6 +46,8 @@ wpd.autoExtraction = (function () {
                 document.getElementById('auto-extract-algo-name').value = 'averagingWindow';
                 autoDetector.algorithm = new wpd.AveragingWindowAlgo();
             }
+        } else if (algoName === 'blobDetector') {
+            autoDetector.algorithm = new wpd.BlobDetectorAlgo();
         }
 
         displayAlgoParameters(autoDetector.algorithm);
