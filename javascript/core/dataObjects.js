@@ -128,50 +128,69 @@ wpd.Calibration = (function () {
     return Calib;
 })();
 
+
 // Data from a series
 wpd.DataSeries = (function () {
     return function (dim) {
-        var pixels = [], // flat array to store (x,y) pixel info.
+        var dataPoints = [],
             connections = [],
-            selections = [];
+            selections = [],
+            hasMetadata = false,
+            mkeys = [];
 
         this.name = "Data Series";
 
         this.variableNames = ['x', 'y'];
 
-        this.addPixel = function(pxi, pyi) {
-            var plen = pixels.length;
-            pixels[plen] = pxi;
-            pixels[plen+1] = pyi;
+        this.hasMetadata = function () {
+            return hasMetadata;
         };
 
-        this.getPixel = function(index) {
-            return {
-                x: pixels[2*index],
-                y: pixels[2*index + 1]
-            };
+        this.setMetadataKeys = function (metakeys) {
+            mkeys = metakeys;
         };
 
-        this.setPixelAt = function(index, pxi, pyi) {
-            if(2*index < pixels.length) {
-                pixels[2*index] = pxi;
-                pixels[2*index + 1] = pyi;
+        this.getMetadataKeys = function () {
+            return mkeys;
+        };
+
+        this.addPixel = function(pxi, pyi, mdata) {
+            var dlen = dataPoints.length;
+            dataPoints[dlen] = {x: pxi, y: pyi, metadata: mdata};
+            if (mdata != null) {
+                this.hasMetadata = true;
             }
         };
 
-        this.insertPixel = function(index, pxi, pyi) {
-            pixels.splice(2*index, 0, pxi);
-            pixels.splice(2*index + 1, 0, pyi); 
+        this.getPixel = function(index) {
+            return dataPoints[index];
+        };
+
+        this.setPixelAt = function (index, pxi, pyi) {
+            if(index < dataPoints.length) {
+                dataPoints[index].x = pxi;
+                dataPoints[index].y = pyi;
+            }
+        };
+
+        this.setMetadataAt = function (index, mdata) {
+            if (index < dataPoints.length) {
+                dataPoints[index].metadata = mdata;
+            }
+        };
+
+        this.insertPixel = function(index, pxi, pyi, mdata) {
+            dataPoints.splice(index, 0, {x: pxi, y: pyi, metadata: mdata});
         };
 
         this.removePixelAtIndex = function(index) {
-            if(2*index < pixels.length) {
-                pixels.splice(2*index, 2);
+            if(index < dataPoints.length) {
+                dataPoints.splice(index, 1);
             }
         };
 
         this.removeLastPixel = function() {
-            var pIndex = pixels.length/2 - 1;
+            var pIndex = dataPoints.length - 1;
             this.removePixelAtIndex(pIndex);
         };
 
@@ -179,10 +198,10 @@ wpd.DataSeries = (function () {
             threshold = (threshold == null) ? 50 : parseFloat(threshold);
             var minDist, minIndex = -1, 
                 i, dist;
-            for(i = 0; i < pixels.length; i+= 2) {
-                dist = Math.sqrt((x - pixels[i])*(x - pixels[i]) + (y - pixels[i+1])*(y - pixels[i+1]));
+            for(i = 0; i < dataPoints.length; i++) {
+                dist = Math.sqrt((x - dataPoints[i].x)*(x - dataPoints[i].x) + (y - dataPoints[i].y)*(y - dataPoints[i].y));
                 if((minIndex < 0 && dist <= threshold) || (minIndex >= 0 && dist < minDist)) {
-                    minIndex = i/2;
+                    minIndex = i;
                     minDist = dist;
                 }
             }
@@ -196,8 +215,13 @@ wpd.DataSeries = (function () {
             }
         };
 
-        this.clearAll = function() { pixels = []; };
-        this.getCount = function() { return pixels.length/2; }
+        this.clearAll = function() { 
+            dataPoints = []; 
+            hasMetadata = false; 
+            mkeys = []; 
+        };
+
+        this.getCount = function() { return dataPoints.length; }
  
         this.selectPixel = function(index) {
             if(selections.indexOf(index) >= 0) {
