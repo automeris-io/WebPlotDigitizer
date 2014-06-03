@@ -58,6 +58,10 @@ wpd.MapAxes = (function () {
             return distancePx*scaleLength/dist;
         };
 
+        this.pixelToDataArea = function (areaPx) {
+            return areaPx*scaleLength*scaleLength/(dist*dist);
+        };
+
         this.dataToPixel = function(a, b, c) {
             return {
                 x: 0,

@@ -1592,6 +1592,9 @@ wpd.BlobDetectorAlgo = (function () {
                         + (blobs[bIndex].pixels[blobPtIndex].y - blobs[bIndex].centroid.y)*(blobs[bIndex].pixels[blobPtIndex].y - blobs[bIndex].centroid.y);
                         
                 }
+                if (plotData.axes instanceof wpd.MapAxes) {
+                    blobs[bIndex].area = plotData.axes.pixelToDataArea(blobs[bIndex].area);
+                }
                 dataSeries.addPixel(blobs[bIndex].centroid.x, blobs[bIndex].centroid.y, [blobs[bIndex].area, blobs[bIndex].moment]);
             }
         };
@@ -1913,6 +1916,10 @@ wpd.MapAxes = (function () {
 
         this.pixelToDataDistance = function(distancePx) {
             return distancePx*scaleLength/dist;
+        };
+
+        this.pixelToDataArea = function (areaPx) {
+            return areaPx*scaleLength*scaleLength/(dist*dist);
         };
 
         this.dataToPixel = function(a, b, c) {
