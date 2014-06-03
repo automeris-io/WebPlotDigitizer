@@ -158,7 +158,7 @@ wpd.DataSeries = (function () {
             var dlen = dataPoints.length;
             dataPoints[dlen] = {x: pxi, y: pyi, metadata: mdata};
             if (mdata != null) {
-                this.hasMetadata = true;
+                hasMetadata = true;
             }
         };
 
@@ -283,17 +283,30 @@ wpd.PlotData = (function () {
         };
 
         this.getDataFromActiveSeries = function() {
-            if(this.dataSeriesColl[activeSeriesIndex] == null || this.axes == null) {
+            var dataSeries = this.getActiveDataSeries();
+            if(dataSeries == null || this.axes == null) {
                 return null;
             }
-            var i, pt, ptData, rtnData = [], dimi;
-            for(i = 0; i < this.dataSeriesColl[activeSeriesIndex].getCount(); i++) {
+
+            var i, pt, ptData, rtnData = [], dimi, metadi,
+                hasMetadata = dataSeries.hasMetadata(),
+                metaKeys = dataSeries.getMetadataKeys(),
+                metaKeyCount = hasMetadata === true ? metaKeys.length : 0;
+                
+            for(i = 0; i < dataSeries.getCount(); i++) {
                 pt = this.dataSeriesColl[activeSeriesIndex].getPixel(i);
                 ptData = [];
                 ptData = this.axes.pixelToData(pt.x, pt.y);
                 rtnData[i] = [];
-                for(dimi = 0; dimi < ptData.length; dimi++) {
+
+                // transformed coordinates
+                for (dimi = 0; dimi < ptData.length; dimi++) {
                     rtnData[i][dimi] = ptData[dimi];
+                }
+                
+                // metadata for each data point
+                for (metadi = 0; metadi < metaKeyCount; metadi++) {
+                    rtnData[i][ptData.length + metadi] = pt.metadata[metadi];
                 }
             }
             return rtnData;

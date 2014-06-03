@@ -107,20 +107,28 @@ wpd.dataTable = (function () {
             $dateFormattingContainer = document.getElementById('data-date-formatting-container'),
             $dateFormatting = document.getElementById('data-date-formatting'),
             axes = wpd.appData.getPlotData().axes,
+            dataSeries = wpd.appData.getPlotData().getActiveDataSeries(),
             axesLabels = axes.getAxesLabels(),
             labIndex,
             variableHTML = '',
             variableListHTML = axesLabels.join(', '),
             dateFormattingHTML = '';
-            isAnyVariableDate = false;
+            isAnyVariableDate = false,
+            tableVariables = axesLabels,
+            dimCount = axes.getDimensions();
+
+        if (dataSeries.hasMetadata()) {
+            tableVariables = axesLabels.concat(dataSeries.getMetadataKeys()); 
+            variableListHTML = tableVariables.join(', ');
+        }
 
         $dateFormattingContainer.style.display = 'none';
         
         variableHTML += '<option value="raw">Raw</option>';
 
-        for(labIndex = 0; labIndex < axesLabels.length; labIndex++) {
-            variableHTML += '<option value="' + labIndex + '">' + axesLabels[labIndex] + '</option>';
-            if(axes.isDate != null && axes.getInitialDateFormat != null && axes.isDate(labIndex)) {
+        for(labIndex = 0; labIndex < tableVariables.length; labIndex++) {
+            variableHTML += '<option value="' + labIndex + '">' + tableVariables[labIndex] + '</option>';
+            if(labIndex < dimCount && axes.isDate != null && axes.getInitialDateFormat != null && axes.isDate(labIndex)) {
                 dateFormattingHTML += axesLabels[labIndex] + ' <input type="text" length="15" value="' 
                     + axes.getInitialDateFormat(labIndex) + '" id="data-format-string-'+ labIndex +'"/>';
                 isAnyVariableDate = true;
@@ -156,7 +164,9 @@ wpd.dataTable = (function () {
             return;
         }
         var axes = wpd.appData.getPlotData().axes,
+            dataSeries = wpd.appData.getPlotData().getActiveDataSeries(),
             dimCount = axes.getDimensions(),
+            metaKeyCount = dataSeries.getMetadataKeys().length,
             rowCount = rawData.length,
             rowi, dimi, rowValues,
             $digitizedDataTable = document.getElementById('digitizedDataTable'),
@@ -165,8 +175,8 @@ wpd.dataTable = (function () {
         tableText = '';
         for(rowi = 0; rowi < rowCount; rowi++) {
             rowValues = [];
-            for(dimi = 0; dimi < dimCount; dimi++) {
-                if(axes.isDate != null && axes.isDate(dimi)) {
+            for(dimi = 0; dimi < dimCount + metaKeyCount; dimi++) {
+                if(dimi < dimCount && axes.isDate != null && axes.isDate(dimi)) {
                     if(formatStrings[dimi] === undefined) {
                         formatStrings[dimi] = document.getElementById('data-format-string-' + dimi).value;
                     }
