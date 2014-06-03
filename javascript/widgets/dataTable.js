@@ -259,6 +259,9 @@ wpd.dataTable = (function () {
 
         var jsonData = { data: [] },
             axes = wpd.appData.getPlotData().axes,
+            dataSeries = wpd.appData.getPlotData().getActiveDataSeries(),
+            metaKeys = dataSeries.getMetadataKeys(),
+            metaKeysCount = metaKeys.length,
             dimCount = axes.getDimensions(),
             rowCount = rawData.length,
             rowi, dimi,
@@ -268,14 +271,20 @@ wpd.dataTable = (function () {
         jsonData.data[0] = {};
         for(rowi = 0; rowi < rowCount; rowi++) {
             rowValues = [];
-            for(dimi = 0; dimi < dimCount; dimi++) {
+            for(dimi = 0; dimi < dimCount + metaKeysCount; dimi++) {
                 if(rowi === 0) {
-                    jsonData.data[0][axesLabels[dimi]] = [];
+                    if(dimi < dimCount) {
+                        jsonData.data[0][axesLabels[dimi]] = [];
+                    } else {
+                        jsonData.data[0][metaKeys[dimi-dimCount]] = [];
+                    }
                 }
-                if(axes.isDate != null && axes.isDate(dimi)) {
+                if(dimi < dimCount && axes.isDate != null && axes.isDate(dimi)) {
                     jsonData.data[0][axesLabels[dimi]][rowi] = wpd.dateConverter.formatDateNumber(sortedData[rowi][dimi], 'yyyy-mm-dd');
-                } else {
+                } else if (dimi < dimCount) {
                     jsonData.data[0][axesLabels[dimi]][rowi] = sortedData[rowi][dimi];
+                } else {
+                    jsonData.data[0][metaKeys[dimi-dimCount]][rowi] = sortedData[rowi][dimi];
                 }
             }
         }
