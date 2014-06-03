@@ -562,50 +562,69 @@ wpd.Calibration = (function () {
     return Calib;
 })();
 
+
 // Data from a series
 wpd.DataSeries = (function () {
     return function (dim) {
-        var pixels = [], // flat array to store (x,y) pixel info.
+        var dataPoints = [],
             connections = [],
-            selections = [];
+            selections = [],
+            hasMetadata = false,
+            mkeys = [];
 
         this.name = "Data Series";
 
         this.variableNames = ['x', 'y'];
 
-        this.addPixel = function(pxi, pyi) {
-            var plen = pixels.length;
-            pixels[plen] = pxi;
-            pixels[plen+1] = pyi;
+        this.hasMetadata = function () {
+            return hasMetadata;
         };
 
-        this.getPixel = function(index) {
-            return {
-                x: pixels[2*index],
-                y: pixels[2*index + 1]
-            };
+        this.setMetadataKeys = function (metakeys) {
+            mkeys = metakeys;
         };
 
-        this.setPixelAt = function(index, pxi, pyi) {
-            if(2*index < pixels.length) {
-                pixels[2*index] = pxi;
-                pixels[2*index + 1] = pyi;
+        this.getMetadataKeys = function () {
+            return mkeys;
+        };
+
+        this.addPixel = function(pxi, pyi, mdata) {
+            var dlen = dataPoints.length;
+            dataPoints[dlen] = {x: pxi, y: pyi, metadata: mdata};
+            if (mdata != null) {
+                hasMetadata = true;
             }
         };
 
-        this.insertPixel = function(index, pxi, pyi) {
-            pixels.splice(2*index, 0, pxi);
-            pixels.splice(2*index + 1, 0, pyi); 
+        this.getPixel = function(index) {
+            return dataPoints[index];
+        };
+
+        this.setPixelAt = function (index, pxi, pyi) {
+            if(index < dataPoints.length) {
+                dataPoints[index].x = pxi;
+                dataPoints[index].y = pyi;
+            }
+        };
+
+        this.setMetadataAt = function (index, mdata) {
+            if (index < dataPoints.length) {
+                dataPoints[index].metadata = mdata;
+            }
+        };
+
+        this.insertPixel = function(index, pxi, pyi, mdata) {
+            dataPoints.splice(index, 0, {x: pxi, y: pyi, metadata: mdata});
         };
 
         this.removePixelAtIndex = function(index) {
-            if(2*index < pixels.length) {
-                pixels.splice(2*index, 2);
+            if(index < dataPoints.length) {
+                dataPoints.splice(index, 1);
             }
         };
 
         this.removeLastPixel = function() {
-            var pIndex = pixels.length/2 - 1;
+            var pIndex = dataPoints.length - 1;
             this.removePixelAtIndex(pIndex);
         };
 
@@ -613,10 +632,10 @@ wpd.DataSeries = (function () {
             threshold = (threshold == null) ? 50 : parseFloat(threshold);
             var minDist, minIndex = -1, 
                 i, dist;
-            for(i = 0; i < pixels.length; i+= 2) {
-                dist = Math.sqrt((x - pixels[i])*(x - pixels[i]) + (y - pixels[i+1])*(y - pixels[i+1]));
+            for(i = 0; i < dataPoints.length; i++) {
+                dist = Math.sqrt((x - dataPoints[i].x)*(x - dataPoints[i].x) + (y - dataPoints[i].y)*(y - dataPoints[i].y));
                 if((minIndex < 0 && dist <= threshold) || (minIndex >= 0 && dist < minDist)) {
-                    minIndex = i/2;
+                    minIndex = i;
                     minDist = dist;
                 }
             }
@@ -630,8 +649,13 @@ wpd.DataSeries = (function () {
             }
         };
 
-        this.clearAll = function() { pixels = []; };
-        this.getCount = function() { return pixels.length/2; }
+        this.clearAll = function() { 
+            dataPoints = []; 
+            hasMetadata = false; 
+            mkeys = []; 
+        };
+
+        this.getCount = function() { return dataPoints.length; }
  
         this.selectPixel = function(index) {
             if(selections.indexOf(index) >= 0) {
@@ -693,17 +717,30 @@ wpd.PlotData = (function () {
         };
 
         this.getDataFromActiveSeries = function() {
-            if(this.dataSeriesColl[activeSeriesIndex] == null || this.axes == null) {
+            var dataSeries = this.getActiveDataSeries();
+            if(dataSeries == null || this.axes == null) {
                 return null;
             }
-            var i, pt, ptData, rtnData = [], dimi;
-            for(i = 0; i < this.dataSeriesColl[activeSeriesIndex].getCount(); i++) {
+
+            var i, pt, ptData, rtnData = [], dimi, metadi,
+                hasMetadata = dataSeries.hasMetadata(),
+                metaKeys = dataSeries.getMetadataKeys(),
+                metaKeyCount = hasMetadata === true ? metaKeys.length : 0;
+                
+            for(i = 0; i < dataSeries.getCount(); i++) {
                 pt = this.dataSeriesColl[activeSeriesIndex].getPixel(i);
                 ptData = [];
                 ptData = this.axes.pixelToData(pt.x, pt.y);
                 rtnData[i] = [];
-                for(dimi = 0; dimi < ptData.length; dimi++) {
+
+                // transformed coordinates
+                for (dimi = 0; dimi < ptData.length; dimi++) {
                     rtnData[i][dimi] = ptData[dimi];
+                }
+                
+                // metadata for each data point
+                for (metadi = 0; metadi < metaKeyCount; metadi++) {
+                    rtnData[i][ptData.length + metadi] = pt.metadata[metadi];
                 }
             }
             return rtnData;
@@ -1465,104 +1502,104 @@ wpd.AveragingWindowWithStepSizeAlgo = (function () {
 
 
 */
+wpd = wpd || {};
 
-var blobDetectorAlgo = {
-	getParamList: function() {
-		return [["Min size","Px","0"],["Max size","Px","1000"]];
-	  },
-	run: function() {
+wpd.BlobDetectorAlgo = (function () {
+    
+    var Algo = function () {
+        this.getParamList = function () {
+            return [];
+        };
 
-			xyData = [];
-			pointsPicked = 0;
-			
-			var minSize = document.getElementById('pv0').value;
-			var maxSize = document.getElementById('pv1').value;
-			
-			var pixelVisited = []; // flag to determine whether a pixel was visited.
-			
-			// initialize to zero.
-			for (var ri = 0; ri < canvasHeight; ri++) {
-				pixelVisited[ri] = new Array();
-				for(var ci = 0; ci < canvasWidth; ci++) {
-					pixelVisited[ri][ci] = false;
-				}
-			}
-			
-			var objectCount = 0;            // number of objects.
-			var objectArea = [];            // numbers of pixels in each obejct.
-			var objectCentroidx = [];        // location of centroid of each object.
-			var objectCentroidy = [];        // location of centroid of each object.
-			var objectpx = [];          // list of pixels of each object.
-			var objectpy = [];  
-			var objectRange = [];    // span of the object in pixels.
-			
-			for (var rpi = 0; rpi < canvasHeight; rpi++) {
-				for (var cpi = 0; cpi < canvasWidth; cpi++) {
-					if((binaryData[rpi][cpi] === true) && (pixelVisited[rpi][cpi] === false)) {
-						pixelVisited[rpi][cpi] = true;
-						
-						objectCount = objectCount + 1;
-						objectArea[objectCount-1] = 1;
-						
-						objectpx[objectCount-1] = new Array();
-						objectpy[objectCount-1] = new Array();
-						
-						objectpx[objectCount-1][0] = cpi;
-						objectpy[objectCount-1][0] = rpi;
-						
-						objectCentroidx[objectCount-1] = cpi;
-						objectCentroidy[objectCount-1] = rpi;
-						
-						var pxi = 1;
-						var oi = 1;
-						
-						while (pxi <= oi) {
-							ai = objectpy[objectCount-1][pxi-1];
-							bi = objectpx[objectCount-1][pxi-1];
-							
-							for (var pp = -1; pp <= 1; pp++) {
-								for (var qq = -1; qq <=1; qq++) {
-									if (((ai+pp) >= 0) && ((bi+qq) >= 0) && ((ai+pp) < canvasHeight) && ((bi+qq) < canvasWidth)) {
-										if ((binaryData[ai+pp][bi+qq] == true) && (pixelVisited[ai+pp][bi+qq] == false)) {
-											objectArea[objectCount-1] = objectArea[objectCount-1] + 1;
-											oi = objectArea[objectCount-1];
-											objectpy[objectCount-1][oi-1] = ai+pp;
-											objectpx[objectCount-1][oi-1] = bi+qq;
-											
-											objectCentroidy[objectCount-1] = (objectCentroidy[objectCount-1]*(oi-1) + (ai+pp))/oi;
-											objectCentroidx[objectCount-1] = (objectCentroidx[objectCount-1]*(oi-1) + (bi+qq))/oi;
-											
-											pixelVisited[ai+pp][bi+qq] = true;
-										}
-									}
-								}
-							}
-							
-							pxi = pxi + 1;
-						}
-									   
-						
-						// Object is now fully captured. Get object range here.
-						
-									   
-					}
-					pixelVisited[rpi][cpi] = true;
-				}
-			}
-			
-			for (var obi = 0; obi < objectCount; obi++) {
-				var sz = 2.0*Math.sqrt(objectArea[obi]/Math.PI);
-				if ((sz>=minSize) && (sz<=maxSize)) {
-					xyData[pointsPicked] = new Array();
-					xyData[pointsPicked][0] = parseFloat(objectCentroidx[obi]);
-					xyData[pointsPicked][1] = parseFloat(objectCentroidy[obi]);
-					xyData[pointsPicked][2] = objectArea[obi];
-					pointsPicked = pointsPicked + 1;
-				}
-			}
-				 
-		}
-};
+        this.setParam = function (index, val) {
+        };
+
+        this.run = function (plotData) {
+            var autoDetector = plotData.getAutoDetector(),
+                dataSeries = plotData.getActiveDataSeries(),
+                dw = autoDetector.imageWidth,
+                dh = autoDetector.imageHeight,
+                pixelVisited = [],
+                blobCount = 0,
+                blobs = [],
+                xi, yi,
+                blobPtIndex,
+                bIndex, 
+                nxi, nyi,
+                bxi, byi,
+                pcount;
+
+            if (dw <= 0 || dh <= 0 || autoDetector.binaryData == null 
+                || autoDetector.binaryData.length === 0) {
+                return;
+            }
+
+            dataSeries.clearAll();
+            dataSeries.setMetadataKeys(["area", "moment"]);
+
+            for (xi = 0; xi < dw; xi++) {
+                for (yi = 0; yi < dh; yi++) {
+                    if (autoDetector.binaryData[yi*dw + xi] === true && !(pixelVisited[yi*dw + xi] === true)) {
+
+                        pixelVisited[yi*dw + xi] = true;
+
+                        bIndex = blobs.length;
+
+                        blobs[bIndex] = {
+                            pixels: [{x: xi, y: yi}],
+                            centroid: {x: xi, y: yi},
+                            area: 1.0,
+                            moment: 0.0
+                        };
+
+                        blobPtIndex = 0;
+                        while (blobPtIndex < blobs[bIndex].pixels.length) {
+                            bxi = blobs[bIndex].pixels[blobPtIndex].x;
+                            byi = blobs[bIndex].pixels[blobPtIndex].y;
+
+                            for (nxi = bxi - 1; nxi <= bxi + 1; nxi++) {
+                                for(nyi = byi - 1; nyi <= byi + 1; nyi++) {
+                                    if (nxi >= 0 && nyi >= 0 && nxi < dw && nyi < dh) {
+                                        if (!(pixelVisited[nyi*dw + nxi] === true) && autoDetector.binaryData[nyi*dw + nxi] === true) {
+
+                                            pixelVisited[nyi*dw + nxi] = true;
+                                            
+                                            pcount = blobs[bIndex].pixels.length;
+
+                                            blobs[bIndex].pixels[pcount] = {
+                                                x: nxi,
+                                                y: nyi
+                                            };
+
+                                            blobs[bIndex].centroid.x = (blobs[bIndex].centroid.x*pcount + nxi)/(pcount + 1.0);
+                                            blobs[bIndex].centroid.y = (blobs[bIndex].centroid.y*pcount + nyi)/(pcount + 1.0);
+                                            blobs[bIndex].area = blobs[bIndex].area + 1.0;
+                                        }
+                                    }
+                                }
+                            }
+                            blobPtIndex = blobPtIndex + 1;
+                        }
+                    }
+                }
+            }
+
+            for (bIndex = 0; bIndex < blobs.length; bIndex++) {
+                blobs[bIndex].moment = 0;
+                for (blobPtIndex = 0; blobPtIndex < blobs[bIndex].pixels.length; blobPtIndex++) {
+                    blobs[bIndex].moment = blobs[bIndex].moment 
+                        + (blobs[bIndex].pixels[blobPtIndex].x - blobs[bIndex].centroid.x)*(blobs[bIndex].pixels[blobPtIndex].x - blobs[bIndex].centroid.x)
+                        + (blobs[bIndex].pixels[blobPtIndex].y - blobs[bIndex].centroid.y)*(blobs[bIndex].pixels[blobPtIndex].y - blobs[bIndex].centroid.y);
+                        
+                }
+                dataSeries.addPixel(blobs[bIndex].centroid.x, blobs[bIndex].centroid.y, [blobs[bIndex].area, blobs[bIndex].moment]);
+            }
+        };
+    };
+
+    return Algo;
+})();
+
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
@@ -2542,20 +2579,28 @@ wpd.dataTable = (function () {
             $dateFormattingContainer = document.getElementById('data-date-formatting-container'),
             $dateFormatting = document.getElementById('data-date-formatting'),
             axes = wpd.appData.getPlotData().axes,
+            dataSeries = wpd.appData.getPlotData().getActiveDataSeries(),
             axesLabels = axes.getAxesLabels(),
             labIndex,
             variableHTML = '',
             variableListHTML = axesLabels.join(', '),
             dateFormattingHTML = '';
-            isAnyVariableDate = false;
+            isAnyVariableDate = false,
+            tableVariables = axesLabels,
+            dimCount = axes.getDimensions();
+
+        if (dataSeries.hasMetadata()) {
+            tableVariables = axesLabels.concat(dataSeries.getMetadataKeys()); 
+            variableListHTML = tableVariables.join(', ');
+        }
 
         $dateFormattingContainer.style.display = 'none';
         
         variableHTML += '<option value="raw">Raw</option>';
 
-        for(labIndex = 0; labIndex < axesLabels.length; labIndex++) {
-            variableHTML += '<option value="' + labIndex + '">' + axesLabels[labIndex] + '</option>';
-            if(axes.isDate != null && axes.getInitialDateFormat != null && axes.isDate(labIndex)) {
+        for(labIndex = 0; labIndex < tableVariables.length; labIndex++) {
+            variableHTML += '<option value="' + labIndex + '">' + tableVariables[labIndex] + '</option>';
+            if(labIndex < dimCount && axes.isDate != null && axes.getInitialDateFormat != null && axes.isDate(labIndex)) {
                 dateFormattingHTML += axesLabels[labIndex] + ' <input type="text" length="15" value="' 
                     + axes.getInitialDateFormat(labIndex) + '" id="data-format-string-'+ labIndex +'"/>';
                 isAnyVariableDate = true;
@@ -2591,7 +2636,9 @@ wpd.dataTable = (function () {
             return;
         }
         var axes = wpd.appData.getPlotData().axes,
+            dataSeries = wpd.appData.getPlotData().getActiveDataSeries(),
             dimCount = axes.getDimensions(),
+            metaKeyCount = dataSeries.getMetadataKeys().length,
             rowCount = rawData.length,
             rowi, dimi, rowValues,
             $digitizedDataTable = document.getElementById('digitizedDataTable'),
@@ -2600,8 +2647,8 @@ wpd.dataTable = (function () {
         tableText = '';
         for(rowi = 0; rowi < rowCount; rowi++) {
             rowValues = [];
-            for(dimi = 0; dimi < dimCount; dimi++) {
-                if(axes.isDate != null && axes.isDate(dimi)) {
+            for(dimi = 0; dimi < dimCount + metaKeyCount; dimi++) {
+                if(dimi < dimCount && axes.isDate != null && axes.isDate(dimi)) {
                     if(formatStrings[dimi] === undefined) {
                         formatStrings[dimi] = document.getElementById('data-format-string-' + dimi).value;
                     }
@@ -2684,6 +2731,9 @@ wpd.dataTable = (function () {
 
         var jsonData = { data: [] },
             axes = wpd.appData.getPlotData().axes,
+            dataSeries = wpd.appData.getPlotData().getActiveDataSeries(),
+            metaKeys = dataSeries.getMetadataKeys(),
+            metaKeysCount = metaKeys.length,
             dimCount = axes.getDimensions(),
             rowCount = rawData.length,
             rowi, dimi,
@@ -2693,14 +2743,20 @@ wpd.dataTable = (function () {
         jsonData.data[0] = {};
         for(rowi = 0; rowi < rowCount; rowi++) {
             rowValues = [];
-            for(dimi = 0; dimi < dimCount; dimi++) {
+            for(dimi = 0; dimi < dimCount + metaKeysCount; dimi++) {
                 if(rowi === 0) {
-                    jsonData.data[0][axesLabels[dimi]] = [];
+                    if(dimi < dimCount) {
+                        jsonData.data[0][axesLabels[dimi]] = [];
+                    } else {
+                        jsonData.data[0][metaKeys[dimi-dimCount]] = [];
+                    }
                 }
-                if(axes.isDate != null && axes.isDate(dimi)) {
+                if(dimi < dimCount && axes.isDate != null && axes.isDate(dimi)) {
                     jsonData.data[0][axesLabels[dimi]][rowi] = wpd.dateConverter.formatDateNumber(sortedData[rowi][dimi], 'yyyy-mm-dd');
-                } else {
+                } else if (dimi < dimCount) {
                     jsonData.data[0][axesLabels[dimi]][rowi] = sortedData[rowi][dimi];
+                } else {
+                    jsonData.data[0][metaKeys[dimi-dimCount]][rowi] = sortedData[rowi][dimi];
                 }
             }
         }
@@ -4345,6 +4401,8 @@ wpd.autoExtraction = (function () {
                 document.getElementById('auto-extract-algo-name').value = 'averagingWindow';
                 autoDetector.algorithm = new wpd.AveragingWindowAlgo();
             }
+        } else if (algoName === 'blobDetector') {
+            autoDetector.algorithm = new wpd.BlobDetectorAlgo();
         }
 
         displayAlgoParameters(autoDetector.algorithm);
