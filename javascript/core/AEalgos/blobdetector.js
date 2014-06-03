@@ -110,6 +110,9 @@ wpd.BlobDetectorAlgo = (function () {
                         + (blobs[bIndex].pixels[blobPtIndex].y - blobs[bIndex].centroid.y)*(blobs[bIndex].pixels[blobPtIndex].y - blobs[bIndex].centroid.y);
                         
                 }
+                if (plotData.axes instanceof wpd.MapAxes) {
+                    blobs[bIndex].area = plotData.axes.pixelToDataArea(blobs[bIndex].area);
+                }
                 dataSeries.addPixel(blobs[bIndex].centroid.x, blobs[bIndex].centroid.y, [blobs[bIndex].area, blobs[bIndex].moment]);
             }
         };
