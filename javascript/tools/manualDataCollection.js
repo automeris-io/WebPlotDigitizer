@@ -52,6 +52,7 @@ wpd.acquireData = (function () {
         wpd.graphicsWidget.removeTool();
         wpd.graphicsWidget.resetData();
         wpd.dataPointCounter.setCount();
+        wpd.graphicsWidget.removeRepainter();
     }
 
     function undo() {

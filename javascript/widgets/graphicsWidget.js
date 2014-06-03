@@ -430,6 +430,8 @@ wpd.graphicsWidget = (function () {
         $topCanvas.addEventListener("mouseup", onMouseUp, false);
         $topCanvas.addEventListener("mousedown", onMouseDown, false);
         $topCanvas.addEventListener("mouseout", onMouseOut, true);
+        document.addEventListener("mouseup", onDocumentMouseUp, false);
+
         document.addEventListener("mousedown", function(ev) {
             if(ev.target === $topCanvas) {
                 isCanvasInFocus = true;
@@ -585,6 +587,16 @@ wpd.graphicsWidget = (function () {
                 ypos = pos.y,
                 imagePos = imagePx(xpos, ypos);
             activeTool.onMouseClick(ev, pos, imagePos);
+        }
+    }
+
+    function onDocumentMouseUp(ev) {
+        if(activeTool != null && activeTool.onDocumentMouseUp != undefined) {
+            var pos = posn(ev),
+                xpos = pos.x,
+                ypos = pos.y,
+                imagePos = imagePx(xpos, ypos);
+            activeTool.onDocumentMouseUp(ev, pos, imagePos);
         }
     }
 

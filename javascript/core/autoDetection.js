@@ -36,6 +36,12 @@ wpd.AutoDetector = (function () {
         this.imageData = null;
         this.imageWidth = 0;
         this.imageHeight = 0;
+        
+        this.reset = function () {
+            this.mask = null;
+            this.binaryData = null;
+            this.imageData = null;
+        };
 
         this.generateBinaryDataFromMask = function () {
 
