@@ -27,6 +27,7 @@ wpd.layoutManager = (function () {
     var layoutTimer,
         $graphicsContainer,
         $sidebarContainer,
+        $sidebarControlsContainer,
         $mainContainer;
 
     // Redo layout when window is resized
@@ -35,9 +36,11 @@ wpd.layoutManager = (function () {
             windowHeight = parseInt(document.body.offsetHeight,10);
 
         $sidebarContainer.style.height = windowHeight + 'px';
+        $sidebarControlsContainer.style.height = windowHeight - 280 + 'px';
         $mainContainer.style.width = windowWidth - $sidebarContainer.offsetWidth - 5 + 'px';
         $mainContainer.style.height = windowHeight + 'px';
         $graphicsContainer.style.height = windowHeight - 44 + 'px';
+        wpd.sidebar.resize();
     }
 
     function getGraphicsViewportSize() {
@@ -58,6 +61,7 @@ wpd.layoutManager = (function () {
         // do initial layout and also bind to the window resize event
         $graphicsContainer = document.getElementById('graphicsContainer');
         $sidebarContainer = document.getElementById('sidebarContainer');
+        $sidebarControlsContainer = document.getElementById('sidebarControlsContainer');
         $mainContainer = document.getElementById('mainContainer');
         adjustLayout();
          
