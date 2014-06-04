@@ -2865,7 +2865,9 @@ wpd.graphicsWidget = (function () {
         activeTool,
         repaintHandler,
         
-        isCanvasInFocus = false;
+        isCanvasInFocus = false,
+        
+        firstLoad = true;
         
 
     function posn(ev) { // get screen pixel from event
@@ -3277,6 +3279,12 @@ wpd.graphicsWidget = (function () {
         resetAllLayers();
         zoomFit();
         wpd.appData.plotLoaded(originalImageData);
+
+        // TODO: move this logic outside the graphics widget!
+        if (firstLoad === false) {
+            wpd.popup.show('axesList');
+        }
+        firstLoad = false;
     }
 
     function loadImageFromSrc(imgSrc) {
@@ -3503,6 +3511,7 @@ wpd.layoutManager = (function () {
     var layoutTimer,
         $graphicsContainer,
         $sidebarContainer,
+        $sidebarControlsContainer,
         $mainContainer;
 
     // Redo layout when window is resized
@@ -3511,9 +3520,11 @@ wpd.layoutManager = (function () {
             windowHeight = parseInt(document.body.offsetHeight,10);
 
         $sidebarContainer.style.height = windowHeight + 'px';
+        $sidebarControlsContainer.style.height = windowHeight - 280 + 'px';
         $mainContainer.style.width = windowWidth - $sidebarContainer.offsetWidth - 5 + 'px';
         $mainContainer.style.height = windowHeight + 'px';
         $graphicsContainer.style.height = windowHeight - 44 + 'px';
+        wpd.sidebar.resize();
     }
 
     function getGraphicsViewportSize() {
@@ -3534,6 +3545,7 @@ wpd.layoutManager = (function () {
         // do initial layout and also bind to the window resize event
         $graphicsContainer = document.getElementById('graphicsContainer');
         $sidebarContainer = document.getElementById('sidebarContainer');
+        $sidebarControlsContainer = document.getElementById('sidebarControlsContainer');
         $mainContainer = document.getElementById('mainContainer');
         adjustLayout();
          
@@ -3678,7 +3690,8 @@ wpd.sidebar = (function () {
     function show(sbid) { // Shows a specific sidebar
         clear();
         var sb = document.getElementById(sbid);
-        sb.style.visibility = "visible";
+        sb.style.display = "inline-block";
+        sb.style.height = parseInt(document.body.offsetHeight,10) - 280 + 'px';
     }
 
     function clear() { // Clears all open sidebars
@@ -3686,13 +3699,26 @@ wpd.sidebar = (function () {
             ii;
 
         for (ii = 0; ii < sidebarList.length; ii++) {
-            sidebarList[ii].style.visibility="hidden";
+            sidebarList[ii].style.display="none";
+
+        }
+    }
+
+    function resize() {
+        var sidebarList = document.getElementsByClassName('sidebar'),
+            ii;
+
+        for (ii = 0; ii < sidebarList.length; ii++) {
+            if (sidebarList[ii].style.display === "inline-block") {
+                sidebarList[ii].style.height = parseInt(document.body.offsetHeight,10) - 280 + 'px';
+            }
         }
     }
 
     return {
         show: show,
-        clear: clear
+        clear: clear,
+        resize: resize
     };
 
 })();

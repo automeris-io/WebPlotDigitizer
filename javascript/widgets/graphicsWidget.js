@@ -62,7 +62,9 @@ wpd.graphicsWidget = (function () {
         activeTool,
         repaintHandler,
         
-        isCanvasInFocus = false;
+        isCanvasInFocus = false,
+        
+        firstLoad = true;
         
 
     function posn(ev) { // get screen pixel from event
@@ -474,6 +476,12 @@ wpd.graphicsWidget = (function () {
         resetAllLayers();
         zoomFit();
         wpd.appData.plotLoaded(originalImageData);
+
+        // TODO: move this logic outside the graphics widget!
+        if (firstLoad === false) {
+            wpd.popup.show('axesList');
+        }
+        firstLoad = false;
     }
 
     function loadImageFromSrc(imgSrc) {
