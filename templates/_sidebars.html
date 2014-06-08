@@ -1,0 +1,95 @@
+<!-- axes calibration -->
+<div id="axes-calibration-sidebar" class="sidebar">
+<p class="sidebar-title">Axes Calibration</p>
+<p>Click points to select and use cursor keys to adjust positions. Use Shift+Arrow for faster movement. Click complete when finished.</p>
+<p align="center"><input type="button" value="Complete!" style="width: 120px;" onclick="wpd.alignAxes.getCornerValues();"/></p>
+</div>
+
+<!-- manual mode -->
+<div id="acquireDataSidebar" class="sidebar">
+<p class="sidebar-title">Manual Mode <input type="button" value="Automatic Mode" style="width: 125px;" onclick="wpd.autoExtraction.start();"></p>
+<hr/>
+<p>
+    <input type="button" value="Add Point (A)" onclick="wpd.acquireData.manualSelection();" style="width:110px;" id="manual-select-button">
+    <input type="button" value="Adjust Point (S)" onClick="wpd.acquireData.adjustPoints();" style="width: 110px;" id="manual-adjust-button">
+<p>
+    <input type="button" value="Delete Point (D)" onclick="wpd.acquireData.deletePoint();" style="width: 110px;" id="delete-point-button">
+    <input id="clearAllBtn" type="button" value="Clear Points" onCLick="wpd.acquireData.clearAll();" style="width: 110px;"></p>
+<div class="vertical-spacer"></div>
+<p><input type="button" value="View Data" id="saveBtn" onclick="wpd.dataTable.showTable();" style="width:110px;"></p>
+<div class="vertical-spacer"></div>
+<p>Data Points: <span class="data-point-counter">0</span></p>
+</div>
+
+<!-- edit image -->
+<div id="editImageToolbar" class="sidebar">
+<p align="center"><b>Edit Image</b></p>
+<p align="center"><input type="button" value="H. Flip" style="width: 75px;" onclick="hflip();"><input type="button" value="V. Flip" style="width: 75px;" onClick="vflip();"></p>
+<p align="center"><input type="button" value="Crop" style="width: 150px;" onclick="cropPlot();"></p>
+<p align="center"><input type="button" value="Restore" style="width: 150px;" onclick="restoreOriginalImage();"></p>
+<p align="center"><input type="button" value="Save .PNG" style="width: 150px;" onclick="savePNG();"></p>
+</div>
+
+<!-- automatic mode -->
+<div id="auto-extraction-sidebar" class="sidebar">
+<p class="sidebar-title">Automatic Mode <input type="button" value="Manual Mode" style="width:110px;" onclick="wpd.acquireData.load();"/></p>
+<hr/>
+<p>Mask <input type="button" value="Box" style="width:50px;" onclick="wpd.dataMask.markBox();" id="box-mask"><input type="button" value="Pen" style="width:45px;" onClick="wpd.dataMask.markPen();" id="pen-mask"><input type="button" value="Erase" style="width:50px;" onClick="wpd.dataMask.eraseMarks();" id="erase-mask"><input type="button" value="View" style="width:40px;" onclick="wpd.dataMask.viewMask();" id="view-mask"/></p>
+<hr/>
+<p>Color <select id="color-detection-mode-select" onchange="wpd.colorPicker.changeDetectionMode();"><option value="fg">Foreground Color</option><option value="bg">Background Color</option></select><input type="button" id="color-button" value=" " onclick="wpd.colorPicker.startPicker();" style="width: 25px;"/></p>
+<p>Distance <td><td><input type="text" size="3" id="color-distance-value" onchange="wpd.colorPicker.changeColorDistance();"/>
+<input type="button" value="Filter Colors" onclick="wpd.colorPicker.testColorDetection();" style="width: 90px;"></p>
+<hr/>
+<p>Algorithm
+<select id="auto-extract-algo-name" onchange="wpd.autoExtraction.changeAlgorithm();">
+    <optgroup label="Generic">
+        <option value="averagingWindow">Averaging Window</option>
+        <option value="XStep">X Step</option>
+    </optgroup>
+    <optgroup label="Blobs">
+        <option value="blobDetector">Blob Detector</option>
+    </optgroup>
+    <optgroup label="Data Points">
+        <option value="dataPointExtractor" disabled>Data Points</option>
+  </optgroup>
+</select>
+</p>
+<div id="algo-parameter-container" style="margin-left: 10px; margin-top: 5px;"></div>
+<div class="vertical-spacer"/>
+<p style="margin-left: 10px;margin-top: 5px;">
+    <input type="button" value="Run" style="width:50px;" onclick="wpd.autoExtraction.runAlgo();"/>
+    <input type="button" value="Clear All" style="width:80px;" onclick="wpd.acquireData.clearAll();"/>
+    <input type="button" value="View Data" style="width:80px;" onclick="wpd.dataTable.showTable();"/>
+</p>
+<hr/>
+<p>Data Points: <span class="data-point-counter">0</span></p>
+</div>
+
+
+<!-- distance measurement -->
+<div id="measure-distances-sidebar" class="sidebar">
+<p class="sidebar-title">Measure Distances</p>
+<p>
+    <input type="button" value="Add Pair (A)" style="width: 100px;" id="add-pair-button" onclick="wpd.distanceMeasurement.addPair();"/>
+    <input type="button" value="Delete Pair (D)" style="width: 100px;" id="delete-pair-button" onclick="wpd.distanceMeasurement.deletePair();"/> 
+</p>
+<p>
+    <input type="button" value="Clear All" style="width: 100px;" id="clear-all-pairs-button" onclick="wpd.distanceMeasurement.clearAll();"/>
+    <input type="button" value="View Data" style="width: 100px;" id="view-measurement-data-button" onclick="wpd.measurementData.showDistanceData();"/>
+</p>
+</div>
+
+
+<!-- angle measurement -->
+<div id="measure-angles-sidebar" class="sidebar">
+<p class="sidebar-title">Measure Angles</p>
+<p>
+    <input type="button" value="Add Angle (A)" style="width: 100px;" id="add-angle-button" onclick="wpd.angleMeasurement.addAngle();"/>
+    <input type="button" value="Delete Angle (D)" style="width: 100px;" id="delete-angle-button" onclick="wpd.angleMeasurement.deleteAngle();"/>
+</p>
+<p>
+    <input type="button" value="Clear All" style="width: 100px;" onclick="wpd.angleMeasurement.clearAll();"/>
+    <input type="button" value="View Data" style="width: 100px;" onclick="wpd.measurementData.showAngleData();"/>
+</p>
+</div>
+
