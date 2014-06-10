@@ -39,8 +39,7 @@
 <script src="javascript/core/AEalgos/averagingWindow.js"></script>
 <script src="javascript/core/AEalgos/averagingWindowWithStepSize.js"></script>
 <script src="javascript/core/AEalgos/blobdetector.js"></script>
-<script src="javascript/core/AEalgos/xStep.js"></script>
-<script src="javascript/core/AEalgos/yStep.js"></script>
+<script src="javascript/core/AEalgos/xStepWithInterpolation.js"></script>
 <script src="javascript/core/aesystem.js"></script>
 <script src="javascript/core/appData.js"></script>
 <script src="javascript/core/autoDetection.js"></script>
@@ -239,6 +238,7 @@ Problems loading? Make sure you have a recent version of Google Chrome, Firefox,
 <select id="auto-extract-algo-name" onchange="wpd.autoExtraction.changeAlgorithm();">
     <optgroup label="Generic">
         <option value="averagingWindow">Averaging Window</option>
+        <option value="XStepWithInterpolation">X Step w/ Interp.</option>
         <option value="XStep">X Step</option>
     </optgroup>
     <optgroup label="Blobs">
