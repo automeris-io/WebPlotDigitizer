@@ -34,11 +34,15 @@ wpd.XStepWithInterpolationAlgo = (function () {
         
             if(isAligned && axes instanceof wpd.XYAxes) {
                 var bounds = axes.getBounds();
-                return [["X_min","Units", bounds.x1],["ΔX Step","Units", (bounds.x2 - bounds.x1)/50.0],["X_max","Units", bounds.x2],["Y_min","Units", bounds.y3],["Y_max","Units", bounds.y4],["Width","Units", 0]];
+                return [["X_min","Units", bounds.x1],["ΔX Step","Units", (bounds.x2 - bounds.x1)/50.0], 
+                        ["X_max","Units", bounds.x2],["Y_min","Units", bounds.y3],
+                        ["Y_max","Units", bounds.y4],["Width","Units", 0]];
 
             } 
 
-            return [["X_min","Units", 0],["ΔX Step","Units", 0.1],["X_max","Units", 0],["Y_min","Units", 0],["Y_max","Units", 0],["Width","Units",0]];
+            return [["X_min","Units", 0],["ΔX Step","Units", 0.1],
+                    ["X_max","Units", 0],["Y_min","Units", 0],
+                    ["Y_max","Units", 0],["Width","Units",0]];
         };
         
         this.setParam = function (index, val) {
@@ -165,11 +169,18 @@ wpd.XStepWithInterpolationAlgo = (function () {
 
             xinterp = [];
             ii = 0;
-            for(xi = param_xmin; xi <= param_xmax; xi += param_delx) {
-                xinterp[ii] = xi;
-                ii++;
+            xi = param_xmin;
+
+            if (( delx < 0 && param_delx > 0) || (delx > 0 && param_delx < 0)) {
+                return;
             }
             
+            while ( (delx > 0 && xi <= param_xmax) || (delx < 0 && xi >= param_xmax) ) {
+                xinterp[ii] = xi;
+                ii++;
+                xi = xi + param_delx;
+            }
+
             yinterp = numeric.spline(xpoints_mean, ypoints_mean).at(xinterp);
 
             for(ii = 0; ii < yinterp.length; ii++) {
