@@ -1731,7 +1731,7 @@ wpd.XStepWithInterpolationAlgo = (function () {
         var param_xmin, param_delx, param_xmax, 
             param_linewidth, param_ymin, param_ymax;
 
-        var getParamList = function () {
+        this.getParamList = function () {
             var isAligned = wpd.appData.isAligned(),
                 axes = wpd.appData.getPlotData().axes;
         
@@ -1778,7 +1778,9 @@ wpd.XStepWithInterpolationAlgo = (function () {
                 pdata,
                 xpoints = [],
                 ypoints = [],
-                delx = param_linewidth;
+                delx = param_linewidth,
+                xinterp,
+                yinterp;
 
             param_linewidth = 10; // just test
 
@@ -1846,10 +1848,8 @@ wpd.XStepWithInterpolationAlgo = (function () {
 								mean_ii = (blobEntry + blobExit)/2.0;
 								mean_yi = -mean_ii*step_pix*r_unit_per_pix + param_ymax;
 
-								pdata = axes.dataToPixel(xi, mean_yi);
-
-                                xpoints[pointsPixled] = parseFloat(pdata.x);
-                                ypoints[pointsPicked] = parseFloat(pdata.y);
+                                xpoints[pointsPicked] = parseFloat(xi);
+                                ypoints[pointsPicked] = parseFloat(mean_yi);
 
 								pointsPicked = pointsPicked + 1;
 							}
@@ -1858,15 +1858,18 @@ wpd.XStepWithInterpolationAlgo = (function () {
                 }
             }
 
-            var xinterp = [], ii = 0;
+            xinterp = [];
+            ii = 0;
             for(xi = param_xmin; xi <= param_xmax; xi += param_delx) {
                 xinterp[ii] = xi;
                 ii++;
             }
-            var yinterp = numeric.spline(xpoints, ypoints).at(xinterp);
             
+            yinterp = numeric.spline(xpoints, ypoints).at(xinterp);
+
             for(ii = 0; ii < yinterp.length; ii++) {
-                dataSeries.addPixel(xinterp[ii], yinterp[ii]);
+                pdata = axes.dataToPixel(xinterp[ii], yinterp[ii]);
+                dataSeries.addPixel(pdata.x, pdata.y);
             }
 
          };
