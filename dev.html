@@ -230,7 +230,7 @@ Problems loading? Make sure you have a recent version of Google Chrome, Firefox,
 <hr/>
 <p>Mask <input type="button" value="Box" style="width:50px;" onclick="wpd.dataMask.markBox();" id="box-mask"><input type="button" value="Pen" style="width:45px;" onClick="wpd.dataMask.markPen();" id="pen-mask"><input type="button" value="Erase" style="width:50px;" onClick="wpd.dataMask.eraseMarks();" id="erase-mask"><input type="button" value="View" style="width:40px;" onclick="wpd.dataMask.viewMask();" id="view-mask"/></p>
 <hr/>
-<p>Color <select id="color-detection-mode-select" onchange="wpd.colorPicker.changeDetectionMode();"><option value="fg">Foreground Color</option><option value="bg">Background Color</option></select><input type="button" id="color-button" value=" " onclick="wpd.colorPicker.startPicker();" style="width: 25px;"/></p>
+<p>Color <select id="color-detection-mode-select" onchange="wpd.colorPicker.changeDetectionMode();"><option value="fg">Foreground Color</option><option value="bg">Background Color</option></select><input type="button" id="color-button" value=" " onclick="wpd.colorPicker.startPicker();" style="width: 25px;" title="Click to change color"/></p>
 <p>Distance <td><td><input type="text" size="3" id="color-distance-value" onchange="wpd.colorPicker.changeColorDistance();"/>
 <input type="button" value="Filter Colors" onclick="wpd.colorPicker.testColorDetection();" style="width: 90px;"></p>
 <hr/>
@@ -277,12 +277,12 @@ Problems loading? Make sure you have a recent version of Google Chrome, Firefox,
 <div id="measure-angles-sidebar" class="sidebar">
 <p class="sidebar-title">Measure Angles</p>
 <p>
-    <input type="button" value="Add Angle (A)" style="width: 100px;" id="add-angle-button" onclick="wpd.angleMeasurement.addAngle();"/>
-    <input type="button" value="Delete Angle (D)" style="width: 100px;" id="delete-angle-button" onclick="wpd.angleMeasurement.deleteAngle();"/>
+    <input type="button" value="Add Angle (A)" style="width: 110px;" id="add-angle-button" onclick="wpd.angleMeasurement.addAngle();"/>
+    <input type="button" value="Delete Angle (D)" style="width: 110px;" id="delete-angle-button" onclick="wpd.angleMeasurement.deleteAngle();"/>
 </p>
 <p>
-    <input type="button" value="Clear All" style="width: 100px;" onclick="wpd.angleMeasurement.clearAll();"/>
-    <input type="button" value="View Data" style="width: 100px;" onclick="wpd.measurementData.showAngleData();"/>
+    <input type="button" value="Clear All" style="width: 110px;" onclick="wpd.angleMeasurement.clearAll();"/>
+    <input type="button" value="View Data" style="width: 110px;" onclick="wpd.measurementData.showAngleData();"/>
 </p>
 </div>
 
