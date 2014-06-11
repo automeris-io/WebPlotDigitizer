@@ -8,15 +8,15 @@
 \usepackage[margin=1.2in]{geometry}
 
 \begin{document}
-\title{WebPlotDigitizer User Manual\\ Version 2.6}
+\title{WebPlotDigitizer User Manual\\ Version 3.3}
 \author{Ankit Rohatgi\footnote{E-Mail: ankitrohatgi@hotmail.com}}
 \maketitle
 \tableofcontents
 \newpage
 \section{Introduction}
-A large quantity of useful information is available only as plotted data points in an image. In these images, it is easy to determine the relationship between the variables involved, but recovering the exact numerical values of the data is usually a tedious and error prone process. To aid this time consuming task of data recovery, several digitization softwares have been developed over the years\footnote{For a list of existing softwares, visit \url{http://en.wikipedia.org/wiki/Converting_scanned_graphs_to_data}}. However, even with the abundance of free and commercial softwares, this task remains daunting and prone to errors. Many of the existing softwares are either designed to work only on specific operating systems or work with a limited variety of plots. Some are just difficult to use or prone to errors. Finally, many require a paid license which prevents their widespread use by students, independent researchers or organizations with limited resources.
+A large quantity of useful information is available only as plotted data points in an image. In these images, it is easy to determine the relationship between the variables involved, but recovering the exact numerical values of the data is usually a tedious and error prone process. To aid this time consuming task of data recovery, many digitization softwares have been developed over the years. However, even with the abundance of free and commercial softwares, this task remains daunting and prone to errors. Many of the existing softwares are either designed to work only on specific operating systems or work with a limited variety of plots. Some are just difficult to use or prone to errors. Finally, many require a paid license which prevents their widespread use by students, independent researchers or organizations with limited resources.
 
-Because of the above limitations in current digitizing softwares, WebPlotDigitizer was developed to facilitate easy and accurate data extraction from a variety of plot types and also maps. This program has been built using HTML5 which allows it to run within most popular web browsers and does not require an installation process that is performed by the user. This is also distributed free of charge as an opensource software. A screenshot of a typical session of the software is shown in Figure \ref{fig:screenshot}.
+Because of the above limitations in current digitizing softwares, WebPlotDigitizer was developed to facilitate easy and accurate data extraction from a variety of plot types and also maps. This program has been built using HTML5 which allows it to run within most popular web browsers and does not require an installation process that is performed by the user. This is distributed free of charge as an opensource software. A screenshot of a typical session of the software is shown in Figure \ref{fig:screenshot}.
 
 \begin{figure}
 \begin{center}
@@ -27,9 +27,9 @@ Because of the above limitations in current digitizing softwares, WebPlotDigitiz
 \end{figure}
 
 \subsection{History}
-WebPlotDigitizer was initially developed while working on my graduate studies at the University of Notre Dame. Having to pull out data from several publications for comparing and contrasting my own findings in the lab was too painful even for someone studying fluid-particle interactions in suspensions flowing at low Reynolds numbers. The search for a tool to aid this process usually ended in realizing that most of the existing softwares for this purpose did not fulfill many of the requirements. I was faced with a similar task as an undergraduate student. Back then, just writing a simple Java based code for picking a few points by clicking on them manually was sufficient. My advisor at Notre Dame also had a Matlab code to do this job for two dimensional XY plots, but the points still had to be picked manually. Both the options were not very convenient.
+WebPlotDigitizer was initially developed while working on my graduate studies at the University of Notre Dame. Having to extract data from many publications for comparing and contrasting my own findings in the lab was a time consuming task. The search for a tool to aid this process usually ended in realizing that most of the existing softwares for this purpose did not fulfill many of the requirements. I was faced with a similar task as an undergraduate student. Back then, just writing a simple Java based code for picking a few points by clicking on them manually was sufficient. My advisor at Notre Dame also had a Matlab code to do this job for two dimensional XY plots, but the points still had to be picked manually. These options were also not very convenient.
 
-Some of the experimental work in the lab required me to learn some basic image processing techniques which eventually formed the basis of the automatic detection algorithms used here. Image processing knowledge along with some interest in learning the much publicized HTML5 APIs at the time were a perfect match to create a web based data extraction tool like this.
+Some of the experimental work in the lab required me to learn some basic image processing techniques which eventually formed the basis of the automatic detection algorithms used here. Image processing knowledge along with some interest in learning the very popular HTML5 APIs were a perfect match to create a web based data extraction tool like this.
 
 Considering the significant interest in this software, I have continued to refine the software in my spare time even after completing my graduate studies in 2012.
 
@@ -46,16 +46,16 @@ WebPlotDigitizer is an open source software (see above). The source code can be 
 The latest released version of the software can be used directly from the website \url{http://arohatgi.info/WebPlotDigitizer}. For the Google Chrome web browser, an \emph{app} pointing to the online software is also available at the Chrome App Store (\url{https://chrome.google.com/webstore/category/apps}).
 
 \subsection{Supported Browsers}
-Version 2.6 was ensured to work without major issues on the following browsers:
+Version 3.3 was ensured to work without major issues on the following browsers:
 \begin{itemize}
-\item{Safari 6.0.5 on Mac OS 10.8.5}
-\item{Google Chrome on Mac OS 10.8.5}
+\item{Safari 7.0.4 on Mac OS 10.9.3}
+\item{Google Chrome 35 on Mac OS 10.9.3}
 \item{Google Chrome on Windows 7 32-bit}
 \item{Firefox 24.0 on Windows 7 32-bit}
-\item{Internet Explorer 10 on Windows 7 32-bit}
-\item{Firefox 24.0 on Xubuntu Linux 13.04 32-bit}
+\item{Internet Explorer 11 on Windows 7 32-bit}
+\item{Firefox 24.0 on Xubuntu Linux 14.04 32-bit}
 \end{itemize}
-It is expected that browsers similar in functionality and support for the HTML5 API should not have any major problems executing the version 2.6.
+It is expected that browsers similar in functionality and support for the HTML5 API should not have any major problems executing the version 3.3.
 
 \subsection{Citing WebPlotDigitizer}
 If you wish to cite WebPlotDigitizer in any of your works, then please use the following information:
@@ -66,8 +66,8 @@ If you wish to cite WebPlotDigitizer in any of your works, then please use the f
 Author & Ankit Rohatgi\\
 Title & WebPlotDigitizer\\
 Website & \url{http://arohatgi.info/WebPlotDigitizer}\\
-Version & 2.6\\
-Date & October, 2013\\
+Version & 3.3\\
+Date & June, 2014\\
 E-Mail & ankitrohatgi@hotmail.com\\
 \hline
 \end{tabular}
@@ -85,51 +85,27 @@ WebPlotDigitizer is not a funded project and is supported mainly by my spare tim
 \section{Loading Plots}
 The image file containing the figure to be analyzed can be loaded into the software in the following ways:
 \begin{enumerate}
-\item{{\bf Drag \& Drop Operation:} Click down on the file icon in the file browser and move the mouse over the area containing the previous image in WebPlotDigitizer. Release the mouse button to load the file in the software.}
-\item{{\bf Browse File on Hard Drive:} Click on the \emph{Load File} button on the top left of WebPlotDigitizer (Figure \ref{fig:topButtons}). A popup should show up with a control labelled \emph{Choose File}. Use this control to look for the desired file.}
+\item{{\bf Drag \& Drop Operation:} Image can be dragged and dropped from the file browser on to the image viewing area of the application.}
+\item{{\bf File Menu $\rightarrow$ Load Image:} Browse for a file on the hard disk to load.}
 \item{{\bf Copy-Paste from Clipboard:} This is only supported in Google Chrome web browser. An image selected by copying in a PDF or an image viewer can be pasted on to the software via a simple copy-paste operation.}
+\item{{\bf File Menu $\rightarrow$ Webcam Capture:} A snapshot taken from the webcam can also be used. For best results, the webcam should be pointed directly along the normal to the plot surface. In the future, some image transformation features might be added to WebPlotDigitizer to compensate for the distortions.}  
 \end{enumerate}
 
 \begin{figure}
 \begin{center}
-\includegraphics[width=3in]{./figures/topButtons.png}
+\includegraphics[width=2in]{./figures/fileMenu.jpg}
 \caption{The top row of buttons in WebPlotDigitizer.}
 \label{fig:topButtons}
 \end{center}
 \end{figure}
 
 \subsection{Supported Image Formats}
-WebPlotDigitizer relies on the image formats supported by the HTML5 \emph{canvas} element. Most browsers support common image formats such as JPEG, PNG, BMP and GIF. Since the support for an image format depends on the browser used with the software, please refer to your browser's manual for details. For popular browsers, you can also refer to Wikipedia (\url{http://en.wikipedia.org/wiki/Comparison_of_web_browsers#Image_format_support}).
-
-
-\section{Edit Image}
-
-\begin{figure}
-\begin{center}
-\includegraphics[width=1.5in]{./figures/imageEditingSidebar.png}
-\caption{A few basic tools for editing the loaded image are available.}
-\label{fig:imageEditingSidebar}
-\end{center}
-\end{figure}
-If the loaded image needs to be inverted or if only a small area of the image is relevant, then you may wish to use some of the editing tools available by clicking the \emph{Edit Image} button in the top toolbar (Figure \ref{fig:topButtons}). Clicking this button will make a set of buttons appear in the sidebar as shown in Figure \ref{fig:imageEditingSidebar}. The buttons available here are for the following purpose:
-\begin{enumerate}
-\item{{\bf H. Flip:} Invert the image horizontally.}
-\item{{\bf V. Flip:} Invert the image vertically (not the same as 180$^{\circ}$ rotation).}
-\item{{\bf Crop:} Crop a rectangular region from the image. The user can draw the desired rectangular region on the image after clicking this button.}
-\item{{\bf Restore: } Restores the originally loaded image.}
-\item{{\bf Save .PNG:} Opens a new tab containing the edited image.}
- 
-\end{enumerate}
-
-
-
-
-
+WebPlotDigitizer relies on the image formats supported by the HTML5 \emph{canvas} element. Most browsers support common image formats such as JPEG, PNG, BMP and GIF. Since the support for an image format depends on the browser used to access the software, please refer to your browser's manual for details. For popular browsers, you can also refer to Wikipedia (\url{http://en.wikipedia.org/wiki/Comparison_of_web_browsers#Image_format_support}).
 
 
 \section{Define Axes}
 
-After editing the image as needed (or not at all),  you should specify the type of axes used in the plot. This step is required for the software to correctly map the image pixels to possible data points in the image. Depending on the plot type, you will have to select a few known points on the axes. On clicking the \emph{Define Axes} button (see Figure \ref{fig:topButtons}), you should be presented with the menu shown in Figure \ref{fig:defineAxesPopup}.
+After loading the desired image, you should specify the type of axes that is used in the plot. This step is required for the software to correctly map the image pixels to possible data points in the image. Depending on the plot type, you will have to select a few known points on the axes. On clicking the \emph{Axes $\rightarrow$ Define Axes} menu item (see Figure \ref{fig:topButtons}), you should be presented with the menu shown in Figure \ref{fig:defineAxesPopup}.
 \begin{figure}
 \begin{center}
 \includegraphics[width=3in]{./figures/defineAxesPopup.png}
