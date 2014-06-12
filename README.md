@@ -27,6 +27,13 @@ Offline Development/Usage
 
 This tool has to hosted on a HTTP server with PHP for some javascript features and PHP scripts to function correctly.
 
+Discussion Forum & Available Projects
+-------------------------------------
+
+Join the Google Group to access some related projects that are free to try. Also post questions, suggestions etc.
+
+image-digitization: [https://groups.google.com/d/forum/image-digitization](https://groups.google.com/d/forum/image-digitization)
+
 Development/Hacking
 -------------------
 
