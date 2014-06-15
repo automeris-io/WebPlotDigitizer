@@ -25,11 +25,25 @@ wpd = wpd || {};
 wpd.BlobDetectorAlgo = (function () {
     
     var Algo = function () {
+        var min_dia, max_dia;
+
         this.getParamList = function () {
-            return [];
+            var isAligned = wpd.appData.isAligned(),
+                axes = wpd.appData.getPlotData().axes;
+            
+            if (isAligned && axes instanceof wpd.MapAxes) { 
+			    return [['Min Diameter', 'Units', 0], ['Max Diameter', 'Units', 5000]];
+            }
+
+			return [['Min Diameter', 'Px', 0], ['Max Diameter', 'Px', 5000]];
         };
 
         this.setParam = function (index, val) {
+            if (index === 0) {
+                min_dia = parseFloat(val);
+            } else if (index === 1) {
+                max_dia = parseFloat(val);
+            }
         };
 
         this.run = function (plotData) {
@@ -45,7 +59,8 @@ wpd.BlobDetectorAlgo = (function () {
                 bIndex, 
                 nxi, nyi,
                 bxi, byi,
-                pcount;
+                pcount,
+                dia;
 
             if (dw <= 0 || dh <= 0 || autoDetector.binaryData == null 
                 || autoDetector.binaryData.length === 0) {
@@ -113,7 +128,11 @@ wpd.BlobDetectorAlgo = (function () {
                 if (plotData.axes instanceof wpd.MapAxes) {
                     blobs[bIndex].area = plotData.axes.pixelToDataArea(blobs[bIndex].area);
                 }
-                dataSeries.addPixel(blobs[bIndex].centroid.x, blobs[bIndex].centroid.y, [blobs[bIndex].area, blobs[bIndex].moment]);
+
+                dia = 2.0*Math.sqrt(blobs[bIndex].area/Math.PI);
+                if (dia <= max_dia && dia >= min_dia) {
+                    dataSeries.addPixel(blobs[bIndex].centroid.x, blobs[bIndex].centroid.y, [blobs[bIndex].area, blobs[bIndex].moment]);
+                }
             }
         };
     };
