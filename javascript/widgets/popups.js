@@ -63,6 +63,9 @@ wpd.busyNote = (function () {
     var noteDiv, isVisible = false;
     
     function show() {
+        if(isVisible) {
+            return;
+        }
         if(noteDiv == null) {
             noteDiv = document.createElement('div');
             noteDiv.id = 'wait';

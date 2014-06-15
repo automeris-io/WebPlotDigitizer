@@ -3643,6 +3643,9 @@ wpd.busyNote = (function () {
     var noteDiv, isVisible = false;
     
     function show() {
+        if(isVisible) {
+            return;
+        }
         if(noteDiv == null) {
             noteDiv = document.createElement('div');
             noteDiv.id = 'wait';
@@ -4540,7 +4543,7 @@ wpd.autoExtraction = (function () {
             wpd.busyNote.close();
             return true;
         }
-        setTimeout(fn, 5); // This is required for the busy note to work!
+        setTimeout(fn, 10); // This is required for the busy note to work!
     }
   
     return {
