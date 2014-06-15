@@ -60,12 +60,23 @@ wpd.popup = (function () {
 })();
 
 wpd.busyNote = (function () {
+    var noteDiv, isVisible = false;
+    
     function show() {
-        document.getElementById('wait').style.visibility = 'visible';
+        if(noteDiv == null) {
+            noteDiv = document.createElement('div');
+            noteDiv.id = 'wait';
+            noteDiv.innerHTML = '<p align="center">Processing...</p>';
+        }
+        document.body.appendChild(noteDiv);
+        isVisible = true;
     }
 
     function close() {
-        document.getElementById('wait').style.visibility = 'hidden';
+        if (noteDiv != null && isVisible === true) {
+            document.body.removeChild(noteDiv);
+            isVisible = false;
+        }
     }
 
     return {
