@@ -219,3 +219,20 @@ select {
     border: thin black solid;
 }
 
+#wait {
+    position:absolute; 
+    top:0px; 
+    left:300px; 
+    background: #666666; 
+    color: lightgreen; 
+    width:200px; 
+    margin: 0px; 
+    display:inline-block;
+    padding: 0px; 
+    z-index:100;
+}
+
+#wait p {
+    margin: 3px;
+    padding: 0px;
+}

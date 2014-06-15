@@ -368,6 +368,7 @@ wpd.graphicsWidget = (function () {
     }
 
     function dropHandler(ev) {
+        wpd.busyNote.show();
         var allDrop = ev.dataTransfer.files;
         if (allDrop.length === 1) {
             fileLoader(allDrop[0]);
@@ -375,6 +376,7 @@ wpd.graphicsWidget = (function () {
     }
 
     function pasteHandler(ev) {
+        wpd.busyNote.show();
         if(ev.clipboardData !== undefined) {
             var items = ev.clipboardData.items;
             if(items !== undefined) {
@@ -476,6 +478,8 @@ wpd.graphicsWidget = (function () {
         resetAllLayers();
         zoomFit();
         wpd.appData.plotLoaded(originalImageData);
+        
+        wpd.busyNote.close();
 
         // TODO: move this logic outside the graphics widget!
         if (firstLoad === false) {
@@ -521,7 +525,9 @@ wpd.graphicsWidget = (function () {
         }
     }
 
+
     function loadNewFile() {
+        wpd.busyNote.show();
         var fileLoadElem = document.getElementById('fileLoadBox');
         if(fileLoadElem.files.length == 1) {
             var fileInfo = fileLoadElem.files[0];
