@@ -1,5 +1,20 @@
 RELEASE NOTES
 
+Version 3.3
+===========
+Released June 16, 2014
+
+- New detection algorithms:
+
+    - Added a new algorithm "X Step w/ Interp". This uses cubic splines to interpolate over data such as dotted/dashed lines and even data points. A smoothing parameter is also provided that controls the width in x-direction that the underlying detection is averaged over. A parameter value of 0 turns off this smoothing. Any value higher than zero will add some smoothing over the data.
+
+    - Added a blob detection algorithm. This allows detecting locating the centers of objects ("blobs") in an image. This also calculates the area and the first rotational invariant image moment of each blob. The Min_Distance and Max_Distance parameters help excluding objects that are smaller or larger than this range.
+
+- UI Tweaks:
+    - Visual busy indication when loading an image or when auto extract algorithm is running.
+    - Box mask drawing tool improved.
+    - Minor tweaks to improve usability on smaller screens.
+
 Version 3.2
 ===========
 Released May 27, 2014
