@@ -111,6 +111,10 @@ wpd.AutoDetector = (function () {
                 this.generateBinaryDataFromMask();
             }
         };
+
+        this.generateGridBinaryData = function () {
+        };
+
     };
     return obj;
 })();
