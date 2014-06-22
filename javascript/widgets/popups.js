@@ -111,6 +111,32 @@ wpd.messagePopup = (function () {
     };
 })();
 
+wpd.okCancelPopup = (function () {
+    var okCallback, cancelCallback;
+
+    function show(title, msg, ok_callback, cancel_callback) {
+        wpd.popup.show('okCancelPopup');
+        document.getElementById('ok-cancel-popup-heading').innerHTML = title;
+        document.getElementById('ok-cancel-popup-text').innerHTML = msg;
+    }
+
+    function ok() {
+        wpd.popup.close('okCancelPopup');
+        okCallback();
+    }
+
+    function cancel() {
+        wpd.popup.close('okCancelPopup');
+        cancelCallback();
+    }
+
+    return {
+        show: show,
+        ok: ok,
+        cancel: cancel
+    };
+})();
+
 wpd.unsupported = function () {
     wpd.messagePopup.show("Unsupported Feature!", "This feature has not been implemented in the current version. This may be available in a future release.");
 };
