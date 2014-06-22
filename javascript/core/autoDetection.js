@@ -29,6 +29,8 @@ wpd.AutoDetector = (function () {
         this.fgColor = [0, 0, 200];
         this.bgColor = [255, 255, 255];
         this.mask = null;
+        this.gridMask = null;
+        this.gridData = null;
         this.colorDetectionMode = 'fg';
         this.colorDistance = 120;
         this.algorithm = null;
@@ -41,6 +43,8 @@ wpd.AutoDetector = (function () {
             this.mask = null;
             this.binaryData = null;
             this.imageData = null;
+            this.gridData = null;
+            this.gridMask = null;
         };
 
         this.generateBinaryDataFromMask = function () {

@@ -171,6 +171,8 @@ wpd.AutoDetector = (function () {
         this.fgColor = [0, 0, 200];
         this.bgColor = [255, 255, 255];
         this.mask = null;
+        this.gridMask = null;
+        this.gridData = null;
         this.colorDetectionMode = 'fg';
         this.colorDistance = 120;
         this.algorithm = null;
@@ -183,6 +185,8 @@ wpd.AutoDetector = (function () {
             this.mask = null;
             this.binaryData = null;
             this.imageData = null;
+            this.gridData = null;
+            this.gridMask = null;
         };
 
         this.generateBinaryDataFromMask = function () {
@@ -1227,33 +1231,70 @@ wpd.AveragingWindowAlgo = (function () {
         this.run = function (plotData) {
             var autoDetector = plotData.getAutoDetector(),
                 dataSeries = plotData.getActiveDataSeries(),
-                xPoints = new Array(),
+                algoCore = new wpd.AveragingWindowCore(autoDetector.binaryData, autoDetector.imageHeight, autoDetector.imageWidth, xStep, yStep, dataSeries);
+
+            algoCore.run();
+        };
+
+    };
+    return Algo;
+})();
+
+/*
+	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
+
+	Copyright 2010-2014 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+
+	This file is part of WebPlotDigitizer.
+
+    WebPlotDigitizer is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    WebPlotDigitizer is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
+
+
+*/
+
+var wpd = wpd || {};
+
+wpd.AveragingWindowCore = (function () {
+    var Algo = function (binaryData, imageHeight, imageWidth, dx, dy, dataSeries) {
+        this.run = function () {
+            var xPoints = [],
                 xPointsPicked = 0,
                 pointsPicked = 0,
-                dw = autoDetector.imageWidth,
-                dh = autoDetector.imageHeight,
+                dw = imageWidth,
+                dh = imageHeight,
                 blobAvg = [],
                 coli, rowi,
                 firstbloby,
-                bi,
-                blobs,
-                blbi,
-                xi, yi,
+                bi, blobs, blbi, xi, yi,
                 pi, inRange, xxi, oldX, oldY, avgX, avgY, newX, newY,
-                matches;       
-
+                matches,
+                xStep = dx,
+                yStep = dy;
 
             dataSeries.clearAll();
 
-			for(coli = 0; coli < dw; coli++) {
+            for (coli = 0; coli < dw; coli++) {
+                
+                blobs = -1;
+                firstbloby = -2.0*yStep;
+                bi = 0;
+                
+                // Scan vertically for blobs:
 
-				blobs = -1;
-				firstbloby = -2.0*yStep;
-				bi = 0;
-				   
-				for(rowi = 0; rowi < dh; rowi++) {
-					if (autoDetector.binaryData[rowi*dw + coli] === true)	{
-					    if (rowi > firstbloby + yStep) {
+                for (rowi = 0; rowi < dh; rowi++) {
+                    if(binaryData[rowi*dw + coli] === true) {
+                        if (rowi > firstbloby + yStep) {
 						    blobs = blobs + 1;
 						    bi = 1;
 						    blobAvg[blobs] = rowi;
@@ -1262,10 +1303,10 @@ wpd.AveragingWindowAlgo = (function () {
 						    bi = bi + 1;
 					    	blobAvg[blobs] = parseFloat((blobAvg[blobs]*(bi-1.0) + rowi)/parseFloat(bi));
 					    }
-					}
-				}
-				
-				if (blobs >= 0) {
+                    }
+                }
+
+                if (blobs >= 0) {
 					xi = coli;
 					for (blbi = 0; blbi <= blobs; blbi++) {
 					  yi = blobAvg[blbi];
@@ -1279,7 +1320,7 @@ wpd.AveragingWindowAlgo = (function () {
 				}
 				
 			  }
-			  
+
 			  if (xPointsPicked === 0) {
                     return;
               }
@@ -1318,7 +1359,6 @@ wpd.AveragingWindowAlgo = (function () {
 				  xPoints[pi][2] = false; 
 				  
 				  pointsPicked = pointsPicked + 1;
-
                   dataSeries.addPixel(parseFloat(avgX), parseFloat(avgY));
 
 				}
@@ -1326,6 +1366,8 @@ wpd.AveragingWindowAlgo = (function () {
 			  }
 
 			  xPoints = [];
+
+              return dataSeries;
         };
     };
     return Algo;
