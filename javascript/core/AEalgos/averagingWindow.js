@@ -1,9 +1,9 @@
 /*
-	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
+    WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Copyright 2010-2014 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+    Copyright 2010-2014 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
-	This file is part of WebPlotDigitizer.
+    This file is part of WebPlotDigitizer.
 
     WebPlotDigitizer is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -31,7 +31,7 @@ wpd.AveragingWindowAlgo = (function () {
         var xStep = 5, yStep = 5;
 
         this.getParamList = function () {
-			return [['ΔX', 'Px', 10], ['ΔY', 'Px', 10]];
+            return [['ΔX', 'Px', 10], ['ΔY', 'Px', 10]];
         };
 
         this.setParam = function (index, val) {
