@@ -90,6 +90,7 @@ Problems loading? Make sure you have a recent version of Google Chrome, Firefox,
     <div class="wpd-menu-dropdown">
         <ul>
             <li id="wpd-axesmenu-defineaxes" onclick="wpd.popup.show('axesList');">Define Axes</li>
+            <li id="wpd-axesmenu-grid" onclick="wpd.gridDetection.start();">Detect Grid</li>
             <!-- <li id="wpd-axesmenu-importcalibration" onclick="wpd.unsupported();">Import Calibration</li> -->
         </ul>
     </div>
@@ -269,6 +270,35 @@ Problems loading? Make sure you have a recent version of Google Chrome, Firefox,
 </p>
 </div>
 
+<!-- grid detection -->
+<div id="grid-detection-sidebar" class="sidebar">
+<p class="sidebar-title">Detect Grid</p>
+<p>Range</p>
+<table>
+    <tr>
+        <td>X_min </td><td><input type="text" id="grid-x-min" style="width:40px;"/> </td>
+        <td>, X_max </td><td><input type="text" id="grid-x-min" style="width:40px;"/></td>
+    </tr>
+    <tr>
+        <td>Y_min </td><td><input type="text" id="grid-x-min" style="width:40px;"/> </td>
+        <td>, Y_max </td><td><input type="text" id="grid-x-min" style="width:40px;"/></td>
+    </tr>
+</table>
+<hr/>
+<table>
+    <tr><td align="right">Horizontal </td><td><input type="checkbox" id="grid-horiz-enable"/></td></tr>
+    <tr><td align="right">Detection Width </td><td>&nbsp; <input type="text" id="grid-horiz-detection-width" style="width: 40px;"/></td></tr>
+    <tr><td align="right">Line Width </td><td>&nbsp; <input type="text" id="grid-horiz-line-width" style="width: 40px;"/></td></tr>
+</table>
+<hr/>
+<table>
+    <tr><td align="right">Vertical </td><td><input type="checkbox" id="grid-vert-enable"/></td></tr>
+    <tr><td align="right">Detection Width </td><td>&nbsp; <input type="text" id="grid-vert-detection-width" style="width: 40px;"/></td></tr>
+    <tr><td align="right">Line Width </td><td>&nbsp; <input type="text" id="grid-vert-line-width" style="width: 40px;"/></td></tr>
+</table>
+<hr/>
+<p><input type="button" value="Detect" style="width: 80px;"/> <input type="button" value="Clear" style="width: 80px;"/></p>
+</div>
         </div>
 
     </div>
@@ -332,6 +362,15 @@ Problems loading? Make sure you have a recent version of Google Chrome, Firefox,
     <p>&nbsp;</p>
     <p align="center"><input type="button" value="OK" onclick="wpd.messagePopup.close()"/></p>
     </div>
+
+    <div id="okCancelPopup" class="popup" style="width: 300px;">
+    <p id="ok-cancel-popup-heading" class="popupheading"></p>
+    <p>&nbsp;</p>
+    <p align="center" id="ok-cancel-popup-text"></p>
+    <p>&nbsp;</p>
+    <p align="center"><input type="button" value="OK" onclick="wpd.okCancelPopup.ok()"/> <input type="button" value="Cancel" onclick="wpd.okCancelPopup.cancel()"/></p>
+    </div>
+
 
 	<div id="axesList" class="popup" style="width: 400px;">
 	<p align="center" class="popupheading">Choose Plot Type</p>
