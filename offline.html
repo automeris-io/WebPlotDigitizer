@@ -254,17 +254,12 @@ Problems loading? Make sure you have a recent version of Google Chrome, Firefox,
 <!-- grid detection -->
 <div id="grid-detection-sidebar" class="sidebar">
 <p class="sidebar-title">Detect Grid</p>
-<p>Range</p>
-<table>
-    <tr>
-        <td>X_min </td><td><input type="text" id="grid-x-min" style="width:40px;"/> </td>
-        <td>, X_max </td><td><input type="text" id="grid-x-min" style="width:40px;"/></td>
-    </tr>
-    <tr>
-        <td>Y_min </td><td><input type="text" id="grid-x-min" style="width:40px;"/> </td>
-        <td>, Y_max </td><td><input type="text" id="grid-x-min" style="width:40px;"/></td>
-    </tr>
-</table>
+<p>Mask</p>
+<p>
+    <input type="button" value="Box" style="width: 70px;" id="grid-mask-box" onclick="wpd.gridDetection.markBox();"/>
+    <input type="button" value="Clear" style="width: 70px;" id="grid-mask-clear" onclick="wpd.gridDetection.clearMask();"/>
+    <input type="button" value="View"  style="width: 70px;" id="grid-mask-view" onclick="wpd.gridDetection.viewMask();"/>
+</p>
 <hr/>
 <table>
     <tr><td align="right">Horizontal </td><td><input type="checkbox" id="grid-horiz-enable"/></td></tr>
