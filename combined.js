@@ -253,6 +253,10 @@ wpd.AutoDetector = (function () {
                 this.generateBinaryDataFromMask();
             }
         };
+
+        this.generateGridBinaryData = function () {
+        };
+
     };
     return obj;
 })();
@@ -1076,6 +1080,44 @@ wpd.dateConverter = (function () {
 })();
 
 /*
+	WebPlotDigitizer - http://arohatgi.info/WebPlotdigitizer
+
+	Copyright 2010-2014 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+
+	This file is part of WebPlotDigitizer.
+
+    WebPlotDIgitizer is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    WebPlotDigitizer is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
+
+
+*/
+
+var wpd = wpd || {};
+
+wpd.GridLine = (function () {
+    var obj = function () {
+    };
+    return obj;
+})();
+
+wpd.gridDetectionCore = (function () {
+    function run() {
+    }
+    return {
+        run: run
+    };
+})();
+/*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
 	Copyright 2010-2014 Ankit Rohatgi <ankitrohatgi@hotmail.com>
@@ -1185,11 +1227,11 @@ wpd.taninverse = function(y,x) {
     return inv_ans;
 };
 /*
-	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
+    WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Copyright 2010-2014 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+    Copyright 2010-2014 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
-	This file is part of WebPlotDigitizer.
+    This file is part of WebPlotDigitizer.
 
     WebPlotDigitizer is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -1217,7 +1259,7 @@ wpd.AveragingWindowAlgo = (function () {
         var xStep = 5, yStep = 5;
 
         this.getParamList = function () {
-			return [['ΔX', 'Px', 10], ['ΔY', 'Px', 10]];
+            return [['ΔX', 'Px', 10], ['ΔY', 'Px', 10]];
         };
 
         this.setParam = function (index, val) {
@@ -1241,11 +1283,11 @@ wpd.AveragingWindowAlgo = (function () {
 })();
 
 /*
-	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
+    WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Copyright 2010-2014 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+    Copyright 2010-2014 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
-	This file is part of WebPlotDigitizer.
+    This file is part of WebPlotDigitizer.
 
     WebPlotDigitizer is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -1295,77 +1337,77 @@ wpd.AveragingWindowCore = (function () {
                 for (rowi = 0; rowi < dh; rowi++) {
                     if(binaryData[rowi*dw + coli] === true) {
                         if (rowi > firstbloby + yStep) {
-						    blobs = blobs + 1;
-						    bi = 1;
-						    blobAvg[blobs] = rowi;
-						    firstbloby = rowi;
-					    } else {
-						    bi = bi + 1;
-					    	blobAvg[blobs] = parseFloat((blobAvg[blobs]*(bi-1.0) + rowi)/parseFloat(bi));
-					    }
+                            blobs = blobs + 1;
+                            bi = 1;
+                            blobAvg[blobs] = rowi;
+                            firstbloby = rowi;
+                        } else {
+                            bi = bi + 1;
+                            blobAvg[blobs] = parseFloat((blobAvg[blobs]*(bi-1.0) + rowi)/parseFloat(bi));
+                        }
                     }
                 }
 
                 if (blobs >= 0) {
-					xi = coli;
-					for (blbi = 0; blbi <= blobs; blbi++) {
-					  yi = blobAvg[blbi];
-					  
-					  xPoints[xPointsPicked] = [];
-					  xPoints[xPointsPicked][0] = parseFloat(xi);
-					  xPoints[xPointsPicked][1] = parseFloat(yi);
-					  xPoints[xPointsPicked][2] = true; // true if not filtered, false if processed already
-					  xPointsPicked = xPointsPicked + 1;
-					}
-				}
-				
-			  }
+                    xi = coli;
+                    for (blbi = 0; blbi <= blobs; blbi++) {
+                      yi = blobAvg[blbi];
+                      
+                      xPoints[xPointsPicked] = [];
+                      xPoints[xPointsPicked][0] = parseFloat(xi);
+                      xPoints[xPointsPicked][1] = parseFloat(yi);
+                      xPoints[xPointsPicked][2] = true; // true if not filtered, false if processed already
+                      xPointsPicked = xPointsPicked + 1;
+                    }
+                }
+                
+              }
 
-			  if (xPointsPicked === 0) {
+              if (xPointsPicked === 0) {
                     return;
               }
-			  
-			  for(pi = 0; pi < xPointsPicked; pi++) {
-				if(xPoints[pi][2] === true) {// if still available
-				  inRange = true;
-				  xxi = pi+1;
-				  
-				  oldX = xPoints[pi][0];
-				  oldY = xPoints[pi][1];
-				  
-				  avgX = oldX;
-				  avgY = oldY;
-				  
-				  matches = 1;
-				  
-				  while((inRange === true) && (xxi < xPointsPicked)) {
+              
+              for(pi = 0; pi < xPointsPicked; pi++) {
+                if(xPoints[pi][2] === true) {// if still available
+                  inRange = true;
+                  xxi = pi+1;
+                  
+                  oldX = xPoints[pi][0];
+                  oldY = xPoints[pi][1];
+                  
+                  avgX = oldX;
+                  avgY = oldY;
+                  
+                  matches = 1;
+                  
+                  while((inRange === true) && (xxi < xPointsPicked)) {
                     newX = xPoints[xxi][0];
-					newY = xPoints[xxi][1];
-				
-					if( (Math.abs(newX-oldX) <= xStep) && (Math.abs(newY-oldY) <= yStep) && (xPoints[xxi][2] === true)) {
-					    avgX = (avgX*matches + newX)/(matches+1.0);
-					    avgY = (avgY*matches + newY)/(matches+1.0);
-					    matches = matches + 1;
-					    xPoints[xxi][2] = false;
-					}
-
-					if (newX > oldX + 2*xStep) {
-					    inRange = false;
+                    newY = xPoints[xxi][1];
+                
+                    if( (Math.abs(newX-oldX) <= xStep) && (Math.abs(newY-oldY) <= yStep) && (xPoints[xxi][2] === true)) {
+                        avgX = (avgX*matches + newX)/(matches+1.0);
+                        avgY = (avgY*matches + newY)/(matches+1.0);
+                        matches = matches + 1;
+                        xPoints[xxi][2] = false;
                     }
-				
-					xxi = xxi + 1;
-				  }
-				  
-				  xPoints[pi][2] = false; 
-				  
-				  pointsPicked = pointsPicked + 1;
+
+                    if (newX > oldX + 2*xStep) {
+                        inRange = false;
+                    }
+                
+                    xxi = xxi + 1;
+                  }
+                  
+                  xPoints[pi][2] = false; 
+                  
+                  pointsPicked = pointsPicked + 1;
                   dataSeries.addPixel(parseFloat(avgX), parseFloat(avgY));
 
-				}
-				
-			  }
+                }
+                
+              }
 
-			  xPoints = [];
+              xPoints = [];
 
               return dataSeries;
         };
