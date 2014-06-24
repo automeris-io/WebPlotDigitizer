@@ -1,10 +1,13 @@
-WebPlotDigitizer
+WebPlotDigitizer [![DOI](https://zenodo.org/badge/doi/10.5281/zenodo.10532.png)](http://dx.doi.org/10.5281/zenodo.10532)
 ================
 
 A web based tool to extract numerical data from plot images. Supports XY, Polar, Ternary diagrams and Maps.
 
 This tool has been developed using HTML5, CSS3 and Javascript and therefore runs from within the browser and requires no installation.
 
+Cite As
+-------
+Ankit Rohatgi (2014). Version 3.3 of WebPlotDigitizer. ZENODO. 10.5281/zenodo.10532
 
 Homepage
 --------
