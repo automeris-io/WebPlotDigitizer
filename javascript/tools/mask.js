@@ -41,32 +41,6 @@ wpd.dataMask = (function () {
         autoDetector.mask = maskData;
     }
 
-    function drawMask() {
-        var maskData = wpd.appData.getPlotData().getAutoDetector().mask;
-        
-        if(maskData == null || maskData.length === 0) {
-            return;
-        }
-
-        var i, ix, iy, img_index, scr_index,
-            ctx = wpd.graphicsWidget.getAllContexts(),
-            imageSize = wpd.graphicsWidget.getImageSize(),
-            oriData = ctx.oriDataCtx.getImageData(0, 0, imageSize.width, imageSize.height);
-
-        for(i = 0; i < maskData.length; i++) {
-            img_index = maskData[i];
-            ix = img_index % imageSize.width;
-            iy = parseInt(img_index / imageSize.height, 10);
-            oriData.data[img_index*4] = 255;
-            oriData.data[img_index*4+1] = 255;
-            oriData.data[img_index*4+2] = 0;
-            oriData.data[img_index*4+3] = 200;
-        }
-
-        ctx.oriDataCtx.putImageData(oriData, 0, 0, imageSize.width, imageSize.height);
-        wpd.graphicsWidget.copyImageDataLayerToScreen();
-    }
-
     function markBox() {
         var tool = new wpd.BoxMaskTool();
         wpd.graphicsWidget.setTool(tool);
@@ -89,7 +63,6 @@ wpd.dataMask = (function () {
 
     return {
         grabMask: grabMask,
-        drawMask: drawMask,
         markBox: markBox,
         markPen: markPen,
         eraseMarks: eraseMarks,
