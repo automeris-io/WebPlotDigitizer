@@ -57,13 +57,38 @@ wpd.gridDetection = (function () {
             maskData = [],
             i,
             mi = 0,
-            autoDetector = wpd.appData.getPlotData().getAutoDetector();
+            autoDetector = wpd.appData.getPlotData().getAutoDetector(),
+            x, y;
         for(i = 0; i < maskDataPx.data.length; i+=4) {
             if (maskDataPx.data[i] === 255 && maskDataPx.data[i+1] === 255 && maskDataPx.data[i+2] === 0) {
+                
                 maskData[mi] = i/4; mi++;
+
+                x = parseInt(i%imageSize.width, 10);
+                y = parseInt(i/imageSize.wigth, 10);
+
+                if (i == 0) {
+                    autoDetector.gridMask.xmin = x;
+                    autoDetector.gridMask.xmax = x;
+                    autoDetector.gridMask.ymin = y;
+                    autoDetector.gridMask.ymax = y;
+                } else {
+                    if (x < autoDetector.gridMask.xmin) {
+                        autoDetector.gridMask.xmin = x;
+                    }
+                    if (x > autoDetector.gridMask.xmax) {
+                        autoDetector.gridMask.xmax = x;
+                    }
+                    if (y < autoDetector.gridMask.ymin) {
+                        autoDetector.gridMask.ymin = y;
+                    }
+                    if (y > autoDetector.gridMask.ymax) {
+                        autoDetector.gridMask.ymax = y;
+                    }
+                }
             }
         }
-        autoDetector.gridMask = maskData;
+        autoDetector.gridMask.pixels = maskData;
     }
 
     return {
@@ -183,15 +208,15 @@ wpd.GridMaskPainter = (function () {
         var ctx = wpd.graphicsWidget.getAllContexts(),
             autoDetector = wpd.appData.getPlotData().getAutoDetector(),
             painter = function () {
-                if(autoDetector.gridMask == null || autoDetector.gridMask.length === 0) {
+                if(autoDetector.gridMask.pixels == null || autoDetector.gridMask.pixels.length === 0) {
                     return;
                 }
                 var maski, img_index,
                     imageSize = wpd.graphicsWidget.getImageSize();
                     imgData = ctx.oriDataCtx.getImageData(0, 0, imageSize.width, imageSize.height);
 
-                for(maski = 0; maski < autoDetector.gridMask.length; maski++) {
-                    img_index = autoDetector.gridMask[maski];
+                for(maski = 0; maski < autoDetector.gridMask.pixels.length; maski++) {
+                    img_index = autoDetector.gridMask.pixels[maski];
                     imgData.data[img_index*4] = 255;
                     imgData.data[img_index*4+1] = 255;
                     imgData.data[img_index*4+2] = 0;

@@ -38,3 +38,19 @@ wpd.taninverse = function(y,x) {
     inv_ans = 0.0;
     return inv_ans;
 };
+
+wpd.sqDist2d = function (x1, y1, x2, y2) {
+    return (x1 - x2)*(x1 - x2) + (y1 - y2)*(y1 - y2);
+};
+
+wpd.sqDist3d = function (x1, y1, z1, x2, y2, z2) {
+    return (x1 - x2)*(x1 - x2) + (y1 - y2)*(y1 - y2) + (z1 - z2)*(z1 - z2);
+};
+
+wpd.dist2d = function (x1, y1, x2, y2) {
+    return Math.sqrt(wpd.sqDist2d(x1, y1, x2, y2));
+};
+
+wpd.dist3d = function (x1, y1, z1, x2, y2, z2) {
+    return Math.sqrt(wpd.sqDist3d(x1, y1, z1, x2, y2, z2));
+};

@@ -19,3 +19,5 @@ var data = axes.pixelToData(50,50);
 assert.equal(data[0].toFixed(2), 0.5);
 assert.equal(data[1].toFixed(2), 0.5);
 
+console.log("done");
+
