@@ -171,12 +171,15 @@ wpd.AutoDetector = (function () {
         this.fgColor = [0, 0, 200];
         this.bgColor = [255, 255, 255];
         this.mask = null;
-        this.gridMask = null;
+        this.gridMask = { xmin: null, xmax: null, ymin: null, ymax: null, pixels: [] };
+        this.gridLineColor = [0, 0, 0];
+        this.gridColorDistance = 30;
         this.gridData = null;
         this.colorDetectionMode = 'fg';
         this.colorDistance = 120;
         this.algorithm = null;
         this.binaryData = null;
+        this.gridBinaryData = null;
         this.imageData = null;
         this.imageWidth = 0;
         this.imageHeight = 0;
@@ -255,6 +258,32 @@ wpd.AutoDetector = (function () {
         };
 
         this.generateGridBinaryData = function () {
+            this.gridBinaryData = [];
+
+            if (this.gridMask.pixels == null || this.gridMask.pixels.length === 0) {
+                return; // TODO: Allow full image to be used if no mask is present.
+            }
+
+            if (this.imageData == null) {
+                this.imageWidth = 0;
+                this.imageHeight = 0;
+                return;
+            }
+
+            this.imageWidth = this.imageData.width;
+            this.imageHeight = this.imageData.height;
+
+            var maski, img_index, dist;
+
+            for (maski = 0; maski < this.gridMask.pixels.length; maski++) {
+                img_index = this.gridMask.pixels[maski];
+                dist = wpd.dist3d(this.gridLineColor[0], this.gridLineColor[1], this.gridLineColor[2],
+                                  this.imageData.data[img_index*4], this.imageData.data[img_index*4 + 1],
+                                  this.imageData.data[img_index*4 + 2]);
+                if (dist < this.gridColorDistance) {
+                    this.gridBinaryData[img_index] = true;
+                }
+            }
         };
 
     };
@@ -391,59 +420,6 @@ wpd.colorAnalyzer = (function () {
 
     return {
         getTopColors: getTopColors
-    };
-})();
-/*
-	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
-
-	Copyright 2010-2014 Ankit Rohatgi <ankitrohatgi@hotmail.com>
-
-	This file is part of WebPlotDigitizer.
-
-    WebPlotDigitizer is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    WebPlotDigitizer is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
-
-
-*/
-
-var wpd = wpd || {};
-
-wpd.dataEventNames = {
-    axesAligned: 'axesAligned',
-    imageLoaded: 'imageLoaded'
-};
-
-wpd.dataEventManager = (function () {
-
-    var evtMap = {};
-
-    function fireEvent(name, data) {
-    }
-
-    function subscribe(name, method) {
-    }
-
-    function unsubscribe(name, method) {
-    }
-
-    function removeAllSubscriptionsForEvent(name) {
-    }
-
-    return {
-        fireEvent: fireEvent,
-        subscribe: subscribe,
-        unsubscribe: unsubscribe,
-        removeAllSubscriptionsForEvent: removeAllSubscriptionsForEvent
     };
 })();
 /*
@@ -707,6 +683,7 @@ wpd.PlotData = (function () {
         this.topColors = null;
         this.axes = null;
         this.dataSeriesColl = [];
+        this.gridData = null;
 
         this.angleMeasurementData = null;
         this.distanceMeasurementData = null;
@@ -765,6 +742,7 @@ wpd.PlotData = (function () {
             this.angleMeasurementData = null;
             this.distanceMeasurementData = null;
             this.dataSeriesColl = [];
+            this.gridData = null;
             activeSeriesIndex = 0;
             autoDetector = new wpd.AutoDetector();
         };
@@ -1111,10 +1089,28 @@ wpd.GridLine = (function () {
 })();
 
 wpd.gridDetectionCore = (function () {
+
+    var hasHorizontal, hasVertical, xDetectionWidth, yDetectionWidth, xMarkWidth, yMarkWidth;
+
     function run() {
     }
+
+    function setHorizontalParameters(has_horizontal, y_det_w, y_mark_w) {
+        hasHorizontal = has_horizontal;
+        yDetectionWidth = y_det_w;
+        yMarkWidth = y_mark_w;
+    }
+
+    function setVerticalParameters(has_vertical, x_det_w, x_mark_w) {
+        hasVertical = has_vertical;
+        xDetectionWidth = x_det_w;
+        xMarkWidth = x_mark_w;
+    }
+
     return {
-        run: run
+        run: run,
+        setHorizontalParameters: setHorizontalParameters,
+        setVerticalParameters: setVerticalParameters
     };
 })();
 /*
@@ -1226,62 +1222,22 @@ wpd.taninverse = function(y,x) {
     inv_ans = 0.0;
     return inv_ans;
 };
-/*
-    WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-    Copyright 2010-2014 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+wpd.sqDist2d = function (x1, y1, x2, y2) {
+    return (x1 - x2)*(x1 - x2) + (y1 - y2)*(y1 - y2);
+};
 
-    This file is part of WebPlotDigitizer.
+wpd.sqDist3d = function (x1, y1, z1, x2, y2, z2) {
+    return (x1 - x2)*(x1 - x2) + (y1 - y2)*(y1 - y2) + (z1 - z2)*(z1 - z2);
+};
 
-    WebPlotDigitizer is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+wpd.dist2d = function (x1, y1, x2, y2) {
+    return Math.sqrt(wpd.sqDist2d(x1, y1, x2, y2));
+};
 
-    WebPlotDigitizer is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
-
-
-*/
-
-
-var wpd = wpd || {};
-
-wpd.AveragingWindowAlgo = (function () {
-
-    var Algo = function () {
-
-        var xStep = 5, yStep = 5;
-
-        this.getParamList = function () {
-            return [['ΔX', 'Px', 10], ['ΔY', 'Px', 10]];
-        };
-
-        this.setParam = function (index, val) {
-            if(index === 0) {
-                xStep = val;
-            } else if(index === 1) {
-                yStep = val;
-            }
-        };
-
-        this.run = function (plotData) {
-            var autoDetector = plotData.getAutoDetector(),
-                dataSeries = plotData.getActiveDataSeries(),
-                algoCore = new wpd.AveragingWindowCore(autoDetector.binaryData, autoDetector.imageHeight, autoDetector.imageWidth, xStep, yStep, dataSeries);
-
-            algoCore.run();
-        };
-
-    };
-    return Algo;
-})();
-
+wpd.dist3d = function (x1, y1, z1, x2, y2, z2) {
+    return Math.sqrt(wpd.sqDist3d(x1, y1, z1, x2, y2, z2));
+};
 /*
     WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
@@ -1411,6 +1367,62 @@ wpd.AveragingWindowCore = (function () {
 
               return dataSeries;
         };
+    };
+    return Algo;
+})();
+
+/*
+    WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
+
+    Copyright 2010-2014 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+
+    This file is part of WebPlotDigitizer.
+
+    WebPlotDigitizer is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    WebPlotDigitizer is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
+
+
+*/
+
+
+var wpd = wpd || {};
+
+wpd.AveragingWindowAlgo = (function () {
+
+    var Algo = function () {
+
+        var xStep = 5, yStep = 5;
+
+        this.getParamList = function () {
+            return [['ΔX', 'Px', 10], ['ΔY', 'Px', 10]];
+        };
+
+        this.setParam = function (index, val) {
+            if(index === 0) {
+                xStep = val;
+            } else if(index === 1) {
+                yStep = val;
+            }
+        };
+
+        this.run = function (plotData) {
+            var autoDetector = plotData.getAutoDetector(),
+                dataSeries = plotData.getActiveDataSeries(),
+                algoCore = new wpd.AveragingWindowCore(autoDetector.binaryData, autoDetector.imageHeight, autoDetector.imageWidth, xStep, yStep, dataSeries);
+
+            algoCore.run();
+        };
+
     };
     return Algo;
 })();
@@ -5000,13 +5012,56 @@ wpd.gridDetection = (function () {
             maskData = [],
             i,
             mi = 0,
-            autoDetector = wpd.appData.getPlotData().getAutoDetector();
+            autoDetector = wpd.appData.getPlotData().getAutoDetector(),
+            x, y;
         for(i = 0; i < maskDataPx.data.length; i+=4) {
             if (maskDataPx.data[i] === 255 && maskDataPx.data[i+1] === 255 && maskDataPx.data[i+2] === 0) {
+                
                 maskData[mi] = i/4; mi++;
+
+                x = parseInt(i%imageSize.width, 10);
+                y = parseInt(i/imageSize.wigth, 10);
+
+                if (i == 0) {
+                    autoDetector.gridMask.xmin = x;
+                    autoDetector.gridMask.xmax = x;
+                    autoDetector.gridMask.ymin = y;
+                    autoDetector.gridMask.ymax = y;
+                } else {
+                    if (x < autoDetector.gridMask.xmin) {
+                        autoDetector.gridMask.xmin = x;
+                    }
+                    if (x > autoDetector.gridMask.xmax) {
+                        autoDetector.gridMask.xmax = x;
+                    }
+                    if (y < autoDetector.gridMask.ymin) {
+                        autoDetector.gridMask.ymin = y;
+                    }
+                    if (y > autoDetector.gridMask.ymax) {
+                        autoDetector.gridMask.ymax = y;
+                    }
+                }
             }
         }
-        autoDetector.gridMask = maskData;
+        autoDetector.gridMask.pixels = maskData;
+    }
+
+    function run() {
+        var autoDetector = wpd.appData.getPlotData().getAutoDetector();
+
+        autoDetector.generateGridBinaryData();
+
+        // gather detection parameters from GUI
+        wpd.gridDetectionCore.setHorizontalParameters(true, 5, 5);
+        wpd.gridDetectionCore.setVerticalParameters(true, 5, 5);
+
+        wpd.gridDetectionCore.run();
+    }
+
+    function clear() {
+        wpd.appData.getPlotData().gridData = null;
+        wpd.graphicsWidget.removeRepainter();
+        wpd.graphicsWidget.resetData();
     }
 
     return {
@@ -5014,7 +5069,9 @@ wpd.gridDetection = (function () {
         markBox: markBox,
         clearMask: clearMask,
         viewMask: viewMask,
-        grabMask: grabMask
+        grabMask: grabMask,
+        run: run,
+        clear: clear
     };
 })();
 
@@ -5126,15 +5183,15 @@ wpd.GridMaskPainter = (function () {
         var ctx = wpd.graphicsWidget.getAllContexts(),
             autoDetector = wpd.appData.getPlotData().getAutoDetector(),
             painter = function () {
-                if(autoDetector.gridMask == null || autoDetector.gridMask.length === 0) {
+                if(autoDetector.gridMask.pixels == null || autoDetector.gridMask.pixels.length === 0) {
                     return;
                 }
                 var maski, img_index,
                     imageSize = wpd.graphicsWidget.getImageSize();
                     imgData = ctx.oriDataCtx.getImageData(0, 0, imageSize.width, imageSize.height);
 
-                for(maski = 0; maski < autoDetector.gridMask.length; maski++) {
-                    img_index = autoDetector.gridMask[maski];
+                for(maski = 0; maski < autoDetector.gridMask.pixels.length; maski++) {
+                    img_index = autoDetector.gridMask.pixels[maski];
                     imgData.data[img_index*4] = 255;
                     imgData.data[img_index*4+1] = 255;
                     imgData.data[img_index*4+2] = 0;
