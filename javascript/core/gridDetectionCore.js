@@ -30,9 +30,27 @@ wpd.GridLine = (function () {
 })();
 
 wpd.gridDetectionCore = (function () {
+
+    var hasHorizontal, hasVertical, xDetectionWidth, yDetectionWidth, xMarkWidth, yMarkWidth;
+
     function run() {
     }
+
+    function setHorizontalParameters(has_horizontal, y_det_w, y_mark_w) {
+        hasHorizontal = has_horizontal;
+        yDetectionWidth = y_det_w;
+        yMarkWidth = y_mark_w;
+    }
+
+    function setVerticalParameters(has_vertical, x_det_w, x_mark_w) {
+        hasVertical = has_vertical;
+        xDetectionWidth = x_det_w;
+        xMarkWidth = x_mark_w;
+    }
+
     return {
-        run: run
+        run: run,
+        setHorizontalParameters: setHorizontalParameters,
+        setVerticalParameters: setVerticalParameters
     };
 })();
