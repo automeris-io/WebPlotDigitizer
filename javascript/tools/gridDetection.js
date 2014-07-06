@@ -91,12 +91,32 @@ wpd.gridDetection = (function () {
         autoDetector.gridMask.pixels = maskData;
     }
 
+    function run() {
+        var autoDetector = wpd.appData.getPlotData().getAutoDetector();
+
+        autoDetector.generateGridBinaryData();
+
+        // gather detection parameters from GUI
+        wpd.gridDetectionCore.setHorizontalParameters(true, 5, 5);
+        wpd.gridDetectionCore.setVerticalParameters(true, 5, 5);
+
+        wpd.gridDetectionCore.run();
+    }
+
+    function clear() {
+        wpd.appData.getPlotData().gridData = null;
+        wpd.graphicsWidget.removeRepainter();
+        wpd.graphicsWidget.resetData();
+    }
+
     return {
         start: start,
         markBox: markBox,
         clearMask: clearMask,
         viewMask: viewMask,
-        grabMask: grabMask
+        grabMask: grabMask,
+        run: run,
+        clear: clear
     };
 })();
 
