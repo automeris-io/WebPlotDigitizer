@@ -273,7 +273,10 @@ Problems loading? Make sure you have a recent version of Google Chrome, Firefox,
     <tr><td align="right">Line Width </td><td>&nbsp; <input type="text" id="grid-vert-line-width" style="width: 40px;"/></td></tr>
 </table>
 <hr/>
-<p><input type="button" value="Detect" style="width: 80px;"/> <input type="button" value="Clear" style="width: 80px;"/></p>
+<p>
+    <input type="button" value="Detect" style="width: 80px;" onclick="wpd.gridDetection.run();"/>
+    <input type="button" value="Clear" style="width: 80px;" onclick="wpd.gridDetection.clear();"/>
+</p>
 </div>
         </div>
 
