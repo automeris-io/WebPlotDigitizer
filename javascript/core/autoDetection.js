@@ -30,8 +30,8 @@ wpd.AutoDetector = (function () {
         this.bgColor = [255, 255, 255];
         this.mask = null;
         this.gridMask = { xmin: null, xmax: null, ymin: null, ymax: null, pixels: [] };
-        this.gridLineColor = [0, 0, 0];
-        this.gridColorDistance = 30;
+        this.gridLineColor = [150, 150, 150];
+        this.gridColorDistance = 150;
         this.gridData = null;
         this.colorDetectionMode = 'fg';
         this.colorDistance = 120;
@@ -47,7 +47,7 @@ wpd.AutoDetector = (function () {
             this.binaryData = null;
             this.imageData = null;
             this.gridData = null;
-            this.gridMask = null;
+            this.gridMask = { xmin: null, xmax: null, ymin: null, ymax: null, pixels: [] };
         };
 
         this.generateBinaryDataFromMask = function () {
