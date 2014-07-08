@@ -64,10 +64,10 @@ wpd.gridDetection = (function () {
                 
                 maskData[mi] = i/4; mi++;
 
-                x = parseInt(i%imageSize.width, 10);
-                y = parseInt(i/imageSize.wigth, 10);
+                x = parseInt((i/4)%imageSize.width, 10);
+                y = parseInt((i/4)/imageSize.width, 10);
 
-                if (i == 0) {
+                if (mi === 1) {
                     autoDetector.gridMask.xmin = x;
                     autoDetector.gridMask.xmax = x;
                     autoDetector.gridMask.ymin = y;
@@ -92,7 +92,15 @@ wpd.gridDetection = (function () {
     }
 
     function run() {
-        var autoDetector = wpd.appData.getPlotData().getAutoDetector();
+
+        wpd.graphicsWidget.removeTool();
+        wpd.graphicsWidget.removeRepainter();
+
+        var autoDetector = wpd.appData.getPlotData().getAutoDetector(),
+            ctx = wpd.graphicsWidget.getAllContexts(),
+            imageSize = wpd.graphicsWidget.getImageSize();
+        
+        autoDetector.imageData = ctx.oriImageCtx.getImageData(0, 0, imageSize.width, imageSize.height);
 
         autoDetector.generateGridBinaryData();
 
@@ -104,6 +112,7 @@ wpd.gridDetection = (function () {
     }
 
     function clear() {
+        wpd.graphicsWidget.removeTool();
         wpd.appData.getPlotData().gridData = null;
         wpd.graphicsWidget.removeRepainter();
         wpd.graphicsWidget.resetData();
