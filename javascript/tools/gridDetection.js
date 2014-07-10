@@ -122,7 +122,10 @@ wpd.gridDetection = (function () {
         wpd.colorSelectionWidget.setParams({
             color: wpd.appData.getPlotData().getAutoDetector().gridLineColor,
             triggerElementId: 'grid-color-picker-button',
-            title: 'Specify Grid Line Color'
+            title: 'Specify Grid Line Color',
+            setColorDelegate: function(col) {
+                wpd.appData.getPlotData().getAutoDetector().gridLineColor = col;
+            }
         });
         wpd.colorSelectionWidget.startPicker();
     }
