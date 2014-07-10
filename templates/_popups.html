@@ -263,4 +263,18 @@
 	<p>&nbsp;</p>
 	<p align="center"><input type="button" value="Close" onclick="wpd.popup.close('helpWindow');"></p>
 	</div>
-    	
+    
+    <div id="grid-color-picker" class="popup" style="width:400px;">
+	<p align="center" class="popupheading">Specify Grid Line Color</p>
+	<p align="center">&nbsp;</p>
+    <div style="text-align:center;"><div id="grid-selected-color-box" class="largeColorBox"></div></div>
+	<p align="center">&nbsp;</p>
+	<p align="center">R:<input type="text" value="255" id="grid-color-red" size="3">&nbsp;
+	G:<input type="text" id="grid-color-green" value="255" size="3">&nbsp; B:<input type="text" id="grid-color-blue" value="255" size="3">
+	 <input type="button" value="Color Picker" onclick="wpd.gridDetection.pickColor();"></p>
+	<p align="center">&nbsp;</p>
+    <p>Dominant Colors: <div id="grid-color-options" style="text-align:center;"></div></p>
+    <p>&nbsp;</p>
+	<p align="center"><input type="button" value="Done" onclick="wpd.gridDetection.setColor();"></p>
+	</div>
+

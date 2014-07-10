@@ -5144,12 +5144,84 @@ wpd.gridDetection = (function () {
         wpd.graphicsWidget.resetData();
     }
 
+    function startColorPicker() {
+        var color = wpd.appData.getPlotData().getAutoDetector().gridLineColor,
+            $selectedColor = document.getElementById('grid-selected-color-box');
+
+        $selectedColor.style.backgroundColor = 'rgb('+color[0]+','+color[1]+','+color[2]+')';
+        document.getElementById('grid-color-red').value = color[0];
+        document.getElementById('grid-color-green').value = color[1];
+        document.getElementById('grid-color-blue').value = color[2];
+        renderColorOptions();
+        wpd.popup.show('grid-color-picker');
+    }
+
+    function renderColorOptions() {
+        var containerDivId = 'grid-color-options',
+            $container = document.getElementById(containerDivId),
+            topColors = wpd.appData.getPlotData().topColors,
+            colorCount = topColors.length > 10 ? 10 : topColors.length,
+            colori,
+            containerHtml = "",
+            perc,
+            colorString;
+
+        for (colori = 0; colori < colorCount; colori++) {
+            colorString = 'rgb(' + topColors[colori].r + ',' + topColors[colori].g + ',' + topColors[colori].b + ');';
+            perc = topColors[colori].percentage.toFixed(3) + "%";
+            containerHtml += '<div class="colorOptionBox" style="background-color: ' + colorString + '\" title=\"' + perc +  '" onclick="wpd.gridDetection.selectTopColor('+ colori +');"></div>';
+        }
+
+        $container.innerHTML = containerHtml;
+    }
+
+    function pickColor() {
+        wpd.popup.close('grid-color-picker');
+        var tool = new wpd.ColorPickerTool();
+        tool.onComplete = function (col) {
+            wpd.appData.getPlotData().getAutoDetector().gridLineColor = col;
+            wpd.graphicsWidget.removeTool();
+            startColorPicker();
+        };
+        wpd.graphicsWidget.setTool(tool);
+    }
+
+    function setColor() {
+        var color = [];
+        color[0] = parseInt(document.getElementById('grid-color-red').value, 10);
+        color[1] = parseInt(document.getElementById('grid-color-green').value, 10);
+        color[2] = parseInt(document.getElementById('grid-color-blue').value, 10);
+        wpd.appData.getPlotData().getAutoDetector().gridLineColor = color;
+        wpd.popup.close('grid-color-picker');
+        start();
+    }
+
+    function selectTopColor(colorIndex) {
+        var color = [],
+            topColors = wpd.appData.getPlotData().topColors;
+
+        color[0] = topColors[colorIndex].r;
+        color[1] = topColors[colorIndex].g;
+        color[2] = topColors[colorIndex].b;
+
+        wpd.appData.getPlotData().getAutoDetector().gridLineColor = color;
+        startColorPicker();
+    }
+
+    function testColor() {
+    }
+
     return {
         start: start,
         markBox: markBox,
         clearMask: clearMask,
         viewMask: viewMask,
         grabMask: grabMask,
+        pickColor: pickColor,
+        setColor: setColor,
+        startColorPicker: startColorPicker,
+        selectTopColor: selectTopColor,
+        testColor: testColor,
         run: run,
         clear: clear
     };
