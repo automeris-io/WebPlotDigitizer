@@ -23,8 +23,120 @@
 
 var wpd = wpd || {};
 
+wpd.colorSelectionWidget = (function () {
+
+    var color,
+        triggerElementId,
+        title;
+    
+    function setParams(params) {
+        color = params.color;
+        triggerElementId = params.triggerElementId;
+        title = params.title;
+
+        var $widgetTitle = document.getElementById('color-selection-title');
+        $widgetTitle.innerHTML = title;
+    }
+
+    function apply() {
+        var $triggerBtn = document.getElementById(triggerElementId);
+        $triggerBtn.style.backgroundColor = 'rgb('+color[0]+','+color[1]+','+color[2]+')';
+    }
+
+    function startPicker() {
+        var $selectedColor = document.getElementById('color-selection-selected-color-box');
+        
+        $selectedColor.style.backgroundColor = 'rgb('+color[0]+','+color[1]+','+color[2]+')';
+        document.getElementById('color-selection-red').value = color[0];
+        document.getElementById('color-selection-green').value = color[1];
+        document.getElementById('color-selection-blue').value = color[2];
+        renderColorOptions();
+        wpd.popup.show('color-selection-widget');
+    }
+
+    function renderColorOptions() {
+        var $container = document.getElementById('color-selection-options'),
+            topColors = wpd.appData.getPlotData().topColors,
+            colorCount = topColors.length > 10 ? 10 : topColors.length,
+            colori,
+            containerHtml = "",
+            perc,
+            colorString;
+
+        for (colori = 0; colori < colorCount; colori++) {            
+            colorString = 'rgb(' + topColors[colori].r + ',' + topColors[colori].g + ',' + topColors[colori].b + ');';
+            perc = topColors[colori].percentage.toFixed(3) + "%";
+            containerHtml += '<div class="colorOptionBox" style="background-color: ' + colorString + '\" title=\"' + perc +  '" onclick="wpd.colorSelectionWidget.selectTopColor('+ colori +');"></div>';
+        }
+
+        $container.innerHTML = containerHtml;
+    }
+
+    function pickColor() {
+        wpd.popup.close('color-selection-widget');
+        var tool = new wpd.ColorPickerTool();
+        tool.onComplete = function (col) {
+            color = col;
+            wpd.graphicsWidget.removeTool();
+            startPicker();
+        };
+        wpd.graphicsWidget.setTool(tool);
+    }
+
+    function setColor() {
+        var gui_color = [];
+        gui_color[0] = parseInt(document.getElementById('color-selection-red').value, 10);
+        gui_color[1] = parseInt(document.getElementById('color-selection-green').value, 10);
+        gui_color[2] = parseInt(document.getElementById('color-selection-blue').value, 10);
+        color = gui_color;
+        wpd.popup.close('color-selection-widget');
+        apply();
+    }
+
+    function selectTopColor(colorIndex) {
+        var gui_color = [],
+            topColors = wpd.appData.getPlotData().topColors;
+
+        gui_color[0] = topColors[colorIndex].r;
+        gui_color[1] = topColors[colorIndex].g;
+        gui_color[2] = topColors[colorIndex].b;
+
+        color = gui_color;
+        startPicker();
+    }
+
+    function testColor() {
+    }
+
+    return {
+        setParams: setParams,
+        startPicker: startPicker,
+        pickColor: pickColor,
+        setColor: setColor,
+        selectTopColor: selectTopColor,
+        testColor: testColor
+    };
+
+})();
+
 wpd.colorPicker = (function () {
 
+    function getFGPickerParams() {
+        return {
+            color: wpd.appData.getPlotData().getAutoDetector().fgColor,
+            triggerElementId: 'color-button',
+            title: 'Specify Plot (Foreground) Color'
+        };
+    }
+
+    function getBGPickerParams() {
+        return {
+            color: wpd.appData.getPlotData().getAutoDetector().bgColor,
+            triggerElementId: 'color-button',
+            title: 'Specify Background Color'
+        };
+    }
+    
     function init() {
         var $colorBtn = document.getElementById('color-button'),
             $colorDistance = document.getElementById('color-distance-value'),
@@ -42,111 +154,6 @@ wpd.colorPicker = (function () {
         $colorBtn.style.backgroundColor = 'rgb('+color[0]+','+color[1]+','+color[2]+')';
         $colorDistance.value = color_distance;
         $modeSelector.value = autoDetector.colorDetectionMode;
-    }
-
-    function startFGPicker() {
-        var fg_color = wpd.appData.getPlotData().getAutoDetector().fgColor,
-            $selectedColor = document.getElementById('selectedFGColorBox');
-
-        $selectedColor.style.backgroundColor = 'rgb('+fg_color[0]+','+fg_color[1]+','+fg_color[2]+')';
-        document.getElementById('color_red_fg').value = fg_color[0];
-	    document.getElementById('color_green_fg').value = fg_color[1];
-		document.getElementById('color_blue_fg').value = fg_color[2];
-        renderColorOptions('fg');
-        wpd.popup.show('colorPickerFG');
-    }
-
-    function startBGPicker() {
-        var bg_color = wpd.appData.getPlotData().getAutoDetector().bgColor,
-            $selectedColor = document.getElementById('selectedBGColorBox');
-
-        $selectedColor.style.backgroundColor = 'rgb('+bg_color[0]+','+bg_color[1]+','+bg_color[2]+')';
-        document.getElementById('color_red_bg').value = bg_color[0];
-	    document.getElementById('color_green_bg').value = bg_color[1];
-		document.getElementById('color_blue_bg').value = bg_color[2];
-        renderColorOptions('bg');
-        wpd.popup.show('colorPickerBG');
-    }
-
-    function renderColorOptions(mode) {
-        var containerDivId = mode === 'fg' ? "fgColorOptions" : "bgColorOptions",
-            $container = document.getElementById(containerDivId),
-            topColors = wpd.appData.getPlotData().topColors,
-            colorCount = topColors.length > 10 ? 10 : topColors.length,
-            colori,
-            containerHtml = "",
-            perc,
-            colorString;
-
-        for (colori = 0; colori < colorCount; colori++) {
-
-            colorString = 'rgb(' + topColors[colori].r + ',' + topColors[colori].g + ',' + topColors[colori].b + ');';
-            perc = topColors[colori].percentage.toFixed(3) + "%";
-
-            containerHtml += '<div class="colorOptionBox" style="background-color: ' + colorString + '\" title=\"' + perc 
-                + '" onclick="wpd.colorPicker.selectTopColor('+ colori +',\''+ mode +'\');"></div>';
-        }
-
-        $container.innerHTML = containerHtml;
-    }
-
-    function selectTopColor(colorIndex, mode) {
-        var color = [],
-            topColors = wpd.appData.getPlotData().topColors;
-
-        color[0] = topColors[colorIndex].r;
-        color[1] = topColors[colorIndex].g;
-        color[2] = topColors[colorIndex].b;
-        
-        if (mode === 'fg') {
-            wpd.appData.getPlotData().getAutoDetector().fgColor = color;
-            startFGPicker();
-        } else {
-            wpd.appData.getPlotData().getAutoDetector().bgColor = color;
-            startBGPicker();
-        }
-    }
-
-    function pickFGColor() {
-        wpd.popup.close('colorPickerFG');
-        var tool = new wpd.ColorPickerTool();
-        tool.onComplete = function(col) {
-                wpd.appData.getPlotData().getAutoDetector().fgColor = col;
-                wpd.graphicsWidget.removeTool();
-                startFGPicker();
-            };
-        wpd.graphicsWidget.setTool(tool); 
-    }
-
-    function pickBGColor() {
-        wpd.popup.close('colorPickerBG');
-        var tool = new wpd.ColorPickerTool();
-        tool.onComplete = function(col) {
-                wpd.appData.getPlotData().getAutoDetector().bgColor = col;
-                wpd.graphicsWidget.removeTool();
-                startBGPicker();
-            };
-        wpd.graphicsWidget.setTool(tool); 
-    }
-
-    function setFGColor() {
-        var fg_color = [];
-        fg_color[0] = parseInt(document.getElementById('color_red_fg').value, 10);
-	    fg_color[1] = parseInt(document.getElementById('color_green_fg').value, 10);
-		fg_color[2] = parseInt(document.getElementById('color_blue_fg').value, 10);
-        wpd.appData.getPlotData().getAutoDetector().fgColor = fg_color;
-        wpd.popup.close('colorPickerFG');
-        init();
-    }
-
-    function setBGColor() {
-        var bg_color = [];
-        bg_color[0] = parseInt(document.getElementById('color_red_bg').value, 10);
-	    bg_color[1] = parseInt(document.getElementById('color_green_bg').value, 10);
-		bg_color[2] = parseInt(document.getElementById('color_blue_bg').value, 10);
-        wpd.appData.getPlotData().getAutoDetector().bgColor = bg_color;
-        wpd.popup.close('colorPickerBG');
-        init();
     }
 
     function changeColorDistance() {
@@ -205,10 +212,11 @@ wpd.colorPicker = (function () {
         wpd.graphicsWidget.removeRepainter();
         wpd.graphicsWidget.resetData();
         if(wpd.appData.getPlotData().getAutoDetector().colorDetectionMode === 'fg') {
-            startFGPicker();
+            wpd.colorSelectionWidget.setParams(getFGPickerParams());
         } else {
-            startBGPicker();
+            wpd.colorSelectionWidget.setParams(getBGPickerParams());
         }
+        wpd.colorSelectionWidget.startPicker();
     }
 
     function changeDetectionMode() {
@@ -220,15 +228,10 @@ wpd.colorPicker = (function () {
     return {
         startPicker: startPicker,
         changeDetectionMode: changeDetectionMode,
-        pickFGColor: pickFGColor,
-        pickBGColor: pickBGColor,
-        setFGColor: setFGColor,
-        setBGColor: setBGColor,
         changeColorDistance: changeColorDistance,
         init: init,
         testColorDetection: testColorDetection,
-        paintFilteredColor: paintFilteredColor,
-        selectTopColor: selectTopColor
+        paintFilteredColor: paintFilteredColor
     };
 })();
 
