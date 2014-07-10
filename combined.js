@@ -4879,7 +4879,40 @@ wpd.colorSelectionWidget = (function () {
         startPicker();
     }
 
-    function testColor() {
+    function paintFilteredColor(binaryData, maskPixels) {
+         var ctx = wpd.graphicsWidget.getAllContexts(),
+            autoDetector = wpd.appData.getPlotData().getAutoDetector(),
+            imageSize = wpd.graphicsWidget.getImageSize(),
+            maski,
+            img_index,
+            imgx, imgy,
+            dataLayer;
+
+        dataLayer = ctx.oriDataCtx.getImageData(0, 0, imageSize.width, imageSize.height);
+
+        if(maskPixels == null || maskPixels.length === 0) {
+            return;
+        }
+
+        for(maski = 0; maski < maskPixels.length; maski++) {
+            img_index = maskPixels[maski];
+            if(binaryData[img_index] === true) {
+                imgx = img_index % imageSize.width;
+                imgy = parseInt(img_index/imageSize.width, 10);
+                dataLayer.data[img_index*4] = 255;
+                dataLayer.data[img_index*4+1] = 255;
+                dataLayer.data[img_index*4+2] = 0;
+                dataLayer.data[img_index*4+3] = 255;                
+            } else {
+                dataLayer.data[img_index*4] = 0;
+                dataLayer.data[img_index*4+1] = 0;
+                dataLayer.data[img_index*4+2] = 0;
+                dataLayer.data[img_index*4+3] = 150;   
+            }
+        }
+
+        ctx.oriDataCtx.putImageData(dataLayer, 0, 0);
+        wpd.graphicsWidget.copyImageDataLayerToScreen();
     }
 
     return {
@@ -4888,7 +4921,7 @@ wpd.colorSelectionWidget = (function () {
         pickColor: pickColor,
         setColor: setColor,
         selectTopColor: selectTopColor,
-        testColor: testColor
+        paintFilteredColor: paintFilteredColor
     };
 
 })();
@@ -4941,50 +4974,18 @@ wpd.colorPicker = (function () {
         wpd.appData.getPlotData().getAutoDetector().colorDistance = color_distance;
     }
 
-    function paintFilteredColor() {
-         var ctx = wpd.graphicsWidget.getAllContexts(),
-            autoDetector = wpd.appData.getPlotData().getAutoDetector(),
-            imageSize = wpd.graphicsWidget.getImageSize(),
-            maski,
-            img_index,
-            imgx, imgy,
-            dataLayer;
-
-        dataLayer = ctx.oriDataCtx.getImageData(0, 0, imageSize.width, imageSize.height);
-
-        autoDetector.imageData = ctx.oriImageCtx.getImageData(0, 0, imageSize.width, imageSize.height);
-        autoDetector.generateBinaryData();
-        
-        if(autoDetector.mask == null || autoDetector.mask.length === 0) {
-            return;
-        }
-
-        for(maski = 0; maski < autoDetector.mask.length; maski++) {
-            img_index = autoDetector.mask[maski];
-            if(autoDetector.binaryData[img_index] === true) {
-                imgx = img_index % imageSize.width;
-                imgy = parseInt(img_index/imageSize.width, 10);
-                dataLayer.data[img_index*4] = 255;
-                dataLayer.data[img_index*4+1] = 255;
-                dataLayer.data[img_index*4+2] = 0;
-                dataLayer.data[img_index*4+3] = 255;                
-            } else {
-                dataLayer.data[img_index*4] = 0;
-                dataLayer.data[img_index*4+1] = 0;
-                dataLayer.data[img_index*4+2] = 0;
-                dataLayer.data[img_index*4+3] = 150;   
-            }
-        }
-
-        ctx.oriDataCtx.putImageData(dataLayer, 0, 0);
-        wpd.graphicsWidget.copyImageDataLayerToScreen();
-    }
-
     function testColorDetection() {
         wpd.graphicsWidget.removeTool();
         wpd.graphicsWidget.resetData();
         wpd.graphicsWidget.setRepainter(new wpd.ColorFilterRepainter());
-        paintFilteredColor(); 
+
+        var ctx = wpd.graphicsWidget.getAllContexts(),
+            autoDetector = wpd.appData.getPlotData().getAutoDetector(),
+            imageSize = wpd.graphicsWidget.getImageSize();
+
+        autoDetector.imageData = ctx.oriImageCtx.getImageData(0, 0, imageSize.width, imageSize.height);
+        autoDetector.generateBinaryData();
+        wpd.colorSelectionWidget.paintFilteredColor(autoDetector.binaryData, autoDetector.mask); 
     }
     
     function startPicker() {
@@ -5010,8 +5011,7 @@ wpd.colorPicker = (function () {
         changeDetectionMode: changeDetectionMode,
         changeColorDistance: changeColorDistance,
         init: init,
-        testColorDetection: testColorDetection,
-        paintFilteredColor: paintFilteredColor
+        testColorDetection: testColorDetection
     };
 })();
 
@@ -5033,7 +5033,8 @@ wpd.ColorFilterRepainter = (function () {
         this.painterName = 'colorFilterRepainter';
 
         this.onRedraw = function () {
-            wpd.colorPicker.paintFilteredColor();
+            var autoDetector = wpd.appData.getPlotData().getAutoDetector();
+            wpd.colorSelectionWidget.paintFilteredColor(autoDetector.binaryData, autoDetector.mask);
         };
     }
     return Painter;
@@ -5085,7 +5086,13 @@ wpd.gridDetection = (function () {
     function clearMask() {
         wpd.graphicsWidget.removeTool();
         wpd.graphicsWidget.removeRepainter();
-        wpd.appData.getPlotData().getAutoDetector().gridMask = null;
+        wpd.appData.getPlotData().getAutoDetector().gridMask = {
+                xmin: null,
+                xmax: null,
+                ymin: null,
+                ymax: null,
+                pixels: []
+            };
         wpd.graphicsWidget.resetData();
     }
 
@@ -5171,6 +5178,22 @@ wpd.gridDetection = (function () {
     }
 
     function testColor() {
+        wpd.graphicsWidget.removeTool();
+        wpd.graphicsWidget.resetData();
+        wpd.graphicsWidget.setRepainter(new wpd.GridColorFilterRepainter());
+
+        var ctx = wpd.graphicsWidget.getAllContexts(),
+            autoDetector = wpd.appData.getPlotData().getAutoDetector(),
+            imageSize = wpd.graphicsWidget.getImageSize();
+
+        autoDetector.imageData = ctx.oriImageCtx.getImageData(0, 0, imageSize.width, imageSize.height);
+        autoDetector.generateGridBinaryData();
+        wpd.colorSelectionWidget.paintFilteredColor(autoDetector.gridBinaryData, autoDetector.gridMask.pixels);
+    }
+
+    function changeColorDistance() {
+        var color_distance = parseFloat(document.getElementById('grid-color-distance').value);
+        wpd.appData.getPlotData().getAutoDetector().gridColorDistance = color_distance;
     }
      
     return {
@@ -5180,11 +5203,26 @@ wpd.gridDetection = (function () {
         viewMask: viewMask,
         grabMask: grabMask,
         startColorPicker: startColorPicker,
+        changeColorDistance: changeColorDistance,
         testColor: testColor,
         run: run,
         clear: clear
     };
 })();
+
+
+wpd.GridColorFilterRepainter = (function () {
+    var Painter = function () {
+        this.painterName = 'gridColorFilterRepainter';
+
+        this.onRedraw = function () {
+            var autoDetector = wpd.appData.getPlotData().getAutoDetector();
+            wpd.colorSelectionWidget.paintFilteredColor(autoDetector.gridBinaryData, autoDetector.gridMask.pixels);
+        };
+    }
+    return Painter;
+})();
+
 
 // TODO: Think of reusing mask.js code here
 wpd.GridBoxTool = (function () {
