@@ -303,7 +303,7 @@ Problems loading? Make sure you have a recent version of Google Chrome, Firefox,
 <p>
     Color
     <input type="button" value="Pick" style="width: 60px;" id="grid-color-picker-button" onclick="wpd.gridDetection.startColorPicker();"/>
-    <input type="text" value="120" style="width: 60px;" id="grid-color-distance"/>
+    <input type="text" value="120" style="width: 60px;" id="grid-color-distance" onchange="wpd.gridDetection.changeColorDistance();"/>
     <input type="button" value="Test" style="width: 60px;" id="grid-color-test" onclick="wpd.gridDetection.testColor();"/>
 </p>
 <hr/>
