@@ -4796,12 +4796,14 @@ wpd.colorSelectionWidget = (function () {
 
     var color,
         triggerElementId,
-        title;
+        title,
+        setColorDelegate;
     
     function setParams(params) {
         color = params.color;
         triggerElementId = params.triggerElementId;
         title = params.title;
+        setColorDelegate = params.setColorDelegate;
 
         var $widgetTitle = document.getElementById('color-selection-title');
         $widgetTitle.innerHTML = title;
@@ -4846,6 +4848,7 @@ wpd.colorSelectionWidget = (function () {
         var tool = new wpd.ColorPickerTool();
         tool.onComplete = function (col) {
             color = col;
+            setColorDelegate(col);
             wpd.graphicsWidget.removeTool();
             startPicker();
         };
@@ -4858,6 +4861,7 @@ wpd.colorSelectionWidget = (function () {
         gui_color[1] = parseInt(document.getElementById('color-selection-green').value, 10);
         gui_color[2] = parseInt(document.getElementById('color-selection-blue').value, 10);
         color = gui_color;
+        setColorDelegate(gui_color);
         wpd.popup.close('color-selection-widget');
         apply();
     }
@@ -4871,6 +4875,7 @@ wpd.colorSelectionWidget = (function () {
         gui_color[2] = topColors[colorIndex].b;
 
         color = gui_color;
+        setColorDelegate(gui_color);
         startPicker();
     }
 
@@ -4894,7 +4899,10 @@ wpd.colorPicker = (function () {
         return {
             color: wpd.appData.getPlotData().getAutoDetector().fgColor,
             triggerElementId: 'color-button',
-            title: 'Specify Plot (Foreground) Color'
+            title: 'Specify Plot (Foreground) Color',
+            setColorDelegate: function(col) {
+                wpd.appData.getPlotData().getAutoDetector().fgColor = col;
+            }
         };
     }
 
@@ -4902,7 +4910,10 @@ wpd.colorPicker = (function () {
         return {
             color: wpd.appData.getPlotData().getAutoDetector().bgColor,
             triggerElementId: 'color-button',
-            title: 'Specify Background Color'
+            title: 'Specify Background Color',
+            setColorDelegate: function(col) {
+                wpd.appData.getPlotData().getAutoDetector().bgColor = col;
+            }
         };
     }
     
@@ -5151,7 +5162,10 @@ wpd.gridDetection = (function () {
         wpd.colorSelectionWidget.setParams({
             color: wpd.appData.getPlotData().getAutoDetector().gridLineColor,
             triggerElementId: 'grid-color-picker-button',
-            title: 'Specify Grid Line Color'
+            title: 'Specify Grid Line Color',
+            setColorDelegate: function(col) {
+                wpd.appData.getPlotData().getAutoDetector().gridLineColor = col;
+            }
         });
         wpd.colorSelectionWidget.startPicker();
     }
