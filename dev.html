@@ -557,34 +557,6 @@ Problems loading? Make sure you have a recent version of Google Chrome, Firefox,
 	<p align="center"><input type="button" value="Proceed" onclick="wpd.ternaryCalibration.pickCorners();"></p>
 	</div>
 
-	<div id="colorPickerFG" class="popup" style="width:400px;">
-	<p align="center" class="popupheading">Specify Plot (Foreground) Color</p>
-	<p align="center">&nbsp;</p>
-    <div style="text-align:center;"><div id="selectedFGColorBox" class="largeColorBox"></div></div>
-	<p align="center">&nbsp;</p>
-	<p align="center">R:<input type="text" value="0" id="color_red_fg" size="3">&nbsp;
-	G:<input type="text" id="color_green_fg" value="0" size="3">&nbsp; B:<input type="text" id="color_blue_fg" value="0" size="3">
-	 <input type="button" value="Color Picker" onclick="wpd.colorPicker.pickFGColor();"></p>
-	<p align="center">&nbsp;</p>
-    <p>Dominant Colors: <div id="fgColorOptions" style="text-align:center;"></div></p>
-    <p>&nbsp;</p>
-	<p align="center"><input type="button" value="Done" onclick="wpd.colorPicker.setFGColor();"></p>
-	</div>
-
-	<div id="colorPickerBG" class="popup" style="width:400px;">
-	<p align="center" class="popupheading">Specify Background Color</p>
-	<p align="center">&nbsp;</p>
-    <div style="text-align:center;"><div id="selectedBGColorBox" class="largeColorBox"></div></div>
-	<p align="center">&nbsp;</p>
-	<p align="center">R:<input type="text" value="255" id="color_red_bg" size="3">&nbsp;
-	G:<input type="text" id="color_green_bg" value="255" size="3">&nbsp; B:<input type="text" id="color_blue_bg" value="255" size="3">
-	 <input type="button" value="Color Picker" onclick="wpd.colorPicker.pickBGColor();"></p>
-	<p align="center">&nbsp;</p>
-    <p>Dominant Colors: <div id="bgColorOptions" style="text-align:center;"></div></p>
-    <p>&nbsp;</p>
-	<p align="center"><input type="button" value="Done" onclick="wpd.colorPicker.setBGColor();"></p>
-	</div>
-
 	<div id="helpWindow" class="popup" style="width: 550px;">
 	<p class="popupheading">WebPlotDigitizer - Web Based Plot Digitizer</p>
 	<p>&nbsp;</p>
@@ -596,19 +568,20 @@ Problems loading? Make sure you have a recent version of Google Chrome, Firefox,
 	<p align="center"><input type="button" value="Close" onclick="wpd.popup.close('helpWindow');"></p>
 	</div>
     
-    <div id="grid-color-picker" class="popup" style="width:400px;">
-	<p align="center" class="popupheading">Specify Grid Line Color</p>
+    <div id="color-selection-widget" class="popup" style="width:400px;">
+	<p align="center" id="color-selection-title" class="popupheading">Specify Color</p>
 	<p align="center">&nbsp;</p>
-    <div style="text-align:center;"><div id="grid-selected-color-box" class="largeColorBox"></div></div>
+    <div style="text-align:center;"><div id="color-selection-selected-color-box" class="largeColorBox"></div></div>
 	<p align="center">&nbsp;</p>
-	<p align="center">R:<input type="text" value="255" id="grid-color-red" size="3">&nbsp;
-	G:<input type="text" id="grid-color-green" value="255" size="3">&nbsp; B:<input type="text" id="grid-color-blue" value="255" size="3">
-	 <input type="button" value="Color Picker" onclick="wpd.gridDetection.pickColor();"></p>
+	<p align="center">R:<input type="text" value="255" id="color-selection-red" size="3">&nbsp;
+	G:<input type="text" id="color-selection-green" value="255" size="3">&nbsp; B:<input type="text" id="color-selection-blue" value="255" size="3">
+	 <input type="button" value="Color Picker" onclick="wpd.colorSelectionWidget.pickColor();"></p>
 	<p align="center">&nbsp;</p>
-    <p>Dominant Colors: <div id="grid-color-options" style="text-align:center;"></div></p>
+    <p>Dominant Colors: <div id="color-selection-options" style="text-align:center;"></div></p>
     <p>&nbsp;</p>
-	<p align="center"><input type="button" value="Done" onclick="wpd.gridDetection.setColor();"></p>
+	<p align="center"><input type="button" value="Done" onclick="wpd.colorSelectionWidget.setColor();"></p>
 	</div>
+
 
 
 </body>
