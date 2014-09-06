@@ -95,24 +95,34 @@
 <!-- grid detection -->
 <div id="grid-detection-sidebar" class="sidebar">
 <p class="sidebar-title">Detect Grid</p>
-<p>Mask</p>
 <p>
-    <input type="button" value="Box" style="width: 70px;" id="grid-mask-box" onclick="wpd.gridDetection.markBox();"/>
-    <input type="button" value="Clear" style="width: 70px;" id="grid-mask-clear" onclick="wpd.gridDetection.clearMask();"/>
-    <input type="button" value="View"  style="width: 70px;" id="grid-mask-view" onclick="wpd.gridDetection.viewMask();"/>
+    Mask
+    <input type="button" value="Box" style="width: 60px;" id="grid-mask-box" onclick="wpd.gridDetection.markBox();"/>
+    <input type="button" value="Clear" style="width: 60px;" id="grid-mask-clear" onclick="wpd.gridDetection.clearMask();"/>
+    <input type="button" value="View"  style="width: 60px;" id="grid-mask-view" onclick="wpd.gridDetection.viewMask();"/>
+</p>
+<hr/>
+<p>
+    Color
+    <input type="button" value="Pick" style="width: 60px;" id="grid-color-picker-button" onclick="wpd.gridDetection.startColorPicker();"/>
+    <input type="text" value="120" style="width: 60px;" id="grid-color-distance" onchange="wpd.gridDetection.changeColorDistance();"/>
+    <input type="button" value="Test" style="width: 60px;" id="grid-color-test" onclick="wpd.gridDetection.testColor();"/>
 </p>
 <hr/>
 <table>
-    <tr><td align="right">Horizontal </td><td><input type="checkbox" id="grid-horiz-enable"/></td></tr>
-    <tr><td align="right">Detection Width </td><td>&nbsp; <input type="text" id="grid-horiz-detection-width" style="width: 40px;"/></td></tr>
-    <tr><td align="right">Line Width </td><td>&nbsp; <input type="text" id="grid-horiz-line-width" style="width: 40px;"/></td></tr>
+    <tr><td align="right">Horizontal </td><td><input type="checkbox" id="grid-horiz-enable" checked/></td></tr>
+    <tr><td align="right">Detection Width </td><td>&nbsp; <input type="text" value="5" id="grid-horiz-detection-width" style="width: 40px;"/></td></tr>
+    <tr><td align="right">Line Width </td><td>&nbsp; <input type="text" value="5" id="grid-horiz-line-width" style="width: 40px;"/></td></tr>
 </table>
 <hr/>
 <table>
-    <tr><td align="right">Vertical </td><td><input type="checkbox" id="grid-vert-enable"/></td></tr>
-    <tr><td align="right">Detection Width </td><td>&nbsp; <input type="text" id="grid-vert-detection-width" style="width: 40px;"/></td></tr>
-    <tr><td align="right">Line Width </td><td>&nbsp; <input type="text" id="grid-vert-line-width" style="width: 40px;"/></td></tr>
+    <tr><td align="right">Vertical </td><td><input type="checkbox" id="grid-vert-enable" checked/></td></tr>
+    <tr><td align="right">Detection Width </td><td>&nbsp; <input type="text" value="5" id="grid-vert-detection-width" style="width: 40px;"/></td></tr>
+    <tr><td align="right">Line Width </td><td>&nbsp; <input type="text" value="5" id="grid-vert-line-width" style="width: 40px;"/></td></tr>
 </table>
 <hr/>
-<p><input type="button" value="Detect" style="width: 80px;"/> <input type="button" value="Clear" style="width: 80px;"/></p>
+<p>
+    <input type="button" value="Detect" style="width: 80px;" onclick="wpd.gridDetection.run();"/>
+    <input type="button" value="Clear" style="width: 80px;" onclick="wpd.gridDetection.clear();"/>
+</p>
 </div>

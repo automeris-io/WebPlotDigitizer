@@ -30,13 +30,14 @@ wpd.AutoDetector = (function () {
         this.bgColor = [255, 255, 255];
         this.mask = null;
         this.gridMask = { xmin: null, xmax: null, ymin: null, ymax: null, pixels: [] };
-        this.gridLineColor = [0, 0, 0];
-        this.gridColorDistance = 30;
+        this.gridLineColor = [150, 150, 150];
+        this.gridColorDistance = 150;
         this.gridData = null;
         this.colorDetectionMode = 'fg';
         this.colorDistance = 120;
         this.algorithm = null;
         this.binaryData = null;
+        this.gridBinaryData = null;
         this.imageData = null;
         this.imageWidth = 0;
         this.imageHeight = 0;
@@ -46,7 +47,7 @@ wpd.AutoDetector = (function () {
             this.binaryData = null;
             this.imageData = null;
             this.gridData = null;
-            this.gridMask = null;
+            this.gridMask = { xmin: null, xmax: null, ymin: null, ymax: null, pixels: [] };
         };
 
         this.generateBinaryDataFromMask = function () {
@@ -115,6 +116,32 @@ wpd.AutoDetector = (function () {
         };
 
         this.generateGridBinaryData = function () {
+            this.gridBinaryData = [];
+
+            if (this.gridMask.pixels == null || this.gridMask.pixels.length === 0) {
+                return; // TODO: Allow full image to be used if no mask is present.
+            }
+
+            if (this.imageData == null) {
+                this.imageWidth = 0;
+                this.imageHeight = 0;
+                return;
+            }
+
+            this.imageWidth = this.imageData.width;
+            this.imageHeight = this.imageData.height;
+
+            var maski, img_index, dist;
+
+            for (maski = 0; maski < this.gridMask.pixels.length; maski++) {
+                img_index = this.gridMask.pixels[maski];
+                dist = wpd.dist3d(this.gridLineColor[0], this.gridLineColor[1], this.gridLineColor[2],
+                                  this.imageData.data[img_index*4], this.imageData.data[img_index*4 + 1],
+                                  this.imageData.data[img_index*4 + 2]);
+                if (dist < this.gridColorDistance) {
+                    this.gridBinaryData[img_index] = true;
+                }
+            }
         };
 
     };

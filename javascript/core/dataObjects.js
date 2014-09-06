@@ -259,6 +259,7 @@ wpd.PlotData = (function () {
         this.topColors = null;
         this.axes = null;
         this.dataSeriesColl = [];
+        this.gridData = null;
 
         this.angleMeasurementData = null;
         this.distanceMeasurementData = null;
@@ -317,6 +318,7 @@ wpd.PlotData = (function () {
             this.angleMeasurementData = null;
             this.distanceMeasurementData = null;
             this.dataSeriesColl = [];
+            this.gridData = null;
             activeSeriesIndex = 0;
             autoDetector = new wpd.AutoDetector();
         };

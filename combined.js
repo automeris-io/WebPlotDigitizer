@@ -171,12 +171,15 @@ wpd.AutoDetector = (function () {
         this.fgColor = [0, 0, 200];
         this.bgColor = [255, 255, 255];
         this.mask = null;
-        this.gridMask = null;
+        this.gridMask = { xmin: null, xmax: null, ymin: null, ymax: null, pixels: [] };
+        this.gridLineColor = [150, 150, 150];
+        this.gridColorDistance = 150;
         this.gridData = null;
         this.colorDetectionMode = 'fg';
         this.colorDistance = 120;
         this.algorithm = null;
         this.binaryData = null;
+        this.gridBinaryData = null;
         this.imageData = null;
         this.imageWidth = 0;
         this.imageHeight = 0;
@@ -186,7 +189,7 @@ wpd.AutoDetector = (function () {
             this.binaryData = null;
             this.imageData = null;
             this.gridData = null;
-            this.gridMask = null;
+            this.gridMask = { xmin: null, xmax: null, ymin: null, ymax: null, pixels: [] };
         };
 
         this.generateBinaryDataFromMask = function () {
@@ -255,6 +258,32 @@ wpd.AutoDetector = (function () {
         };
 
         this.generateGridBinaryData = function () {
+            this.gridBinaryData = [];
+
+            if (this.gridMask.pixels == null || this.gridMask.pixels.length === 0) {
+                return; // TODO: Allow full image to be used if no mask is present.
+            }
+
+            if (this.imageData == null) {
+                this.imageWidth = 0;
+                this.imageHeight = 0;
+                return;
+            }
+
+            this.imageWidth = this.imageData.width;
+            this.imageHeight = this.imageData.height;
+
+            var maski, img_index, dist;
+
+            for (maski = 0; maski < this.gridMask.pixels.length; maski++) {
+                img_index = this.gridMask.pixels[maski];
+                dist = wpd.dist3d(this.gridLineColor[0], this.gridLineColor[1], this.gridLineColor[2],
+                                  this.imageData.data[img_index*4], this.imageData.data[img_index*4 + 1],
+                                  this.imageData.data[img_index*4 + 2]);
+                if (dist < this.gridColorDistance) {
+                    this.gridBinaryData[img_index] = true;
+                }
+            }
         };
 
     };
@@ -391,59 +420,6 @@ wpd.colorAnalyzer = (function () {
 
     return {
         getTopColors: getTopColors
-    };
-})();
-/*
-	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
-
-	Copyright 2010-2014 Ankit Rohatgi <ankitrohatgi@hotmail.com>
-
-	This file is part of WebPlotDigitizer.
-
-    WebPlotDigitizer is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    WebPlotDigitizer is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
-
-
-*/
-
-var wpd = wpd || {};
-
-wpd.dataEventNames = {
-    axesAligned: 'axesAligned',
-    imageLoaded: 'imageLoaded'
-};
-
-wpd.dataEventManager = (function () {
-
-    var evtMap = {};
-
-    function fireEvent(name, data) {
-    }
-
-    function subscribe(name, method) {
-    }
-
-    function unsubscribe(name, method) {
-    }
-
-    function removeAllSubscriptionsForEvent(name) {
-    }
-
-    return {
-        fireEvent: fireEvent,
-        subscribe: subscribe,
-        unsubscribe: unsubscribe,
-        removeAllSubscriptionsForEvent: removeAllSubscriptionsForEvent
     };
 })();
 /*
@@ -707,6 +683,7 @@ wpd.PlotData = (function () {
         this.topColors = null;
         this.axes = null;
         this.dataSeriesColl = [];
+        this.gridData = null;
 
         this.angleMeasurementData = null;
         this.distanceMeasurementData = null;
@@ -765,6 +742,7 @@ wpd.PlotData = (function () {
             this.angleMeasurementData = null;
             this.distanceMeasurementData = null;
             this.dataSeriesColl = [];
+            this.gridData = null;
             activeSeriesIndex = 0;
             autoDetector = new wpd.AutoDetector();
         };
@@ -1104,17 +1082,106 @@ wpd.dateConverter = (function () {
 
 var wpd = wpd || {};
 
-wpd.GridLine = (function () {
-    var obj = function () {
-    };
-    return obj;
-})();
-
 wpd.gridDetectionCore = (function () {
+
+    var hasHorizontal, hasVertical, xDetectionWidth, yDetectionWidth, xMarkWidth, yMarkWidth;
+
     function run() {
+        var gridData = [],
+            xi,
+            delx,
+            yi,
+            dely,
+            pix,
+            autoDetector = wpd.appData.getPlotData().getAutoDetector(),
+            xmin = autoDetector.gridMask.xmin,
+            xmax = autoDetector.gridMask.xmax,
+            ymin = autoDetector.gridMask.ymin,
+            ymax = autoDetector.gridMask.ymax,
+            xp, yp,
+            dw = autoDetector.imageWidth,
+            dh = autoDetector.imageHeight,
+            linePixCount,
+            linePix,
+            pix_index,
+            ii;
+
+        if (hasVertical) {
+        
+            for (xi = xmin; xi <= xmax; xi += xDetectionWidth) {
+
+                pix = [];
+                linePix = [];
+                linePixCount = 0;
+
+                for ( xp = xi - xDetectionWidth; xp <= xi + xDetectionWidth; xp++ ) {
+
+                    for (yi = ymin; yi <= ymax; yi++) {                        
+                        pix_index = yi*dw + parseInt(xp, 10);
+                        if (autoDetector.gridBinaryData[pix_index] === true) {
+                            pix[pix.length] = pix_index;
+                            if (!(linePix[yi] === true)) {
+                                linePixCount++;
+                                linePix[yi] = true;
+                            }
+                        }
+                    }
+                }
+
+                if (linePixCount > (ymax - ymin)*0.3) {
+                    for (ii = 0; ii < pix.length; ii++) {
+                        gridData[pix[ii]] = true;
+                    }
+                }
+            }
+        }
+
+        if (hasHorizontal) {
+            for (yi = ymin; yi <= ymax; yi += yDetectionWidth) {
+                pix = [];
+                linePix = [];
+                linePixCount = 0;
+
+                for (yp = yi - yDetectionWidth; yp <= yi + yDetectionWidth; yp++) {
+                    for (xi = xmin; xi <= xmax; xi++) {
+                        pix_index = parseInt(yp, 10)*dw + xi;
+                        if (autoDetector.gridBinaryData[pix_index] === true) {
+                            pix[pix.length] = pix_index;
+                            if(!(linePix[xi] === true)) {
+                                linePixCount++;
+                                linePix[xi] = true;
+                            }
+                        }
+                    }
+                }
+
+                if (linePixCount > (xmax - xmin)*0.3) {
+                    for (ii = 0; ii < pix.length; ii++) {
+                        gridData[pix[ii]] = true;
+                    }
+                }
+            }
+        }
+
+        wpd.appData.getPlotData().gridData = gridData;
     }
+
+    function setHorizontalParameters(has_horizontal, y_det_w, y_mark_w) {
+        hasHorizontal = has_horizontal;
+        yDetectionWidth = y_det_w;
+        yMarkWidth = y_mark_w;
+    }
+
+    function setVerticalParameters(has_vertical, x_det_w, x_mark_w) {
+        hasVertical = has_vertical;
+        xDetectionWidth = x_det_w;
+        xMarkWidth = x_mark_w;
+    }
+
     return {
-        run: run
+        run: run,
+        setHorizontalParameters: setHorizontalParameters,
+        setVerticalParameters: setVerticalParameters
     };
 })();
 /*
@@ -1226,62 +1293,22 @@ wpd.taninverse = function(y,x) {
     inv_ans = 0.0;
     return inv_ans;
 };
-/*
-    WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-    Copyright 2010-2014 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+wpd.sqDist2d = function (x1, y1, x2, y2) {
+    return (x1 - x2)*(x1 - x2) + (y1 - y2)*(y1 - y2);
+};
 
-    This file is part of WebPlotDigitizer.
+wpd.sqDist3d = function (x1, y1, z1, x2, y2, z2) {
+    return (x1 - x2)*(x1 - x2) + (y1 - y2)*(y1 - y2) + (z1 - z2)*(z1 - z2);
+};
 
-    WebPlotDigitizer is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+wpd.dist2d = function (x1, y1, x2, y2) {
+    return Math.sqrt(wpd.sqDist2d(x1, y1, x2, y2));
+};
 
-    WebPlotDigitizer is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
-
-
-*/
-
-
-var wpd = wpd || {};
-
-wpd.AveragingWindowAlgo = (function () {
-
-    var Algo = function () {
-
-        var xStep = 5, yStep = 5;
-
-        this.getParamList = function () {
-            return [['ΔX', 'Px', 10], ['ΔY', 'Px', 10]];
-        };
-
-        this.setParam = function (index, val) {
-            if(index === 0) {
-                xStep = val;
-            } else if(index === 1) {
-                yStep = val;
-            }
-        };
-
-        this.run = function (plotData) {
-            var autoDetector = plotData.getAutoDetector(),
-                dataSeries = plotData.getActiveDataSeries(),
-                algoCore = new wpd.AveragingWindowCore(autoDetector.binaryData, autoDetector.imageHeight, autoDetector.imageWidth, xStep, yStep, dataSeries);
-
-            algoCore.run();
-        };
-
-    };
-    return Algo;
-})();
-
+wpd.dist3d = function (x1, y1, z1, x2, y2, z2) {
+    return Math.sqrt(wpd.sqDist3d(x1, y1, z1, x2, y2, z2));
+};
 /*
     WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
@@ -1411,6 +1438,62 @@ wpd.AveragingWindowCore = (function () {
 
               return dataSeries;
         };
+    };
+    return Algo;
+})();
+
+/*
+    WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
+
+    Copyright 2010-2014 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+
+    This file is part of WebPlotDigitizer.
+
+    WebPlotDigitizer is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    WebPlotDigitizer is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
+
+
+*/
+
+
+var wpd = wpd || {};
+
+wpd.AveragingWindowAlgo = (function () {
+
+    var Algo = function () {
+
+        var xStep = 5, yStep = 5;
+
+        this.getParamList = function () {
+            return [['ΔX', 'Px', 10], ['ΔY', 'Px', 10]];
+        };
+
+        this.setParam = function (index, val) {
+            if(index === 0) {
+                xStep = val;
+            } else if(index === 1) {
+                yStep = val;
+            }
+        };
+
+        this.run = function (plotData) {
+            var autoDetector = plotData.getAutoDetector(),
+                dataSeries = plotData.getActiveDataSeries(),
+                algoCore = new wpd.AveragingWindowCore(autoDetector.binaryData, autoDetector.imageHeight, autoDetector.imageWidth, xStep, yStep, dataSeries);
+
+            algoCore.run();
+        };
+
     };
     return Algo;
 })();
@@ -4709,8 +4792,164 @@ wpd.autoExtraction = (function () {
 
 var wpd = wpd || {};
 
+wpd.colorSelectionWidget = (function () {
+
+    var color,
+        triggerElementId,
+        title,
+        setColorDelegate;
+    
+    function setParams(params) {
+        color = params.color;
+        triggerElementId = params.triggerElementId;
+        title = params.title;
+        setColorDelegate = params.setColorDelegate;
+
+        var $widgetTitle = document.getElementById('color-selection-title');
+        $widgetTitle.innerHTML = title;
+    }
+
+    function apply() {
+        var $triggerBtn = document.getElementById(triggerElementId);
+        $triggerBtn.style.backgroundColor = 'rgb('+color[0]+','+color[1]+','+color[2]+')';
+    }
+
+    function startPicker() {
+        var $selectedColor = document.getElementById('color-selection-selected-color-box');
+        
+        $selectedColor.style.backgroundColor = 'rgb('+color[0]+','+color[1]+','+color[2]+')';
+        document.getElementById('color-selection-red').value = color[0];
+        document.getElementById('color-selection-green').value = color[1];
+        document.getElementById('color-selection-blue').value = color[2];
+        renderColorOptions();
+        wpd.popup.show('color-selection-widget');
+    }
+
+    function renderColorOptions() {
+        var $container = document.getElementById('color-selection-options'),
+            topColors = wpd.appData.getPlotData().topColors,
+            colorCount = topColors.length > 10 ? 10 : topColors.length,
+            colori,
+            containerHtml = "",
+            perc,
+            colorString;
+
+        for (colori = 0; colori < colorCount; colori++) {            
+            colorString = 'rgb(' + topColors[colori].r + ',' + topColors[colori].g + ',' + topColors[colori].b + ');';
+            perc = topColors[colori].percentage.toFixed(3) + "%";
+            containerHtml += '<div class="colorOptionBox" style="background-color: ' + colorString + '\" title=\"' + perc +  '" onclick="wpd.colorSelectionWidget.selectTopColor('+ colori +');"></div>';
+        }
+
+        $container.innerHTML = containerHtml;
+    }
+
+    function pickColor() {
+        wpd.popup.close('color-selection-widget');
+        var tool = new wpd.ColorPickerTool();
+        tool.onComplete = function (col) {
+            color = col;
+            setColorDelegate(col);
+            wpd.graphicsWidget.removeTool();
+            startPicker();
+        };
+        wpd.graphicsWidget.setTool(tool);
+    }
+
+    function setColor() {
+        var gui_color = [];
+        gui_color[0] = parseInt(document.getElementById('color-selection-red').value, 10);
+        gui_color[1] = parseInt(document.getElementById('color-selection-green').value, 10);
+        gui_color[2] = parseInt(document.getElementById('color-selection-blue').value, 10);
+        color = gui_color;
+        setColorDelegate(gui_color);
+        wpd.popup.close('color-selection-widget');
+        apply();
+    }
+
+    function selectTopColor(colorIndex) {
+        var gui_color = [],
+            topColors = wpd.appData.getPlotData().topColors;
+
+        gui_color[0] = topColors[colorIndex].r;
+        gui_color[1] = topColors[colorIndex].g;
+        gui_color[2] = topColors[colorIndex].b;
+
+        color = gui_color;
+        setColorDelegate(gui_color);
+        startPicker();
+    }
+
+    function paintFilteredColor(binaryData, maskPixels) {
+         var ctx = wpd.graphicsWidget.getAllContexts(),
+            autoDetector = wpd.appData.getPlotData().getAutoDetector(),
+            imageSize = wpd.graphicsWidget.getImageSize(),
+            maski,
+            img_index,
+            imgx, imgy,
+            dataLayer;
+
+        dataLayer = ctx.oriDataCtx.getImageData(0, 0, imageSize.width, imageSize.height);
+
+        if(maskPixels == null || maskPixels.length === 0) {
+            return;
+        }
+
+        for(maski = 0; maski < maskPixels.length; maski++) {
+            img_index = maskPixels[maski];
+            if(binaryData[img_index] === true) {
+                imgx = img_index % imageSize.width;
+                imgy = parseInt(img_index/imageSize.width, 10);
+                dataLayer.data[img_index*4] = 255;
+                dataLayer.data[img_index*4+1] = 255;
+                dataLayer.data[img_index*4+2] = 0;
+                dataLayer.data[img_index*4+3] = 255;                
+            } else {
+                dataLayer.data[img_index*4] = 0;
+                dataLayer.data[img_index*4+1] = 0;
+                dataLayer.data[img_index*4+2] = 0;
+                dataLayer.data[img_index*4+3] = 150;   
+            }
+        }
+
+        ctx.oriDataCtx.putImageData(dataLayer, 0, 0);
+        wpd.graphicsWidget.copyImageDataLayerToScreen();
+    }
+
+    return {
+        setParams: setParams,
+        startPicker: startPicker,
+        pickColor: pickColor,
+        setColor: setColor,
+        selectTopColor: selectTopColor,
+        paintFilteredColor: paintFilteredColor
+    };
+
+})();
+
 wpd.colorPicker = (function () {
 
+    function getFGPickerParams() {
+        return {
+            color: wpd.appData.getPlotData().getAutoDetector().fgColor,
+            triggerElementId: 'color-button',
+            title: 'Specify Plot (Foreground) Color',
+            setColorDelegate: function(col) {
+                wpd.appData.getPlotData().getAutoDetector().fgColor = col;
+            }
+        };
+    }
+
+    function getBGPickerParams() {
+        return {
+            color: wpd.appData.getPlotData().getAutoDetector().bgColor,
+            triggerElementId: 'color-button',
+            title: 'Specify Background Color',
+            setColorDelegate: function(col) {
+                wpd.appData.getPlotData().getAutoDetector().bgColor = col;
+            }
+        };
+    }
+    
     function init() {
         var $colorBtn = document.getElementById('color-button'),
             $colorDistance = document.getElementById('color-distance-value'),
@@ -4730,160 +4969,23 @@ wpd.colorPicker = (function () {
         $modeSelector.value = autoDetector.colorDetectionMode;
     }
 
-    function startFGPicker() {
-        var fg_color = wpd.appData.getPlotData().getAutoDetector().fgColor,
-            $selectedColor = document.getElementById('selectedFGColorBox');
-
-        $selectedColor.style.backgroundColor = 'rgb('+fg_color[0]+','+fg_color[1]+','+fg_color[2]+')';
-        document.getElementById('color_red_fg').value = fg_color[0];
-	    document.getElementById('color_green_fg').value = fg_color[1];
-		document.getElementById('color_blue_fg').value = fg_color[2];
-        renderColorOptions('fg');
-        wpd.popup.show('colorPickerFG');
-    }
-
-    function startBGPicker() {
-        var bg_color = wpd.appData.getPlotData().getAutoDetector().bgColor,
-            $selectedColor = document.getElementById('selectedBGColorBox');
-
-        $selectedColor.style.backgroundColor = 'rgb('+bg_color[0]+','+bg_color[1]+','+bg_color[2]+')';
-        document.getElementById('color_red_bg').value = bg_color[0];
-	    document.getElementById('color_green_bg').value = bg_color[1];
-		document.getElementById('color_blue_bg').value = bg_color[2];
-        renderColorOptions('bg');
-        wpd.popup.show('colorPickerBG');
-    }
-
-    function renderColorOptions(mode) {
-        var containerDivId = mode === 'fg' ? "fgColorOptions" : "bgColorOptions",
-            $container = document.getElementById(containerDivId),
-            topColors = wpd.appData.getPlotData().topColors,
-            colorCount = topColors.length > 10 ? 10 : topColors.length,
-            colori,
-            containerHtml = "",
-            perc,
-            colorString;
-
-        for (colori = 0; colori < colorCount; colori++) {
-
-            colorString = 'rgb(' + topColors[colori].r + ',' + topColors[colori].g + ',' + topColors[colori].b + ');';
-            perc = topColors[colori].percentage.toFixed(3) + "%";
-
-            containerHtml += '<div class="colorOptionBox" style="background-color: ' + colorString + '\" title=\"' + perc 
-                + '" onclick="wpd.colorPicker.selectTopColor('+ colori +',\''+ mode +'\');"></div>';
-        }
-
-        $container.innerHTML = containerHtml;
-    }
-
-    function selectTopColor(colorIndex, mode) {
-        var color = [],
-            topColors = wpd.appData.getPlotData().topColors;
-
-        color[0] = topColors[colorIndex].r;
-        color[1] = topColors[colorIndex].g;
-        color[2] = topColors[colorIndex].b;
-        
-        if (mode === 'fg') {
-            wpd.appData.getPlotData().getAutoDetector().fgColor = color;
-            startFGPicker();
-        } else {
-            wpd.appData.getPlotData().getAutoDetector().bgColor = color;
-            startBGPicker();
-        }
-    }
-
-    function pickFGColor() {
-        wpd.popup.close('colorPickerFG');
-        var tool = new wpd.ColorPickerTool();
-        tool.onComplete = function(col) {
-                wpd.appData.getPlotData().getAutoDetector().fgColor = col;
-                wpd.graphicsWidget.removeTool();
-                startFGPicker();
-            };
-        wpd.graphicsWidget.setTool(tool); 
-    }
-
-    function pickBGColor() {
-        wpd.popup.close('colorPickerBG');
-        var tool = new wpd.ColorPickerTool();
-        tool.onComplete = function(col) {
-                wpd.appData.getPlotData().getAutoDetector().bgColor = col;
-                wpd.graphicsWidget.removeTool();
-                startBGPicker();
-            };
-        wpd.graphicsWidget.setTool(tool); 
-    }
-
-    function setFGColor() {
-        var fg_color = [];
-        fg_color[0] = parseInt(document.getElementById('color_red_fg').value, 10);
-	    fg_color[1] = parseInt(document.getElementById('color_green_fg').value, 10);
-		fg_color[2] = parseInt(document.getElementById('color_blue_fg').value, 10);
-        wpd.appData.getPlotData().getAutoDetector().fgColor = fg_color;
-        wpd.popup.close('colorPickerFG');
-        init();
-    }
-
-    function setBGColor() {
-        var bg_color = [];
-        bg_color[0] = parseInt(document.getElementById('color_red_bg').value, 10);
-	    bg_color[1] = parseInt(document.getElementById('color_green_bg').value, 10);
-		bg_color[2] = parseInt(document.getElementById('color_blue_bg').value, 10);
-        wpd.appData.getPlotData().getAutoDetector().bgColor = bg_color;
-        wpd.popup.close('colorPickerBG');
-        init();
-    }
-
     function changeColorDistance() {
         var color_distance = parseFloat(document.getElementById('color-distance-value').value);
         wpd.appData.getPlotData().getAutoDetector().colorDistance = color_distance;
-    }
-
-    function paintFilteredColor() {
-         var ctx = wpd.graphicsWidget.getAllContexts(),
-            autoDetector = wpd.appData.getPlotData().getAutoDetector(),
-            imageSize = wpd.graphicsWidget.getImageSize(),
-            maski,
-            img_index,
-            imgx, imgy,
-            dataLayer;
-
-        dataLayer = ctx.oriDataCtx.getImageData(0, 0, imageSize.width, imageSize.height);
-
-        autoDetector.imageData = ctx.oriImageCtx.getImageData(0, 0, imageSize.width, imageSize.height);
-        autoDetector.generateBinaryData();
-        
-        if(autoDetector.mask == null || autoDetector.mask.length === 0) {
-            return;
-        }
-
-        for(maski = 0; maski < autoDetector.mask.length; maski++) {
-            img_index = autoDetector.mask[maski];
-            if(autoDetector.binaryData[img_index] === true) {
-                imgx = img_index % imageSize.width;
-                imgy = parseInt(img_index/imageSize.width, 10);
-                dataLayer.data[img_index*4] = 255;
-                dataLayer.data[img_index*4+1] = 255;
-                dataLayer.data[img_index*4+2] = 0;
-                dataLayer.data[img_index*4+3] = 255;                
-            } else {
-                dataLayer.data[img_index*4] = 0;
-                dataLayer.data[img_index*4+1] = 0;
-                dataLayer.data[img_index*4+2] = 0;
-                dataLayer.data[img_index*4+3] = 150;   
-            }
-        }
-
-        ctx.oriDataCtx.putImageData(dataLayer, 0, 0);
-        wpd.graphicsWidget.copyImageDataLayerToScreen();
     }
 
     function testColorDetection() {
         wpd.graphicsWidget.removeTool();
         wpd.graphicsWidget.resetData();
         wpd.graphicsWidget.setRepainter(new wpd.ColorFilterRepainter());
-        paintFilteredColor(); 
+
+        var ctx = wpd.graphicsWidget.getAllContexts(),
+            autoDetector = wpd.appData.getPlotData().getAutoDetector(),
+            imageSize = wpd.graphicsWidget.getImageSize();
+
+        autoDetector.imageData = ctx.oriImageCtx.getImageData(0, 0, imageSize.width, imageSize.height);
+        autoDetector.generateBinaryData();
+        wpd.colorSelectionWidget.paintFilteredColor(autoDetector.binaryData, autoDetector.mask); 
     }
     
     function startPicker() {
@@ -4891,10 +4993,11 @@ wpd.colorPicker = (function () {
         wpd.graphicsWidget.removeRepainter();
         wpd.graphicsWidget.resetData();
         if(wpd.appData.getPlotData().getAutoDetector().colorDetectionMode === 'fg') {
-            startFGPicker();
+            wpd.colorSelectionWidget.setParams(getFGPickerParams());
         } else {
-            startBGPicker();
+            wpd.colorSelectionWidget.setParams(getBGPickerParams());
         }
+        wpd.colorSelectionWidget.startPicker();
     }
 
     function changeDetectionMode() {
@@ -4906,15 +5009,9 @@ wpd.colorPicker = (function () {
     return {
         startPicker: startPicker,
         changeDetectionMode: changeDetectionMode,
-        pickFGColor: pickFGColor,
-        pickBGColor: pickBGColor,
-        setFGColor: setFGColor,
-        setBGColor: setBGColor,
         changeColorDistance: changeColorDistance,
         init: init,
-        testColorDetection: testColorDetection,
-        paintFilteredColor: paintFilteredColor,
-        selectTopColor: selectTopColor
+        testColorDetection: testColorDetection
     };
 })();
 
@@ -4936,7 +5033,8 @@ wpd.ColorFilterRepainter = (function () {
         this.painterName = 'colorFilterRepainter';
 
         this.onRedraw = function () {
-            wpd.colorPicker.paintFilteredColor();
+            var autoDetector = wpd.appData.getPlotData().getAutoDetector();
+            wpd.colorSelectionWidget.paintFilteredColor(autoDetector.binaryData, autoDetector.mask);
         };
     }
     return Painter;
@@ -4988,7 +5086,13 @@ wpd.gridDetection = (function () {
     function clearMask() {
         wpd.graphicsWidget.removeTool();
         wpd.graphicsWidget.removeRepainter();
-        wpd.appData.getPlotData().getAutoDetector().gridMask = null;
+        wpd.appData.getPlotData().getAutoDetector().gridMask = {
+                xmin: null,
+                xmax: null,
+                ymin: null,
+                ymax: null,
+                pixels: []
+            };
         wpd.graphicsWidget.resetData();
     }
 
@@ -5000,23 +5104,125 @@ wpd.gridDetection = (function () {
             maskData = [],
             i,
             mi = 0,
-            autoDetector = wpd.appData.getPlotData().getAutoDetector();
+            autoDetector = wpd.appData.getPlotData().getAutoDetector(),
+            x, y;
         for(i = 0; i < maskDataPx.data.length; i+=4) {
             if (maskDataPx.data[i] === 255 && maskDataPx.data[i+1] === 255 && maskDataPx.data[i+2] === 0) {
+                
                 maskData[mi] = i/4; mi++;
+
+                x = parseInt((i/4)%imageSize.width, 10);
+                y = parseInt((i/4)/imageSize.width, 10);
+
+                if (mi === 1) {
+                    autoDetector.gridMask.xmin = x;
+                    autoDetector.gridMask.xmax = x;
+                    autoDetector.gridMask.ymin = y;
+                    autoDetector.gridMask.ymax = y;
+                } else {
+                    if (x < autoDetector.gridMask.xmin) {
+                        autoDetector.gridMask.xmin = x;
+                    }
+                    if (x > autoDetector.gridMask.xmax) {
+                        autoDetector.gridMask.xmax = x;
+                    }
+                    if (y < autoDetector.gridMask.ymin) {
+                        autoDetector.gridMask.ymin = y;
+                    }
+                    if (y > autoDetector.gridMask.ymax) {
+                        autoDetector.gridMask.ymax = y;
+                    }
+                }
             }
         }
-        autoDetector.gridMask = maskData;
+        autoDetector.gridMask.pixels = maskData;
     }
 
+    function run() {
+
+        wpd.graphicsWidget.removeTool();
+        wpd.graphicsWidget.removeRepainter();
+
+        var autoDetector = wpd.appData.getPlotData().getAutoDetector(),
+            ctx = wpd.graphicsWidget.getAllContexts(),
+            imageSize = wpd.graphicsWidget.getImageSize();
+        
+        autoDetector.imageData = ctx.oriImageCtx.getImageData(0, 0, imageSize.width, imageSize.height);
+
+        autoDetector.generateGridBinaryData();
+
+        // gather detection parameters from GUI
+        wpd.gridDetectionCore.setHorizontalParameters(true, 5, 5);
+        wpd.gridDetectionCore.setVerticalParameters(true, 5, 5);
+
+        wpd.gridDetectionCore.run();
+    }
+
+    function clear() {
+        wpd.graphicsWidget.removeTool();
+        wpd.appData.getPlotData().gridData = null;
+        wpd.graphicsWidget.removeRepainter();
+        wpd.graphicsWidget.resetData();
+    }
+
+    function startColorPicker() {
+        wpd.colorSelectionWidget.setParams({
+            color: wpd.appData.getPlotData().getAutoDetector().gridLineColor,
+            triggerElementId: 'grid-color-picker-button',
+            title: 'Specify Grid Line Color',
+            setColorDelegate: function(col) {
+                wpd.appData.getPlotData().getAutoDetector().gridLineColor = col;
+            }
+        });
+        wpd.colorSelectionWidget.startPicker();
+    }
+
+    function testColor() {
+        wpd.graphicsWidget.removeTool();
+        wpd.graphicsWidget.resetData();
+        wpd.graphicsWidget.setRepainter(new wpd.GridColorFilterRepainter());
+
+        var ctx = wpd.graphicsWidget.getAllContexts(),
+            autoDetector = wpd.appData.getPlotData().getAutoDetector(),
+            imageSize = wpd.graphicsWidget.getImageSize();
+
+        autoDetector.imageData = ctx.oriImageCtx.getImageData(0, 0, imageSize.width, imageSize.height);
+        autoDetector.generateGridBinaryData();
+        wpd.colorSelectionWidget.paintFilteredColor(autoDetector.gridBinaryData, autoDetector.gridMask.pixels);
+    }
+
+    function changeColorDistance() {
+        var color_distance = parseFloat(document.getElementById('grid-color-distance').value);
+        wpd.appData.getPlotData().getAutoDetector().gridColorDistance = color_distance;
+    }
+     
     return {
         start: start,
         markBox: markBox,
         clearMask: clearMask,
         viewMask: viewMask,
-        grabMask: grabMask
+        grabMask: grabMask,
+        startColorPicker: startColorPicker,
+        changeColorDistance: changeColorDistance,
+        testColor: testColor,
+        run: run,
+        clear: clear
     };
 })();
+
+
+wpd.GridColorFilterRepainter = (function () {
+    var Painter = function () {
+        this.painterName = 'gridColorFilterRepainter';
+
+        this.onRedraw = function () {
+            var autoDetector = wpd.appData.getPlotData().getAutoDetector();
+            wpd.colorSelectionWidget.paintFilteredColor(autoDetector.gridBinaryData, autoDetector.gridMask.pixels);
+        };
+    }
+    return Painter;
+})();
+
 
 // TODO: Think of reusing mask.js code here
 wpd.GridBoxTool = (function () {
@@ -5126,15 +5332,15 @@ wpd.GridMaskPainter = (function () {
         var ctx = wpd.graphicsWidget.getAllContexts(),
             autoDetector = wpd.appData.getPlotData().getAutoDetector(),
             painter = function () {
-                if(autoDetector.gridMask == null || autoDetector.gridMask.length === 0) {
+                if(autoDetector.gridMask.pixels == null || autoDetector.gridMask.pixels.length === 0) {
                     return;
                 }
                 var maski, img_index,
                     imageSize = wpd.graphicsWidget.getImageSize();
                     imgData = ctx.oriDataCtx.getImageData(0, 0, imageSize.width, imageSize.height);
 
-                for(maski = 0; maski < autoDetector.gridMask.length; maski++) {
-                    img_index = autoDetector.gridMask[maski];
+                for(maski = 0; maski < autoDetector.gridMask.pixels.length; maski++) {
+                    img_index = autoDetector.gridMask.pixels[maski];
                     imgData.data[img_index*4] = 255;
                     imgData.data[img_index*4+1] = 255;
                     imgData.data[img_index*4+2] = 0;
