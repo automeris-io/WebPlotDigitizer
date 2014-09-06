@@ -129,9 +129,6 @@ input[type="text"] {
 input[type="range"] {
 	height: 15px;
 	background: white;
-	border: thin black solid;
-	
-	box-shadow: 0px 0px 3px grey;
 }
 
 .vertical-spacer {

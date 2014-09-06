@@ -61,12 +61,18 @@ wpd.dataMask = (function () {
         wpd.graphicsWidget.setTool(tool);
     }
 
+    function clearMask() {
+        wpd.graphicsWidget.resetData();
+        grabMask();
+    }
+
     return {
         grabMask: grabMask,
         markBox: markBox,
         markPen: markPen,
         eraseMarks: eraseMarks,
-        viewMask: viewMask
+        viewMask: viewMask,
+        clearMask: clearMask
     };
 })();
 
@@ -248,12 +254,12 @@ wpd.EraseMaskTool = (function () {
              wpd.graphicsWidget.setRepainter(new wpd.MaskPainter());
              document.getElementById('erase-mask').classList.add('pressed-button');
              document.getElementById('view-mask').classList.add('pressed-button');
-             wpd.toolbar.show('paintToolbar');
+             wpd.toolbar.show('eraseToolbar');
         };
 
         this.onMouseDown = function(ev, pos, imagePos) {
             if(isDrawing === true) return;
-            var lwidth = parseInt(document.getElementById('paintThickness').value, 10);
+            var lwidth = parseInt(document.getElementById('eraseThickness').value, 10);
             isDrawing = true;
 	        ctx.dataCtx.globalCompositeOperation = "destination-out";
             ctx.oriDataCtx.globalCompositeOperation = "destination-out";
