@@ -45,7 +45,13 @@ wpd.gridDetection = (function () {
     function clearMask() {
         wpd.graphicsWidget.removeTool();
         wpd.graphicsWidget.removeRepainter();
-        wpd.appData.getPlotData().getAutoDetector().gridMask = null;
+        wpd.appData.getPlotData().getAutoDetector().gridMask = {
+                xmin: null,
+                xmax: null,
+                ymin: null,
+                ymax: null,
+                pixels: []
+            };
         wpd.graphicsWidget.resetData();
     }
 
@@ -64,10 +70,10 @@ wpd.gridDetection = (function () {
                 
                 maskData[mi] = i/4; mi++;
 
-                x = parseInt(i%imageSize.width, 10);
-                y = parseInt(i/imageSize.wigth, 10);
+                x = parseInt((i/4)%imageSize.width, 10);
+                y = parseInt((i/4)/imageSize.width, 10);
 
-                if (i == 0) {
+                if (mi === 1) {
                     autoDetector.gridMask.xmin = x;
                     autoDetector.gridMask.xmax = x;
                     autoDetector.gridMask.ymin = y;
@@ -91,14 +97,91 @@ wpd.gridDetection = (function () {
         autoDetector.gridMask.pixels = maskData;
     }
 
+    function run() {
+
+        wpd.graphicsWidget.removeTool();
+        wpd.graphicsWidget.removeRepainter();
+
+        var autoDetector = wpd.appData.getPlotData().getAutoDetector(),
+            ctx = wpd.graphicsWidget.getAllContexts(),
+            imageSize = wpd.graphicsWidget.getImageSize();
+        
+        autoDetector.imageData = ctx.oriImageCtx.getImageData(0, 0, imageSize.width, imageSize.height);
+
+        autoDetector.generateGridBinaryData();
+
+        // gather detection parameters from GUI
+        wpd.gridDetectionCore.setHorizontalParameters(true, 5, 5);
+        wpd.gridDetectionCore.setVerticalParameters(true, 5, 5);
+
+        wpd.gridDetectionCore.run();
+    }
+
+    function clear() {
+        wpd.graphicsWidget.removeTool();
+        wpd.appData.getPlotData().gridData = null;
+        wpd.graphicsWidget.removeRepainter();
+        wpd.graphicsWidget.resetData();
+    }
+
+    function startColorPicker() {
+        wpd.colorSelectionWidget.setParams({
+            color: wpd.appData.getPlotData().getAutoDetector().gridLineColor,
+            triggerElementId: 'grid-color-picker-button',
+            title: 'Specify Grid Line Color',
+            setColorDelegate: function(col) {
+                wpd.appData.getPlotData().getAutoDetector().gridLineColor = col;
+            }
+        });
+        wpd.colorSelectionWidget.startPicker();
+    }
+
+    function testColor() {
+        wpd.graphicsWidget.removeTool();
+        wpd.graphicsWidget.resetData();
+        wpd.graphicsWidget.setRepainter(new wpd.GridColorFilterRepainter());
+
+        var ctx = wpd.graphicsWidget.getAllContexts(),
+            autoDetector = wpd.appData.getPlotData().getAutoDetector(),
+            imageSize = wpd.graphicsWidget.getImageSize();
+
+        autoDetector.imageData = ctx.oriImageCtx.getImageData(0, 0, imageSize.width, imageSize.height);
+        autoDetector.generateGridBinaryData();
+        wpd.colorSelectionWidget.paintFilteredColor(autoDetector.gridBinaryData, autoDetector.gridMask.pixels);
+    }
+
+    function changeColorDistance() {
+        var color_distance = parseFloat(document.getElementById('grid-color-distance').value);
+        wpd.appData.getPlotData().getAutoDetector().gridColorDistance = color_distance;
+    }
+     
     return {
         start: start,
         markBox: markBox,
         clearMask: clearMask,
         viewMask: viewMask,
-        grabMask: grabMask
+        grabMask: grabMask,
+        startColorPicker: startColorPicker,
+        changeColorDistance: changeColorDistance,
+        testColor: testColor,
+        run: run,
+        clear: clear
     };
 })();
+
+
+wpd.GridColorFilterRepainter = (function () {
+    var Painter = function () {
+        this.painterName = 'gridColorFilterRepainter';
+
+        this.onRedraw = function () {
+            var autoDetector = wpd.appData.getPlotData().getAutoDetector();
+            wpd.colorSelectionWidget.paintFilteredColor(autoDetector.gridBinaryData, autoDetector.gridMask.pixels);
+        };
+    }
+    return Painter;
+})();
+
 
 // TODO: Think of reusing mask.js code here
 wpd.GridBoxTool = (function () {

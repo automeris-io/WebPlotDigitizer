@@ -23,16 +23,105 @@
 
 var wpd = wpd || {};
 
-wpd.GridLine = (function () {
-    var obj = function () {
-    };
-    return obj;
-})();
-
 wpd.gridDetectionCore = (function () {
+
+    var hasHorizontal, hasVertical, xDetectionWidth, yDetectionWidth, xMarkWidth, yMarkWidth;
+
     function run() {
+        var gridData = [],
+            xi,
+            delx,
+            yi,
+            dely,
+            pix,
+            autoDetector = wpd.appData.getPlotData().getAutoDetector(),
+            xmin = autoDetector.gridMask.xmin,
+            xmax = autoDetector.gridMask.xmax,
+            ymin = autoDetector.gridMask.ymin,
+            ymax = autoDetector.gridMask.ymax,
+            xp, yp,
+            dw = autoDetector.imageWidth,
+            dh = autoDetector.imageHeight,
+            linePixCount,
+            linePix,
+            pix_index,
+            ii;
+
+        if (hasVertical) {
+        
+            for (xi = xmin; xi <= xmax; xi += xDetectionWidth) {
+
+                pix = [];
+                linePix = [];
+                linePixCount = 0;
+
+                for ( xp = xi - xDetectionWidth; xp <= xi + xDetectionWidth; xp++ ) {
+
+                    for (yi = ymin; yi <= ymax; yi++) {                        
+                        pix_index = yi*dw + parseInt(xp, 10);
+                        if (autoDetector.gridBinaryData[pix_index] === true) {
+                            pix[pix.length] = pix_index;
+                            if (!(linePix[yi] === true)) {
+                                linePixCount++;
+                                linePix[yi] = true;
+                            }
+                        }
+                    }
+                }
+
+                if (linePixCount > (ymax - ymin)*0.3) {
+                    for (ii = 0; ii < pix.length; ii++) {
+                        gridData[pix[ii]] = true;
+                    }
+                }
+            }
+        }
+
+        if (hasHorizontal) {
+            for (yi = ymin; yi <= ymax; yi += yDetectionWidth) {
+                pix = [];
+                linePix = [];
+                linePixCount = 0;
+
+                for (yp = yi - yDetectionWidth; yp <= yi + yDetectionWidth; yp++) {
+                    for (xi = xmin; xi <= xmax; xi++) {
+                        pix_index = parseInt(yp, 10)*dw + xi;
+                        if (autoDetector.gridBinaryData[pix_index] === true) {
+                            pix[pix.length] = pix_index;
+                            if(!(linePix[xi] === true)) {
+                                linePixCount++;
+                                linePix[xi] = true;
+                            }
+                        }
+                    }
+                }
+
+                if (linePixCount > (xmax - xmin)*0.3) {
+                    for (ii = 0; ii < pix.length; ii++) {
+                        gridData[pix[ii]] = true;
+                    }
+                }
+            }
+        }
+
+        wpd.appData.getPlotData().gridData = gridData;
     }
+
+    function setHorizontalParameters(has_horizontal, y_det_w, y_mark_w) {
+        hasHorizontal = has_horizontal;
+        yDetectionWidth = y_det_w;
+        yMarkWidth = y_mark_w;
+    }
+
+    function setVerticalParameters(has_vertical, x_det_w, x_mark_w) {
+        hasVertical = has_vertical;
+        xDetectionWidth = x_det_w;
+        xMarkWidth = x_mark_w;
+    }
+
     return {
-        run: run
+        run: run,
+        setHorizontalParameters: setHorizontalParameters,
+        setVerticalParameters: setVerticalParameters
     };
 })();
