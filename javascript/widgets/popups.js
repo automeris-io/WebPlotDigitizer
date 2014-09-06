@@ -118,6 +118,8 @@ wpd.okCancelPopup = (function () {
         wpd.popup.show('okCancelPopup');
         document.getElementById('ok-cancel-popup-heading').innerHTML = title;
         document.getElementById('ok-cancel-popup-text').innerHTML = msg;
+        okCallback = ok_callback;
+        cancelCallback = cancel_callback;
     }
 
     function ok() {
