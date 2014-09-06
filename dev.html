@@ -60,6 +60,7 @@
 <script src="javascript/tools/alignAxes.js"></script>
 <script src="javascript/tools/autodetect.js"></script>
 <script src="javascript/tools/colorPicker.js"></script>
+<script src="javascript/tools/dataSeriesManagement.js"></script>
 <script src="javascript/tools/gridDetection.js"></script>
 <script src="javascript/tools/imageOps.js"></script>
 <script src="javascript/tools/keyCodes.js"></script>
@@ -120,7 +121,7 @@ Problems loading? Make sure you have a recent version of Google Chrome, Firefox,
     <div class="wpd-menu-dropdown">
         <ul>
             <li id="wpd-datamenu-acquire" onclick="wpd.acquireData.load();">Acquire Data</li>
-            <!-- <li id="wpd-datamenu-manage" onclick="wpd.unsupported();">Manage Data Series</li> -->
+            <li id="wpd-datamenu-manage" onclick="wpd.dataSeriesManagement.manage();">Manage Datasets</li>
         </ul>
     </div>
 </div>
@@ -585,7 +586,31 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
 	<p align="center"><input type="button" value="Done" onclick="wpd.colorSelectionWidget.setColor();"></p>
 	</div>
 
-
+    <div id="manage-data-series-window" class="popup" style="width:400px;">
+    <p align="center" class="popupheading">Manage Datasets</p>
+    <p>&nbsp;</p>
+    <center>
+    <table>
+    <tr>
+        <td align="right">Selected Dataset: </td><td> <select id="manage-data-series-list"><option>Default Dataset</option></select></td>
+    </tr>
+    <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+    <tr>
+        <td align="right">Dataset Name: </td><td> &nbsp;<input type="text"/></td>
+    </tr>
+    <tr>
+        <td align="right">Data Points: </td><td> &nbsp;0</td>
+    </tr>
+    </table>
+    </center>
+    <p>&nbsp;</p>
+    <p align="center">
+        <input type="button" value="Add" onclick="wpd.dataSeriesManagement.addSeries();"/>
+        <input type="button" value="Delete" onclick="wpd.dataSeriesManagement.deleteSeries();"/>
+        <input type="button" value="View Data" onclick="wpd.dataSeriesManagement.viewData();"/>
+        <input type="button" value="Close" onclick="wpd.popup.close('manage-data-series-window');"/>
+    </p>
+    </div>
 
 </body>
 </html>
