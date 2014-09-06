@@ -27,11 +27,11 @@ Because of the above limitations in current digitizing softwares, WebPlotDigitiz
 \end{figure}
 
 \subsection{History}
-WebPlotDigitizer was initially developed while working on my graduate studies at the University of Notre Dame. Having to extract data from many publications for comparing and contrasting my own findings in the lab was a time consuming task. The search for a tool to aid this process usually ended in realizing that most of the existing softwares for this purpose did not fulfill many of the requirements. I was faced with a similar task as an undergraduate student. Back then, just writing a simple Java based code for picking a few points by clicking on them manually was sufficient. My advisor at Notre Dame also had a Matlab code to do this job for two dimensional XY plots, but the points still had to be picked manually. These options were also not very convenient.
+WebPlotDigitizer was initially developed while working on my graduate studies at the University of Notre Dame. Having to extract data from many publications for comparing and contrasting my own findings in the lab was a time consuming task. The search for a tool to aid this process usually ended in realizing that most of the existing softwares for this purpose did not fulfill many of the requirements. I was faced with a similar task as an undergraduate student. Back then, just writing a simple Java based code for picking a few points by clicking on them manually was sufficient. My advisor at Notre Dame also had a Matlab code to do this job for two dimensional XY plots, but the points still had to be picked manually. None of these options were very convenient.
 
 Some of the experimental work in the lab required me to learn some basic image processing techniques which eventually formed the basis of the automatic detection algorithms used here. Image processing knowledge along with some interest in learning the very popular HTML5 APIs were a perfect match to create a web based data extraction tool like this.
 
-Considering the significant interest in this software, I have continued to refine the software in my spare time even after completing my graduate studies in 2012.
+WebPlotDigitizer is now used by hundreds of people everyday and because of this interest, I have continued to refine the software in my spare time.
 
 \subsection{User Manual and Tutorials}
 This user manual describes the various capabilities of the software and aims to help the user in making an effective use of the software. This manual may be updated continuously to match the latest deployed version of the software. A few video tutorials for the previous version of the software are available at \url{http://arohatgi.info/WebPlotDigitizer}. Other resources to find technical information about the software are also being considered.
@@ -80,7 +80,7 @@ In case of issues with the data recovery, access to the software or general tech
 WebPlotDigitizer's image analysis code runs entirely on the user's computer and does not store the loaded images or data on to any server. When \emph{Graph in Plotly} option is selected, the digitized data is transmitted to Plotly (\url{http://plot.ly}) servers.
 
 \subsection{Funding}
-WebPlotDigitizer is not a funded project and is supported mainly by my spare time and effort. PayPal donations via the website have helped keep the project afloat and are  much appreciated.
+WebPlotDigitizer is not funded by any organization. PayPal donations from the website and my personal time and effort are responsible for keeping this project afloat.
 
 \section{Loading Plots}
 The image file containing the figure to be analyzed can be loaded into the software in the following ways:
@@ -117,9 +117,9 @@ After loading the desired image, you should specify the type of axes that is use
 \subsection{2D (X-Y) Plot}
 Most plots that are on a two dimensional cartesian coordinate system fall under this category. Two dimensional plots that are skewed such that the axes are not mutually perpendicular will also work. Also, neither the horizontal or the vertical axes need to be perfectly aligned with the horizontal and vertical lines of the computer. An image rotated by an angle should also work. 
 
-On selecting this option, you should be presented with a popup window which asks you to click on two points on the horizontal axis and two points on the vertical axis. After clicking \emph{Proceed} on that popup, click on two points on one of the two axes $(x_1, x_2)$ and two on the other $(y_1, y_2)$. For better accuracy during the digitization process, pick the points that are as far away from each other as possible. Also, remember the $(x_1, x_2)$ and $(y_1, y_2)$ values on the axes as you will be required to enter those once four points have been clicked on.
+On selecting this option, you should be presented with a popup window which asks you to click on two points on the horizontal axis and two points on the vertical axis. After clicking \emph{Proceed} on that popup, click on two points on one of the two axes $(x_1, x_2)$ and two on the other $(y_1, y_2)$. For better accuracy during the digitization process, pick the points that are as far away from each other as possible. Also, remember the $(x_1, x_2)$ and $(y_1, y_2)$ values on the axes as you will be required to enter those once four points have been clicked on. You can also make fine adjustments to the location of a calibration point highlighted in green using keyboard cursor keys. Pressing the Shift key along with the cursor keys will move the point at a faster rate. To highlight the point to be adjusted, you can also click near the point after selecting the four required points.
 
-After the four points that are required have been clicked on, another popup window will appear where you will be required to enter the values at these points. This helps the software map the image pixels corresponding to data points to their actual values when the image is digitized.
+After the four points have been clicked on, press \emph{Continue} and another popup window will appear where you will be required to enter the values at these points. This helps the software map the image pixels corresponding to data points to their actual values when the image is digitized.
 
 \begin{figure}
 \centering
@@ -239,35 +239,43 @@ WebPlotDigitizer should also show a side panel with the data acquisition control
 \subsection{Manual Mode}
 The buttons available in this mode are as follows
 \begin{enumerate}
-\item{{\bf Switch to Auto: }Switch to automatic extraction mode.}
-\item{{\bf Select Points: }After clicking this button, you can click on the image area to add data points. Any point added on the image will automatically be converted from on-screen pixels to data values utilizing the axes calibration.}
-\item{{\bf Undo: }This removes the last data point that was added.}
-\item{{\bf Clear All: }This deletes all data points added on the image. This does not clear the axes calibration.}
-\item{{\bf Delete Point: }After clicking this button, you can click on a previously added data point to delete it.}
-\item{{\bf Create .CSV: }If one or more data points are present, this brings up a popup with the digitized data.}
+\item{{\bf Automatic Mode: }Switch to automatic extraction mode.}
+\item{{\bf Add Point (A): }After clicking this button or pressing the 'A' key, you can click in the image area to add data points. Any point added on the image will automatically be converted from on-screen pixels to data values utilizing the axes calibration.}
+\item{{\bf Adjust Point (S): }After clicking this or pressing the 'S' key, you can click on an existing data point to select it. The selected point can then be repositioned using the cursor keys on the keyboard. Press Shift+Cursor key for a faster rate of movement.}
+\item{{\bf Delete Point (D): }After clicking this button or pressing the 'D' key, you can click on a previously added data point to delete it.}
+\item{{\bf Clear Points: }This deletes all data points added on the image. This does not clear the axes calibration.}
+\item{{\bf View Data: }This launches a popup dialog where the collected data can be viewed, exported to a CSV file or Plotly.}
 \end{enumerate}
 
 \subsection{Automatic Mode}
-The controls available in the automatic mode are used for providing the extra set of inputs that are required by the automatic extraction algorithms. The steps required to extract data in this mode are described later in this section. The purpose of the various buttons available in this mode is as follows:
+The controls available in the automatic mode are used for selecting the appropriate algorithm and providing the necessary inputs required for automated extraction of data points. Detailed steps required to extract data using this mode are described later in this section. The purpose of the various controls available in this mode is as follows:
 \begin{enumerate}
-\item{{\bf Switch to Manual: }Switch to manual mode}
-\item{{\bf FG: }Select foreground color of the data point or curves. This is used for foreground based extraction described later. You do not need to specify this if you using background based extraction.}
-\item{{\bf BG: }Select background color of the data. This is used only when using background based extraction. This is not required if foreground based extraction is used.}
-\item{{\bf Box: }This is used to mark a rectangular region to be used during the search for data points.}
-\item{{\bf Pen: }This is used for marking areas of the image to be included in the search for data point via free hand drawing.}
-\item{{\bf Erase: }This is used to unmark the areas marked using the \emph{Box} or \emph{Pen} tools.}
-\item{{\bf Extract!: }Brings up a window containing options to select the automatic extraction algorithms and specify the remaining parameters.}
-\item{{\bf Delete: }This button has the same function as the \emph{Delete Point} button in the manual mode. After clicking this button, you can click on a previously chosen data point to remove it.}
-\item{{\bf Clear All: }This deletes all the data points and the marked region for data extraction. Axes calibration is not affected by this.}
-\item{{\bf Create .CSV: }If one or more data points are present, this brings up a popup with the digitized data.}
+\item{{\bf Manual Mode: }Switch to manual mode. You can switch between these modes at any time.}
+\item{{\bf Mask Controls:}}
+\begin{enumerate}
+    \item{{\bf Box: }This is used to mark a rectangular region to be used during the search for data points.}
+    \item{{\bf Pen: }This is used for marking areas of the image to be included in the search for data points via free hand drawing.}
+    \item{{\bf Erase: }This is used to unmark the areas marked using the \emph{Box} or \emph{Pen} tools.}
+    \item{{\bf View: }This is used to simply view the marked search region.}
 \end{enumerate}
+\item{{\bf Color Controls: }For automatic extraction, you either need to specify the foreground color of the data or the background color.}
+\begin{enumerate}
+    \item{{\bf Foreground/Background Color Selection: }Select the appropriate option from the drop-down menu and click on the colored button on the right to show a popup for color selection. The popup dialog also shows a list of most dominant colors at the bottom that can be selected.}
+    \item{{\bf Distance: }Change this value to adjust the range of colors around the selected color to be accepted as foreground or background.}
+    \item{{\bf Filter Colors: }Test the color selection and the specified distance value. The area highlighted in yellow is the region that will finally be used by the automatic extraction algorithms.}
+\end{enumerate}
+\item{{\bf Algorithm Selection: }Select the appropriate algorithm depending on the application. Each algorithm is described in detail below.}
+\item{{\bf Run: }Start the auto-detection algorithm. After this is completed, the detected points should appear over the image.}
+\item{{\bf Clear All: }Clear all data points.}
+\item{{\bf View Data: }This launches a popup dialog where the data can be viewed and exported to a CSV file or Plotly.}
+\end{enumerate}
+
 \subsubsection{Differentiating Data From Background}
 
 Automatic data extraction relies on separating the color of the data points or curves from the background in the image. The extraction algorithms can work in two modes of color extraction: Foreground mode and Background mode. In the foreground mode, the algorithms look for the foreground color specified for the data and ignore everything else. In the background mode, the algorithms include everything except the background color as potential data points. If the data points or curves of interest are uniformly colored (approximately), then the foreground mode may be more suitable. Otherwise if the background is uniformly colored (approximately) and the curve or data points are not then the background mode may me more suitable.
 
-To specify the foreground or the background color, use the \emph{FG} or \emph{BG} buttons described above. After clicking either of these buttons, you can either specify the red, green and blue (RGB) values of the color. Alternatively, you click the \emph{Color Picker} button and pick up the color of the pixel that is under the subsequent click made on the image.
-\subsubsection{Mark Region of Interest}
-The extraction algorithms also need to know the region of the image to be searched for the specified colors. The software does not search the entire image as on many occasions, the data point or curve colors may be repeated in non-data parts of the image. To specify the region of interest, use the \emph{Box}, \emph{Pen} and \emph{Erase} tools to paint over a yellow mask over the data part of the image as shown in Figure \ref{fig:markRegion}. The extraction algorithms will look for data only under  the yellow colored region. 
+\subsubsection{Mark Region of Interest (Mask)}
+The extraction algorithms also need to know the region of the image to be searched for the specified colors. The software does not search the entire image as in many cases, the data point or the curve colors may be repeated in non-data parts of the image. To specify the region of interest, use the \emph{Box}, \emph{Pen} and \emph{Erase} tools to paint over a yellow mask over the data part of the image as shown in Figure \ref{fig:markRegion}. The extraction algorithms will look for data only under  the yellow colored region. 
 \begin{figure}
 \begin{center}
 \includegraphics[width=4in]{./figures/markRegion.png}
@@ -276,20 +284,6 @@ The extraction algorithms also need to know the region of the image to be search
 \end{center}
 \end{figure}
 
-\subsubsection{Data Extraction}
-After setting the data colors and marking the region of interest, you can click on the \emph{Extract!} button. This brings up a popup window as shown in Figure \ref{fig:testScan}. 
-
-In the left part of this window (under \emph{Fine Tuning}), you can select the color detection mode to be used by the algorithms. You can also specify the extent of variability that is allowed for while comparing colors (\emph{Color Distance}). The black and white (binary) image shown is the final result of the color extraction. It is normal to require a non-zero amount of variability even for seemingly uniformly colored data. You can adjust the \emph{Color Distance} value here and click \emph{Re-scan} to generate another binary image. Adjust the color distance value till you obtain a clear picture of the data of interest only.
-
-In the right part of the window (\emph{Choose Algorithm}), you can select the algorithm to be used and specify the algorithm specific set of parameters. These algorithms are described in detail in the next section. After selecting the algorithm and specifying the required parameters, click \emph{Get Points} to allow the automatic extraction to finally yield the data points. If you wish to repeat the extraction process, then you will have to mark the region of interest again and then select \emph{Extract!}. After obtaining data points from automatic mode, you can add or remove specific points using the manual mode.
-
-\begin{figure}
-\begin{center}
-\includegraphics[width=5in]{./figures/testScan.png}
-\caption{Define color selection mode, allowed variation in colors and select the algorithm for automatic data extraction.}
-\label{fig:testScan}
-\end{center}
-\end{figure}
 \subsection{Digitization Algorithms}
 Four different digitization algorithms are available in WebPlotDigitizer as shown in Figure \ref{fig:autoExtractAlgos}. The \emph{Averaging Window} algorithm is set as the default as it is usually suitable for many plot types. The other algorithms are more suited for 2D (X-Y) plots, but may be useful in other cases too. These algorithms are under active development and a few shortcommings with the current algorithms should get addressed in the future versions. 
 \begin{figure}
