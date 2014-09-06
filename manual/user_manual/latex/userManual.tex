@@ -310,14 +310,16 @@ Four different digitization algorithms are available in WebPlotDigitizer as show
 \end{figure}
 \subsubsection{Averaging Window}
 As mentioned above, this is probably the most useful algorithm and is useful across many plot types. This algorithm finds the mean position of a colored region that can fit in a rectangular region that is $\Delta X$ pixels (on-screen) wide and $\Delta Y$ pixels (on-screen) tall. As a user, you should increase the size of the box for thick lines or large data points and decrease it for thin lines. If you see multiple points incorrectly detected across the width of a thick data curve, then you need to increase the numbers specified here. The fact that this requires on-screen pixels may be changed in the future so that the values in actual units in the current axes can be specified.
+
+\subsubsection{X Step with Interpolation}
+This algorithm starts on the left side of the image and scans in the vertical direction. After detecting the first set of data, this jumps $\Delta X$ pixels (on-screen) to the right. In the vertical direction, it picks points by finding average position of colored pixels that fall within the \emph{Line Width} of each other. So for thick curves or data points, increase the value specified for \emph{Line Width}.
+
+
 \subsubsection{X Step}
 This algorithm starts on the left side of the image and scans in the vertical direction. After detecting the first set of data, this jumps $\Delta X$ pixels (on-screen) to the right. In the vertical direction, it picks points by finding average position of colored pixels that fall within the \emph{Line Width} of each other. So for thick curves or data points, increase the value specified for \emph{Line Width}.
 
-Due to limited utility of this algorithm, this may be removed or replaced in the future versions of the software.
-\subsubsection{Y Step}
-This is similar to the X Step algorithm, but this starts scanning from the bottom of the image and moves up scanning horizontally. Again, due to somewhat limited utility of this algorithm, this may be removed or replaced in the future versions of the software.
-\subsubsection{X Step With Actual Units}
-This algorithm works only for 2D (X-Y) plots at the moment. This is an improved version of the X Step algorithm as the exact scanning positions on the X axis can be specified in the data units. This is often useful while comparing values from two sets of data on the same image. Specify the range of values in X and Y axis to look for data by setting $X_{min}, X_{max}, Y_{min}$ and $Y_{max}$. Set $\Delta X$ to set the step size in X direction. The width of the curve (\emph{Line Width}) still needs to be specified in terms of on-screen pixels.
+\subsubsection{Blob Detector}
+
 \section{Handling Digitized Data}
 Once the required data points are marked on the image using the manual mode, automatic mode or a combination of both, the digitized values can be seen by clicking the \emph{Create .CSV} button. This presents a popup window as shown in Figure \ref{fig:csvOutput}. Here, the digitized values can be sorted by the variable or in order of the distance between the points (Nearest Neighbor). The values can also be copied and used in common data analysis softwares. Recently, an option to send these values over to another cloud based data analysis and graphing software called Plotly (\url{http://plot.ly}) has also been added.
  

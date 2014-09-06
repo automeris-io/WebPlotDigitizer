@@ -132,10 +132,13 @@ Problems loading? Make sure you have a recent version of Google Chrome, Firefox,
                 <!-- controls that show on top -->
                 <div style="position:relative;"> 
                     <!-- Extra toolbars go here -->
-                    <div id="paintToolbar" class="toolbar" style="width:350px;">
-<p> Stroke Width <input type="range" id="paintThickness" min="1" max="150" value="20" style="width:100px;"></p>
+                    <div id="eraseToolbar" class="toolbar" style="width:350px;">
+<p><input type="button" id="clearMaskBtn" value="Erase All" style="width:80px;" onclick="wpd.dataMask.clearMask();"/>
+Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20" style="width:100px;"></p>
 </div>
-
+<div id="paintToolbar" class="toolbar" style="width:350px;">
+<p>Stroke Width <input type="range" id="paintThickness" min="1" max="150" value="20" style="width:100px;"></p>
+</div>
  
                 </div>
             </div>
