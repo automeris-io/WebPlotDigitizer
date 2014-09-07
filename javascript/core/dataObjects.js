@@ -138,7 +138,7 @@ wpd.DataSeries = (function () {
             hasMetadata = false,
             mkeys = [];
 
-        this.name = "Data Series";
+        this.name = "Default Dataset";
 
         this.variableNames = ['x', 'y'];
 
@@ -279,8 +279,20 @@ wpd.PlotData = (function () {
             activeSeriesIndex = index;
         };
 
+        this.getActiveDataSeriesIndex = function() {
+            return activeSeriesIndex;
+        };
+
         this.getAutoDetector = function() {
             return autoDetector;
+        };
+
+        this.getDataSeriesNames = function() {
+            var rtnVal = [];
+            for(var i = 0; i < this.dataSeriesColl.length; i++) {
+                rtnVal[i] = this.dataSeriesColl[i].name;
+            }
+            return rtnVal;
         };
 
         this.getDataFromActiveSeries = function() {

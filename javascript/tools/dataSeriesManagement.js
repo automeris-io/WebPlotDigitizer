@@ -24,6 +24,8 @@
 var wpd = wpd || {};
 
 wpd.dataSeriesManagement = (function () {
+
+    var nameIndex = 1;
     
     function updateSeriesList() {
     }
@@ -32,31 +34,90 @@ wpd.dataSeriesManagement = (function () {
         if(!wpd.appData.isAligned()) {
             wpd.messagePopup.show("Manage Dataset", "Please calibrate the axes before managing datasets.");
         } else {
+            var $nameField = document.getElementById('manage-data-series-name'),
+                $pointCount = document.getElementById('manage-data-series-point-count'),
+                $datasetList = document.getElementById('manage-data-series-list'),
+                plotData = wpd.appData.getPlotData(),
+                activeDataSeries = plotData.getActiveDataSeries(),
+                seriesList = plotData.getDataSeriesNames(),
+                activeSeriesIndex = plotData.getActiveDataSeriesIndex(),
+                listHtml = '',
+                i;
+
+            $nameField.value = activeDataSeries.name;
+            $pointCount.innerHTML = activeDataSeries.getCount();
+            for(i = 0; i < seriesList.length; i++) {
+                listHtml += '<option value="'+ i + '">' + seriesList[i] + '</option>';
+            }
+            $datasetList.innerHTML = listHtml;
+            $datasetList.selectedIndex = activeSeriesIndex;
+
+            // TODO: disable delete button if only one series is present
             wpd.popup.show('manage-data-series-window');
         }
     }
 
     function addSeries() {
+        var plotData = wpd.appData.getPlotData(),
+            seriesName = 'Dataset ' + nameIndex,
+            index = plotData.dataSeriesColl.length;
+        
+        close();
+        plotData.dataSeriesColl[index] = new wpd.DataSeries();
+        plotData.dataSeriesColl[index].name = seriesName;
+        plotData.setActiveDataSeriesIndex(index);
+        wpd.graphicsWidget.forceHandlerRepaint();
+        nameIndex++;
+        manage();
     }
 
     function deleteSeries() {
-        wpd.popup.close('manage-data-series-window');
+        // if this is the only dataset, then disallow delete!
+        close();
+
+        if(wpd.appData.getPlotData().dataSeriesColl.length === 1) {
+            wpd.messagePopup.show("Can Not Delete!", "You can not delete this dataset as at least one dataset is required.", manage);
+            return;
+        }
+
         wpd.okCancelPopup.show("Delete Dataset", "Are you sure that you want to delete the dataset and all containing data points?", function() {
             // delete the dataset
+            var plotData = wpd.appData.getPlotData(),
+                index = plotData.getActiveDataSeriesIndex();
+            plotData.dataSeriesColl.splice(index,1);
+            plotData.setActiveDataSeriesIndex(0);
             manage();
         }, function() {
-            // 'cancel' was hit
+            // 'cancel'
             manage();
         });
     }
 
     function viewData() {
+        close();
+        wpd.dataTable.showTable();
     }
 
     function changeSelectedSeries() {
+        var $list = document.getElementById('manage-data-series-list'),
+            plotData = wpd.appData.getPlotData();
+
+        close();
+        plotData.setActiveDataSeriesIndex($list.selectedIndex);
+        wpd.graphicsWidget.forceHandlerRepaint();
+        manage();
     }
 
     function editSeriesName() {
+        var activeSeries = wpd.appData.getPlotData().getActiveDataSeries(),
+            $name = document.getElementById('manage-data-series-name');
+        close();
+        activeSeries.name = $name.value;
+        manage();
+    }
+
+    function close() {
+        wpd.popup.close('manage-data-series-window');
     }
 
     return {
