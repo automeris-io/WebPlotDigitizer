@@ -575,7 +575,9 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
     </tr>
     <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
     <tr>
-        <td align="right">Dataset Name: </td><td> &nbsp;<input type="text" id="manage-data-series-name"/><input type="button" value="Change" onclick="wpd.dataSeriesManagement.editSeriesName();"/></td>
+        <td align="right">Dataset Name: </td><td> &nbsp;
+        <input type="text" id="manage-data-series-name" onblur="wpd.dataSeriesManagement.editSeriesName();" onchange="wpd.dataSeriesManagement.editSeriesName();"/>
+        <input type="button" value="Change" onclick="wpd.dataSeriesManagement.editSeriesName();"/></td>
     </tr>
     <tr>
         <td align="right">Data Points: </td><td> &nbsp;<span id="manage-data-series-point-count">0</span></td>
