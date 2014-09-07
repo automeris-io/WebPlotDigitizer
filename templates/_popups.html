@@ -256,14 +256,14 @@
     <center>
     <table>
     <tr>
-        <td align="right">Selected Dataset: </td><td> <select id="manage-data-series-list"><option>Default Dataset</option></select></td>
+        <td align="right">Selected Dataset: </td><td> &nbsp;<select id="manage-data-series-list" style="width:200px;" onchange="wpd.dataSeriesManagement.changeSelectedSeries();"><option>Default Dataset</option></select></td>
     </tr>
     <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
     <tr>
-        <td align="right">Dataset Name: </td><td> &nbsp;<input type="text"/></td>
+        <td align="right">Dataset Name: </td><td> &nbsp;<input type="text" id="manage-data-series-name"/><input type="button" value="Change" onclick="wpd.dataSeriesManagement.editSeriesName();"/></td>
     </tr>
     <tr>
-        <td align="right">Data Points: </td><td> &nbsp;0</td>
+        <td align="right">Data Points: </td><td> &nbsp;<span id="manage-data-series-point-count">0</span></td>
     </tr>
     </table>
     </center>
