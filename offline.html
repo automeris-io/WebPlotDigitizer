@@ -171,6 +171,8 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
 <div id="acquireDataSidebar" class="sidebar">
 <p class="sidebar-title">Manual Mode <input type="button" value="Automatic Mode" style="width: 125px;" onclick="wpd.autoExtraction.start();"></p>
 <hr/>
+<p>Dataset <input type="button" value="Default Dataset" id="manual-sidebar-dataset" onclick="wpd.dataSeriesManagement.manage();" style="width:160px;"/></p>
+<hr/>
 <p>
     <input type="button" value="Add Point (A)" onclick="wpd.acquireData.manualSelection();" style="width:110px;" id="manual-select-button">
     <input type="button" value="Adjust Point (S)" onClick="wpd.acquireData.adjustPoints();" style="width: 110px;" id="manual-adjust-button">
@@ -195,6 +197,8 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
 <!-- automatic mode -->
 <div id="auto-extraction-sidebar" class="sidebar">
 <p class="sidebar-title">Automatic Mode <input type="button" value="Manual Mode" style="width:110px;" onclick="wpd.acquireData.load();"/></p>
+<hr/>
+<p>Dataset <input type="button" value="Default Dataset" id="automatic-sidebar-dataset" onclick="wpd.dataSeriesManagement.manage();" style="width:160px;"/></p>
 <hr/>
 <p>Mask <input type="button" value="Box" style="width:50px;" onclick="wpd.dataMask.markBox();" id="box-mask"><input type="button" value="Pen" style="width:45px;" onClick="wpd.dataMask.markPen();" id="pen-mask"><input type="button" value="Erase" style="width:50px;" onClick="wpd.dataMask.eraseMarks();" id="erase-mask"><input type="button" value="View" style="width:40px;" onclick="wpd.dataMask.viewMask();" id="view-mask"/></p>
 <hr/>
@@ -446,6 +450,7 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
 
 	<div id="csvWindow" class="popup" style="width: 580px; height: 480px;">
 	<p align="center" class="popupheading">Acquired Data</p>
+    <p align="center">Dataset: <span id="data-table-dataset">Default Dataset</span></p>
 	<p align="center">
 		Sort by:
 		<select id="data-sort-variables" onchange="wpd.dataTable.reSort();">

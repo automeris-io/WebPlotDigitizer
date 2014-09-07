@@ -24,9 +24,16 @@ var wpd = wpd || {};
 wpd.autoExtraction = (function () {
 
     function start() {
+        updateDatasetName();
         wpd.sidebar.show('auto-extraction-sidebar');
         wpd.colorPicker.init();
         changeAlgorithm();
+    }
+
+    function updateDatasetName() {
+        var name = wpd.appData.getPlotData().getActiveDataSeries().name,
+            $datasetBtn = document.getElementById('automatic-sidebar-dataset');
+        $datasetBtn.value = name;
     }
 
     function changeAlgorithm() {
@@ -109,7 +116,8 @@ wpd.autoExtraction = (function () {
     return {
         start: start,
         changeAlgorithm: changeAlgorithm,
-        runAlgo: runAlgo
+        runAlgo: runAlgo,
+        updateDatasetName: updateDatasetName
     };
 })();
 

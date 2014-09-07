@@ -28,7 +28,7 @@ wpd.acquireData = (function () {
         if(!wpd.appData.isAligned()) {
             wpd.messagePopup.show("Acquire Data", "Please calibrate the axes before acquiring data.");
         } else {
-            wpd.sidebar.show('acquireDataSidebar');
+            showSidebar();
             wpd.dataPointCounter.setCount();
             wpd.graphicsWidget.removeTool();
             wpd.graphicsWidget.setRepainter(new wpd.DataPointsRepainter());
@@ -63,7 +63,14 @@ wpd.acquireData = (function () {
     }
  
     function showSidebar() {
+        updateDatasetName();
         wpd.sidebar.show('acquireDataSidebar');
+    }
+
+    function updateDatasetName() {
+        var name = wpd.appData.getPlotData().getActiveDataSeries().name,
+            $datasetBtn = document.getElementById('manual-sidebar-dataset');
+        $datasetBtn.value = name;
     }
 
     function adjustPoints() {
@@ -94,7 +101,8 @@ wpd.acquireData = (function () {
         clearAll: clearAll,
         undo: undo,
         showSidebar: showSidebar,
-        switchToolOnKeyPress: switchToolOnKeyPress
+        switchToolOnKeyPress: switchToolOnKeyPress,
+        updateDatasetName: updateDatasetName
     };
 })();
 

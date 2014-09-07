@@ -2955,6 +2955,13 @@ wpd.dataTable = (function () {
         sortRawData();
         makeTable();
         updateSortingControls();
+        updateDatasetName();
+    }
+
+    function updateDatasetName() {
+        var $datasetName = document.getElementById('data-table-dataset'),
+            name = wpd.appData.getPlotData().getActiveDataSeries().name;
+        $datasetName.innerHTML = name;
     }
 
     function generateCSV() {
@@ -4743,9 +4750,16 @@ var wpd = wpd || {};
 wpd.autoExtraction = (function () {
 
     function start() {
+        updateDatasetName();
         wpd.sidebar.show('auto-extraction-sidebar');
         wpd.colorPicker.init();
         changeAlgorithm();
+    }
+
+    function updateDatasetName() {
+        var name = wpd.appData.getPlotData().getActiveDataSeries().name,
+            $datasetBtn = document.getElementById('automatic-sidebar-dataset');
+        $datasetBtn.value = name;
     }
 
     function changeAlgorithm() {
@@ -4828,7 +4842,8 @@ wpd.autoExtraction = (function () {
     return {
         start: start,
         changeAlgorithm: changeAlgorithm,
-        runAlgo: runAlgo
+        runAlgo: runAlgo,
+        updateDatasetName: updateDatasetName
     };
 })();
 
@@ -5174,7 +5189,7 @@ wpd.dataSeriesManagement = (function () {
         plotData.dataSeriesColl[index] = new wpd.DataSeries();
         plotData.dataSeriesColl[index].name = seriesName;
         plotData.setActiveDataSeriesIndex(index);
-        wpd.graphicsWidget.forceHandlerRepaint();
+        updateApp();
         nameIndex++;
         manage();
     }
@@ -5212,8 +5227,14 @@ wpd.dataSeriesManagement = (function () {
 
         close();
         plotData.setActiveDataSeriesIndex($list.selectedIndex);
-        wpd.graphicsWidget.forceHandlerRepaint();
+        updateApp();
         manage();
+    }
+
+    function updateApp() {
+        wpd.graphicsWidget.forceHandlerRepaint();
+        wpd.autoExtraction.updateDatasetName();
+        wpd.acquireData.updateDatasetName();
     }
 
     function editSeriesName() {
@@ -5221,6 +5242,7 @@ wpd.dataSeriesManagement = (function () {
             $name = document.getElementById('manage-data-series-name');
         close();
         activeSeries.name = $name.value;
+        updateApp(); // overkill, but not too bad.
         manage();
     }
 
@@ -5720,7 +5742,7 @@ wpd.acquireData = (function () {
         if(!wpd.appData.isAligned()) {
             wpd.messagePopup.show("Acquire Data", "Please calibrate the axes before acquiring data.");
         } else {
-            wpd.sidebar.show('acquireDataSidebar');
+            showSidebar();
             wpd.dataPointCounter.setCount();
             wpd.graphicsWidget.removeTool();
             wpd.graphicsWidget.setRepainter(new wpd.DataPointsRepainter());
@@ -5755,7 +5777,14 @@ wpd.acquireData = (function () {
     }
  
     function showSidebar() {
+        updateDatasetName();
         wpd.sidebar.show('acquireDataSidebar');
+    }
+
+    function updateDatasetName() {
+        var name = wpd.appData.getPlotData().getActiveDataSeries().name,
+            $datasetBtn = document.getElementById('manual-sidebar-dataset');
+        $datasetBtn.value = name;
     }
 
     function adjustPoints() {
@@ -5786,7 +5815,8 @@ wpd.acquireData = (function () {
         clearAll: clearAll,
         undo: undo,
         showSidebar: showSidebar,
-        switchToolOnKeyPress: switchToolOnKeyPress
+        switchToolOnKeyPress: switchToolOnKeyPress,
+        updateDatasetName: updateDatasetName
     };
 })();
 

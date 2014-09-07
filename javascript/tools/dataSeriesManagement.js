@@ -66,7 +66,7 @@ wpd.dataSeriesManagement = (function () {
         plotData.dataSeriesColl[index] = new wpd.DataSeries();
         plotData.dataSeriesColl[index].name = seriesName;
         plotData.setActiveDataSeriesIndex(index);
-        wpd.graphicsWidget.forceHandlerRepaint();
+        updateApp();
         nameIndex++;
         manage();
     }
@@ -104,8 +104,14 @@ wpd.dataSeriesManagement = (function () {
 
         close();
         plotData.setActiveDataSeriesIndex($list.selectedIndex);
-        wpd.graphicsWidget.forceHandlerRepaint();
+        updateApp();
         manage();
+    }
+
+    function updateApp() {
+        wpd.graphicsWidget.forceHandlerRepaint();
+        wpd.autoExtraction.updateDatasetName();
+        wpd.acquireData.updateDatasetName();
     }
 
     function editSeriesName() {
@@ -113,6 +119,7 @@ wpd.dataSeriesManagement = (function () {
             $name = document.getElementById('manage-data-series-name');
         close();
         activeSeries.name = $name.value;
+        updateApp(); // overkill, but not too bad.
         manage();
     }
 
