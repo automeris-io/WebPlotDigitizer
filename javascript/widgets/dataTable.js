@@ -205,6 +205,13 @@ wpd.dataTable = (function () {
         sortRawData();
         makeTable();
         updateSortingControls();
+        updateDatasetName();
+    }
+
+    function updateDatasetName() {
+        var $datasetName = document.getElementById('data-table-dataset'),
+            name = wpd.appData.getPlotData().getActiveDataSeries().name;
+        $datasetName.innerHTML = name;
     }
 
     function generateCSV() {
