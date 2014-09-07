@@ -115,6 +115,13 @@ wpd.PolarAxes = (function () {
             var dataVal = this.pixelToData(pxi, pyi);
             return dataVal[0].toExponential(4) + ', ' + dataVal[1].toExponential(4);
         };
+
+        this.getTransformationEquations = function () {
+            return {
+                pixelToData: ['r_data = x_pixel','theta_data = y_pixel'],
+                dataToPixel: ['x_pixel = r_data + theta_data', 'y_pixel = r_data + theta_data']
+            };
+        };
     };
 
     AxesObj.prototype.numCalibrationPointsRequired = function() {

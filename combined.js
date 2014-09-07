@@ -2109,6 +2109,13 @@ wpd.ImageAxes = (function () {
             var dataVal = this.pixelToData(pxi, pyi);
             return dataVal[0].toFixed(2) + ', ' + dataVal[1].toFixed(2);
         };
+
+        this.getTransformationEquations = function () {
+            return {
+                pixelToData: ['x_data = x_pixel','y_data = y_pixel'],
+                dataToPixel: ['x_pixel = x_data', 'y_pixel = y_data']
+            };
+        };
     };
 
     AxesObj.prototype.numCalibrationPointsRequired = function() {
@@ -2207,6 +2214,19 @@ wpd.MapAxes = (function () {
 
         this.getUnits = function () {
             return scaleUnits;
+        };
+
+        this.getTransformationEquations = function () {
+            return {
+                pixelToData:[
+                                'x_data = ' + scaleLength/dist + '*x_pixel',
+                                'y_data = ' + scaleLength/dist + '*y_pixel'
+                            ],
+                dataToPixel:[
+                                'x_pixel = ' + dist/scaleLength + '*x_data', 
+                                'y_pixel = ' + dist/scaleLength + '*y_data'
+                            ]
+            };
         };
     };
 
@@ -2343,6 +2363,13 @@ wpd.PolarAxes = (function () {
             var dataVal = this.pixelToData(pxi, pyi);
             return dataVal[0].toExponential(4) + ', ' + dataVal[1].toExponential(4);
         };
+
+        this.getTransformationEquations = function () {
+            return {
+                pixelToData: ['r_data = x_pixel','theta_data = y_pixel'],
+                dataToPixel: ['x_pixel = r_data + theta_data', 'y_pixel = r_data + theta_data']
+            };
+        };
     };
 
     AxesObj.prototype.numCalibrationPointsRequired = function() {
@@ -2477,6 +2504,13 @@ wpd.TernaryAxes = (function () {
         this.pixelToLiveString = function (pxi, pyi) {
             var dataVal = this.pixelToData(pxi, pyi);
             return dataVal[0].toExponential(4) + ', ' + dataVal[1].toExponential(4) + ', ' + dataVal[2].toExponential(4);
+        };
+
+        this.getTransformationEquations = function () {
+            return {
+                pixelToData: ['x_data = x_pixel','y_data = y_pixel'],
+                dataToPixel: ['x_pixel = x_data', 'y_pixel = y_data']
+            };
         };
     };
 
@@ -2730,6 +2764,13 @@ wpd.XYAxes = (function () {
 
         this.isLogY = function () {
             return isLogScaleY;
+        };
+
+        this.getTransformationEquations = function() {
+            return {
+                pixelToData: ['x_data = 0*x_pixel + 0*y_pixel','y_data = 0*x_pixel + 0*y_pixel'],
+                dataToPixel: ['x_pixel = 0*x_data + 0*y_data','y_pixel = 0*x_data + 0*y_data']
+            };
         };
     };
 
@@ -4090,6 +4131,66 @@ wpd.toolbar = (function () {
     };
 })();
 
+/*
+	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
+
+	Copyright 2010-2014 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+
+	This file is part of WebPlotDigitizer.
+
+    WebPlotDigitizer is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    WebPlotDigitizer is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
+
+
+*/
+
+var wpd = wpd || {};
+
+wpd.transformationEquations = (function () {
+    function show() {
+        if(wpd.appData.isAligned() === false) {
+            wpd.messagePopup.show("Transformation Equations","Transformation equations are avilable only after axes have been calibrated.");
+            return;
+        }
+        wpd.popup.show('axes-transformation-equations-window');
+        var $list = document.getElementById('axes-transformation-equation-list'),
+            listHTML = '',
+            axes = wpd.appData.getPlotData().axes,
+            eqns = axes.getTransformationEquations(),
+            i;
+
+        if(eqns.pixelToData != null) {
+            listHTML += '<p><b>Pixel to Data</b></p>';
+            for(i = 0; i < eqns.pixelToData.length; i++) {
+                listHTML += '<p align="center">'+eqns.pixelToData[i]+"</p>";
+            }
+        }
+        
+        listHTML += '<p>&nbsp;</p>';
+
+        if(eqns.dataToPixel != null) {
+            listHTML += '<p><b>Data to Pixel</b></p>';
+            for(i = 0; i < eqns.dataToPixel.length; i++) {
+                listHTML += '<p align="center">'+eqns.dataToPixel[i]+"</p>";
+            }
+        }
+        
+        $list.innerHTML = listHTML;
+    }
+    return {
+        show: show
+    };
+})();
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 

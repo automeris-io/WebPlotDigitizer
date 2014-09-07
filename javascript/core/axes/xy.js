@@ -234,6 +234,13 @@ wpd.XYAxes = (function () {
         this.isLogY = function () {
             return isLogScaleY;
         };
+
+        this.getTransformationEquations = function() {
+            return {
+                pixelToData: ['x_data = 0*x_pixel + 0*y_pixel','y_data = 0*x_pixel + 0*y_pixel'],
+                dataToPixel: ['x_pixel = 0*x_data + 0*y_data','y_pixel = 0*x_data + 0*y_data']
+            };
+        };
     };
 
     AxesObj.prototype.numCalibrationPointsRequired = function() {
