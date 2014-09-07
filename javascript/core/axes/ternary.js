@@ -117,6 +117,13 @@ wpd.TernaryAxes = (function () {
             var dataVal = this.pixelToData(pxi, pyi);
             return dataVal[0].toExponential(4) + ', ' + dataVal[1].toExponential(4) + ', ' + dataVal[2].toExponential(4);
         };
+
+        this.getTransformationEquations = function () {
+            return {
+                pixelToData: ['x_data = x_pixel','y_data = y_pixel'],
+                dataToPixel: ['x_pixel = x_data', 'y_pixel = y_data']
+            };
+        };
     };
 
     AxesObj.prototype.numCalibrationPointsRequired = function() {

@@ -77,6 +77,19 @@ wpd.MapAxes = (function () {
         this.getUnits = function () {
             return scaleUnits;
         };
+
+        this.getTransformationEquations = function () {
+            return {
+                pixelToData:[
+                                'x_data = ' + scaleLength/dist + '*x_pixel',
+                                'y_data = ' + scaleLength/dist + '*y_pixel'
+                            ],
+                dataToPixel:[
+                                'x_pixel = ' + dist/scaleLength + '*x_data', 
+                                'y_pixel = ' + dist/scaleLength + '*y_data'
+                            ]
+            };
+        };
     };
 
     AxesObj.prototype.numCalibrationPointsRequired = function() {
