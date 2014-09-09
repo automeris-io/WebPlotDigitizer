@@ -449,27 +449,14 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
 	<p align="center"><input type="button" value="OK" onclick="wpd.alignAxes.align();"></p>
 	</div>
 
-	<div id="csvWindow" class="popup" style="width: 580px; height: 480px;">
-	<p align="center" class="popupheading">Acquired Data</p>
-    <p align="center">Dataset: <span id="data-table-dataset">Default Dataset</span></p>
-	<p align="center">
-		Sort by:
-		<select id="data-sort-variables" onchange="wpd.dataTable.reSort();">
-		</select> 
-		Order: 
-		<select id="data-sort-order" onchange="wpd.dataTable.reSort();">
-			<option value="ascending">Ascending</option>
-			<option value="descending">Descending</option>
-		</select>
-	</p>
-	<p align="center">
-		<span id="data-date-formatting-container">
-		Date Formatting:
-        <span id="data-date-formatting"></span>         
-		<input type="button" value="Format" onclick="wpd.dataTable.reSort();"/>
-		</span>
-	</p>
-	<p align="center">Variables: <span id="dataVariables"></span></p>
+	<div id="csvWindow" class="popup" style="width: 800px; height: 480px;">
+	<p class="popupheading">Acquired Data</p>
+    <table style="width:780px;">
+    <tr>
+    <td>
+    <!-- left panel -->
+    <p>Dataset: <span id="data-table-dataset">Default Dataset</span></p>
+    <p align="center">Variables: <span id="dataVariables"></span></p>
 	<p align="center"><textarea id="digitizedDataTable" style="width: 480px; height: 250px;"></textarea></p>
 	<p align="center">
 		<input type="button" value="Select All" onclick="wpd.dataTable.selectAll();"/>
@@ -479,6 +466,31 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
 	</p>
 	<p align="center" class="footnote">*Plotly is a secure data analysis and graphing site with data sharing and access controls.</p>
 	<p align="center" class="footnote">Visit <a href="http://plot.ly" target="plotlyWebsite">http://plot.ly</a> for details.</p>
+    </td>
+    <td valign="top" style="width:250px;">
+    <!-- data side controls -->
+    <p><b>Sort</b></p>
+    <p class="leftIndent">Sort by: <select id="data-sort-variables" onchange="wpd.dataTable.reSort();"></select></p>
+    <p class="leftIndent">Order: 
+		<select id="data-sort-order" onchange="wpd.dataTable.reSort();">
+			<option value="ascending">Ascending</option>
+			<option value="descending">Descending</option>
+		</select>
+	</p>
+    <hr/>
+    <p><b>Format</b></p>
+	<p class="leftIndent">
+		<span id="data-date-formatting-container">
+		Date Formatting:
+        <span id="data-date-formatting"></span>         
+		</span>
+	</p>
+    <p class="leftIndent">Number Formatting:</p>
+    <p>Digits: <input type="text" value="5" size="2"/><select><option>Fixed</option><option>Precision</option></select></p>
+	<p align="right"><input type="button" value="Format" onclick="wpd.dataTable.reSort();"/></p>
+    </td>
+    </tr>
+    </table>
 	</div>
 
     <div id="measurement-data-window" class="popup" style="width: 580px;">

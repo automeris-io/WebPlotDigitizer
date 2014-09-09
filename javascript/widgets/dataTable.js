@@ -129,8 +129,8 @@ wpd.dataTable = (function () {
         for(labIndex = 0; labIndex < tableVariables.length; labIndex++) {
             variableHTML += '<option value="' + labIndex + '">' + tableVariables[labIndex] + '</option>';
             if(labIndex < dimCount && axes.isDate != null && axes.getInitialDateFormat != null && axes.isDate(labIndex)) {
-                dateFormattingHTML += axesLabels[labIndex] + ' <input type="text" length="15" value="' 
-                    + axes.getInitialDateFormat(labIndex) + '" id="data-format-string-'+ labIndex +'"/>';
+                dateFormattingHTML += '<p>' + axesLabels[labIndex] + ' <input type="text" length="15" value="' 
+                    + axes.getInitialDateFormat(labIndex) + '" id="data-format-string-'+ labIndex +'"/></p>';
                 isAnyVariableDate = true;
             }
         }
