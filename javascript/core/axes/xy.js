@@ -36,9 +36,9 @@ wpd.XYAxes = (function () {
             initialFormattingX, initialFormattingY,
 
             x1, x2, x3, x4, y1, y2, y3, y4,
-            xmin, xmax, ymin, ymax, xm, ym,
-            d12, d34, Lx, Ly, 
-            thetax, thetay, theta,
+            xmin, xmax, ymin, ymax, 
+            a_mat = [0, 0, 0, 0], a_inv_mat = [0, 0, 0, 0];
+            c_vec = [0, 0],
 
             processCalibration = function(cal, isLogX, isLogY) {
 
@@ -50,7 +50,8 @@ wpd.XYAxes = (function () {
                     cp2 = cal.getPoint(1),
                     cp3 = cal.getPoint(2),
                     cp4 = cal.getPoint(3),
-                    ip = new wpd.InputParser();
+                    ip = new wpd.InputParser(),
+                    dat_mat, pix_mat;
                 
                 x1 = cp1.px;
                 y1 = cp1.py;
@@ -101,19 +102,14 @@ wpd.XYAxes = (function () {
                      ymax = Math.log(ymax)/Math.log(10);
                 }
 
-                xm = xmax - xmin;
-                ym = ymax - ymin;
+                dat_mat = [xmin-xmax, 0, 0, ymin - ymax];
+                pix_mat = [x1 - x2, x3 - x4, y1 - y2, y3 - y4];
 
-                d12 = Math.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2));
-                d34 = Math.sqrt((x3-x4)*(x3-x4) + (y3-y4)*(y3-y4));
+                a_mat = wpd.mat.mult2x2(dat_mat, wpd.mat.inv2x2(pix_mat));
+                a_inv_mat = wpd.mat.inv2x2(a_mat);
+                c_vec[0] = xmin - a_mat[0]*x1 - a_mat[1]*y1;
+                c_vec[1] = ymin - a_mat[2]*x3 - a_mat[3]*y3;
 
-                Lx = xm/d12;
-                Ly = ym/d34;
-
-                thetax = wpd.taninverse(-(y2-y1), (x2-x1));
-                thetay = wpd.taninverse(-(y4-y3), (x4-x3));
-
-                theta = thetay-thetax;
                 calibration = cal;
                 return true;
             };
@@ -138,23 +134,17 @@ wpd.XYAxes = (function () {
 
         this.pixelToData = function(pxi, pyi) {
             var data = [],
-                xp, yp, xf, yf, dP1, dP3, thetaP1, thetaP3,
-                dx, dy;
+                xp, yp, xf, yf, dat_vec;
 
             xp = parseFloat(pxi);
             yp = parseFloat(pyi);
 
-            dP1 = Math.sqrt((xp-x1)*(xp-x1) + (yp-y1)*(yp-y1));
-            thetaP1 = wpd.taninverse(-(yp-y1), (xp-x1)) - thetax;
-            dx = dP1*Math.cos(thetaP1) - dP1*Math.sin(thetaP1)/Math.tan(theta);
+            dat_vec = wpd.mat.mult2x2Vec(a_mat, [xp, yp]);
+            dat_vec[0] = dat_vec[0] + c_vec[0];
+            dat_vec[1] = dat_vec[1] + c_vec[1];
 
-            xf = dx*Lx + xmin;
-
-            dP3 = Math.sqrt((xp-x3)*(xp-x3) + (yp-y3)*(yp-y3));
-            thetaP3 = thetay - wpd.taninverse(-(yp-y3), (xp-x3));
-            dy = dP3*Math.cos(thetaP3) - dP3*Math.sin(thetaP3)/Math.tan(theta);
-
-            yf = dy*Ly + ymin;
+            xf = dat_vec[0];
+            yf = dat_vec[1];
 
             // if x-axis is log scale
             if (isLogScaleX === true)
@@ -171,21 +161,13 @@ wpd.XYAxes = (function () {
         };
 
         this.dataToPixel = function(x, y) {
-            var xydenom, xx_pix, yy_pix, 
-                rtnPix, xx, yx, xf, yf;
+            var xf, yf, dat_vec, rtnPix;
 
-            // Get intersection point in pixels
-            xydenom = (x1 - x2)*(y3 - y4) - (y1 - y2)*(x3 - x4);
-            xx_pix = ((x1*y2 - y1*x2)*(x3 - x4) - (x1 - x2)*(x3*y4 - y3*x4))/xydenom;
-            yy_pix = ((x1*y2 - y1*x2)*(y3 - y4) - (y1 - y2)*(x3*y4 - y3*x4))/xydenom;
-
-            // Get intersection point in actual units
-        	rtnPix = this.pixelToData(xx_pix, yy_pix);
-	    	xx = rtnPix[0];
-		    yx = rtnPix[1];
-
-            xf = (x - xmin)*Math.cos(thetax)/Lx + (y - yx)*Math.cos(thetay)/Ly + x1;
-            yf = y3 - (x - xx)*Math.sin(thetax)/Lx - (y - ymin)*Math.sin(thetay)/Ly;
+            dat_vec = [x - c_vec[0], y - c_vec[1]];
+            rtnPix = wpd.mat.mult2x2Vec(a_inv_mat, dat_vec);
+            // TODO: add support for log-scale
+            xf = rtnPix[0];
+            yf = rtnPix[1];
 
             return {
                 x: xf,
