@@ -190,6 +190,8 @@ select {
 
 .footnote {font-size: 10px;}
 
+.leftIndent {margin-left:10px;}
+
 #zoom-settings-container {
     position: absolute;
     top: 5px;
