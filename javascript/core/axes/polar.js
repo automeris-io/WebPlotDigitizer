@@ -117,9 +117,18 @@ wpd.PolarAxes = (function () {
         };
 
         this.getTransformationEquations = function () {
+            var rEqn = 'r = (' + (r2 - r1)/dist12 + ')*sqrt((x_pixel - ' + x0 + ')^2 + (y_pixel - ' + y0 + ')^2) + ('
+                        + (r1-dist10*(r2-r1)/dist12) + ')',
+                thetaEqn = 'atan2((' + y0 + ' - y_pixel), (x_pixel - ' + x0 + ')) - (' + alpha0 + ')';
+
+            if(isDegrees) {
+                thetaEqn = 'theta = (180/PI)*(' + thetaEqn + '), theta = theta + 360 if theta < 0';
+            } else {
+                thetaEqn = 'theta = ' + thetaEqn + ' theta = theta + 2*PI if theta < 0';
+            }
+
             return {
-                pixelToData: ['r_data = x_pixel','theta_data = y_pixel'],
-                dataToPixel: ['x_pixel = r_data + theta_data', 'y_pixel = r_data + theta_data']
+                pixelToData: [rEqn, thetaEqn]
             };
         };
     };
