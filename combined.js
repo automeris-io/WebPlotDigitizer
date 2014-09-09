@@ -2786,9 +2786,32 @@ wpd.XYAxes = (function () {
         };
 
         this.getTransformationEquations = function() {
+            var xdEqn = '(' + a_mat[0] + ')*x_pixel + (' + a_mat[1] + ')*y_pixel + (' + c_vec[0] + ')',
+                ydEqn = '(' + a_mat[2] + ')*x_pixel + (' + a_mat[3] + ')*y_pixel + (' + c_vec[1] + ')',
+                xpEqn = 'x_pixel = (' + a_inv_mat[0] + ')*x_data + (' + a_inv_mat[1] + ')*y_data + (' + (-a_inv_mat[0]*c_vec[0]-a_inv_mat[1]*c_vec[1]) + ')',
+                ypEqn = 'y_pixel = (' + a_inv_mat[2] + ')*x_data + (' + a_inv_mat[3] + ')*y_data + (' + (-a_inv_mat[2]*c_vec[0]-a_inv_mat[3]*c_vec[1]) + ')';
+
+            if (isLogScaleX) {
+                xdEqn = 'x_data = pow(10, ' + xdEqn + ')';
+            } else {
+                xdEqn = 'x_data = ' + xdEqn;
+            }
+            
+            if (isLogScaleY) {
+                ydEqn = 'y_data = pow(10, ' + ydEqn + ')';
+            } else {
+                ydEqn = 'y_data = ' + ydEqn;
+            }
+
+            if(isLogScaleX || isLogScaleY) {
+                return {
+                     pixelToData: [xdEqn, ydEqn]
+                };
+            }
+
             return {
-                pixelToData: ['x_data = 0*x_pixel + 0*y_pixel','y_data = 0*x_pixel + 0*y_pixel'],
-                dataToPixel: ['x_pixel = 0*x_data + 0*y_data','y_pixel = 0*x_data + 0*y_data']
+                pixelToData: [xdEqn, ydEqn],
+                dataToPixel: [xpEqn, ypEqn]
             };
         };
     };
@@ -4189,19 +4212,21 @@ wpd.transformationEquations = (function () {
             i;
 
         if(eqns.pixelToData != null) {
-            listHTML += '<p><b>Pixel to Data</b></p>';
+            listHTML += '<p><b>Pixel to Data</b></p><ol>';
             for(i = 0; i < eqns.pixelToData.length; i++) {
-                listHTML += '<p align="center">'+eqns.pixelToData[i]+"</p>";
+                listHTML += '<li><p class="footnote">'+eqns.pixelToData[i]+"</p></li>";
             }
+            listHTML += '</ol>';
         }
         
         listHTML += '<p>&nbsp;</p>';
 
         if(eqns.dataToPixel != null) {
-            listHTML += '<p><b>Data to Pixel</b></p>';
+            listHTML += '<p><b>Data to Pixel</b></p><ol>';
             for(i = 0; i < eqns.dataToPixel.length; i++) {
-                listHTML += '<p align="center">'+eqns.dataToPixel[i]+"</p>";
+                listHTML += '<li><p class="footnote">'+eqns.dataToPixel[i]+"</p></li>";
             }
+            listHTML += '</ol>';
         }
         
         $list.innerHTML = listHTML;
