@@ -63,6 +63,8 @@ Problems loading? Make sure you have a recent version of Google Chrome, Firefox,
             <li id="wpd-filemenu-capture" onclick="wpd.webcamCapture.start();">Webcam Capture</li>
             <li id="wpd-filemenu-runscript" onclick="wpd.scriptInjector.start();">Run Script</li>
             <li id="wpd-filemenu-saveimage" onclick="wpd.graphicsWidget.saveImage();">Save Image</li>
+            <li id="wpd-filemenu-exportdata" onclick="wpd.saveResume.save();">Export JSON</li>
+            <li id="wpd-filemenu-import" onclick="wpd.saveResume.resume();">Import JSON</li>
         </ul>
     </div>
 </div>
@@ -486,7 +488,13 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
 		</span>
 	</p>
     <p class="leftIndent">Number Formatting:</p>
-    <p>Digits: <input type="text" value="5" size="2"/><select><option>Fixed</option><option>Precision</option></select></p>
+    <p>Digits: <input type="text" value="5" size="2" id="data-number-format-digits"/>
+        <select id="data-number-format-style">
+            <option value="ignore">Ignore</option>
+            <option value="fixed">Fixed</option>
+            <option value="precision">Precision</option>
+        </select>
+    </p>
 	<p align="right"><input type="button" value="Format" onclick="wpd.dataTable.reSort();"/></p>
     </td>
     </tr>

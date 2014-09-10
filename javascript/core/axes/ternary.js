@@ -65,6 +65,14 @@ wpd.TernaryAxes = (function () {
             return isCalibrated;
         };
 
+        this.isRange100 = function () {
+            return isRange0to100;
+        };
+
+        this.isNormalOrientation = function () {
+            return isOrientationNormal;
+        };
+
         this.pixelToData = function(pxi, pyi) {
             var data = [],
                 rp,
