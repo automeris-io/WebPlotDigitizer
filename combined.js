@@ -3032,7 +3032,9 @@ wpd.dataTable = (function () {
             rowCount = rawData.length,
             rowi, dimi, rowValues,
             $digitizedDataTable = document.getElementById('digitizedDataTable'),
-            formatStrings = [];
+            formatStrings = [],
+            numberFormattingDigits = parseInt(document.getElementById('data-number-format-digits').value, 10),
+            numberFormattingStyle = document.getElementById('data-number-format-style').value;
 
         tableText = '';
         for(rowi = 0; rowi < rowCount; rowi++) {
@@ -3044,7 +3046,15 @@ wpd.dataTable = (function () {
                     }
                     rowValues[dimi] = wpd.dateConverter.formatDateNumber(sortedData[rowi][dimi], formatStrings[dimi]);
                 } else {
-                    rowValues[dimi] = sortedData[rowi][dimi];
+                    if(numberFormattingStyle === 'fixed' && numberFormattingDigits >= 0) {
+                        rowValues[dimi] = sortedData[rowi][dimi].toFixed(numberFormattingDigits);
+                    } else if(numberFormattingStyle === 'precision' && numberFormattingDigits >= 0) {
+                        rowValues[dimi] = sortedData[rowi][dimi].toPrecision(numberFormattingDigits);
+                    } else if(numberFormattingStyle === 'exponential' && numberFormattingDigits >= 0) {
+                        rowValues[dimi] = sortedData[rowi][dimi].toExponential(numberFormattingDigits);
+                    } else {
+                        rowValues[dimi] = sortedData[rowi][dimi];
+                    }
                 }
             }
             tableText += rowValues.join(', ');
