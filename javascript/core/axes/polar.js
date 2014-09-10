@@ -82,6 +82,14 @@ wpd.PolarAxes = (function () {
             return isCalibrated;
         };
 
+        this.isThetaDegrees = function () {
+            return isDegrees;
+        };
+
+        this.isThetaClockwise = function () {
+            return isClockwise;
+        };
+
         this.pixelToData = function(pxi, pyi) {
             var data = [],
                 rp,

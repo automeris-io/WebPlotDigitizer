@@ -185,7 +185,13 @@
 		</span>
 	</p>
     <p class="leftIndent">Number Formatting:</p>
-    <p>Digits: <input type="text" value="5" size="2"/><select><option>Fixed</option><option>Precision</option></select></p>
+    <p>Digits: <input type="text" value="5" size="2" id="data-number-format-digits"/>
+        <select id="data-number-format-style">
+            <option value="ignore">Ignore</option>
+            <option value="fixed">Fixed</option>
+            <option value="precision">Precision</option>
+        </select>
+    </p>
 	<p align="right"><input type="button" value="Format" onclick="wpd.dataTable.reSort();"/></p>
     </td>
     </tr>

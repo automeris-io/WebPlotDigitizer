@@ -74,6 +74,10 @@ wpd.MapAxes = (function () {
             return dataVal[0].toExponential(4) + ', ' + dataVal[1].toExponential(4);
         };
 
+        this.getScaleLength = function () {
+            return scaleLength;
+        };
+
         this.getUnits = function () {
             return scaleUnits;
         };
