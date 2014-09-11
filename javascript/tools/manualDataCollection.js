@@ -63,14 +63,31 @@ wpd.acquireData = (function () {
     }
  
     function showSidebar() {
-        updateDatasetName();
         wpd.sidebar.show('acquireDataSidebar');
+        updateDatasetControl();
+        wpd.dataPointCounter.setCount();
     }
 
-    function updateDatasetName() {
-        var name = wpd.appData.getPlotData().getActiveDataSeries().name,
-            $datasetBtn = document.getElementById('manual-sidebar-dataset');
-        $datasetBtn.value = name;
+    function updateDatasetControl() {
+        var plotData = wpd.appData.getPlotData(),
+            currentDataset = plotData.getActiveDataSeries(), // just to create a dataset if there is none.
+            currentIndex = plotData.getActiveDataSeriesIndex(),
+            $datasetList = document.getElementById('manual-sidebar-dataset-list'),
+            listHTML = '',
+            i;
+        for(i = 0; i < plotData.dataSeriesColl.length; i++) {
+            listHTML += '<option>'+plotData.dataSeriesColl[i].name+'</option>';
+        }
+        $datasetList.innerHTML = listHTML;
+        $datasetList.selectedIndex = currentIndex;
+    }
+
+    function changeDataset() {
+        var $datasetList = document.getElementById('manual-sidebar-dataset-list'),
+            index = $datasetList.selectedIndex;
+        wpd.appData.getPlotData().setActiveDataSeriesIndex(index);
+        wpd.graphicsWidget.forceHandlerRepaint();
+        wpd.dataPointCounter.setCount();
     }
 
     function adjustPoints() {
@@ -102,7 +119,8 @@ wpd.acquireData = (function () {
         undo: undo,
         showSidebar: showSidebar,
         switchToolOnKeyPress: switchToolOnKeyPress,
-        updateDatasetName: updateDatasetName
+        updateDatasetControl: updateDatasetControl,
+        changeDataset: changeDataset
     };
 })();
 

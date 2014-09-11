@@ -3077,13 +3077,33 @@ wpd.dataTable = (function () {
         sortRawData();
         makeTable();
         updateSortingControls();
-        updateDatasetName();
+        updateDatasetList();
     }
 
-    function updateDatasetName() {
-        var $datasetName = document.getElementById('data-table-dataset'),
-            name = wpd.appData.getPlotData().getActiveDataSeries().name;
-        $datasetName.innerHTML = name;
+    function close() {
+        wpd.popup.close('csvWindow');
+    }
+
+    function updateDatasetList() {
+        var $datasetList = document.getElementById('data-table-dataset-list'),
+            plotData = wpd.appData.getPlotData(),
+            index = plotData.getActiveDataSeriesIndex(),
+            i,
+            listHTML;
+        for(i = 0; i < plotData.dataSeriesColl.length; i++) {
+            listHTML += '<option>' + plotData.dataSeriesColl[i].name + '</option>';
+        }
+        $datasetList.innerHTML = listHTML;
+        $datasetList.selectedIndex = index;
+    }
+
+    function changeDataset() {
+        var $datasetList = document.getElementById('data-table-dataset-list');
+        wpd.appData.getPlotData().setActiveDataSeriesIndex($datasetList.selectedIndex);
+        wpd.graphicsWidget.forceHandlerRepaint();
+        wpd.dataPointCounter.setCount();
+        close();
+        showTable();
     }
 
     function generateCSV() {
@@ -3191,7 +3211,8 @@ wpd.dataTable = (function () {
         reSort: reSort,
         selectAll: selectAll,
         generateCSV: generateCSV,
-        exportToPlotly: exportToPlotly
+        exportToPlotly: exportToPlotly,
+        changeDataset: changeDataset
     };
 })();
 
@@ -4934,16 +4955,32 @@ var wpd = wpd || {};
 wpd.autoExtraction = (function () {
 
     function start() {
-        updateDatasetName();
         wpd.sidebar.show('auto-extraction-sidebar');
+        updateDatasetControl();
         wpd.colorPicker.init();
         changeAlgorithm();
     }
 
-    function updateDatasetName() {
-        var name = wpd.appData.getPlotData().getActiveDataSeries().name,
-            $datasetBtn = document.getElementById('automatic-sidebar-dataset');
-        $datasetBtn.value = name;
+    function updateDatasetControl() {
+        var plotData = wpd.appData.getPlotData(),
+            currentDataset = plotData.getActiveDataSeries(), // just to create a dataset if there is none.
+            currentIndex = plotData.getActiveDataSeriesIndex(),
+            $datasetList = document.getElementById('automatic-sidebar-dataset-list'),
+            listHTML = '',
+            i;
+        for(i = 0; i < plotData.dataSeriesColl.length; i++) {
+            listHTML += '<option>'+plotData.dataSeriesColl[i].name+'</option>';
+        }
+        $datasetList.innerHTML = listHTML;
+        $datasetList.selectedIndex = currentIndex;
+    }
+
+    function changeDataset() {
+        var $datasetList = document.getElementById('automatic-sidebar-dataset-list'),
+            index = $datasetList.selectedIndex;
+        wpd.appData.getPlotData().setActiveDataSeriesIndex(index);
+        wpd.graphicsWidget.forceHandlerRepaint();
+        wpd.dataPointCounter.setCount();
     }
 
     function changeAlgorithm() {
@@ -5027,7 +5064,8 @@ wpd.autoExtraction = (function () {
         start: start,
         changeAlgorithm: changeAlgorithm,
         runAlgo: runAlgo,
-        updateDatasetName: updateDatasetName
+        updateDatasetControl: updateDatasetControl,
+        changeDataset: changeDataset
     };
 })();
 
@@ -5417,8 +5455,9 @@ wpd.dataSeriesManagement = (function () {
 
     function updateApp() {
         wpd.graphicsWidget.forceHandlerRepaint();
-        wpd.autoExtraction.updateDatasetName();
-        wpd.acquireData.updateDatasetName();
+        wpd.autoExtraction.updateDatasetControl();
+        wpd.acquireData.updateDatasetControl();
+        wpd.dataPointCounter.setCount();
     }
 
     function editSeriesName() {
@@ -5961,14 +6000,31 @@ wpd.acquireData = (function () {
     }
  
     function showSidebar() {
-        updateDatasetName();
         wpd.sidebar.show('acquireDataSidebar');
+        updateDatasetControl();
+        wpd.dataPointCounter.setCount();
     }
 
-    function updateDatasetName() {
-        var name = wpd.appData.getPlotData().getActiveDataSeries().name,
-            $datasetBtn = document.getElementById('manual-sidebar-dataset');
-        $datasetBtn.value = name;
+    function updateDatasetControl() {
+        var plotData = wpd.appData.getPlotData(),
+            currentDataset = plotData.getActiveDataSeries(), // just to create a dataset if there is none.
+            currentIndex = plotData.getActiveDataSeriesIndex(),
+            $datasetList = document.getElementById('manual-sidebar-dataset-list'),
+            listHTML = '',
+            i;
+        for(i = 0; i < plotData.dataSeriesColl.length; i++) {
+            listHTML += '<option>'+plotData.dataSeriesColl[i].name+'</option>';
+        }
+        $datasetList.innerHTML = listHTML;
+        $datasetList.selectedIndex = currentIndex;
+    }
+
+    function changeDataset() {
+        var $datasetList = document.getElementById('manual-sidebar-dataset-list'),
+            index = $datasetList.selectedIndex;
+        wpd.appData.getPlotData().setActiveDataSeriesIndex(index);
+        wpd.graphicsWidget.forceHandlerRepaint();
+        wpd.dataPointCounter.setCount();
     }
 
     function adjustPoints() {
@@ -6000,7 +6056,8 @@ wpd.acquireData = (function () {
         undo: undo,
         showSidebar: showSidebar,
         switchToolOnKeyPress: switchToolOnKeyPress,
-        updateDatasetName: updateDatasetName
+        updateDatasetControl: updateDatasetControl,
+        changeDataset: changeDataset
     };
 })();
 
