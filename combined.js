@@ -7261,7 +7261,9 @@ wpd.saveResume = (function () {
             for(i = 0; i < calibration.getCount(); i++) {
                 outData.wpd.calibration[i] = calibration.getPoint(i);
             }
+        }
 
+        if(plotData.axes != null) {
             if(plotData.axes instanceof wpd.XYAxes) {
                 outData.wpd.axesType = 'XYAxes';
                 outData.wpd.axesParameters = {
