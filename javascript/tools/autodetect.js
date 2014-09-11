@@ -24,16 +24,32 @@ var wpd = wpd || {};
 wpd.autoExtraction = (function () {
 
     function start() {
-        updateDatasetName();
         wpd.sidebar.show('auto-extraction-sidebar');
+        updateDatasetControl();
         wpd.colorPicker.init();
         changeAlgorithm();
     }
 
-    function updateDatasetName() {
-        var name = wpd.appData.getPlotData().getActiveDataSeries().name,
-            $datasetBtn = document.getElementById('automatic-sidebar-dataset');
-        $datasetBtn.value = name;
+    function updateDatasetControl() {
+        var plotData = wpd.appData.getPlotData(),
+            currentDataset = plotData.getActiveDataSeries(), // just to create a dataset if there is none.
+            currentIndex = plotData.getActiveDataSeriesIndex(),
+            $datasetList = document.getElementById('automatic-sidebar-dataset-list'),
+            listHTML = '',
+            i;
+        for(i = 0; i < plotData.dataSeriesColl.length; i++) {
+            listHTML += '<option>'+plotData.dataSeriesColl[i].name+'</option>';
+        }
+        $datasetList.innerHTML = listHTML;
+        $datasetList.selectedIndex = currentIndex;
+    }
+
+    function changeDataset() {
+        var $datasetList = document.getElementById('automatic-sidebar-dataset-list'),
+            index = $datasetList.selectedIndex;
+        wpd.appData.getPlotData().setActiveDataSeriesIndex(index);
+        wpd.graphicsWidget.forceHandlerRepaint();
+        wpd.dataPointCounter.setCount();
     }
 
     function changeAlgorithm() {
@@ -117,7 +133,8 @@ wpd.autoExtraction = (function () {
         start: start,
         changeAlgorithm: changeAlgorithm,
         runAlgo: runAlgo,
-        updateDatasetName: updateDatasetName
+        updateDatasetControl: updateDatasetControl,
+        changeDataset: changeDataset
     };
 })();
 

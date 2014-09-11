@@ -215,13 +215,33 @@ wpd.dataTable = (function () {
         sortRawData();
         makeTable();
         updateSortingControls();
-        updateDatasetName();
+        updateDatasetList();
     }
 
-    function updateDatasetName() {
-        var $datasetName = document.getElementById('data-table-dataset'),
-            name = wpd.appData.getPlotData().getActiveDataSeries().name;
-        $datasetName.innerHTML = name;
+    function close() {
+        wpd.popup.close('csvWindow');
+    }
+
+    function updateDatasetList() {
+        var $datasetList = document.getElementById('data-table-dataset-list'),
+            plotData = wpd.appData.getPlotData(),
+            index = plotData.getActiveDataSeriesIndex(),
+            i,
+            listHTML;
+        for(i = 0; i < plotData.dataSeriesColl.length; i++) {
+            listHTML += '<option>' + plotData.dataSeriesColl[i].name + '</option>';
+        }
+        $datasetList.innerHTML = listHTML;
+        $datasetList.selectedIndex = index;
+    }
+
+    function changeDataset() {
+        var $datasetList = document.getElementById('data-table-dataset-list');
+        wpd.appData.getPlotData().setActiveDataSeriesIndex($datasetList.selectedIndex);
+        wpd.graphicsWidget.forceHandlerRepaint();
+        wpd.dataPointCounter.setCount();
+        close();
+        showTable();
     }
 
     function generateCSV() {
@@ -329,7 +349,8 @@ wpd.dataTable = (function () {
         reSort: reSort,
         selectAll: selectAll,
         generateCSV: generateCSV,
-        exportToPlotly: exportToPlotly
+        exportToPlotly: exportToPlotly,
+        changeDataset: changeDataset
     };
 })();
 

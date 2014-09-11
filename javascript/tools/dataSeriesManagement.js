@@ -110,8 +110,9 @@ wpd.dataSeriesManagement = (function () {
 
     function updateApp() {
         wpd.graphicsWidget.forceHandlerRepaint();
-        wpd.autoExtraction.updateDatasetName();
-        wpd.acquireData.updateDatasetName();
+        wpd.autoExtraction.updateDatasetControl();
+        wpd.acquireData.updateDatasetControl();
+        wpd.dataPointCounter.setCount();
     }
 
     function editSeriesName() {
