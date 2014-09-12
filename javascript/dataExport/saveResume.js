@@ -26,8 +26,19 @@ var wpd = wpd || {};
 wpd.saveResume = (function () {
 
     function save() {
-        var win,
-            plotData = wpd.appData.getPlotData(),
+        wpd.popup.show('export-json-window');
+    }
+
+    function load() {
+        wpd.popup.show('import-json-window');
+    }
+
+    function resumeFromJSON(json_data) {
+        // call resume on individual components
+    }
+
+    function generateJSON() {
+        var plotData = wpd.appData.getPlotData(),
             calibration = wpd.alignAxes.getActiveCalib(),
             outData = {
                     wpd: {
@@ -107,12 +118,55 @@ wpd.saveResume = (function () {
         }
 
         json_string = JSON.stringify(outData);
+        return json_string;
+    }
 
-        win = window.open("data:text/html," + encodeURIComponent(json_string));
-        win.focus();
+    function download() {
+        var formContainer,
+            formElement,
+            formData,
+            jsonData = generateJSON();
+        
+        // Create a hidden form and submit
+        formContainer = document.createElement('div'),
+        formElement = document.createElement('form'),
+        formData = document.createElement('input');
+
+        formElement.setAttribute('method', 'post');
+        formElement.setAttribute('action', 'php/json.php');
+
+        formData.setAttribute('type', "text");
+        formData.setAttribute('name', "data");
+
+        formElement.appendChild(formData);
+        formContainer.appendChild(formElement);
+        document.body.appendChild(formContainer);
+        formContainer.style.display = 'none';
+
+        formData.setAttribute('value', jsonData);
+        formElement.submit();
+        document.body.removeChild(formContainer);
+
+        wpd.popup.close('export-json-window');
+    }
+
+    function read() {
+        var $fileInput = document.getElementById('import-json-file');
+        wpd.popup.close('import-json-window');
+        if($fileInput.files.length === 1) {
+            var fileReader = new FileReader();
+            fileReader.onload = function () {
+                var json_data = JSON.parse(fileReader.result);
+                resumeFromJSON(json_data); 
+            };
+            fileReader.readAsText($fileInput.files[0]);
+        }
     }
 
     return {
-        save: save
+        save: save,
+        load: load,
+        download: download,
+        read: read
     };
 })();
