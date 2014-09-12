@@ -308,3 +308,24 @@
     <p>&nbsp;</p>
     <p align="center"><input type="button" value="Close" onclick="wpd.popup.close('axes-transformation-equations-window');"/></p>
     </div>
+
+    <div id="export-json-window" class="popup" style="width:400px;">
+    <p class="popupheading">Export JSON</p>
+    <p>This JSON file contains the axes calibration and data points from this plot. This file can be imported later to resume work or reuse the calibration in another plot.</p>
+    <p>&nbsp;</p>
+    <p align="center">
+        <input type="button" value="Download" onclick="wpd.saveResume.download();"/>
+        <input type="button" value="Close" onclick="wpd.popup.close('export-json-window');"/>
+    </p>
+    </div>
+
+    <div id="import-json-window" class="popup" style="width:400px;">
+    <p class="popupheading">Import JSON</p>
+    <p>&nbsp;</p>
+    <p align="center">JSON File: <input type="file" id="import-json-file"/></p>
+    <p>&nbsp;</p>
+    <p align="center">
+        <input type="button" value="Import" onclick="wpd.saveResume.read();"/>
+        <input type="button" value="Cancel" onclick="wpd.popup.close('import-json-window');"/>
+    </p>
+    </div>

@@ -32,7 +32,7 @@ wpd.dataSeriesManagement = (function () {
 
     function manage() {
         if(!wpd.appData.isAligned()) {
-            wpd.messagePopup.show("Manage Dataset", "Please calibrate the axes before managing datasets.");
+            wpd.messagePopup.show("Manage Datasets", "Please calibrate the axes before managing datasets.");
         } else {
             var $nameField = document.getElementById('manage-data-series-name'),
                 $pointCount = document.getElementById('manage-data-series-point-count'),
