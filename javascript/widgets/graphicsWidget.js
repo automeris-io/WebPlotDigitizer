@@ -533,6 +533,7 @@ wpd.graphicsWidget = (function () {
             var fileInfo = fileLoadElem.files[0];
             fileLoader(fileInfo);
         }
+        wpd.popup.close('loadNewImage');
     }
 
     function saveImage() {
@@ -659,6 +660,7 @@ wpd.graphicsWidget = (function () {
         getZoomRatio: getZoomRatio,
 
         loadImageFromURL: loadImageFromSrc,
+        load: loadNewFile,
         runImageOp: runImageOp,
 
         setTool: setTool,
