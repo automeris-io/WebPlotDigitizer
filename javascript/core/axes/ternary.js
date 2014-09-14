@@ -127,9 +127,37 @@ wpd.TernaryAxes = (function () {
         };
 
         this.getTransformationEquations = function () {
+            var rpEqn = 'rp = sqrt((x_pixel - ' + x0 + ')^2 + (y_pixel - ' + y0 + ')^2)/(' + L + ')',
+                thetapEqn = 'thetap = atan2(('+y0+' -  y_pixel), (x_pixel - ' + x0 + ')) - (' + Math.atan2(-(y1-y0),x1-x0) + ')',
+                apEqn = '1 - rp*(cos(thetap) - sin(thetap)/sqrt(3))', 
+                bpEqn = 'rp*(cos(thetap) - sin(thetap)/sqrt(3))', 
+                cpEqn = '2*rp*sin(thetap)/sqrt(3)',bpEqnt;
+
+            if(isRange0to100) {
+                apEqn = '100*(' + apEqn + ')'; 
+                bpEqn = '100*(' + bpEqn + ')'; 
+                cpEqn = '100*(' + cpEqn + ')';
+            }
+
+            apEqn = 'a_data = ' + apEqn;
+            bpEqn = 'b_data = ' + bpEqn;
+            cpEqn = 'c_data = ' + cpEqn;
+
+            if(!isOrientationNormal) {
+                bpEqnt = bpEqn;
+			    bpEqn = apEqn;
+			    apEqn = cpEqn;
+			    cpEqn = bpEqnt;
+            }
+
             return {
-                pixelToData: ['x_data = x_pixel','y_data = y_pixel'],
-                dataToPixel: ['x_pixel = x_data', 'y_pixel = y_data']
+                pixelToData: [
+                                rpEqn,
+                                thetapEqn,
+                                apEqn,
+                                bpEqn,
+                                cpEqn
+                             ]
             };
         };
     };
