@@ -2575,9 +2575,37 @@ wpd.TernaryAxes = (function () {
         };
 
         this.getTransformationEquations = function () {
+            var rpEqn = 'rp = sqrt((x_pixel - ' + x0 + ')^2 + (y_pixel - ' + y0 + ')^2)/(' + L + ')',
+                thetapEqn = 'thetap = atan2(('+y0+' -  y_pixel), (x_pixel - ' + x0 + ')) - (' + Math.atan2(-(y1-y0),x1-x0) + ')',
+                apEqn = '1 - rp*(cos(thetap) - sin(thetap)/sqrt(3))', 
+                bpEqn = 'rp*(cos(thetap) - sin(thetap)/sqrt(3))', 
+                cpEqn = '2*rp*sin(thetap)/sqrt(3)',bpEqnt;
+
+            if(isRange0to100) {
+                apEqn = '100*(' + apEqn + ')'; 
+                bpEqn = '100*(' + bpEqn + ')'; 
+                cpEqn = '100*(' + cpEqn + ')';
+            }
+
+            apEqn = 'a_data = ' + apEqn;
+            bpEqn = 'b_data = ' + bpEqn;
+            cpEqn = 'c_data = ' + cpEqn;
+
+            if(!isOrientationNormal) {
+                bpEqnt = bpEqn;
+			    bpEqn = apEqn;
+			    apEqn = cpEqn;
+			    cpEqn = bpEqnt;
+            }
+
             return {
-                pixelToData: ['x_data = x_pixel','y_data = y_pixel'],
-                dataToPixel: ['x_pixel = x_data', 'y_pixel = y_data']
+                pixelToData: [
+                                rpEqn,
+                                thetapEqn,
+                                apEqn,
+                                bpEqn,
+                                cpEqn
+                             ]
             };
         };
     };
@@ -4273,7 +4301,21 @@ wpd.transformationEquations = (function () {
             listHTML = '',
             axes = wpd.appData.getPlotData().axes,
             eqns = axes.getTransformationEquations(),
-            i;
+            i,
+            axesType;
+
+        listHTML += '<p><b>Axes Type</b>: ';
+        if(axes instanceof wpd.XYAxes) {
+            listHTML += 'XY</p>';
+        } else if(axes instanceof wpd.PolarAxes) {
+            listHTML += 'Polar</p>';
+        } else if(axes instanceof wpd.TernaryAxes) {
+            listHTML += 'Ternary</p>';
+        } else if(axes instanceof wpd.MapAxes) {
+            listHTML += 'Map</p>';
+        } else if(axes instanceof wpd.ImageAxes) {
+            listHTML += 'Image</p>';
+        }
 
         if(eqns.pixelToData != null) {
             listHTML += '<p><b>Pixel to Data</b></p><ol>';
