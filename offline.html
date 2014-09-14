@@ -307,9 +307,12 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
 	<div id="loadNewImage" class="popup" style="width: 400px;">
 	<p align="center" class="popupheading">Load Image File</p>
 	<p>&nbsp;</p>
-	<p align="center"><input type="file" id="fileLoadBox" onchange="wpd.popup.close('loadNewImage');"></p>
+	<p align="center"><input type="file" id="fileLoadBox"/></p>
 	<p>&nbsp;</p>
-	<p align="center"><input type="button" value="Cancel" onClick="wpd.popup.close('loadNewImage');"></p>
+	<p align="center">
+        <input type="button" value="Load" onclick="wpd.graphicsWidget.load();"/>
+        <input type="button" value="Cancel" onclick="wpd.popup.close('loadNewImage');"/>
+    </p>
 	</div>
 
     <div id="zoom-settings-popup" class="popup" style="width: 300px;">
@@ -614,7 +617,7 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
 
     <div id="export-json-window" class="popup" style="width:400px;">
     <p class="popupheading">Export JSON</p>
-    <p>This JSON file contains the axes calibration and data points from this plot. This file can be imported later to resume work or reuse the calibration in another plot.</p>
+    <p>This JSON file contains the axes calibration and the digitized data points from this plot. This file can be imported later to resume work or reuse the calibration in another plot.</p>
     <p>&nbsp;</p>
     <p align="center">
         <input type="button" value="Download" onclick="wpd.saveResume.download();"/>
@@ -624,6 +627,7 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
 
     <div id="import-json-window" class="popup" style="width:400px;">
     <p class="popupheading">Import JSON</p>
+    <p>Specify a previously exported JSON file to load here. Note that this will clear any unsaved data points in the current plot.</p>
     <p>&nbsp;</p>
     <p align="center">JSON File: <input type="file" id="import-json-file"/></p>
     <p>&nbsp;</p>
