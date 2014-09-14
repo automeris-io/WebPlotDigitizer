@@ -61,6 +61,7 @@ wpd.xyCalibration = (function () {
         }
         plot = wpd.appData.getPlotData();
         plot.axes = axes;
+        plot.calibration = calib;
         wpd.popup.close('xyAlignment');
         return true;
     }
@@ -108,6 +109,7 @@ wpd.polarCalibration = (function () {
 
         plot = wpd.appData.getPlotData();
         plot.axes = axes;
+        plot.calibration = calib;
         wpd.popup.close('polarAlignment');
         return true;
     }
@@ -148,6 +150,7 @@ wpd.ternaryCalibration = (function () {
         axes.calibrate(calib, range100, ternaryNormal);
         plot = wpd.appData.getPlotData();
         plot.axes = axes;
+        plot.calibration = calib;
         wpd.popup.close('ternaryAlignment');
         return true;
     }
@@ -188,6 +191,7 @@ wpd.mapCalibration = (function () {
         axes.calibrate(calib, scaleLength, scaleUnits);
         plot = wpd.appData.getPlotData();
         plot.axes = axes;
+        plot.calibration = calib;
         wpd.popup.close('mapAlignment');
         return true;
     }

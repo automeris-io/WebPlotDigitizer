@@ -153,20 +153,20 @@ wpd.measurementData = (function () {
         // Create a hidden form and submit
         formContainer = document.createElement('div'),
         formElement = document.createElement('form'),
-        formData = document.createElement('input');
+        formData = document.createElement('textarea');
 
         formElement.setAttribute('method', 'post');
         formElement.setAttribute('action', 'php/csvexport.php');
 
-        formData.setAttribute('type', "text");
         formData.setAttribute('name', "data");
+        formData.setAttribute('id', "data");
 
         formElement.appendChild(formData);
         formContainer.appendChild(formElement);
         document.body.appendChild(formContainer);
         formContainer.style.display = 'none';
 
-        formData.setAttribute('value', jsonData);
+        formData.innerHTML = jsonData;
         formElement.submit();
         document.body.removeChild(formContainer);
     }
