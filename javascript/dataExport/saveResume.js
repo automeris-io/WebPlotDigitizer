@@ -34,21 +34,117 @@ wpd.saveResume = (function () {
     }
 
     function resumeFromJSON(json_data) {
-        // call resume on individual components
+       var plotData = wpd.appData.getPlotData(),
+           rdata = json_data.wpd,
+           calib,
+           i, j, ds, currDataset;
+
+       plotData.reset();
+       wpd.appData.isAligned(false);
+        
+       if(rdata.axesType == null) {
+           return;
+       }
+
+       if(rdata.axesType !== 'ImageAxes' 
+           && (rdata.calibration == null || rdata.axesParameters == null)) {
+           return;
+       }
+
+       if(rdata.axesType !== 'ImageAxes') {
+           if(rdata.axesType === 'TernaryAxes') {
+               calib = new wpd.Calibration(3);
+           } else {
+               calib = new wpd.Calibration(2);
+           }
+           for(i = 0; i < rdata.calibration.length; i++) {
+               calib.addPoint(rdata.calibration[i].px,
+                              rdata.calibration[i].py,
+                              rdata.calibration[i].dx,
+                              rdata.calibration[i].dy,
+                              rdata.calibration[i].dz);
+
+           }
+           plotData.calibration = calib;
+       }
+
+       if(rdata.axesType === 'XYAxes') {
+           plotData.axes = new wpd.XYAxes();
+           if(!plotData.axes.calibrate(plotData.calibration, 
+                                       rdata.axesParameters.isLogX,
+                                       rdata.axesParameters.isLogY)) {
+               return;
+           }
+       } else if (rdata.axesType === 'PolarAxes') {
+           plotData.axes = new wpd.PolarAxes();
+           if(!plotData.axes.calibrate(plotData.calibration,
+                                      rdata.axesParameters.isDegrees,
+                                      rdata.axesParameters.isClockwise)) {
+               return;
+           }
+       } else if(rdata.axesType === 'TernaryAxes') {
+           plotData.axes = new wpd.TernaryAxes();
+           if(!plotData.axes.calibrate(plotData.calibration,
+                                      rdata.axesParameters.isRange100,
+                                      rdata.axesParameters.isNormalOrientation)) {
+               return;
+           }
+       } else if(rdata.axesType === 'MapAxes') {
+           plotData.axes = new wpd.MapAxes();
+           if(!plotData.axes.calibrate(plotData.calibration,
+                                      rdata.axesParameters.scaleLength,
+                                      rdata.axesParameters.unitString)) {
+               return;
+           }
+       } else if(rdata.axesType === 'ImageAxes') {
+           plotData.axes = new wpd.ImageAxes();
+       }
+
+       wpd.appData.isAligned(true);
+       
+       if(rdata.dataSeries == null) {
+           return;
+       }
+
+       for(i = 0; i < rdata.dataSeries.length; i++) {
+           ds = rdata.dataSeries[i];
+           plotData.dataSeriesColl[i] = new wpd.DataSeries();
+           currDataset = plotData.dataSeriesColl[i];
+           currDataset.name = ds.name;
+           for(j = 0; j < ds.data.length; j++) {
+               currDataset.addPixel(ds.data[j].x, ds.data[j].y, ds.data[j].metadata);
+           }
+       }
+
+       if(rdata.distanceMeasurementData != null) {
+           plotData.distanceMeasurementData = new wpd.ConnectedPoints(2);
+           for(i = 0; i < rdata.distanceMeasurementData.length; i++) {
+               plotData.distanceMeasurementData.addConnection(rdata.distanceMeasurementData[i]);
+           }
+       }
+
+       if(rdata.angleMeasurementData != null) {
+           plotData.angleMeasurementData = new wpd.ConnectedPoints(3);
+           for(i = 0; i < rdata.angleMeasurementData.length; i++) {
+               plotData.angleMeasurementData.addConnection(rdata.angleMeasurementData[i]);
+           }
+       }
+
+
     }
 
     function generateJSON() {
         var plotData = wpd.appData.getPlotData(),
-            calibration = wpd.alignAxes.getActiveCalib(),
+            calibration = plotData.calibration,
             outData = {
                     wpd: {
                         version: '3.4',
-                        axesType: 'unknown',
-                        axesParameters: {},
-                        calibration: [],
+                        axesType: null,
+                        axesParameters: null,
+                        calibration: null,
                         dataSeries: [],
-                        distanceMeasurementData: [],
-                        angleMeasurementData: []
+                        distanceMeasurementData: null,
+                        angleMeasurementData: null
                     }
                 },
             json_string = '',
@@ -56,6 +152,7 @@ wpd.saveResume = (function () {
             ds;
         
         if(calibration != null) {
+            outData.wpd.calibration = [];
             for(i = 0; i < calibration.getCount(); i++) {
                 outData.wpd.calibration[i] = calibration.getPoint(i);
             }
@@ -66,11 +163,7 @@ wpd.saveResume = (function () {
                 outData.wpd.axesType = 'XYAxes';
                 outData.wpd.axesParameters = {
                     isLogX: plotData.axes.isLogX(),
-                    isLogY: plotData.axes.isLogY(),
-                    isDateX: plotData.axes.isDate(0),
-                    isDateY: plotData.axes.isDate(1),
-                    initialDateFormattingX: plotData.axes.getInitialDateFormat(0),
-                    initialDateFormattingY: plotData.axes.getInitialDateFormat(1)
+                    isLogY: plotData.axes.isLogY()
                 };
             } else if(plotData.axes instanceof wpd.PolarAxes) {
                 outData.wpd.axesType = 'PolarAxes';
@@ -107,11 +200,13 @@ wpd.saveResume = (function () {
         }
 
         if (plotData.distanceMeasurementData != null) {
+            outData.wpd.distanceMeasurementData = [];
             for(i = 0; i < plotData.distanceMeasurementData.connectionCount(); i++) {
                 outData.wpd.distanceMeasurementData[i] = plotData.distanceMeasurementData.getConnectionAt(i);
             }
         }
         if(plotData.angleMeasurementData != null) {
+            outData.wpd.angleMeasurementData = [];
             for(i = 0; i < plotData.angleMeasurementData.connectionCount(); i++) {
                 outData.wpd.angleMeasurementData[i] = plotData.angleMeasurementData.getConnectionAt(i);
             }
@@ -130,20 +225,20 @@ wpd.saveResume = (function () {
         // Create a hidden form and submit
         formContainer = document.createElement('div'),
         formElement = document.createElement('form'),
-        formData = document.createElement('input');
+        formData = document.createElement('textarea');
 
         formElement.setAttribute('method', 'post');
         formElement.setAttribute('action', 'php/json.php');
 
-        formData.setAttribute('type', "text");
         formData.setAttribute('name', "data");
+        formData.setAttribute('id', "data");
 
         formElement.appendChild(formData);
         formContainer.appendChild(formElement);
         document.body.appendChild(formContainer);
         formContainer.style.display = 'none';
 
-        formData.setAttribute('value', jsonData);
+        formData.innerHTML = jsonData;
         formElement.submit();
         document.body.removeChild(formContainer);
 
@@ -158,6 +253,14 @@ wpd.saveResume = (function () {
             fileReader.onload = function () {
                 var json_data = JSON.parse(fileReader.result);
                 resumeFromJSON(json_data); 
+                
+                wpd.graphicsWidget.resetData();
+                wpd.graphicsWidget.removeTool();
+                wpd.graphicsWidget.removeRepainter();
+                if(wpd.appData.isAligned()) {
+                    wpd.acquireData.load();
+                }
+                wpd.messagePopup.show("Import JSON","JSON data has been loaded!");
             };
             fileReader.readAsText($fileInput.files[0]);
         }
