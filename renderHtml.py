@@ -16,4 +16,5 @@ def renderPage(filename):
 renderPage("dev.html")
 renderPage("index.html")
 renderPage("offline.html")
+renderPage("remote_launcher.php")
     

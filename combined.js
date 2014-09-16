@@ -24,14 +24,25 @@
 var wpd = wpd || {};
 
 wpd.initApp = function() {// This is run when the page loads.
+
     wpd.browserInfo.checkBrowser();
     wpd.layoutManager.initialLayout();
     wpd.graphicsWidget.loadImageFromURL('start.png');
     document.getElementById('loadingCurtain').style.display = 'none';
 
     wpd.messagePopup.show('Unstable Version Warning!', 'You are using a beta version of WebPlotDigitizer. There may be some issues with the software that are expected.');
+    wpd.loadRemoteData();
 
-}
+};
+
+wpd.loadRemoteData = function() {
+    if(wpdremote == null) { 
+        return; 
+    }
+    if(wpdremote.imageData != null && wpdremote.imageData.length > 0) {
+        wpd.messagePopup.show("Remote Data", wpdremote.imageData);
+    }
+};
 
 document.addEventListener("DOMContentLoaded", wpd.initApp, true);
 
