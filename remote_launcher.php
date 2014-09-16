@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html>
+<!-- 
+	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
+
+	Copyright 2010-2014 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+
+	This file is part of WebPlotDigitizer.
+
+    WebPlotDigitizer is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    WebPlotDigitizer is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/> 
+<meta name="Description" content="WebPlotDigitizer v3.4 (beta) - Web based tool to extract numerical data from plots and graph images."/>
+<meta name="Keywords" content="Plot, Digitizer, WebPlotDigitizer, Ankit Rohatgi, Extract Data, Convert Plots, XY, Polar, Ternary, Map, HTML5"/>
+<meta name="Author" content="Ankit Rohatgi"/>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+<meta http-equiv="Pragma" content="no-cache"/>
+<meta http-equiv="Expires" content="0"/>
+<title>WebPlotDigitizer - Copyright 2010-2014 Ankit Rohatgi</title>
+<link rel="stylesheet" href="styles.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="widgets.css" type="text/css" media="screen" />
+
+
+
+<!-- Remote data -->
+<script type="text/javascript">
+var wpdremote = {};
+wpdremote.imageData = '<?php echo($_POST["imageData"]); ?>';
+</script>
+<script src="combined-compiled.js"></script>
+
+<!-- Start of StatCounter code -->
+<script type="text/javascript">
+var sc_project=9769742; 
+var sc_invisible=1; 
+var sc_security="3f89a4fe"; 
+var scJsHost = (("https:" == document.location.protocol) ?
+"https://secure." : "http://www.");
+document.write("<sc"+"ript type='text/javascript' src='" +
+scJsHost+
+"statcounter.com/counter/counter.js'></"+"script>");
+</script>
+<noscript><div class="statcounter"><a title="free web stats"
+href="http://statcounter.com/" target="_blank"><img
+class="statcounter"
+src="http://c.statcounter.com/9769742/0/3f89a4fe/1/"
+alt="free web stats"></a></div></noscript>
+<!-- End of StatCounder Code -->
+
+
+
+<!-- thirdparty scripts -->
+<script src="thirdparty/numeric-1.2.6.min.js"></script>
+
+</head>
+
+<body>
+
+<div id="loadingCurtain" style="position: absolute; top: 0px; left: 0px; z-index: 100; width: 100%; height: 100%; background-color: white;">
+Loading application, please wait...
+<br/>
+<br/>
+Problems loading? Make sure you have a recent version of Google Chrome, Firefox, Safari or Internet Explorer 11 installed.
+</div>
+
+<div id="allContainer">
+    <!-- toolbar + graphics -->
+    <div id="mainContainer">
+        <div id="topContainer">
+            <div id="menuButtonsContainer"><div class="wpd-menu">
+    <div class="wpd-menu-header">File</div>
+    <div class="wpd-menu-dropdown">
+        <ul>
+            <li id="wpd-filemenu-loadimage" onclick="wpd.popup.show('loadNewImage');">Load Image</li>
+            <li id="wpd-filemenu-capture" onclick="wpd.webcamCapture.start();">Webcam Capture</li>
+            <li id="wpd-filemenu-runscript" onclick="wpd.scriptInjector.start();">Run Script</li>
+            <li id="wpd-filemenu-saveimage" onclick="wpd.graphicsWidget.saveImage();">Save Image</li>
+            <li id="wpd-filemenu-exportdata" onclick="wpd.saveResume.save();">Export JSON</li>
+            <li id="wpd-filemenu-import" onclick="wpd.saveResume.load();">Import JSON</li>
+        </ul>
+    </div>
+</div>
+<div class="wpd-menu">
+    <div class="wpd-menu-header">Axes</div>
+    <div class="wpd-menu-dropdown">
+        <ul>
+            <li id="wpd-axesmenu-defineaxes" onclick="wpd.popup.show('axesList');">Define Axes</li>
+            <!-- <li id="wpd-axesmenu-grid" onclick="wpd.gridDetection.start();">Detect Grid</li> -->
+            <li id="wpd-axesmenu-tranformation-equations" onclick="wpd.transformationEquations.show();">Transformation Equations</li>
+            <!-- <li id="wpd-axesmenu-importcalibration" onclick="wpd.unsupported();">Import Calibration</li> -->
+        </ul>
+    </div>
+</div>
+<div class="wpd-menu">
+    <div class="wpd-menu-header">Data</div>
+    <div class="wpd-menu-dropdown">
+        <ul>
+            <li id="wpd-datamenu-acquire" onclick="wpd.acquireData.load();">Acquire Data</li>
+            <li id="wpd-datamenu-manage" onclick="wpd.dataSeriesManagement.manage();">Manage Datasets</li>
+        </ul>
+    </div>
+</div>
+<div class="wpd-menu">
+    <div class="wpd-menu-header">Analyze</div>
+    <div class="wpd-menu-dropdown">
+        <ul>
+            <li id="wpd-analyzemenu-distance" onclick="wpd.distanceMeasurement.start();">Measure Distances</li>
+            <li id="wpd-analyzemenu-angles" onclick="wpd.angleMeasurement.start();">Measure Angles</li>
+        </ul>
+    </div>
+</div>
+<div class="wpd-menu">
+    <div class="wpd-menu-header">Help</div>
+    <div class="wpd-menu-dropdown">
+        <ul>
+            <li id="wpd-helpmenu-about" onclick="wpd.popup.show('helpWindow');">About WebPlotDigitizer</li>
+            <li id="wpd-helpmenu-manual"><a href="http://arohatgi.info/WebPlotDigitizer/userManual.pdf" target="_blank">User Manual</a></li>
+            <li id="wpd-helpmenu-github"><a href="https://github.com/ankitrohatgi/WebPlotDigitizer" target="_blank">GitHub Page</a></li>
+            <li id="wpd-helpmenu-issues"><a href="https://github.com/ankitrohatgi/WebPlotDigitizer/issues" target="_blank">Report Issues</a></li>
+            <li id="wpd-helpmenu-issues"><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=CVFJGV5SNEV9J&lc=US&item_name=WebPlotDigitizer&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted" target="_blank">Donate (PayPal)</a></li>
+        </ul>
+    </div>
+</div>
+</div>
+
+           
+            <div id="topToolbarContainer">
+                <!-- controls that show on top -->
+                <div style="position:relative;"> 
+                    <!-- Extra toolbars go here -->
+                    <div id="eraseToolbar" class="toolbar" style="width:350px;">
+<p><input type="button" id="clearMaskBtn" value="Erase All" style="width:80px;" onclick="wpd.dataMask.clearMask();"/>
+Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20" style="width:100px;"></p>
+</div>
+<div id="paintToolbar" class="toolbar" style="width:350px;">
+<p>Stroke Width <input type="range" id="paintThickness" min="1" max="150" value="20" style="width:100px;"></p>
+</div>
+ 
+                </div>
+            </div>
+
+             <div style="display:inline-block; position: absolute; top: 4px; right: 290px;" >
+                <input type="button" value="+" onclick="wpd.graphicsWidget.zoomIn();" style="border:none;"/>
+                <input type="button" value="-" onclick="wpd.graphicsWidget.zoomOut();" style="border: none;"/>
+                <input type="button" value="100%" onclick="wpd.graphicsWidget.zoom100perc();" style="border: none;"/>
+                <input type="button" value="Fit" onclick="wpd.graphicsWidget.zoomFit();" style="border: none;"/>
+            </div>
+
+        </div>
+
+        <div id="graphicsContainer">
+            <!-- the main canvas goes here -->
+            <div id="canvasDiv" style="position:relative;">
+                <canvas id="mainCanvas" class="canvasLayers" style="z-index:1;"></canvas>
+                <canvas id="dataCanvas" class="canvasLayers" style="z-index:2;"></canvas>
+                <canvas id="drawCanvas" class="canvasLayers" style="z-index:3;"></canvas>
+                <canvas id="hoverCanvas" class="canvasLayers" style="z-index:4;"></canvas>
+                <canvas id="topCanvas" class="canvasLayers" style="z-index:5;"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- sidebar + zoom -->
+    <div id="sidebarContainer">
+        <!-- zoom window goes here -->
+        <div style="position:relative;" id="zoomDiv">
+            <canvas id="zoomCanvas" class="zoomLayers" width=250 height=250 style="position:relative; top: 0px; left: 0px; z-index:1;"></canvas>
+            <canvas id="zoomCrossHair" class="zoomLayers" width=250 height=250 style="position:absolute; top: 0px; left: 0px; z-index:2; background:transparent;"></canvas>
+            <div id="cursorPosition" style="position:relative;">
+            [<span id="mousePosition"></span>]
+            </div>
+        </div>
+
+        <div id="zoom-settings-container"><input type="button" id="zoom-settings-button" value="⚙" onclick="wpd.zoomView.showSettingsWindow();"/></div>
+        
+        <div style="position:relative;" id="sidebarControlsContainer">
+            <!-- side bars go here -->
+            <!-- axes calibration -->
+<div id="axes-calibration-sidebar" class="sidebar">
+<p class="sidebar-title">Axes Calibration</p>
+<p>Click points to select and use cursor keys to adjust positions. Use Shift+Arrow for faster movement. Click complete when finished.</p>
+<p align="center"><input type="button" value="Complete!" style="width: 120px;" onclick="wpd.alignAxes.getCornerValues();"/></p>
+</div>
+
+<!-- manual mode -->
+<div id="acquireDataSidebar" class="sidebar">
+<p class="sidebar-title">Manual Mode <input type="button" value="Automatic Mode" style="width: 125px;" onclick="wpd.autoExtraction.start();"></p>
+<hr/>
+<p>Dataset <select id="manual-sidebar-dataset-list" onchange="wpd.acquireData.changeDataset();" style="width:160px;"></select></p>
+<hr/>
+<p>
+    <input type="button" value="Add Point (A)" onclick="wpd.acquireData.manualSelection();" style="width:110px;" id="manual-select-button">
+    <input type="button" value="Adjust Point (S)" onClick="wpd.acquireData.adjustPoints();" style="width: 110px;" id="manual-adjust-button">
+<p>
+    <input type="button" value="Delete Point (D)" onclick="wpd.acquireData.deletePoint();" style="width: 110px;" id="delete-point-button">
+    <input id="clearAllBtn" type="button" value="Clear Points" onCLick="wpd.acquireData.clearAll();" style="width: 110px;"></p>
+<div class="vertical-spacer"></div>
+<p><input type="button" value="View Data" id="saveBtn" onclick="wpd.dataTable.showTable();" style="width:110px;"></p>
+<div class="vertical-spacer"></div>
+<p>Data Points: <span class="data-point-counter">0</span></p>
+</div>
+
+<!-- edit image -->
+<div id="editImageToolbar" class="sidebar">
+<p align="center"><b>Edit Image</b></p>
+<p align="center"><input type="button" value="H. Flip" style="width: 75px;" onclick="hflip();"><input type="button" value="V. Flip" style="width: 75px;" onClick="vflip();"></p>
+<p align="center"><input type="button" value="Crop" style="width: 150px;" onclick="cropPlot();"></p>
+<p align="center"><input type="button" value="Restore" style="width: 150px;" onclick="restoreOriginalImage();"></p>
+<p align="center"><input type="button" value="Save .PNG" style="width: 150px;" onclick="savePNG();"></p>
+</div>
+
+<!-- automatic mode -->
+<div id="auto-extraction-sidebar" class="sidebar">
+<p class="sidebar-title">Automatic Mode <input type="button" value="Manual Mode" style="width:110px;" onclick="wpd.acquireData.load();"/></p>
+<hr/>
+<p>Dataset <select id="automatic-sidebar-dataset-list" onchange="wpd.acquireData.changeDataset();" style="width:160px;"></select></p>
+<hr/>
+<p>Mask <input type="button" value="Box" style="width:50px;" onclick="wpd.dataMask.markBox();" id="box-mask"><input type="button" value="Pen" style="width:45px;" onClick="wpd.dataMask.markPen();" id="pen-mask"><input type="button" value="Erase" style="width:50px;" onClick="wpd.dataMask.eraseMarks();" id="erase-mask"><input type="button" value="View" style="width:40px;" onclick="wpd.dataMask.viewMask();" id="view-mask"/></p>
+<hr/>
+<p>Color <select id="color-detection-mode-select" onchange="wpd.colorPicker.changeDetectionMode();"><option value="fg">Foreground Color</option><option value="bg">Background Color</option></select><input type="button" id="color-button" value=" " onclick="wpd.colorPicker.startPicker();" style="width: 25px;" title="Click to change color"/></p>
+<p>Distance <td><td><input type="text" size="3" id="color-distance-value" onchange="wpd.colorPicker.changeColorDistance();"/>
+<input type="button" value="Filter Colors" onclick="wpd.colorPicker.testColorDetection();" style="width: 90px;"></p>
+<hr/>
+<p>Algorithm
+<select id="auto-extract-algo-name" onchange="wpd.autoExtraction.changeAlgorithm();">
+    <optgroup label="Generic">
+        <option value="averagingWindow">Averaging Window</option>
+        <option value="XStepWithInterpolation">X Step w/ Interp.</option>
+        <option value="XStep">X Step</option>
+    </optgroup>
+    <optgroup label="Blobs">
+        <option value="blobDetector">Blob Detector</option>
+    </optgroup>
+    <optgroup label="Data Points">
+        <option value="dataPointExtractor" disabled>Data Points</option>
+  </optgroup>
+</select>
+</p>
+<div id="algo-parameter-container" style="margin-left: 10px; margin-top: 5px;"></div>
+<div class="vertical-spacer"></div>
+<p style="margin-left: 10px;margin-top: 5px;">
+    <input type="button" value="Run" style="width:50px;" onclick="wpd.autoExtraction.runAlgo();"/>
+    <input type="button" value="Clear All" style="width:80px;" onclick="wpd.acquireData.clearAll();"/>
+    <input type="button" value="View Data" style="width:80px;" onclick="wpd.dataTable.showTable();"/>
+</p>
+<hr/>
+<p>Data Points: <span class="data-point-counter">0</span></p>
+</div>
+
+<!-- distance measurement -->
+<div id="measure-distances-sidebar" class="sidebar">
+<p class="sidebar-title">Measure Distances</p>
+<p>
+    <input type="button" value="Add Pair (A)" style="width: 100px;" id="add-pair-button" onclick="wpd.distanceMeasurement.addPair();"/>
+    <input type="button" value="Delete Pair (D)" style="width: 100px;" id="delete-pair-button" onclick="wpd.distanceMeasurement.deletePair();"/> 
+</p>
+<p>
+    <input type="button" value="Clear All" style="width: 100px;" id="clear-all-pairs-button" onclick="wpd.distanceMeasurement.clearAll();"/>
+    <input type="button" value="View Data" style="width: 100px;" id="view-measurement-data-button" onclick="wpd.measurementData.showDistanceData();"/>
+</p>
+</div>
+
+<!-- angle measurement -->
+<div id="measure-angles-sidebar" class="sidebar">
+<p class="sidebar-title">Measure Angles</p>
+<p>
+    <input type="button" value="Add Angle (A)" style="width: 110px;" id="add-angle-button" onclick="wpd.angleMeasurement.addAngle();"/>
+    <input type="button" value="Delete Angle (D)" style="width: 110px;" id="delete-angle-button" onclick="wpd.angleMeasurement.deleteAngle();"/>
+</p>
+<p>
+    <input type="button" value="Clear All" style="width: 110px;" onclick="wpd.angleMeasurement.clearAll();"/>
+    <input type="button" value="View Data" style="width: 110px;" onclick="wpd.measurementData.showAngleData();"/>
+</p>
+</div>
+
+<!-- grid detection -->
+<div id="grid-detection-sidebar" class="sidebar">
+<p class="sidebar-title">Detect Grid</p>
+<p>
+    Mask
+    <input type="button" value="Box" style="width: 60px;" id="grid-mask-box" onclick="wpd.gridDetection.markBox();"/>
+    <input type="button" value="Clear" style="width: 60px;" id="grid-mask-clear" onclick="wpd.gridDetection.clearMask();"/>
+    <input type="button" value="View"  style="width: 60px;" id="grid-mask-view" onclick="wpd.gridDetection.viewMask();"/>
+</p>
+<hr/>
+<p>
+    Color
+    <input type="button" value="Pick" style="width: 60px;" id="grid-color-picker-button" onclick="wpd.gridDetection.startColorPicker();"/>
+    <input type="text" value="120" style="width: 60px;" id="grid-color-distance" onchange="wpd.gridDetection.changeColorDistance();"/>
+    <input type="button" value="Test" style="width: 60px;" id="grid-color-test" onclick="wpd.gridDetection.testColor();"/>
+</p>
+<hr/>
+<table>
+    <tr><td align="right">Horizontal </td><td><input type="checkbox" id="grid-horiz-enable" checked/></td></tr>
+    <tr><td align="right">Detection Width </td><td>&nbsp; <input type="text" value="5" id="grid-horiz-detection-width" style="width: 40px;"/></td></tr>
+    <tr><td align="right">Line Width </td><td>&nbsp; <input type="text" value="5" id="grid-horiz-line-width" style="width: 40px;"/></td></tr>
+</table>
+<hr/>
+<table>
+    <tr><td align="right">Vertical </td><td><input type="checkbox" id="grid-vert-enable" checked/></td></tr>
+    <tr><td align="right">Detection Width </td><td>&nbsp; <input type="text" value="5" id="grid-vert-detection-width" style="width: 40px;"/></td></tr>
+    <tr><td align="right">Line Width </td><td>&nbsp; <input type="text" value="5" id="grid-vert-line-width" style="width: 40px;"/></td></tr>
+</table>
+<hr/>
+<p>
+    <input type="button" value="Detect" style="width: 80px;" onclick="wpd.gridDetection.run();"/>
+    <input type="button" value="Clear" style="width: 80px;" onclick="wpd.gridDetection.clear();"/>
+</p>
+</div>
+        </div>
+
+    </div>
+</div>
+
+<!-- popup windows go here -->
+	<div id="shadow" style="width:100%; height:100%; background-color: rgba(0,0,0,0.3); position:absolute; top:0px; left:0px; z-index:50; visibility:hidden;">
+	</div>
+
+	<div id="loadNewImage" class="popup" style="width: 400px;">
+	<p align="center" class="popupheading">Load Image File</p>
+	<p>&nbsp;</p>
+	<p align="center"><input type="file" id="fileLoadBox"/></p>
+	<p>&nbsp;</p>
+	<p align="center">
+        <input type="button" value="Load" onclick="wpd.graphicsWidget.load();"/>
+        <input type="button" value="Cancel" onclick="wpd.popup.close('loadNewImage');"/>
+    </p>
+	</div>
+
+    <div id="zoom-settings-popup" class="popup" style="width: 300px;">
+    <p class="popupheading">Magnified View Settings</p>
+    <p>&nbsp;</p>
+    <center>
+    <table>
+    <tr><td><p>Magnification: </p></td><td><p><input type="text" id="zoom-magnification-value" size="3"/> Times</p></td></tr>
+    <tr>
+        <td><p>Crosshair Color: </p></td>
+        <td><p>
+        <select id="zoom-crosshair-color-value">
+            <option value="black">Black</option>
+            <option value="red">Red</option>
+            <option value="yellow">Yellow</option>
+        </select>
+        </td>
+    </tr>
+    </table>
+    </center>
+    <p>&nbsp;</p>
+    <p align="center"><input type="button" value="Apply" onclick="wpd.zoomView.applySettings();"/> <input type="button" value="Cancel" onclick="wpd.popup.close('zoom-settings-popup');"/></p>
+    </div>
+ 
+    <div id="runScriptPopup" class="popup" style="width: 500px;">
+    <p class="popupheading">Run Script</p>
+    <p>&nbsp;</p>
+    <p align="center">Load a Javascript file to further extend the capabilities of WebPlotDigitizer. As of now, this is intended only for developers who may already be familiar with some of the source code. The API for these scripts may be documented in the future.</p>
+    <p>&nbsp;</p>
+    <p align="center"><input type="file" id="runScriptFileInput"/></p>
+    <p>&nbsp;</p>
+    <p align="center"><input type="button" value="Run" onclick="wpd.scriptInjector.load();"/> <input type="button" value="Cancel" onclick="wpd.scriptInjector.cancel();"/></p>
+    </div>
+
+    <div id="webcamCapture" class="popup" style="width: 650px;">
+    <p class="popupheading">Webcam Capture</p>
+    <p>&nbsp;</p>
+    <p align="center"><video id="webcamVideo" autoplay="true" height="350"></video></p>
+    <p align="center"><input type="button" value="Capture" onclick="wpd.webcamCapture.capture();"/> <input type="button" value="Cancel" onclick="wpd.webcamCapture.cancel();"/></p>
+    </div>
+
+    <div id="messagePopup" class="popup" style="width: 300px;">
+    <p id="message-popup-heading" class="popupheading"></p>
+    <p>&nbsp;</p>
+    <p align="center" id="message-popup-text"></p>
+    <p>&nbsp;</p>
+    <p align="center"><input type="button" value="OK" onclick="wpd.messagePopup.close()"/></p>
+    </div>
+
+    <div id="okCancelPopup" class="popup" style="width: 300px;">
+    <p id="ok-cancel-popup-heading" class="popupheading"></p>
+    <p>&nbsp;</p>
+    <p align="center" id="ok-cancel-popup-text"></p>
+    <p>&nbsp;</p>
+    <p align="center"><input type="button" value="OK" onclick="wpd.okCancelPopup.ok()"/> <input type="button" value="Cancel" onclick="wpd.okCancelPopup.cancel()"/></p>
+    </div>
+
+
+	<div id="axesList" class="popup" style="width: 400px;">
+	<p align="center" class="popupheading">Choose Plot Type</p>
+	<p>&nbsp;</p>
+	<center>
+	<table>
+	<tr><td align="left"><label><input type="radio" name="plotlisting" id="r_xy" checked> 2D (X-Y) Plot</label></td></tr>
+	<!-- <tr><td align="left"><label><input type="radio" name="plotlisting" id="r_bar"> 2D Bar Plot</label></td></tr> -->
+	<tr><td align="left"><label><input type="radio" name="plotlisting" id="r_polar"> Polar Diagram</label></td></tr>
+	<tr><td align="left"><label><input type="radio" name="plotlisting" id="r_ternary"> Ternary Diagram</label></td></tr>
+	<tr><td align="left"><label><input type="radio" name="plotlisting" id="r_map"> Map With Scale Bar</label></td></tr>
+	<tr><td align="left"><label><input type="radio" name="plotlisting" id="r_image"> Image</label></td></tr>
+	</table>
+	</center>
+	<p>&nbsp;</p>
+	<p align="center"><input type="button" value="Align Axes" onclick="wpd.alignAxes.start();">&nbsp;<input type="button" value="Cancel" onClick="wpd.popup.close('axesList');"></p>
+	</div>
+
+	<div id="xyAlignment" class="popup" style="width: 400px;">
+	<p align="center" class="popupheading">X and Y Axes Calibration</p>
+	<p>&nbsp;</p>
+	<p align="center">Enter X-values of the two points clicked on X-axis and Y-values of the two points clicked on Y-axes</p>
+	<center>
+	<table padding="10">
+		<tr><td></td>
+			<td align="center" valign="bottom">Point 1</td>
+			<td align="center" valign="bottom" width="80">Point 2</td>
+			<td align="center" valign="bottom" width="82">Log Scale</td>
+		</tr>
+	    <tr><td align="center">X-Axis:</td>
+	        <td align="center"><input type="text" size="8" id="xmin" value="0"></td>
+	        <td align="center"><input type="text" size="8" id="xmax" value="1"></td>
+	        <td align="center"><input type="checkbox" id="xlog"></td>
+	    </tr>
+	    <tr><td align="center">Y-Axis:</td>
+	        <td align="center"><input type="text" size="8" id="ymin" value="0"></td>
+	        <td align="center"><input type="text" size="8" id="ymax" value="1"></td>
+	        <td align="center"><input type="checkbox" id="ylog"></td>
+	    </tr>
+	</table>
+	<p align="center" class="footnote">*For dates, use yyyy/mm/dd format (e.g. 2013/10/23 or 2013/10). For exponents, enter values as 1e-3 for 10^-3.</p>
+	<p>&nbsp;</p>
+	<p align="center"><input type="button" id="xybtn" value="OK" onclick="wpd.alignAxes.align();"></p>
+	</center>
+	</div>
+
+	<div id="mapAlignment" class="popup" style="width: 200px;">
+	<p align="center" class="popupheading">Scale Size</p>
+	<p>&nbsp;</p>
+	<p align="center"><input type="text" size="6" id="scaleLength" value="1"> <input type="text" size="6" id="scaleUnits" value="Units"/></p>
+	<p>&nbsp;</p>
+	<p align="center"><input type="button" id="xybtn" value="OK" onclick="wpd.alignAxes.align();"></p>
+	</div>
+
+	<div id="polarAlignment" class="popup" style="width: 200px;">
+	<p align="center"><b>Point 1</b> <!-- <input type="checkbox" id="xlog"> Log Scale --></p>
+	<p align="center">R<sub>1</sub>: <input type="text" size="6" id="rpoint1" value="1"></p>
+	<p align="center">Θ<sub>1</sub>: <input type="text" size="6" id="thetapoint1" value="1"></p>
+	<p align="center"><b>Point 2</b> <!-- <input type="checkbox" id="xlog"> Log Scale --></p>
+	<p align="center">R<sub>2</sub>: <input type="text" size="6" id="rpoint2" value="1"></p>
+	<p align="center">Θ<sub>2</sub>: <input type="text" size="6" id="thetapoint2" value="1"></p>
+	<p align="center"><input type="radio" id="degrees" name="angleUnits" checked> Degrees <input type="radio" id="radians" name="angleUnits"> Radians</p>
+	<p align="center"><input type="checkbox" id="clockwise"> Clockwise</p>
+	<p align="center"><input type="button" value="OK" onclick="wpd.alignAxes.align();"></p>
+	</div>
+
+	<div id="ternaryAlignment" class="popup">
+	<p align="center" class="popupheading">Select Range of Variables</p>
+	<p>&nbsp;</p>
+	<p align="center">Axes Orientation</p>
+	<center>
+	<table>
+	  <tr><td><img src="images/ternarynormal.png" width="200"></td><td><img src="images/ternaryreverse.png" width="200"></td></tr>
+	  <tr><td><p align="center"><input type="radio" name="ternaryOrientation" id="ternarynormal" checked> Normal</p></td><td><p align="center"><input type="radio" name="ternaryOrientation" id="ternaryreverse"> Reverse</p></td></tr>
+	</table>
+	</center>
+	<p align="center">Range of Variables</p>
+	<center>
+	<table><tr><td><p align="center"><input type="radio" id="range0to1" name="ternaryRange" checked> 0 to 1&nbsp;&nbsp;</p></td><td><p align="center">&nbsp;&nbsp;<input type="radio" id="range0to100" name="ternaryRange"> 0 to 100</p></td></tr></table>
+	</center>
+	<p>&nbsp;</p>
+	<p align="center"><input type="button" value="OK" onclick="wpd.alignAxes.align();"></p>
+	</div>
+
+	<div id="csvWindow" class="popup" style="width: 800px; height: 480px;">
+	<p class="popupheading">Acquired Data</p>
+    <table style="width:780px;">
+    <tr>
+    <td>
+    <!-- left panel -->
+    <p>Dataset: <select id="data-table-dataset-list" onchange="wpd.dataTable.changeDataset();"></select></p>
+    <p align="center">Variables: <span id="dataVariables"></span></p>
+	<p align="center"><textarea id="digitizedDataTable" style="width: 480px; height: 250px;"></textarea></p>
+	<p align="center">
+		<input type="button" value="Select All" onclick="wpd.dataTable.selectAll();"/>
+        <input type="button" value="Download .CSV" onclick="wpd.dataTable.generateCSV();"/>
+		<input type="button" value="Graph in Plotly*" onclick="wpd.dataTable.exportToPlotly();"/>
+		<input type="button" value="Close" onclick="wpd.popup.close('csvWindow');"/>
+	</p>
+	<p align="center" class="footnote">*Plotly is a secure data analysis and graphing site with data sharing and access controls.</p>
+	<p align="center" class="footnote">Visit <a href="http://plot.ly" target="plotlyWebsite">http://plot.ly</a> for details.</p>
+    </td>
+    <td valign="top" style="width:250px;">
+    <!-- data side controls -->
+    <p><b>Sort</b></p>
+    <p class="leftIndent">Sort by: <select id="data-sort-variables" onchange="wpd.dataTable.reSort();"></select></p>
+    <p class="leftIndent">Order: 
+		<select id="data-sort-order" onchange="wpd.dataTable.reSort();">
+			<option value="ascending">Ascending</option>
+			<option value="descending">Descending</option>
+		</select>
+	</p>
+    <hr/>
+    <p><b>Format</b></p>
+	<p class="leftIndent">
+		<span id="data-date-formatting-container">
+		Date Formatting:
+        <span id="data-date-formatting"></span>         
+		</span>
+	</p>
+    <p class="leftIndent">Number Formatting:</p>
+    <p>Digits: <input type="text" value="5" size="2" id="data-number-format-digits"/>
+        <select id="data-number-format-style">
+            <option value="ignore">Ignore</option>
+            <option value="fixed">Fixed</option>
+            <option value="precision">Precision</option>
+            <option value="exponential">Exponential</option>
+        </select>
+    </p>
+	<p align="right"><input type="button" value="Format" onclick="wpd.dataTable.reSort();"/></p>
+    </td>
+    </tr>
+    </table>
+	</div>
+
+    <div id="measurement-data-window" class="popup" style="width: 580px;">
+    <p align="center" class="popupheading">Measurement Data</p>
+    <p align="center"><textarea id="measurement-data-table" style="width: 480px; height: 250px;"></textarea></p>
+    <p align="center">
+        <input type="button" value="Select All" onclick="wpd.measurementData.selectAll();"/>
+        <input type="button" value="Download .CSV" onclick="wpd.measurementData.generateCSV();"/>
+        <input type="button" value="Close" onclick="wpd.measurementData.close();"/>
+    </p>
+    </div>
+
+	<div id="xyAxesInfo" class="popup" style="width: 350px;"> 
+	<p align="center" class="popupheading">Align X-Y Axes</p>
+	<p>&nbsp;</p>
+	<p align="center"><img src="images/xyaxes.png" /></p>
+	<p align="center">Click four known points on the axes in the <font color="red">order shown in red</font>. Two on the X axis (X1, X2) and two on the Y axis (Y1, Y2).</p>
+	<p>&nbsp;</p>
+	<p align="center"><input type="button" value="Proceed" onclick="wpd.xyCalibration.pickCorners();"></p>
+	</div>
+
+	<div id="mapAxesInfo" class="popup" style="width: 350px;"> 
+	<p align="center" class="popupheading">Align Map To Scale Bar</p>
+	<p>&nbsp;</p>
+	<p align="center"><img src="images/map.png" /></p>
+	<p align="center">Click on the two ends of the scale bar on the map.</p>
+	<p>&nbsp;</p>
+	<p align="center"><input type="button" value="Proceed" onclick="wpd.mapCalibration.pickCorners();"></p>
+	</div>
+
+	<div id="polarAxesInfo" class="popup" style="width: 350px;">
+	<p align="center" class="popupheading">Align Polar Axes</p>
+	<p>&nbsp;</p>
+	<p align="center"><img src="images/polaraxes.png" /></p>
+	<p align="center">Click on the center, followed by two known points.</p>
+	<p>&nbsp;</p>
+	<p align="center"><input type="button" value="Proceed" onclick="wpd.polarCalibration.pickCorners();"></p>
+	</div>
+
+	<div id="ternaryAxesInfo" class="popup" style="width: 350px;">
+	<p align="center" class="popupheading">Align Ternary Axes</p>
+	<p>&nbsp;</p>
+	<p align="center"><img src="images/ternaryaxes.png" /></p>
+	<p align="center">Click on the three corners in the order shown above.</p>
+	<p>&nbsp;</p>
+	<p align="center"><input type="button" value="Proceed" onclick="wpd.ternaryCalibration.pickCorners();"></p>
+	</div>
+
+	<div id="helpWindow" class="popup" style="width: 550px;">
+	<p class="popupheading">WebPlotDigitizer - Web Based Plot Digitizer</p>
+	<p>&nbsp;</p>
+    <p align="center">Version 3.4 (beta)</p>
+	<p align="center">This program is distributed under the <a href="https://www.gnu.org/licenses/gpl-3.0-standalone.html" target="_blank">GNU General Public License Version 3</a>.</p>
+	<p align="center">Copyright 2010-2014 Ankit Rohatgi &lt;ankitrohatgi@hotmail.com&gt;</p>
+	<p align="center"><a href="http://arohatgi.info/WebPlotDigitizer" target="website">http://arohatgi.info/WebPlotDigitizer</a></p>
+	<p>&nbsp;</p>
+	<p align="center"><input type="button" value="Close" onclick="wpd.popup.close('helpWindow');"></p>
+	</div>
+    
+    <div id="color-selection-widget" class="popup" style="width:400px;">
+	<p align="center" id="color-selection-title" class="popupheading">Specify Color</p>
+	<p align="center">&nbsp;</p>
+    <div style="text-align:center;"><div id="color-selection-selected-color-box" class="largeColorBox"></div></div>
+	<p align="center">&nbsp;</p>
+	<p align="center">R:<input type="text" value="255" id="color-selection-red" size="3">&nbsp;
+	G:<input type="text" id="color-selection-green" value="255" size="3">&nbsp; B:<input type="text" id="color-selection-blue" value="255" size="3">
+	 <input type="button" value="Color Picker" onclick="wpd.colorSelectionWidget.pickColor();"></p>
+	<p align="center">&nbsp;</p>
+    <p>Dominant Colors: <div id="color-selection-options" style="text-align:center;"></div></p>
+    <p>&nbsp;</p>
+	<p align="center"><input type="button" value="Done" onclick="wpd.colorSelectionWidget.setColor();"></p>
+	</div>
+
+    <div id="manage-data-series-window" class="popup" style="width:400px;">
+    <p align="center" class="popupheading">Manage Datasets</p>
+    <p>&nbsp;</p>
+    <center>
+    <table>
+    <tr>
+        <td align="right">Selected Dataset: </td><td> &nbsp;<select id="manage-data-series-list" style="width:200px;" onchange="wpd.dataSeriesManagement.changeSelectedSeries();"><option>Default Dataset</option></select></td>
+    </tr>
+    <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+    <tr>
+        <td align="right">Dataset Name: </td><td> &nbsp;
+        <input type="text" id="manage-data-series-name" onblur="wpd.dataSeriesManagement.editSeriesName();" onchange="wpd.dataSeriesManagement.editSeriesName();"/>
+        <input type="button" value="Change" onclick="wpd.dataSeriesManagement.editSeriesName();"/></td>
+    </tr>
+    <tr>
+        <td align="right">Data Points: </td><td> &nbsp;<span id="manage-data-series-point-count">0</span></td>
+    </tr>
+    </table>
+    </center>
+    <p>&nbsp;</p>
+    <p align="center">
+        <input type="button" value="Add" onclick="wpd.dataSeriesManagement.addSeries();"/>
+        <input type="button" value="Delete" onclick="wpd.dataSeriesManagement.deleteSeries();"/>
+        <input type="button" value="View Data" onclick="wpd.dataSeriesManagement.viewData();"/>
+        <input type="button" value="Close" onclick="wpd.popup.close('manage-data-series-window');"/>
+    </p>
+    </div>
+
+    <div id="axes-transformation-equations-window" class="popup" style="width:500px;">
+    <p class="popupheading">Transformation Equations</p>
+    <p>The following relationships are being used to convert image pixels to data:</p>
+    <div id="axes-transformation-equation-list"></div>
+    <p>&nbsp;</p>
+    <p align="center"><input type="button" value="Close" onclick="wpd.popup.close('axes-transformation-equations-window');"/></p>
+    </div>
+
+    <div id="export-json-window" class="popup" style="width:400px;">
+    <p class="popupheading">Export JSON</p>
+    <p>This JSON file contains the axes calibration and the digitized data points from this plot. This file can be imported later to resume work or reuse the calibration in another plot.</p>
+    <p>&nbsp;</p>
+    <p align="center">
+        <input type="button" value="Download" onclick="wpd.saveResume.download();"/>
+        <input type="button" value="Close" onclick="wpd.popup.close('export-json-window');"/>
+    </p>
+    </div>
+
+    <div id="import-json-window" class="popup" style="width:400px;">
+    <p class="popupheading">Import JSON</p>
+    <p>Specify a previously exported JSON file to load here. Note that this will clear any unsaved data points in the current plot.</p>
+    <p>&nbsp;</p>
+    <p align="center">JSON File: <input type="file" id="import-json-file"/></p>
+    <p>&nbsp;</p>
+    <p align="center">
+        <input type="button" value="Import" onclick="wpd.saveResume.read();"/>
+        <input type="button" value="Cancel" onclick="wpd.popup.close('import-json-window');"/>
+    </p>
+    </div>
+
+</body>
+</html>
