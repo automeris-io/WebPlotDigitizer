@@ -8,7 +8,7 @@
 \usepackage[margin=1.2in]{geometry}
 
 \begin{document}
-\title{WebPlotDigitizer User Manual\\ Version 3.3}
+\title{WebPlotDigitizer User Manual\\ Version 3.4}
 \author{Ankit Rohatgi\footnote{E-Mail: ankitrohatgi@hotmail.com}}
 \maketitle
 \tableofcontents
@@ -46,16 +46,16 @@ WebPlotDigitizer is an open source software (see above). The source code can be 
 The latest released version of the software can be used directly from the website \url{http://arohatgi.info/WebPlotDigitizer}. For the Google Chrome web browser, an \emph{app} pointing to the online software is also available at the Chrome App Store (\url{https://chrome.google.com/webstore/category/apps}).
 
 \subsection{Supported Browsers}
-Version 3.3 was ensured to work without major issues on the following browsers:
+Version 3.4 was ensured to work without major issues on the following browsers:
 \begin{itemize}
-\item{Safari 7.0.4 on Mac OS 10.9.3}
-\item{Google Chrome 35 on Mac OS 10.9.3}
+\item{Safari 7.0.6 on Mac OS 10.9.4}
+\item{Google Chrome 37 on Mac OS 10.9.4}
+\item{Firefox 32.0 on Mac OS 10.9.4}
 \item{Google Chrome on Windows 7 32-bit}
-\item{Firefox 24.0 on Windows 7 32-bit}
+\item{Firefox 32.0 on Windows 7 32-bit}
 \item{Internet Explorer 11 on Windows 7 32-bit}
-\item{Firefox 24.0 on Xubuntu Linux 14.04 32-bit}
 \end{itemize}
-It is expected that browsers similar in functionality and support for the HTML5 API should not have any major problems executing the version 3.3.
+It is expected that browsers similar in functionality and support for the HTML5 API should not have any major problems executing the version 3.4.
 
 \subsection{Citing WebPlotDigitizer}
 If you wish to cite WebPlotDigitizer in any of your works, then please use the following information:
@@ -66,8 +66,8 @@ If you wish to cite WebPlotDigitizer in any of your works, then please use the f
 Author & Ankit Rohatgi\\
 Title & WebPlotDigitizer\\
 Website & \url{http://arohatgi.info/WebPlotDigitizer}\\
-Version & 3.3\\
-Date & June, 2014\\
+Version & 3.4\\
+Date & September, 2014\\
 E-Mail & ankitrohatgi@hotmail.com\\
 \hline
 \end{tabular}
@@ -115,11 +115,13 @@ After loading the desired image, you should specify the type of axes that is use
 \end{figure}
 
 \subsection{2D (X-Y) Plot}
-Most plots that are on a two dimensional cartesian coordinate system fall under this category. Two dimensional plots that are skewed such that the axes are not mutually perpendicular will also work. Also, neither the horizontal or the vertical axes need to be perfectly aligned with the horizontal and vertical lines of the computer. An image rotated by an angle should also work. 
+Most plots that are on a two dimensional cartesian coordinate system fall under this category. Plots with non-orthogonal axes or plots rotated by an angle are also supported.
 
-On selecting this option, you should be presented with a popup window which asks you to click on two points on the horizontal axis and two points on the vertical axis. After clicking \emph{Proceed} on that popup, click on two points on one of the two axes $(x_1, x_2)$ and two on the other $(y_1, y_2)$. For better accuracy during the digitization process, pick the points that are as far away from each other as possible. Also, remember the $(x_1, x_2)$ and $(y_1, y_2)$ values on the axes as you will be required to enter those once four points have been clicked on. You can also make fine adjustments to the location of a calibration point highlighted in green using keyboard cursor keys. Pressing the Shift key along with the cursor keys will move the point at a faster rate. To highlight the point to be adjusted, you can also click near the point after selecting the four required points.
+On selecting this option, you should be presented with a popup window which asks you to click on two points on the horizontal axis and two points on the vertical axis. After clicking \emph{Proceed} on that popup, click on two points on one of the two axes $(x_1, x_2)$ and two on the other $(y_1, y_2)$. For better accuracy during the digitization process, pick the points that are as far away from each other as possible. Also, note down the data values at $(x_1, x_2)$ and $(y_1, y_2)$ positions as you will be required to enter those once the four points have been clicked on. 
 
-After the four points have been clicked on, press \emph{Continue} and another popup window will appear where you will be required to enter the values at these points. This helps the software map the image pixels corresponding to data points to their actual values when the image is digitized.
+You can also make fine adjustments to the location of a calibration point that is highlighted in green using keyboard cursor keys. Pressing the \emph{Shift}-key along with the cursor keys will move the point at a faster rate. To highlight a point to be adjusted, you can also click on the point after selecting the four required points. Zooming-in the image can help improve the accuracy.
+
+After the four points have been clicked on, press \emph{Continue} and another popup window will appear where you will be required to enter the values at these points. This helps the software map the image pixels corresponding to data points to their actual values when the image is digitized. To view the mapping equations, select the \emph{Transformation Equations} option from the \emph{Axes} menu.
 
 \begin{figure}
 \centering
@@ -195,7 +197,7 @@ Ternary phase diagrams are typically harder to read than simple two dimensional 
 \end{figure}
 
 \subsection{Map With Scale Bar}
-This plot type is similar to 2D (X-Y) Plots and is provided only as a convenience for images that only have scale information (e.g. microscope images or maps). To calibrate this plot type, simply click on the two ends of the scale bar and enter the scale value without units (Figure \ref{fig:mapAlignment}). The coordinates reported by the software assume the origin to be located at the bottom left of the image. The (x,y) values that are generated are scaled by the scaled factor entered during calibration.
+This plot type is similar to 2D (X-Y) Plots and is provided only as a convenience for images that only have scale information (e.g. microscope images or maps). To calibrate this plot type, simply click on the two ends of the scale bar and enter the scale value. You can also specify the label to be used for the unit (Figure \ref{fig:mapAlignment}). The coordinates reported by the software assume the origin to be located at the bottom left of the image. The (x,y) values that are generated are scaled by the scaled factor entered during calibration.
 
 \begin{figure}
 \centering
@@ -320,6 +322,12 @@ This algorithm starts on the left side of the image and scans in the vertical di
 
 \subsubsection{Blob Detector}
 
+\section{Multiple Datasets}
+
+\section{Distance and Angle Measurements}
+
+\section{Import and Export JSON}
+
 \section{Handling Digitized Data}
 Once the required data points are marked on the image using the manual mode, automatic mode or a combination of both, the digitized values can be seen by clicking the \emph{Create .CSV} button. This presents a popup window as shown in Figure \ref{fig:csvOutput}. Here, the digitized values can be sorted by the variable or in order of the distance between the points (Nearest Neighbor). The values can also be copied and used in common data analysis softwares. Recently, an option to send these values over to another cloud based data analysis and graphing software called Plotly (\url{http://plot.ly}) has also been added.
  
@@ -373,6 +381,8 @@ mmm 'yy & Oct '12\\
 \hline
 \end{tabular}
 \end{center}
+
+\subsection{Number Formatting}
 
 \subsection{Export to .CSV File}
 Comma-Separated Values (CSV) format files are simple text files containing tabular data. Each row of line corresponds to a table row and the column values are separated by a character or a string (usually just a comma)\footnote{For more information on CSV format, check out \url{http://en.wikipedia.org/wiki/Comma-separated_values}}. Due to its simplicity, CSV format is supported in most data analysis softwares like Microsoft Excel, Matlab etc.
