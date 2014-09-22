@@ -207,7 +207,7 @@ This plot type is similar to 2D (X-Y) Plots and is provided only as a convenienc
 \end{subfigure}
 \begin{subfigure}[b]{0.3\textwidth}
 \includegraphics[width=\textwidth]{./figures/mapAlignment.png}
-\caption{Specify scale value}
+\caption{Specify scale value and unit label}
 \end{subfigure}}
 \caption{Alignment for maps and microscope images.}
 \label{fig:mapAlignment}
@@ -295,38 +295,23 @@ The extraction algorithms also need to know the region of the image to be search
 \subsection{Digitization Algorithms}
 Four different digitization algorithms are available in WebPlotDigitizer as shown in Figure \ref{fig:autoExtractAlgos}. The \emph{Averaging Window} algorithm is set as the default as it is usually suitable in most simple cases.
 \begin{figure}
-\begin{subfigure}[b]{0.3\textwidth}
-\includegraphics[width=\textwidth]{./figures/averagingWindow.png}
-\caption{Averaging Window}
-\end{subfigure}
-\begin{subfigure}[b]{0.3\textwidth}
-\includegraphics[width=\textwidth]{./figures/xStep.png}
-\caption{X Step}
-\end{subfigure}
-\begin{subfigure}[b]{0.3\textwidth}
-\includegraphics[width=\textwidth]{./figures/yStep.png}
-\caption{Y Step}
-\end{subfigure}
-\centering
-\begin{subfigure}[b]{0.3\textwidth}
-\includegraphics[width=\textwidth]{./figures/xStepWithActualUnits.png}
-\caption{X Step With Actual Units}
-\end{subfigure}
+\begin{center}
+\includegraphics[width=2in]{./figures/wpd_algos.png}
 \caption{Four automatic extraction algorithms are available. These are subject to change in the future releases.}
 \label{fig:autoExtractAlgos}
-
+\end{center}
 \end{figure}
 \subsubsection{Averaging Window}
 As mentioned above, this is probably the most useful algorithm and is useful across many plot types. The data points detected by this algorithm are determined by calculating the average locations of pixels with acceptable color that lie in a small regions that are $\Delta X$ pixels (on-screen) wide and $\Delta Y$ pixels (on-screen) tall. As a user, you should increase the size of this window for thick lines or large data points and decrease it for thin lines. If you see multiple points incorrectly detected across the width of a thick data curve, then you need to increase the numbers specified here. The fact that this requires on-screen pixels may be changed in the future so that the values in actual units in the current axes can be specified.
 
 \subsubsection{X Step with Interpolation}
-This algorithm is available only for non log-scale 2D (X-Y) axes plots. In the future, this will be extended to other axes types. This algorithm can identify data points at regular intervals on the X-axis that fall between $X_{min}$ and $X_{max}$ and $Y_{min}$ and $Y_{max}$. The data points are spaced at an interval $\Delta X$ units apart. This algorithm interpolates over missing data using cubic splines and is therefore suitable even for curves with dotted lines or a series with just data points. The \emph{Smoothing} value can be increased from zero (for example, try 0.5) to average over a larger neighborhood around the data points. This is useful for reducing noise in the captured data.
+This algorithm is available only for non log-scale 2D (X-Y) axes plots. In the future, this will be extended to other axes types. This algorithm can identify data points at regular intervals on the X-axis that fall between $X_{min}$ and $X_{max}$ and $Y_{min}$ and $Y_{max}$. The data points are spaced at an interval $\Delta X$ units apart. This algorithm interpolates over missing data using cubic splines and is therefore suitable even for curves with dotted lines or a series with just data points. The \emph{Smoothing} value can be increased from zero (for example, try 0.5) to average over a larger neighborhood around the data points. This is useful for reducing noise in the captured data. (Also see: \url{http://arohatgi.info/WebPlotDigitizer/blog/posts/discontinuous_data.html})
 
 \subsubsection{X Step}
 This is a simplified version of the \emph{X Step with Interpolation} algorithm. this does not use cubic splines to interpolate over data. The \emph{Line Width} parameter is the y-direction thickness of the curve in on-screen pixels (In future, this will be updated to use the appropriate units in Y). 
 
 \subsubsection{Blob Detector}
-This algorithm is useful for counting number of objects, determining the location of their centroids, calculating areas and also first moments of continuous objects. All object that are within the \emph{Min Diameter} and \emph{Max Diameter} range are added as data points. 
+This algorithm is useful for counting number of objects, determining the location of their centroids, calculating areas and also first moments of continuous objects. All object that are within the \emph{Min Diameter} and \emph{Max Diameter} range are added as data points. (Also see: \url{http://arohatgi.info/WebPlotDigitizer/blog/posts/blob_detection.html})
 
 \section{Multiple Datasets}
 For plots that have multiple sets of data, you can capture data for one dataset, export the CSV file, then clear all the data points and start over to collect data for the next set. This may be acceptable in many cases, but this is can be somewhat inconvenient if you wish to return to an old dataset and modify some data points. Also, this way, you will not be able to store data for all the datasets in an exported JSON file (see later). 
@@ -339,7 +324,7 @@ Once the required data points are marked on the image using the manual mode, aut
  
 \begin{figure}
 \begin{center}
-\includegraphics[width=4in]{./figures/csvOutput.png}
+\includegraphics[width=6in]{./figures/wpd_formatting.png}
 \caption{CSV formatted digitized data. This can be sorted, pasted to a .CSV file or graphed in Plotly.}
 \label{fig:csvOutput}
 \end{center}
@@ -395,7 +380,7 @@ The number formatting of the digitized data columns can be changed by specifying
 \item{{\bf Precision:} Use this to set the number of significant digits.}
 \item{{\bf Exponential: } Use scientific notation with the desired number of digits after the decimal.}
 \end{enumerate}
-
+The \emph{Ignore} option disables the number formatting.
 
 \subsection{Export to .CSV File}
 Comma-Separated Values (CSV) format files are simple text files containing tabular data. Each row of line corresponds to a table row and the column values are separated by a character or a string (usually just a comma)\footnote{For more information on CSV format, check out \url{http://en.wikipedia.org/wiki/Comma-separated_values}}. Due to its simplicity, CSV format is supported in most data analysis softwares like Microsoft Excel, Matlab etc.
