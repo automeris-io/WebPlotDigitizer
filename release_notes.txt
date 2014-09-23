@@ -1,5 +1,24 @@
 RELEASE NOTES
 
+Version 3.4
+===========
+Released September 22, 2014
+
+New features:
+
+- Added ability to import and export calibration and digitized data via JSON files.
+- Added support for handling multiple datasets in a plot. Now data for each data series can be captured separately.
+- Equations to transform pixel positions to data points on the plot can now be viewed by selecting the 'Transformation Equations' option in the Axes menu.
+- Added ability to format numbers in the CSV output.
+- Added a button to quickly erase the entire mask when using the erase tool.
+
+Bug Fixes:
+
+- Fixed a very small CSV file size restriction in WebKit based browsers.
+- Simplified XY axes transformation code.
+- Code clean up in many places, minor performance improvements and UI tweaks.
+
+
 Version 3.3
 ===========
 Released June 16, 2014
@@ -14,6 +33,7 @@ Released June 16, 2014
     - Visual busy indication when loading an image or when auto extract algorithm is running.
     - Box mask drawing tool improved.
     - Minor tweaks to improve usability on smaller screens.
+
 
 Version 3.2
 ===========

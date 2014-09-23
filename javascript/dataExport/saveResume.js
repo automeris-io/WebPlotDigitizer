@@ -138,7 +138,7 @@ wpd.saveResume = (function () {
             calibration = plotData.calibration,
             outData = {
                     wpd: {
-                        version: '3.4',
+                        version: [3, 4], // [major, minor, subminor,...]
                         axesType: null,
                         axesParameters: null,
                         calibration: null,
