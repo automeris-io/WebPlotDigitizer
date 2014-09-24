@@ -7,7 +7,7 @@ This tool has been developed using HTML5, CSS3 and Javascript and therefore runs
 
 Cite As
 -------
-Ankit Rohatgi (2014). Version 3.3 of WebPlotDigitizer. ZENODO. 10.5281/zenodo.10532
+Ankit Rohatgi (2014). Version 3.4 of WebPlotDigitizer. ZENODO. 10.5281/zenodo.11835
 
 Homepage
 --------
