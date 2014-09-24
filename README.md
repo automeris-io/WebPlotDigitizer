@@ -1,4 +1,4 @@
-WebPlotDigitizer [![DOI](https://zenodo.org/badge/doi/10.5281/zenodo.10532.png)](http://dx.doi.org/10.5281/zenodo.10532)
+WebPlotDigitizer [![DOI](https://zenodo.org/badge/doi/10.5281/zenodo.11835.png)](http://dx.doi.org/10.5281/zenodo.11835)
 ================
 
 A web based tool to extract numerical data from plot images. Supports XY, Polar, Ternary diagrams and Maps.
@@ -23,7 +23,7 @@ Version 3.0 demonstration video: [http://youtu.be/G8KPVVFrb6U](http://youtu.be/G
 Usage
 -----
 
-Instructions and video tutorials are available at [http://arohatgi.info/WebPlotDigitizer/?page_id=58](http://arohatgi.info/WebPlotDigitizer/?page_id=58)
+Instructions and video tutorials are available at [http://arohatgi.info/WebPlotDigitizer/tutorial.html](http://arohatgi.info/WebPlotDigitizer/tutorial.html)
 
 Offline Development/Usage
 -------------------------
