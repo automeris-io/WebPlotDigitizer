@@ -1,0 +1,22 @@
+{
+    "manifest_version": 2,
+    "name":"WebPlotDigitizer Remote",
+    "description":"Send any image or screenshot to WebPlotDigitizer",
+    "version":"1.0",
+    "permissions": [
+        "tabs",
+        "contextMenus",
+        "http://arohatgi.info/WebPlotDigitizer"
+    ],
+    "icons": {
+        "16":"icon16.png",
+        "128":"icon.png"
+    },
+    "background": {
+        "scripts": ["background.js"]
+    },
+    "browser_action": {
+        "default_icon" : "icon16.png",
+        "default_title": "Post to WebPlotDigitizer"
+    }
+}
