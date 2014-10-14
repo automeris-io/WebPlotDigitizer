@@ -5,10 +5,6 @@ A web based tool to extract numerical data from plot images. Supports XY, Polar,
 
 This tool has been developed using HTML5, CSS3 and Javascript and therefore runs from within the browser and requires no installation.
 
-Cite As
--------
-Ankit Rohatgi (2014). Version 3.4 of WebPlotDigitizer. ZENODO. 10.5281/zenodo.11835
-
 Homepage
 --------
 
@@ -19,16 +15,20 @@ Demonstration Video
 
 Version 3.0 demonstration video: [http://youtu.be/G8KPVVFrb6U](http://youtu.be/G8KPVVFrb6U)
 
-
 Usage
 -----
 
 Instructions and video tutorials are available at [http://arohatgi.info/WebPlotDigitizer/tutorial.html](http://arohatgi.info/WebPlotDigitizer/tutorial.html)
 
+Scripting
+---------
+
+Users can load scripts to extend the capabilities of WebPlotDigitizer. For samples see [WebPlotDigitizer-Examples](http://github.com/ankitrohatgi/WebPlotDigitizer-Examples).
+
 Offline Development/Usage
 -------------------------
 
-This tool has to hosted on a HTTP server with PHP for some javascript features and PHP scripts to function correctly.
+This tool has to hosted on a HTTP server with PHP for some javascript features and PHP scripts to function correctly. The master branch of the code is usually unstable and not recommended for download (only for development). To download a stable release of this app, check [Releases](https://github.com/ankitrohatgi/WebPlotDigitizer/releases).
 
 Discussion Forum & Available Projects
 -------------------------------------
