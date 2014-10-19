@@ -39,9 +39,14 @@ wpd.scriptInjector = (function () {
         if($scriptFileInput.files.length == 1) {
             var fileReader = new FileReader();
             fileReader.onload = function() {
+                if(typeof wpdscript !== "undefined") {
+                    delete wpdscript;
+                }
                 eval(fileReader.result);
-                wpdscript.run();
-                window["wpdscript"] = wpdscript;
+                if(typeof wpdscript !== "wpdscript") {
+                    window["wpdscript"] = wpdscript;
+                    wpdscript.run();
+                }
             };
             fileReader.readAsText($scriptFileInput.files[0]);
         }

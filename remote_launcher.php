@@ -212,7 +212,7 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
 <div id="acquireDataSidebar" class="sidebar">
 <p class="sidebar-title">Manual Mode <input type="button" value="Automatic Mode" style="width: 125px;" onclick="wpd.autoExtraction.start();"></p>
 <hr/>
-<p>Dataset <select id="manual-sidebar-dataset-list" onchange="wpd.acquireData.changeDataset();" style="width:160px;"></select></p>
+<p>Dataset <select id="manual-sidebar-dataset-list" onchange="wpd.acquireData.changeDataset(this);" style="width:160px;"></select></p>
 <hr/>
 <p>
     <input type="button" value="Add Point (A)" onclick="wpd.acquireData.manualSelection();" style="width:110px;" id="manual-select-button">
@@ -239,7 +239,7 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
 <div id="auto-extraction-sidebar" class="sidebar">
 <p class="sidebar-title">Automatic Mode <input type="button" value="Manual Mode" style="width:110px;" onclick="wpd.acquireData.load();"/></p>
 <hr/>
-<p>Dataset <select id="automatic-sidebar-dataset-list" onchange="wpd.acquireData.changeDataset();" style="width:160px;"></select></p>
+<p>Dataset <select id="automatic-sidebar-dataset-list" onchange="wpd.acquireData.changeDataset(this);" style="width:160px;"></select></p>
 <hr/>
 <p>Mask <input type="button" value="Box" style="width:50px;" onclick="wpd.dataMask.markBox();" id="box-mask"><input type="button" value="Pen" style="width:45px;" onClick="wpd.dataMask.markPen();" id="pen-mask"><input type="button" value="Erase" style="width:50px;" onClick="wpd.dataMask.eraseMarks();" id="erase-mask"><input type="button" value="View" style="width:40px;" onclick="wpd.dataMask.viewMask();" id="view-mask"/></p>
 <hr/>
@@ -378,7 +378,7 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
     <div id="runScriptPopup" class="popup" style="width: 500px;">
     <p class="popupheading">Run Script</p>
     <p>&nbsp;</p>
-    <p align="center">Load a Javascript file to further extend the capabilities of WebPlotDigitizer. As of now, this is intended only for developers who may already be familiar with some of the source code. The API for these scripts may be documented in the future.</p>
+    <p align="center">Load a Javascript file to further extend the capabilities of WebPlotDigitizer. For examples, visit the <a href="http://github.com/ankitrohatgi/WebPlotDigitizer-Examples" target="_blank">WebPlotDigitizer-Examples repository</a>.</p>
     <p>&nbsp;</p>
     <p align="center"><input type="file" id="runScriptFileInput"/></p>
     <p>&nbsp;</p>
