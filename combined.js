@@ -6079,9 +6079,8 @@ wpd.acquireData = (function () {
         $datasetList.selectedIndex = currentIndex;
     }
 
-    function changeDataset() {
-        var $datasetList = document.getElementById('manual-sidebar-dataset-list'),
-            index = $datasetList.selectedIndex;
+    function changeDataset($datasetList) {
+        var index = $datasetList.selectedIndex;
         wpd.appData.getPlotData().setActiveDataSeriesIndex(index);
         wpd.graphicsWidget.forceHandlerRepaint();
         wpd.dataPointCounter.setCount();
@@ -7587,9 +7586,14 @@ wpd.scriptInjector = (function () {
         if($scriptFileInput.files.length == 1) {
             var fileReader = new FileReader();
             fileReader.onload = function() {
+                if(typeof wpdscript !== "undefined") {
+                    delete wpdscript;
+                }
                 eval(fileReader.result);
-                wpdscript.run();
-                window["wpdscript"] = wpdscript;
+                if(typeof wpdscript !== "wpdscript") {
+                    window["wpdscript"] = wpdscript;
+                    wpdscript.run();
+                }
             };
             fileReader.readAsText($scriptFileInput.files[0]);
         }
