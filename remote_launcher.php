@@ -93,6 +93,7 @@ Problems loading? Make sure you have a recent version of Google Chrome, Firefox,
         </ul>
     </div>
 </div>
+<!--
 <div class="wpd-menu">
     <div class="wpd-menu-header">Image</div>
     <div class="wpd-menu-dropdown">
@@ -106,6 +107,7 @@ Problems loading? Make sure you have a recent version of Google Chrome, Firefox,
         </ul>
     </div>
 </div>
+-->
 <div class="wpd-menu">
     <div class="wpd-menu-header">Axes</div>
     <div class="wpd-menu-dropdown">
