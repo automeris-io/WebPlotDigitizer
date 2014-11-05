@@ -138,7 +138,7 @@ wpd.saveResume = (function () {
             calibration = plotData.calibration,
             outData = {
                     wpd: {
-                        version: [3, 4], // [major, minor, subminor,...]
+                        version: [3, 5], // [major, minor, subminor,...]
                         axesType: null,
                         axesParameters: null,
                         calibration: null,
@@ -217,31 +217,7 @@ wpd.saveResume = (function () {
     }
 
     function download() {
-        var formContainer,
-            formElement,
-            formData,
-            jsonData = generateJSON();
-        
-        // Create a hidden form and submit
-        formContainer = document.createElement('div'),
-        formElement = document.createElement('form'),
-        formData = document.createElement('textarea');
-
-        formElement.setAttribute('method', 'post');
-        formElement.setAttribute('action', 'php/json.php');
-
-        formData.setAttribute('name', "data");
-        formData.setAttribute('id', "data");
-
-        formElement.appendChild(formData);
-        formContainer.appendChild(formElement);
-        document.body.appendChild(formContainer);
-        formContainer.style.display = 'none';
-
-        formData.innerHTML = jsonData;
-        formElement.submit();
-        document.body.removeChild(formContainer);
-
+        wpd.download.json(generateJSON()); 
         wpd.popup.close('export-json-window');
     }
 
