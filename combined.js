@@ -6458,7 +6458,7 @@ wpd.BoxMaskTool = (function () {
             mouseMoveHandler = function() {
                 wpd.graphicsWidget.resetHover();
                 ctx.hoverCtx.strokeStyle = "rgb(0,0,0)";
-    		    ctx.hoverCtx.strokeRect(topScreenCorner.x, topScreenCorner.y, screen_pos.x - topScreenCorner.x, screen_pos.y - topScreenCorner.y);
+    		ctx.hoverCtx.strokeRect(topScreenCorner.x, topScreenCorner.y, screen_pos.x - topScreenCorner.x, screen_pos.y - topScreenCorner.y);
             },
             
             mouseUpHandler = function (ev, pos, imagePos) {
@@ -6468,9 +6468,9 @@ wpd.BoxMaskTool = (function () {
                 clearTimeout(moveTimer);
                 isDrawing = false;
                 wpd.graphicsWidget.resetHover();
-                ctx.dataCtx.fillStyle = "rgba(255,255,0,0.8)";
+                ctx.dataCtx.fillStyle = "rgba(255,255,0,1)";
                 ctx.dataCtx.fillRect(topScreenCorner.x, topScreenCorner.y, pos.x-topScreenCorner.x, pos.y-topScreenCorner.y);
-                ctx.oriDataCtx.fillStyle = "rgba(255,255,0,0.8)";
+                ctx.oriDataCtx.fillStyle = "rgba(255,255,0,1)";
                 ctx.oriDataCtx.fillRect(topImageCorner.x, topImageCorner.y, imagePos.x - topImageCorner.x, imagePos.y - topImageCorner.y);
             },
             
@@ -6536,12 +6536,12 @@ wpd.PenMaskTool = (function () {
             moveTimer,
             screen_pos, image_pos,
             mouseMoveHandler = function() {
-                ctx.dataCtx.strokeStyle = "rgba(255,255,0,0.8)";
-        	    ctx.dataCtx.lineTo(screen_pos.x,screen_pos.y);
+                ctx.dataCtx.strokeStyle = "rgba(255,255,0,1)";
+        	ctx.dataCtx.lineTo(screen_pos.x,screen_pos.y);
                 ctx.dataCtx.stroke();
 
-                ctx.oriDataCtx.strokeStyle = "rgba(255,255,0,0.8)";
-        	    ctx.oriDataCtx.lineTo(image_pos.x,image_pos.y);
+                ctx.oriDataCtx.strokeStyle = "rgba(255,255,0,1)";
+        	ctx.oriDataCtx.lineTo(image_pos.x,image_pos.y);
                 ctx.oriDataCtx.stroke();
             };
 
@@ -6556,15 +6556,15 @@ wpd.PenMaskTool = (function () {
             if(isDrawing === true) return;
             var lwidth = parseInt(document.getElementById('paintThickness').value, 10);
             isDrawing = true;
-            ctx.dataCtx.strokeStyle = "rgba(255,255,0,0.8)";
-        	ctx.dataCtx.lineWidth = lwidth*wpd.graphicsWidget.getZoomRatio();
-	        ctx.dataCtx.beginPath();
-        	ctx.dataCtx.moveTo(pos.x,pos.y);
+            ctx.dataCtx.strokeStyle = "rgba(255,255,0,1)";
+            ctx.dataCtx.lineWidth = lwidth*wpd.graphicsWidget.getZoomRatio();
+	    ctx.dataCtx.beginPath();
+            ctx.dataCtx.moveTo(pos.x,pos.y);
 
-            ctx.oriDataCtx.strokeStyle = "rgba(255,255,0,0.8)";
-        	ctx.oriDataCtx.lineWidth = lwidth;
-	        ctx.oriDataCtx.beginPath();
-        	ctx.oriDataCtx.moveTo(imagePos.x,imagePos.y);
+            ctx.oriDataCtx.strokeStyle = "rgba(255,255,0,1)";
+            ctx.oriDataCtx.lineWidth = lwidth;
+	    ctx.oriDataCtx.beginPath();
+            ctx.oriDataCtx.moveTo(imagePos.x,imagePos.y);
         };
 
         this.onMouseMove = function(ev, pos, imagePos) {
@@ -6608,15 +6608,15 @@ wpd.EraseMaskTool = (function () {
             screen_pos, image_pos,
             mouseMoveHandler = function() {
 
-	            ctx.dataCtx.globalCompositeOperation = "destination-out";
+                ctx.dataCtx.globalCompositeOperation = "destination-out";
                 ctx.oriDataCtx.globalCompositeOperation = "destination-out";
-
+                
                 ctx.dataCtx.strokeStyle = "rgba(255,255,0,1)";
-        	    ctx.dataCtx.lineTo(screen_pos.x,screen_pos.y);
+                ctx.dataCtx.lineTo(screen_pos.x,screen_pos.y);
                 ctx.dataCtx.stroke();
-
+                
                 ctx.oriDataCtx.strokeStyle = "rgba(255,255,0,1)";
-        	    ctx.oriDataCtx.lineTo(image_pos.x,image_pos.y);
+                ctx.oriDataCtx.lineTo(image_pos.x,image_pos.y);
                 ctx.oriDataCtx.stroke();
             };
 
@@ -6631,18 +6631,18 @@ wpd.EraseMaskTool = (function () {
             if(isDrawing === true) return;
             var lwidth = parseInt(document.getElementById('eraseThickness').value, 10);
             isDrawing = true;
-	        ctx.dataCtx.globalCompositeOperation = "destination-out";
+            ctx.dataCtx.globalCompositeOperation = "destination-out";
             ctx.oriDataCtx.globalCompositeOperation = "destination-out";
 
             ctx.dataCtx.strokeStyle = "rgba(0,0,0,1)";
-        	ctx.dataCtx.lineWidth = lwidth*wpd.graphicsWidget.getZoomRatio();
-	        ctx.dataCtx.beginPath();
-        	ctx.dataCtx.moveTo(pos.x,pos.y);
+            ctx.dataCtx.lineWidth = lwidth*wpd.graphicsWidget.getZoomRatio();
+            ctx.dataCtx.beginPath();
+            ctx.dataCtx.moveTo(pos.x,pos.y);
 
             ctx.oriDataCtx.strokeStyle = "rgba(0,0,0,1)";
-        	ctx.oriDataCtx.lineWidth = lwidth;
-	        ctx.oriDataCtx.beginPath();
-        	ctx.oriDataCtx.moveTo(imagePos.x,imagePos.y);
+            ctx.oriDataCtx.lineWidth = lwidth;
+            ctx.oriDataCtx.beginPath();
+            ctx.oriDataCtx.moveTo(imagePos.x,imagePos.y);
         };
 
         this.onMouseMove = function(ev, pos, imagePos) {
@@ -6717,7 +6717,7 @@ wpd.MaskPainter = (function() {
                     imgData.data[img_index*4] = 255;
                     imgData.data[img_index*4+1] = 255;
                     imgData.data[img_index*4+2] = 0;
-                    imgData.data[img_index*4+3] = 200;
+                    imgData.data[img_index*4+3] = 255;
                 }
 
                 ctx.oriDataCtx.putImageData(imgData, 0, 0);
