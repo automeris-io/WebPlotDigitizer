@@ -1937,7 +1937,7 @@ var wpd = wpd || {};
 wpd.XStepWithInterpolationAlgo = (function () {
     var Algo = function () {
         var param_xmin, param_delx, param_xmax, 
-            param_width, param_ymin, param_ymax;
+            param_smoothing, param_ymin, param_ymax;
 
         this.getParamList = function () {
             var isAligned = wpd.appData.isAligned(),
@@ -1968,7 +1968,7 @@ wpd.XStepWithInterpolationAlgo = (function () {
             } else if (index === 4) {
                 param_ymax = val;
             } else if (index === 5) {
-                param_width = val;
+                param_smoothing = val;
             }
         };
 
@@ -1996,7 +1996,8 @@ wpd.XStepWithInterpolationAlgo = (function () {
                 delx,
                 dely,
                 xinterp,
-                yinterp;
+                yinterp,
+                param_width = Math.abs(param_delx*(param_smoothing/100.0));
 
             dataSeries.clearAll();
 
@@ -2010,6 +2011,10 @@ wpd.XStepWithInterpolationAlgo = (function () {
             pdata1 = axes.dataToPixel(param_xmax, param_ymin);
             dist_x_px = Math.sqrt((pdata0.x - pdata1.x)*(pdata0.x - pdata1.x) + (pdata0.y - pdata1.y)*(pdata0.y - pdata1.y));
             delx = (param_xmax - param_xmin)/dist_x_px;
+
+            if(Math.abs(param_width/delx) > 0 && Math.abs(param_width/delx) < 1) {
+                param_width = delx;
+            }
 
             xi = param_xmin;
             while( ( delx > 0 && xi <= param_xmax ) || ( delx < 0 && xi >= param_xmax ) ) {
@@ -2050,7 +2055,7 @@ wpd.XStepWithInterpolationAlgo = (function () {
                     mean_y = 0;
                     y_count = 0;
                     for (ii = 0; ii < xpoints.length; ii++) {
-                        if (xpoints[ii] < xi + param_width && xpoints[ii] > xi - param_width) {
+                        if (xpoints[ii] <= xi + param_width && xpoints[ii] >= xi - param_width) {
                             mean_x = (mean_x*y_count + xpoints[ii])/parseFloat(y_count + 1);
                             mean_y = (mean_y*y_count + ypoints[ii])/parseFloat(y_count + 1);
                             y_count++;
@@ -2090,6 +2095,11 @@ wpd.XStepWithInterpolationAlgo = (function () {
                 xinterp[ii] = xi;
                 ii++;
                 xi = xi + param_delx;
+            }
+
+            if(delx < 0) {
+                xpoints_mean = xpoints_mean.reverse();
+                ypoints_mean = ypoints_mean.reverse();
             }
 
             yinterp = numeric.spline(xpoints_mean, ypoints_mean).at(xinterp);
@@ -6051,12 +6061,19 @@ wpd.acquireData = (function () {
         wpd.graphicsWidget.setTool(tool);
     }
 
-    function clearAll() {
+    function confirmedClearAll() {
         wpd.appData.getPlotData().getActiveDataSeries().clearAll()
         wpd.graphicsWidget.removeTool();
         wpd.graphicsWidget.resetData();
         wpd.dataPointCounter.setCount();
         wpd.graphicsWidget.removeRepainter();
+    }
+
+    function clearAll() {
+        if(wpd.appData.getPlotData().getActiveDataSeries().getCount() <= 0) {
+            return;
+        }
+        wpd.okCancelPopup.show("Clear data points?", "This will delete all data points from this dataset", confirmedClearAll, function() {});
     }
 
     function undo() {
