@@ -47,12 +47,19 @@ wpd.acquireData = (function () {
         wpd.graphicsWidget.setTool(tool);
     }
 
-    function clearAll() {
+    function confirmedClearAll() {
         wpd.appData.getPlotData().getActiveDataSeries().clearAll()
         wpd.graphicsWidget.removeTool();
         wpd.graphicsWidget.resetData();
         wpd.dataPointCounter.setCount();
         wpd.graphicsWidget.removeRepainter();
+    }
+
+    function clearAll() {
+        if(wpd.appData.getPlotData().getActiveDataSeries().getCount() <= 0) {
+            return;
+        }
+        wpd.okCancelPopup.show("Clear data points?", "This will delete all data points from this dataset", confirmedClearAll, function() {});
     }
 
     function undo() {
