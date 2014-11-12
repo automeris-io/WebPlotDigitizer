@@ -2,12 +2,14 @@ RELEASE NOTES
 
 Version 3.5
 ===========
-To be released
+Released November 11, 2014
 
 Bug Fixes:
 
 - Fixed broken dropdown menu for switching datasets in the automatic extraction sidebar.
 - Improved user script handling.
+- Improved X Step with Interpolation algorithm.
+- Other minor UI improvements.
 
 Version 3.4
 ===========
