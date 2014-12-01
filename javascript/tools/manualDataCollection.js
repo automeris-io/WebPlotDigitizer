@@ -343,6 +343,16 @@ wpd.AdjustDataPointTool = (function () {
                 pointPx = pointPx - stepSize;
             } else if(wpd.keyCodes.isRight(ev.keyCode)) {
                 pointPx = pointPx + stepSize;
+            } else if(wpd.keyCodes.isTab(ev.keyCode)) {
+                if(ev.shiftKey === true) {
+                    activeDataSeries.selectPreviousPixel();
+                } else {
+                    activeDataSeries.selectNextPixel();
+                }
+                selIndex = activeDataSeries.getSelectedPixels()[0];
+                selPoint = activeDataSeries.getPixel(selIndex);
+                pointPx = selPoint.x;
+                pointPy = selPoint.y;
             } else {
                 return;
             }
