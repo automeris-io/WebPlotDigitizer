@@ -241,6 +241,24 @@ wpd.DataSeries = (function () {
             }
         };
 
+        this.selectNextPixel = function() {
+            for(i = 0; i < selections.length; i++) {
+                selections[i] = (selections[i] + 1) % dataPoints.length;
+            }
+        };
+
+        this.selectPreviousPixel = function() {
+            for(i = 0; i < selections.length; i++) {
+                var newIndex = selections[i];
+                if(newIndex == 0) {
+                    newIndex = dataPoints.length - 1;
+                } else {
+                    newIndex = newIndex - 1;
+                }
+                selections[i] = newIndex;
+            }
+        };
+
         this.getSelectedPixels = function () {
             return selections;
         };
