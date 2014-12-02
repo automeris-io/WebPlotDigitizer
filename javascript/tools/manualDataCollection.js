@@ -343,12 +343,14 @@ wpd.AdjustDataPointTool = (function () {
                 pointPx = pointPx - stepSize;
             } else if(wpd.keyCodes.isRight(ev.keyCode)) {
                 pointPx = pointPx + stepSize;
-            } else if(wpd.keyCodes.isTab(ev.keyCode)) {
-                if(ev.shiftKey === true) {
-                    activeDataSeries.selectPreviousPixel();
-                } else {
-                    activeDataSeries.selectNextPixel();
-                }
+            } else if(wpd.keyCodes.isAlphabet(ev.keyCode, 'q')) {
+                activeDataSeries.selectPreviousPixel();
+                selIndex = activeDataSeries.getSelectedPixels()[0];
+                selPoint = activeDataSeries.getPixel(selIndex);
+                pointPx = selPoint.x;
+                pointPy = selPoint.y;
+            } else if(wpd.keyCodes.isAlphabet(ev.keyCode, 'w')) {
+                activeDataSeries.selectNextPixel();
                 selIndex = activeDataSeries.getSelectedPixels()[0];
                 selPoint = activeDataSeries.getPixel(selIndex);
                 pointPx = selPoint.x;
