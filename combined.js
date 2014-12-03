@@ -30,7 +30,7 @@ wpd.initApp = function() {// This is run when the page loads.
     wpd.graphicsWidget.loadImageFromURL('start.png');
     document.getElementById('loadingCurtain').style.display = 'none';
 
-    //wpd.messagePopup.show('Unstable Version Warning!', 'You are using a beta version of WebPlotDigitizer. There may be some issues with the software that are expected.');
+    wpd.messagePopup.show('Unstable Version Warning!', 'You are using a beta version of WebPlotDigitizer. There may be some issues with the software that are expected.');
     wpd.loadRemoteData();
 };
 
@@ -3640,12 +3640,12 @@ wpd.graphicsWidget = (function () {
     }
 
     function pasteHandler(ev) {
-        wpd.busyNote.show();
         if(ev.clipboardData !== undefined) {
             var items = ev.clipboardData.items;
             if(items !== undefined) {
                 for(var i = 0; i < items.length; i++) {
                     if(items[i].type.indexOf("image") !== -1) {
+                        wpd.busyNote.show();
                         var blob = items[i].getAsFile();
                         var URLObj = window.URL || window.webkitURL;
                         var source = URLObj.createObjectURL(blob);
