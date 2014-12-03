@@ -376,12 +376,12 @@ wpd.graphicsWidget = (function () {
     }
 
     function pasteHandler(ev) {
-        wpd.busyNote.show();
         if(ev.clipboardData !== undefined) {
             var items = ev.clipboardData.items;
             if(items !== undefined) {
                 for(var i = 0; i < items.length; i++) {
                     if(items[i].type.indexOf("image") !== -1) {
+                        wpd.busyNote.show();
                         var blob = items[i].getAsFile();
                         var URLObj = window.URL || window.webkitURL;
                         var source = URLObj.createObjectURL(blob);
