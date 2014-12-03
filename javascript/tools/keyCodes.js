@@ -37,6 +37,12 @@ wpd.keyCodes = (function () {
         isRight: function(code) {
             return code === 39;
         },
+        isTab: function(code) {
+            return code === 9;
+        },
+        isDel: function(code) {
+            return code === 46;
+        },
         isAlphabet: function(code, alpha) {
             if (code > 90 || code < 65) {
                 return false;
