@@ -355,7 +355,7 @@ wpd.AdjustDataPointTool = (function () {
                 selPoint = activeDataSeries.getPixel(selIndex);
                 pointPx = selPoint.x;
                 pointPy = selPoint.y;
-            } else if(wpd.keyCodes.isDel(ev.keyCode)) {
+            } else if(wpd.keyCodes.isDel(ev.keyCode) || wpd.keyCodes.isBackspace(ev.keyCode)) {
                 activeDataSeries.removePixelAtIndex(selIndex);
                 activeDataSeries.unselectAll();
                 if(activeDataSeries.findNearestPixel(pointPx, pointPy) >= 0) {
@@ -369,6 +369,8 @@ wpd.AdjustDataPointTool = (function () {
                 wpd.graphicsWidget.forceHandlerRepaint();
                 wpd.graphicsWidget.updateZoomToImagePosn(pointPx, pointPy);
                 wpd.dataPointCounter.setCount();
+                ev.preventDefault();
+                ev.stopPropagation();
                 return;
             } else {
                 return;

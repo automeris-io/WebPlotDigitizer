@@ -242,14 +242,15 @@ wpd.DataSeries = (function () {
         };
 
         this.selectNextPixel = function() {
-            for(i = 0; i < selections.length; i++) {
+            for(var i = 0; i < selections.length; i++) {
                 selections[i] = (selections[i] + 1) % dataPoints.length;
             }
         };
 
         this.selectPreviousPixel = function() {
+            var i, newIndex;
             for(i = 0; i < selections.length; i++) {
-                var newIndex = selections[i];
+                newIndex = selections[i];
                 if(newIndex == 0) {
                     newIndex = dataPoints.length - 1;
                 } else {

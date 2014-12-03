@@ -43,6 +43,9 @@ wpd.keyCodes = (function () {
         isDel: function(code) {
             return code === 46;
         },
+        isBackspace: function(code) {
+            return code === 8;
+        },
         isAlphabet: function(code, alpha) {
             if (code > 90 || code < 65) {
                 return false;

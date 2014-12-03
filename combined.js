@@ -728,6 +728,25 @@ wpd.DataSeries = (function () {
             }
         };
 
+        this.selectNextPixel = function() {
+            for(var i = 0; i < selections.length; i++) {
+                selections[i] = (selections[i] + 1) % dataPoints.length;
+            }
+        };
+
+        this.selectPreviousPixel = function() {
+            var i, newIndex;
+            for(i = 0; i < selections.length; i++) {
+                newIndex = selections[i];
+                if(newIndex == 0) {
+                    newIndex = dataPoints.length - 1;
+                } else {
+                    newIndex = newIndex - 1;
+                }
+                selections[i] = newIndex;
+            }
+        };
+
         this.getSelectedPixels = function () {
             return selections;
         };
@@ -3084,7 +3103,8 @@ wpd.dataTable = (function () {
             $digitizedDataTable = document.getElementById('digitizedDataTable'),
             formatStrings = [],
             numberFormattingDigits = parseInt(document.getElementById('data-number-format-digits').value, 10),
-            numberFormattingStyle = document.getElementById('data-number-format-style').value;
+            numberFormattingStyle = document.getElementById('data-number-format-style').value,
+            colSeparator = document.getElementById('data-number-format-separator').value;
 
         tableText = '';
         for(rowi = 0; rowi < rowCount; rowi++) {
@@ -3107,7 +3127,7 @@ wpd.dataTable = (function () {
                     }
                 }
             }
-            tableText += rowValues.join(', ');
+            tableText += rowValues.join(colSeparator);
             tableText += '\n';
         }
         $digitizedDataTable.value = tableText;
@@ -6004,6 +6024,15 @@ wpd.keyCodes = (function () {
         isRight: function(code) {
             return code === 39;
         },
+        isTab: function(code) {
+            return code === 9;
+        },
+        isDel: function(code) {
+            return code === 46;
+        },
+        isBackspace: function(code) {
+            return code === 8;
+        },
         isAlphabet: function(code, alpha) {
             if (code > 90 || code < 65) {
                 return false;
@@ -6357,6 +6386,35 @@ wpd.AdjustDataPointTool = (function () {
                 pointPx = pointPx - stepSize;
             } else if(wpd.keyCodes.isRight(ev.keyCode)) {
                 pointPx = pointPx + stepSize;
+            } else if(wpd.keyCodes.isAlphabet(ev.keyCode, 'q')) {
+                activeDataSeries.selectPreviousPixel();
+                selIndex = activeDataSeries.getSelectedPixels()[0];
+                selPoint = activeDataSeries.getPixel(selIndex);
+                pointPx = selPoint.x;
+                pointPy = selPoint.y;
+            } else if(wpd.keyCodes.isAlphabet(ev.keyCode, 'w')) {
+                activeDataSeries.selectNextPixel();
+                selIndex = activeDataSeries.getSelectedPixels()[0];
+                selPoint = activeDataSeries.getPixel(selIndex);
+                pointPx = selPoint.x;
+                pointPy = selPoint.y;
+            } else if(wpd.keyCodes.isDel(ev.keyCode) || wpd.keyCodes.isBackspace(ev.keyCode)) {
+                activeDataSeries.removePixelAtIndex(selIndex);
+                activeDataSeries.unselectAll();
+                if(activeDataSeries.findNearestPixel(pointPx, pointPy) >= 0) {
+                    activeDataSeries.selectNearestPixel(pointPx, pointPy);
+                    selIndex = activeDataSeries.getSelectedPixels()[0];
+                    selPoint = activeDataSeries.getPixel(selIndex);
+                    pointPx = selPoint.x;
+                    pointPy = selPoint.y;
+                }
+                wpd.graphicsWidget.resetData();
+                wpd.graphicsWidget.forceHandlerRepaint();
+                wpd.graphicsWidget.updateZoomToImagePosn(pointPx, pointPy);
+                wpd.dataPointCounter.setCount();
+                ev.preventDefault();
+                ev.stopPropagation();
+                return;
             } else {
                 return;
             }
