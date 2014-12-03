@@ -172,7 +172,8 @@ wpd.dataTable = (function () {
             $digitizedDataTable = document.getElementById('digitizedDataTable'),
             formatStrings = [],
             numberFormattingDigits = parseInt(document.getElementById('data-number-format-digits').value, 10),
-            numberFormattingStyle = document.getElementById('data-number-format-style').value;
+            numberFormattingStyle = document.getElementById('data-number-format-style').value,
+            colSeparator = document.getElementById('data-number-format-separator').value;
 
         tableText = '';
         for(rowi = 0; rowi < rowCount; rowi++) {
@@ -195,7 +196,7 @@ wpd.dataTable = (function () {
                     }
                 }
             }
-            tableText += rowValues.join(', ');
+            tableText += rowValues.join(colSeparator);
             tableText += '\n';
         }
         $digitizedDataTable.value = tableText;

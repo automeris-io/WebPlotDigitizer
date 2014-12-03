@@ -343,6 +343,33 @@ wpd.AdjustDataPointTool = (function () {
                 pointPx = pointPx - stepSize;
             } else if(wpd.keyCodes.isRight(ev.keyCode)) {
                 pointPx = pointPx + stepSize;
+            } else if(wpd.keyCodes.isAlphabet(ev.keyCode, 'q')) {
+                activeDataSeries.selectPreviousPixel();
+                selIndex = activeDataSeries.getSelectedPixels()[0];
+                selPoint = activeDataSeries.getPixel(selIndex);
+                pointPx = selPoint.x;
+                pointPy = selPoint.y;
+            } else if(wpd.keyCodes.isAlphabet(ev.keyCode, 'w')) {
+                activeDataSeries.selectNextPixel();
+                selIndex = activeDataSeries.getSelectedPixels()[0];
+                selPoint = activeDataSeries.getPixel(selIndex);
+                pointPx = selPoint.x;
+                pointPy = selPoint.y;
+            } else if(wpd.keyCodes.isDel(ev.keyCode)) {
+                activeDataSeries.removePixelAtIndex(selIndex);
+                activeDataSeries.unselectAll();
+                if(activeDataSeries.findNearestPixel(pointPx, pointPy) >= 0) {
+                    activeDataSeries.selectNearestPixel(pointPx, pointPy);
+                    selIndex = activeDataSeries.getSelectedPixels()[0];
+                    selPoint = activeDataSeries.getPixel(selIndex);
+                    pointPx = selPoint.x;
+                    pointPy = selPoint.y;
+                }
+                wpd.graphicsWidget.resetData();
+                wpd.graphicsWidget.forceHandlerRepaint();
+                wpd.graphicsWidget.updateZoomToImagePosn(pointPx, pointPy);
+                wpd.dataPointCounter.setCount();
+                return;
             } else {
                 return;
             }
