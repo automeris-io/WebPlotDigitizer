@@ -3053,6 +3053,9 @@ wpd.dataTable = (function () {
             numberFormattingStyle = document.getElementById('data-number-format-style').value,
             colSeparator = document.getElementById('data-number-format-separator').value;
 
+        // "\t" in the column separator should translate to a tab:
+        colSeparator = colSeparator.replace(/[^\\]\\t/, "\t").replace(/^\\t/, "\t");
+
         tableText = '';
         for(rowi = 0; rowi < rowCount; rowi++) {
             rowValues = [];
