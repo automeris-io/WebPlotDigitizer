@@ -415,7 +415,11 @@ wpd.graphicsWidget = (function () {
         $canvasDiv = document.getElementById('canvasDiv');
 
         // Extended crosshair
-        document.body.addEventListener('keydown', toggleExtendedCrosshair, false);
+        document.addEventListener('keydown', function(ev) {
+            if(isCanvasInFocus) {
+                toggleExtendedCrosshair(ev);
+            }
+        }, false);
 
         // hovering over canvas
         $topCanvas.addEventListener('mousemove', hoverOverCanvasHandler, false);
