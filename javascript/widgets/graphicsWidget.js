@@ -527,10 +527,10 @@ wpd.graphicsWidget = (function () {
 
 
     function loadNewFile() {
-        wpd.busyNote.show();
         var fileLoadElem = document.getElementById('fileLoadBox');
         if(fileLoadElem.files.length == 1) {
             var fileInfo = fileLoadElem.files[0];
+            wpd.busyNote.show();
             fileLoader(fileInfo);
         }
         wpd.popup.close('loadNewImage');
