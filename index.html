@@ -3,7 +3,7 @@
 <!-- 
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Copyright 2010-2014 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2015 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
