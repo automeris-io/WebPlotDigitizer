@@ -1,7 +1,7 @@
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotdigitizer
 
-	Copyright 2010-2014 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2015 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
@@ -48,7 +48,7 @@ document.addEventListener("DOMContentLoaded", wpd.initApp, true);
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Copyright 2010-2014 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2015 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
@@ -94,7 +94,7 @@ wpd.detectionAlgoManager = (function () {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Copyright 2010-2014 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2015 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
@@ -153,7 +153,7 @@ wpd.appData = (function () {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Copyright 2010-2014 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2015 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
@@ -303,7 +303,7 @@ wpd.AutoDetector = (function () {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotdigitizer
 
-	Copyright 2010-2014 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2015 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
@@ -432,7 +432,7 @@ wpd.Calibration = (function () {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Copyright 2010-2014 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2015 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
@@ -564,7 +564,7 @@ wpd.colorAnalyzer = (function () {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotdigitizer
 
-	Copyright 2010-2014 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2015 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
@@ -716,9 +716,62 @@ wpd.ConnectedPoints = (function () {
     return CPoints;
 })();
 /*
+	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
+
+	Copyright 2010-2015 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+
+	This file is part of WebPlotDigitizer.
+
+    WebPlotDigitizer is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    WebPlotDigitizer is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
+
+
+*/
+
+var wpd = wpd || {};
+
+wpd.dataEventNames = {
+    axesAligned: 'axesAligned',
+    imageLoaded: 'imageLoaded'
+};
+
+wpd.dataEventManager = (function () {
+
+    var evtMap = {};
+
+    function fireEvent(name, data) {
+    }
+
+    function subscribe(name, method) {
+    }
+
+    function unsubscribe(name, method) {
+    }
+
+    function removeAllSubscriptionsForEvent(name) {
+    }
+
+    return {
+        fireEvent: fireEvent,
+        subscribe: subscribe,
+        unsubscribe: unsubscribe,
+        removeAllSubscriptionsForEvent: removeAllSubscriptionsForEvent
+    };
+})();
+/*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotdigitizer
 
-	Copyright 2010-2014 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2015 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
@@ -882,7 +935,7 @@ wpd.DataSeries = (function () {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Copyright 2010-2014 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2015 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
@@ -1058,7 +1111,7 @@ wpd.dateConverter = (function () {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotdigitizer
 
-	Copyright 2010-2014 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2015 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
@@ -1185,7 +1238,7 @@ wpd.gridDetectionCore = (function () {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Copyright 2010-2014 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2015 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
@@ -1254,7 +1307,7 @@ wpd.InputParser = (function () {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Copyright 2010-2014 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2015 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
@@ -1347,7 +1400,7 @@ wpd.mat = (function () {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotdigitizer
 
-	Copyright 2010-2014 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2015 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
@@ -1465,7 +1518,63 @@ wpd.PlotData = (function () {
 /*
     WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-    Copyright 2010-2014 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+    Copyright 2010-2015 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+
+    This file is part of WebPlotDigitizer.
+
+    WebPlotDigitizer is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    WebPlotDigitizer is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
+
+
+*/
+
+
+var wpd = wpd || {};
+
+wpd.AveragingWindowAlgo = (function () {
+
+    var Algo = function () {
+
+        var xStep = 5, yStep = 5;
+
+        this.getParamList = function () {
+            return [['ΔX', 'Px', 10], ['ΔY', 'Px', 10]];
+        };
+
+        this.setParam = function (index, val) {
+            if(index === 0) {
+                xStep = val;
+            } else if(index === 1) {
+                yStep = val;
+            }
+        };
+
+        this.run = function (plotData) {
+            var autoDetector = plotData.getAutoDetector(),
+                dataSeries = plotData.getActiveDataSeries(),
+                algoCore = new wpd.AveragingWindowCore(autoDetector.binaryData, autoDetector.imageHeight, autoDetector.imageWidth, xStep, yStep, dataSeries);
+
+            algoCore.run();
+        };
+
+    };
+    return Algo;
+})();
+
+/*
+    WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
+
+    Copyright 2010-2015 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
     This file is part of WebPlotDigitizer.
 
@@ -1596,65 +1705,9 @@ wpd.AveragingWindowCore = (function () {
 })();
 
 /*
-    WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
-
-    Copyright 2010-2014 Ankit Rohatgi <ankitrohatgi@hotmail.com>
-
-    This file is part of WebPlotDigitizer.
-
-    WebPlotDigitizer is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    WebPlotDigitizer is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
-
-
-*/
-
-
-var wpd = wpd || {};
-
-wpd.AveragingWindowAlgo = (function () {
-
-    var Algo = function () {
-
-        var xStep = 5, yStep = 5;
-
-        this.getParamList = function () {
-            return [['ΔX', 'Px', 10], ['ΔY', 'Px', 10]];
-        };
-
-        this.setParam = function (index, val) {
-            if(index === 0) {
-                xStep = val;
-            } else if(index === 1) {
-                yStep = val;
-            }
-        };
-
-        this.run = function (plotData) {
-            var autoDetector = plotData.getAutoDetector(),
-                dataSeries = plotData.getActiveDataSeries(),
-                algoCore = new wpd.AveragingWindowCore(autoDetector.binaryData, autoDetector.imageHeight, autoDetector.imageWidth, xStep, yStep, dataSeries);
-
-            algoCore.run();
-        };
-
-    };
-    return Algo;
-})();
-
-/*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Copyright 2010-2014 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2015 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
@@ -1809,7 +1862,7 @@ wpd.AveragingWindowWithStepSizeAlgo = (function () {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Copyright 2010-2014 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2015 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
@@ -1951,7 +2004,7 @@ wpd.BlobDetectorAlgo = (function () {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Copyright 2010-2014 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2015 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
@@ -2158,7 +2211,7 @@ wpd.XStepWithInterpolationAlgo = (function () {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotdigitizer
 
-	Copyright 2010-2014 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2015 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
@@ -2237,7 +2290,7 @@ wpd.ImageAxes = (function () {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotdigitizer
 
-	Copyright 2010-2014 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2015 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
@@ -2351,7 +2404,7 @@ wpd.MapAxes = (function () {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotdigitizer
 
-	Copyright 2010-2013 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2015 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
@@ -2508,7 +2561,7 @@ wpd.PolarAxes = (function () {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotdigitizer
 
-	Copyright 2010-2014 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2015 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
@@ -2687,7 +2740,7 @@ wpd.TernaryAxes = (function () {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotdigitizer
 
-	Copyright 2010-2014 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2015 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
@@ -2952,7 +3005,7 @@ wpd.XYAxes = (function () {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Copyright 2010-2014 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2015 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
@@ -3288,7 +3341,7 @@ wpd.dataTable = (function () {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Copyright 2010-2014 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2015 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
@@ -3981,7 +4034,7 @@ wpd.graphicsWidget = (function () {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotdigitizer
 
-	Copyright 2010-2014 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2015 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
@@ -4057,7 +4110,7 @@ wpd.layoutManager = (function () {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Copyright 2010-2014 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2015 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
@@ -4202,7 +4255,7 @@ wpd.unsupported = function () {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Copyright 2010-2014 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2015 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
@@ -4265,7 +4318,7 @@ wpd.sidebar = (function () {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Copyright 2010-2014 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2015 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
@@ -4311,7 +4364,7 @@ wpd.toolbar = (function () {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Copyright 2010-2014 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2015 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
@@ -4387,7 +4440,7 @@ wpd.transformationEquations = (function () {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Copyright 2010-2014 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2015 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
@@ -4479,7 +4532,7 @@ wpd.webcamCapture = (function () {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Copyright 2010-2014 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2015 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
@@ -4615,7 +4668,7 @@ wpd.zoomView = (function() {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Copyright 2010-2014 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2015 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
@@ -5025,7 +5078,7 @@ wpd.alignAxes = (function () {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Copyright 2010-2014 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2015 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
@@ -5167,7 +5220,7 @@ wpd.autoExtraction = (function () {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Copyright 2010-2014 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2015 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
@@ -5439,7 +5492,7 @@ wpd.ColorFilterRepainter = (function () {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Copyright 2010-2014 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2015 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
@@ -5578,7 +5631,7 @@ wpd.dataSeriesManagement = (function () {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Copyright 2010-2014 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2015 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
@@ -5609,7 +5662,7 @@ wpd.graphicsHelper = (function () {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Copyright 2010-2014 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2015 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
@@ -5935,7 +5988,7 @@ wpd.GridMaskPainter = (function () {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Copyright 2010-2014 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2015 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
@@ -6015,7 +6068,7 @@ wpd.imageOps = (function () {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Copyright 2010-2014 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2015 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
@@ -6071,7 +6124,7 @@ wpd.keyCodes = (function () {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Copyright 2010-2014 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2015 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
@@ -6473,7 +6526,7 @@ wpd.dataPointCounter = (function () {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Copyright 2010-2014 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2015 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
@@ -6843,7 +6896,7 @@ wpd.MaskPainter = (function() {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Copyright 2010-2014 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2015 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
@@ -7359,7 +7412,7 @@ wpd.MeasurementRepainter = (function () {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Copyright 2010-2014 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2015 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
@@ -7431,7 +7484,7 @@ wpd.download = (function() {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Copyright 2010-2014 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2015 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
@@ -7682,7 +7735,7 @@ wpd.saveResume = (function () {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Copyright 2010-2014 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2015 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
@@ -7748,7 +7801,7 @@ wpd.scriptInjector = (function () {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotdigitizer
 
-	Copyright 2010-2013 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2015 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
