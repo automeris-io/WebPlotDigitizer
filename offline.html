@@ -320,7 +320,7 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
 	</div>
 
 	<div id="loadNewImage" class="popup" style="width: 400px;">
-	<p align="center" class="popupheading">Load Image File</p>
+	<div class="popupheading">Load Image File</div>
 	<p>&nbsp;</p>
 	<p align="center"><input type="file" id="fileLoadBox"/></p>
 	<p>&nbsp;</p>
@@ -331,7 +331,7 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
 	</div>
 
     <div id="zoom-settings-popup" class="popup" style="width: 300px;">
-    <p class="popupheading">Magnified View Settings</p>
+    <div class="popupheading">Magnified View Settings</div>
     <p>&nbsp;</p>
     <center>
     <table>
@@ -353,7 +353,7 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
     </div>
  
     <div id="runScriptPopup" class="popup" style="width: 500px;">
-    <p class="popupheading">Run Script</p>
+    <div class="popupheading">Run Script</div>
     <p>&nbsp;</p>
     <p align="center">Load a Javascript file to further extend the capabilities of WebPlotDigitizer. For examples, visit the <a href="http://github.com/ankitrohatgi/WebPlotDigitizer-Examples" target="_blank">WebPlotDigitizer-Examples repository</a>.</p>
     <p>&nbsp;</p>
@@ -363,14 +363,14 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
     </div>
 
     <div id="webcamCapture" class="popup" style="width: 650px;">
-    <p class="popupheading">Webcam Capture</p>
+    <div class="popupheading">Webcam Capture</div>
     <p>&nbsp;</p>
     <p align="center"><video id="webcamVideo" autoplay="true" height="350"></video></p>
     <p align="center"><input type="button" value="Capture" onclick="wpd.webcamCapture.capture();"/> <input type="button" value="Cancel" onclick="wpd.webcamCapture.cancel();"/></p>
     </div>
 
     <div id="messagePopup" class="popup" style="width: 300px;">
-    <p id="message-popup-heading" class="popupheading"></p>
+    <div id="message-popup-heading" class="popupheading"></div>
     <p>&nbsp;</p>
     <p align="center" id="message-popup-text"></p>
     <p>&nbsp;</p>
@@ -378,7 +378,7 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
     </div>
 
     <div id="okCancelPopup" class="popup" style="width: 300px;">
-    <p id="ok-cancel-popup-heading" class="popupheading"></p>
+    <div id="ok-cancel-popup-heading" class="popupheading"></div>
     <p>&nbsp;</p>
     <p align="center" id="ok-cancel-popup-text"></p>
     <p>&nbsp;</p>
@@ -387,7 +387,7 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
 
 
 	<div id="axesList" class="popup" style="width: 400px;">
-	<p align="center" class="popupheading">Choose Plot Type</p>
+	<div class="popupheading">Choose Plot Type</div>
 	<p>&nbsp;</p>
 	<center>
 	<table>
@@ -404,7 +404,7 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
 	</div>
 
 	<div id="xyAlignment" class="popup" style="width: 400px;">
-	<p align="center" class="popupheading">X and Y Axes Calibration</p>
+	<div class="popupheading">X and Y Axes Calibration</div>
 	<p>&nbsp;</p>
 	<p align="center">Enter X-values of the two points clicked on X-axis and Y-values of the two points clicked on Y-axes</p>
 	<center>
@@ -432,7 +432,7 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
 	</div>
 
 	<div id="mapAlignment" class="popup" style="width: 200px;">
-	<p align="center" class="popupheading">Scale Size</p>
+	<div class="popupheading">Scale Size</div>
 	<p>&nbsp;</p>
 	<p align="center"><input type="text" size="6" id="scaleLength" value="1"> <input type="text" size="6" id="scaleUnits" value="Units"/></p>
 	<p>&nbsp;</p>
@@ -440,6 +440,7 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
 	</div>
 
 	<div id="polarAlignment" class="popup" style="width: 200px;">
+    <div class="popupheading">Align Polar Axes</div>
 	<p align="center"><b>Point 1</b> <!-- <input type="checkbox" id="xlog"> Log Scale --></p>
 	<p align="center">R<sub>1</sub>: <input type="text" size="6" id="rpoint1" value="1"></p>
 	<p align="center">Θ<sub>1</sub>: <input type="text" size="6" id="thetapoint1" value="1"></p>
@@ -452,7 +453,7 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
 	</div>
 
 	<div id="ternaryAlignment" class="popup">
-	<p align="center" class="popupheading">Select Range of Variables</p>
+	<div class="popupheading">Select Range of Variables</div>
 	<p>&nbsp;</p>
 	<p align="center">Axes Orientation</p>
 	<center>
@@ -470,7 +471,7 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
 	</div>
 
 	<div id="csvWindow" class="popup" style="width: 800px; height: 480px;">
-	<p class="popupheading">Acquired Data</p>
+	<div class="popupheading">Acquired Data</div>
     <table style="width:780px;">
     <tr>
     <td>
@@ -522,7 +523,7 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
 	</div>
 
     <div id="measurement-data-window" class="popup" style="width: 580px;">
-    <p align="center" class="popupheading">Measurement Data</p>
+    <div class="popupheading">Measurement Data</div>
     <p align="center"><textarea id="measurement-data-table" style="width: 480px; height: 250px;"></textarea></p>
     <p align="center">
         <input type="button" value="Select All" onclick="wpd.measurementData.selectAll();"/>
@@ -532,7 +533,7 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
     </div>
 
 	<div id="xyAxesInfo" class="popup" style="width: 350px;"> 
-	<p align="center" class="popupheading">Align X-Y Axes</p>
+	<div class="popupheading">Align X-Y Axes</div>
 	<p>&nbsp;</p>
 	<p align="center"><img src="images/xyaxes.png" /></p>
 	<p align="center">Click four known points on the axes in the <font color="red">order shown in red</font>. Two on the X axis (X1, X2) and two on the Y axis (Y1, Y2).</p>
@@ -541,7 +542,7 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
 	</div>
 
 	<div id="mapAxesInfo" class="popup" style="width: 350px;"> 
-	<p align="center" class="popupheading">Align Map To Scale Bar</p>
+	<div class="popupheading">Align Map To Scale Bar</div>
 	<p>&nbsp;</p>
 	<p align="center"><img src="images/map.png" /></p>
 	<p align="center">Click on the two ends of the scale bar on the map.</p>
@@ -550,7 +551,7 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
 	</div>
 
 	<div id="polarAxesInfo" class="popup" style="width: 350px;">
-	<p align="center" class="popupheading">Align Polar Axes</p>
+	<div class="popupheading">Align Polar Axes</div>
 	<p>&nbsp;</p>
 	<p align="center"><img src="images/polaraxes.png" /></p>
 	<p align="center">Click on the center, followed by two known points.</p>
@@ -559,7 +560,7 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
 	</div>
 
 	<div id="ternaryAxesInfo" class="popup" style="width: 350px;">
-	<p align="center" class="popupheading">Align Ternary Axes</p>
+	<div class="popupheading">Align Ternary Axes</div>
 	<p>&nbsp;</p>
 	<p align="center"><img src="images/ternaryaxes.png" /></p>
 	<p align="center">Click on the three corners in the order shown above.</p>
@@ -568,18 +569,18 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
 	</div>
 
 	<div id="helpWindow" class="popup" style="width: 550px;">
-	<p class="popupheading">WebPlotDigitizer - Web Based Plot Digitizer</p>
+	<div class="popupheading">WebPlotDigitizer - Web Based Plot Digitizer</div>
 	<p>&nbsp;</p>
     <p align="center">Version 3.6 (beta)</p>
 	<p align="center">This program is distributed under the <a href="https://www.gnu.org/licenses/gpl-3.0-standalone.html" target="_blank">GNU General Public License Version 3</a>.</p>
-	<p align="center">Copyright 2010-2014 Ankit Rohatgi &lt;ankitrohatgi@hotmail.com&gt;</p>
+	<p align="center">Copyright 2010-2015 Ankit Rohatgi &lt;ankitrohatgi@hotmail.com&gt;</p>
 	<p align="center"><a href="http://arohatgi.info/WebPlotDigitizer" target="website">http://arohatgi.info/WebPlotDigitizer</a></p>
 	<p>&nbsp;</p>
 	<p align="center"><input type="button" value="Close" onclick="wpd.popup.close('helpWindow');"></p>
 	</div>
     
     <div id="color-selection-widget" class="popup" style="width:400px;">
-	<p align="center" id="color-selection-title" class="popupheading">Specify Color</p>
+	<div id="color-selection-title" class="popupheading">Specify Color</div>
 	<p align="center">&nbsp;</p>
     <div style="text-align:center;"><div id="color-selection-selected-color-box" class="largeColorBox"></div></div>
 	<p align="center">&nbsp;</p>
@@ -593,7 +594,7 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
 	</div>
 
     <div id="manage-data-series-window" class="popup" style="width:400px;">
-    <p align="center" class="popupheading">Manage Datasets</p>
+    <div class="popupheading">Manage Datasets</div>
     <p>&nbsp;</p>
     <center>
     <table>
@@ -621,7 +622,7 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
     </div>
 
     <div id="axes-transformation-equations-window" class="popup" style="width:500px;">
-    <p class="popupheading">Transformation Equations</p>
+    <div class="popupheading">Transformation Equations</div>
     <p>The following relationships are being used to convert image pixels to data:</p>
     <div id="axes-transformation-equation-list"></div>
     <p>&nbsp;</p>
@@ -629,7 +630,7 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
     </div>
 
     <div id="export-json-window" class="popup" style="width:400px;">
-    <p class="popupheading">Export JSON</p>
+    <div class="popupheading">Export JSON</div>
     <p>This JSON file contains the axes calibration and the digitized data points from this plot. This file can be imported later to resume work or reuse the calibration in another plot.</p>
     <p>&nbsp;</p>
     <p align="center">
@@ -639,7 +640,7 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
     </div>
 
     <div id="import-json-window" class="popup" style="width:400px;">
-    <p class="popupheading">Import JSON</p>
+    <div class="popupheading">Import JSON</div>
     <p>Specify a previously exported JSON file to load here. Note that this will clear any unsaved data points in the current plot.</p>
     <p>&nbsp;</p>
     <p align="center">JSON File: <input type="file" id="import-json-file"/></p>
