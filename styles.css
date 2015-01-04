@@ -157,8 +157,8 @@ select {
     font-size:13px;
     text-align: left;
     cursor: move;
-    background-color: #eeeeee;
-    color: black;
+    background-color: #3B007A;
+    color: #eeeeee;
     margin:0 -5px 0 -5px;
     padding: 5px;
 }
