@@ -153,23 +153,40 @@ select {
 
 .toolbar p { padding:0; margin:0; }
 
-.popupheading {font-size:13px; text-align: left; border-bottom: thin solid #dedede;}
+.popupheading {
+    font-size:13px;
+    text-align: left;
+    cursor: move;
+    background-color: #eeeeee;
+    color: black;
+    margin:0 -5px 0 -5px;
+    padding: 5px;
+}
 
 .popup {	
-	padding:12px 8px;
+	padding:0px 5px 12px 5px;
 	margin:0;
-	border: thin grey solid;
+	border: thin #444444 solid;
 	background:white;
 	z-index:100;
 	position:absolute;
 	top:0;
 	left:0;
 	visibility:hidden;
-
 }
 
 .popup p { padding:0; margin: 5px 5px;}
 
+.popup-drag-mask {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    background: none;
+    z-index: 5000;
+    display: none;
+}
 
 .sidebar-title {
     padding-bottom: 10px;

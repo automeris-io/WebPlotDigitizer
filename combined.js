@@ -4134,22 +4134,37 @@ wpd.layoutManager = (function () {
 var wpd = wpd || {};
 wpd.popup = (function () {
 
+    var dragInfo = null,
+        $activeWindow = null;
+
     function show(popupid) {
-        // Dim lights :)
+
+        // Dim lights to make it obvious that these are modal dialog boxes.
         var shadowDiv = document.getElementById('shadow');
         shadowDiv.style.visibility = "visible";
-
+        
+        // Display the popup
         var pWindow = document.getElementById(popupid);
-        var screenWidth = parseInt(window.innerWidth);
-        var screenHeight = parseInt(window.innerHeight);
-        var pWidth = parseInt(pWindow.offsetWidth);
-        var pHeight = parseInt(pWindow.offsetHeight);
+        var screenWidth = parseInt(window.innerWidth, 10);
+        var screenHeight = parseInt(window.innerHeight, 10);
+        var pWidth = parseInt(pWindow.offsetWidth, 10);
+        var pHeight = parseInt(pWindow.offsetHeight, 10);
         var xPos = (screenWidth - pWidth)/2;
         var yPos = (screenHeight - pHeight)/2;
         yPos = yPos > 60 ? 60 : yPos;
         pWindow.style.left = xPos + 'px';
         pWindow.style.top = yPos + 'px';
         pWindow.style.visibility = "visible";
+
+        // Attach drag events to the header
+        for(var i = 0; i < pWindow.childNodes.length; i++) {
+            if(pWindow.childNodes[i].className === 'popupheading') {
+                pWindow.childNodes[i].addEventListener("mousedown", startDragging, false);
+                break;
+            }
+        }
+
+        $activeWindow = pWindow;
     }
 
     function close(popupid) {
@@ -4159,6 +4174,75 @@ wpd.popup = (function () {
 
         var pWindow = document.getElementById(popupid);
         pWindow.style.visibility = "hidden";
+
+        removeDragMask();
+        $activeWindow = null;
+    }
+
+    function startDragging(ev) {
+        // Create a drag mask that will react to mouse action after this point
+        var $dragMask = document.createElement('div');
+        $dragMask.className = 'popup-drag-mask';
+        $dragMask.style.display = 'inline-block';
+        $dragMask.addEventListener('mousemove', dragMouseMove, false);
+        $dragMask.addEventListener('mouseup', dragMouseUp, false);
+        $dragMask.addEventListener('mouseout', dragMouseOut, false);
+        document.body.appendChild($dragMask);
+
+        dragInfo = {
+            dragMaskDiv: $dragMask,
+            initialMouseX: ev.pageX,
+            initialMouseY: ev.pageY,
+            initialWindowX: $activeWindow.offsetLeft,
+            initialWindowY: $activeWindow.offsetTop
+        };
+
+        ev.preventDefault();
+        ev.stopPropagation();
+    }
+
+    function dragMouseMove(ev) {
+        moveWindow(ev);
+        ev.stopPropagation();
+        ev.preventDefault();
+    }
+
+    function dragMouseUp(ev) {
+        moveWindow(ev);
+        removeDragMask(); 
+        ev.stopPropagation();
+        ev.preventDefault();
+    }
+
+    function moveWindow(ev) {
+        var newWindowX = (dragInfo.initialWindowX + ev.pageX - dragInfo.initialMouseX),
+            newWindowY = (dragInfo.initialWindowY + ev.pageY - dragInfo.initialMouseY),
+            appWidth =  parseInt(document.body.offsetWidth, 10),
+            appHeight =  parseInt(document.body.offsetHeight, 10),
+            windowWidth = parseInt($activeWindow.offsetWidth, 10),
+            windowHeight = parseInt($activeWindow.offsetHeight, 10);
+
+        // move only up to a reasonable bound:
+        if(newWindowX + 0.7*windowWidth < appWidth && newWindowX > 0 && newWindowY > 0
+            && newWindowY + 0.5*windowHeight < appHeight) {
+            $activeWindow.style.top = newWindowY + 'px';
+            $activeWindow.style.left = newWindowX + 'px';
+        }
+    }
+
+    function dragMouseOut(ev) {
+        removeDragMask();
+    }
+
+    function removeDragMask() {
+        if(dragInfo != null && dragInfo.dragMaskDiv != null) {
+            dragInfo.dragMaskDiv.removeEventListener('mouseout', dragMouseOut, false);
+            dragInfo.dragMaskDiv.removeEventListener('mouseup', dragMouseUp, false);
+            dragInfo.dragMaskDiv.removeEventListener('mousemove', dragMouseMove, false);
+            dragInfo.dragMaskDiv.style.display = 'none';
+            document.body.removeChild(dragInfo.dragMaskDiv);
+            dragInfo = null;
+        }
     }
 
     return {
