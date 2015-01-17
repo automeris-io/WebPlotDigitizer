@@ -6452,6 +6452,7 @@ wpd.AdjustDataPointTool = (function () {
         this.onAttach = function () {
             document.getElementById('manual-adjust-button').classList.add('pressed-button');
             wpd.graphicsWidget.setRepainter(new wpd.DataPointsRepainter());
+            wpd.toolbar.show('adjustDataPointsToolbar');
         }; 
         
         this.onRemove = function () {
@@ -6459,6 +6460,7 @@ wpd.AdjustDataPointTool = (function () {
             dataSeries.unselectAll();
             wpd.graphicsWidget.forceHandlerRepaint();
             document.getElementById('manual-adjust-button').classList.remove('pressed-button');
+            wpd.toolbar.clear();
         };
 
         this.onMouseClick = function (ev, pos, imagePos) {
