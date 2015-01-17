@@ -1,5 +1,17 @@
 RELEASE NOTES
 
+Version 3.6
+===========
+Released January 17, 2015
+
+User Interface Improvements:
+
+- Draggable Popup Windows
+- Thanks to Zlatan Stanojevic: 
+    - Q and W keys can be used to select the next or previous data point when manually adjusting data points.
+    - Ability to change the column separator in the final CSV output.
+- Minor bug fixes and enhancements.
+
 Version 3.5
 ===========
 Released November 11, 2014
