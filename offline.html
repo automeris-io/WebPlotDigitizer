@@ -131,14 +131,21 @@ Problems loading? Make sure you have a recent version of Google Chrome, Firefox,
                 <!-- controls that show on top -->
                 <div style="position:relative;"> 
                     <!-- Extra toolbars go here -->
-                    <div id="eraseToolbar" class="toolbar" style="width:350px;">
+                    <!-- Erase Toolbar -->
+<div id="eraseToolbar" class="toolbar" style="width:350px;">
 <p><input type="button" id="clearMaskBtn" value="Erase All" style="width:80px;" onclick="wpd.dataMask.clearMask();"/>
 Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20" style="width:100px;"></p>
 </div>
+
+<!-- Paint Toolbar -->
 <div id="paintToolbar" class="toolbar" style="width:350px;">
 <p>Stroke Width <input type="range" id="paintThickness" min="1" max="150" value="20" style="width:100px;"></p>
 </div>
- 
+
+<!-- Adjust Points Toolbar -->
+<div id="adjustDataPointsToolbar" class="toolbar" style="width:350px;">
+<p><input type="button" value="View Keyboard Shortcuts" onclick="wpd.popup.show('adjust-data-points-keyboard-shortcuts-window');"/></p>
+</div> 
                 </div>
             </div>
 
@@ -649,6 +656,22 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
         <input type="button" value="Import" onclick="wpd.saveResume.read();"/>
         <input type="button" value="Cancel" onclick="wpd.popup.close('import-json-window');"/>
     </p>
+    </div>
+
+    <!-- Adjust Data Points Keyboard Shortcuts -->
+    <div id="adjust-data-points-keyboard-shortcuts-window" class="popup" style="width:350px;">
+    <div class="popupheading">Keyboard Shortcuts</div>
+    <p>Click to select a data point. The following keys can then be used to the adjust the position:</p>
+    <center>
+    <table cellspacing="5" border="0">
+    <tr><td align="right">Cursor (Arrows) -</td><td>Move up/down/right/left</td></tr>
+    <tr><td align="right">Shift + Cursor -</td><td>Faster rate of movement</td></tr>
+    <tr><td align="right">Q -</td><td>Select next point</td></tr>
+    <tr><td align="right">W -</td><td>Select previous point</td></tr>
+    </table>
+    </center>
+    <p>&nbsp;</p>
+    <p align="center"><input type="button" value="Close" onclick="wpd.popup.close('adjust-data-points-keyboard-shortcuts-window');"/></p>
     </div>
 
 </body>
