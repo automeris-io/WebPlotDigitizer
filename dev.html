@@ -370,9 +370,11 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
 </div>
 
 <!-- popup windows go here -->
+    <!-- Background curtain for popups -->
 	<div id="shadow" style="width:100%; height:100%; background-color: rgba(0,0,0,0.3); position:absolute; top:0px; left:0px; z-index:50; visibility:hidden;">
 	</div>
 
+    <!-- Load Image -->
 	<div id="loadNewImage" class="popup" style="width: 400px;">
 	<div class="popupheading">Load Image File</div>
 	<p>&nbsp;</p>
@@ -384,6 +386,7 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
     </p>
 	</div>
 
+    <!-- Zoom Settings -->
     <div id="zoom-settings-popup" class="popup" style="width: 300px;">
     <div class="popupheading">Magnified View Settings</div>
     <p>&nbsp;</p>
@@ -406,6 +409,7 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
     <p align="center"><input type="button" value="Apply" onclick="wpd.zoomView.applySettings();"/> <input type="button" value="Cancel" onclick="wpd.popup.close('zoom-settings-popup');"/></p>
     </div>
  
+    <!-- Run Script -->
     <div id="runScriptPopup" class="popup" style="width: 500px;">
     <div class="popupheading">Run Script</div>
     <p>&nbsp;</p>
@@ -416,6 +420,7 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
     <p align="center"><input type="button" value="Run" onclick="wpd.scriptInjector.load();"/> <input type="button" value="Cancel" onclick="wpd.scriptInjector.cancel();"/></p>
     </div>
 
+    <!-- Webcam Capture -->
     <div id="webcamCapture" class="popup" style="width: 650px;">
     <div class="popupheading">Webcam Capture</div>
     <p>&nbsp;</p>
@@ -423,6 +428,7 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
     <p align="center"><input type="button" value="Capture" onclick="wpd.webcamCapture.capture();"/> <input type="button" value="Cancel" onclick="wpd.webcamCapture.cancel();"/></p>
     </div>
 
+    <!-- Generic Message Popup -->
     <div id="messagePopup" class="popup" style="width: 300px;">
     <div id="message-popup-heading" class="popupheading"></div>
     <p>&nbsp;</p>
@@ -431,6 +437,7 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
     <p align="center"><input type="button" value="OK" onclick="wpd.messagePopup.close()"/></p>
     </div>
 
+    <!-- Generic Ok/Cancel Popup -->
     <div id="okCancelPopup" class="popup" style="width: 300px;">
     <div id="ok-cancel-popup-heading" class="popupheading"></div>
     <p>&nbsp;</p>
@@ -439,14 +446,14 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
     <p align="center"><input type="button" value="OK" onclick="wpd.okCancelPopup.ok()"/> <input type="button" value="Cancel" onclick="wpd.okCancelPopup.cancel()"/></p>
     </div>
 
-
+    <!-- Choose axes type -->
 	<div id="axesList" class="popup" style="width: 400px;">
 	<div class="popupheading">Choose Plot Type</div>
 	<p>&nbsp;</p>
 	<center>
 	<table>
 	<tr><td align="left"><label><input type="radio" name="plotlisting" id="r_xy" checked> 2D (X-Y) Plot</label></td></tr>
-	<!-- <tr><td align="left"><label><input type="radio" name="plotlisting" id="r_bar"> 2D Bar Plot</label></td></tr> -->
+	<tr><td align="left"><label><input type="radio" name="plotlisting" id="r_bar"> 2D Bar Plot</label></td></tr>
 	<tr><td align="left"><label><input type="radio" name="plotlisting" id="r_polar"> Polar Diagram</label></td></tr>
 	<tr><td align="left"><label><input type="radio" name="plotlisting" id="r_ternary"> Ternary Diagram</label></td></tr>
 	<tr><td align="left"><label><input type="radio" name="plotlisting" id="r_map"> Map With Scale Bar</label></td></tr>
@@ -457,34 +464,61 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
 	<p align="center"><input type="button" value="Align Axes" onclick="wpd.alignAxes.start();">&nbsp;<input type="button" value="Cancel" onClick="wpd.popup.close('axesList');"></p>
 	</div>
 
+    <!-- XY Alignment -->
 	<div id="xyAlignment" class="popup" style="width: 400px;">
 	<div class="popupheading">X and Y Axes Calibration</div>
 	<p>&nbsp;</p>
 	<p align="center">Enter X-values of the two points clicked on X-axis and Y-values of the two points clicked on Y-axes</p>
 	<center>
 	<table padding="10">
-		<tr><td></td>
+		<tr>
+            <td></td>
 			<td align="center" valign="bottom">Point 1</td>
 			<td align="center" valign="bottom" width="80">Point 2</td>
 			<td align="center" valign="bottom" width="82">Log Scale</td>
 		</tr>
-	    <tr><td align="center">X-Axis:</td>
-	        <td align="center"><input type="text" size="8" id="xmin" value="0"></td>
-	        <td align="center"><input type="text" size="8" id="xmax" value="1"></td>
+	    <tr>
+            <td align="center">X-Axis:</td>
+	        <td align="center"><input type="text" size="8" id="xmin" value="0" /></td>
+	        <td align="center"><input type="text" size="8" id="xmax" value="1" /></td>
 	        <td align="center"><input type="checkbox" id="xlog"></td>
 	    </tr>
-	    <tr><td align="center">Y-Axis:</td>
-	        <td align="center"><input type="text" size="8" id="ymin" value="0"></td>
-	        <td align="center"><input type="text" size="8" id="ymax" value="1"></td>
-	        <td align="center"><input type="checkbox" id="ylog"></td>
+	    <tr>
+            <td align="center">Y-Axis:</td>
+	        <td align="center"><input type="text" size="8" id="ymin" value="0" /></td>
+	        <td align="center"><input type="text" size="8" id="ymax" value="1" /></td>
+	        <td align="center"><input type="checkbox" id="ylog" /></td>
 	    </tr>
 	</table>
 	<p align="center" class="footnote">*For dates, use yyyy/mm/dd format (e.g. 2013/10/23 or 2013/10). For exponents, enter values as 1e-3 for 10^-3.</p>
 	<p>&nbsp;</p>
-	<p align="center"><input type="button" id="xybtn" value="OK" onclick="wpd.alignAxes.align();"></p>
+	<p align="center"><input type="button" id="xybtn" value="OK" onclick="wpd.alignAxes.align();" /></p>
 	</center>
 	</div>
 
+    <!-- Bar Alignment -->
+    <div id="barAlignment" class="popup" style="width: 400px;">
+    <div class="popupheading">Bar Chart Calibration</div>
+    <p align="center">Enter the values at the two points selected on the continuous axes along the bars</p>
+    <center>
+    <table padding="10">
+        <tr>
+            <td align="center" valign="bottom">Point 1</td>
+            <td align="center" valign="bottom" width="80">Point 2</td>
+            <td align="center" valign="Log Scale" width="80">Log Scale</td>
+        </tr>
+        <tr>
+            <td align="center"><input type="text" size="8" id="bar-axes-p1" value="0" /></td>
+            <td align="center"><input type="text" size="8" id="bar-axes-p2" value="1" /></td>
+            <td align="center"><input type="checkbox" id="bar-axes-log-scale"/></td>
+        </tr>
+    </table>
+    </center>
+    <p>&nbsp;</p>
+    <p align="center"><input type="button" value="OK" onclick="wpd.alignAxes.align();"/></p>
+    </div>
+
+    <!-- Map Alignment -->
 	<div id="mapAlignment" class="popup" style="width: 200px;">
 	<div class="popupheading">Scale Size</div>
 	<p>&nbsp;</p>
@@ -493,6 +527,7 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
 	<p align="center"><input type="button" id="xybtn" value="OK" onclick="wpd.alignAxes.align();"></p>
 	</div>
 
+    <!-- Polar Alignment -->
 	<div id="polarAlignment" class="popup" style="width: 200px;">
     <div class="popupheading">Align Polar Axes</div>
 	<p align="center"><b>Point 1</b> <!-- <input type="checkbox" id="xlog"> Log Scale --></p>
@@ -506,6 +541,7 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
 	<p align="center"><input type="button" value="OK" onclick="wpd.alignAxes.align();"></p>
 	</div>
 
+    <!-- Ternary Alignment -->
 	<div id="ternaryAlignment" class="popup">
 	<div class="popupheading">Select Range of Variables</div>
 	<p>&nbsp;</p>
@@ -524,6 +560,7 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
 	<p align="center"><input type="button" value="OK" onclick="wpd.alignAxes.align();"></p>
 	</div>
 
+    <!-- View Data -->
 	<div id="csvWindow" class="popup" style="width: 800px; height: 480px;">
 	<div class="popupheading">Acquired Data</div>
     <table style="width:780px;">
@@ -576,6 +613,7 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
     </table>
 	</div>
 
+    <!-- Measurement Data -->
     <div id="measurement-data-window" class="popup" style="width: 580px;">
     <div class="popupheading">Measurement Data</div>
     <p align="center"><textarea id="measurement-data-table" style="width: 480px; height: 250px;"></textarea></p>
@@ -586,15 +624,27 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
     </p>
     </div>
 
+    <!-- XY Axes Calibration Instructions -->
 	<div id="xyAxesInfo" class="popup" style="width: 350px;"> 
 	<div class="popupheading">Align X-Y Axes</div>
 	<p>&nbsp;</p>
 	<p align="center"><img src="images/xyaxes.png" /></p>
 	<p align="center">Click four known points on the axes in the <font color="red">order shown in red</font>. Two on the X axis (X1, X2) and two on the Y axis (Y1, Y2).</p>
 	<p>&nbsp;</p>
-	<p align="center"><input type="button" value="Proceed" onclick="wpd.xyCalibration.pickCorners();"></p>
+	<p align="center"><input type="button" value="Proceed" onclick="wpd.xyCalibration.pickCorners();" /></p>
 	</div>
 
+    <!-- Bar Chart Axes Calibration Intructions -->
+    <div id="barAxesInfo" class="popup" style="width: 350px;">
+    <div class="popupheading">Align Bar Chart Axes</div>
+    <p>&nbsp;</p>
+    <p align="center"><img src="images/barchart.png" /></p>
+    <p align="center">Click on two known points (Y1, Y2) on the continuous axes along the bars</p>
+    <p>&nbsp;</p>
+    <p align="center"><input type="button" value="Proceed" onclick="wpd.barCalibration.pickCorners();" /></p>
+    </div>
+
+    <!-- Map Axes Calibration Instructions -->
 	<div id="mapAxesInfo" class="popup" style="width: 350px;"> 
 	<div class="popupheading">Align Map To Scale Bar</div>
 	<p>&nbsp;</p>
@@ -604,6 +654,7 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
 	<p align="center"><input type="button" value="Proceed" onclick="wpd.mapCalibration.pickCorners();"></p>
 	</div>
 
+    <!-- Polar Axes Calibration Instructions -->
 	<div id="polarAxesInfo" class="popup" style="width: 350px;">
 	<div class="popupheading">Align Polar Axes</div>
 	<p>&nbsp;</p>
@@ -613,6 +664,7 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
 	<p align="center"><input type="button" value="Proceed" onclick="wpd.polarCalibration.pickCorners();"></p>
 	</div>
 
+    <!-- Ternary Axes Calibration Instructions -->
 	<div id="ternaryAxesInfo" class="popup" style="width: 350px;">
 	<div class="popupheading">Align Ternary Axes</div>
 	<p>&nbsp;</p>
@@ -622,6 +674,7 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
 	<p align="center"><input type="button" value="Proceed" onclick="wpd.ternaryCalibration.pickCorners();"></p>
 	</div>
 
+    <!-- About WPD -->
 	<div id="helpWindow" class="popup" style="width: 550px;">
 	<div class="popupheading">WebPlotDigitizer - Web Based Plot Digitizer</div>
 	<p>&nbsp;</p>
@@ -633,6 +686,7 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
 	<p align="center"><input type="button" value="Close" onclick="wpd.popup.close('helpWindow');"></p>
 	</div>
     
+    <!-- Color Selection -->
     <div id="color-selection-widget" class="popup" style="width:400px;">
 	<div id="color-selection-title" class="popupheading">Specify Color</div>
 	<p align="center">&nbsp;</p>
@@ -647,6 +701,8 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
 	<p align="center"><input type="button" value="Done" onclick="wpd.colorSelectionWidget.setColor();"></p>
 	</div>
 
+
+    <!-- Manage Data Series -->
     <div id="manage-data-series-window" class="popup" style="width:400px;">
     <div class="popupheading">Manage Datasets</div>
     <p>&nbsp;</p>
@@ -675,6 +731,7 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
     </p>
     </div>
 
+    <!-- Axes Transformation Equations -->
     <div id="axes-transformation-equations-window" class="popup" style="width:500px;">
     <div class="popupheading">Transformation Equations</div>
     <p>The following relationships are being used to convert image pixels to data:</p>
@@ -683,6 +740,7 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
     <p align="center"><input type="button" value="Close" onclick="wpd.popup.close('axes-transformation-equations-window');"/></p>
     </div>
 
+    <!-- Export JSON -->
     <div id="export-json-window" class="popup" style="width:400px;">
     <div class="popupheading">Export JSON</div>
     <p>This JSON file contains the axes calibration and the digitized data points from this plot. This file can be imported later to resume work or reuse the calibration in another plot.</p>
@@ -693,6 +751,7 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
     </p>
     </div>
 
+    <!-- Import JSON -->
     <div id="import-json-window" class="popup" style="width:400px;">
     <div class="popupheading">Import JSON</div>
     <p>Specify a previously exported JSON file to load here. Note that this will clear any unsaved data points in the current plot.</p>
