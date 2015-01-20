@@ -4772,6 +4772,60 @@ wpd.xyCalibration = (function () {
     };
 })();
 
+wpd.barCalibration = (function () {
+
+    function start() {
+        wpd.popup.show('barAxesInfo');
+    }
+
+    function pickCorners() {
+        wpd.popup.close('barAxesInfo');
+        var tool = new wpd.AxesCornersTool(2, 2, ['Y1', 'Y2']);
+        wpd.graphicsWidget.setTool(tool);
+    }
+
+    function getCornerValues() {
+        wpd.popup.show('barAlignment');
+    }
+
+    function align() {
+        /*
+        var xmin = document.getElementById('xmin').value,
+	        xmax = document.getElementById('xmax').value,
+	        ymin = document.getElementById('ymin').value,
+	        ymax = document.getElementById('ymax').value,
+	        xlog = document.getElementById('xlog').checked,
+	        ylog = document.getElementById('ylog').checked,
+            axes = new wpd.XYAxes(),
+            plot,
+            calib = wpd.alignAxes.getActiveCalib();
+
+        calib.setDataAt(0, xmin, ymin);
+        calib.setDataAt(1, xmax, ymin);
+        calib.setDataAt(2, xmin, ymin);
+        calib.setDataAt(3, xmax, ymax);
+        if(!axes.calibrate(calib, xlog, ylog)) {
+            wpd.popup.close('xyAlignment');
+            wpd.messagePopup.show('Invalid Inputs', 'Please enter valid values for calibration.', getCornerValues);
+            return false;
+        }
+        plot = wpd.appData.getPlotData();
+        plot.axes = axes;
+        plot.calibration = calib;
+        */
+        wpd.popup.close('barAlignment');
+        return true;
+    }
+
+    return {
+        start: start,
+        pickCorners: pickCorners,
+        getCornerValues: getCornerValues,
+        align: align
+    };
+})();
+
+
 wpd.polarCalibration = (function () {
 
     function start() {
@@ -5041,11 +5095,14 @@ wpd.alignAxes = (function () {
         ternaryEl = document.getElementById('r_ternary');
         mapEl = document.getElementById('r_map');
         imageEl = document.getElementById('r_image');
+        barEl = document.getElementById('r_bar');
 
         wpd.popup.close('axesList');
 
         if (xyEl.checked === true) {
             calibrator = wpd.xyCalibration;
+        } else if(barEl.checked === true) {
+            calibrator = wpd.barCalibration;
         } else if(polarEl.checked === true) {
             calibrator = wpd.polarCalibration;
         } else if(ternaryEl.checked === true) {
