@@ -82,7 +82,7 @@ wpd.barCalibration = (function () {
 
     function pickCorners() {
         wpd.popup.close('barAxesInfo');
-        var tool = new wpd.AxesCornersTool(2, 2, ['Y1', 'Y2']);
+        var tool = new wpd.AxesCornersTool(2, 2, ['P1', 'P2']);
         wpd.graphicsWidget.setTool(tool);
     }
 
