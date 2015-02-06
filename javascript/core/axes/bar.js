@@ -31,7 +31,7 @@ wpd.BarAxes = (function () {
             return true;
         };
 
-        this.calibrate = function(calibration, orientation, isLog) {
+        this.calibrate = function(calibration, isLog) {
             // TODO: use continuous axes coords to calculate a normal etc.
             return true;
         };
