@@ -2189,7 +2189,7 @@ wpd.BarAxes = (function () {
             return true;
         };
 
-        this.calibrate = function(calibration, orientation, isLog) {
+        this.calibrate = function(calibration, isLog) {
             // TODO: use continuous axes coords to calculate a normal etc.
             return true;
         };
@@ -4866,30 +4866,23 @@ wpd.barCalibration = (function () {
     }
 
     function align() {
-        /*
-        var xmin = document.getElementById('xmin').value,
-	        xmax = document.getElementById('xmax').value,
-	        ymin = document.getElementById('ymin').value,
-	        ymax = document.getElementById('ymax').value,
-	        xlog = document.getElementById('xlog').checked,
-	        ylog = document.getElementById('ylog').checked,
-            axes = new wpd.XYAxes(),
+        var p1 = document.getElementById('bar-axes-p1').value,
+	        p2 = document.getElementById('bar-axes-p2').value,
+	        isLogScale = document.getElementById('bar-axes-log-scale').checked,
+            axes = new wpd.BarAxes(),
             plot,
             calib = wpd.alignAxes.getActiveCalib();
 
-        calib.setDataAt(0, xmin, ymin);
-        calib.setDataAt(1, xmax, ymin);
-        calib.setDataAt(2, xmin, ymin);
-        calib.setDataAt(3, xmax, ymax);
-        if(!axes.calibrate(calib, xlog, ylog)) {
-            wpd.popup.close('xyAlignment');
+        calib.setDataAt(0, 0, p1);
+        calib.setDataAt(1, 0, p2);
+        if(!axes.calibrate(calib, isLogScale)) {
+            wpd.popup.close('barAlignment');
             wpd.messagePopup.show('Invalid Inputs', 'Please enter valid values for calibration.', getCornerValues);
             return false;
         }
         plot = wpd.appData.getPlotData();
         plot.axes = axes;
         plot.calibration = calib;
-        */
         wpd.popup.close('barAlignment');
         return true;
     }
