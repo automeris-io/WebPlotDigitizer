@@ -35,6 +35,7 @@ wpd.initApp = function() {// This is run when the page loads.
 };
 
 wpd.loadRemoteData = function() {
+
     if(typeof wpdremote === "undefined") { 
         return; 
     }
