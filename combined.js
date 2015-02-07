@@ -2185,7 +2185,8 @@ wpd.BarAxes = (function () {
 
     var AxesObj = function () {
         // Throughout this code, it is assumed that "y" is the continuous axes and "x" is
-        // the discrete axes. In practice, this shouldn't matter.
+        // the discrete axes. In practice, this shouldn't matter even if the orientation
+        // is different.
         var isCalibrated = false,
             isLogScale = false,
             x1, y1, x2, y2, p1, p2;
@@ -2203,8 +2204,8 @@ wpd.BarAxes = (function () {
             y1 = cp1.py;
             x2 = cp2.px;
             y2 = cp2.py;
-            p1 = cp1.dy;
-            p2 = cp2.dy;
+            p1 = parseFloat(cp1.dy);
+            p2 = parseFloat(cp2.dy);
 
             if(isLog) {
                 isLogScale = true;
@@ -2222,7 +2223,7 @@ wpd.BarAxes = (function () {
             var data = [],
                 c_c2 = ((pyi-y1)*(y2-y1) + (x2-x1)*(pxi-x1))/((y2-y1)*(y2-y1) + (x2-x1)*(x2-x1));
             data[0] = pxi;
-            data[1] = (p2 - p1)*c_c2;
+            data[1] = (p2 - p1)*c_c2 + p1;
             if(isLogScale) {
                 data[1] = pow(10, data[1]);
             }
