@@ -2225,7 +2225,7 @@ wpd.BarAxes = (function () {
             data[0] = pxi;
             data[1] = (p2 - p1)*c_c2 + p1;
             if(isLogScale) {
-                data[1] = pow(10, data[1]);
+                data[1] = Math.pow(10, data[1]);
             }
             return data;
         };
