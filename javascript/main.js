@@ -27,21 +27,29 @@ wpd.initApp = function() {// This is run when the page loads.
 
     wpd.browserInfo.checkBrowser();
     wpd.layoutManager.initialLayout();
-    wpd.graphicsWidget.loadImageFromURL('start.png');
+    if(!wpd.loadRemoteData()) {
+        wpd.graphicsWidget.loadImageFromURL('start.png');
+        wpd.messagePopup.show('Unstable Version Warning!', 'You are using a beta version of WebPlotDigitizer. There may be some issues with the software that are expected.');
+    }
     document.getElementById('loadingCurtain').style.display = 'none';
 
-    wpd.messagePopup.show('Unstable Version Warning!', 'You are using a beta version of WebPlotDigitizer. There may be some issues with the software that are expected.');
     wpd.loadRemoteData();
 };
 
 wpd.loadRemoteData = function() {
 
     if(typeof wpdremote === "undefined") { 
-        return; 
+        return false; 
     }
-    if(wpdremote.imageData != null && wpdremote.imageData.length > 0) {
-        wpd.messagePopup.show("Remote Data", wpdremote.imageData);
+    if(wpdremote.status != null && wpdremote.status === 'fail') {
+        wpd.messagePopup.show('Remote Upload Failed!', 'Remote Upload Failed!');
+        return false;
     }
+    if(wpdremote.status === 'success' && wpdremote.localUrl != null) {
+        wpd.graphicsWidget.loadImageFromURL(wpdremote.localUrl);
+        return true;
+    }
+    return false;
 };
 
 document.addEventListener("DOMContentLoaded", wpd.initApp, true);
