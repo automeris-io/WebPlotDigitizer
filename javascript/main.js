@@ -33,7 +33,6 @@ wpd.initApp = function() {// This is run when the page loads.
     }
     document.getElementById('loadingCurtain').style.display = 'none';
 
-    wpd.loadRemoteData();
 };
 
 wpd.loadRemoteData = function() {
@@ -47,6 +46,7 @@ wpd.loadRemoteData = function() {
     }
     if(wpdremote.status === 'success' && wpdremote.localUrl != null) {
         wpd.graphicsWidget.loadImageFromURL(wpdremote.localUrl);
+        wpd.popup.show('axesList');
         return true;
     }
     return false;

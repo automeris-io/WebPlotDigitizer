@@ -29,11 +29,10 @@ wpd.initApp = function() {// This is run when the page loads.
     wpd.layoutManager.initialLayout();
     if(!wpd.loadRemoteData()) {
         wpd.graphicsWidget.loadImageFromURL('start.png');
+        wpd.messagePopup.show('Unstable Version Warning!', 'You are using a beta version of WebPlotDigitizer. There may be some issues with the software that are expected.');
     }
     document.getElementById('loadingCurtain').style.display = 'none';
 
-    wpd.messagePopup.show('Unstable Version Warning!', 'You are using a beta version of WebPlotDigitizer. There may be some issues with the software that are expected.');
-    wpd.loadRemoteData();
 };
 
 wpd.loadRemoteData = function() {
@@ -47,6 +46,7 @@ wpd.loadRemoteData = function() {
     }
     if(wpdremote.status === 'success' && wpdremote.localUrl != null) {
         wpd.graphicsWidget.loadImageFromURL(wpdremote.localUrl);
+        wpd.popup.show('axesList');
         return true;
     }
     return false;

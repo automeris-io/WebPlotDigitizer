@@ -43,7 +43,7 @@ $image_prefix = 'img-';
 
 // Copy remote image to local directory and provide local and remote url to WPD
 $remote_url = $_POST["imageURL"];
-$file_extension = pathinfo($remote_url, PATHINFO_EXTENSION);
+$file_extension = image_type_to_extension(exif_imagetype($remote_url), FALSE);
 $temp_file_placeholder = tempnam($image_cache_folder, $image_prefix);
 $local_image_filename = $temp_file_placeholder.".".$file_extension;
 $local_image_relative_path = $image_cache_folder.'/'.pathinfo($local_image_filename, PATHINFO_FILENAME).'.'.$file_extension;
