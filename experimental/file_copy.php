@@ -27,7 +27,12 @@ echo("<p>".$img_relative_path."</p>");
 echo "<p>Copying... ";
 
 if(copy($img_url, $img_copy_filename)) {
+    $file_size = filesize($img_copy_filename);
     echo "Copied!</p>";
+    echo "<p>File size: ".$file_size."</p>";
+    if($file_size > 100e6) { // if more than 100MB, then just bail
+        echo "too large!";
+    }
 } else {
     echo "Copy failed!</p>";
 }

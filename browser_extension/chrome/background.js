@@ -7,11 +7,11 @@ var clickHandler = function(e) {
 
         
         formElement.setAttribute('method', 'post');
-        formElement.setAttribute('action', 'http://localhost:8000/experimental/file_copy.php');
+        formElement.setAttribute('action', 'http://localhost:8000/remote_launcher.php');
         formElement.setAttribute('target', '_blank');
         
-        formData.setAttribute('name', "imageData");
-        formData.setAttribute('id', "imageData");
+        formData.setAttribute('name', "imageURL");
+        formData.setAttribute('id', "imageURL");
 
         formElement.appendChild(formData);
         formContainer.appendChild(formElement);

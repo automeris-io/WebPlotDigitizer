@@ -2,10 +2,35 @@
 {% block scripts %}
 
 <!-- Remote data -->
-<script type="text/javascript">
-var wpdremote = {};
-wpdremote.imageData = '<?php echo($_POST["imageData"]); ?>';
-</script>
+<?php
+// Server Settings:
+$image_cache_folder = './image-cache';
+$image_prefix = 'img-';
+
+// Copy remote image to local directory and provide local and remote url to WPD
+$remote_url = $_POST["imageURL"];
+$file_extension = pathinfo($remote_url, PATHINFO_EXTENSION);
+$temp_file_placeholder = tempnam($image_cache_folder, $image_prefix);
+$local_image_filename = $temp_file_placeholder.".".$file_extension;
+$local_image_relative_path = $image_cache_folder.'/'.pathinfo($local_image_filename, PATHINFO_FILENAME).'.'.$file_extension;
+
+$copy_status = 'fail';
+if(copy($remote_url, $local_image_filename)) {
+    $file_size = filesize($local_image_filename);
+    if($file_size < 50e6) { // Limit file size to ~50MB
+        $copy_status = 'success';
+        echo("<script>var wpdremote = { status: '{$copy_status}', remoteUrl: '{$remote_url}', localUrl: '{$local_image_relative_path}'};</script>");
+    } else {
+        $copy_status = 'fail';
+    }
+} else {
+    $copy_status = 'fail';
+}
+if($copy_status == 'fail') {
+    echo("<script>var wpdremote = { status: 'fail' };</script>");
+}
+unlink($temp_file_placeholder);
+?>
 <script src="combined-compiled.js"></script>
 
 <!-- Start of StatCounter code -->
