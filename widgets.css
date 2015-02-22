@@ -34,6 +34,8 @@
 .wpd-menu:hover > .wpd-menu-dropdown {
 	visibility: visible;
 	z-index: 50;
+    opacity: 1;
+    transition: visibility 0.3s ease 0s, opacity 0.5s ease;
 }
 
 .wpd-menu:hover > .wpd-menu-header, .wpd-menu-dropdown > ul > li:hover {
@@ -55,6 +57,7 @@
 	position: absolute;
 	background: white;
 	padding: 0px;
+    opacity: 0;
 }
 
 .wpd-menu-dropdown > ul {
