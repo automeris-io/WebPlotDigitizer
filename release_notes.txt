@@ -1,5 +1,19 @@
 RELEASE NOTES
 
+Version 3.7
+===========
+To be released.
+
+Bug fixes:
+
+- Fixed multiple calibration issues with polar diagrams.
+- Fixed switching between tools using keyboard during distance and angle measurements.
+
+New Features:
+
+- Added ability to load remote images sent via POST (not to be exposed on the website at the moment).
+- Chrome extension that can allow users to send any image on the internet to a locally hosted WebPlotDigitizer (not to be added to the Chrome store at the moment).
+
 Version 3.6
 ===========
 Released January 17, 2015
