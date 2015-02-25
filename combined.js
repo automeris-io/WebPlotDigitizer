@@ -7285,6 +7285,20 @@ wpd.AddMeasurementTool = (function () {
             document.getElementById(btnId).classList.remove('pressed-button');
         };
 
+        this.onKeyDown = function (ev) {
+            // move the selected point or switch tools
+            if(wpd.keyCodes.isAlphabet(ev.keyCode, 'a')) {
+                wpd.graphicsWidget.resetHover();
+                wpd.graphicsWidget.setTool(new wpd.AddMeasurementTool(mode));
+                return;
+            } else if (wpd.keyCodes.isAlphabet(ev.keyCode, 'd')) {
+                wpd.graphicsWidget.resetHover();
+                wpd.graphicsWidget.setTool(new wpd.DeleteMeasurementTool(mode));
+                return;
+            }
+        };
+
+
         this.onMouseClick = function (ev, pos, imagePos) {
             if(isCapturing) {
 
@@ -7350,10 +7364,6 @@ wpd.AddMeasurementTool = (function () {
             }
         };
 
-        this.onKeyDown = function (ev) {
-
-        };
-
     };
     return Tool;
 })();
@@ -7374,6 +7384,17 @@ wpd.DeleteMeasurementTool = (function () {
         this.onRemove = function () {
             var btnId = (isDistanceMode === true) ? 'delete-pair-button' : 'delete-angle-button';
             document.getElementById(btnId).classList.remove('pressed-button');
+        };
+        
+        this.onKeyDown = function (ev) {
+            // move the selected point or switch tools
+            if(wpd.keyCodes.isAlphabet(ev.keyCode, 'a')) {
+                wpd.graphicsWidget.setTool(new wpd.AddMeasurementTool(mode));
+                return;
+            } else if (wpd.keyCodes.isAlphabet(ev.keyCode, 'd')) {
+                wpd.graphicsWidget.setTool(new wpd.DeleteMeasurementTool(mode));
+                return;
+            }
         };
 
         this.onMouseClick = function (ev, pos, imagePos) {
