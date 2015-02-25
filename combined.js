@@ -2573,6 +2573,10 @@ wpd.PolarAxes = (function () {
             rp = ((r2-r1)/dist12)*(Math.sqrt((xp-x0)*(xp-x0)+(yp-y0)*(yp-y0))-dist10) + r1;
 			
 			thetap = wpd.taninverse(-(yp-y0),xp-x0) - alpha0;
+
+            if(thetap < 0) {
+                thetap = thetap + 2*Math.PI;
+            }
 			
 		    if(isDegrees == true) {
 		        thetap = 180.0*thetap/Math.PI;
