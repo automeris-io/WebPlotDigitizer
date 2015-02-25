@@ -67,9 +67,13 @@ wpd.PolarAxes = (function () {
 		        dist12 = dist20 - dist10;
 		    
 		        phi0 = wpd.taninverse(-(y1-y0),x1-x0);
-		    
-		        alpha0 = phi0 - theta1;
                 
+                if(isClockwise) {
+                    alpha0 = phi0 + theta1;
+                } else {
+		            alpha0 = phi0 - theta1;
+                }
+
                 return true;
             };
 
@@ -100,7 +104,11 @@ wpd.PolarAxes = (function () {
 
             rp = ((r2-r1)/dist12)*(Math.sqrt((xp-x0)*(xp-x0)+(yp-y0)*(yp-y0))-dist10) + r1;
 			
-			thetap = wpd.taninverse(-(yp-y0),xp-x0) - alpha0;
+            if(isClockwise) {
+                thetap = alpha0 - wpd.taninverse(-(yp-y0), xp-x0);
+            } else {
+			    thetap = wpd.taninverse(-(yp-y0),xp-x0) - alpha0;
+            }
 
             if(thetap < 0) {
                 thetap = thetap + 2*Math.PI;
