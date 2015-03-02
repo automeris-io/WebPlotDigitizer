@@ -11,6 +11,7 @@ Bug fixes:
 
 New Features:
 
+- Exported JSON now contains actual data values in addition to the pixels positions of the data points.
 - Added ability to load remote images sent via POST (not to be exposed on the website at the moment).
 - Chrome extension that can allow users to send any image on the internet to a locally hosted WebPlotDigitizer (not to be added to the Chrome store at the moment).
 
