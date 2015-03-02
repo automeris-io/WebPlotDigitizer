@@ -149,7 +149,8 @@ wpd.saveResume = (function () {
                 },
             json_string = '',
             i,j,
-            ds;
+            ds,
+            pixel;
         
         if(calibration != null) {
             outData.wpd.calibration = [];
@@ -195,7 +196,9 @@ wpd.saveResume = (function () {
                 data: []
             };
             for(j = 0; j < ds.getCount(); j++) {
-                outData.wpd.dataSeries[i].data[j] = ds.getPixel(j);
+                pixel = ds.getPixel(j);
+                outData.wpd.dataSeries[i].data[j] = pixel;
+                outData.wpd.dataSeries[i].data[j].value = plotData.axes.pixelToData(pixel.x, pixel.y);
             }
         }
 
