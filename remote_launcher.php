@@ -166,10 +166,11 @@ Problems loading? Make sure you have a recent version of Google Chrome, Firefox,
     <div class="wpd-menu-dropdown">
         <ul>
             <li id="wpd-helpmenu-about" onclick="wpd.popup.show('helpWindow');">About WebPlotDigitizer</li>
+            <li id="wpd-helpmenu-tutorial"><a href="http://arohatgi.info/WebPlotDigitizer/tutorial.html" target="_blank">Tutorials</a></li>
             <li id="wpd-helpmenu-manual"><a href="http://arohatgi.info/WebPlotDigitizer/userManual.pdf" target="_blank">User Manual</a></li>
             <li id="wpd-helpmenu-github"><a href="https://github.com/ankitrohatgi/WebPlotDigitizer" target="_blank">GitHub Page</a></li>
             <li id="wpd-helpmenu-issues"><a href="https://github.com/ankitrohatgi/WebPlotDigitizer/issues" target="_blank">Report Issues</a></li>
-            <li id="wpd-helpmenu-issues"><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=CVFJGV5SNEV9J&lc=US&item_name=WebPlotDigitizer&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted" target="_blank">Donate (PayPal)</a></li>
+            <li id="wpd-helpmenu-donate"><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=CVFJGV5SNEV9J&lc=US&item_name=WebPlotDigitizer&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted" target="_blank">Donate (PayPal)</a></li>
         </ul>
     </div>
 </div>
