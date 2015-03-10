@@ -2,7 +2,7 @@ RELEASE NOTES
 
 Version 3.7
 ===========
-To be released.
+March 9, 2015
 
 Bug fixes:
 
