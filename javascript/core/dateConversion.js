@@ -29,12 +29,15 @@ wpd.dateConverter = (function () {
     function parse(input) {
         if(input == null) { return null; }
 
-        if(input.indexOf('/') < 0) { return null; }
+        if(typeof input === "string") {
+            if(input.indexOf('/') < 0) { return null; }
+        }
 
         return toJD(input);
     }
 
     function toJD(dateString) {
+        dateString = dateString.toString();
 	    var dateParts = dateString.split("/"),
 			year,
 			month,

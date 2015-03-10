@@ -29,7 +29,7 @@ wpd.initApp = function() {// This is run when the page loads.
     wpd.layoutManager.initialLayout();
     if(!wpd.loadRemoteData()) {
         wpd.graphicsWidget.loadImageFromURL('start.png');
-        wpd.messagePopup.show('Unstable Version Warning!', 'You are using a beta version of WebPlotDigitizer. There may be some issues with the software that are expected.');
+        //wpd.messagePopup.show('Unstable Version Warning!', 'You are using a beta version of WebPlotDigitizer. There may be some issues with the software that are expected.');
     }
     document.getElementById('loadingCurtain').style.display = 'none';
 
@@ -919,12 +919,15 @@ wpd.dateConverter = (function () {
     function parse(input) {
         if(input == null) { return null; }
 
-        if(input.indexOf('/') < 0) { return null; }
+        if(typeof input === "string") {
+            if(input.indexOf('/') < 0) { return null; }
+        }
 
         return toJD(input);
     }
 
     function toJD(dateString) {
+        dateString = dateString.toString();
 	    var dateParts = dateString.split("/"),
 			year,
 			month,
@@ -1228,10 +1231,12 @@ wpd.InputParser = (function () {
                 return null;
             }
 
-            input = input.trim();
+            if(typeof input === "string") {
+                input = input.trim();
 
-            if(input.indexOf('^') >= 0) {
-                return null;
+                if(input.indexOf('^') >= 0) {
+                    return null;
+                }
             }
 
             var parsedDate = wpd.dateConverter.parse(input);

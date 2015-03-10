@@ -7,7 +7,7 @@ var clickHandler = function(e) {
 
         
         formElement.setAttribute('method', 'post');
-        formElement.setAttribute('action', 'http://localhost:8000/remote_launcher.php');
+        formElement.setAttribute('action', 'http://45.56.125.239:8000/remote_launcher.php');
         formElement.setAttribute('target', '_blank');
         
         formData.setAttribute('name', "imageURL");
