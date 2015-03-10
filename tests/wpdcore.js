@@ -1,7 +1,7 @@
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Copyright 2010-2014 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2015 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
@@ -47,7 +47,7 @@ wpd.detectionAlgoManager = (function () {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Copyright 2010-2014 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2015 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
@@ -106,7 +106,7 @@ wpd.appData = (function () {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Copyright 2010-2014 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2015 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
@@ -134,12 +134,15 @@ wpd.AutoDetector = (function () {
         this.fgColor = [0, 0, 200];
         this.bgColor = [255, 255, 255];
         this.mask = null;
-        this.gridMask = null;
+        this.gridMask = { xmin: null, xmax: null, ymin: null, ymax: null, pixels: [] };
+        this.gridLineColor = [150, 150, 150];
+        this.gridColorDistance = 150;
         this.gridData = null;
         this.colorDetectionMode = 'fg';
         this.colorDistance = 120;
         this.algorithm = null;
         this.binaryData = null;
+        this.gridBinaryData = null;
         this.imageData = null;
         this.imageWidth = 0;
         this.imageHeight = 0;
@@ -149,7 +152,7 @@ wpd.AutoDetector = (function () {
             this.binaryData = null;
             this.imageData = null;
             this.gridData = null;
-            this.gridMask = null;
+            this.gridMask = { xmin: null, xmax: null, ymin: null, ymax: null, pixels: [] };
         };
 
         this.generateBinaryDataFromMask = function () {
@@ -218,6 +221,32 @@ wpd.AutoDetector = (function () {
         };
 
         this.generateGridBinaryData = function () {
+            this.gridBinaryData = [];
+
+            if (this.gridMask.pixels == null || this.gridMask.pixels.length === 0) {
+                return; // TODO: Allow full image to be used if no mask is present.
+            }
+
+            if (this.imageData == null) {
+                this.imageWidth = 0;
+                this.imageHeight = 0;
+                return;
+            }
+
+            this.imageWidth = this.imageData.width;
+            this.imageHeight = this.imageData.height;
+
+            var maski, img_index, dist;
+
+            for (maski = 0; maski < this.gridMask.pixels.length; maski++) {
+                img_index = this.gridMask.pixels[maski];
+                dist = wpd.dist3d(this.gridLineColor[0], this.gridLineColor[1], this.gridLineColor[2],
+                                  this.imageData.data[img_index*4], this.imageData.data[img_index*4 + 1],
+                                  this.imageData.data[img_index*4 + 2]);
+                if (dist < this.gridColorDistance) {
+                    this.gridBinaryData[img_index] = true;
+                }
+            }
         };
 
     };
@@ -225,9 +254,138 @@ wpd.AutoDetector = (function () {
 })();
 
 /*
+	WebPlotDigitizer - http://arohatgi.info/WebPlotdigitizer
+
+	Copyright 2010-2015 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+
+	This file is part of WebPlotDigitizer.
+
+    WebPlotDIgitizer is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    WebPlotDigitizer is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
+
+
+*/
+
+var wpd = wpd || {};
+
+// calibration info
+wpd.Calibration = (function () {
+
+    var Calib = function(dim) {
+        // Pixel information
+        var px = [],
+            py = [],
+
+            // Data information
+            dimensions = dim == null ? 2 : dim,
+            dp = [],
+            selections = [];
+
+        this.labels = [];
+
+        this.getCount = function () { return px.length; };
+        this.getDimensions = function() { return dimensions; };
+        this.addPoint = function(pxi, pyi, dxi, dyi, dzi) {
+            var plen = px.length, dlen = dp.length;
+            px[plen] = pxi;
+            py[plen] = pyi;
+            dp[dlen] = dxi; dp[dlen+1] = dyi;
+            if(dimensions === 3) {
+                dp[dlen+2] = dzi;
+            }
+        };
+
+        this.getPoint = function(index) {
+            if(index < 0 || index >= px.length) return null;
+
+            return {
+                px: px[index],
+                py: py[index],
+                dx: dp[dimensions*index],
+                dy: dp[dimensions*index+1],
+                dz: dimensions === 2 ? null : dp[dimensions*index + 2]
+            };
+        };
+
+        this.changePointPx = function(index, npx, npy) {
+            if(index < 0 || index >= px.length) {
+                return;
+            }
+            px[index] = npx;
+            py[index] = npy;
+        };
+
+        this.setDataAt = function(index, dxi, dyi, dzi) {
+            if(index < 0 || index >= px.length) return;
+            dp[dimensions*index] = dxi;
+            dp[dimensions*index + 1] = dyi;
+            if(dimensions === 3) {
+                dp[dimensions*index + 2] = dzi;
+            }
+        };
+
+        this.findNearestPoint = function(x, y, threshold) {
+            threshold = (threshold == null) ? 50 : parseFloat(threshold);
+            var minDist, minIndex = -1, 
+                i, dist;
+            for(i = 0; i < px.length; i++) {
+                dist = Math.sqrt((x - px[i])*(x - px[i]) + (y - py[i])*(y - py[i]));
+                if((minIndex < 0 && dist <= threshold) || (minIndex >= 0 && dist < minDist)) {
+                    minIndex = i;
+                    minDist = dist;
+                }
+            }
+            return minIndex;
+        };
+
+
+        this.selectPoint = function(index) {
+            if(selections.indexOf(index) < 0) {
+                selections[selections.length] = index;
+            }
+        };
+
+        this.selectNearestPoint = function (x, y, threshold) {
+            var minIndex = this.findNearestPoint(x, y, threshold);
+            if (minIndex >= 0) {
+                this.selectPoint(minIndex);
+            }
+        };
+
+        this.getSelectedPoints = function () {
+            return selections;
+        };
+
+        this.unselectAll = function() {
+            selections = [];
+        };
+
+        this.isPointSelected = function(index) {
+            return selections.indexOf(index) >= 0;
+        };
+
+        this.dump = function() {
+            console.log(px);
+            console.log(py);
+            console.log(dp);
+        };
+    };
+    return Calib;
+})();
+/*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Copyright 2010-2014 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2015 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
@@ -357,62 +515,9 @@ wpd.colorAnalyzer = (function () {
     };
 })();
 /*
-	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
-
-	Copyright 2010-2014 Ankit Rohatgi <ankitrohatgi@hotmail.com>
-
-	This file is part of WebPlotDigitizer.
-
-    WebPlotDigitizer is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    WebPlotDigitizer is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
-
-
-*/
-
-var wpd = wpd || {};
-
-wpd.dataEventNames = {
-    axesAligned: 'axesAligned',
-    imageLoaded: 'imageLoaded'
-};
-
-wpd.dataEventManager = (function () {
-
-    var evtMap = {};
-
-    function fireEvent(name, data) {
-    }
-
-    function subscribe(name, method) {
-    }
-
-    function unsubscribe(name, method) {
-    }
-
-    function removeAllSubscriptionsForEvent(name) {
-    }
-
-    return {
-        fireEvent: fireEvent,
-        subscribe: subscribe,
-        unsubscribe: unsubscribe,
-        removeAllSubscriptionsForEvent: removeAllSubscriptionsForEvent
-    };
-})();
-/*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotdigitizer
 
-	Copyright 2010-2014 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2015 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
@@ -433,309 +538,6 @@ wpd.dataEventManager = (function () {
 */
 
 var wpd = wpd || {};
-
-// calibration info
-wpd.Calibration = (function () {
-
-    var Calib = function(dim) {
-        // Pixel information
-        var px = [],
-            py = [],
-
-            // Data information
-            dimensions = dim == null ? 2 : dim,
-            dp = [],
-            selections = [];
-
-        this.labels = [];
-
-        this.getCount = function () { return px.length; };
-        this.getDimensions = function() { return dimensions; };
-        this.addPoint = function(pxi, pyi, dxi, dyi, dzi) {
-            var plen = px.length, dlen = dp.length;
-            px[plen] = pxi;
-            py[plen] = pyi;
-            dp[dlen] = dxi; dp[dlen+1] = dyi;
-            if(dimensions === 3) {
-                dp[dlen+2] = dzi;
-            }
-        };
-
-        this.getPoint = function(index) {
-            if(index < 0 || index >= px.length) return null;
-
-            return {
-                px: px[index],
-                py: py[index],
-                dx: dp[dimensions*index],
-                dy: dp[dimensions*index+1],
-                dz: dimensions === 2 ? null : dp[dimensions*index + 2]
-            };
-        };
-
-        this.changePointPx = function(index, npx, npy) {
-            if(index < 0 || index >= px.length) {
-                return;
-            }
-            px[index] = npx;
-            py[index] = npy;
-        };
-
-        this.setDataAt = function(index, dxi, dyi, dzi) {
-            if(index < 0 || index >= px.length) return;
-            dp[dimensions*index] = dxi;
-            dp[dimensions*index + 1] = dyi;
-            if(dimensions === 3) {
-                dp[dimensions*index + 2] = dzi;
-            }
-        };
-
-        this.findNearestPoint = function(x, y, threshold) {
-            threshold = (threshold == null) ? 50 : parseFloat(threshold);
-            var minDist, minIndex = -1, 
-                i, dist;
-            for(i = 0; i < px.length; i++) {
-                dist = Math.sqrt((x - px[i])*(x - px[i]) + (y - py[i])*(y - py[i]));
-                if((minIndex < 0 && dist <= threshold) || (minIndex >= 0 && dist < minDist)) {
-                    minIndex = i;
-                    minDist = dist;
-                }
-            }
-            return minIndex;
-        };
-
-
-        this.selectPoint = function(index) {
-            if(selections.indexOf(index) < 0) {
-                selections[selections.length] = index;
-            }
-        };
-
-        this.selectNearestPoint = function (x, y, threshold) {
-            var minIndex = this.findNearestPoint(x, y, threshold);
-            if (minIndex >= 0) {
-                this.selectPoint(minIndex);
-            }
-        };
-
-        this.getSelectedPoints = function () {
-            return selections;
-        };
-
-        this.unselectAll = function() {
-            selections = [];
-        };
-
-        this.isPointSelected = function(index) {
-            return selections.indexOf(index) >= 0;
-        };
-
-        this.dump = function() {
-            console.log(px);
-            console.log(py);
-            console.log(dp);
-        };
-    };
-    return Calib;
-})();
-
-
-// Data from a series
-wpd.DataSeries = (function () {
-    return function (dim) {
-        var dataPoints = [],
-            connections = [],
-            selections = [],
-            hasMetadata = false,
-            mkeys = [];
-
-        this.name = "Data Series";
-
-        this.variableNames = ['x', 'y'];
-
-        this.hasMetadata = function () {
-            return hasMetadata;
-        };
-
-        this.setMetadataKeys = function (metakeys) {
-            mkeys = metakeys;
-        };
-
-        this.getMetadataKeys = function () {
-            return mkeys;
-        };
-
-        this.addPixel = function(pxi, pyi, mdata) {
-            var dlen = dataPoints.length;
-            dataPoints[dlen] = {x: pxi, y: pyi, metadata: mdata};
-            if (mdata != null) {
-                hasMetadata = true;
-            }
-        };
-
-        this.getPixel = function(index) {
-            return dataPoints[index];
-        };
-
-        this.setPixelAt = function (index, pxi, pyi) {
-            if(index < dataPoints.length) {
-                dataPoints[index].x = pxi;
-                dataPoints[index].y = pyi;
-            }
-        };
-
-        this.setMetadataAt = function (index, mdata) {
-            if (index < dataPoints.length) {
-                dataPoints[index].metadata = mdata;
-            }
-        };
-
-        this.insertPixel = function(index, pxi, pyi, mdata) {
-            dataPoints.splice(index, 0, {x: pxi, y: pyi, metadata: mdata});
-        };
-
-        this.removePixelAtIndex = function(index) {
-            if(index < dataPoints.length) {
-                dataPoints.splice(index, 1);
-            }
-        };
-
-        this.removeLastPixel = function() {
-            var pIndex = dataPoints.length - 1;
-            this.removePixelAtIndex(pIndex);
-        };
-
-        this.findNearestPixel = function(x, y, threshold) {
-            threshold = (threshold == null) ? 50 : parseFloat(threshold);
-            var minDist, minIndex = -1, 
-                i, dist;
-            for(i = 0; i < dataPoints.length; i++) {
-                dist = Math.sqrt((x - dataPoints[i].x)*(x - dataPoints[i].x) + (y - dataPoints[i].y)*(y - dataPoints[i].y));
-                if((minIndex < 0 && dist <= threshold) || (minIndex >= 0 && dist < minDist)) {
-                    minIndex = i;
-                    minDist = dist;
-                }
-            }
-            return minIndex;
-        };
-
-        this.removeNearestPixel = function(x, y, threshold) {
-            var minIndex = this.findNearestPixel(x, y, threshold);
-            if(minIndex >= 0) {
-                this.removePixelAtIndex(minIndex);
-            }
-        };
-
-        this.clearAll = function() { 
-            dataPoints = []; 
-            hasMetadata = false; 
-            mkeys = []; 
-        };
-
-        this.getCount = function() { return dataPoints.length; }
- 
-        this.selectPixel = function(index) {
-            if(selections.indexOf(index) >= 0) {
-                return;
-            }
-            selections[selections.length] = index;
-        };
-
-        this.unselectAll = function () {
-            selections = [];
-        };
-
-        this.selectNearestPixel = function(x, y, threshold) {
-            var minIndex = this.findNearestPixel(x, y, threshold);
-            if(minIndex >= 0) {
-                this.selectPixel(minIndex);
-            }
-        };
-
-        this.getSelectedPixels = function () {
-            return selections;
-        };
-
-    };
-})();
-
-
-// Plot information
-wpd.PlotData = (function () {
-    var PlotData = function() {
-
-        var activeSeriesIndex = 0,
-            autoDetector = new wpd.AutoDetector();
-        
-        this.topColors = null;
-        this.axes = null;
-        this.dataSeriesColl = [];
-
-        this.angleMeasurementData = null;
-        this.distanceMeasurementData = null;
-
-        this.getActiveDataSeries = function() {
-            if (this.dataSeriesColl[activeSeriesIndex] == null) {
-                this.dataSeriesColl[activeSeriesIndex] = new wpd.DataSeries();
-            }
-            return this.dataSeriesColl[activeSeriesIndex];
-        };
-
-        this.getDataSeriesCount = function() {
-            return this.dataSeriesColl.length;
-        };
-
-        this.setActiveDataSeriesIndex = function(index) {
-            activeSeriesIndex = index;
-        };
-
-        this.getAutoDetector = function() {
-            return autoDetector;
-        };
-
-        this.getDataFromActiveSeries = function() {
-            var dataSeries = this.getActiveDataSeries();
-            if(dataSeries == null || this.axes == null) {
-                return null;
-            }
-
-            var i, pt, ptData, rtnData = [], dimi, metadi,
-                hasMetadata = dataSeries.hasMetadata(),
-                metaKeys = dataSeries.getMetadataKeys(),
-                metaKeyCount = hasMetadata === true ? metaKeys.length : 0;
-                
-            for(i = 0; i < dataSeries.getCount(); i++) {
-                pt = this.dataSeriesColl[activeSeriesIndex].getPixel(i);
-                ptData = [];
-                ptData = this.axes.pixelToData(pt.x, pt.y);
-                rtnData[i] = [];
-
-                // transformed coordinates
-                for (dimi = 0; dimi < ptData.length; dimi++) {
-                    rtnData[i][dimi] = ptData[dimi];
-                }
-                
-                // metadata for each data point
-                for (metadi = 0; metadi < metaKeyCount; metadi++) {
-                    rtnData[i][ptData.length + metadi] = pt.metadata[metadi];
-                }
-            }
-            return rtnData;
-        };
-
-        this.reset = function() {
-            this.axes = null;
-            this.angleMeasurementData = null;
-            this.distanceMeasurementData = null;
-            this.dataSeriesColl = [];
-            activeSeriesIndex = 0;
-            autoDetector = new wpd.AutoDetector();
-        };
-    };
-
-    return PlotData;
-})();
-
 
 wpd.ConnectedPoints = (function () {
     var CPoints = function (connectivity) {
@@ -867,9 +669,173 @@ wpd.ConnectedPoints = (function () {
     return CPoints;
 })();
 /*
+	WebPlotDigitizer - http://arohatgi.info/WebPlotdigitizer
+
+	Copyright 2010-2015 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+
+	This file is part of WebPlotDigitizer.
+
+    WebPlotDIgitizer is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    WebPlotDigitizer is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
+
+
+*/
+
+var wpd = wpd || {};
+
+// Data from a series
+wpd.DataSeries = (function () {
+    return function (dim) {
+        var dataPoints = [],
+            connections = [],
+            selections = [],
+            hasMetadata = false,
+            mkeys = [];
+
+        this.name = "Default Dataset";
+
+        this.variableNames = ['x', 'y'];
+
+        this.hasMetadata = function () {
+            return hasMetadata;
+        };
+
+        this.setMetadataKeys = function (metakeys) {
+            mkeys = metakeys;
+        };
+
+        this.getMetadataKeys = function () {
+            return mkeys;
+        };
+
+        this.addPixel = function(pxi, pyi, mdata) {
+            var dlen = dataPoints.length;
+            dataPoints[dlen] = {x: pxi, y: pyi, metadata: mdata};
+            if (mdata != null) {
+                hasMetadata = true;
+            }
+        };
+
+        this.getPixel = function(index) {
+            return dataPoints[index];
+        };
+
+        this.setPixelAt = function (index, pxi, pyi) {
+            if(index < dataPoints.length) {
+                dataPoints[index].x = pxi;
+                dataPoints[index].y = pyi;
+            }
+        };
+
+        this.setMetadataAt = function (index, mdata) {
+            if (index < dataPoints.length) {
+                dataPoints[index].metadata = mdata;
+            }
+        };
+
+        this.insertPixel = function(index, pxi, pyi, mdata) {
+            dataPoints.splice(index, 0, {x: pxi, y: pyi, metadata: mdata});
+        };
+
+        this.removePixelAtIndex = function(index) {
+            if(index < dataPoints.length) {
+                dataPoints.splice(index, 1);
+            }
+        };
+
+        this.removeLastPixel = function() {
+            var pIndex = dataPoints.length - 1;
+            this.removePixelAtIndex(pIndex);
+        };
+
+        this.findNearestPixel = function(x, y, threshold) {
+            threshold = (threshold == null) ? 50 : parseFloat(threshold);
+            var minDist, minIndex = -1, 
+                i, dist;
+            for(i = 0; i < dataPoints.length; i++) {
+                dist = Math.sqrt((x - dataPoints[i].x)*(x - dataPoints[i].x) + (y - dataPoints[i].y)*(y - dataPoints[i].y));
+                if((minIndex < 0 && dist <= threshold) || (minIndex >= 0 && dist < minDist)) {
+                    minIndex = i;
+                    minDist = dist;
+                }
+            }
+            return minIndex;
+        };
+
+        this.removeNearestPixel = function(x, y, threshold) {
+            var minIndex = this.findNearestPixel(x, y, threshold);
+            if(minIndex >= 0) {
+                this.removePixelAtIndex(minIndex);
+            }
+        };
+
+        this.clearAll = function() { 
+            dataPoints = []; 
+            hasMetadata = false; 
+            mkeys = []; 
+        };
+
+        this.getCount = function() { return dataPoints.length; }
+ 
+        this.selectPixel = function(index) {
+            if(selections.indexOf(index) >= 0) {
+                return;
+            }
+            selections[selections.length] = index;
+        };
+
+        this.unselectAll = function () {
+            selections = [];
+        };
+
+        this.selectNearestPixel = function(x, y, threshold) {
+            var minIndex = this.findNearestPixel(x, y, threshold);
+            if(minIndex >= 0) {
+                this.selectPixel(minIndex);
+            }
+        };
+
+        this.selectNextPixel = function() {
+            for(var i = 0; i < selections.length; i++) {
+                selections[i] = (selections[i] + 1) % dataPoints.length;
+            }
+        };
+
+        this.selectPreviousPixel = function() {
+            var i, newIndex;
+            for(i = 0; i < selections.length; i++) {
+                newIndex = selections[i];
+                if(newIndex == 0) {
+                    newIndex = dataPoints.length - 1;
+                } else {
+                    newIndex = newIndex - 1;
+                }
+                selections[i] = newIndex;
+            }
+        };
+
+        this.getSelectedPixels = function () {
+            return selections;
+        };
+
+    };
+})();
+
+
+/*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Copyright 2010-2014 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2015 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
@@ -897,12 +863,15 @@ wpd.dateConverter = (function () {
     function parse(input) {
         if(input == null) { return null; }
 
-        if(input.indexOf('/') < 0) { return null; }
+        if(typeof input === "string") {
+            if(input.indexOf('/') < 0) { return null; }
+        }
 
         return toJD(input);
     }
 
     function toJD(dateString) {
+        dateString = dateString.toString();
 	    var dateParts = dateString.split("/"),
 			year,
 			month,
@@ -1045,7 +1014,7 @@ wpd.dateConverter = (function () {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotdigitizer
 
-	Copyright 2010-2014 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2015 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
@@ -1067,23 +1036,112 @@ wpd.dateConverter = (function () {
 
 var wpd = wpd || {};
 
-wpd.GridLine = (function () {
-    var obj = function () {
-    };
-    return obj;
-})();
-
 wpd.gridDetectionCore = (function () {
+
+    var hasHorizontal, hasVertical, xDetectionWidth, yDetectionWidth, xMarkWidth, yMarkWidth;
+
     function run() {
+        var gridData = [],
+            xi,
+            delx,
+            yi,
+            dely,
+            pix,
+            autoDetector = wpd.appData.getPlotData().getAutoDetector(),
+            xmin = autoDetector.gridMask.xmin,
+            xmax = autoDetector.gridMask.xmax,
+            ymin = autoDetector.gridMask.ymin,
+            ymax = autoDetector.gridMask.ymax,
+            xp, yp,
+            dw = autoDetector.imageWidth,
+            dh = autoDetector.imageHeight,
+            linePixCount,
+            linePix,
+            pix_index,
+            ii;
+
+        if (hasVertical) {
+        
+            for (xi = xmin; xi <= xmax; xi += xDetectionWidth) {
+
+                pix = [];
+                linePix = [];
+                linePixCount = 0;
+
+                for ( xp = xi - xDetectionWidth; xp <= xi + xDetectionWidth; xp++ ) {
+
+                    for (yi = ymin; yi <= ymax; yi++) {                        
+                        pix_index = yi*dw + parseInt(xp, 10);
+                        if (autoDetector.gridBinaryData[pix_index] === true) {
+                            pix[pix.length] = pix_index;
+                            if (!(linePix[yi] === true)) {
+                                linePixCount++;
+                                linePix[yi] = true;
+                            }
+                        }
+                    }
+                }
+
+                if (linePixCount > (ymax - ymin)*0.3) {
+                    for (ii = 0; ii < pix.length; ii++) {
+                        gridData[pix[ii]] = true;
+                    }
+                }
+            }
+        }
+
+        if (hasHorizontal) {
+            for (yi = ymin; yi <= ymax; yi += yDetectionWidth) {
+                pix = [];
+                linePix = [];
+                linePixCount = 0;
+
+                for (yp = yi - yDetectionWidth; yp <= yi + yDetectionWidth; yp++) {
+                    for (xi = xmin; xi <= xmax; xi++) {
+                        pix_index = parseInt(yp, 10)*dw + xi;
+                        if (autoDetector.gridBinaryData[pix_index] === true) {
+                            pix[pix.length] = pix_index;
+                            if(!(linePix[xi] === true)) {
+                                linePixCount++;
+                                linePix[xi] = true;
+                            }
+                        }
+                    }
+                }
+
+                if (linePixCount > (xmax - xmin)*0.3) {
+                    for (ii = 0; ii < pix.length; ii++) {
+                        gridData[pix[ii]] = true;
+                    }
+                }
+            }
+        }
+
+        wpd.appData.getPlotData().gridData = gridData;
     }
+
+    function setHorizontalParameters(has_horizontal, y_det_w, y_mark_w) {
+        hasHorizontal = has_horizontal;
+        yDetectionWidth = y_det_w;
+        yMarkWidth = y_mark_w;
+    }
+
+    function setVerticalParameters(has_vertical, x_det_w, x_mark_w) {
+        hasVertical = has_vertical;
+        xDetectionWidth = x_det_w;
+        xMarkWidth = x_mark_w;
+    }
+
     return {
-        run: run
+        run: run,
+        setHorizontalParameters: setHorizontalParameters,
+        setVerticalParameters: setVerticalParameters
     };
 })();
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Copyright 2010-2014 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2015 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
@@ -1117,10 +1175,12 @@ wpd.InputParser = (function () {
                 return null;
             }
 
-            input = input.toString().trim();
+            if(typeof input === "string") {
+                input = input.trim();
 
-            if(input.indexOf('^') >= 0) {
-                return null;
+                if(input.indexOf('^') >= 0) {
+                    return null;
+                }
             }
 
             var parsedDate = wpd.dateConverter.parse(input);
@@ -1152,7 +1212,7 @@ wpd.InputParser = (function () {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Copyright 2010-2014 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2015 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
@@ -1189,10 +1249,294 @@ wpd.taninverse = function(y,x) {
     inv_ans = 0.0;
     return inv_ans;
 };
+
+wpd.sqDist2d = function (x1, y1, x2, y2) {
+    return (x1 - x2)*(x1 - x2) + (y1 - y2)*(y1 - y2);
+};
+
+wpd.sqDist3d = function (x1, y1, z1, x2, y2, z2) {
+    return (x1 - x2)*(x1 - x2) + (y1 - y2)*(y1 - y2) + (z1 - z2)*(z1 - z2);
+};
+
+wpd.dist2d = function (x1, y1, x2, y2) {
+    return Math.sqrt(wpd.sqDist2d(x1, y1, x2, y2));
+};
+
+wpd.dist3d = function (x1, y1, z1, x2, y2, z2) {
+    return Math.sqrt(wpd.sqDist3d(x1, y1, z1, x2, y2, z2));
+};
+
+wpd.mat = (function () {
+    
+    function det2x2(m) {
+        return m[0]*m[3] - m[1]*m[2];
+    }
+
+    function inv2x2(m) {
+        var det = det2x2(m);
+        return [m[3]/det, -m[1]/det, -m[2]/det, m[0]/det];
+    }
+
+    function mult2x2(m1, m2) {
+        return [
+                    m1[0]*m2[0] + m1[1]*m2[2], 
+                    m1[0]*m2[1] + m1[1]*m2[3], 
+                    m1[2]*m2[0] + m1[3]*m2[2], 
+                    m1[2]*m2[1] + m1[3]*m2[3]
+               ];
+    }
+
+    function mult2x2Vec(m, v) {
+        return [m[0]*v[0] + m[1]*v[1], m[2]*v[0] + m[3]*v[1]];
+    }
+
+    function multVec2x2(v, m) {
+        return [m[0]*v[0] + m[2]*v[1], m[1]*v[0] + m[3]*v[1]];
+    }
+
+    return {
+        det2x2: det2x2,
+        inv2x2: inv2x2,
+        mult2x2: mult2x2,
+        mult2x2Vec: mult2x2Vec,
+        multVec2x2: multVec2x2
+    };
+})();
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotdigitizer
 
-	Copyright 2010-2014 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2015 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+
+	This file is part of WebPlotDigitizer.
+
+    WebPlotDIgitizer is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    WebPlotDigitizer is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
+
+
+*/
+
+var wpd = wpd || {};
+
+// Plot information
+wpd.PlotData = (function () {
+    var PlotData = function() {
+
+        var activeSeriesIndex = 0,
+            autoDetector = new wpd.AutoDetector();
+        
+        this.topColors = null;
+        this.axes = null;
+        this.dataSeriesColl = [];
+        this.gridData = null;
+        this.calibration = null;
+
+        this.angleMeasurementData = null;
+        this.distanceMeasurementData = null;
+
+        this.getActiveDataSeries = function() {
+            if (this.dataSeriesColl[activeSeriesIndex] == null) {
+                this.dataSeriesColl[activeSeriesIndex] = new wpd.DataSeries();
+            }
+            return this.dataSeriesColl[activeSeriesIndex];
+        };
+
+        this.getDataSeriesCount = function() {
+            return this.dataSeriesColl.length;
+        };
+
+        this.setActiveDataSeriesIndex = function(index) {
+            activeSeriesIndex = index;
+        };
+
+        this.getActiveDataSeriesIndex = function() {
+            return activeSeriesIndex;
+        };
+
+        this.getAutoDetector = function() {
+            return autoDetector;
+        };
+
+        this.getDataSeriesNames = function() {
+            var rtnVal = [];
+            for(var i = 0; i < this.dataSeriesColl.length; i++) {
+                rtnVal[i] = this.dataSeriesColl[i].name;
+            }
+            return rtnVal;
+        };
+
+        this.getDataFromActiveSeries = function() {
+            var dataSeries = this.getActiveDataSeries();
+            if(dataSeries == null || this.axes == null) {
+                return null;
+            }
+
+            var i, pt, ptData, rtnData = [], dimi, metadi,
+                hasMetadata = dataSeries.hasMetadata(),
+                metaKeys = dataSeries.getMetadataKeys(),
+                metaKeyCount = hasMetadata === true ? metaKeys.length : 0;
+                
+            for(i = 0; i < dataSeries.getCount(); i++) {
+                pt = this.dataSeriesColl[activeSeriesIndex].getPixel(i);
+                ptData = [];
+                ptData = this.axes.pixelToData(pt.x, pt.y);
+                rtnData[i] = [];
+
+                // transformed coordinates
+                for (dimi = 0; dimi < ptData.length; dimi++) {
+                    rtnData[i][dimi] = ptData[dimi];
+                }
+                
+                // metadata for each data point
+                for (metadi = 0; metadi < metaKeyCount; metadi++) {
+                    rtnData[i][ptData.length + metadi] = pt.metadata[metadi];
+                }
+            }
+            return rtnData;
+        };
+
+        this.reset = function() {
+            this.axes = null;
+            this.angleMeasurementData = null;
+            this.distanceMeasurementData = null;
+            this.dataSeriesColl = [];
+            this.gridData = null;
+            this.calibration = null;
+            activeSeriesIndex = 0;
+            autoDetector = new wpd.AutoDetector();
+        };
+    };
+
+    return PlotData;
+})();
+
+
+/*
+	WebPlotDigitizer - http://arohatgi.info/WebPlotdigitizer
+
+	Copyright 2010-2015 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+
+	This file is part of WebPlotDigitizer.
+
+    WebPlotDIgitizer is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    WebPlotDigitizer is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
+
+
+*/
+
+var wpd = wpd || {};
+
+wpd.BarAxes = (function () {
+
+    var AxesObj = function () {
+        // Throughout this code, it is assumed that "y" is the continuous axes and "x" is
+        // the discrete axes. In practice, this shouldn't matter even if the orientation
+        // is different.
+        var isCalibrated = false,
+            isLogScale = false,
+            x1, y1, x2, y2, p1, p2;
+
+        this.isCalibrated = function () {
+            return isCalibrated;
+        };
+
+        this.calibrate = function(calibration, isLog) {
+            isCalibrated = false;
+            var cp1 = calibration.getPoint(0),
+                cp2 = calibration.getPoint(1);
+
+            x1 = cp1.px;
+            y1 = cp1.py;
+            x2 = cp2.px;
+            y2 = cp2.py;
+            p1 = parseFloat(cp1.dy);
+            p2 = parseFloat(cp2.dy);
+
+            if(isLog) {
+                isLogScale = true;
+                p1 = Math.log(p1)/Math.log(10);
+                p2 = Math.log(p2)/Math.log(10);
+            } else {
+                isLogScale = false;
+            }
+
+            isCalibrated = true;
+            return true;
+        };
+
+        this.pixelToData = function (pxi, pyi) {
+            var data = [],
+                c_c2 = ((pyi-y1)*(y2-y1) + (x2-x1)*(pxi-x1))/((y2-y1)*(y2-y1) + (x2-x1)*(x2-x1));
+            data[0] = pxi;
+            data[1] = (p2 - p1)*c_c2 + p1;
+            if(isLogScale) {
+                data[1] = Math.pow(10, data[1]);
+            }
+            return data;
+        };
+
+        this.dataToPixel = function (x, y) {
+            // not implemented yet
+            return {
+                x: 0,
+                y: 0
+            };
+        };
+
+        this.pixelToLiveString = function (pxi, pyi) {
+            var dataVal = this.pixelToData(pxi, pyi);
+            return dataVal[1].toExponential(4);
+        };
+
+        this.isLog = function () {
+            return isLogScale;
+        };
+
+        this.getTransformationEquations = function () {
+            return {
+                pixelToData: ['', ''],
+                dataToPixel: ['', '']
+            };
+        };
+    };
+
+    AxesObj.prototype.numCalibrationPointsRequired = function () {
+        return 2;
+    };
+
+    AxesObj.prototype.getDimensions = function () {
+        return 2;
+    };
+
+    AxesObj.prototype.getAxesLabels = function () {
+        return ['Label', 'Y'];
+    };
+
+    return AxesObj;
+})();
+/*
+	WebPlotDigitizer - http://arohatgi.info/WebPlotdigitizer
+
+	Copyright 2010-2015 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
@@ -1241,6 +1585,13 @@ wpd.ImageAxes = (function () {
             var dataVal = this.pixelToData(pxi, pyi);
             return dataVal[0].toFixed(2) + ', ' + dataVal[1].toFixed(2);
         };
+
+        this.getTransformationEquations = function () {
+            return {
+                pixelToData: ['x_data = x_pixel','y_data = y_pixel'],
+                dataToPixel: ['x_pixel = x_data', 'y_pixel = y_data']
+            };
+        };
     };
 
     AxesObj.prototype.numCalibrationPointsRequired = function() {
@@ -1264,7 +1615,7 @@ wpd.ImageAxes = (function () {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotdigitizer
 
-	Copyright 2010-2014 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2015 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
@@ -1337,8 +1688,25 @@ wpd.MapAxes = (function () {
             return dataVal[0].toExponential(4) + ', ' + dataVal[1].toExponential(4);
         };
 
+        this.getScaleLength = function () {
+            return scaleLength;
+        };
+
         this.getUnits = function () {
             return scaleUnits;
+        };
+
+        this.getTransformationEquations = function () {
+            return {
+                pixelToData:[
+                                'x_data = ' + scaleLength/dist + '*x_pixel',
+                                'y_data = ' + scaleLength/dist + '*y_pixel'
+                            ],
+                dataToPixel:[
+                                'x_pixel = ' + dist/scaleLength + '*x_data', 
+                                'y_pixel = ' + dist/scaleLength + '*y_data'
+                            ]
+            };
         };
     };
 
@@ -1361,7 +1729,7 @@ wpd.MapAxes = (function () {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotdigitizer
 
-	Copyright 2010-2013 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2015 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
@@ -1427,9 +1795,13 @@ wpd.PolarAxes = (function () {
 		        dist12 = dist20 - dist10;
 		    
 		        phi0 = wpd.taninverse(-(y1-y0),x1-x0);
-		    
-		        alpha0 = phi0 - theta1;
                 
+                if(isClockwise) {
+                    alpha0 = phi0 + theta1;
+                } else {
+		            alpha0 = phi0 - theta1;
+                }
+
                 return true;
             };
 
@@ -1442,6 +1814,14 @@ wpd.PolarAxes = (function () {
             return isCalibrated;
         };
 
+        this.isThetaDegrees = function () {
+            return isDegrees;
+        };
+
+        this.isThetaClockwise = function () {
+            return isClockwise;
+        };
+
         this.pixelToData = function(pxi, pyi) {
             var data = [],
                 rp,
@@ -1452,7 +1832,15 @@ wpd.PolarAxes = (function () {
 
             rp = ((r2-r1)/dist12)*(Math.sqrt((xp-x0)*(xp-x0)+(yp-y0)*(yp-y0))-dist10) + r1;
 			
-			thetap = wpd.taninverse(-(yp-y0),xp-x0) - alpha0;
+            if(isClockwise) {
+                thetap = alpha0 - wpd.taninverse(-(yp-y0), xp-x0);
+            } else {
+                thetap = wpd.taninverse(-(yp-y0),xp-x0) - alpha0;
+            }
+
+            if(thetap < 0) {
+                thetap = thetap + 2*Math.PI;
+            }
 			
 		    if(isDegrees == true) {
 		        thetap = 180.0*thetap/Math.PI;
@@ -1475,6 +1863,28 @@ wpd.PolarAxes = (function () {
             var dataVal = this.pixelToData(pxi, pyi);
             return dataVal[0].toExponential(4) + ', ' + dataVal[1].toExponential(4);
         };
+
+        this.getTransformationEquations = function () {
+            var rEqn = 'r = (' + (r2 - r1)/dist12 + ')*sqrt((x_pixel - ' + x0 + ')^2 + (y_pixel - ' + y0 + ')^2) + ('
+                        + (r1-dist10*(r2-r1)/dist12) + ')',
+                thetaEqn;
+
+            if(isClockwise) {
+                thetaEqn = alpha0 - 'atan2((' + y0 + ' - y_pixel), (x_pixel - ' + x0 + '))';
+            } else {
+                thetaEqn = 'atan2((' + y0 + ' - y_pixel), (x_pixel - ' + x0 + ')) - (' + alpha0 + ')';
+            }
+
+            if(isDegrees) {
+                thetaEqn = 'theta = (180/PI)*(' + thetaEqn + '), theta = theta + 360 if theta < 0';
+            } else {
+                thetaEqn = 'theta = ' + thetaEqn + ' theta = theta + 2*PI if theta < 0';
+            }
+
+            return {
+                pixelToData: [rEqn, thetaEqn]
+            };
+        };
     };
 
     AxesObj.prototype.numCalibrationPointsRequired = function() {
@@ -1494,7 +1904,7 @@ wpd.PolarAxes = (function () {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotdigitizer
 
-	Copyright 2010-2014 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2015 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
@@ -1558,6 +1968,14 @@ wpd.TernaryAxes = (function () {
             return isCalibrated;
         };
 
+        this.isRange100 = function () {
+            return isRange0to100;
+        };
+
+        this.isNormalOrientation = function () {
+            return isOrientationNormal;
+        };
+
         this.pixelToData = function(pxi, pyi) {
             var data = [],
                 rp,
@@ -1610,6 +2028,41 @@ wpd.TernaryAxes = (function () {
             var dataVal = this.pixelToData(pxi, pyi);
             return dataVal[0].toExponential(4) + ', ' + dataVal[1].toExponential(4) + ', ' + dataVal[2].toExponential(4);
         };
+
+        this.getTransformationEquations = function () {
+            var rpEqn = 'rp = sqrt((x_pixel - ' + x0 + ')^2 + (y_pixel - ' + y0 + ')^2)/(' + L + ')',
+                thetapEqn = 'thetap = atan2(('+y0+' -  y_pixel), (x_pixel - ' + x0 + ')) - (' + Math.atan2(-(y1-y0),x1-x0) + ')',
+                apEqn = '1 - rp*(cos(thetap) - sin(thetap)/sqrt(3))', 
+                bpEqn = 'rp*(cos(thetap) - sin(thetap)/sqrt(3))', 
+                cpEqn = '2*rp*sin(thetap)/sqrt(3)',bpEqnt;
+
+            if(isRange0to100) {
+                apEqn = '100*(' + apEqn + ')'; 
+                bpEqn = '100*(' + bpEqn + ')'; 
+                cpEqn = '100*(' + cpEqn + ')';
+            }
+
+            apEqn = 'a_data = ' + apEqn;
+            bpEqn = 'b_data = ' + bpEqn;
+            cpEqn = 'c_data = ' + cpEqn;
+
+            if(!isOrientationNormal) {
+                bpEqnt = bpEqn;
+			    bpEqn = apEqn;
+			    apEqn = cpEqn;
+			    cpEqn = bpEqnt;
+            }
+
+            return {
+                pixelToData: [
+                                rpEqn,
+                                thetapEqn,
+                                apEqn,
+                                bpEqn,
+                                cpEqn
+                             ]
+            };
+        };
     };
 
     AxesObj.prototype.numCalibrationPointsRequired = function() {
@@ -1630,7 +2083,7 @@ wpd.TernaryAxes = (function () {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotdigitizer
 
-	Copyright 2010-2014 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2015 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
@@ -1665,9 +2118,9 @@ wpd.XYAxes = (function () {
             initialFormattingX, initialFormattingY,
 
             x1, x2, x3, x4, y1, y2, y3, y4,
-            xmin, xmax, ymin, ymax, xm, ym,
-            d12, d34, Lx, Ly, 
-            thetax, thetay, theta,
+            xmin, xmax, ymin, ymax, 
+            a_mat = [0, 0, 0, 0], a_inv_mat = [0, 0, 0, 0];
+            c_vec = [0, 0],
 
             processCalibration = function(cal, isLogX, isLogY) {
 
@@ -1679,7 +2132,8 @@ wpd.XYAxes = (function () {
                     cp2 = cal.getPoint(1),
                     cp3 = cal.getPoint(2),
                     cp4 = cal.getPoint(3),
-                    ip = new wpd.InputParser();
+                    ip = new wpd.InputParser(),
+                    dat_mat, pix_mat;
                 
                 x1 = cp1.px;
                 y1 = cp1.py;
@@ -1730,19 +2184,14 @@ wpd.XYAxes = (function () {
                      ymax = Math.log(ymax)/Math.log(10);
                 }
 
-                xm = xmax - xmin;
-                ym = ymax - ymin;
+                dat_mat = [xmin-xmax, 0, 0, ymin - ymax];
+                pix_mat = [x1 - x2, x3 - x4, y1 - y2, y3 - y4];
 
-                d12 = Math.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2));
-                d34 = Math.sqrt((x3-x4)*(x3-x4) + (y3-y4)*(y3-y4));
+                a_mat = wpd.mat.mult2x2(dat_mat, wpd.mat.inv2x2(pix_mat));
+                a_inv_mat = wpd.mat.inv2x2(a_mat);
+                c_vec[0] = xmin - a_mat[0]*x1 - a_mat[1]*y1;
+                c_vec[1] = ymin - a_mat[2]*x3 - a_mat[3]*y3;
 
-                Lx = xm/d12;
-                Ly = ym/d34;
-
-                thetax = wpd.taninverse(-(y2-y1), (x2-x1));
-                thetay = wpd.taninverse(-(y4-y3), (x4-x3));
-
-                theta = thetay-thetax;
                 calibration = cal;
                 return true;
             };
@@ -1767,23 +2216,17 @@ wpd.XYAxes = (function () {
 
         this.pixelToData = function(pxi, pyi) {
             var data = [],
-                xp, yp, xf, yf, dP1, dP3, thetaP1, thetaP3,
-                dx, dy;
+                xp, yp, xf, yf, dat_vec;
 
             xp = parseFloat(pxi);
             yp = parseFloat(pyi);
 
-            dP1 = Math.sqrt((xp-x1)*(xp-x1) + (yp-y1)*(yp-y1));
-            thetaP1 = wpd.taninverse(-(yp-y1), (xp-x1)) - thetax;
-            dx = dP1*Math.cos(thetaP1) - dP1*Math.sin(thetaP1)/Math.tan(theta);
+            dat_vec = wpd.mat.mult2x2Vec(a_mat, [xp, yp]);
+            dat_vec[0] = dat_vec[0] + c_vec[0];
+            dat_vec[1] = dat_vec[1] + c_vec[1];
 
-            xf = dx*Lx + xmin;
-
-            dP3 = Math.sqrt((xp-x3)*(xp-x3) + (yp-y3)*(yp-y3));
-            thetaP3 = thetay - wpd.taninverse(-(yp-y3), (xp-x3));
-            dy = dP3*Math.cos(thetaP3) - dP3*Math.sin(thetaP3)/Math.tan(theta);
-
-            yf = dy*Ly + ymin;
+            xf = dat_vec[0];
+            yf = dat_vec[1];
 
             // if x-axis is log scale
             if (isLogScaleX === true)
@@ -1800,21 +2243,13 @@ wpd.XYAxes = (function () {
         };
 
         this.dataToPixel = function(x, y) {
-            var xydenom, xx_pix, yy_pix, 
-                rtnPix, xx, yx, xf, yf;
+            var xf, yf, dat_vec, rtnPix;
 
-            // Get intersection point in pixels
-            xydenom = (x1 - x2)*(y3 - y4) - (y1 - y2)*(x3 - x4);
-            xx_pix = ((x1*y2 - y1*x2)*(x3 - x4) - (x1 - x2)*(x3*y4 - y3*x4))/xydenom;
-            yy_pix = ((x1*y2 - y1*x2)*(y3 - y4) - (y1 - y2)*(x3*y4 - y3*x4))/xydenom;
-
-            // Get intersection point in actual units
-        	rtnPix = this.pixelToData(xx_pix, yy_pix);
-	    	xx = rtnPix[0];
-		    yx = rtnPix[1];
-
-            xf = (x - xmin)*Math.cos(thetax)/Lx + (y - yx)*Math.cos(thetay)/Ly + x1;
-            yf = y3 - (x - xx)*Math.sin(thetax)/Lx - (y - ymin)*Math.sin(thetay)/Ly;
+            dat_vec = [x - c_vec[0], y - c_vec[1]];
+            rtnPix = wpd.mat.mult2x2Vec(a_inv_mat, dat_vec);
+            // TODO: add support for log-scale
+            xf = rtnPix[0];
+            yf = rtnPix[1];
 
             return {
                 x: xf,
@@ -1863,6 +2298,36 @@ wpd.XYAxes = (function () {
         this.isLogY = function () {
             return isLogScaleY;
         };
+
+        this.getTransformationEquations = function() {
+            var xdEqn = '(' + a_mat[0] + ')*x_pixel + (' + a_mat[1] + ')*y_pixel + (' + c_vec[0] + ')',
+                ydEqn = '(' + a_mat[2] + ')*x_pixel + (' + a_mat[3] + ')*y_pixel + (' + c_vec[1] + ')',
+                xpEqn = 'x_pixel = (' + a_inv_mat[0] + ')*x_data + (' + a_inv_mat[1] + ')*y_data + (' + (-a_inv_mat[0]*c_vec[0]-a_inv_mat[1]*c_vec[1]) + ')',
+                ypEqn = 'y_pixel = (' + a_inv_mat[2] + ')*x_data + (' + a_inv_mat[3] + ')*y_data + (' + (-a_inv_mat[2]*c_vec[0]-a_inv_mat[3]*c_vec[1]) + ')';
+
+            if (isLogScaleX) {
+                xdEqn = 'x_data = pow(10, ' + xdEqn + ')';
+            } else {
+                xdEqn = 'x_data = ' + xdEqn;
+            }
+            
+            if (isLogScaleY) {
+                ydEqn = 'y_data = pow(10, ' + ydEqn + ')';
+            } else {
+                ydEqn = 'y_data = ' + ydEqn;
+            }
+
+            if(isLogScaleX || isLogScaleY) {
+                return {
+                     pixelToData: [xdEqn, ydEqn]
+                };
+            }
+
+            return {
+                pixelToData: [xdEqn, ydEqn],
+                dataToPixel: [xpEqn, ypEqn]
+            };
+        };
     };
 
     AxesObj.prototype.numCalibrationPointsRequired = function() {
@@ -1883,63 +2348,7 @@ wpd.XYAxes = (function () {
 /*
     WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-    Copyright 2010-2014 Ankit Rohatgi <ankitrohatgi@hotmail.com>
-
-    This file is part of WebPlotDigitizer.
-
-    WebPlotDigitizer is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    WebPlotDigitizer is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
-
-
-*/
-
-
-var wpd = wpd || {};
-
-wpd.AveragingWindowAlgo = (function () {
-
-    var Algo = function () {
-
-        var xStep = 5, yStep = 5;
-
-        this.getParamList = function () {
-            return [['ΔX', 'Px', 10], ['ΔY', 'Px', 10]];
-        };
-
-        this.setParam = function (index, val) {
-            if(index === 0) {
-                xStep = val;
-            } else if(index === 1) {
-                yStep = val;
-            }
-        };
-
-        this.run = function (plotData) {
-            var autoDetector = plotData.getAutoDetector(),
-                dataSeries = plotData.getActiveDataSeries(),
-                algoCore = new wpd.AveragingWindowCore(autoDetector.binaryData, autoDetector.imageHeight, autoDetector.imageWidth, xStep, yStep, dataSeries);
-
-            algoCore.run();
-        };
-
-    };
-    return Algo;
-})();
-
-/*
-    WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
-
-    Copyright 2010-2014 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+    Copyright 2010-2015 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
     This file is part of WebPlotDigitizer.
 
@@ -2070,9 +2479,65 @@ wpd.AveragingWindowCore = (function () {
 })();
 
 /*
+    WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
+
+    Copyright 2010-2015 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+
+    This file is part of WebPlotDigitizer.
+
+    WebPlotDigitizer is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    WebPlotDigitizer is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
+
+
+*/
+
+
+var wpd = wpd || {};
+
+wpd.AveragingWindowAlgo = (function () {
+
+    var Algo = function () {
+
+        var xStep = 5, yStep = 5;
+
+        this.getParamList = function () {
+            return [['ΔX', 'Px', 10], ['ΔY', 'Px', 10]];
+        };
+
+        this.setParam = function (index, val) {
+            if(index === 0) {
+                xStep = val;
+            } else if(index === 1) {
+                yStep = val;
+            }
+        };
+
+        this.run = function (plotData) {
+            var autoDetector = plotData.getAutoDetector(),
+                dataSeries = plotData.getActiveDataSeries(),
+                algoCore = new wpd.AveragingWindowCore(autoDetector.binaryData, autoDetector.imageHeight, autoDetector.imageWidth, xStep, yStep, dataSeries);
+
+            algoCore.run();
+        };
+
+    };
+    return Algo;
+})();
+
+/*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Copyright 2010-2014 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2015 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
@@ -2227,7 +2692,7 @@ wpd.AveragingWindowWithStepSizeAlgo = (function () {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Copyright 2010-2014 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2015 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
@@ -2369,7 +2834,7 @@ wpd.BlobDetectorAlgo = (function () {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Copyright 2010-2014 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2015 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
@@ -2394,7 +2859,7 @@ var wpd = wpd || {};
 wpd.XStepWithInterpolationAlgo = (function () {
     var Algo = function () {
         var param_xmin, param_delx, param_xmax, 
-            param_width, param_ymin, param_ymax;
+            param_smoothing, param_ymin, param_ymax;
 
         this.getParamList = function () {
             var isAligned = wpd.appData.isAligned(),
@@ -2404,13 +2869,13 @@ wpd.XStepWithInterpolationAlgo = (function () {
                 var bounds = axes.getBounds();
                 return [["X_min","Units", bounds.x1],["ΔX Step","Units", (bounds.x2 - bounds.x1)/50.0], 
                         ["X_max","Units", bounds.x2],["Y_min","Units", bounds.y3],
-                        ["Y_max","Units", bounds.y4],["Smoothing","Units", 0]];
+                        ["Y_max","Units", bounds.y4],["Smoothing","% of ΔX", 0]];
 
             } 
 
             return [["X_min","Units", 0],["ΔX Step","Units", 0.1],
                     ["X_max","Units", 0],["Y_min","Units", 0],
-                    ["Y_max","Units", 0],["Smoothing","Units", 0]];
+                    ["Y_max","Units", 0],["Smoothing","% of ΔX", 0]];
         };
         
         this.setParam = function (index, val) {
@@ -2425,7 +2890,7 @@ wpd.XStepWithInterpolationAlgo = (function () {
             } else if (index === 4) {
                 param_ymax = val;
             } else if (index === 5) {
-                param_width = val;
+                param_smoothing = val;
             }
         };
 
@@ -2453,7 +2918,8 @@ wpd.XStepWithInterpolationAlgo = (function () {
                 delx,
                 dely,
                 xinterp,
-                yinterp;
+                yinterp,
+                param_width = Math.abs(param_delx*(param_smoothing/100.0));
 
             dataSeries.clearAll();
 
@@ -2467,6 +2933,10 @@ wpd.XStepWithInterpolationAlgo = (function () {
             pdata1 = axes.dataToPixel(param_xmax, param_ymin);
             dist_x_px = Math.sqrt((pdata0.x - pdata1.x)*(pdata0.x - pdata1.x) + (pdata0.y - pdata1.y)*(pdata0.y - pdata1.y));
             delx = (param_xmax - param_xmin)/dist_x_px;
+
+            if(Math.abs(param_width/delx) > 0 && Math.abs(param_width/delx) < 1) {
+                param_width = delx;
+            }
 
             xi = param_xmin;
             while( ( delx > 0 && xi <= param_xmax ) || ( delx < 0 && xi >= param_xmax ) ) {
@@ -2507,7 +2977,7 @@ wpd.XStepWithInterpolationAlgo = (function () {
                     mean_y = 0;
                     y_count = 0;
                     for (ii = 0; ii < xpoints.length; ii++) {
-                        if (xpoints[ii] < xi + param_width && xpoints[ii] > xi - param_width) {
+                        if (xpoints[ii] <= xi + param_width && xpoints[ii] >= xi - param_width) {
                             mean_x = (mean_x*y_count + xpoints[ii])/parseFloat(y_count + 1);
                             mean_y = (mean_y*y_count + ypoints[ii])/parseFloat(y_count + 1);
                             y_count++;
@@ -2547,6 +3017,11 @@ wpd.XStepWithInterpolationAlgo = (function () {
                 xinterp[ii] = xi;
                 ii++;
                 xi = xi + param_delx;
+            }
+
+            if(delx < 0) {
+                xpoints_mean = xpoints_mean.reverse();
+                ypoints_mean = ypoints_mean.reverse();
             }
 
             yinterp = numeric.spline(xpoints_mean, ypoints_mean).at(xinterp);

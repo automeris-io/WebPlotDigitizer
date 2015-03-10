@@ -35,10 +35,12 @@ wpd.InputParser = (function () {
                 return null;
             }
 
-            input = input.trim();
+            if(typeof input === "string") {
+                input = input.trim();
 
-            if(input.indexOf('^') >= 0) {
-                return null;
+                if(input.indexOf('^') >= 0) {
+                    return null;
+                }
             }
 
             var parsedDate = wpd.dateConverter.parse(input);
