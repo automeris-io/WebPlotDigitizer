@@ -5233,14 +5233,14 @@ wpd.alignAxes = (function () {
         ternaryEl = document.getElementById('r_ternary');
         mapEl = document.getElementById('r_map');
         imageEl = document.getElementById('r_image');
-        barEl = document.getElementById('r_bar');
+        //barEl = document.getElementById('r_bar');
 
         wpd.popup.close('axesList');
 
         if (xyEl.checked === true) {
             calibrator = wpd.xyCalibration;
-        } else if(barEl.checked === true) {
-            calibrator = wpd.barCalibration;
+        //} else if(barEl.checked === true) {
+        //    calibrator = wpd.barCalibration;
         } else if(polarEl.checked === true) {
             calibrator = wpd.polarCalibration;
         } else if(ternaryEl.checked === true) {
