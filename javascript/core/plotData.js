@@ -94,7 +94,13 @@ wpd.PlotData = (function () {
                 
                 // metadata for each data point
                 for (metadi = 0; metadi < metaKeyCount; metadi++) {
-                    rtnData[i][ptData.length + metadi] = pt.metadata[metadi];
+                    var ptmetadata;
+                    if(pt.metadata == null || pt.metadata[metadi] == null) {
+                        ptmetadata = 0;
+                    } else {
+                        ptmetadata = pt.metadata[metadi];
+                    }
+                    rtnData[i][ptData.length + metadi] = ptmetadata;
                 }
             }
             return rtnData;

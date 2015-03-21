@@ -7,7 +7,7 @@ var clickHandler = function(e) {
 
         
         formElement.setAttribute('method', 'post');
-        formElement.setAttribute('action', 'http://localhost:8000/remote_launcher.php');
+        formElement.setAttribute('action', 'http://automeris.io/wpd/remote_launcher.php');
         formElement.setAttribute('target', '_blank');
         
         formData.setAttribute('name', "imageURL");
