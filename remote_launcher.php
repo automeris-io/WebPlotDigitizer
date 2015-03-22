@@ -35,7 +35,7 @@
 
 
 
-<!-- Remote data -->
+<!-- Handle Remote Data -->
 <?php
 // Server Settings:
 $image_cache_folder = './image-cache';
@@ -65,6 +65,8 @@ if($copy_status == 'fail') {
 }
 unlink($temp_file_placeholder);
 ?>
+<!-- End Remote Data Handling -->
+
 <script src="combined-compiled.js"></script>
 
 <!-- Start of StatCounter code -->
@@ -456,7 +458,7 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
 	<center>
 	<table>
 	<tr><td align="left"><label><input type="radio" name="plotlisting" id="r_xy" checked> 2D (X-Y) Plot</label></td></tr>
-	<!-- <tr><td align="left"><label><input type="radio" name="plotlisting" id="r_bar"> 2D Bar Plot</label></td></tr> -->
+	<tr><td align="left"><label><input type="radio" name="plotlisting" id="r_bar"> 2D Bar Plot</label></td></tr>
 	<tr><td align="left"><label><input type="radio" name="plotlisting" id="r_polar"> Polar Diagram</label></td></tr>
 	<tr><td align="left"><label><input type="radio" name="plotlisting" id="r_ternary"> Ternary Diagram</label></td></tr>
 	<tr><td align="left"><label><input type="radio" name="plotlisting" id="r_map"> Map With Scale Bar</label></td></tr>

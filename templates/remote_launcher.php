@@ -1,7 +1,7 @@
 {% extends "_base.html" %}
 {% block scripts %}
 
-<!-- Remote data -->
+<!-- Handle Remote Data -->
 <?php
 // Server Settings:
 $image_cache_folder = './image-cache';
@@ -31,6 +31,8 @@ if($copy_status == 'fail') {
 }
 unlink($temp_file_placeholder);
 ?>
+<!-- End Remote Data Handling -->
+
 <script src="combined-compiled.js"></script>
 
 <!-- Start of StatCounter code -->
