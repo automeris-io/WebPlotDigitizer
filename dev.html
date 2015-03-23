@@ -66,7 +66,7 @@
 <script src="javascript/tools/alignAxes.js"></script>
 <script src="javascript/tools/autodetect.js"></script>
 <script src="javascript/tools/colorPicker.js"></script>
-<script src="javascript/tools/dataSeriesManagement.js"></script>
+<script src="javascript/tools/dataProviders.js"></script>
 <script src="javascript/tools/graphicsHelper.js"></script>
 <script src="javascript/tools/gridDetection.js"></script>
 <script src="javascript/tools/imageOps.js"></script>
@@ -74,6 +74,7 @@
 <script src="javascript/tools/manualDataCollection.js"></script>
 <script src="javascript/tools/mask.js"></script>
 <script src="javascript/tools/measurement.js"></script>
+<script src="javascript/widgets/dataSeriesManagement.js"></script>
 <script src="javascript/widgets/dataTable.js"></script>
 <script src="javascript/widgets/graphicsWidget.js"></script>
 <script src="javascript/widgets/layoutManager.js"></script>
@@ -568,7 +569,7 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
     <tr>
     <td>
     <!-- left panel -->
-    <p>Dataset: <select id="data-table-dataset-list" onchange="wpd.dataTable.changeDataset();"></select></p>
+    <span id="data-table-dataset-control"><p>Dataset: <select id="data-table-dataset-list" onchange="wpd.dataTable.changeDataset();"></select></p></span>
     <p align="center">Variables: <span id="dataVariables"></span></p>
 	<p align="center"><textarea id="digitizedDataTable" style="width: 480px; height: 250px;"></textarea></p>
 	<p align="center">

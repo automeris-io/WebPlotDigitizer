@@ -70,42 +70,6 @@ wpd.PlotData = (function () {
             return rtnVal;
         };
 
-        this.getDataFromActiveSeries = function() {
-            var dataSeries = this.getActiveDataSeries();
-            if(dataSeries == null || this.axes == null) {
-                return null;
-            }
-
-            var i, pt, ptData, rtnData = [], dimi, metadi,
-                hasMetadata = dataSeries.hasMetadata(),
-                metaKeys = dataSeries.getMetadataKeys(),
-                metaKeyCount = hasMetadata === true ? metaKeys.length : 0;
-                
-            for(i = 0; i < dataSeries.getCount(); i++) {
-                pt = this.dataSeriesColl[activeSeriesIndex].getPixel(i);
-                ptData = [];
-                ptData = this.axes.pixelToData(pt.x, pt.y);
-                rtnData[i] = [];
-
-                // transformed coordinates
-                for (dimi = 0; dimi < ptData.length; dimi++) {
-                    rtnData[i][dimi] = ptData[dimi];
-                }
-                
-                // metadata for each data point
-                for (metadi = 0; metadi < metaKeyCount; metadi++) {
-                    var ptmetadata;
-                    if(pt.metadata == null || pt.metadata[metadi] == null) {
-                        ptmetadata = 0;
-                    } else {
-                        ptmetadata = pt.metadata[metadi];
-                    }
-                    rtnData[i][ptData.length + metadi] = ptmetadata;
-                }
-            }
-            return rtnData;
-        };
-
         this.reset = function() {
             this.axes = null;
             this.angleMeasurementData = null;
