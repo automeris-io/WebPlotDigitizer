@@ -1430,42 +1430,6 @@ wpd.PlotData = (function () {
             return rtnVal;
         };
 
-        this.getDataFromActiveSeries = function() {
-            var dataSeries = this.getActiveDataSeries();
-            if(dataSeries == null || this.axes == null) {
-                return null;
-            }
-
-            var i, pt, ptData, rtnData = [], dimi, metadi,
-                hasMetadata = dataSeries.hasMetadata(),
-                metaKeys = dataSeries.getMetadataKeys(),
-                metaKeyCount = hasMetadata === true ? metaKeys.length : 0;
-                
-            for(i = 0; i < dataSeries.getCount(); i++) {
-                pt = this.dataSeriesColl[activeSeriesIndex].getPixel(i);
-                ptData = [];
-                ptData = this.axes.pixelToData(pt.x, pt.y);
-                rtnData[i] = [];
-
-                // transformed coordinates
-                for (dimi = 0; dimi < ptData.length; dimi++) {
-                    rtnData[i][dimi] = ptData[dimi];
-                }
-                
-                // metadata for each data point
-                for (metadi = 0; metadi < metaKeyCount; metadi++) {
-                    var ptmetadata;
-                    if(pt.metadata == null || pt.metadata[metadi] == null) {
-                        ptmetadata = 0;
-                    } else {
-                        ptmetadata = pt.metadata[metadi];
-                    }
-                    rtnData[i][ptData.length + metadi] = ptmetadata;
-                }
-            }
-            return rtnData;
-        };
-
         this.reset = function() {
             this.axes = null;
             this.angleMeasurementData = null;
@@ -3124,128 +3088,233 @@ wpd.XYAxes = (function () {
 */
 
 var wpd = wpd || {};
+
+wpd.dataSeriesManagement = (function () {
+
+    var nameIndex = 1;
+    
+    function updateSeriesList() {
+    }
+
+    function manage() {
+        if(!wpd.appData.isAligned()) {
+            wpd.messagePopup.show("Manage Datasets", "Please calibrate the axes before managing datasets.");
+        } else {
+            var $nameField = document.getElementById('manage-data-series-name'),
+                $pointCount = document.getElementById('manage-data-series-point-count'),
+                $datasetList = document.getElementById('manage-data-series-list'),
+                plotData = wpd.appData.getPlotData(),
+                activeDataSeries = plotData.getActiveDataSeries(),
+                seriesList = plotData.getDataSeriesNames(),
+                activeSeriesIndex = plotData.getActiveDataSeriesIndex(),
+                listHtml = '',
+                i;
+
+            $nameField.value = activeDataSeries.name;
+            $pointCount.innerHTML = activeDataSeries.getCount();
+            for(i = 0; i < seriesList.length; i++) {
+                listHtml += '<option value="'+ i + '">' + seriesList[i] + '</option>';
+            }
+            $datasetList.innerHTML = listHtml;
+            $datasetList.selectedIndex = activeSeriesIndex;
+
+            // TODO: disable delete button if only one series is present
+            wpd.popup.show('manage-data-series-window');
+        }
+    }
+
+    function addSeries() {
+        var plotData = wpd.appData.getPlotData(),
+            seriesName = 'Dataset ' + nameIndex,
+            index = plotData.dataSeriesColl.length;
+        
+        close();
+        plotData.dataSeriesColl[index] = new wpd.DataSeries();
+        plotData.dataSeriesColl[index].name = seriesName;
+        plotData.setActiveDataSeriesIndex(index);
+        updateApp();
+        nameIndex++;
+        manage();
+    }
+
+    function deleteSeries() {
+        // if this is the only dataset, then disallow delete!
+        close();
+
+        if(wpd.appData.getPlotData().dataSeriesColl.length === 1) {
+            wpd.messagePopup.show("Can Not Delete!", "You can not delete this dataset as at least one dataset is required.", manage);
+            return;
+        }
+
+        wpd.okCancelPopup.show("Delete Dataset", "Are you sure that you want to delete the dataset and all containing data points?", function() {
+            // delete the dataset
+            var plotData = wpd.appData.getPlotData(),
+                index = plotData.getActiveDataSeriesIndex();
+            plotData.dataSeriesColl.splice(index,1);
+            plotData.setActiveDataSeriesIndex(0);
+            manage();
+        }, function() {
+            // 'cancel'
+            manage();
+        });
+    }
+
+    function viewData() {
+        close();
+        wpd.dataTable.showTable();
+    }
+
+    function changeSelectedSeries() {
+        var $list = document.getElementById('manage-data-series-list'),
+            plotData = wpd.appData.getPlotData();
+
+        close();
+        plotData.setActiveDataSeriesIndex($list.selectedIndex);
+        updateApp();
+        manage();
+    }
+
+    function updateApp() {
+        wpd.graphicsWidget.forceHandlerRepaint();
+        wpd.autoExtraction.updateDatasetControl();
+        wpd.acquireData.updateDatasetControl();
+        wpd.dataPointCounter.setCount();
+    }
+
+    function editSeriesName() {
+        var activeSeries = wpd.appData.getPlotData().getActiveDataSeries(),
+            $name = document.getElementById('manage-data-series-name');
+        close();
+        activeSeries.name = $name.value;
+        updateApp(); // overkill, but not too bad.
+        manage();
+    }
+
+    function close() {
+        wpd.popup.close('manage-data-series-window');
+    }
+
+    return {
+        manage: manage,
+        addSeries: addSeries,
+        deleteSeries: deleteSeries,
+        viewData: viewData,
+        changeSelectedSeries: changeSelectedSeries,
+        editSeriesName: editSeriesName
+    };
+})();
+/*
+	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
+
+	Copyright 2010-2015 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+
+	This file is part of WebPlotDigitizer.
+
+    WebPlotDigitizer is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    WebPlotDigitizer is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
+
+
+*/
+
+var wpd = wpd || {};
+
 wpd.dataTable = (function () {
 
-    var rawData,
+    var dataProvider,
+        dataCache,
         sortedData,
-        formattedData,
         tableText;
-
-    function getSeriesData() {
-        rawData = wpd.appData.getPlotData().getDataFromActiveSeries();
+    
+    function showPlotData() {
+        dataProvider = wpd.plotDataProvider;
+        show();
     }
 
-    function sortRawData() {
-        sortedData = rawData.slice(0);
-        var sortingKey = document.getElementById('data-sort-variables').value,
-            sortingOrder = document.getElementById('data-sort-order').value,
-            isAscending = sortingOrder === 'ascending',
-            isRaw = sortingKey === 'raw',
-            isConnectivity = sortingKey === 'NearestNeighbor',
-            dataIndex,
-            axes = wpd.appData.getPlotData().axes,
-            plotDim = axes.getDimensions();
-
-        if (isRaw) {
-            return;
-        }
-
-        if(!isConnectivity) {
-            dataIndex = parseInt(sortingKey, 10);
-            sortedData.sort(function(a, b) {
-                if(a[dataIndex] > b[dataIndex]) {
-                    return isAscending ? 1: -1;
-                } else if (a[dataIndex] < b[dataIndex]) {
-                    return isAscending ? -1 : 1;
-                }
-                return 0;
-            });
-            return;
-        }
-
-        if(isConnectivity) {
-            var mindist, compdist, minindex,
-                swapVariable = [1.0, 1.0, 1.0],
-                ii, jj, 
-                pointsPicked = rawData.length;
-
-            for(ii = 0; ii < pointsPicked - 1; ii++) {
-                minindex = -1;
-
-                for(jj = ii + 1; jj < pointsPicked; jj++) {
-                   compdist = (sortedData[ii][0] - sortedData[jj][0])*(sortedData[ii][0] - sortedData[jj][0]) + 
-                                    (sortedData[ii][1] - sortedData[jj][1])*(sortedData[ii][1] - sortedData[jj][1]);
-                   if(plotDim === 3) {
-                       compdist += (sortedData[ii][2] - sortedData[jj][2])*(sortedData[ii][2] - sortedData[jj][2]);
-                   }
-                   
-                   if((compdist < mindist) || (minindex === -1)) {
-                        mindist = compdist;
-                        minindex = jj;
-                   } 
-                }
-
-                swapVariable[0] = sortedData[minindex][0];
-                sortedData[minindex][0] = sortedData[ii+1][0];
-                sortedData[ii+1][0] = swapVariable[0];
-
-                swapVariable[1] = sortedData[minindex][1];
-                sortedData[minindex][1] = sortedData[ii+1][1];
-                sortedData[ii+1][1] = swapVariable[1];
-
-                if(plotDim === 3) {
-                    swapVariable[2] = sortedData[minindex][2];
-                    sortedData[minindex][2] = sortedData[ii+1][2];
-                    sortedData[ii+1][2] = swapVariable[2];
-                }            
-            }
-        }
-
+    function showMeasurementData() {
+        dataProvider = wpd.connectedPointsDataProvider;
+        show();
     }
-  
+
+    function show() {
+        wpd.popup.show('csvWindow');
+        refresh();
+    }
+
+    function refresh() {
+        dataCache = dataProvider.getData();
+        setupControls();
+        sortRawData();
+        makeTable();
+    }
+
     function setupControls() {
-        var $sortingVariables = document.getElementById('data-sort-variables'),
+
+        var $datasetControl = document.getElementById('data-table-dataset-control'),
+            $datasetList = document.getElementById('data-table-dataset-list'),
+            datasetNames = dataProvider.getDatasetNames(),
+            $sortingVariables = document.getElementById('data-sort-variables'),
             $variableNames = document.getElementById('dataVariables'),
             $dateFormattingContainer = document.getElementById('data-date-formatting-container'),
             $dateFormatting = document.getElementById('data-date-formatting'),
-            axes = wpd.appData.getPlotData().axes,
-            dataSeries = wpd.appData.getPlotData().getActiveDataSeries(),
-            axesLabels = axes.getAxesLabels(),
-            labIndex,
-            variableHTML = '',
-            variableListHTML = axesLabels.join(', '),
-            dateFormattingHTML = '';
-            isAnyVariableDate = false,
-            tableVariables = axesLabels,
-            dimCount = axes.getDimensions();
+            i,
+            datasetHTML = '',
+            sortingHTML = '',
+            dateFormattingHTML = '',
+            isAnyVariableDate = false;
 
-        if (dataSeries.hasMetadata()) {
-            tableVariables = axesLabels.concat(dataSeries.getMetadataKeys()); 
-            variableListHTML = tableVariables.join(', ');
+        // Datasets
+        for (i = 0; i < datasetNames.length; i++) {
+            datasetHTML += '<option>' + datasetNames[i] + '</option>';
         }
+        $datasetList.innerHTML = datasetHTML;
+        $datasetList.selectedIndex = dataProvider.getDatasetIndex();
+
+        // Variable Names
+        $variableNames.innerHTML = dataCache.fields.join(', ');
 
         $dateFormattingContainer.style.display = 'none';
-        
-        variableHTML += '<option value="raw">Raw</option>';
+        sortingHTML += '<option value="raw">Raw</option>';
+        for(i = 0; i < dataCache.fields.length; i++) {
 
-        for(labIndex = 0; labIndex < tableVariables.length; labIndex++) {
-            variableHTML += '<option value="' + labIndex + '">' + tableVariables[labIndex] + '</option>';
-            if(labIndex < dimCount && axes.isDate != null && axes.getInitialDateFormat != null && axes.isDate(labIndex)) {
-                dateFormattingHTML += '<p>' + axesLabels[labIndex] + ' <input type="text" length="15" value="' 
-                    + axes.getInitialDateFormat(labIndex) + '" id="data-format-string-'+ labIndex +'"/></p>';
+            // Sorting
+            if(dataCache.isFieldSortable[i]) {
+                sortingHTML += '<option value="' + dataCache.fields[i] + '">' + dataCache.fields[i] + '</option>';
+            }
+
+            // Date formatting
+            if(dataCache.fieldDateFormat[i] != null) {
+                dateFormattingHTML += '<p>' + dataCache.fields[i] + ' <input type="text" length="15" value="' + dataCache.fieldDateFormat[i] + '" id="data-format-string-' + i + '"/></p>';
                 isAnyVariableDate = true;
             }
         }
-        variableHTML += '<option value="NearestNeighbor">Nearest Neighbor</option>';
-
-        $sortingVariables.innerHTML = variableHTML;
-        $variableNames.innerHTML = variableListHTML;
+        if(dataCache.allowConnectivity) {
+            sortingHTML += '<option value="NearestNeighbor">Nearest Neighbor</option>';
+        }
+        $sortingVariables.innerHTML = sortingHTML;
+        updateSortingControls();
 
         if(isAnyVariableDate) {
             $dateFormattingContainer.style.display = 'inline-block';
-            $dateFormatting.innerHTML = dateFormattingHTML;            
+            $dateFormatting.innerHTML = dateFormattingHTML;
+        } else {
+            $dateFormattingContainer.style.display = 'hidden';
         }
+    }
 
+    function changeDataset() {
+        var $datasetList = document.getElementById('data-table-dataset-list');
+        dataProvider.setDatasetIndex($datasetList.selectedIndex);
+        refresh();
     }
 
     function updateSortingControls() {
@@ -3261,43 +3330,116 @@ wpd.dataTable = (function () {
         }
     }
 
-    function makeTable() {
-        if(rawData == null) {
+    function reSort() {
+        updateSortingControls();
+        sortRawData();
+        makeTable();
+    }
+
+    function sortRawData() {
+
+        if(dataCache == null || dataCache.rawData == null) {
             return;
         }
-        var axes = wpd.appData.getPlotData().axes,
-            dataSeries = wpd.appData.getPlotData().getActiveDataSeries(),
-            dimCount = axes.getDimensions(),
-            metaKeyCount = dataSeries.getMetadataKeys().length,
-            rowCount = rawData.length,
-            rowi, dimi, rowValues,
-            $digitizedDataTable = document.getElementById('digitizedDataTable'),
-            formatStrings = [],
-            numberFormattingDigits = parseInt(document.getElementById('data-number-format-digits').value, 10),
-            numberFormattingStyle = document.getElementById('data-number-format-style').value,
-            colSeparator = document.getElementById('data-number-format-separator').value;
+
+        sortedData = dataCache.rawData.slice(0);
+        var sortingKey = document.getElementById('data-sort-variables').value,
+            sortingOrder = document.getElementById('data-sort-order').value,
+            isAscending = sortingOrder === 'ascending',
+            isRaw = sortingKey === 'raw',
+            isConnectivity = sortingKey === 'NearestNeighbor',
+            dataIndex,
+            fieldCount = dataCache.fields.length;
+
+        if(isRaw) {
+            return;
+        }
+
+        if(!isConnectivity) {
+            dataIndex = dataCache.fields.indexOf(sortingKey);
+            if(dataIndex < 0) {
+                return;
+            }
+            sortedData.sort(function(a, b) {
+                if(a[dataIndex] > b[dataIndex]) {
+                    return isAscending ? 1: -1;
+                } else if (a[dataIndex] < b[dataIndex]) {
+                    return isAscending ? -1 : 1;
+                }
+                return 0;
+            });
+            return;
+        }
+
+        if(isConnectivity) {
+            var mindist, compdist, minindex,
+                rowi, rowcompi,
+                rowCount = sortedData.length,
+                connFieldIndices = dataCache.connectivityFieldIndices,
+                fi, cfi,
+                swp;
+
+            for(rowi = 0; rowi < rowCount - 1; rowi++) {
+                minindex = -1;
+                
+                // loop through all other points and find the nearest next neighbor
+                for(rowcompi = rowi + 1; rowcompi < rowCount; rowcompi++) {
+                    compdist = 0;
+                    for(fi = 0; fi < connFieldIndices.length; fi++) {
+                        cfi = connFieldIndices[fi];       
+                        compdist += (sortedData[rowi][cfi] - sortedData[rowcompi][cfi])*(sortedData[rowi][cfi] - sortedData[rowcompi][cfi]);
+                    }
+
+                    if((compdist < mindist) || (minindex === -1)) {
+                        mindist = compdist;
+                        minindex = rowcompi;
+                    }
+                }
+                
+                // swap (minindex) and (rowi+1) rows
+                for(fi = 0; fi < dataCache.fields.length; fi++) {
+                    swp = sortedData[minindex][fi];
+                    sortedData[minindex][fi] = sortedData[rowi+1][fi];
+                    sortedData[rowi+1][fi] = swp;
+                }
+            }
+
+        }
+    }
+
+    function makeTable() {
+        if(sortedData == null) { return; }
+
+        var $digitizedDataTable = document.getElementById('digitizedDataTable'),
+            numFormattingDigits = parseInt(document.getElementById('data-number-format-digits').value, 10),
+            numFormattingStyle = document.getElementById('data-number-format-style').value,
+            colSeparator = document.getElementById('data-number-format-separator').value,
+            rowi,
+            coli,
+            rowValues,
+            dateFormattingStrings = [];
 
         // "\t" in the column separator should translate to a tab:
         colSeparator = colSeparator.replace(/[^\\]\\t/, "\t").replace(/^\\t/, "\t");
 
         tableText = '';
-        for(rowi = 0; rowi < rowCount; rowi++) {
+        for(rowi = 0; rowi < sortedData.length; rowi++) {
             rowValues = [];
-            for(dimi = 0; dimi < dimCount + metaKeyCount; dimi++) {
-                if(dimi < dimCount && axes.isDate != null && axes.isDate(dimi)) {
-                    if(formatStrings[dimi] === undefined) {
-                        formatStrings[dimi] = document.getElementById('data-format-string-' + dimi).value;
+            for(coli = 0; coli < dataCache.fields.length; coli++) {
+                if(dataCache.fieldDateFormat[coli] != null) { // Date
+                    if(dateFormattingStrings[coli] === undefined) {
+                        dateFormattingStrings[coli] = document.getElementById('data-format-string-'+ coli).value;
                     }
-                    rowValues[dimi] = wpd.dateConverter.formatDateNumber(sortedData[rowi][dimi], formatStrings[dimi]);
-                } else {
-                    if(numberFormattingStyle === 'fixed' && numberFormattingDigits >= 0) {
-                        rowValues[dimi] = sortedData[rowi][dimi].toFixed(numberFormattingDigits);
-                    } else if(numberFormattingStyle === 'precision' && numberFormattingDigits >= 0) {
-                        rowValues[dimi] = sortedData[rowi][dimi].toPrecision(numberFormattingDigits);
-                    } else if(numberFormattingStyle === 'exponential' && numberFormattingDigits >= 0) {
-                        rowValues[dimi] = sortedData[rowi][dimi].toExponential(numberFormattingDigits);
+                    rowValues[coli] = wpd.dateConverter.formatDateNumber(sortedData[rowi][coli], dateFormattingStrings[coli]);
+                } else { // Normal number
+                    if(numFormattingStyle === 'fixed' && numFormattingDigits >= 0) {
+                        rowValues[coli] = sortedData[rowi][coli].toFixed(numFormattingDigits);
+                    } else if(numFormattingStyle === 'precision' && numFormattingDigits >= 0) {
+                        rowValues[coli] = sortedData[rowi][coli].toPrecision(numFormattingDigits);
+                    } else if(numFormattingStyle === 'exponential' && numFormattingDigits >= 0) {
+                        rowValues[coli] = sortedData[rowi][coli].toExponential(numFormattingDigits);
                     } else {
-                        rowValues[dimi] = sortedData[rowi][dimi];
+                        rowValues[coli] = sortedData[rowi][coli];
                     }
                 }
             }
@@ -3307,47 +3449,10 @@ wpd.dataTable = (function () {
         $digitizedDataTable.value = tableText;
     }
 
-    function getSortedData() {
-        return sortedData;
-    }
-
-    function showTable() {
-        if(!wpd.appData.isAligned()) {
-            return;
-        }
-        wpd.popup.show('csvWindow');
-        getSeriesData();
-        setupControls();
-        sortRawData();
-        makeTable();
-        updateSortingControls();
-        updateDatasetList();
-    }
-
-    function close() {
-        wpd.popup.close('csvWindow');
-    }
-
-    function updateDatasetList() {
-        var $datasetList = document.getElementById('data-table-dataset-list'),
-            plotData = wpd.appData.getPlotData(),
-            index = plotData.getActiveDataSeriesIndex(),
-            i,
-            listHTML;
-        for(i = 0; i < plotData.dataSeriesColl.length; i++) {
-            listHTML += '<option>' + plotData.dataSeriesColl[i].name + '</option>';
-        }
-        $datasetList.innerHTML = listHTML;
-        $datasetList.selectedIndex = index;
-    }
-
-    function changeDataset() {
-        var $datasetList = document.getElementById('data-table-dataset-list');
-        wpd.appData.getPlotData().setActiveDataSeriesIndex($datasetList.selectedIndex);
-        wpd.graphicsWidget.forceHandlerRepaint();
-        wpd.dataPointCounter.setCount();
-        close();
-        showTable();
+    function selectAll() {
+        var $digitizedDataTable = document.getElementById('digitizedDataTable');
+        $digitizedDataTable.focus();
+        $digitizedDataTable.select();
     }
 
     function generateCSV() {
@@ -3355,78 +3460,12 @@ wpd.dataTable = (function () {
     }
 
     function exportToPlotly() {
-        if(rawData == null || rawData.length === 0) {
-            return;
-        }
-
-        var formContainer = document.createElement('div'),
-            formElement = document.createElement('form'),
-            formData = document.createElement('textarea');
-        
-        
-        formElement.setAttribute('method', 'post');
-        formElement.setAttribute('action', 'https://plot.ly/external');
-        formElement.setAttribute('target', '_blank');
-        
-        formData.setAttribute('name', "data");
-        formData.setAttribute('id', "data");
-
-        formElement.appendChild(formData);
-        formContainer.appendChild(formElement);
-        document.body.appendChild(formContainer);
-        formContainer.style.display = 'none';
-
-        var jsonData = { data: [] },
-            axes = wpd.appData.getPlotData().axes,
-            dataSeries = wpd.appData.getPlotData().getActiveDataSeries(),
-            metaKeys = dataSeries.getMetadataKeys(),
-            metaKeysCount = metaKeys.length,
-            dimCount = axes.getDimensions(),
-            rowCount = rawData.length,
-            rowi, dimi,
-            //axesLabels = axes.getAxesLabels(); - if I do this then plotly doesn't make a plot by default
-            axesLabels = ['x', 'y', 'z'];
-
-        jsonData.data[0] = {};
-        for(rowi = 0; rowi < rowCount; rowi++) {
-            rowValues = [];
-            for(dimi = 0; dimi < dimCount + metaKeysCount; dimi++) {
-                if(rowi === 0) {
-                    if(dimi < dimCount) {
-                        jsonData.data[0][axesLabels[dimi]] = [];
-                    } else {
-                        jsonData.data[0][metaKeys[dimi-dimCount]] = [];
-                    }
-                }
-                if(dimi < dimCount && axes.isDate != null && axes.isDate(dimi)) {
-                    jsonData.data[0][axesLabels[dimi]][rowi] = wpd.dateConverter.formatDateNumber(sortedData[rowi][dimi], 'yyyy-mm-dd');
-                } else if (dimi < dimCount) {
-                    jsonData.data[0][axesLabels[dimi]][rowi] = sortedData[rowi][dimi];
-                } else {
-                    jsonData.data[0][metaKeys[dimi-dimCount]][rowi] = sortedData[rowi][dimi];
-                }
-            }
-        }
-        formData.innerHTML = JSON.stringify(jsonData);
-        formElement.submit();
-        document.body.removeChild(formContainer); 
-    }
-
-    function selectAll() {
-        var $digitizedDataTable = document.getElementById('digitizedDataTable');
-        $digitizedDataTable.focus();
-        $digitizedDataTable.select();
-    }
-
-    function reSort() {
-        updateSortingControls();
-        sortRawData();
-        makeTable();
+        // revisit... 
     }
 
     return {
-        getSeriesData: getSeriesData,
-        showTable: showTable,
+        showTable: showPlotData,
+        showMeasurementData: showMeasurementData,
         updateSortingControls: updateSortingControls,
         reSort: reSort,
         selectAll: selectAll,
@@ -3435,7 +3474,6 @@ wpd.dataTable = (function () {
         changeDataset: changeDataset
     };
 })();
-
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
@@ -5722,13 +5760,13 @@ wpd.ColorFilterRepainter = (function () {
     return Painter;
 })();
 /*
-	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
+	WebPlotDigitizer - http://arohatgi.info/WebPlotdigitizer
 
 	Copyright 2010-2015 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
-    WebPlotDigitizer is free software: you can redistribute it and/or modify
+    WebPlotDIgitizer is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
@@ -5746,119 +5784,93 @@ wpd.ColorFilterRepainter = (function () {
 
 var wpd = wpd || {};
 
-wpd.dataSeriesManagement = (function () {
+wpd.plotDataProvider = (function() {
 
-    var nameIndex = 1;
-    
-    function updateSeriesList() {
-    }
-
-    function manage() {
-        if(!wpd.appData.isAligned()) {
-            wpd.messagePopup.show("Manage Datasets", "Please calibrate the axes before managing datasets.");
-        } else {
-            var $nameField = document.getElementById('manage-data-series-name'),
-                $pointCount = document.getElementById('manage-data-series-point-count'),
-                $datasetList = document.getElementById('manage-data-series-list'),
-                plotData = wpd.appData.getPlotData(),
-                activeDataSeries = plotData.getActiveDataSeries(),
-                seriesList = plotData.getDataSeriesNames(),
-                activeSeriesIndex = plotData.getActiveDataSeriesIndex(),
-                listHtml = '',
-                i;
-
-            $nameField.value = activeDataSeries.name;
-            $pointCount.innerHTML = activeDataSeries.getCount();
-            for(i = 0; i < seriesList.length; i++) {
-                listHtml += '<option value="'+ i + '">' + seriesList[i] + '</option>';
-            }
-            $datasetList.innerHTML = listHtml;
-            $datasetList.selectedIndex = activeSeriesIndex;
-
-            // TODO: disable delete button if only one series is present
-            wpd.popup.show('manage-data-series-window');
-        }
-    }
-
-    function addSeries() {
+    function getDatasetNames() {
         var plotData = wpd.appData.getPlotData(),
-            seriesName = 'Dataset ' + nameIndex,
-            index = plotData.dataSeriesColl.length;
-        
-        close();
-        plotData.dataSeriesColl[index] = new wpd.DataSeries();
-        plotData.dataSeriesColl[index].name = seriesName;
-        plotData.setActiveDataSeriesIndex(index);
-        updateApp();
-        nameIndex++;
-        manage();
-    }
-
-    function deleteSeries() {
-        // if this is the only dataset, then disallow delete!
-        close();
-
-        if(wpd.appData.getPlotData().dataSeriesColl.length === 1) {
-            wpd.messagePopup.show("Can Not Delete!", "You can not delete this dataset as at least one dataset is required.", manage);
-            return;
+            datasetNames = [],
+            di;
+        for(di = 0; di < plotData.dataSeriesColl.length; di++) {
+            datasetNames[di] = plotData.dataSeriesColl[di].name;
         }
-
-        wpd.okCancelPopup.show("Delete Dataset", "Are you sure that you want to delete the dataset and all containing data points?", function() {
-            // delete the dataset
-            var plotData = wpd.appData.getPlotData(),
-                index = plotData.getActiveDataSeriesIndex();
-            plotData.dataSeriesColl.splice(index,1);
-            plotData.setActiveDataSeriesIndex(0);
-            manage();
-        }, function() {
-            // 'cancel'
-            manage();
-        });
+        return datasetNames;
     }
 
-    function viewData() {
-        close();
-        wpd.dataTable.showTable();
+    function getDatasetIndex() {
+        return wpd.appData.getPlotData().getActiveDataSeriesIndex();
     }
 
-    function changeSelectedSeries() {
-        var $list = document.getElementById('manage-data-series-list'),
-            plotData = wpd.appData.getPlotData();
-
-        close();
-        plotData.setActiveDataSeriesIndex($list.selectedIndex);
-        updateApp();
-        manage();
-    }
-
-    function updateApp() {
+    function setDatasetIndex(index) {
+        wpd.appData.getPlotData().setActiveDataSeriesIndex(index);
         wpd.graphicsWidget.forceHandlerRepaint();
-        wpd.autoExtraction.updateDatasetControl();
-        wpd.acquireData.updateDatasetControl();
         wpd.dataPointCounter.setCount();
     }
 
-    function editSeriesName() {
-        var activeSeries = wpd.appData.getPlotData().getActiveDataSeries(),
-            $name = document.getElementById('manage-data-series-name');
-        close();
-        activeSeries.name = $name.value;
-        updateApp(); // overkill, but not too bad.
-        manage();
-    }
+    function getData() {
+        var plotData = wpd.appData.getPlotData(),
+            dataSeries = plotData.getActiveDataSeries(),
+            axes = plotData.axes,
+            fields = [],
+            fieldDateFormat = [],
+            rawData = [],
+            isFieldSortable = [],
+            rowi,
+            coli,
+            pt,
+            ptData,
+            metadi,
+            hasMetadata = dataSeries.hasMetadata(),
+            metaKeys = dataSeries.getMetadataKeys(),
+            metaKeyCount = hasMetadata === true ? metaKeys.length : 0,
+            ptmetadata;
+        
+        for(rowi = 0; rowi < dataSeries.getCount(); rowi++) {
 
-    function close() {
-        wpd.popup.close('manage-data-series-window');
-    }
+            pt = dataSeries.getPixel(rowi);
+            ptData = axes.pixelToData(pt.x, pt.y);
+            rawData[rowi] = [];
+            
+            // transformed coordinates
+            for (coli = 0; coli < ptData.length; coli++) {
+                rawData[rowi][coli] = ptData[coli];
+            }
+
+            // metadata
+            for (metadi = 0; metadi < metaKeyCount; metadi++) {
+                if (pt.metadata == null || pt.metadata[metadi] == null) {
+                    ptmetadata = 0;
+                } else {
+                    ptmetadata = pt.metadata[metadi];
+                }
+                rawData[rowi][ptData.length + metadi] = ptmetadata;
+            }
+        }
+
+        fields = axes.getAxesLabels();
+        if(hasMetadata) {
+            fields = fields.concat(metaKeys);
+        }
+
+        return {
+            fields: fields,
+            fieldDateFormat: [null, null],
+            rawData: rawData,
+            allowConnectivity: true,
+            connectivityFieldIndices: [0, 1],
+            isFieldSortable: [true, true, true, true]
+        };
+    };
 
     return {
-        manage: manage,
-        addSeries: addSeries,
-        deleteSeries: deleteSeries,
-        viewData: viewData,
-        changeSelectedSeries: changeSelectedSeries,
-        editSeriesName: editSeriesName
+        getDatasetNames: getDatasetNames,
+        getDatasetIndex: getDatasetIndex,
+        setDatasetIndex: setDatasetIndex,
+        getData: getData
     };
+})();
+
+wpd.connectedPointsDataProvider = (function() {
+
 })();
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
