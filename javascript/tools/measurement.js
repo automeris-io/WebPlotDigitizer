@@ -386,9 +386,9 @@ wpd.MeasurementRepainter = (function () {
                     isSelected0 = distData.isPointSelected(conni, 0);
                     isSelected1 = distData.isPointSelected(conni, 1);
                     if(wpd.appData.isAligned() === true && axes instanceof wpd.MapAxes) {
-                        dist = '[' + conni.toString() + ']: ' + axes.pixelToDataDistance(distData.getDistance(conni)).toFixed(2) + ' ' + axes.getUnits();
+                        dist = 'Dist' + conni.toString() + ': ' + axes.pixelToDataDistance(distData.getDistance(conni)).toFixed(2) + ' ' + axes.getUnits();
                     } else {
-                        dist = '[' + conni.toString() + ']: ' + distData.getDistance(conni).toFixed(2) + ' px';
+                        dist = 'Dist' + conni.toString() + ': ' + distData.getDistance(conni).toFixed(2) + ' px';
                     }
                     spx0 = wpd.graphicsWidget.screenPx(x0, y0);
                     spx1 = wpd.graphicsWidget.screenPx(x1, y1);
@@ -420,7 +420,7 @@ wpd.MeasurementRepainter = (function () {
                     isSelected0 = angleData.isPointSelected(conni, 0);
                     isSelected1 = angleData.isPointSelected(conni, 1);
                     isSelected2 = angleData.isPointSelected(conni, 2);
-                    theta = '[' + conni.toString() + ']: ' + angleData.getAngle(conni).toFixed(2) + '°';
+                    theta = 'Theta' + conni.toString() + ': ' + angleData.getAngle(conni).toFixed(2) + '°';
                     theta1 = Math.atan2((y0 - y1), x0 - x1);
                     theta2 = Math.atan2((y2 - y1), x2 - x1);
                     spx0 = wpd.graphicsWidget.screenPx(x0, y0);

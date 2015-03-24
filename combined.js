@@ -3471,7 +3471,32 @@ wpd.dataTable = (function () {
     }
 
     function exportToPlotly() {
-        // revisit... 
+        if (sortedData == null) { return; }
+        var plotlyData = { "data": [] },
+            rowi,
+            coli,
+            fieldName;
+
+        plotlyData.data[0] = {};
+
+        for (rowi = 0; rowi < sortedData.length; rowi++) {
+            for (coli = 0; coli < dataCache.fields.length; coli++) {
+
+                fieldName = dataCache.fields[coli];
+
+                if (rowi === 0) {
+                    plotlyData.data[0][fieldName] = [];
+                }
+
+                if (dataCache.fieldDateFormat[coli] != null) {
+                    plotlyData.data[0][fieldName][rowi] = wpd.dateConverter.formatDateNumber(sortedData[rowi][coli], 'yyyy-mm-dd');
+                } else {
+                    plotlyData.data[0][fieldName][rowi] = sortedData[rowi][coli];
+                }
+            }
+        }
+
+        wpd.plotly.send(plotlyData);
     }
 
     return {
@@ -5850,7 +5875,7 @@ wpd.plotDataProvider = (function() {
             
             // metaData[0] should be the label:
             if(dataPt.metadata == null) {
-                lab = "B"+rowi;
+                lab = "Bar" + rowi;
             } else {
                 lab = dataPt.metadata[0];
             }
@@ -5990,7 +6015,7 @@ wpd.measurementDataProvider = (function() {
             mData = plotData.distanceMeasurementData;
             for(conni = 0; conni < mData.connectionCount(); conni++) {
                 rawData[conni] = [];
-                rawData[conni][0] = 'D' + conni;
+                rawData[conni][0] = 'Dist' + conni;
                 if(isMap) {
                     rawData[conni][1] = axes.pixelToDataDistance(mData.getDistance(conni));
                 } else {
@@ -7687,9 +7712,9 @@ wpd.MeasurementRepainter = (function () {
                     isSelected0 = distData.isPointSelected(conni, 0);
                     isSelected1 = distData.isPointSelected(conni, 1);
                     if(wpd.appData.isAligned() === true && axes instanceof wpd.MapAxes) {
-                        dist = '[' + conni.toString() + ']: ' + axes.pixelToDataDistance(distData.getDistance(conni)).toFixed(2) + ' ' + axes.getUnits();
+                        dist = 'Dist' + conni.toString() + ': ' + axes.pixelToDataDistance(distData.getDistance(conni)).toFixed(2) + ' ' + axes.getUnits();
                     } else {
-                        dist = '[' + conni.toString() + ']: ' + distData.getDistance(conni).toFixed(2) + ' px';
+                        dist = 'Dist' + conni.toString() + ': ' + distData.getDistance(conni).toFixed(2) + ' px';
                     }
                     spx0 = wpd.graphicsWidget.screenPx(x0, y0);
                     spx1 = wpd.graphicsWidget.screenPx(x1, y1);
@@ -7721,7 +7746,7 @@ wpd.MeasurementRepainter = (function () {
                     isSelected0 = angleData.isPointSelected(conni, 0);
                     isSelected1 = angleData.isPointSelected(conni, 1);
                     isSelected2 = angleData.isPointSelected(conni, 2);
-                    theta = '[' + conni.toString() + ']: ' + angleData.getAngle(conni).toFixed(2) + '°';
+                    theta = 'Theta' + conni.toString() + ': ' + angleData.getAngle(conni).toFixed(2) + '°';
                     theta1 = Math.atan2((y0 - y1), x0 - x1);
                     theta2 = Math.atan2((y2 - y1), x2 - x1);
                     spx0 = wpd.graphicsWidget.screenPx(x0, y0);
@@ -7838,6 +7863,62 @@ wpd.download = (function() {
     return {
         json: json,
         csv: csv
+    };
+})();
+/*
+	WebPlotDigitizer - http://arohatgi.info/WebPlotdigitizer
+
+	Copyright 2010-2015 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+
+	This file is part of WebPlotDigitizer.
+
+    WebPlotDIgitizer is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    WebPlotDigitizer is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
+
+
+*/
+
+var wpd = wpd || {};
+
+wpd.plotly = (function() {
+    
+    function send(dataObject) {
+        var formContainer = document.createElement('div'),
+            formElement = document.createElement('form'),
+            formData = document.createElement('textarea'),
+            jsonString;
+
+        formElement.setAttribute('method', 'post');
+        formElement.setAttribute('action', 'https://plot.ly/external');
+        formElement.setAttribute('target', '_blank');
+        
+        formData.setAttribute('name', 'data');
+        formData.setAttribute('id', 'data');
+
+        formElement.appendChild(formData);
+        formContainer.appendChild(formElement);
+        document.body.appendChild(formContainer);
+        formContainer.style.display = 'none';
+
+        jsonString = JSON.stringify(dataObject);
+        
+        formData.innerHTML = jsonString;
+        formElement.submit();
+        document.body.removeChild(formContainer);
+    }
+
+    return {
+        send: send
     };
 })();
 /*

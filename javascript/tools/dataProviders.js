@@ -77,7 +77,7 @@ wpd.plotDataProvider = (function() {
             
             // metaData[0] should be the label:
             if(dataPt.metadata == null) {
-                lab = "B"+rowi;
+                lab = "Bar" + rowi;
             } else {
                 lab = dataPt.metadata[0];
             }
@@ -217,7 +217,7 @@ wpd.measurementDataProvider = (function() {
             mData = plotData.distanceMeasurementData;
             for(conni = 0; conni < mData.connectionCount(); conni++) {
                 rawData[conni] = [];
-                rawData[conni][0] = 'D' + conni;
+                rawData[conni][0] = 'Dist' + conni;
                 if(isMap) {
                     rawData[conni][1] = axes.pixelToDataDistance(mData.getDistance(conni));
                 } else {
