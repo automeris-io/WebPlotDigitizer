@@ -266,7 +266,32 @@ wpd.dataTable = (function () {
     }
 
     function exportToPlotly() {
-        // revisit... 
+        if (sortedData == null) { return; }
+        var plotlyData = { "data": [] },
+            rowi,
+            coli,
+            fieldName;
+
+        plotlyData.data[0] = {};
+
+        for (rowi = 0; rowi < sortedData.length; rowi++) {
+            for (coli = 0; coli < dataCache.fields.length; coli++) {
+
+                fieldName = dataCache.fields[coli];
+
+                if (rowi === 0) {
+                    plotlyData.data[0][fieldName] = [];
+                }
+
+                if (dataCache.fieldDateFormat[coli] != null) {
+                    plotlyData.data[0][fieldName][rowi] = wpd.dateConverter.formatDateNumber(sortedData[rowi][coli], 'yyyy-mm-dd');
+                } else {
+                    plotlyData.data[0][fieldName][rowi] = sortedData[rowi][coli];
+                }
+            }
+        }
+
+        wpd.plotly.send(plotlyData);
     }
 
     return {
