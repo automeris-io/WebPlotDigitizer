@@ -35,8 +35,15 @@ wpd.dataTable = (function () {
         show();
     }
 
-    function showMeasurementData() {
-        dataProvider = wpd.connectedPointsDataProvider;
+    function showAngleData() {
+        dataProvider = wpd.measurementDataProvider;
+        dataProvider.setDataSource('angle');
+        show();
+    }
+
+    function showDistanceData() {
+        dataProvider = wpd.measurementDataProvider;
+        dataProvider.setDataSource('distance');
         show();
     }
 
@@ -226,15 +233,19 @@ wpd.dataTable = (function () {
                         dateFormattingStrings[coli] = document.getElementById('data-format-string-'+ coli).value;
                     }
                     rowValues[coli] = wpd.dateConverter.formatDateNumber(sortedData[rowi][coli], dateFormattingStrings[coli]);
-                } else { // Normal number
-                    if(numFormattingStyle === 'fixed' && numFormattingDigits >= 0) {
-                        rowValues[coli] = sortedData[rowi][coli].toFixed(numFormattingDigits);
-                    } else if(numFormattingStyle === 'precision' && numFormattingDigits >= 0) {
-                        rowValues[coli] = sortedData[rowi][coli].toPrecision(numFormattingDigits);
-                    } else if(numFormattingStyle === 'exponential' && numFormattingDigits >= 0) {
-                        rowValues[coli] = sortedData[rowi][coli].toExponential(numFormattingDigits);
-                    } else {
+                } else { // Non-date values
+                    if(typeof sortedData[rowi][coli] === 'string') {
                         rowValues[coli] = sortedData[rowi][coli];
+                    } else {
+                        if(numFormattingStyle === 'fixed' && numFormattingDigits >= 0) {
+                            rowValues[coli] = sortedData[rowi][coli].toFixed(numFormattingDigits);
+                        } else if(numFormattingStyle === 'precision' && numFormattingDigits >= 0) {
+                            rowValues[coli] = sortedData[rowi][coli].toPrecision(numFormattingDigits);
+                        } else if(numFormattingStyle === 'exponential' && numFormattingDigits >= 0) {
+                            rowValues[coli] = sortedData[rowi][coli].toExponential(numFormattingDigits);
+                        } else {
+                            rowValues[coli] = sortedData[rowi][coli];
+                        }
                     }
                 }
             }
@@ -260,7 +271,8 @@ wpd.dataTable = (function () {
 
     return {
         showTable: showPlotData,
-        showMeasurementData: showMeasurementData,
+        showAngleData: showAngleData,
+        showDistanceData: showDistanceData,
         updateSortingControls: updateSortingControls,
         reSort: reSort,
         selectAll: selectAll,

@@ -3240,8 +3240,15 @@ wpd.dataTable = (function () {
         show();
     }
 
-    function showMeasurementData() {
-        dataProvider = wpd.connectedPointsDataProvider;
+    function showAngleData() {
+        dataProvider = wpd.measurementDataProvider;
+        dataProvider.setDataSource('angle');
+        show();
+    }
+
+    function showDistanceData() {
+        dataProvider = wpd.measurementDataProvider;
+        dataProvider.setDataSource('distance');
         show();
     }
 
@@ -3431,15 +3438,19 @@ wpd.dataTable = (function () {
                         dateFormattingStrings[coli] = document.getElementById('data-format-string-'+ coli).value;
                     }
                     rowValues[coli] = wpd.dateConverter.formatDateNumber(sortedData[rowi][coli], dateFormattingStrings[coli]);
-                } else { // Normal number
-                    if(numFormattingStyle === 'fixed' && numFormattingDigits >= 0) {
-                        rowValues[coli] = sortedData[rowi][coli].toFixed(numFormattingDigits);
-                    } else if(numFormattingStyle === 'precision' && numFormattingDigits >= 0) {
-                        rowValues[coli] = sortedData[rowi][coli].toPrecision(numFormattingDigits);
-                    } else if(numFormattingStyle === 'exponential' && numFormattingDigits >= 0) {
-                        rowValues[coli] = sortedData[rowi][coli].toExponential(numFormattingDigits);
-                    } else {
+                } else { // Non-date values
+                    if(typeof sortedData[rowi][coli] === 'string') {
                         rowValues[coli] = sortedData[rowi][coli];
+                    } else {
+                        if(numFormattingStyle === 'fixed' && numFormattingDigits >= 0) {
+                            rowValues[coli] = sortedData[rowi][coli].toFixed(numFormattingDigits);
+                        } else if(numFormattingStyle === 'precision' && numFormattingDigits >= 0) {
+                            rowValues[coli] = sortedData[rowi][coli].toPrecision(numFormattingDigits);
+                        } else if(numFormattingStyle === 'exponential' && numFormattingDigits >= 0) {
+                            rowValues[coli] = sortedData[rowi][coli].toExponential(numFormattingDigits);
+                        } else {
+                            rowValues[coli] = sortedData[rowi][coli];
+                        }
                     }
                 }
             }
@@ -3465,7 +3476,8 @@ wpd.dataTable = (function () {
 
     return {
         showTable: showPlotData,
-        showMeasurementData: showMeasurementData,
+        showAngleData: showAngleData,
+        showDistanceData: showDistanceData,
         updateSortingControls: updateSortingControls,
         reSort: reSort,
         selectAll: selectAll,
@@ -5938,8 +5950,87 @@ wpd.plotDataProvider = (function() {
     };
 })();
 
-wpd.connectedPointsDataProvider = (function() {
+wpd.measurementDataProvider = (function() {
 
+    var dataSource = 'distance';
+
+    function setDataSource(source) {
+        dataSource = source;
+    }
+
+    function getDatasetNames() {
+        if(dataSource === 'angle') {
+            return ['Angle Measurements'];
+        } else if (dataSource === 'distance') {
+            return ['Distance Measurements'];
+        }
+    }
+
+    function getDatasetIndex() {
+        return 0;
+    }
+
+    function setDatasetIndex(index) {
+        // ignore
+    }
+
+    function getData() {
+        var fields = [],
+            fieldDateFormat = [],
+            rawData = [],
+            isFieldSortable = [],
+            plotData = wpd.appData.getPlotData(),
+            axes = plotData.axes,
+            isMap = wpd.appData.isAligned() && (axes instanceof wpd.MapAxes),
+            conni,
+            mData;
+        
+        if (dataSource === 'distance') {
+
+            mData = plotData.distanceMeasurementData;
+            for(conni = 0; conni < mData.connectionCount(); conni++) {
+                rawData[conni] = [];
+                rawData[conni][0] = 'D' + conni;
+                if(isMap) {
+                    rawData[conni][1] = axes.pixelToDataDistance(mData.getDistance(conni));
+                } else {
+                    rawData[conni][1] = mData.getDistance(conni);
+                }
+            }
+            
+            fields = ['Label', 'Distance'];
+            isFieldSortable = [false, true];
+
+        } else if (dataSource === 'angle') {
+
+            mData = plotData.angleMeasurementData;
+            for(conni = 0; conni < mData.connectionCount(); conni++) {
+                rawData[conni] = [];
+                rawData[conni][0] = 'Theta'+ conni;
+                rawData[conni][1] = mData.getAngle(conni);
+            }
+
+            fields = ['Label', 'Angle'];
+            isFieldSortable = [false, true];
+        }
+
+        return {
+            fields: fields,
+            fieldDateFormat: fieldDateFormat,
+            rawData: rawData,
+            allowConnectivity: false,
+            connectivityFieldIndices: [],
+            isFieldSortable: isFieldSortable
+        };
+    }
+
+    return {
+        getDatasetNames: getDatasetNames,
+        getDatasetIndex: getDatasetIndex,
+        setDatasetIndex: setDatasetIndex,
+        setDataSource: setDataSource,
+        getData: getData
+    };
 })();
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
@@ -7301,74 +7392,6 @@ wpd.angleMeasurement = (function () {
         addAngle: addAngle,
         deleteAngle: deleteAngle,
         clearAll: clearAll 
-    };
-})();
-
-wpd.measurementData = (function () {
-    var latestMode,
-        tableText;
-
-    function showAngleData() {
-        latestMode = 'angle';
-        wpd.popup.show('measurement-data-window');
-        var data = wpd.appData.getPlotData().angleMeasurementData,
-            conn_count = data.connectionCount(),
-            conni,
-            theta,
-            $tableArea = document.getElementById('measurement-data-table');
-        tableText = '';
-
-        for(conni = 0; conni < conn_count; conni++) {
-            tableText += conni.toString() + ', ' + data.getAngle(conni) + '\n';
-        }
-
-        $tableArea.value = tableText;
-    }
-
-    function showDistanceData() {
-        latestMode = 'distance';
-        wpd.popup.show('measurement-data-window');
-
-        var data = wpd.appData.getPlotData().distanceMeasurementData,
-            conn_count = data.connectionCount(),
-            conni,
-            theta,
-            $tableArea = document.getElementById('measurement-data-table'),
-            axes = wpd.appData.getPlotData().axes;
-        tableText = '';
-
-        for(conni = 0; conni < conn_count; conni++) {
-            if(wpd.appData.isAligned() === true && axes instanceof wpd.MapAxes) {
-                tableText += conni.toString() + ', ' + axes.pixelToDataDistance(data.getDistance(conni)) + '\n';
-            } else {
-                tableText += conni.toString() + ', ' + data.getDistance(conni) + '\n';
-            }
-        }
-
-        $tableArea.value = tableText;
-    }
-
-    function selectAll() {
-        var $tableArea = document.getElementById('measurement-data-table');
-        $tableArea.focus();
-        $tableArea.select();
-    }
-
-    function generateCSV() {
-        wpd.download.csv(JSON.stringify(tableText));
-    }
-
-    function close() {
-        tableText = '';
-        wpd.popup.close('measurement-data-window');
-    }
-
-    return {
-        showAngleData: showAngleData,
-        showDistanceData: showDistanceData,
-        selectAll: selectAll,
-        generateCSV: generateCSV,
-        close: close 
     };
 })();
 
