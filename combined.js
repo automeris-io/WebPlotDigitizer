@@ -5820,8 +5820,37 @@ wpd.plotDataProvider = (function() {
         var fields = [],
             fieldDateFormat = [],
             rawData = [],
-            isFieldSortable = [];
-        
+            isFieldSortable = [],
+            plotData = wpd.appData.getPlotData(),
+            dataSeries = plotData.getActiveDataSeries(),
+            axes = plotData.axes,
+            rowi, coli,
+            dataPt,
+            transformedDataPt,
+            lab;
+
+        for (rowi = 0; rowi < dataSeries.getCount(); rowi++) {
+            
+            dataPt = dataSeries.getPixel(rowi);
+            transformedDataPt = axes.pixelToData(dataPt.x, dataPt.y);
+            
+            rawData[rowi] = [];
+            
+            // metaData[0] should be the label:
+            if(dataPt.metadata == null) {
+                lab = "B"+rowi;
+            } else {
+                lab = dataPt.metadata[0];
+            }
+            rawData[rowi][0] = lab;
+            // transformed value
+            rawData[rowi][1] = transformedDataPt[1]; // note [1] is what we want.
+            // other metadata if present can go here in the future.
+        }
+
+        fields = ['Label', 'Value'];
+        isFieldSortable = [false, true];
+
         return {
             fields: fields,
             fieldDateFormat: fieldDateFormat,
