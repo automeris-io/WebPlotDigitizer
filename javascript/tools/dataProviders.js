@@ -177,6 +177,85 @@ wpd.plotDataProvider = (function() {
     };
 })();
 
-wpd.connectedPointsDataProvider = (function() {
+wpd.measurementDataProvider = (function() {
 
+    var dataSource = 'distance';
+
+    function setDataSource(source) {
+        dataSource = source;
+    }
+
+    function getDatasetNames() {
+        if(dataSource === 'angle') {
+            return ['Angle Measurements'];
+        } else if (dataSource === 'distance') {
+            return ['Distance Measurements'];
+        }
+    }
+
+    function getDatasetIndex() {
+        return 0;
+    }
+
+    function setDatasetIndex(index) {
+        // ignore
+    }
+
+    function getData() {
+        var fields = [],
+            fieldDateFormat = [],
+            rawData = [],
+            isFieldSortable = [],
+            plotData = wpd.appData.getPlotData(),
+            axes = plotData.axes,
+            isMap = wpd.appData.isAligned() && (axes instanceof wpd.MapAxes),
+            conni,
+            mData;
+        
+        if (dataSource === 'distance') {
+
+            mData = plotData.distanceMeasurementData;
+            for(conni = 0; conni < mData.connectionCount(); conni++) {
+                rawData[conni] = [];
+                rawData[conni][0] = 'D' + conni;
+                if(isMap) {
+                    rawData[conni][1] = axes.pixelToDataDistance(mData.getDistance(conni));
+                } else {
+                    rawData[conni][1] = mData.getDistance(conni);
+                }
+            }
+            
+            fields = ['Label', 'Distance'];
+            isFieldSortable = [false, true];
+
+        } else if (dataSource === 'angle') {
+
+            mData = plotData.angleMeasurementData;
+            for(conni = 0; conni < mData.connectionCount(); conni++) {
+                rawData[conni] = [];
+                rawData[conni][0] = 'Theta'+ conni;
+                rawData[conni][1] = mData.getAngle(conni);
+            }
+
+            fields = ['Label', 'Angle'];
+            isFieldSortable = [false, true];
+        }
+
+        return {
+            fields: fields,
+            fieldDateFormat: fieldDateFormat,
+            rawData: rawData,
+            allowConnectivity: false,
+            connectivityFieldIndices: [],
+            isFieldSortable: isFieldSortable
+        };
+    }
+
+    return {
+        getDatasetNames: getDatasetNames,
+        getDatasetIndex: getDatasetIndex,
+        setDatasetIndex: setDatasetIndex,
+        setDataSource: setDataSource,
+        getData: getData
+    };
 })();
