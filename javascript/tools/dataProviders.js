@@ -46,11 +46,40 @@ wpd.plotDataProvider = (function() {
     }
 
     function getData() {
+        var axes = wpd.appData.getPlotData().axes;
+
+        if(axes instanceof wpd.BarAxes) {
+            return getBarAxesData();
+        } else {
+            return getGeneralAxesData()
+        }
+    }
+
+    function getBarAxesData() {
+        var fields = [],
+            fieldDateFormat = [],
+            rawData = [],
+            isFieldSortable = [];
+        
+        return {
+            fields: fields,
+            fieldDateFormat: fieldDateFormat,
+            rawData: rawData,
+            allowConnectivity: false,
+            connectivityFieldIndices: [],
+            isFieldSortable: isFieldSortable
+        };
+    }
+
+    function getGeneralAxesData() {
+        // 2D XY, Polar, Ternary, Image, Map
+
         var plotData = wpd.appData.getPlotData(),
             dataSeries = plotData.getActiveDataSeries(),
             axes = plotData.axes,
             fields = [],
             fieldDateFormat = [],
+            connectivityFieldIndices = [],
             rawData = [],
             isFieldSortable = [],
             rowi,
@@ -90,13 +119,24 @@ wpd.plotDataProvider = (function() {
             fields = fields.concat(metaKeys);
         }
 
+        for(coli = 0; coli < fields.length; coli++) {
+            if(coli < axes.getDimensions()) {
+                connectivityFieldIndices[coli] = coli;
+                if(axes.isDate != null && axes.isDate(coli)) {
+                    fieldDateFormat[coli] = axes.getInitialDateFormat(coli);
+                }
+            }
+            
+            isFieldSortable[coli] = true; // all fields are sortable
+        }
+
         return {
             fields: fields,
-            fieldDateFormat: [null, null],
+            fieldDateFormat: fieldDateFormat,
             rawData: rawData,
             allowConnectivity: true,
-            connectivityFieldIndices: [0, 1],
-            isFieldSortable: [true, true, true, true]
+            connectivityFieldIndices: connectivityFieldIndices,
+            isFieldSortable: isFieldSortable
         };
     };
 
