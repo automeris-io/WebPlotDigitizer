@@ -278,6 +278,12 @@ wpd.dataTable = (function () {
             for (coli = 0; coli < dataCache.fields.length; coli++) {
 
                 fieldName = dataCache.fields[coli];
+                // Replace first two to keep plotly happy:
+                if(coli === 0) {
+                    fieldName = 'x';
+                } else if(coli === 1) {
+                    fieldName = 'y';
+                }
 
                 if (rowi === 0) {
                     plotlyData.data[0][fieldName] = [];
