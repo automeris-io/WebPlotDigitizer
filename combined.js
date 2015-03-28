@@ -1469,6 +1469,62 @@ wpd.PlotData = (function () {
 
 */
 
+
+var wpd = wpd || {};
+
+wpd.AveragingWindowAlgo = (function () {
+
+    var Algo = function () {
+
+        var xStep = 5, yStep = 5;
+
+        this.getParamList = function () {
+            return [['ΔX', 'Px', 10], ['ΔY', 'Px', 10]];
+        };
+
+        this.setParam = function (index, val) {
+            if(index === 0) {
+                xStep = val;
+            } else if(index === 1) {
+                yStep = val;
+            }
+        };
+
+        this.run = function (plotData) {
+            var autoDetector = plotData.getAutoDetector(),
+                dataSeries = plotData.getActiveDataSeries(),
+                algoCore = new wpd.AveragingWindowCore(autoDetector.binaryData, autoDetector.imageHeight, autoDetector.imageWidth, xStep, yStep, dataSeries);
+
+            algoCore.run();
+        };
+
+    };
+    return Algo;
+})();
+
+/*
+    WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
+
+    Copyright 2010-2015 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+
+    This file is part of WebPlotDigitizer.
+
+    WebPlotDigitizer is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    WebPlotDigitizer is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
+
+
+*/
+
 var wpd = wpd || {};
 
 wpd.AveragingWindowCore = (function () {
@@ -1575,62 +1631,6 @@ wpd.AveragingWindowCore = (function () {
 
               return dataSeries;
         };
-    };
-    return Algo;
-})();
-
-/*
-    WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
-
-    Copyright 2010-2015 Ankit Rohatgi <ankitrohatgi@hotmail.com>
-
-    This file is part of WebPlotDigitizer.
-
-    WebPlotDigitizer is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    WebPlotDigitizer is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
-
-
-*/
-
-
-var wpd = wpd || {};
-
-wpd.AveragingWindowAlgo = (function () {
-
-    var Algo = function () {
-
-        var xStep = 5, yStep = 5;
-
-        this.getParamList = function () {
-            return [['ΔX', 'Px', 10], ['ΔY', 'Px', 10]];
-        };
-
-        this.setParam = function (index, val) {
-            if(index === 0) {
-                xStep = val;
-            } else if(index === 1) {
-                yStep = val;
-            }
-        };
-
-        this.run = function (plotData) {
-            var autoDetector = plotData.getAutoDetector(),
-                dataSeries = plotData.getActiveDataSeries(),
-                algoCore = new wpd.AveragingWindowCore(autoDetector.binaryData, autoDetector.imageHeight, autoDetector.imageWidth, xStep, yStep, dataSeries);
-
-            algoCore.run();
-        };
-
     };
     return Algo;
 })();
@@ -3483,6 +3483,12 @@ wpd.dataTable = (function () {
             for (coli = 0; coli < dataCache.fields.length; coli++) {
 
                 fieldName = dataCache.fields[coli];
+                // Replace first two to keep plotly happy:
+                if(coli === 0) {
+                    fieldName = 'x';
+                } else if(coli === 1) {
+                    fieldName = 'y';
+                }
 
                 if (rowi === 0) {
                     plotlyData.data[0][fieldName] = [];
@@ -5256,8 +5262,6 @@ wpd.AxesCornersTool = (function () {
 wpd.AlignmentCornersRepainter = (function () {
     var Tool = function () {
 
-        var ctx = wpd.graphicsWidget.getAllContexts();
-
         this.painterName = 'AlignmentCornersReptainer';
 
         this.onForcedRedraw = function () {
@@ -5269,35 +5273,19 @@ wpd.AlignmentCornersRepainter = (function () {
             var cal = wpd.alignAxes.getActiveCalib();
             if (cal == null) { return; }
 
-            var i, pos, imagePos;
+            var i, imagePos, imagePx, fillStyle;
 
             for(i = 0; i < cal.getCount(); i++) {
                 imagePos = cal.getPoint(i);
-                pos = wpd.graphicsWidget.screenPx(imagePos.px, imagePos.py);
-                ctx.dataCtx.fillStyle = "rgba(255,255,255,0.7)";
-                ctx.dataCtx.fillRect(pos.x - 10, pos.y - 10, 20, 40); 
-                ctx.dataCtx.beginPath();
+                imagePx = { x: imagePos.px, y: imagePos.py };
+
                 if(cal.isPointSelected(i)) {
-                    ctx.dataCtx.fillStyle = "rgba(0,200,0,1)";
+                    fillStyle = "rgba(0,200,0,1)";
                 } else {
-        		    ctx.dataCtx.fillStyle = "rgba(200,0,0,1)";
-                }
-	        	ctx.dataCtx.arc(pos.x, pos.y, 3, 0, 2.0*Math.PI, true);
-		        ctx.dataCtx.fill();
-                ctx.dataCtx.font="14px sans-serif";
-                ctx.dataCtx.fillText(cal.labels[i], pos.x-10, pos.y+18);
-                
-                ctx.oriDataCtx.beginPath();
-                if(cal.isPointSelected(i)) {
-                    ctx.oriDataCtx.fillStyle = "rgb(0,200,0)";
-                } else {
-        		    ctx.oriDataCtx.fillStyle = "rgb(200,0,0)";
+        		    fillStyle = "rgba(200,0,0,1)";
                 }
 
-                ctx.oriDataCtx.arc(imagePos.px, imagePos.py, 3, 0, 2.0*Math.PI, true);
-                ctx.oriDataCtx.fill();
-                ctx.oriDataCtx.font="14px sans-serif";
-                ctx.oriDataCtx.fillText(cal.labels[i], parseInt(imagePos.px-10, 10), parseInt(imagePos.py+18,10));
+                wpd.graphicsHelper.drawPoint(imagePx, fillStyle, cal.labels[i]);
             }
         };
     };
@@ -6084,7 +6072,45 @@ var wpd = wpd || {};
 
 wpd.graphicsHelper = (function () {
 
+    // imagePx - relative to original image
+    // fillStyle - e.g. "rgb(200,0,0)"
+    // label - e.g. "Bar 0"
+    function drawPoint(imagePx, fillStyle, label) {
+        var screenPx = wpd.graphicsWidget.screenPx(imagePx.x, imagePx.y),
+            ctx = wpd.graphicsWidget.getAllContexts(),
+            labelWidth;
+
+        // Display Data Canvas Layer
+        if(label != null) {
+            ctx.dataCtx.font = "15px sans-serif";
+            labelWidth = ctx.dataCtx.measureText(label).width;
+            ctx.dataCtx.fillStyle = "rgba(255, 255, 255, 0.7)";
+            ctx.dataCtx.fillRect(screenPx.x - 13, screenPx.y - 8, labelWidth + 5, 35);
+            ctx.dataCtx.fillStyle = fillStyle;
+            ctx.dataCtx.fillText(label, screenPx.x - 10, screenPx.y + 18);
+        }
+
+        ctx.dataCtx.beginPath();
+        ctx.dataCtx.fillStyle = fillStyle;
+        ctx.dataCtx.arc(screenPx.x, screenPx.y, 3, 0, 2.0*Math.PI, true);
+        ctx.dataCtx.fill();
+
+        // Original Image Data Canvas Layer
+        if(label != null) {
+            // No translucent bacground for text here.
+            ctx.oriDataCtx.font = "15px sans-serif";
+            ctx.oriDataCtx.fillStyle = fillStyle;
+            ctx.oriDataCtx.fillText(label, imagePx.x - 10, imagePx.y + 18);
+        }
+
+        ctx.oriDataCtx.beginPath();
+        ctx.oriDataCtx.fillStyle = fillStyle;
+        ctx.oriDataCtx.arc(imagePx.x, imagePx.y, 3, 0, 2.0*Math.PI, true);
+        ctx.oriDataCtx.fill();
+    }
+
     return {
+        drawPoint : drawPoint
     };
 
 })();
@@ -6685,8 +6711,7 @@ wpd.acquireData = (function () {
 
 wpd.ManualSelectionTool = (function () {
     var Tool = function () {
-        var ctx = wpd.graphicsWidget.getAllContexts(),
-            plotData = wpd.appData.getPlotData();
+        var plotData = wpd.appData.getPlotData();
 
         this.onAttach = function () {
             document.getElementById('manual-select-button').classList.add('pressed-button');
@@ -6696,18 +6721,11 @@ wpd.ManualSelectionTool = (function () {
        
         this.onMouseClick = function (ev, pos, imagePos) {
             var activeDataSeries = plotData.getActiveDataSeries();
+            
             activeDataSeries.addPixel(imagePos.x, imagePos.y);
 
-            ctx.dataCtx.beginPath();
-    		ctx.dataCtx.fillStyle = "rgb(200,0,0)";
-	    	ctx.dataCtx.arc(pos.x, pos.y, 3, 0, 2.0*Math.PI, true);
-		    ctx.dataCtx.fill();
+            wpd.graphicsHelper.drawPoint(imagePos, "rgb(200,0,0)");
 
-            ctx.oriDataCtx.beginPath();
-    		ctx.oriDataCtx.fillStyle = "rgb(200,0,0)";
-	    	ctx.oriDataCtx.arc(imagePos.x, imagePos.y, 3, 0, 2.0*Math.PI, true);
-		    ctx.oriDataCtx.fill();
-            
             wpd.graphicsWidget.updateZoomOnEvent(ev);
             wpd.dataPointCounter.setCount();
         };
@@ -6791,36 +6809,24 @@ wpd.DataPointsRepainter = (function () {
     var Painter = function () {
 
         var drawPoints = function () {
-            var ctx = wpd.graphicsWidget.getAllContexts(),
-                 plotData = wpd.appData.getPlotData(),
-                 activeDataSeries = plotData.getActiveDataSeries(),
-                 dindex,
-                 imagePos,
-                 pos,
-                 isSelected;
+            var plotData = wpd.appData.getPlotData(),
+                activeDataSeries = plotData.getActiveDataSeries(),
+                dindex,
+                imagePos,
+                fillStyle,
+                isSelected;
 
             for(dindex = 0; dindex < activeDataSeries.getCount(); dindex++) {
                 imagePos = activeDataSeries.getPixel(dindex);
                 isSelected = activeDataSeries.getSelectedPixels().indexOf(dindex) >= 0;
-                pos = wpd.graphicsWidget.screenPx(imagePos.x, imagePos.y);
 
-                ctx.dataCtx.beginPath();
                 if(isSelected) {
-                    ctx.dataCtx.fillStyle = "rgb(0,200,0)";
+                    fillStyle = "rgb(0,200,0)";
                 } else {
-                    ctx.dataCtx.fillStyle = "rgb(200,0,0)";
+                    fillStyle = "rgb(200,0,0)";
                 }
-                ctx.dataCtx.arc(pos.x, pos.y, 3, 0, 2.0*Math.PI, true);
-                ctx.dataCtx.fill();
 
-                ctx.oriDataCtx.beginPath();
-                if(isSelected) {
-                    ctx.oriDataCtx.fillStyle = "rgb(0,200,0)";
-                } else {
-                    ctx.oriDataCtx.fillStyle = "rgb(200,0,0)";
-                }
-                ctx.oriDataCtx.arc(imagePos.x, imagePos.y, 3, 0, 2.0*Math.PI, true);
-                ctx.oriDataCtx.fill();
+                wpd.graphicsHelper.drawPoint(imagePos, fillStyle);
             }
         };
         

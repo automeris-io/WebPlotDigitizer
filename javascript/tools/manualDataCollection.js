@@ -133,8 +133,7 @@ wpd.acquireData = (function () {
 
 wpd.ManualSelectionTool = (function () {
     var Tool = function () {
-        var ctx = wpd.graphicsWidget.getAllContexts(),
-            plotData = wpd.appData.getPlotData();
+        var plotData = wpd.appData.getPlotData();
 
         this.onAttach = function () {
             document.getElementById('manual-select-button').classList.add('pressed-button');
@@ -144,18 +143,11 @@ wpd.ManualSelectionTool = (function () {
        
         this.onMouseClick = function (ev, pos, imagePos) {
             var activeDataSeries = plotData.getActiveDataSeries();
+            
             activeDataSeries.addPixel(imagePos.x, imagePos.y);
 
-            ctx.dataCtx.beginPath();
-    		ctx.dataCtx.fillStyle = "rgb(200,0,0)";
-	    	ctx.dataCtx.arc(pos.x, pos.y, 3, 0, 2.0*Math.PI, true);
-		    ctx.dataCtx.fill();
+            wpd.graphicsHelper.drawPoint(imagePos, "rgb(200,0,0)");
 
-            ctx.oriDataCtx.beginPath();
-    		ctx.oriDataCtx.fillStyle = "rgb(200,0,0)";
-	    	ctx.oriDataCtx.arc(imagePos.x, imagePos.y, 3, 0, 2.0*Math.PI, true);
-		    ctx.oriDataCtx.fill();
-            
             wpd.graphicsWidget.updateZoomOnEvent(ev);
             wpd.dataPointCounter.setCount();
         };
@@ -239,36 +231,24 @@ wpd.DataPointsRepainter = (function () {
     var Painter = function () {
 
         var drawPoints = function () {
-            var ctx = wpd.graphicsWidget.getAllContexts(),
-                 plotData = wpd.appData.getPlotData(),
-                 activeDataSeries = plotData.getActiveDataSeries(),
-                 dindex,
-                 imagePos,
-                 pos,
-                 isSelected;
+            var plotData = wpd.appData.getPlotData(),
+                activeDataSeries = plotData.getActiveDataSeries(),
+                dindex,
+                imagePos,
+                fillStyle,
+                isSelected;
 
             for(dindex = 0; dindex < activeDataSeries.getCount(); dindex++) {
                 imagePos = activeDataSeries.getPixel(dindex);
                 isSelected = activeDataSeries.getSelectedPixels().indexOf(dindex) >= 0;
-                pos = wpd.graphicsWidget.screenPx(imagePos.x, imagePos.y);
 
-                ctx.dataCtx.beginPath();
                 if(isSelected) {
-                    ctx.dataCtx.fillStyle = "rgb(0,200,0)";
+                    fillStyle = "rgb(0,200,0)";
                 } else {
-                    ctx.dataCtx.fillStyle = "rgb(200,0,0)";
+                    fillStyle = "rgb(200,0,0)";
                 }
-                ctx.dataCtx.arc(pos.x, pos.y, 3, 0, 2.0*Math.PI, true);
-                ctx.dataCtx.fill();
 
-                ctx.oriDataCtx.beginPath();
-                if(isSelected) {
-                    ctx.oriDataCtx.fillStyle = "rgb(0,200,0)";
-                } else {
-                    ctx.oriDataCtx.fillStyle = "rgb(200,0,0)";
-                }
-                ctx.oriDataCtx.arc(imagePos.x, imagePos.y, 3, 0, 2.0*Math.PI, true);
-                ctx.oriDataCtx.fill();
+                wpd.graphicsHelper.drawPoint(imagePos, fillStyle);
             }
         };
         

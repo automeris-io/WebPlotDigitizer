@@ -332,8 +332,6 @@ wpd.AxesCornersTool = (function () {
 wpd.AlignmentCornersRepainter = (function () {
     var Tool = function () {
 
-        var ctx = wpd.graphicsWidget.getAllContexts();
-
         this.painterName = 'AlignmentCornersReptainer';
 
         this.onForcedRedraw = function () {
@@ -345,35 +343,19 @@ wpd.AlignmentCornersRepainter = (function () {
             var cal = wpd.alignAxes.getActiveCalib();
             if (cal == null) { return; }
 
-            var i, pos, imagePos;
+            var i, imagePos, imagePx, fillStyle;
 
             for(i = 0; i < cal.getCount(); i++) {
                 imagePos = cal.getPoint(i);
-                pos = wpd.graphicsWidget.screenPx(imagePos.px, imagePos.py);
-                ctx.dataCtx.fillStyle = "rgba(255,255,255,0.7)";
-                ctx.dataCtx.fillRect(pos.x - 10, pos.y - 10, 20, 40); 
-                ctx.dataCtx.beginPath();
+                imagePx = { x: imagePos.px, y: imagePos.py };
+
                 if(cal.isPointSelected(i)) {
-                    ctx.dataCtx.fillStyle = "rgba(0,200,0,1)";
+                    fillStyle = "rgba(0,200,0,1)";
                 } else {
-        		    ctx.dataCtx.fillStyle = "rgba(200,0,0,1)";
-                }
-	        	ctx.dataCtx.arc(pos.x, pos.y, 3, 0, 2.0*Math.PI, true);
-		        ctx.dataCtx.fill();
-                ctx.dataCtx.font="14px sans-serif";
-                ctx.dataCtx.fillText(cal.labels[i], pos.x-10, pos.y+18);
-                
-                ctx.oriDataCtx.beginPath();
-                if(cal.isPointSelected(i)) {
-                    ctx.oriDataCtx.fillStyle = "rgb(0,200,0)";
-                } else {
-        		    ctx.oriDataCtx.fillStyle = "rgb(200,0,0)";
+        		    fillStyle = "rgba(200,0,0,1)";
                 }
 
-                ctx.oriDataCtx.arc(imagePos.px, imagePos.py, 3, 0, 2.0*Math.PI, true);
-                ctx.oriDataCtx.fill();
-                ctx.oriDataCtx.font="14px sans-serif";
-                ctx.oriDataCtx.fillText(cal.labels[i], parseInt(imagePos.px-10, 10), parseInt(imagePos.py+18,10));
+                wpd.graphicsHelper.drawPoint(imagePx, fillStyle, cal.labels[i]);
             }
         };
     };
