@@ -25,7 +25,45 @@ var wpd = wpd || {};
 
 wpd.graphicsHelper = (function () {
 
+    // imagePx - relative to original image
+    // fillStyle - e.g. "rgb(200,0,0)"
+    // label - e.g. "Bar 0"
+    function drawPoint(imagePx, fillStyle, label) {
+        var screenPx = wpd.graphicsWidget.screenPx(imagePx.x, imagePx.y),
+            ctx = wpd.graphicsWidget.getAllContexts(),
+            labelWidth;
+
+        // Display Data Canvas Layer
+        if(label != null) {
+            ctx.dataCtx.font = "15px sans-serif";
+            labelWidth = ctx.dataCtx.measureText(label).width;
+            ctx.dataCtx.fillStyle = "rgba(255, 255, 255, 0.7)";
+            ctx.dataCtx.fillRect(screenPx.x - 13, screenPx.y - 8, labelWidth + 5, 35);
+            ctx.dataCtx.fillStyle = fillStyle;
+            ctx.dataCtx.fillText(label, screenPx.x - 10, screenPx.y + 18);
+        }
+
+        ctx.dataCtx.beginPath();
+        ctx.dataCtx.fillStyle = fillStyle;
+        ctx.dataCtx.arc(screenPx.x, screenPx.y, 3, 0, 2.0*Math.PI, true);
+        ctx.dataCtx.fill();
+
+        // Original Image Data Canvas Layer
+        if(label != null) {
+            // No translucent bacground for text here.
+            ctx.oriDataCtx.font = "15px sans-serif";
+            ctx.oriDataCtx.fillStyle = fillStyle;
+            ctx.oriDataCtx.fillText(label, imagePx.x - 10, imagePx.y + 18);
+        }
+
+        ctx.oriDataCtx.beginPath();
+        ctx.oriDataCtx.fillStyle = fillStyle;
+        ctx.oriDataCtx.arc(imagePx.x, imagePx.y, 3, 0, 2.0*Math.PI, true);
+        ctx.oriDataCtx.fill();
+    }
+
     return {
+        drawPoint : drawPoint
     };
 
 })();
