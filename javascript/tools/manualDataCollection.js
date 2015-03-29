@@ -142,11 +142,27 @@ wpd.ManualSelectionTool = (function () {
 
        
         this.onMouseClick = function (ev, pos, imagePos) {
-            var activeDataSeries = plotData.getActiveDataSeries();
+            var activeDataSeries = plotData.getActiveDataSeries(),
+                pointLabel,
+                mkeys;
             
-            activeDataSeries.addPixel(imagePos.x, imagePos.y);
+            if(plotData.axes.dataPointsHaveLabels) { // e.g. Bar charts
 
-            wpd.graphicsHelper.drawPoint(imagePos, "rgb(200,0,0)");
+                // This isn't the cleanest approach, but should do for now:
+                mkeys = activeDataSeries.getMetadataKeys();
+                if(mkeys == null || mkeys[0] !== 'Label') {
+                    activeDataSeries.setMetadataKeys(['Label']);
+                }
+                pointLabel = plotData.axes.dataPointsLabelPrefix + activeDataSeries.getCount();
+                activeDataSeries.addPixel(imagePos.x, imagePos.y, [pointLabel]);
+                wpd.graphicsHelper.drawPoint(imagePos, "rgb(200,0,0)", pointLabel);
+
+            } else {
+
+                activeDataSeries.addPixel(imagePos.x, imagePos.y);
+                wpd.graphicsHelper.drawPoint(imagePos, "rgb(200,0,0)");
+
+            }
 
             wpd.graphicsWidget.updateZoomOnEvent(ev);
             wpd.dataPointCounter.setCount();
@@ -236,7 +252,14 @@ wpd.DataPointsRepainter = (function () {
                 dindex,
                 imagePos,
                 fillStyle,
-                isSelected;
+                isSelected,
+                mkeys = activeDataSeries.getMetadataKeys(),
+                hasLabels = false,
+                pointLabel;
+
+            if(plotData.axes.dataPointsHaveLabels && mkeys != null && mkeys[0] === 'Label') {
+                hasLabels = true;
+            }
 
             for(dindex = 0; dindex < activeDataSeries.getCount(); dindex++) {
                 imagePos = activeDataSeries.getPixel(dindex);
@@ -248,7 +271,15 @@ wpd.DataPointsRepainter = (function () {
                     fillStyle = "rgb(200,0,0)";
                 }
 
-                wpd.graphicsHelper.drawPoint(imagePos, fillStyle);
+                if (hasLabels) {
+                    pointLabel = imagePos.metadata[0];
+                    if(pointLabel == null) {
+                        pointLabel = plotData.axes.dataPointsLabelPrefix + dindex;
+                    }
+                    wpd.graphicsHelper.drawPoint(imagePos, fillStyle, pointLabel);
+                } else {
+                    wpd.graphicsHelper.drawPoint(imagePos, fillStyle);
+                }
             }
         };
         

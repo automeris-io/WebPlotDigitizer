@@ -50,7 +50,7 @@ wpd.graphicsHelper = (function () {
 
         // Original Image Data Canvas Layer
         if(label != null) {
-            // No translucent bacground for text here.
+            // No translucent background for text here.
             ctx.oriDataCtx.font = "15px sans-serif";
             ctx.oriDataCtx.fillStyle = fillStyle;
             ctx.oriDataCtx.fillText(label, imagePx.x - 10, imagePx.y + 18);
