@@ -6858,7 +6858,7 @@ wpd.DataPointsRepainter = (function () {
                     if(pointLabel == null) {
                         pointLabel = plotData.axes.dataPointsLabelPrefix + dindex;
                     }
-                    wpd.graphcisHelper.drawPoint(imagePos, fillStyle, pointLabel);
+                    wpd.graphicsHelper.drawPoint(imagePos, fillStyle, pointLabel);
                 } else {
                     wpd.graphicsHelper.drawPoint(imagePos, fillStyle);
                 }
@@ -7729,10 +7729,26 @@ wpd.MeasurementRepainter = (function () {
             },
 
             drawLabel = function(sx, sy, ix, iy, lab) {
+                var labelWidth;
+                
+                sx = parseInt(sx, 10);
+                sy = parseInt(sy, 10);
+                ix = parseInt(ix, 10);
+                iy = parseInt(iy, 10);
+
                 ctx.dataCtx.font="14px sans-serif";
-                ctx.dataCtx.fillText(lab, parseInt(sx,10), parseInt(sy,10));
+                labelWidth = ctx.dataCtx.measureText(lab).width;
+                ctx.dataCtx.fillStyle = "rgba(255, 255, 255, 0.7)";
+                ctx.dataCtx.fillRect(sx - 5, sy - 15, labelWidth + 10, 25);
+                ctx.dataCtx.fillStyle = "rgb(200, 0, 0)";
+                ctx.dataCtx.fillText(lab, sx, sy);
+
                 ctx.oriDataCtx.font="14px sans-serif";
-                ctx.oriDataCtx.fillText(lab, parseInt(ix,10), parseInt(iy,10));
+                labelWidth = ctx.oriDataCtx.measureText(lab).width;
+                ctx.oriDataCtx.fillStyle = "rgba(255, 255, 255, 0.7)";
+                ctx.oriDataCtx.fillRect(ix - 5, iy - 15, labelWidth + 10, 25);
+                ctx.oriDataCtx.fillStyle = "rgb(200, 0, 0)";
+                ctx.oriDataCtx.fillText(lab, ix, iy);
             },
             
             drawDistances = function () {
