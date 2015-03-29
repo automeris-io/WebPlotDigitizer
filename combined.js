@@ -3817,7 +3817,8 @@ wpd.graphicsWidget = (function () {
             idata, ddata,
             ixmin, iymin, ixmax, iymax,
             zxmin = 0, zymin = 0, zxmax = zsize.width, zymax = zsize.height,
-            xcorr, ycorr;
+            xcorr, ycorr,
+            alpha;
 
         iw = zsize.width/zratio;
         ih = zsize.height/zratio;
@@ -3855,9 +3856,10 @@ wpd.graphicsWidget = (function () {
 
         for(var index = 0; index < ddata.data.length; index+=4) {
             if(ddata.data[index] != 0 || ddata.data[index+1] !=0 || ddata.data[index+2] != 0) {
-                idata.data[index] = ddata.data[index];
-                idata.data[index+1] = ddata.data[index+1];
-                idata.data[index+2] = ddata.data[index+2];
+                alpha = ddata.data[index+3]/255;
+                idata.data[index] = (1-alpha)*idata.data[index] + alpha*ddata.data[index];
+                idata.data[index+1] = (1-alpha)*idata.data[index+1] + alpha*ddata.data[index+1];
+                idata.data[index+2] = (1-alpha)*idata.data[index+2] + alpha*ddata.data[index+2];
             }
         }
 
