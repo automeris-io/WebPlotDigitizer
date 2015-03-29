@@ -95,6 +95,10 @@ wpd.BarAxes = (function () {
                 dataToPixel: ['', '']
             };
         };
+
+        this.dataPointsHaveLabels = true;
+
+        this.dataPointsLabelPrefix = 'Bar';
     };
 
     AxesObj.prototype.numCalibrationPointsRequired = function () {
