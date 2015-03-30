@@ -150,6 +150,7 @@ wpd.AddMeasurementTool = (function () {
                     }
                     wpd.graphicsWidget.forceHandlerRepaint();
                     wpd.graphicsWidget.setTool(new wpd.AdjustMeasurementTool(mode));
+                    return;
                 }
 
                 if(pointsCaptured > 1) {
