@@ -27,7 +27,7 @@ wpd.autoExtraction = (function () {
         wpd.sidebar.show('auto-extraction-sidebar');
         updateDatasetControl();
         wpd.colorPicker.init();
-        changeAlgorithm();
+        wpd.algoManager.updateAlgoList();
     }
 
     function updateDatasetControl() {
@@ -51,36 +51,74 @@ wpd.autoExtraction = (function () {
         wpd.graphicsWidget.forceHandlerRepaint();
         wpd.dataPointCounter.setCount();
     }
+          
+    return {
+        start: start,
+        updateDatasetControl: updateDatasetControl,
+        changeDataset: changeDataset
+    };
+})();
 
-    function changeAlgorithm() {
-        var autoDetector = wpd.appData.getPlotData().getAutoDetector(),
-            algoName = document.getElementById('auto-extract-algo-name').value;
 
-        if(algoName === "averagingWindow") {
-            autoDetector.algorithm = new wpd.AveragingWindowAlgo();
-        } else if (algoName === 'XStep' || algoName === 'XStepWithInterpolation') {
+// Manage auto extract algorithms
+wpd.algoManager = (function() {
 
-            var axes = wpd.appData.getPlotData().axes;
+    var axesPtr;
 
-            if (axes instanceof wpd.XYAxes && axes.isLogX() === false && axes.isLogY() === false) {
-                if (algoName === 'XStep') {
-                    autoDetector.algorithm = new wpd.AveragingWindowWithStepSizeAlgo();
-                } else if (algoName === 'XStepWithInterpolation') {
-                    autoDetector.algorithm = new wpd.XStepWithInterpolationAlgo();
-                }
-            } else {
-                wpd.messagePopup.show('Not supported!', 'This algorithm is only supported for non log scale XY plots.');
-                document.getElementById('auto-extract-algo-name').value = 'averagingWindow';
-                autoDetector.algorithm = new wpd.AveragingWindowAlgo();
-            }
-        } else if (algoName === 'blobDetector') {
-            autoDetector.algorithm = new wpd.BlobDetectorAlgo();
+    function updateAlgoList() {
+        
+        var innerHTML = '',
+            axes = wpd.appData.getPlotData().axes,
+            $algoOptions = document.getElementById('auto-extract-algo-name');
+
+        if(axes === axesPtr) {
+            return; // don't re-render if already done for this axes object.
+        } else {
+            axesPtr = axes;
         }
 
-        displayAlgoParameters(autoDetector.algorithm);
+        // Averaging Window
+        if(!(axes instanceof wpd.BarAxes)) {
+            innerHTML += '<option value="averagingWindow">Averaging Window</option>';
+        }
+
+        // X Step w/ Interpolation and X Step
+        if((axes instanceof wpd.XYAxes) && (!axes.isLogX()) && (!axes.isLogY())) {
+            innerHTML += '<option value="XStepWithInterpolation">X Step w/ Interpolation</option>';
+            innerHTML += '<option value="XStep">X Step</option>';
+        }
+
+        // Blob Detector
+        if(!(axes instanceof wpd.BarAxes)) {
+            innerHTML += '<option value="blobDetector">Blob Detector</option>';
+        }
+
+        $algoOptions.innerHTML = innerHTML;
+
+        applyAlgoSelection();
     }
 
-    function displayAlgoParameters(algo) {
+    function applyAlgoSelection() {
+        var $algoOptions = document.getElementById('auto-extract-algo-name'),
+            selectedValue = $algoOptions.value,
+            autoDetector = wpd.appData.getPlotData().getAutoDetector();
+
+        if (selectedValue === 'averagingWindow') {
+            autoDetector.algorithm = new wpd.AveragingWindowAlgo();
+        } else if (selectedValue === 'XStepWithInterpolation') {
+            autoDetector.algorithm = new wpd.XStepWithInterpolationAlgo();
+        } else if (selectedValue === 'XStep') {
+            autoDetector.algorithm = new wpd.AveragingWindowWithStepSizeAlgo();
+        } else if (selectedValue === 'blobDetector') {
+            autoDetector.algorithm = new wpd.BlobDetectorAlgo();
+        } else {
+            autoDetector.algorithm = new wpd.AveragingWindowAlgo();
+        }
+
+        renderParameters(autoDetector.algorithm);
+    }
+
+    function renderParameters(algo) {
         var $paramContainer = document.getElementById('algo-parameter-container'),
             algoParams = algo.getParamList(),
             pi,
@@ -93,11 +131,12 @@ wpd.autoExtraction = (function () {
                 '" class="algo-params" value="'+ algoParams[pi][2] + '"/></td><td>' 
                 + algoParams[pi][1] + '</td></tr>';
         }
+
         tableString += "</table>";
         $paramContainer.innerHTML = tableString;
     }
 
-    function runAlgo() {
+    function run() {
         wpd.busyNote.show();
         var fn = function () {
             var autoDetector = wpd.appData.getPlotData().getAutoDetector(),
@@ -128,15 +167,12 @@ wpd.autoExtraction = (function () {
         }
         setTimeout(fn, 10); // This is required for the busy note to work!
     }
-  
+
     return {
-        start: start,
-        changeAlgorithm: changeAlgorithm,
-        runAlgo: runAlgo,
-        updateDatasetControl: updateDatasetControl,
-        changeDataset: changeDataset
+        updateAlgoList: updateAlgoList,
+        applyAlgoSelection: applyAlgoSelection,
+        run: run
     };
 })();
-
 
 
