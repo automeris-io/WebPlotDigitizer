@@ -93,6 +93,11 @@ wpd.algoManager = (function() {
             innerHTML += '<option value="blobDetector">Blob Detector</option>';
         }
 
+        // Bar Extraction
+        if(axes instanceof wpd.BarAxes) {
+            innerHTML += '<option value="barExtraction">Bar Extraction</option>';
+        }
+
         $algoOptions.innerHTML = innerHTML;
 
         applyAlgoSelection();
@@ -111,6 +116,8 @@ wpd.algoManager = (function() {
             autoDetector.algorithm = new wpd.AveragingWindowWithStepSizeAlgo();
         } else if (selectedValue === 'blobDetector') {
             autoDetector.algorithm = new wpd.BlobDetectorAlgo();
+        } else if (selectedValue === 'barExtraction') {
+            autoDetector.algorithm = new wpd.BarExtractionAlgo();
         } else {
             autoDetector.algorithm = new wpd.AveragingWindowAlgo();
         }
