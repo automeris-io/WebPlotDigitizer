@@ -282,24 +282,12 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
 <input type="button" value="Filter Colors" onclick="wpd.colorPicker.testColorDetection();" style="width: 90px;"></p>
 <hr/>
 <p>Algorithm
-<select id="auto-extract-algo-name" onchange="wpd.autoExtraction.changeAlgorithm();">
-    <optgroup label="Generic">
-        <option value="averagingWindow">Averaging Window</option>
-        <option value="XStepWithInterpolation">X Step w/ Interp.</option>
-        <option value="XStep">X Step</option>
-    </optgroup>
-    <optgroup label="Blobs">
-        <option value="blobDetector">Blob Detector</option>
-    </optgroup>
-    <optgroup label="Histograms">
-        <option value="histogramExtractor" disabled>Bar Extraction</option>
-  </optgroup>
-</select>
+<select id="auto-extract-algo-name" onchange="wpd.algoManager.applyAlgoSelection();"></select>
 </p>
 <div id="algo-parameter-container" style="margin-left: 10px; margin-top: 5px;"></div>
 <div class="vertical-spacer"></div>
 <p style="margin-left: 10px;margin-top: 5px;">
-    <input type="button" value="Run" style="width:50px;" onclick="wpd.autoExtraction.runAlgo();"/>
+    <input type="button" value="Run" style="width:50px;" onclick="wpd.algoManager.run();"/>
     <input type="button" value="Clear Points" style="width:80px;" onclick="wpd.acquireData.clearAll();"/>
     <input type="button" value="View Data" style="width:80px;" onclick="wpd.dataTable.showTable();"/>
 </p>
