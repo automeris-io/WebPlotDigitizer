@@ -25,7 +25,7 @@
 /* Generic Menus */
 
 .wpd-menu {
-    font-size: 13px;
+    font-size: 14px;
 	display: inline-block;
 	position: relative;
 	cursor: default;
@@ -63,11 +63,11 @@
     padding: 1px;
 	margin: 0px;
 	white-space: nowrap;
-	border: thin #dddddd solid;
+	border: thin #ccc solid;
 }
 
 .wpd-menu-dropdown > ul > li {
-	padding: 3px 5px 3px 5px;
+	padding: 3px 8px 3px 8px;
 }
 
 .wpd-disabled-menu-item {
@@ -80,7 +80,7 @@ textarea { resize: none; }
 input[type="button"] {
 	font-family: Verdana,sans-serif;
     padding: 2px 3px 2px 3px;	
-	font-size: 12px;
+	font-size: 13px;
 	font-weight:500;
 	color:black;
 	background: #f1f1f1;
@@ -120,7 +120,7 @@ input[type="checkbox"] {
 
 input[type="text"] {
 	font-family: Verdana, Sans Serif;
-	font-size: 12px;
+	font-size: 13px;
 	background: white;
 	border: thin #aaaaaa solid;
 	height:15px;

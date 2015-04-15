@@ -32,7 +32,7 @@ body {
 	padding: 0;
 	width: 100%;
 	height:100%;
-	font: 13px/20px Verdana, sans-serif; 
+	font: 14px/20px Verdana, sans-serif; 
 	background: white;
     overflow: hidden;
 }
@@ -129,7 +129,7 @@ tr,td {
 
 select {
 	height: 20px;
-	font-size:12px;
+	font-size:13px;
 	font-family: Verdana, Sans Serif;
 	border: thin grey solid;
 }
@@ -154,7 +154,7 @@ select {
 .toolbar p { padding:0; margin:0; }
 
 .popupheading {
-    font-size:13px;
+    font-size:14px;
     text-align: left;
     cursor: move;
     background-color: gold;
@@ -199,11 +199,11 @@ select {
 	background:white;
 	width:250px;
 	display: none;
-	font-size:12px;
+	font-size:13px;
     overflow: auto;
 }
 
-.sidebar p { padding: 0; margin: 1px 1px; font-size:12px;}
+.sidebar p { padding: 0; margin: 1px 1px; font-size:13px;}
 
 .footnote {font-size: 10px;}
 

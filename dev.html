@@ -201,10 +201,10 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
             </div>
 
              <div style="display:inline-block; position: absolute; top: 4px; right: 290px;" >
-                <input type="button" value="+" onclick="wpd.graphicsWidget.zoomIn();" style="border:none;"/>
-                <input type="button" value="-" onclick="wpd.graphicsWidget.zoomOut();" style="border: none;"/>
-                <input type="button" value="100%" onclick="wpd.graphicsWidget.zoom100perc();" style="border: none;"/>
-                <input type="button" value="Fit" onclick="wpd.graphicsWidget.zoomFit();" style="border: none;"/>
+                <input type="button" title="Zoom in" value="+" onclick="wpd.graphicsWidget.zoomIn();" style="width:20px;"/>
+                <input type="button" title="Zoom out" value="-" onclick="wpd.graphicsWidget.zoomOut();" style="width:20px;"/>
+                <input type="button" title="View actual size" value="100%" onclick="wpd.graphicsWidget.zoom100perc();"/>
+                <input type="button" title="Fit to graphics area" value="Fit" onclick="wpd.graphicsWidget.zoomFit();"/>
             </div>
 
         </div>
@@ -232,7 +232,7 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
             </div>
         </div>
 
-        <div id="zoom-settings-container"><input type="button" id="zoom-settings-button" value="⚙" onclick="wpd.zoomView.showSettingsWindow();"/></div>
+        <div id="zoom-settings-container"><input type="button" id="zoom-settings-button" title="Change zoom settings" value="⚙" onclick="wpd.zoomView.showSettingsWindow();"/></div>
         
         <div style="position:relative;" id="sidebarControlsContainer">
             <!-- side bars go here -->
@@ -250,13 +250,13 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
 <p>Dataset <select id="manual-sidebar-dataset-list" onchange="wpd.acquireData.changeDataset(this);" style="width:160px;"></select></p>
 <hr/>
 <p>
-    <input type="button" value="Add Point (A)" onclick="wpd.acquireData.manualSelection();" style="width:110px;" id="manual-select-button">
-    <input type="button" value="Adjust Point (S)" onClick="wpd.acquireData.adjustPoints();" style="width: 110px;" id="manual-adjust-button">
+    <input type="button" value="Add Point (A)" onclick="wpd.acquireData.manualSelection();" style="width:115px;" id="manual-select-button">
+    <input type="button" value="Adjust Point (S)" onClick="wpd.acquireData.adjustPoints();" style="width: 115px;" id="manual-adjust-button">
 <p>
-    <input type="button" value="Delete Point (D)" onclick="wpd.acquireData.deletePoint();" style="width: 110px;" id="delete-point-button">
-    <input id="clearAllBtn" type="button" value="Clear Points" onCLick="wpd.acquireData.clearAll();" style="width: 110px;"></p>
+    <input type="button" value="Delete Point (D)" onclick="wpd.acquireData.deletePoint();" style="width: 115px;" id="delete-point-button">
+    <input id="clearAllBtn" type="button" value="Clear Points" onCLick="wpd.acquireData.clearAll();" style="width: 115px;"></p>
 <div class="vertical-spacer"></div>
-<p><input type="button" value="View Data" id="saveBtn" onclick="wpd.dataTable.showTable();" style="width:110px;"></p>
+<p><input type="button" value="View Data" id="saveBtn" onclick="wpd.dataTable.showTable();" style="width:115px;"></p>
 <div class="vertical-spacer"></div>
 <p>Data Points: <span class="data-point-counter">0</span></p>
 </div>
@@ -289,7 +289,7 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
 <div class="vertical-spacer"></div>
 <p style="margin-left: 10px;margin-top: 5px;">
     <input type="button" value="Run" style="width:50px;" onclick="wpd.algoManager.run();"/>
-    <input type="button" value="Clear Points" style="width:80px;" onclick="wpd.acquireData.clearAll();"/>
+    <input type="button" value="Clear Points" style="width:95px;" onclick="wpd.acquireData.clearAll();"/>
     <input type="button" value="View Data" style="width:80px;" onclick="wpd.dataTable.showTable();"/>
 </p>
 <hr/>
