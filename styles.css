@@ -32,7 +32,8 @@ body {
 	padding: 0;
 	width: 100%;
 	height:100%;
-	font: 14px/20px Verdana, sans-serif; 
+	font: 14px Verdana, sans-serif;
+    line-height: 150%; 
 	background: white;
     overflow: hidden;
 }
