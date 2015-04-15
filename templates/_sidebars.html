@@ -14,9 +14,12 @@
 <p>
     <input type="button" value="Add Point (A)" onclick="wpd.acquireData.manualSelection();" style="width:115px;" id="manual-select-button">
     <input type="button" value="Adjust Point (S)" onClick="wpd.acquireData.adjustPoints();" style="width: 115px;" id="manual-adjust-button">
+</p>
+<div class="vertical-spacer"></div>
 <p>
     <input type="button" value="Delete Point (D)" onclick="wpd.acquireData.deletePoint();" style="width: 115px;" id="delete-point-button">
-    <input id="clearAllBtn" type="button" value="Clear Points" onCLick="wpd.acquireData.clearAll();" style="width: 115px;"></p>
+    <input id="clearAllBtn" type="button" value="Clear Points" onCLick="wpd.acquireData.clearAll();" style="width: 115px;">
+</p>
 <div class="vertical-spacer"></div>
 <p><input type="button" value="View Data" id="saveBtn" onclick="wpd.dataTable.showTable();" style="width:115px;"></p>
 <div class="vertical-spacer"></div>
@@ -65,6 +68,7 @@
     <input type="button" value="Add Pair (A)" style="width: 115px;" id="add-pair-button" onclick="wpd.distanceMeasurement.addPair();"/>
     <input type="button" value="Delete Pair (D)" style="width: 115px;" id="delete-pair-button" onclick="wpd.distanceMeasurement.deletePair();"/> 
 </p>
+<div class="vertical-spacer"></div>
 <p>
     <input type="button" value="Clear All" style="width: 115px;" id="clear-all-pairs-button" onclick="wpd.distanceMeasurement.clearAll();"/>
     <input type="button" value="View Data" style="width: 115px;" id="view-measurement-data-button" onclick="wpd.dataTable.showDistanceData();"/>
@@ -78,6 +82,7 @@
     <input type="button" value="Add Angle (A)" style="width: 115px;" id="add-angle-button" onclick="wpd.angleMeasurement.addAngle();"/>
     <input type="button" value="Delete Angle (D)" style="width: 115px;" id="delete-angle-button" onclick="wpd.angleMeasurement.deleteAngle();"/>
 </p>
+<div class="vertical-spacer"></div>
 <p>
     <input type="button" value="Clear All" style="width: 115px;" onclick="wpd.angleMeasurement.clearAll();"/>
     <input type="button" value="View Data" style="width: 115px;" onclick="wpd.dataTable.showAngleData();"/>

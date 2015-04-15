@@ -123,11 +123,11 @@ input[type="text"] {
 	font-size: 13px;
 	background: white;
 	border: thin #aaaaaa solid;
-	height:15px;
+	height:17px;
 }
 
 input[type="range"] {
-	height: 15px;
+	height: 17px;
 	background: white;
 }
 
