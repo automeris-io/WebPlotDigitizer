@@ -131,6 +131,10 @@ input[type="range"] {
 	background: white;
 }
 
+input[type="file"] {
+    font-size:14px;
+}
+
 .vertical-spacer {
     height: 3px;
 }
