@@ -169,10 +169,10 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
             </div>
 
              <div style="display:inline-block; position: absolute; top: 4px; right: 290px;" >
-                <input type="button" title="Zoom in" value="+" onclick="wpd.graphicsWidget.zoomIn();" style="width:20px;"/>
-                <input type="button" title="Zoom out" value="-" onclick="wpd.graphicsWidget.zoomOut();" style="width:20px;"/>
-                <input type="button" title="View actual size" value="100%" onclick="wpd.graphicsWidget.zoom100perc();"/>
-                <input type="button" title="Fit to graphics area" value="Fit" onclick="wpd.graphicsWidget.zoomFit();"/>
+                <input type="button" title="Zoom in" value="+" onclick="wpd.graphicsWidget.zoomIn();" style="border:none; width:20px;"/>
+                <input type="button" title="Zoom out" value="-" onclick="wpd.graphicsWidget.zoomOut();" style="border:none; width:20px;"/>
+                <input type="button" title="View actual size" value="100%" onclick="wpd.graphicsWidget.zoom100perc();" style="border:none;"/>
+                <input type="button" title="Fit to graphics area" value="Fit" onclick="wpd.graphicsWidget.zoomFit();" style="border:none;"/>
             </div>
 
         </div>
@@ -268,12 +268,12 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
 <div id="measure-distances-sidebar" class="sidebar">
 <p class="sidebar-title">Measure Distances</p>
 <p>
-    <input type="button" value="Add Pair (A)" style="width: 100px;" id="add-pair-button" onclick="wpd.distanceMeasurement.addPair();"/>
-    <input type="button" value="Delete Pair (D)" style="width: 100px;" id="delete-pair-button" onclick="wpd.distanceMeasurement.deletePair();"/> 
+    <input type="button" value="Add Pair (A)" style="width: 115px;" id="add-pair-button" onclick="wpd.distanceMeasurement.addPair();"/>
+    <input type="button" value="Delete Pair (D)" style="width: 115px;" id="delete-pair-button" onclick="wpd.distanceMeasurement.deletePair();"/> 
 </p>
 <p>
-    <input type="button" value="Clear All" style="width: 100px;" id="clear-all-pairs-button" onclick="wpd.distanceMeasurement.clearAll();"/>
-    <input type="button" value="View Data" style="width: 100px;" id="view-measurement-data-button" onclick="wpd.dataTable.showDistanceData();"/>
+    <input type="button" value="Clear All" style="width: 115px;" id="clear-all-pairs-button" onclick="wpd.distanceMeasurement.clearAll();"/>
+    <input type="button" value="View Data" style="width: 115px;" id="view-measurement-data-button" onclick="wpd.dataTable.showDistanceData();"/>
 </p>
 </div>
 
@@ -281,12 +281,12 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
 <div id="measure-angles-sidebar" class="sidebar">
 <p class="sidebar-title">Measure Angles</p>
 <p>
-    <input type="button" value="Add Angle (A)" style="width: 110px;" id="add-angle-button" onclick="wpd.angleMeasurement.addAngle();"/>
-    <input type="button" value="Delete Angle (D)" style="width: 110px;" id="delete-angle-button" onclick="wpd.angleMeasurement.deleteAngle();"/>
+    <input type="button" value="Add Angle (A)" style="width: 115px;" id="add-angle-button" onclick="wpd.angleMeasurement.addAngle();"/>
+    <input type="button" value="Delete Angle (D)" style="width: 115px;" id="delete-angle-button" onclick="wpd.angleMeasurement.deleteAngle();"/>
 </p>
 <p>
-    <input type="button" value="Clear All" style="width: 110px;" onclick="wpd.angleMeasurement.clearAll();"/>
-    <input type="button" value="View Data" style="width: 110px;" onclick="wpd.dataTable.showAngleData();"/>
+    <input type="button" value="Clear All" style="width: 115px;" onclick="wpd.angleMeasurement.clearAll();"/>
+    <input type="button" value="View Data" style="width: 115px;" onclick="wpd.dataTable.showAngleData();"/>
 </p>
 </div>
 
@@ -389,7 +389,7 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
     </div>
 
     <!-- Generic Message Popup -->
-    <div id="messagePopup" class="popup" style="width: 300px;">
+    <div id="messagePopup" class="popup" style="width: 400px;">
     <div id="message-popup-heading" class="popupheading"></div>
     <p>&nbsp;</p>
     <p align="center" id="message-popup-text"></p>
@@ -624,7 +624,7 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
 	</div>
 
     <!-- About WPD -->
-	<div id="helpWindow" class="popup" style="width: 550px;">
+	<div id="helpWindow" class="popup" style="width: 600px;">
 	<div class="popupheading">WebPlotDigitizer - Web Based Plot Digitizer</div>
 	<p>&nbsp;</p>
     <p align="center">Version 3.8 (beta)</p>
