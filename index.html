@@ -220,9 +220,12 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
 <p>
     <input type="button" value="Add Point (A)" onclick="wpd.acquireData.manualSelection();" style="width:115px;" id="manual-select-button">
     <input type="button" value="Adjust Point (S)" onClick="wpd.acquireData.adjustPoints();" style="width: 115px;" id="manual-adjust-button">
+</p>
+<div class="vertical-spacer"></div>
 <p>
     <input type="button" value="Delete Point (D)" onclick="wpd.acquireData.deletePoint();" style="width: 115px;" id="delete-point-button">
-    <input id="clearAllBtn" type="button" value="Clear Points" onCLick="wpd.acquireData.clearAll();" style="width: 115px;"></p>
+    <input id="clearAllBtn" type="button" value="Clear Points" onCLick="wpd.acquireData.clearAll();" style="width: 115px;">
+</p>
 <div class="vertical-spacer"></div>
 <p><input type="button" value="View Data" id="saveBtn" onclick="wpd.dataTable.showTable();" style="width:115px;"></p>
 <div class="vertical-spacer"></div>
@@ -271,6 +274,7 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
     <input type="button" value="Add Pair (A)" style="width: 115px;" id="add-pair-button" onclick="wpd.distanceMeasurement.addPair();"/>
     <input type="button" value="Delete Pair (D)" style="width: 115px;" id="delete-pair-button" onclick="wpd.distanceMeasurement.deletePair();"/> 
 </p>
+<div class="vertical-spacer"></div>
 <p>
     <input type="button" value="Clear All" style="width: 115px;" id="clear-all-pairs-button" onclick="wpd.distanceMeasurement.clearAll();"/>
     <input type="button" value="View Data" style="width: 115px;" id="view-measurement-data-button" onclick="wpd.dataTable.showDistanceData();"/>
@@ -284,6 +288,7 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
     <input type="button" value="Add Angle (A)" style="width: 115px;" id="add-angle-button" onclick="wpd.angleMeasurement.addAngle();"/>
     <input type="button" value="Delete Angle (D)" style="width: 115px;" id="delete-angle-button" onclick="wpd.angleMeasurement.deleteAngle();"/>
 </p>
+<div class="vertical-spacer"></div>
 <p>
     <input type="button" value="Clear All" style="width: 115px;" onclick="wpd.angleMeasurement.clearAll();"/>
     <input type="button" value="View Data" style="width: 115px;" onclick="wpd.dataTable.showAngleData();"/>
@@ -398,7 +403,7 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
     </div>
 
     <!-- Generic Ok/Cancel Popup -->
-    <div id="okCancelPopup" class="popup" style="width: 300px;">
+    <div id="okCancelPopup" class="popup" style="width: 400px;">
     <div id="ok-cancel-popup-heading" class="popupheading"></div>
     <p>&nbsp;</p>
     <p align="center" id="ok-cancel-popup-text"></p>
@@ -574,7 +579,7 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
 	</div>
 
     <!-- XY Axes Calibration Instructions -->
-	<div id="xyAxesInfo" class="popup" style="width: 350px;"> 
+	<div id="xyAxesInfo" class="popup" style="width:400px;"> 
 	<div class="popupheading">Align X-Y Axes</div>
 	<p>&nbsp;</p>
 	<p align="center"><img src="images/xyaxes.png" /></p>
@@ -584,7 +589,7 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
 	</div>
 
     <!-- Bar Chart Axes Calibration Intructions -->
-    <div id="barAxesInfo" class="popup" style="width: 650px;">
+    <div id="barAxesInfo" class="popup" style="width:650px;">
     <div class="popupheading">Align Bar Chart Axes</div>
     <p>&nbsp;</p>
     <p align="center"><img src="images/barchart.png" /></p>
@@ -681,7 +686,7 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
     </div>
 
     <!-- Axes Transformation Equations -->
-    <div id="axes-transformation-equations-window" class="popup" style="width:500px;">
+    <div id="axes-transformation-equations-window" class="popup" style="width:600px;">
     <div class="popupheading">Transformation Equations</div>
     <p>The following relationships are being used to convert image pixels to data:</p>
     <div id="axes-transformation-equation-list"></div>
@@ -690,7 +695,7 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
     </div>
 
     <!-- Export JSON -->
-    <div id="export-json-window" class="popup" style="width:400px;">
+    <div id="export-json-window" class="popup" style="width:500px;">
     <div class="popupheading">Export JSON</div>
     <p>This JSON file contains the axes calibration and the digitized data points from this plot. This file can be imported later to resume work or reuse the calibration in another plot.</p>
     <p>&nbsp;</p>
@@ -701,7 +706,7 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
     </div>
 
     <!-- Import JSON -->
-    <div id="import-json-window" class="popup" style="width:400px;">
+    <div id="import-json-window" class="popup" style="width:500px;">
     <div class="popupheading">Import JSON</div>
     <p>Specify a previously exported JSON file to load here. Note that this will clear any unsaved data points in the current plot.</p>
     <p>&nbsp;</p>
