@@ -256,12 +256,22 @@ wpd.graphicsWidget = (function () {
         $hoverCanvas.width = $hoverCanvas.width;
     }
 
-    function toggleExtendedCrosshair(ev) {
-         if (ev.keyCode === 220) {
+    function toggleExtendedCrosshair(ev) { // called when backslash is hit
+        if (ev.keyCode === 220) {
             ev.preventDefault();
-            extendedCrosshair = !(extendedCrosshair);
-            $hoverCanvas.width = $hoverCanvas.width;
+            toggleExtendedCrosshairBtn(); 
         }
+    }
+
+    function toggleExtendedCrosshairBtn() { // called directly when toolbar button is hit
+        extendedCrosshair = !(extendedCrosshair);
+        var $crosshairBtn = document.getElementById('extended-crosshair-btn');
+        if(extendedCrosshair) {
+            $crosshairBtn.classList.add('pressed-button');
+        } else {
+            $crosshairBtn.classList.remove('pressed-button');
+        }
+        $hoverCanvas.width = $hoverCanvas.width;
     }
 
     function hoverOverCanvas(ev) {
@@ -664,6 +674,7 @@ wpd.graphicsWidget = (function () {
         zoomOut: zoomOut,
         zoomFit: zoomFit,
         zoom100perc: zoom100perc,
+        toggleExtendedCrosshairBtn: toggleExtendedCrosshairBtn,
         setZoomRatio: setZoomRatio,
         getZoomRatio: getZoomRatio,
 
