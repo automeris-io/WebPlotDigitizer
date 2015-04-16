@@ -51,6 +51,12 @@ wpd.keyCodes = (function () {
                 return false;
             }
             return String.fromCharCode(code).toLowerCase() === alpha;
+        },
+        isEnter: function(code) {
+            return code === 13;
+        },
+        isEsc: function(code) {
+            return code === 27;
         }
     };
 })();

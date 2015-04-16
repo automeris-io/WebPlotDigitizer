@@ -736,5 +736,17 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
     <p align="center"><input type="button" value="Close" onclick="wpd.popup.close('adjust-data-points-keyboard-shortcuts-window');"/></p>
     </div>
 
+    <!-- Data point label editor -->
+    <div id="data-point-label-editor" class="popup" style="width:280px;">
+    <div class="popupheading">Edit Label</div>
+    <p>&nbsp;</p>
+    <p align="center">Label: <input type="text" value="Data Point" id="data-point-label-field" onkeydown="wpd.dataPointLabelEditor.keydown(event);"/></p>
+    <p>&nbsp;</p>
+    <p align="center">
+        <input type="button" value="OK" onclick="wpd.dataPointLabelEditor.ok();"/>
+        <input type="button" value="Cancel" onclick="wpd.dataPointLabelEditor.cancel();"/>
+    </p>
+    </div>
+
 </body>
 </html>
