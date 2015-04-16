@@ -6900,15 +6900,18 @@ wpd.acquireData = (function () {
 
 wpd.dataPointLabelEditor = (function() {
 
-    var ds, ptIndex;
+    var ds, ptIndex, tool;
     
-    function show(dataSeries, pointIndex) {
+    function show(dataSeries, pointIndex, initTool) {
         var pixel = dataSeries.getPixel(pointIndex),
             originalLabel = pixel.metadata[0],
             $labelField;
         
         ds = dataSeries;
         ptIndex = pointIndex;
+        tool = initTool;
+
+        wpd.graphicsWidget.removeTool();
 
         // show popup window with originalLabel in the input field.
         wpd.popup.show('data-point-label-editor');
@@ -6929,11 +6932,13 @@ wpd.dataPointLabelEditor = (function() {
         }
 
         wpd.popup.close('data-point-label-editor');
+        wpd.graphicsWidget.setTool(tool);
     }
 
     function cancel() {
         // just close the popup
         wpd.popup.close('data-point-label-editor');
+        wpd.graphicsWidget.setTool(tool);
     }
 
     function keydown(ev) {
@@ -6993,7 +6998,7 @@ wpd.ManualSelectionTool = (function () {
             // If shiftkey was pressed while clicking on a point that has a label (e.g. bar charts),
             // then show a popup to edit the label
             if(plotData.axes.dataPointsHaveLabels && ev.shiftKey) {
-                wpd.dataPointLabelEditor.show(activeDataSeries, activeDataSeries.getCount() - 1);
+                wpd.dataPointLabelEditor.show(activeDataSeries, activeDataSeries.getCount() - 1, this);
             }
         };
 
@@ -7197,6 +7202,14 @@ wpd.AdjustDataPointTool = (function () {
                 selPoint = activeDataSeries.getPixel(selIndex);
                 pointPx = selPoint.x;
                 pointPy = selPoint.y;
+            } else if(wpd.keyCodes.isAlphabet(ev.keyCode, 'e')) {
+                if(wpd.appData.getPlotData().axes.dataPointsHaveLabels) {
+                    selIndex = activeDataSeries.getSelectedPixels()[0];
+                    ev.preventDefault();
+                    ev.stopPropagation();
+                    wpd.dataPointLabelEditor.show(activeDataSeries, selIndex, this);
+                    return;
+                }
             } else if(wpd.keyCodes.isDel(ev.keyCode) || wpd.keyCodes.isBackspace(ev.keyCode)) {
                 activeDataSeries.removePixelAtIndex(selIndex);
                 activeDataSeries.unselectAll();
