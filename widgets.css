@@ -77,32 +77,32 @@
 
 textarea { resize: none; }
 
-input[type="button"] {
+input[type="button"], button {
 	font-family: Verdana,sans-serif;
     padding: 2px 3px 2px 3px;	
 	font-size: 13px;
 	font-weight:500;
 	color:black;
-	background: #f1f1f1;
+	background-color: #f1f1f1;
 	border: thin #bbbbbb solid;
 	height:22px;
     margin: 0px;
 }
 
-input[type="button"]:hover {
+input[type="button"]:hover, button:hover {
     background-color: #FFD8C7;
 	border: thin black solid;
 }
 
-input[type="button"]:active {
+input[type="button"]:active, button:active {
 	background-color: #FF9466;
 }
 
-input[type="button"].pressed-button {
+input[type="button"].pressed-button, button.pressed-button {
 	background-color: #FF9466;
 }
 
-input[type="button"]:focus {
+input[type="button"]:focus, button:focus {
     outline-width: 0;
 }
 

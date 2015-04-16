@@ -200,11 +200,12 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
                 </div>
             </div>
 
-             <div style="display:inline-block; position: absolute; top: 4px; right: 290px;" >
-                <input type="button" title="Zoom in" value="+" onclick="wpd.graphicsWidget.zoomIn();" style="border:none; width:20px;"/>
-                <input type="button" title="Zoom out" value="-" onclick="wpd.graphicsWidget.zoomOut();" style="border:none; width:20px;"/>
-                <input type="button" title="View actual size" value="100%" onclick="wpd.graphicsWidget.zoom100perc();" style="border:none;"/>
-                <input type="button" title="Fit to graphics area" value="Fit" onclick="wpd.graphicsWidget.zoomFit();" style="border:none;"/>
+             <div style="display:inline-block; position: absolute; top: 5px; right: 290px;" >
+                <button type="button" title="Zoom in" onclick="wpd.graphicsWidget.zoomIn();" style="border:none; width:20px;">+</button>
+                <button type="button" title="Zoom out" onclick="wpd.graphicsWidget.zoomOut();" style="border:none; width:20px;">-</button>
+                <button type="button" title="View actual size" onclick="wpd.graphicsWidget.zoom100perc();" style="border:none;">100%</button>
+                <button type="button" title="Fit to graphics area" onclick="wpd.graphicsWidget.zoomFit();" style="border:none;">Fit</button>
+                <button title="Toggle extended crosshair" onclick="wpd.graphicsWidget.toggleExtendedCrosshairBtn();" style="border:none; width:20px; background-image: url('images/crosshair.png'); background-repeat: no-repeat; background-position: center;" id="extended-crosshair-btn">&nbsp;</button>
             </div>
 
         </div>
