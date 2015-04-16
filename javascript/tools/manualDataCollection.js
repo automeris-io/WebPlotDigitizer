@@ -130,6 +130,61 @@ wpd.acquireData = (function () {
     };
 })();
 
+wpd.dataPointLabelEditor = (function() {
+
+    var ds, ptIndex;
+    
+    function show(dataSeries, pointIndex) {
+        var pixel = dataSeries.getPixel(pointIndex),
+            originalLabel = pixel.metadata[0],
+            $labelField;
+        
+        ds = dataSeries;
+        ptIndex = pointIndex;
+
+        // show popup window with originalLabel in the input field.
+        wpd.popup.show('data-point-label-editor');
+        $labelField = document.getElementById('data-point-label-field');
+        $labelField.value = originalLabel;
+        $labelField.focus();
+    }
+
+    function ok() {
+        var newLabel = document.getElementById('data-point-label-field').value;
+
+        if(newLabel != null && newLabel.length > 0) {
+            // set label 
+            ds.setMetadataAt(ptIndex, [newLabel]);
+            // refresh graphics
+            wpd.graphicsWidget.resetData();
+            wpd.graphicsWidget.forceHandlerRepaint();
+        }
+
+        wpd.popup.close('data-point-label-editor');
+    }
+
+    function cancel() {
+        // just close the popup
+        wpd.popup.close('data-point-label-editor');
+    }
+
+    function keydown(ev) {
+        console.log(ev);
+        if(wpd.keyCodes.isEnter(ev.keyCode)) {
+            ok();
+        } else if(wpd.keyCodes.isEsc(ev.keyCode)) {
+            cancel();
+        }
+        ev.stopPropagation();
+    }
+
+    return {
+        show: show,
+        ok: ok,
+        cancel: cancel,
+        keydown: keydown
+    };
+})();
 
 wpd.ManualSelectionTool = (function () {
     var Tool = function () {
@@ -166,6 +221,12 @@ wpd.ManualSelectionTool = (function () {
 
             wpd.graphicsWidget.updateZoomOnEvent(ev);
             wpd.dataPointCounter.setCount();
+
+            // If shiftkey was pressed while clicking on a point that has a label (e.g. bar charts),
+            // then show a popup to edit the label
+            if(plotData.axes.dataPointsHaveLabels && ev.shiftKey) {
+                wpd.dataPointLabelEditor.show(activeDataSeries, activeDataSeries.getCount() - 1);
+            }
         };
 
         this.onRemove = function () {
