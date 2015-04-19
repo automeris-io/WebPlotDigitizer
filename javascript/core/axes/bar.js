@@ -31,7 +31,8 @@ wpd.BarAxes = (function () {
         // is different.
         var isCalibrated = false,
             isLogScale = false,
-            x1, y1, x2, y2, p1, p2;
+            x1, y1, x2, y2, p1, p2,
+            orientation;
 
         this.isCalibrated = function () {
             return isCalibrated;
@@ -56,6 +57,8 @@ wpd.BarAxes = (function () {
             } else {
                 isLogScale = false;
             }
+
+            orientation = this.calculateOrientation();
 
             isCalibrated = true;
             return true;
@@ -99,6 +102,38 @@ wpd.BarAxes = (function () {
         this.dataPointsHaveLabels = true;
 
         this.dataPointsLabelPrefix = 'Bar';
+
+        this.calculateOrientation = function () { // Used by auto-extract algo to switch orientation.
+        
+            var orientationAngle = wpd.taninverse(-(y2-y1), x2-x1)*180/Math.PI,
+                orientation = {
+                    axes: 'Y',
+                    direction: 'increasing',
+                    angle: orientationAngle
+                },
+                tol = 30; // degrees.
+            
+            if(Math.abs(orientationAngle - 90) < tol) {
+                orientation.axes = 'Y';
+                orientation.direction = 'increasing';
+            } else if(Math.abs(orientationAngle - 270) < tol) {
+                orientation.axes = 'Y';
+                orientation.direction = 'decreasing';
+            } else if(Math.abs(orientationAngle - 0) < tol || Math.abs(orientationAngle - 360) < tol) {
+                orientation.axes = 'X';
+                orientation.direction = 'increasing';
+            } else if(Math.abs(orientationAngle - 180) < tol) {
+                orientation.axes = 'X';
+                orientation.direction = 'decreasing';
+            }
+
+            return orientation;
+
+        };
+
+        this.getOrientation = function() {
+            return orientation;
+        };
     };
 
     AxesObj.prototype.numCalibrationPointsRequired = function () {

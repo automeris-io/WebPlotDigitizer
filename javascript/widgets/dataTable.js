@@ -48,6 +48,7 @@ wpd.dataTable = (function () {
     }
 
     function show() {
+        wpd.graphicsWidget.removeTool();
         wpd.popup.show('csvWindow');
         refresh();
     }
