@@ -174,7 +174,6 @@ wpd.dataPointLabelEditor = (function() {
     }
 
     function keydown(ev) {
-        console.log(ev);
         if(wpd.keyCodes.isEnter(ev.keyCode)) {
             ok();
         } else if(wpd.keyCodes.isEsc(ev.keyCode)) {

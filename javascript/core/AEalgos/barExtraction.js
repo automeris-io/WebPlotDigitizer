@@ -55,7 +55,14 @@ wpd.BarExtractionAlgo = function() {
     var delX, delVal;
     
     this.getParamList = function() {
-        return [['ΔX', 'Px', 10], ['ΔVal', 'Px', 10]];
+        var axes = wpd.appData.getPlotData().axes,
+            orientationAxes = axes.getOrientation().axes;
+
+        if(orientationAxes === 'Y') {
+            return [['ΔX', 'Px', 10], ['ΔVal', 'Px', 10]];
+        } else {
+            return [['ΔY', 'Px', 10], ['ΔVal', 'Px', 10]];
+        }
     };
 
     this.setParam = function (index, val) {
@@ -69,6 +76,7 @@ wpd.BarExtractionAlgo = function() {
     this.run = function(plotData) {
         var autoDetector = plotData.getAutoDetector(),
             dataSeries = plotData.getActiveDataSeries(),
+            orientation = plotData.axes.getOrientation(),
             barValueColl = [],
             px, py,
             width = autoDetector.imageWidth,
@@ -78,33 +86,78 @@ wpd.BarExtractionAlgo = function() {
             bv,
             dataVal,
             pxVal,
-            mkeys;
-
-        dataSeries.clearAll();
-
-        // Initial attempt: assume vertical and linear scale:
-        for (px = 0; px < width; px++) {
-            for(py = 0; py < height; py++) {
-                if(autoDetector.binaryData[py*width + px]) {
+            mkeys,
+            
+            detectData = function (pix_x, pix_y, dir) {
+                if(autoDetector.binaryData[pix_y*width + pix_x]) {
 
                     pixelAdded = false;
                     barValuei = 0;
-                    dataVal = [px, py];
+                    dataVal = [pix_x, pix_y];
                     
                     for(barValuei = 0; barValuei < barValueColl.length; barValuei++) {
                         bv = barValueColl[barValuei];
-                        if(bv.isPointInGroup(dataVal[0], dataVal[1], delX, delVal)) {
-                            bv.append(dataVal[0], dataVal[1]);
-                            pixelAdded = true;
-                            break;
+                        if(dir === 'Y') {
+                            if(bv.isPointInGroup(dataVal[0], dataVal[1], delX, delVal)) {
+                                bv.append(dataVal[0], dataVal[1]);
+                                pixelAdded = true;
+                                break;
+                            }
+                        } else { // X
+                            if(bv.isPointInGroup(dataVal[1], dataVal[0], delX, delVal)) {
+                                bv.append(dataVal[1], dataVal[0]);
+                                pixelAdded = true;
+                                break;
+                            }
                         }
                     }
                     if(!pixelAdded) {
                         barValueColl.push(new wpd.BarValue())
-                        barValueColl[barValueColl.length-1].append(dataVal[0], dataVal[1]);
+                        if(dir === 'Y') {
+                            barValueColl[barValueColl.length-1].append(dataVal[0], dataVal[1]);
+                        } else {
+                            barValueColl[barValueColl.length-1].append(dataVal[1], dataVal[0]);
+                        }
                         pixelAdded = true;
                     }
-                    break;
+                    return true;
+                }
+                return false;
+            };
+
+        dataSeries.clearAll();
+
+        // Switch directions based on axes orientation and direction of data along that axes:
+        if(orientation.axes === 'Y') {
+            for (px = 0; px < width; px++) {
+                if(orientation.direction === 'increasing') {
+                    for(py = 0; py < height; py++) {
+                        if(detectData(px, py, orientation.axes)) {
+                            break;
+                        }
+                    }
+                } else {
+                    for(py = height-1; py >= 0; py--) {
+                        if(detectData(px, py, orientation.axes)) {
+                            break;
+                        }
+                    }
+                }
+            }
+        } else {
+            for (py = 0; py < height; py++) {
+                if(orientation.direction === 'increasing') {
+                    for(px = width-1; px >= 0; px--) {
+                        if(detectData(px, py, orientation.axes)) {
+                            break;
+                        }
+                    }
+                } else {
+                    for(px = 0; px < width; px++) {
+                        if(detectData(px, py, orientation.axes)) {
+                            break;
+                        }
+                    }
                 }
             }
         }
@@ -116,7 +169,11 @@ wpd.BarExtractionAlgo = function() {
 
         for(barValuei = 0; barValuei < barValueColl.length; barValuei++) {
             bv = barValueColl[barValuei];
-            dataSeries.addPixel(bv.avgX, bv.avgVal, ["Bar" + barValuei]);
+            if(orientation.axes === 'Y') {
+                dataSeries.addPixel(bv.avgX, bv.avgVal, ["Bar" + barValuei]);
+            } else {
+                dataSeries.addPixel(bv.avgVal, bv.avgX, ["Bar" + barValuei]);
+            }
         }
     };
 };
