@@ -3266,6 +3266,16 @@ wpd.XYAxes = (function () {
                 dataToPixel: [xpEqn, ypEqn]
             };
         };
+
+        this.getOrientation = function() {
+            // Used by histogram auto-extract method only at the moment.
+            // Just indicate increasing y-axis at the moment so that we can work with histograms.
+            return {
+                axes: 'Y',
+                direction: 'increasing',
+                angle: 90
+            };
+        };
     };
 
     AxesObj.prototype.numCalibrationPointsRequired = function() {
@@ -7376,10 +7386,12 @@ wpd.EditLabelsTool = function() {
         var dataSeries = wpd.appData.getPlotData().getActiveDataSeries(),
             pixelIndex;
         dataSeries.unselectAll();
-        pixelIndex = dataSeries.selectNearestPixel(imagePos.x, imagePos.y); 
-        wpd.graphicsWidget.forceHandlerRepaint();
-        wpd.graphicsWidget.updateZoomOnEvent(ev);
-        wpd.dataPointLabelEditor.show(dataSeries, pixelIndex, this);
+        pixelIndex = dataSeries.selectNearestPixel(imagePos.x, imagePos.y);
+        if(pixelIndex >= 0) { 
+            wpd.graphicsWidget.forceHandlerRepaint();
+            wpd.graphicsWidget.updateZoomOnEvent(ev);
+            wpd.dataPointLabelEditor.show(dataSeries, pixelIndex, this);
+        }
     };
 
     this.onKeyDown = function (ev) {
