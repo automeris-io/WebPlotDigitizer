@@ -246,6 +246,16 @@ wpd.XYAxes = (function () {
                 dataToPixel: [xpEqn, ypEqn]
             };
         };
+
+        this.getOrientation = function() {
+            // Used by histogram auto-extract method only at the moment.
+            // Just indicate increasing y-axis at the moment so that we can work with histograms.
+            return {
+                axes: 'Y',
+                direction: 'increasing',
+                angle: 90
+            };
+        };
     };
 
     AxesObj.prototype.numCalibrationPointsRequired = function() {

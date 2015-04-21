@@ -509,10 +509,12 @@ wpd.EditLabelsTool = function() {
         var dataSeries = wpd.appData.getPlotData().getActiveDataSeries(),
             pixelIndex;
         dataSeries.unselectAll();
-        pixelIndex = dataSeries.selectNearestPixel(imagePos.x, imagePos.y); 
-        wpd.graphicsWidget.forceHandlerRepaint();
-        wpd.graphicsWidget.updateZoomOnEvent(ev);
-        wpd.dataPointLabelEditor.show(dataSeries, pixelIndex, this);
+        pixelIndex = dataSeries.selectNearestPixel(imagePos.x, imagePos.y);
+        if(pixelIndex >= 0) { 
+            wpd.graphicsWidget.forceHandlerRepaint();
+            wpd.graphicsWidget.updateZoomOnEvent(ev);
+            wpd.dataPointLabelEditor.show(dataSeries, pixelIndex, this);
+        }
     };
 
     this.onKeyDown = function (ev) {
