@@ -98,6 +98,11 @@ wpd.algoManager = (function() {
             innerHTML += '<option value="barExtraction">Bar Extraction</option>';
         }
 
+        // Histogram
+        if(axes instanceof wpd.XYAxes) {
+            innerHTML += '<option value="histogram">Histogram</option>';
+        }
+
         $algoOptions.innerHTML = innerHTML;
 
         applyAlgoSelection();
@@ -116,7 +121,7 @@ wpd.algoManager = (function() {
             autoDetector.algorithm = new wpd.AveragingWindowWithStepSizeAlgo();
         } else if (selectedValue === 'blobDetector') {
             autoDetector.algorithm = new wpd.BlobDetectorAlgo();
-        } else if (selectedValue === 'barExtraction') {
+        } else if (selectedValue === 'barExtraction' || selectedValue === 'histogram') {
             autoDetector.algorithm = new wpd.BarExtractionAlgo();
         } else {
             autoDetector.algorithm = new wpd.AveragingWindowAlgo();
