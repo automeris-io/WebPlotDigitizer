@@ -133,6 +133,7 @@ wpd.DataSeries = (function () {
             if(minIndex >= 0) {
                 this.selectPixel(minIndex);
             }
+            return minIndex;
         };
 
         this.selectNextPixel = function() {

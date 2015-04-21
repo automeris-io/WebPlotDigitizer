@@ -228,7 +228,10 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
     <input id="clearAllBtn" type="button" value="Clear Points" onCLick="wpd.acquireData.clearAll();" style="width: 115px;">
 </p>
 <div class="vertical-spacer"></div>
-<p><input type="button" value="View Data" id="saveBtn" onclick="wpd.dataTable.showTable();" style="width:115px;"></p>
+<p>
+    <input type="button" value="Edit Labels (E)" id="edit-data-labels" onclick="wpd.acquireData.editLabels();" style="display: none; width: 115px;">
+    <input type="button" value="View Data" id="saveBtn" onclick="wpd.dataTable.showTable();" style="width:115px;">
+</p>
 <div class="vertical-spacer"></div>
 <p>Data Points: <span class="data-point-counter">0</span></p>
 </div>

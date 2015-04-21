@@ -72,7 +72,18 @@ wpd.acquireData = (function () {
     function showSidebar() {
         wpd.sidebar.show('acquireDataSidebar');
         updateDatasetControl();
+        updateControlVisibility();
         wpd.dataPointCounter.setCount();
+    }
+
+    function updateControlVisibility() {
+        var axes = wpd.appData.getPlotData().axes,
+            $editLabelsBtn = document.getElementById('edit-data-labels');
+        if(axes instanceof wpd.BarAxes) {
+            $editLabelsBtn.style.display = 'inline-block';
+        } else {
+            $editLabelsBtn.style.display = 'none';
+        }
     }
 
     function updateDatasetControl() {
@@ -100,6 +111,10 @@ wpd.acquireData = (function () {
         wpd.graphicsWidget.setTool(new wpd.AdjustDataPointTool());
     }
 
+    function editLabels() {
+        wpd.graphicsWidget.setTool(new wpd.EditLabelsTool());
+    }
+
     function switchToolOnKeyPress(alphaKey) {
         switch(alphaKey) {
             case 'd': 
@@ -111,9 +126,22 @@ wpd.acquireData = (function () {
             case 's': 
                 adjustPoints();
                 break;
+            case 'e':
+                editLabels();
+                break;
             default: 
                 break;
         }
+    }
+
+    function isToolSwitchKey(keyCode) {
+        if(wpd.keyCodes.isAlphabet(keyCode, 'a')
+            || wpd.keyCodes.isAlphabet(keyCode, 's')
+            || wpd.keyCodes.isAlphabet(keyCode, 'd')
+            || wpd.keyCodes.isAlphabet(keyCode, 'e')) {
+            return true;
+        }
+        return false;
     }
 
     return {
@@ -125,8 +153,10 @@ wpd.acquireData = (function () {
         undo: undo,
         showSidebar: showSidebar,
         switchToolOnKeyPress: switchToolOnKeyPress,
+        isToolSwitchKey: isToolSwitchKey,
         updateDatasetControl: updateDatasetControl,
-        changeDataset: changeDataset
+        changeDataset: changeDataset,
+        editLabels: editLabels
     };
 })();
 
@@ -251,10 +281,7 @@ wpd.ManualSelectionTool = (function () {
                 lastPt.x = lastPt.x - stepSize;
             } else if(wpd.keyCodes.isRight(ev.keyCode)) {
                 lastPt.x = lastPt.x + stepSize;
-            } else if(wpd.keyCodes.isAlphabet(ev.keyCode, 'a') 
-                || wpd.keyCodes.isAlphabet(ev.keyCode, 's') 
-                || wpd.keyCodes.isAlphabet(ev.keyCode, 'd')) {
-
+            } else if(wpd.acquireData.isToolSwitchKey(ev.keyCode)) {
                 wpd.acquireData.switchToolOnKeyPress(String.fromCharCode(ev.keyCode).toLowerCase());
                 return;
             } else {
@@ -292,10 +319,7 @@ wpd.DeleteDataPointTool = (function () {
         };
 
         this.onKeyDown = function (ev) {
-            if(wpd.keyCodes.isAlphabet(ev.keyCode, 'a') 
-                || wpd.keyCodes.isAlphabet(ev.keyCode, 's') 
-                || wpd.keyCodes.isAlphabet(ev.keyCode, 'd')) {
-
+            if(wpd.acquireData.isToolSwitchKey(ev.keyCode)) {
                 wpd.acquireData.switchToolOnKeyPress(String.fromCharCode(ev.keyCode).toLowerCase());
             }
         };
@@ -395,10 +419,7 @@ wpd.AdjustDataPointTool = (function () {
 
         this.onKeyDown = function (ev) {
 
-            if(wpd.keyCodes.isAlphabet(ev.keyCode, 'a') 
-                || wpd.keyCodes.isAlphabet(ev.keyCode, 's') 
-                || wpd.keyCodes.isAlphabet(ev.keyCode, 'd')) {
-
+            if (wpd.acquireData.isToolSwitchKey(ev.keyCode)) {
                 wpd.acquireData.switchToolOnKeyPress(String.fromCharCode(ev.keyCode).toLowerCase());
                 return;
             }
@@ -471,6 +492,35 @@ wpd.AdjustDataPointTool = (function () {
     };
     return Tool;
 })();
+
+wpd.EditLabelsTool = function() {
+
+    this.onAttach = function () {
+        document.getElementById('edit-data-labels').classList.add('pressed-button');
+        wpd.graphicsWidget.setRepainter(new wpd.DataPointsRepainter());
+    };
+
+    this.onRemove = function () {
+        document.getElementById('edit-data-labels').classList.remove('pressed-button');
+        wpd.appData.getPlotData().getActiveDataSeries().unselectAll();
+    };
+
+    this.onMouseClick = function (ev, pos, imagePos) {
+        var dataSeries = wpd.appData.getPlotData().getActiveDataSeries(),
+            pixelIndex;
+        dataSeries.unselectAll();
+        pixelIndex = dataSeries.selectNearestPixel(imagePos.x, imagePos.y); 
+        wpd.graphicsWidget.forceHandlerRepaint();
+        wpd.graphicsWidget.updateZoomOnEvent(ev);
+        wpd.dataPointLabelEditor.show(dataSeries, pixelIndex, this);
+    };
+
+    this.onKeyDown = function (ev) {
+        if(wpd.acquireData.isToolSwitchKey(ev.keyCode)) {
+            wpd.acquireData.switchToolOnKeyPress(String.fromCharCode(ev.keyCode).toLowerCase());
+        }
+    };
+};
 
 wpd.dataPointCounter = (function () {
     function setCount() {
