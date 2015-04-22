@@ -67,10 +67,11 @@ wpd.BarAxes = (function () {
         this.pixelToData = function (pxi, pyi) {
             var data = [],
                 c_c2 = ((pyi-y1)*(y2-y1) + (x2-x1)*(pxi-x1))/((y2-y1)*(y2-y1) + (x2-x1)*(x2-x1));
-            data[0] = pxi;
-            data[1] = (p2 - p1)*c_c2 + p1;
+            // We could return X pixel value (or Y, depending on orientation) but that's not very useful.
+            // For now, just return the bar value. That's it.
+            data[0] = (p2 - p1)*c_c2 + p1;
             if(isLogScale) {
-                data[1] = Math.pow(10, data[1]);
+                data[0] = Math.pow(10, data[0]);
             }
             return data;
         };
@@ -85,7 +86,7 @@ wpd.BarAxes = (function () {
 
         this.pixelToLiveString = function (pxi, pyi) {
             var dataVal = this.pixelToData(pxi, pyi);
-            return dataVal[1].toExponential(4);
+            return dataVal[0].toExponential(4);
         };
 
         this.isLog = function () {
@@ -94,8 +95,7 @@ wpd.BarAxes = (function () {
 
         this.getTransformationEquations = function () {
             return {
-                pixelToData: ['', ''],
-                dataToPixel: ['', '']
+                pixelToData: ['This will be available in a future release.']
             };
         };
 
