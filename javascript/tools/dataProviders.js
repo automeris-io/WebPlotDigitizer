@@ -83,7 +83,7 @@ wpd.plotDataProvider = (function() {
             }
             rawData[rowi][0] = lab;
             // transformed value
-            rawData[rowi][1] = transformedDataPt[1]; // note [1] is what we want.
+            rawData[rowi][1] = transformedDataPt[0];
             // other metadata if present can go here in the future.
         }
 

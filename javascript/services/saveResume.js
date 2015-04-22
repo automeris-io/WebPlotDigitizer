@@ -75,6 +75,11 @@ wpd.saveResume = (function () {
                                        rdata.axesParameters.isLogY)) {
                return;
            }
+       } else if (rdata.axesType === 'BarAxes') {
+           plotData.axes = new wpd.BarAxes();
+           if(!plotData.axes.calibrate(plotData.calibration, rdata.axesParameters.isLog)) {
+               return;
+           }
        } else if (rdata.axesType === 'PolarAxes') {
            plotData.axes = new wpd.PolarAxes();
            if(!plotData.axes.calibrate(plotData.calibration,
@@ -165,6 +170,11 @@ wpd.saveResume = (function () {
                 outData.wpd.axesParameters = {
                     isLogX: plotData.axes.isLogX(),
                     isLogY: plotData.axes.isLogY()
+                };
+            } else if(plotData.axes instanceof wpd.BarAxes) {
+                outData.wpd.axesType = 'BarAxes';
+                outData.wpd.axesParameters = {
+                    isLog: plotData.axes.isLog()
                 };
             } else if(plotData.axes instanceof wpd.PolarAxes) {
                 outData.wpd.axesType = 'PolarAxes';
