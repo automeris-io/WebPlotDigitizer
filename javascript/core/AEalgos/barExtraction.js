@@ -59,9 +59,9 @@ wpd.BarExtractionAlgo = function() {
             orientationAxes = axes.getOrientation().axes;
 
         if(orientationAxes === 'Y') {
-            return [['ΔX', 'Px', 10], ['ΔVal', 'Px', 10]];
+            return [['ΔX', 'Px', 30], ['ΔVal', 'Px', 10]];
         } else {
-            return [['ΔY', 'Px', 10], ['ΔVal', 'Px', 10]];
+            return [['ΔY', 'Px', 30], ['ΔVal', 'Px', 10]];
         }
     };
 
@@ -161,18 +161,28 @@ wpd.BarExtractionAlgo = function() {
                 }
             }
         }
-
-        mkeys = dataSeries.getMetadataKeys();
-        if(mkeys == null || mkeys[0] !== 'Label') {
-            dataSeries.setMetadataKeys(['Label']);
+        
+        if(plotData.axes.dataPointsHaveLabels) {
+            mkeys = dataSeries.getMetadataKeys();
+            if(mkeys == null || mkeys[0] !== 'Label') {
+                dataSeries.setMetadataKeys(['Label']);
+            }
         }
 
         for(barValuei = 0; barValuei < barValueColl.length; barValuei++) {
             bv = barValueColl[barValuei];
-            if(orientation.axes === 'Y') {
-                dataSeries.addPixel(bv.avgX, bv.avgVal, ["Bar" + barValuei]);
+            if(plotData.axes.dataPointsHaveLabels) {
+                if(orientation.axes === 'Y') {
+                    dataSeries.addPixel(bv.avgX, bv.avgVal, ["Bar" + barValuei]);
+                } else {
+                    dataSeries.addPixel(bv.avgVal, bv.avgX, ["Bar" + barValuei]);
+                }
             } else {
-                dataSeries.addPixel(bv.avgVal, bv.avgX, ["Bar" + barValuei]);
+                 if(orientation.axes === 'Y') {
+                    dataSeries.addPixel(bv.avgX, bv.avgVal);
+                } else {
+                    dataSeries.addPixel(bv.avgVal, bv.avgX);
+                }
             }
         }
     };
