@@ -116,6 +116,9 @@ wpd.saveResume = (function () {
            plotData.dataSeriesColl[i] = new wpd.DataSeries();
            currDataset = plotData.dataSeriesColl[i];
            currDataset.name = ds.name;
+           if(ds.metadataKeys != null) {
+               currDataset.setMetadataKeys(ds.metadataKeys);
+           }
            for(j = 0; j < ds.data.length; j++) {
                currDataset.addPixel(ds.data[j].x, ds.data[j].y, ds.data[j].metadata);
            }
@@ -155,7 +158,8 @@ wpd.saveResume = (function () {
             json_string = '',
             i,j,
             ds,
-            pixel;
+            pixel,
+            mkeys;
         
         if(calibration != null) {
             outData.wpd.calibration = [];
@@ -205,6 +209,10 @@ wpd.saveResume = (function () {
                 name: ds.name,
                 data: []
             };
+            mkeys = ds.getMetadataKeys();
+            if(mkeys != null) {
+                outData.wpd.dataSeries[i].metadataKeys = mkeys;
+            }
             for(j = 0; j < ds.getCount(); j++) {
                 pixel = ds.getPixel(j);
                 outData.wpd.dataSeries[i].data[j] = pixel;

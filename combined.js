@@ -1852,9 +1852,9 @@ wpd.BarExtractionAlgo = function() {
             orientationAxes = axes.getOrientation().axes;
 
         if(orientationAxes === 'Y') {
-            return [['ΔX', 'Px', 10], ['ΔVal', 'Px', 10]];
+            return [['ΔX', 'Px', 30], ['ΔVal', 'Px', 10]];
         } else {
-            return [['ΔY', 'Px', 10], ['ΔVal', 'Px', 10]];
+            return [['ΔY', 'Px', 30], ['ΔVal', 'Px', 10]];
         }
     };
 
@@ -1954,18 +1954,28 @@ wpd.BarExtractionAlgo = function() {
                 }
             }
         }
-
-        mkeys = dataSeries.getMetadataKeys();
-        if(mkeys == null || mkeys[0] !== 'Label') {
-            dataSeries.setMetadataKeys(['Label']);
+        
+        if(plotData.axes.dataPointsHaveLabels) {
+            mkeys = dataSeries.getMetadataKeys();
+            if(mkeys == null || mkeys[0] !== 'Label') {
+                dataSeries.setMetadataKeys(['Label']);
+            }
         }
 
         for(barValuei = 0; barValuei < barValueColl.length; barValuei++) {
             bv = barValueColl[barValuei];
-            if(orientation.axes === 'Y') {
-                dataSeries.addPixel(bv.avgX, bv.avgVal, ["Bar" + barValuei]);
+            if(plotData.axes.dataPointsHaveLabels) {
+                if(orientation.axes === 'Y') {
+                    dataSeries.addPixel(bv.avgX, bv.avgVal, ["Bar" + barValuei]);
+                } else {
+                    dataSeries.addPixel(bv.avgVal, bv.avgX, ["Bar" + barValuei]);
+                }
             } else {
-                dataSeries.addPixel(bv.avgVal, bv.avgX, ["Bar" + barValuei]);
+                 if(orientation.axes === 'Y') {
+                    dataSeries.addPixel(bv.avgX, bv.avgVal);
+                } else {
+                    dataSeries.addPixel(bv.avgVal, bv.avgX);
+                }
             }
         }
     };
@@ -8517,6 +8527,9 @@ wpd.saveResume = (function () {
            plotData.dataSeriesColl[i] = new wpd.DataSeries();
            currDataset = plotData.dataSeriesColl[i];
            currDataset.name = ds.name;
+           if(ds.metadataKeys != null) {
+               currDataset.setMetadataKeys(ds.metadataKeys);
+           }
            for(j = 0; j < ds.data.length; j++) {
                currDataset.addPixel(ds.data[j].x, ds.data[j].y, ds.data[j].metadata);
            }
@@ -8556,7 +8569,8 @@ wpd.saveResume = (function () {
             json_string = '',
             i,j,
             ds,
-            pixel;
+            pixel,
+            mkeys;
         
         if(calibration != null) {
             outData.wpd.calibration = [];
@@ -8606,6 +8620,10 @@ wpd.saveResume = (function () {
                 name: ds.name,
                 data: []
             };
+            mkeys = ds.getMetadataKeys();
+            if(mkeys != null) {
+                outData.wpd.dataSeries[i].metadataKeys = mkeys;
+            }
             for(j = 0; j < ds.getCount(); j++) {
                 pixel = ds.getPixel(j);
                 outData.wpd.dataSeries[i].data[j] = pixel;
