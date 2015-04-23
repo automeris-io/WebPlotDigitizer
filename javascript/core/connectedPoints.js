@@ -101,7 +101,7 @@ wpd.ConnectedPoints = (function () {
             return {
                 connectionIndex: minConnIndex,
                 pointIndex: minPointIndex
-            }
+            };
         };
 
         this.selectNearestPoint = function (x, y) {

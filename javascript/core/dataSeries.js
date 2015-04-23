@@ -115,7 +115,7 @@ wpd.DataSeries = (function () {
             mkeys = []; 
         };
 
-        this.getCount = function() { return dataPoints.length; }
+        this.getCount = function() { return dataPoints.length; };
  
         this.selectPixel = function(index) {
             if(selections.indexOf(index) >= 0) {
@@ -146,7 +146,7 @@ wpd.DataSeries = (function () {
             var i, newIndex;
             for(i = 0; i < selections.length; i++) {
                 newIndex = selections[i];
-                if(newIndex == 0) {
+                if(newIndex === 0) {
                     newIndex = dataPoints.length - 1;
                 } else {
                     newIndex = newIndex - 1;

@@ -32,8 +32,8 @@ wpd.download = (function() {
             jsonData = data;
         
         // Create a hidden form and submit
-        formContainer = document.createElement('div'),
-        formElement = document.createElement('form'),
+        formContainer = document.createElement('div');
+        formElement = document.createElement('form');
         formData = document.createElement('textarea');
 
         formElement.setAttribute('method', 'post');

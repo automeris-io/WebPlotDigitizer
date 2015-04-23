@@ -36,7 +36,7 @@ wpd.zoomView = (function() {
         zoomRatio,
         crosshairColorText = 'black';
 
-    pix[0] = new Array();
+    pix[0] = [];
 
     function init() {
 

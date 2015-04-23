@@ -176,7 +176,7 @@ wpd.algoManager = (function() {
             wpd.dataPointCounter.setCount();
             wpd.busyNote.close();
             return true;
-        }
+        };
         setTimeout(fn, 10); // This is required for the busy note to work!
     }
 

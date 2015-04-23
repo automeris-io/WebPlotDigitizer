@@ -37,7 +37,7 @@ wpd.XYAxes = (function () {
 
             x1, x2, x3, x4, y1, y2, y3, y4,
             xmin, xmax, ymin, ymax, 
-            a_mat = [0, 0, 0, 0], a_inv_mat = [0, 0, 0, 0];
+            a_mat = [0, 0, 0, 0], a_inv_mat = [0, 0, 0, 0],
             c_vec = [0, 0],
 
             processCalibration = function(cal, isLogX, isLogY) {

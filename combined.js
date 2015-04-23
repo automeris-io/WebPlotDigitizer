@@ -78,52 +78,6 @@ document.addEventListener("DOMContentLoaded", wpd.initApp, true);
 */
 
 var wpd = wpd || {};
-
-wpd.detectionAlgoManager = (function () {
-    var activeAlgorithm = null;
-
-    function setActiveAlgo(algo) {
-    };
-
-    function getActiveAlgo() {
-        return activeAlgorithm;
-    };
-
-    function getAllApplicableAlgorithms() {
-        // algorithms applicable to the current axes type
-    };
-
-    return {
-        setActiveAlgo: setActiveAlgo,
-        getActiveAlgo: getActiveAlgo,
-        getAllApplicableAlgorithms: getAllApplicableAlgorithms
-    };
-})();
-
-/*
-	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
-
-	Copyright 2010-2015 Ankit Rohatgi <ankitrohatgi@hotmail.com>
-
-	This file is part of WebPlotDigitizer.
-
-    WebPlotDigitizer is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    WebPlotDigitizer is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
-
-
-*/
-
-var wpd = wpd || {};
 // maintain and manage current state of the application
 wpd.appData = (function () {
     var isAligned = false,
@@ -131,7 +85,7 @@ wpd.appData = (function () {
 
     function reset() {
         isAligned = false;
-        plotData = null
+        plotData = null;
     }
 
     function getPlotData() {
@@ -473,20 +427,18 @@ wpd.ColorGroup = (function () {
 
         this.getPixelCount = function () {
             return totalPixelCount;
-        }
+        };
 
         this.getAverageColor = function () {
             return averageColor;
-        }
+        };
 
         this.isColorInGroup = function (r, g, b) {
             if (totalPixelCount === 0) {
                 return true;
             }
 
-            var dist = (averageColor.r - r)*(averageColor.r - r)
-                + (averageColor.g - g)*(averageColor.g - g)
-                + (averageColor.b - b)*(averageColor.b - b);
+            var dist = (averageColor.r - r)*(averageColor.r - r) + (averageColor.g - g)*(averageColor.g - g) + (averageColor.b - b)*(averageColor.b - b);
 
             return (dist <= tolerance*tolerance);
         };
@@ -673,7 +625,7 @@ wpd.ConnectedPoints = (function () {
             return {
                 connectionIndex: minConnIndex,
                 pointIndex: minPointIndex
-            }
+            };
         };
 
         this.selectNearestPoint = function (x, y) {
@@ -841,7 +793,7 @@ wpd.DataSeries = (function () {
             mkeys = []; 
         };
 
-        this.getCount = function() { return dataPoints.length; }
+        this.getCount = function() { return dataPoints.length; };
  
         this.selectPixel = function(index) {
             if(selections.indexOf(index) >= 0) {
@@ -872,7 +824,7 @@ wpd.DataSeries = (function () {
             var i, newIndex;
             for(i = 0; i < selections.length; i++) {
                 newIndex = selections[i];
-                if(newIndex == 0) {
+                if(newIndex === 0) {
                     newIndex = dataPoints.length - 1;
                 } else {
                     newIndex = newIndex - 1;
@@ -1905,7 +1857,7 @@ wpd.BarExtractionAlgo = function() {
                         }
                     }
                     if(!pixelAdded) {
-                        barValueColl.push(new wpd.BarValue())
+                        barValueColl.push(new wpd.BarValue());
                         if(dir === 'Y') {
                             barValueColl[barValueColl.length-1].append(dataVal[0], dataVal[1]);
                         } else {
@@ -2790,7 +2742,7 @@ wpd.PolarAxes = (function () {
                 thetap = thetap + 2*Math.PI;
             }
 			
-		    if(isDegrees == true) {
+		    if(isDegrees === true) {
 		        thetap = 180.0*thetap/Math.PI;
             }
 
@@ -3067,7 +3019,7 @@ wpd.XYAxes = (function () {
 
             x1, x2, x3, x4, y1, y2, y3, y4,
             xmin, xmax, ymin, ymax, 
-            a_mat = [0, 0, 0, 0], a_inv_mat = [0, 0, 0, 0];
+            a_mat = [0, 0, 0, 0], a_inv_mat = [0, 0, 0, 0],
             c_vec = [0, 0],
 
             processCalibration = function(cal, isLogX, isLogY) {
@@ -5085,7 +5037,7 @@ wpd.zoomView = (function() {
         zoomRatio,
         crosshairColorText = 'black';
 
-    pix[0] = new Array();
+    pix[0] = [];
 
     function init() {
 
@@ -5803,7 +5755,7 @@ wpd.algoManager = (function() {
             wpd.dataPointCounter.setCount();
             wpd.busyNote.close();
             return true;
-        }
+        };
         setTimeout(fn, 10); // This is required for the busy note to work!
     }
 
@@ -6084,7 +6036,7 @@ wpd.ColorFilterRepainter = (function () {
             var autoDetector = wpd.appData.getPlotData().getAutoDetector();
             wpd.colorSelectionWidget.paintFilteredColor(autoDetector.binaryData, autoDetector.mask);
         };
-    }
+    };
     return Painter;
 })();
 /*
@@ -6140,7 +6092,7 @@ wpd.plotDataProvider = (function() {
         if(axes instanceof wpd.BarAxes) {
             return getBarAxesData();
         } else {
-            return getGeneralAxesData()
+            return getGeneralAxesData();
         }
     }
 
@@ -6256,7 +6208,7 @@ wpd.plotDataProvider = (function() {
             connectivityFieldIndices: connectivityFieldIndices,
             isFieldSortable: isFieldSortable
         };
-    };
+    }
 
     return {
         getDatasetNames: getDatasetNames,
@@ -6935,7 +6887,7 @@ wpd.acquireData = (function () {
     }
 
     function confirmedClearAll() {
-        wpd.appData.getPlotData().getActiveDataSeries().clearAll()
+        wpd.appData.getPlotData().getActiveDataSeries().clearAll();
         wpd.graphicsWidget.removeTool();
         wpd.graphicsWidget.resetData();
         wpd.dataPointCounter.setCount();
@@ -8315,8 +8267,8 @@ wpd.download = (function() {
             jsonData = data;
         
         // Create a hidden form and submit
-        formContainer = document.createElement('div'),
-        formElement = document.createElement('form'),
+        formContainer = document.createElement('div');
+        formElement = document.createElement('form');
         formData = document.createElement('textarea');
 
         formElement.setAttribute('method', 'post');

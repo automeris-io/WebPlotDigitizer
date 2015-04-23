@@ -114,7 +114,7 @@ wpd.PolarAxes = (function () {
                 thetap = thetap + 2*Math.PI;
             }
 			
-		    if(isDegrees == true) {
+		    if(isDegrees === true) {
 		        thetap = 180.0*thetap/Math.PI;
             }
 

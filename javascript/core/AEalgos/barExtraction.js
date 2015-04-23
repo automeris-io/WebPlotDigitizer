@@ -112,7 +112,7 @@ wpd.BarExtractionAlgo = function() {
                         }
                     }
                     if(!pixelAdded) {
-                        barValueColl.push(new wpd.BarValue())
+                        barValueColl.push(new wpd.BarValue());
                         if(dir === 'Y') {
                             barValueColl[barValueColl.length-1].append(dataVal[0], dataVal[1]);
                         } else {
