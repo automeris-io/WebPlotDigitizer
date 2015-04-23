@@ -33,20 +33,18 @@ wpd.ColorGroup = (function () {
 
         this.getPixelCount = function () {
             return totalPixelCount;
-        }
+        };
 
         this.getAverageColor = function () {
             return averageColor;
-        }
+        };
 
         this.isColorInGroup = function (r, g, b) {
             if (totalPixelCount === 0) {
                 return true;
             }
 
-            var dist = (averageColor.r - r)*(averageColor.r - r)
-                + (averageColor.g - g)*(averageColor.g - g)
-                + (averageColor.b - b)*(averageColor.b - b);
+            var dist = (averageColor.r - r)*(averageColor.r - r) + (averageColor.g - g)*(averageColor.g - g) + (averageColor.b - b)*(averageColor.b - b);
 
             return (dist <= tolerance*tolerance);
         };

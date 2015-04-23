@@ -51,7 +51,7 @@ wpd.plotDataProvider = (function() {
         if(axes instanceof wpd.BarAxes) {
             return getBarAxesData();
         } else {
-            return getGeneralAxesData()
+            return getGeneralAxesData();
         }
     }
 
@@ -167,7 +167,7 @@ wpd.plotDataProvider = (function() {
             connectivityFieldIndices: connectivityFieldIndices,
             isFieldSortable: isFieldSortable
         };
-    };
+    }
 
     return {
         getDatasetNames: getDatasetNames,

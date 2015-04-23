@@ -48,7 +48,7 @@ wpd.acquireData = (function () {
     }
 
     function confirmedClearAll() {
-        wpd.appData.getPlotData().getActiveDataSeries().clearAll()
+        wpd.appData.getPlotData().getActiveDataSeries().clearAll();
         wpd.graphicsWidget.removeTool();
         wpd.graphicsWidget.resetData();
         wpd.dataPointCounter.setCount();

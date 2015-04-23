@@ -267,6 +267,6 @@ wpd.ColorFilterRepainter = (function () {
             var autoDetector = wpd.appData.getPlotData().getAutoDetector();
             wpd.colorSelectionWidget.paintFilteredColor(autoDetector.binaryData, autoDetector.mask);
         };
-    }
+    };
     return Painter;
 })();

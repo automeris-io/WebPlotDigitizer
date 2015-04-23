@@ -29,7 +29,7 @@ wpd.appData = (function () {
 
     function reset() {
         isAligned = false;
-        plotData = null
+        plotData = null;
     }
 
     function getPlotData() {
