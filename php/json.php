@@ -1,5 +1,7 @@
 <?php
-header('Content-disposition: attachment; filename=wpd_plot_data.json');
+$filename = $_POST['filename'];
+
+header('Content-disposition: attachment; filename="'.$filename.'.json"');
 header('Content-type: application/json');
 
 $data = $_POST['data'];
