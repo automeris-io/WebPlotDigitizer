@@ -3659,7 +3659,8 @@ wpd.dataTable = (function () {
     }
 
     function generateCSV() {
-        wpd.download.csv(JSON.stringify(tableText));
+        var datasetName = dataProvider.getDatasetNames()[dataProvider.getDatasetIndex()];
+        wpd.download.csv(JSON.stringify(tableText), datasetName);
     }
 
     function exportToPlotly() {
@@ -8260,16 +8261,19 @@ var wpd = wpd || {};
 
 wpd.download = (function() {
     
-    function textFile(data, format) {
+    function textFile(data, filename, format) {
         var formContainer,
             formElement,
             formData,
+            formFilename,
             jsonData = data;
         
         // Create a hidden form and submit
         formContainer = document.createElement('div');
         formElement = document.createElement('form');
         formData = document.createElement('textarea');
+        formFilename = document.createElement('input');
+        formFilename.type = 'hidden';
 
         formElement.setAttribute('method', 'post');
 
@@ -8281,8 +8285,12 @@ wpd.download = (function() {
 
         formData.setAttribute('name', "data");
         formData.setAttribute('id', "data");
+        formFilename.setAttribute('name', 'filename');
+        formFilename.setAttribute('id', 'filename');
+        formFilename.value = stripIllegalCharacters(filename);
 
         formElement.appendChild(formData);
+        formElement.appendChild(formFilename);
         formContainer.appendChild(formElement);
         document.body.appendChild(formContainer);
         formContainer.style.display = 'none';
@@ -8292,12 +8300,22 @@ wpd.download = (function() {
         document.body.removeChild(formContainer);
     }
 
-    function json(jsonData) {
-        textFile(jsonData, 'json');
+    function json(jsonData, filename) {
+        if(filename == null) {
+            filename = 'wpd_json_data';
+        }
+        textFile(jsonData, filename, 'json');
     }
 
-    function csv(csvData) {
-        textFile(csvData, 'csv');
+    function csv(csvData, filename) {
+        if(filename == null) {
+            filename = 'data';
+        }
+        textFile(csvData, filename, 'csv');
+    }
+
+    function stripIllegalCharacters(filename) {
+        return filename.replace(/[^a-zA-Z\d+\.\-_\s]/g,"_");
     }
 
     return {

@@ -263,7 +263,8 @@ wpd.dataTable = (function () {
     }
 
     function generateCSV() {
-        wpd.download.csv(JSON.stringify(tableText));
+        var datasetName = dataProvider.getDatasetNames()[dataProvider.getDatasetIndex()];
+        wpd.download.csv(JSON.stringify(tableText), datasetName);
     }
 
     function exportToPlotly() {

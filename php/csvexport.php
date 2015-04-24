@@ -1,5 +1,7 @@
 <?php
-header('Content-disposition: attachment; filename=data.csv');
+$filename = $_POST['filename'];
+
+header('Content-disposition: attachment; filename="'.$filename.'.csv"');
 header('Content-type: text/csv');
 
 $csvData = $_POST['data'];
