@@ -29,7 +29,7 @@ wpd.initApp = function() {// This is run when the page loads.
     wpd.layoutManager.initialLayout();
     if(!wpd.loadRemoteData()) {
         wpd.graphicsWidget.loadImageFromURL('start.png');
-        wpd.messagePopup.show('Unstable Version Warning!', 'You are using a beta version of WebPlotDigitizer. There may be some issues with the software that are expected.');
+        //wpd.messagePopup.show('Unstable Version Warning!', 'You are using a beta version of WebPlotDigitizer. There may be some issues with the software that are expected.');
     }
     document.getElementById('loadingCurtain').style.display = 'none';
 
@@ -8302,7 +8302,7 @@ wpd.download = (function() {
 
     function json(jsonData, filename) {
         if(filename == null) {
-            filename = 'wpd_json_data';
+            filename = 'wpd_plot_data';
         }
         textFile(jsonData, filename, 'json');
     }
