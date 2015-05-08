@@ -1,5 +1,26 @@
 RELEASE NOTES
 
+Version 3.8
+===========
+May 7, 2015
+
+New Features:
+
+- Added initial support for bar charts and histograms.
+- Context sensitive algorithm options in the UI.
+- Controls for measurement data made consistent with plot data.
+- Added button to show extended crosshair next to image zoom options.
+- Minor UI tweaks for better appearance across different platforms.
+- Use alpha channel in zoom view for smoother appearance. 
+
+Bug Fixes and code clean-up:
+
+- Code clean up based on JSHint suggestions.
+- Fixed missing data point metadata in JSON files.
+- Fix minor issues with graphics related to distance and angle measurements.
+- Graphics related code clean-up.
+- Fix minor issues related to blob detector algorithm.
+
 Version 3.7
 ===========
 March 9, 2015
