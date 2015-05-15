@@ -4,6 +4,7 @@ import tornado.ioloop
 import tornado.web
 
 import settings
+from websockethandler import WebSocketHandler
 from phphandler import PHPHandler
 
 def main():
@@ -12,6 +13,7 @@ def main():
 
     # Create App
     app = tornado.web.Application([
+        (r"/websocket", WebSocketHandler),
         (r"/(.*.php$)", PHPHandler, {}),
         (r"/(.*)", tornado.web.StaticFileHandler, {"path": rootPath, "default_filename": "index.html"})
     ])
