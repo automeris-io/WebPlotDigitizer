@@ -1,6 +1,8 @@
 import tornado.websocket
 import uuid
 
+import requesthandler
+
 clients = dict()
 clientCount = 0
 
@@ -16,6 +18,7 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
 
     def on_message(self, message):
         print(message)
+        requesthandler.handleIncomingMessage(self, message)
 
     def on_close(self):
         print("socket closed")
