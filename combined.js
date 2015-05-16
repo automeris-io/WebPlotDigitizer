@@ -8859,19 +8859,79 @@ var wpd = wpd || {};
 // Handle WebSocket Communication
 wpd.websocket = (function () {
 
-    function connect(address, port) {
+    var ws,
+        isConnected,
+        requestCallbacks = {};
+
+    function connect(address) {
+        ws = new WebSocket(address);
+        ws.onopen = onOpen;
+        ws.onmessage = onMessage;
+        ws.onclose = onClose;
     }
 
-    function registerRequest() {
+    function onOpen() {
+        isConnected = true;
     }
 
-    function registerNotification() {
+    function onClose() {
+        isConnected = false;
+        requestCallbacks = {};
     }
 
-    function request() {
+    function onMessage(evt) {
+        if (evt.data != null) {
+            console.log(evt.data); // just for debugging
+            var messageObject = JSON.parse(evt.data);
+            if (messageObject != null) {
+                // TODO: handle notifications and requests from the server.
+                var callbackData = requestCallbacks[messageObject.timestamp];
+                if (callbackData != null && callbackData.requestId === messageObject.id) {
+                    callbackData.callback(messageObject.message);
+                    delete requestCallbacks[messageObject.timestamp];
+                }
+            } else {
+                // Unknown message
+                alert("Server announcement: " + messageObject);
+                console.log(messageObject);
+            }
+        }
     }
 
-    function notify() {
+    function sendMessage(msg) {
+        if (isConnected) {
+            console.log(msg);
+            ws.send(msg);
+        }
+    }
+
+    function registerRequest(requestId, callback) {
+    }
+
+    function registerNotification(notificationId, callback) {
+    }
+
+    function request(requestId, messageObject, callback) {
+        var timestamp = Date.now(),
+            jsonString = JSON.stringify({"type": "request",
+                                         "timestamp": timestamp,
+                                         "id": requestId,
+                                         "message": messageObject});
+        requestCallbacks[timestamp] = {
+            "requestId": requestId,
+            "callback": callback
+        };
+
+        sendMessage(jsonString);
+    }
+
+    function notify(notificationId, messageObject) {
+        var timestamp = Date.now(),
+            jsonString = JSON.stringify({"type": "notification",
+                                         "timestamp": timestamp,
+                                         "id": notificationId,
+                                         "message": messageObject});
+        sendMessage(jsonString);
     }
 
     return {
