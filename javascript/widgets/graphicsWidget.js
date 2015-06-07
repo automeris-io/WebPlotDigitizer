@@ -538,6 +538,9 @@ wpd.graphicsWidget = (function () {
                 loadImageFromSrc(imageInfo);
             };
             droppedFile.readAsDataURL(fileInfo);
+        } else {
+            wpd.messagePopup.show("ERROR: Invalid File!", "Please load a valid image file. Common image formats such as JPG, PNG, BMP, GIF etc. should work. PDF or Word documents are not accepted.");
+            wpd.busyNote.close();
         }
     }
 
