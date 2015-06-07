@@ -88,10 +88,6 @@ alt="free web stats"></a></div></noscript>
 <!-- End of StatCounder Code -->
 
 
-
-<!-- thirdparty scripts -->
-<script src="thirdparty/numeric-1.2.6.min.js"></script>
-
 </head>
 
 <body>

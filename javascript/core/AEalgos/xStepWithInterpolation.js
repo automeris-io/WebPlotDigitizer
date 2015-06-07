@@ -86,7 +86,8 @@ wpd.XStepWithInterpolationAlgo = (function () {
                 dely,
                 xinterp,
                 yinterp,
-                param_width = Math.abs(param_delx*(param_smoothing/100.0));
+                param_width = Math.abs(param_delx*(param_smoothing/100.0)),
+                cs;
 
             dataSeries.clearAll();
 
@@ -191,12 +192,18 @@ wpd.XStepWithInterpolationAlgo = (function () {
                 ypoints_mean = ypoints_mean.reverse();
             }
 
-            yinterp = numeric.spline(xpoints_mean, ypoints_mean).at(xinterp);
-
-            for(ii = 0; ii < yinterp.length; ii++) {
-                if (!isNaN(xinterp[ii]) && !isNaN(yinterp[ii])) {
-                    pdata = axes.dataToPixel(xinterp[ii], yinterp[ii]);
-                    dataSeries.addPixel(pdata.x, pdata.y);
+            // Cubic spline interpolation:
+            cs = wpd.cspline(xpoints_mean, ypoints_mean);
+            if(cs != null) {
+                yinterp = [];
+                for(ii = 0; ii < xinterp.length; ++ii) {
+                    if(!isNaN(xinterp[ii])) {
+                        yinterp[ii] = wpd.cspline_interp(cs, xinterp[ii]);
+                        if(yinterp[ii] !== null) {
+                            pdata = axes.dataToPixel(xinterp[ii], yinterp[ii]);
+                            dataSeries.addPixel(pdata.x, pdata.y);
+                        }
+                    }            
                 }
             }
 
