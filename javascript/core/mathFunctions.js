@@ -91,3 +91,59 @@ wpd.mat = (function () {
         multVec2x2: multVec2x2
     };
 })();
+
+wpd.cspline = function(x, y) {
+    var len = x.length,
+        cs = {
+            x: x,
+            y: y,
+            len: len,
+            d: []
+        },
+        l = [],
+        b = [],
+        i;
+
+    /* TODO: when len = 1, return the same value. For len = 2, do a linear interpolation */
+    if(len < 3) {
+        return null;
+    }
+
+    b[0] = 2.0;
+    l[0] = 3.0*(y[1] - y[0]);
+    for(i = 1; i < len-1; ++i) {
+        b[i] = 4.0 - 1.0/b[i-1];
+        l[i] = 3.0*(y[i+1] - y[i-1]) - l[i-1]/b[i-1];
+    }
+
+    b[len-1] = 2.0 - 1.0/b[len-2];
+    l[len-1] = 3.0*(y[len-1] - y[len-2]) - l[len-2]/b[len-1];
+
+    i = len-1;
+    cs.d[i] = l[i]/b[i];
+    while(i > 0) {
+        --i;
+        cs.d[i] = (l[i] - cs.d[i+1])/b[i];
+    }
+
+    return cs;
+}
+
+wpd.cspline_interp = function(cs, x) {
+    var i = 0, t, a, b, c, d;
+    if ( x >= cs.x[cs.len-1] || x < cs.x[0] ) {
+        return null;
+    }
+
+    /* linear search to find the index */
+    while(x > cs.x[i]) { i++; }
+
+    i = (i > 0) ? i - 1: 0;
+    t = (x - cs.x[i])/(cs.x[i+1] - cs.x[i]);
+    a = cs.y[i];
+    b = cs.d[i];
+    c = 3.0*(cs.y[i+1] - cs.y[i]) - 2.0*cs.d[i] - cs.d[i+1];
+    d = 2.0*(cs.y[i] - cs.y[i+1]) + cs.d[i] + cs.d[i+1];
+    return a + b*t + c*t*t + d*t*t*t;
+}
+
