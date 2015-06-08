@@ -7910,6 +7910,35 @@ wpd.angleMeasurement = (function () {
     };
 })();
 
+wpd.openPathMeasurement = (function() {
+    function start() {
+    }
+
+    function addPath() {
+    }
+
+    function deletePath() {
+    }
+
+    function clearAll() {
+    }
+
+    return {
+        start: start,
+        addPath: addPath,
+        deletePath: deletePath,
+        clearAll: clearAll
+    };
+})();
+
+wpd.closedPathMeasurement = (function() {
+    function start() {
+    }
+    return {
+        start: start
+    };
+})();
+
 wpd.AddMeasurementTool = (function () {
     var Tool = function (mode) {
         var isDistanceMode = mode === 'distance',
