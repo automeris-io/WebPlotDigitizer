@@ -49,10 +49,10 @@
     <div class="wpd-menu-header">Measure</div>
     <div class="wpd-menu-dropdown">
         <ul>
-            <li id="wpd-analyzemenu-distance" onclick="wpd.distanceMeasurement.start();">Distances</li>
-            <li id="wpd-analyzemenu-angles" onclick="wpd.angleMeasurement.start();">Angles</li>
-            <li id="wpd-analyzemenu-angles" onclick="wpd.openPathMeasurement.start();">Path Length</li>
-            <li id="wpd-analyzemenu-angles" onclick="wpd.closedPathMeasurement.start();">Area &amp; Circumference</li>
+            <li id="wpd-analyzemenu-distance" onclick="wpd.measurement.start(wpd.measurementModes.distance);">Distances</li>
+            <li id="wpd-analyzemenu-angles" onclick="wpd.measurement.start(wpd.measurementModes.angle);">Angles</li>
+            <li id="wpd-analyzemenu-open-path" onclick="wpd.measurement.start(wpd.measurementModes.openPath);">Path Length</li>
+            <li id="wpd-analyzemenu-closed-path" onclick="wpd.measurement.start(wpd.measurementModes.closedPath);">Area &amp; Circumference</li>
         </ul>
     </div>
 </div>
