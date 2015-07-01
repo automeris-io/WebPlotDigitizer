@@ -81,6 +81,26 @@ wpd.ConnectedPoints = (function () {
             }
         };
 
+        this.getOpenSpline = function(index) {
+            return null;
+        };
+
+        this.getClosedSpline = function(index) {
+            return null;
+        };
+
+        this.openPathLength = function(index) {
+            return 0;
+        };
+
+        this.closedPathLength = function(index) {
+            return 0;
+        };
+
+        this.closedPathArea = function(index) {
+            return 0;
+        };
+
         this.findNearestPointAndConnection = function (x, y) {
             var minConnIndex = -1,
                 minPointIndex = -1,

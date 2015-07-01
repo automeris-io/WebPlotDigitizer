@@ -23,127 +23,143 @@
 
 var wpd = wpd || {};
 
-wpd.distanceMeasurement = (function () {
-
-    function start() {
-        wpd.graphicsWidget.removeTool();
-        wpd.graphicsWidget.resetData();
-        var plotData = wpd.appData.getPlotData();
-        if (plotData.distanceMeasurementData == null) {
+wpd.measurementModes = {
+    distance: {
+        name: 'distance',
+        connectivity: 2,
+        addButtonId: 'add-pair-button',
+        deleteButtonId: 'delete-pair-button',
+        sidebarId: 'measure-distances-sidebar',
+        init: function() {
+            var plotData = wpd.appData.getPlotData();
+            if(plotData.distanceMeasurementData == null) {
+                plotData.distanceMeasurementData = new wpd.ConnectedPoints(2);
+            }
+        },
+        clear: function() {
+            var plotData = wpd.appData.getPlotData();
             plotData.distanceMeasurementData = new wpd.ConnectedPoints(2);
+        },
+        getData: function() {
+            var plotData = wpd.appData.getPlotData();
+            return plotData.distanceMeasurementData;
         }
-        wpd.sidebar.show('measure-distances-sidebar');
-        wpd.graphicsWidget.setTool(new wpd.AddMeasurementTool('distance'));
-        wpd.graphicsWidget.forceHandlerRepaint();
-    }
-
-    function addPair() {
-        wpd.graphicsWidget.setTool(new wpd.AddMeasurementTool('distance'));
-    }
-
-    function deletePair() {
-        wpd.graphicsWidget.setTool(new wpd.DeleteMeasurementTool('distance'));
-    }
-
-    function clearAll() {
-        wpd.graphicsWidget.removeTool();
-        wpd.graphicsWidget.resetData();
-        wpd.appData.getPlotData().distanceMeasurementData = new wpd.ConnectedPoints(2);
-    }
-
-    return {
-        start: start,
-        addPair: addPair,
-        deletePair: deletePair,
-        clearAll: clearAll
-    };
-})();
-
-wpd.angleMeasurement = (function () {
-    function start() {
-        wpd.graphicsWidget.removeTool();
-        wpd.graphicsWidget.resetData();
-        var plotData = wpd.appData.getPlotData();
-        if (plotData.angleMeasurementData == null) {
+    },
+    angle: {
+        name: 'angle',
+        connectivity: 3,
+        addButtonId: 'add-angle-button',
+        deleteButtonId: 'delete-angle-button',
+        sidebarId: 'measure-angles-sidebar',
+        init: function() {
+            var plotData = wpd.appData.getPlotData();
+            if(plotData.angleMeasurementData == null) {
+                plotData.angleMeasurementData = new wpd.ConnectedPoints(3);
+            }
+        },
+        clear: function() {
+            var plotData = wpd.appData.getPlotData();
             plotData.angleMeasurementData = new wpd.ConnectedPoints(3);
+        },
+        getData: function() {
+            var plotData = wpd.appData.getPlotData();
+            return plotData.angleMeasurementData;
         }
-        wpd.sidebar.show('measure-angles-sidebar');
-        wpd.graphicsWidget.setTool(new wpd.AddMeasurementTool('angle'));
+    },
+    openPath: {
+        name: 'open-path',
+        connectivity: -1,
+        addButtonId: 'add-open-path-button',
+        deleteButtonId: 'delete-open-path-button',
+        sidebarId: 'measure-open-path-sidebar',
+        init: function() {
+            var plotData = wpd.appData.getPlotData();
+            if(plotData.openPathMeasurementData == null) {
+                plotData.openPathMeasurementData = new wpd.ConnectedPoints();
+            }
+        },
+        clear: function() {
+            var plotData = wpd.appData.getPlotData();
+            plotData.openPathMeasurementData = new wpd.ConnectedPoints();
+        },
+        getData: function() {
+            var plotData = wpd.appData.getPlotData();
+            return plotData.openPathMeasurementData;
+        }
+    },
+    closedPath: {
+        name: 'closed-path',
+        connectivity: -1,
+        addButtonId: 'add-closed-path-button',
+        deleteButtonId: 'delete-closed-path-button',
+        sidebarId: 'measure-closed-path-sidebar',
+        init: function() {
+            var plotData = wpd.appData.getPlotData();
+            if(plotData.closedPathMeasurementData == null) {
+                plotData.closedPathMeasurementData = new wpd.ConnectedPoints();
+            }
+        },
+        clear: function() {
+            var plotData = wpd.appData.getPlotData();
+            plotData.closedPathMeasurementData = new wpd.ConnectedPoints();
+        },
+        getData: function() {
+            var plotData = wpd.appData.getPlotData();
+            return plotData.closedPathMeasurementData;
+        }
+    }
+};
+
+wpd.measurement = (function () {
+
+    var activeMode;
+
+    function start(mode) {
+        wpd.graphicsWidget.removeTool();
+        wpd.graphicsWidget.resetData();
+        mode.init();
+        wpd.sidebar.show(mode.sidebarId);
+        wpd.graphicsWidget.setTool(new wpd.AddMeasurementTool(mode));
         wpd.graphicsWidget.forceHandlerRepaint();
+        activeMode = mode;
     }
 
-    function addAngle() {
-        wpd.graphicsWidget.setTool(new wpd.AddMeasurementTool('angle'));
+    function addItem() {
+        wpd.graphicsWidget.setTool(new wpd.AddMeasurementTool(activeMode));
     }
 
-    function deleteAngle() {
-        wpd.graphicsWidget.setTool(new wpd.DeleteMeasurementTool('angle'));
+    function deleteItem() {
+        wpd.graphicsWidget.setTool(new wpd.DeleteMeasurementTool(activeMode));
     }
 
     function clearAll() {
         wpd.graphicsWidget.removeTool();
         wpd.graphicsWidget.resetData();
-        wpd.appData.getPlotData().angleMeasurementData = new wpd.ConnectedPoints(3);
+        activeMode.clear();
     }
 
     return {
         start: start,
-        addAngle: addAngle,
-        deleteAngle: deleteAngle,
-        clearAll: clearAll 
-    };
-})();
-
-wpd.openPathMeasurement = (function() {
-    function start() {
-    }
-
-    function addPath() {
-    }
-
-    function deletePath() {
-    }
-
-    function clearAll() {
-    }
-
-    return {
-        start: start,
-        addPath: addPath,
-        deletePath: deletePath,
+        addItem: addItem,
+        deleteItem: deleteItem,
         clearAll: clearAll
-    };
-})();
-
-wpd.closedPathMeasurement = (function() {
-    function start() {
-    }
-    return {
-        start: start
     };
 })();
 
 wpd.AddMeasurementTool = (function () {
     var Tool = function (mode) {
-        var isDistanceMode = mode === 'distance',
-            isAngleMode = mode === 'angle',
-            ctx = wpd.graphicsWidget.getAllContexts(),
-            plotData = wpd.appData.getPlotData(),
-            
+        var ctx = wpd.graphicsWidget.getAllContexts(),
             pointsCaptured = 0,
             isCapturing = true,
-            plist = [],
-            maxPts = isDistanceMode ? 2 : 3;
+            plist = [];
 
         this.onAttach = function () {
-            var btnId = (isDistanceMode === true) ? 'add-pair-button' : 'add-angle-button';
-            document.getElementById(btnId).classList.add('pressed-button');
+            document.getElementById(mode.addButtonId).classList.add('pressed-button');
             wpd.graphicsWidget.setRepainter(new wpd.MeasurementRepainter(mode));
         };
 
         this.onRemove = function () {
-            var btnId = (isDistanceMode === true) ? 'add-pair-button' : 'add-angle-button';
-            document.getElementById(btnId).classList.remove('pressed-button');
+            document.getElementById(mode.addButtonId).classList.remove('pressed-button');
         };
 
         this.onKeyDown = function (ev) {
@@ -155,6 +171,13 @@ wpd.AddMeasurementTool = (function () {
             } else if (wpd.keyCodes.isAlphabet(ev.keyCode, 'd')) {
                 wpd.graphicsWidget.resetHover();
                 wpd.graphicsWidget.setTool(new wpd.DeleteMeasurementTool(mode));
+                return;
+            } else if ((wpd.keyCodes.isEnter(ev.keyCode) || wpd.keyCodes.isEsc(ev.keyCode)) 
+                        && isCapturing === true && mode.connectivity < 0) {
+                isCapturing = false;
+                mode.getData().addConnection(plist);
+                wpd.graphicsWidget.forceHandlerRepaint();
+                wpd.graphicsWidget.setTool(new wpd.AdjustMeasurementTool(mode));
                 return;
             }
         };
@@ -169,14 +192,9 @@ wpd.AddMeasurementTool = (function () {
                 plist[pointsCaptured*2 + 1] = imagePos.y;
                 pointsCaptured = pointsCaptured + 1;
 
-                if(pointsCaptured === maxPts) {
+                if(pointsCaptured === mode.connectivity) {
                     isCapturing = false;
-
-                    if(isDistanceMode) {
-                        plotData.distanceMeasurementData.addConnection(plist);
-                    } else {
-                        plotData.angleMeasurementData.addConnection(plist);
-                    }
+                    mode.getData().addConnection(plist);
                     wpd.graphicsWidget.forceHandlerRepaint();
                     wpd.graphicsWidget.setTool(new wpd.AdjustMeasurementTool(mode));
                     return;
@@ -232,20 +250,16 @@ wpd.AddMeasurementTool = (function () {
 
 wpd.DeleteMeasurementTool = (function () {
     var Tool = function (mode) {
-        var isDistanceMode = mode === 'distance',
-            isAngleMode = mode === 'angle',
-            ctx = wpd.graphicsWidget.getAllContexts(),
+        var ctx = wpd.graphicsWidget.getAllContexts(),
             plotData = wpd.appData.getPlotData();
 
         this.onAttach = function () {
-            var btnId = (isDistanceMode === true) ? 'delete-pair-button' : 'delete-angle-button';
-            document.getElementById(btnId).classList.add('pressed-button');
+            document.getElementById(mode.deleteButtonId).classList.add('pressed-button');
             wpd.graphicsWidget.setRepainter(new wpd.MeasurementRepainter(mode));
         };
 
         this.onRemove = function () {
-            var btnId = (isDistanceMode === true) ? 'delete-pair-button' : 'delete-angle-button';
-            document.getElementById(btnId).classList.remove('pressed-button');
+            document.getElementById(mode.deleteButtonId).classList.remove('pressed-button');
         };
         
         this.onKeyDown = function (ev) {
@@ -260,11 +274,7 @@ wpd.DeleteMeasurementTool = (function () {
         };
 
         this.onMouseClick = function (ev, pos, imagePos) {
-            if(isDistanceMode) {
-                plotData.distanceMeasurementData.deleteNearestConnection(imagePos.x, imagePos.y);
-            } else {
-                plotData.angleMeasurementData.deleteNearestConnection(imagePos.x, imagePos.y);
-            }
+            mode.getData().deleteNearestConnection(imagePos.x, imagePos.y);
             wpd.graphicsWidget.setTool(new wpd.AdjustMeasurementTool(mode));
             wpd.graphicsWidget.resetData();
             wpd.graphicsWidget.forceHandlerRepaint();
@@ -283,12 +293,7 @@ wpd.AdjustMeasurementTool = (function () {
 
         this.onMouseClick = function (ev, pos, imagePos) {
             // select the nearest point
-            var plotData = wpd.appData.getPlotData();
-            if(mode === 'distance') {
-                plotData.distanceMeasurementData.selectNearestPoint(imagePos.x, imagePos.y);
-            } else if (mode === 'angle') {
-                plotData.angleMeasurementData.selectNearestPoint(imagePos.x, imagePos.y);
-            }
+            mode.getData().selectNearestPoint(imagePos.x, imagePos.y);
             wpd.graphicsWidget.forceHandlerRepaint();
             wpd.graphicsWidget.updateZoomOnEvent(ev);
         };
@@ -303,8 +308,7 @@ wpd.AdjustMeasurementTool = (function () {
                 return;
             }
 
-            var plotData = wpd.appData.getPlotData(),
-                measurementData = mode === 'distance' ? plotData.distanceMeasurementData : plotData.angleMeasurementData,
+            var measurementData = mode.getData(),
                 selectedPt = measurementData.getSelectedConnectionAndPoint();
 
             if(selectedPt.connectionIndex >= 0 && selectedPt.pointIndex >= 0) {
@@ -337,9 +341,7 @@ wpd.AdjustMeasurementTool = (function () {
 
 wpd.MeasurementRepainter = (function () {
     var Painter = function (mode) {
-        var isDistanceMode = mode === 'distance',
-            isAngleMode = mode === 'angle',
-            ctx = wpd.graphicsWidget.getAllContexts(),
+        var ctx = wpd.graphicsWidget.getAllContexts(),
 
             drawLine = function(sx0, sy0, sx1, sy1, ix0, iy0, ix1, iy1) {
 
@@ -491,17 +493,16 @@ wpd.MeasurementRepainter = (function () {
                 }
             };
 
-        this.painterName = 'measurementRepainter-'+mode;
+        this.painterName = 'measurementRepainter-'+mode.name;
 
         this.onAttach = function () {
             wpd.graphicsWidget.resetData();
         };
 
         this.onRedraw = function () {
-            if(isDistanceMode) {
+            if(mode.name === wpd.measurementModes.distance.name) {
                 drawDistances();
-            }
-            if(isAngleMode) {
+            } else if(mode.name === wpd.measurementModes.angle.name) {
                 drawAngles();
             }
         };
