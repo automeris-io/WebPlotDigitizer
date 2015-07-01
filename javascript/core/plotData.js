@@ -38,6 +38,8 @@ wpd.PlotData = (function () {
 
         this.angleMeasurementData = null;
         this.distanceMeasurementData = null;
+        this.openPathMeasurementData = null;
+        this.closedPathMeasurementData = null;
 
         this.getActiveDataSeries = function() {
             if (this.dataSeriesColl[activeSeriesIndex] == null) {
@@ -74,6 +76,8 @@ wpd.PlotData = (function () {
             this.axes = null;
             this.angleMeasurementData = null;
             this.distanceMeasurementData = null;
+            this.openPathMeasurementData = null;
+            this.closedPathMeasurementData = null;
             this.dataSeriesColl = [];
             this.gridData = null;
             this.calibration = null;

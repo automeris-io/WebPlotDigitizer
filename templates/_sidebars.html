@@ -68,12 +68,12 @@
 <div id="measure-distances-sidebar" class="sidebar">
 <p class="sidebar-title">Measure Distances</p>
 <p>
-    <input type="button" value="Add Pair (A)" style="width: 115px;" id="add-pair-button" onclick="wpd.distanceMeasurement.addPair();"/>
-    <input type="button" value="Delete Pair (D)" style="width: 115px;" id="delete-pair-button" onclick="wpd.distanceMeasurement.deletePair();"/> 
+    <input type="button" value="Add Pair (A)" style="width: 115px;" id="add-pair-button" onclick="wpd.measurement.addItem();"/>
+    <input type="button" value="Delete Pair (D)" style="width: 115px;" id="delete-pair-button" onclick="wpd.measurement.deleteItem();"/> 
 </p>
 <div class="vertical-spacer"></div>
 <p>
-    <input type="button" value="Clear All" style="width: 115px;" id="clear-all-pairs-button" onclick="wpd.distanceMeasurement.clearAll();"/>
+    <input type="button" value="Clear All" style="width: 115px;" id="clear-all-pairs-button" onclick="wpd.measurement.clearAll();"/>
     <input type="button" value="View Data" style="width: 115px;" id="view-measurement-data-button" onclick="wpd.dataTable.showDistanceData();"/>
 </p>
 </div>
@@ -82,13 +82,41 @@
 <div id="measure-angles-sidebar" class="sidebar">
 <p class="sidebar-title">Measure Angles</p>
 <p>
-    <input type="button" value="Add Angle (A)" style="width: 115px;" id="add-angle-button" onclick="wpd.angleMeasurement.addAngle();"/>
-    <input type="button" value="Delete Angle (D)" style="width: 115px;" id="delete-angle-button" onclick="wpd.angleMeasurement.deleteAngle();"/>
+    <input type="button" value="Add Angle (A)" style="width: 115px;" id="add-angle-button" onclick="wpd.measurement.addItem();"/>
+    <input type="button" value="Delete Angle (D)" style="width: 115px;" id="delete-angle-button" onclick="wpd.measurement.deleteItem();"/>
 </p>
 <div class="vertical-spacer"></div>
 <p>
-    <input type="button" value="Clear All" style="width: 115px;" onclick="wpd.angleMeasurement.clearAll();"/>
+    <input type="button" value="Clear All" style="width: 115px;" onclick="wpd.measurement.clearAll();"/>
     <input type="button" value="View Data" style="width: 115px;" onclick="wpd.dataTable.showAngleData();"/>
+</p>
+</div>
+
+<!-- open path measurement -->
+<div id="measure-open-path-sidebar" class="sidebar">
+<p class="sidebar-title">Measure Path</p>
+<p>
+    <input type="button" value="Add Path (A)" style="width: 115px;" id="add-open-path-button" onclick="wpd.measurement.addItem();"/>
+    <input type="button" value="Delete Path (D)" style="width: 115px;" id="delete-open-path-button" onclick="wpd.measurement.deleteItem();"/>
+</p>
+<div class="vertical-spacer"></div>
+<p>
+    <input type="button" value="Clear All" style="width: 115px;" onclick="wpd.measurement.clearAll();"/>
+    <input type="button" value="View Data" style="width: 115px;" onclick="wpd.dataTable.showOpenPathData();"/>
+</p>
+</div>
+
+<!-- closed path measurement -->
+<div id="measure-closed-path-sidebar" class="sidebar">
+<p class="sidebar-title">Measure Closed Path</p>
+<p>
+    <input type="button" value="Add Path (A)" style="width: 115px;" id="add-closed-path-button" onclick="wpd.measurement.addItem();"/>
+    <input type="button" value="Delete Path (D)" style="width: 115px;" id="delete-closed-path-button" onclick="wpd.measurement.deleteItem();"/>
+</p>
+<div class="vertical-spacer"></div>
+<p>
+    <input type="button" value="Clear All" style="width: 115px;" onclick="wpd.measurement.clearAll();"/>
+    <input type="button" value="View Data" style="width: 115px;" onclick="wpd.dataTable.showClosedPathData();"/>
 </p>
 </div>
 
