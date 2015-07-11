@@ -25,98 +25,67 @@ var wpd = wpd || {};
 
 wpd.gridDetectionCore = (function () {
 
-    var hasHorizontal, hasVertical, xDetectionWidth, yDetectionWidth, xMarkWidth, yMarkWidth;
+    var hasHorizontal, hasVertical, xFrac = 0.1, yFrac = 0.1;
 
     function run() {
         var gridData = [],
             xi,
-            delx,
             yi,
-            dely,
-            pix,
             autoDetector = wpd.appData.getPlotData().getAutoDetector(),
             xmin = autoDetector.gridMask.xmin,
             xmax = autoDetector.gridMask.xmax,
             ymin = autoDetector.gridMask.ymin,
             ymax = autoDetector.gridMask.ymax,
-            xp, yp,
             dw = autoDetector.imageWidth,
             dh = autoDetector.imageHeight,
-            linePixCount,
-            linePix,
-            pix_index,
-            ii;
-
-        if (hasVertical) {
+            linePixCount;
         
-            for (xi = xmin; xi <= xmax; xi += xDetectionWidth) {
+        if (hasVertical) {
 
-                pix = [];
-                linePix = [];
+            for(xi = xmin; xi <= xmax; xi++) {
                 linePixCount = 0;
-
-                for ( xp = xi - xDetectionWidth; xp <= xi + xDetectionWidth; xp++ ) {
-
-                    for (yi = ymin; yi <= ymax; yi++) {                        
-                        pix_index = yi*dw + parseInt(xp, 10);
-                        if (autoDetector.gridBinaryData[pix_index] === true) {
-                            pix[pix.length] = pix_index;
-                            if (!(linePix[yi] === true)) {
-                                linePixCount++;
-                                linePix[yi] = true;
-                            }
-                        }
+                for(yi = ymin; yi < ymax; yi++) {
+                    if(autoDetector.gridBinaryData[yi*dw + xi] === true) {
+                        linePixCount++;
                     }
                 }
-
-                if (linePixCount > (ymax - ymin)*0.3) {
-                    for (ii = 0; ii < pix.length; ii++) {
-                        gridData[pix[ii]] = true;
+                if(linePixCount > yFrac*(ymax-ymin)) {
+                    for(yi = ymin; yi < ymax; yi++) {
+                        gridData[yi*dw + xi] = true;
                     }
                 }
             }
         }
 
         if (hasHorizontal) {
-            for (yi = ymin; yi <= ymax; yi += yDetectionWidth) {
-                pix = [];
-                linePix = [];
-                linePixCount = 0;
 
-                for (yp = yi - yDetectionWidth; yp <= yi + yDetectionWidth; yp++) {
-                    for (xi = xmin; xi <= xmax; xi++) {
-                        pix_index = parseInt(yp, 10)*dw + xi;
-                        if (autoDetector.gridBinaryData[pix_index] === true) {
-                            pix[pix.length] = pix_index;
-                            if(!(linePix[xi] === true)) {
-                                linePixCount++;
-                                linePix[xi] = true;
-                            }
-                        }
+            for(yi = ymin; yi <= ymax; yi++) {
+                linePixCount = 0;
+                for(xi = xmin; xi <= xmax; xi++) {
+                    if(autoDetector.gridBinaryData[yi*dw + xi] === true) {
+                        linePixCount++;
                     }
                 }
-
-                if (linePixCount > (xmax - xmin)*0.3) {
-                    for (ii = 0; ii < pix.length; ii++) {
-                        gridData[pix[ii]] = true;
+                if(linePixCount > xFrac*(xmax-xmin)) {
+                    for(xi = xmin; xi <= xmax; xi++) {
+                        gridData[yi*dw + xi] = true;
                     }
                 }
             }
+             
         }
 
         wpd.appData.getPlotData().gridData = gridData;
     }
 
-    function setHorizontalParameters(has_horizontal, y_det_w, y_mark_w) {
+    function setHorizontalParameters(has_horizontal, y_perc) {
         hasHorizontal = has_horizontal;
-        yDetectionWidth = y_det_w;
-        yMarkWidth = y_mark_w;
+        yFrac = Math.abs(parseFloat(y_perc)/100.0);
     }
 
-    function setVerticalParameters(has_vertical, x_det_w, x_mark_w) {
+    function setVerticalParameters(has_vertical, x_perc) {
         hasVertical = has_vertical;
-        xDetectionWidth = x_det_w;
-        xMarkWidth = x_mark_w;
+        xFrac = Math.abs(parseFloat(x_perc)/100.0);
     }
 
     return {
