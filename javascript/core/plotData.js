@@ -40,6 +40,7 @@ wpd.PlotData = (function () {
         this.distanceMeasurementData = null;
         this.openPathMeasurementData = null;
         this.closedPathMeasurementData = null;
+        this.backupImageData = null;
 
         this.getActiveDataSeries = function() {
             if (this.dataSeriesColl[activeSeriesIndex] == null) {
@@ -81,6 +82,7 @@ wpd.PlotData = (function () {
             this.dataSeriesColl = [];
             this.gridData = null;
             this.calibration = null;
+            this.backupImageData = null;
             activeSeriesIndex = 0;
             autoDetector = new wpd.AutoDetector();
         };

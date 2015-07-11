@@ -512,8 +512,7 @@ wpd.graphicsWidget = (function () {
         originalImage.src = imgSrc;
     }
 
-    function loadImageFromData(idata, iwidth, iheight) {
-        wpd.appData.reset();
+    function loadImageFromData(idata, iwidth, iheight, doReset) {        
         removeTool();
         removeRepainter();
         originalWidth = iwidth;
@@ -527,7 +526,10 @@ wpd.graphicsWidget = (function () {
         originalImageData = idata;
         resetAllLayers();
         zoomFit();
-        wpd.appData.plotLoaded(originalImageData);
+        if(doReset) {
+            wpd.appData.reset();
+            wpd.appData.plotLoaded(originalImageData);
+        }
     }
 
     function fileLoader(fileInfo) {
@@ -580,9 +582,9 @@ wpd.graphicsWidget = (function () {
     }
 
     // run an external operation on the image data. this would normally mean a reset.
-    function runImageOp(operFn) {
+    function runImageOp(operFn, doReset) {
        var opResult = operFn(originalImageData, originalWidth, originalHeight);
-       loadImageFromData(opResult.imageData, opResult.width, opResult.height);
+       loadImageFromData(opResult.imageData, opResult.width, opResult.height, doReset);
     }
 
     function getImageData() {
@@ -682,6 +684,7 @@ wpd.graphicsWidget = (function () {
         getZoomRatio: getZoomRatio,
 
         loadImageFromURL: loadImageFromSrc,
+        loadImageFromData: loadImageFromData,
         load: loadNewFile,
         runImageOp: runImageOp,
 
