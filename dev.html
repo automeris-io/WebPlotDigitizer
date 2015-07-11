@@ -137,7 +137,7 @@ Problems loading? Make sure you have a recent version of Google Chrome, Firefox,
     <div class="wpd-menu-dropdown">
         <ul>
             <li id="wpd-axesmenu-defineaxes" onclick="wpd.popup.show('axesList');">Calibrate Axes</li>
-            <!-- <li id="wpd-axesmenu-grid" onclick="wpd.gridDetection.start();">Detect Grid</li> -->
+            <li id="wpd-axesmenu-grid" onclick="wpd.gridDetection.start();">Remove Grid</li>
             <li id="wpd-axesmenu-tranformation-equations" onclick="wpd.transformationEquations.show();">Transformation Equations</li>
         </ul>
     </div>
@@ -388,9 +388,10 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
     <tr><td align="right">Line Width </td><td>&nbsp; <input type="text" value="5" id="grid-vert-line-width" style="width: 40px;"/></td></tr>
 </table>
 <hr/>
-<p>
-    <input type="button" value="Detect" style="width: 80px;" onclick="wpd.gridDetection.run();"/>
-    <input type="button" value="Clear" style="width: 80px;" onclick="wpd.gridDetection.clear();"/>
+<p align="center">
+    <input type="button" value="Detect" style="width: 100px;" onclick="wpd.gridDetection.run();"/>
+    &nbsp;
+    <input type="button" value="Reset" style="width: 100px;" onclick="wpd.gridDetection.reset();"/>
 </p>
 </div>
         </div>
