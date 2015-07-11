@@ -43,6 +43,11 @@ wpd.colorSelectionWidget = (function () {
     function apply() {
         var $triggerBtn = document.getElementById(triggerElementId);
         $triggerBtn.style.backgroundColor = 'rgb('+color[0]+','+color[1]+','+color[2]+')';
+        if(color[0] + color[1] + color[2] < 200) {
+            $triggerBtn.style.color = 'rgb(255,255,255)';
+        } else {
+            $triggerBtn.style.color = 'rgb(0,0,0)';
+        }
     }
 
     function startPicker() {
