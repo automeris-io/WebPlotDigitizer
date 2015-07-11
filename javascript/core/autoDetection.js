@@ -118,20 +118,41 @@ wpd.AutoDetector = (function () {
         this.generateGridBinaryData = function () {
             this.gridBinaryData = [];
 
-            if (this.gridMask.pixels == null || this.gridMask.pixels.length === 0) {
-                return; // TODO: Allow full image to be used if no mask is present.
-            }
-
             if (this.imageData == null) {
                 this.imageWidth = 0;
                 this.imageHeight = 0;
                 return;
             }
-
+            
             this.imageWidth = this.imageData.width;
             this.imageHeight = this.imageData.height;
 
-            var maski, img_index, dist;
+            var xi, yi, dist, img_index, maski;
+
+            if (this.gridMask.pixels == null || this.gridMask.pixels.length === 0) {
+                // Use full image if no mask is present
+                maski = 0;
+                this.gridMask.pixels = [];
+                for(yi = 0; yi < this.imageHeight; yi++) {
+                    for(xi = 0; xi < this.imageWidth; xi++) {
+                        img_index = yi*this.imageWidth + xi;
+                        dist = wpd.dist3d(this.gridLineColor[0], this.gridLineColor[1], this.gridLineColor[2],
+                                          this.imageData.data[img_index*4], this.imageData.data[img_index*4 + 1],
+                                          this.imageData.data[img_index*4 + 2]);
+                        
+                        if (dist < this.gridColorDistance) {
+                            this.gridBinaryData[img_index] = true;
+                            this.gridMask.pixels[maski] = img_index;
+                            maski++;
+                        }
+                    }
+                }
+                this.gridMask.xmin = 0;
+                this.gridMask.xmax = this.imageWidth;
+                this.gridMask.ymin = 0;
+                this.gridMask.ymax = this.imageHeight;
+                return;
+            }
 
             for (maski = 0; maski < this.gridMask.pixels.length; maski++) {
                 img_index = this.gridMask.pixels[maski];

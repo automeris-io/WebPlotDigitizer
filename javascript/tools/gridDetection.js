@@ -44,6 +44,11 @@ wpd.gridDetection = (function () {
                 $colorPickerBtn.style.color = 'rgb(0,0,0)';
             }
         }
+
+        var autoDetector = wpd.appData.getPlotData().getAutoDetector(),
+            ctx = wpd.graphicsWidget.getAllContexts(),
+            imageSize = wpd.graphicsWidget.getImageSize();
+        autoDetector.imageData = ctx.oriImageCtx.getImageData(0, 0, imageSize.width, imageSize.height);
     }
 
     function markBox() {
@@ -109,8 +114,6 @@ wpd.gridDetection = (function () {
             }
         }
         autoDetector.gridMask.pixels = maskData;
-        autoDetector.imageData = ctx.oriImageCtx.getImageData(0, 0, imageSize.width, imageSize.height);
-        autoDetector.generateGridBinaryData();
     }
 
     function run() {
@@ -123,20 +126,45 @@ wpd.gridDetection = (function () {
             ctx = wpd.graphicsWidget.getAllContexts(),
             imageSize = wpd.graphicsWidget.getImageSize(),
             $xperc = document.getElementById('grid-horiz-perc'),
-            $yperc = document.getElementById('grid-vert-perc');
+            $yperc = document.getElementById('grid-vert-perc'),
+            horizEnable = document.getElementById('grid-horiz-enable').checked,
+            vertEnable = document.getElementById('grid-vert-enable').checked,
+            plotData = wpd.appData.getPlotData();
         
+        if(plotData.backupImageData == null) {
+            plotData.backupImageData = ctx.oriImageCtx.getImageData(0, 0, imageSize.width, imageSize.height);
+        }
+
         autoDetector.imageData = ctx.oriImageCtx.getImageData(0, 0, imageSize.width, imageSize.height);
 
         autoDetector.generateGridBinaryData();
 
         // gather detection parameters from GUI
 
-        wpd.gridDetectionCore.setHorizontalParameters(true, $xperc.value);
-        wpd.gridDetectionCore.setVerticalParameters(true, $yperc.value);
+        wpd.gridDetectionCore.setHorizontalParameters(horizEnable, $xperc.value);
+        wpd.gridDetectionCore.setVerticalParameters(vertEnable, $yperc.value);
         wpd.gridDetectionCore.run();
 
         // edit image
         wpd.graphicsWidget.runImageOp(removeGridLinesOp);
+
+        // cleanup memory
+        wpd.appData.getPlotData().gridData = null;
+    }
+
+    function resetImageOp(idata, width, height) {
+        var bkImg = wpd.appData.getPlotData().backupImageData,
+            i;
+
+        for(i = 0; i < bkImg.data.length; i++) {
+            idata.data[i] = bkImg.data[i];
+        }
+
+        return {
+            imageData: idata,
+            width: width,
+            height: height
+        };
     }
 
     function reset() {
@@ -144,6 +172,13 @@ wpd.gridDetection = (function () {
         wpd.appData.getPlotData().gridData = null;
         wpd.graphicsWidget.removeRepainter();
         wpd.graphicsWidget.resetData();
+
+        var plotData = wpd.appData.getPlotData();
+        if(plotData.backupImageData != null) {
+            wpd.graphicsWidget.runImageOp(resetImageOp);
+        } else {
+            console.log('Grid Reset: No backup Image!');
+        }
     }
 
     function removeGridLinesOp(idata, width, height) {
@@ -186,7 +221,6 @@ wpd.gridDetection = (function () {
             title: 'Specify Grid Line Color',
             setColorDelegate: function(col) {
                 wpd.appData.getPlotData().getAutoDetector().gridLineColor = col;
-                wpd.appData.getPlotData().getAutoDetector().generateGridBinaryData();
             }
         });
         wpd.colorSelectionWidget.startPicker();
@@ -199,13 +233,15 @@ wpd.gridDetection = (function () {
 
         var autoDetector = wpd.appData.getPlotData().getAutoDetector();
 
+        changeColorDistance();
+        autoDetector.generateGridBinaryData();
+
         wpd.colorSelectionWidget.paintFilteredColor(autoDetector.gridBinaryData, autoDetector.gridMask.pixels);
     }
 
     function changeColorDistance() {
         var color_distance = parseFloat(document.getElementById('grid-color-distance').value);
         wpd.appData.getPlotData().getAutoDetector().gridColorDistance = color_distance;
-        wpd.appData.getPlotData().getAutoDetector().generateGridBinaryData();
     }
      
     return {
