@@ -121,15 +121,18 @@ wpd.gridDetection = (function () {
 
         var autoDetector = wpd.appData.getPlotData().getAutoDetector(),
             ctx = wpd.graphicsWidget.getAllContexts(),
-            imageSize = wpd.graphicsWidget.getImageSize();
+            imageSize = wpd.graphicsWidget.getImageSize(),
+            $xperc = document.getElementById('grid-horiz-perc'),
+            $yperc = document.getElementById('grid-vert-perc');
         
         autoDetector.imageData = ctx.oriImageCtx.getImageData(0, 0, imageSize.width, imageSize.height);
 
         autoDetector.generateGridBinaryData();
 
         // gather detection parameters from GUI
-        wpd.gridDetectionCore.setHorizontalParameters(true, 5, 5);
-        wpd.gridDetectionCore.setVerticalParameters(true, 5, 5);
+
+        wpd.gridDetectionCore.setHorizontalParameters(true, $xperc.value);
+        wpd.gridDetectionCore.setVerticalParameters(true, $yperc.value);
         wpd.gridDetectionCore.run();
 
         // edit image
