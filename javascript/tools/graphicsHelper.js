@@ -45,7 +45,7 @@ wpd.graphicsHelper = (function () {
 
         ctx.dataCtx.beginPath();
         ctx.dataCtx.fillStyle = fillStyle;
-        ctx.dataCtx.strokeStyle = "rgb(0, 0, 0)";
+        ctx.dataCtx.strokeStyle = "rgb(255, 255, 255)";
         ctx.dataCtx.arc(screenPx.x, screenPx.y, 4, 0, 2.0*Math.PI, true);
         ctx.dataCtx.fill();
         ctx.dataCtx.stroke();
@@ -60,7 +60,7 @@ wpd.graphicsHelper = (function () {
 
         ctx.oriDataCtx.beginPath();
         ctx.oriDataCtx.fillStyle = fillStyle;
-        ctx.oriDataCtx.strokeStyle = "rgb(0, 0, 0)";
+        ctx.oriDataCtx.strokeStyle = "rgb(255, 255, 255)";
         ctx.oriDataCtx.arc(imagePx.x, imagePx.y, 4, 0, 2.0*Math.PI, true);
         ctx.oriDataCtx.fill();
         ctx.oriDataCtx.stroke();
