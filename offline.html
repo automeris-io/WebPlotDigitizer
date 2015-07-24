@@ -319,15 +319,16 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
 <p>
     Color
     <input type="button" value="Pick" style="width: 60px;" id="grid-color-picker-button" onclick="wpd.gridDetection.startColorPicker();"/>
-    <input type="text" value="120" style="width: 60px;" id="grid-color-distance" onchange="wpd.gridDetection.changeColorDistance();"/>
+    <input type="text" value="10" style="width: 60px;" id="grid-color-distance" onchange="wpd.gridDetection.changeColorDistance();"/>
     <input type="button" value="Test" style="width: 60px;" id="grid-color-test" onclick="wpd.gridDetection.testColor();"/>
 </p>
+<p align="center"><input type="checkbox" id="grid-background-mode" checked onchange="wpd.gridDetection.changeBackgroundMode();"/> Background Mode</p>
 <hr/>
 <table>
     <tr><td align="right">Horizontal </td><td><input type="checkbox" id="grid-horiz-enable" checked/></td></tr>
-    <tr><td align="right">X% </td><td>&nbsp; <input type="text" value="10" id="grid-horiz-perc" style="width: 40px;"/></td></tr>
+    <tr><td align="right">X% </td><td>&nbsp; <input type="text" value="80" id="grid-horiz-perc" style="width: 40px;"/></td></tr>
     <tr><td align="right">Vertical </td><td><input type="checkbox" id="grid-vert-enable" checked/></td></tr>
-    <tr><td align="right">Y% </td><td>&nbsp; <input type="text" value="10" id="grid-vert-perc" style="width: 40px;"/></td></tr>
+    <tr><td align="right">Y% </td><td>&nbsp; <input type="text" value="80" id="grid-vert-perc" style="width: 40px;"/></td></tr>
 </table>
 <hr/>
 <p align="center">
