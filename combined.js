@@ -145,8 +145,8 @@ wpd.AutoDetector = (function () {
         this.bgColor = [255, 255, 255];
         this.mask = null;
         this.gridMask = { xmin: null, xmax: null, ymin: null, ymax: null, pixels: [] };
-        this.gridLineColor = [0, 0, 0];
-        this.gridColorDistance = 150;
+        this.gridLineColor = [255, 255, 255];
+        this.gridColorDistance = 10;
         this.gridData = null;
         this.colorDetectionMode = 'fg';
         this.colorDistance = 120;
@@ -156,6 +156,7 @@ wpd.AutoDetector = (function () {
         this.imageData = null;
         this.imageWidth = 0;
         this.imageHeight = 0;
+        this.gridBackgroundMode = true;
         
         this.reset = function () {
             this.mask = null;
@@ -255,10 +256,18 @@ wpd.AutoDetector = (function () {
                                           this.imageData.data[img_index*4], this.imageData.data[img_index*4 + 1],
                                           this.imageData.data[img_index*4 + 2]);
                         
-                        if (dist < this.gridColorDistance) {
-                            this.gridBinaryData[img_index] = true;
-                            this.gridMask.pixels[maski] = img_index;
-                            maski++;
+                        if(this.gridBackgroundMode) {
+                            if (dist > this.gridColorDistance) {
+                                this.gridBinaryData[img_index] = true;
+                                this.gridMask.pixels[maski] = img_index;
+                                maski++;
+                            }
+                        } else {
+                            if (dist < this.gridColorDistance) {
+                                this.gridBinaryData[img_index] = true;
+                                this.gridMask.pixels[maski] = img_index;
+                                maski++;
+                            }
                         }
                     }
                 }
@@ -274,8 +283,14 @@ wpd.AutoDetector = (function () {
                 dist = wpd.dist3d(this.gridLineColor[0], this.gridLineColor[1], this.gridLineColor[2],
                                   this.imageData.data[img_index*4], this.imageData.data[img_index*4 + 1],
                                   this.imageData.data[img_index*4 + 2]);
-                if (dist < this.gridColorDistance) {
-                    this.gridBinaryData[img_index] = true;
+                if(this.gridBackgroundMode) {
+                    if (dist > this.gridColorDistance) {
+                        this.gridBinaryData[img_index] = true;
+                    }
+                } else {
+                    if (dist < this.gridColorDistance) {
+                        this.gridBinaryData[img_index] = true;
+                    }
                 }
             }
         };
@@ -1494,62 +1509,6 @@ wpd.PlotData = (function () {
 
 */
 
-
-var wpd = wpd || {};
-
-wpd.AveragingWindowAlgo = (function () {
-
-    var Algo = function () {
-
-        var xStep = 5, yStep = 5;
-
-        this.getParamList = function () {
-            return [['ΔX', 'Px', 10], ['ΔY', 'Px', 10]];
-        };
-
-        this.setParam = function (index, val) {
-            if(index === 0) {
-                xStep = val;
-            } else if(index === 1) {
-                yStep = val;
-            }
-        };
-
-        this.run = function (plotData) {
-            var autoDetector = plotData.getAutoDetector(),
-                dataSeries = plotData.getActiveDataSeries(),
-                algoCore = new wpd.AveragingWindowCore(autoDetector.binaryData, autoDetector.imageHeight, autoDetector.imageWidth, xStep, yStep, dataSeries);
-
-            algoCore.run();
-        };
-
-    };
-    return Algo;
-})();
-
-/*
-    WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
-
-    Copyright 2010-2015 Ankit Rohatgi <ankitrohatgi@hotmail.com>
-
-    This file is part of WebPlotDigitizer.
-
-    WebPlotDigitizer is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    WebPlotDigitizer is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
-
-
-*/
-
 var wpd = wpd || {};
 
 wpd.AveragingWindowCore = (function () {
@@ -1656,6 +1615,62 @@ wpd.AveragingWindowCore = (function () {
 
               return dataSeries;
         };
+    };
+    return Algo;
+})();
+
+/*
+    WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
+
+    Copyright 2010-2015 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+
+    This file is part of WebPlotDigitizer.
+
+    WebPlotDigitizer is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    WebPlotDigitizer is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
+
+
+*/
+
+
+var wpd = wpd || {};
+
+wpd.AveragingWindowAlgo = (function () {
+
+    var Algo = function () {
+
+        var xStep = 5, yStep = 5;
+
+        this.getParamList = function () {
+            return [['ΔX', 'Px', 10], ['ΔY', 'Px', 10]];
+        };
+
+        this.setParam = function (index, val) {
+            if(index === 0) {
+                xStep = val;
+            } else if(index === 1) {
+                yStep = val;
+            }
+        };
+
+        this.run = function (plotData) {
+            var autoDetector = plotData.getAutoDetector(),
+                dataSeries = plotData.getActiveDataSeries(),
+                algoCore = new wpd.AveragingWindowCore(autoDetector.binaryData, autoDetector.imageHeight, autoDetector.imageWidth, xStep, yStep, dataSeries);
+
+            algoCore.run();
+        };
+
     };
     return Algo;
 })();
@@ -6501,7 +6516,11 @@ wpd.gridDetection = (function () {
 
     function sidebarInit() {
         var $colorPickerBtn = document.getElementById('grid-color-picker-button'),
-            color = wpd.appData.getPlotData().getAutoDetector().gridLineColor;
+            $backgroundMode = document.getElementById('grid-background-mode'),
+            autodetector = wpd.appData.getPlotData().getAutoDetector(),
+            color = autodetector.gridLineColor,
+            backgroundMode = autodetector.gridBackgroundMode;
+
         if(color != null) {
             $colorPickerBtn.style.backgroundColor = 'rgb('+color[0]+','+color[1]+','+color[2]+')';
             if(color[0] + color[1] + color[2] < 200) {
@@ -6510,6 +6529,8 @@ wpd.gridDetection = (function () {
                 $colorPickerBtn.style.color = 'rgb(0,0,0)';
             }
         }
+
+        $backgroundMode.checked = backgroundMode;
 
         var autoDetector = wpd.appData.getPlotData().getAutoDetector(),
             ctx = wpd.graphicsWidget.getAllContexts(),
@@ -6595,6 +6616,7 @@ wpd.gridDetection = (function () {
             $yperc = document.getElementById('grid-vert-perc'),
             horizEnable = document.getElementById('grid-horiz-enable').checked,
             vertEnable = document.getElementById('grid-vert-enable').checked,
+            backgroundMode = document.getElementById('grid-background-mode').checked,
             plotData = wpd.appData.getPlotData();
         
         if(plotData.backupImageData == null) {
@@ -6709,6 +6731,11 @@ wpd.gridDetection = (function () {
         var color_distance = parseFloat(document.getElementById('grid-color-distance').value);
         wpd.appData.getPlotData().getAutoDetector().gridColorDistance = color_distance;
     }
+
+    function changeBackgroundMode() {
+        var backgroundMode = document.getElementById('grid-background-mode').checked;
+        wpd.appData.getPlotData().getAutoDetector().gridBackgroundMode = backgroundMode;
+    }
      
     return {
         start: start,
@@ -6718,6 +6745,7 @@ wpd.gridDetection = (function () {
         grabMask: grabMask,
         startColorPicker: startColorPicker,
         changeColorDistance: changeColorDistance,
+        changeBackgroundMode: changeBackgroundMode,
         testColor: testColor,
         run: run,
         reset: reset

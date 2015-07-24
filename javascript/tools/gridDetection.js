@@ -35,7 +35,11 @@ wpd.gridDetection = (function () {
 
     function sidebarInit() {
         var $colorPickerBtn = document.getElementById('grid-color-picker-button'),
-            color = wpd.appData.getPlotData().getAutoDetector().gridLineColor;
+            $backgroundMode = document.getElementById('grid-background-mode'),
+            autodetector = wpd.appData.getPlotData().getAutoDetector(),
+            color = autodetector.gridLineColor,
+            backgroundMode = autodetector.gridBackgroundMode;
+
         if(color != null) {
             $colorPickerBtn.style.backgroundColor = 'rgb('+color[0]+','+color[1]+','+color[2]+')';
             if(color[0] + color[1] + color[2] < 200) {
@@ -44,6 +48,8 @@ wpd.gridDetection = (function () {
                 $colorPickerBtn.style.color = 'rgb(0,0,0)';
             }
         }
+
+        $backgroundMode.checked = backgroundMode;
 
         var autoDetector = wpd.appData.getPlotData().getAutoDetector(),
             ctx = wpd.graphicsWidget.getAllContexts(),
@@ -129,6 +135,7 @@ wpd.gridDetection = (function () {
             $yperc = document.getElementById('grid-vert-perc'),
             horizEnable = document.getElementById('grid-horiz-enable').checked,
             vertEnable = document.getElementById('grid-vert-enable').checked,
+            backgroundMode = document.getElementById('grid-background-mode').checked,
             plotData = wpd.appData.getPlotData();
         
         if(plotData.backupImageData == null) {
@@ -243,6 +250,11 @@ wpd.gridDetection = (function () {
         var color_distance = parseFloat(document.getElementById('grid-color-distance').value);
         wpd.appData.getPlotData().getAutoDetector().gridColorDistance = color_distance;
     }
+
+    function changeBackgroundMode() {
+        var backgroundMode = document.getElementById('grid-background-mode').checked;
+        wpd.appData.getPlotData().getAutoDetector().gridBackgroundMode = backgroundMode;
+    }
      
     return {
         start: start,
@@ -252,6 +264,7 @@ wpd.gridDetection = (function () {
         grabMask: grabMask,
         startColorPicker: startColorPicker,
         changeColorDistance: changeColorDistance,
+        changeBackgroundMode: changeBackgroundMode,
         testColor: testColor,
         run: run,
         reset: reset

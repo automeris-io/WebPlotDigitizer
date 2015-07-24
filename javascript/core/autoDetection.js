@@ -30,8 +30,8 @@ wpd.AutoDetector = (function () {
         this.bgColor = [255, 255, 255];
         this.mask = null;
         this.gridMask = { xmin: null, xmax: null, ymin: null, ymax: null, pixels: [] };
-        this.gridLineColor = [0, 0, 0];
-        this.gridColorDistance = 150;
+        this.gridLineColor = [255, 255, 255];
+        this.gridColorDistance = 10;
         this.gridData = null;
         this.colorDetectionMode = 'fg';
         this.colorDistance = 120;
@@ -41,6 +41,7 @@ wpd.AutoDetector = (function () {
         this.imageData = null;
         this.imageWidth = 0;
         this.imageHeight = 0;
+        this.gridBackgroundMode = true;
         
         this.reset = function () {
             this.mask = null;
@@ -140,10 +141,18 @@ wpd.AutoDetector = (function () {
                                           this.imageData.data[img_index*4], this.imageData.data[img_index*4 + 1],
                                           this.imageData.data[img_index*4 + 2]);
                         
-                        if (dist < this.gridColorDistance) {
-                            this.gridBinaryData[img_index] = true;
-                            this.gridMask.pixels[maski] = img_index;
-                            maski++;
+                        if(this.gridBackgroundMode) {
+                            if (dist > this.gridColorDistance) {
+                                this.gridBinaryData[img_index] = true;
+                                this.gridMask.pixels[maski] = img_index;
+                                maski++;
+                            }
+                        } else {
+                            if (dist < this.gridColorDistance) {
+                                this.gridBinaryData[img_index] = true;
+                                this.gridMask.pixels[maski] = img_index;
+                                maski++;
+                            }
                         }
                     }
                 }
@@ -159,8 +168,14 @@ wpd.AutoDetector = (function () {
                 dist = wpd.dist3d(this.gridLineColor[0], this.gridLineColor[1], this.gridLineColor[2],
                                   this.imageData.data[img_index*4], this.imageData.data[img_index*4 + 1],
                                   this.imageData.data[img_index*4 + 2]);
-                if (dist < this.gridColorDistance) {
-                    this.gridBinaryData[img_index] = true;
+                if(this.gridBackgroundMode) {
+                    if (dist > this.gridColorDistance) {
+                        this.gridBinaryData[img_index] = true;
+                    }
+                } else {
+                    if (dist < this.gridColorDistance) {
+                        this.gridBinaryData[img_index] = true;
+                    }
                 }
             }
         };
