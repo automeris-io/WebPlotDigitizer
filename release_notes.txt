@@ -8,8 +8,9 @@ New Features:
 - Initial implementation of grid removal.
 
 Bug fixes and code clean-up:
-- Improve rendering of data points
-- Refactor measurment code to allow for path length and area measurement tools in the future.
+- Eliminate dependence on numeric.js for a lighter and more predictable code base.
+- Improve rendering of data points.
+- Refactor measurement code to allow for path length and area measurement tools in the future.
 
 Version 3.8
 ===========
