@@ -6609,6 +6609,9 @@ wpd.gridDetection = (function () {
         wpd.graphicsWidget.removeRepainter();
         wpd.graphicsWidget.resetData();
 
+        // For now, just reset before detecting, otherwise users will get confused:
+        reset();
+
         var autoDetector = wpd.appData.getPlotData().getAutoDetector(),
             ctx = wpd.graphicsWidget.getAllContexts(),
             imageSize = wpd.graphicsWidget.getImageSize(),
