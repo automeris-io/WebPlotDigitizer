@@ -8,7 +8,7 @@
 \usepackage[margin=1.2in]{geometry}
 
 \begin{document}
-\title{WebPlotDigitizer User Manual\\ Version 3.4}
+\title{WebPlotDigitizer User Manual\\ Version 3.9}
 \author{Ankit Rohatgi\footnote{E-Mail: ankitrohatgi@hotmail.com}}
 \maketitle
 \tableofcontents
@@ -46,16 +46,8 @@ WebPlotDigitizer is an open source software (see above). The source code can be 
 The latest released version of the software can be used directly from the website \url{http://arohatgi.info/WebPlotDigitizer}. For the Google Chrome web browser, an \emph{app} pointing to the online software is also available at the Chrome App Store (\url{https://chrome.google.com/webstore/category/apps}).
 
 \subsection{Supported Browsers}
-Version 3.4 was ensured to work without major issues on the following browsers:
-\begin{itemize}
-\item{Safari 7.0.6 on Mac OS 10.9.4}
-\item{Google Chrome 37 on Mac OS 10.9.4}
-\item{Firefox 32.0 on Mac OS 10.9.4}
-\item{Google Chrome on Windows 7 32-bit}
-\item{Firefox 32.0 on Windows 7 32-bit}
-\item{Internet Explorer 11 on Windows 7 32-bit}
-\end{itemize}
-It is expected that browsers similar in functionality and support for the HTML5 API should not have any major problems executing the version 3.4.
+The HTML5 capabilities required by WebPlotDigitizer have been available in all popular browsers for the last 2 to 3 years. Version 3.9 was ensured to work without any issues on recent versions of Google Chrome, Firefox, Safari and Internet Explorer.
+
 
 \subsection{Citing WebPlotDigitizer}
 If you wish to cite WebPlotDigitizer in any of your works, then please use the following information:
@@ -66,8 +58,8 @@ If you wish to cite WebPlotDigitizer in any of your works, then please use the f
 Author & Ankit Rohatgi\\
 Title & WebPlotDigitizer\\
 Website & \url{http://arohatgi.info/WebPlotDigitizer}\\
-Version & 3.4\\
-Date & September, 2014\\
+Version & 3.9\\
+Date & August, 2015\\
 E-Mail & ankitrohatgi@hotmail.com\\
 \hline
 \end{tabular}
@@ -93,6 +85,8 @@ The image file containing the figure to be analyzed can be loaded into the softw
 
 \subsection{Supported Image Formats}
 WebPlotDigitizer relies on the image formats supported by the HTML5 \emph{canvas} element. Most browsers support common image formats such as JPEG, PNG, BMP and GIF. Since the support for an image format depends on the browser used to access the software, please refer to your browser's manual for details. For popular browsers, you can also refer to Wikipedia (\url{http://en.wikipedia.org/wiki/Comparison_of_web_browsers#Image_format_support}).
+
+Please note that loading PDF files directly is not supported. It is recommended that you use the tools built into your PDF reader to save the image of the region of interest or copy the image area into the clipboard and paste into WebPlotDigitizer. Pasting images from the clipboard is only supported for Google Chrome.
 
 
 \section{Define Axes}
@@ -151,8 +145,9 @@ Year & YYYY & 2012 (treated as any integer)\\
 \end{enumerate}
 
 
+\subsection{Bar Charts}
 
-
+\subsubsection{Bar Charts vs. Histograms}
 
 \subsection{Polar Diagram}
 Select this option if the data points in the image are plotted on a polar axes. On selecting this, you will be required to click on three known points including the center of the polar diagram (Figure \ref{fig:polarAlignment}). After clicking on 3 points, you can also select the axes orientation and select Degrees or Radians for the angle. The values entered here also have to follow the format similar to 2D (X-Y) Plots. Dates are not parsed here.
@@ -210,6 +205,8 @@ This plot type is similar to the Map plot type and is also provided as a conveni
 
 \subsection{Transformation Equations}
 After defining the axes, you can select the \emph{Transform Equations} option in the \emph{Axes} menu to view the relationship that is constructed by WebPlotDigitizer to convert image pixels to data. This feature allows users to use this mapping in other graphics codes or softwares where it may be required to convert image pixel locations to corresponding data or vice versa.
+
+\section{Grid Removal}
 
 \section{Acquire Data}
 
@@ -397,4 +394,9 @@ For distance measurements, if the chosen plot type is a \emph{Map} axes, then th
 \section{Import and Export JSON}
 \label{sec:jsonImportExport}
 If you wish to save the axes calibration, data points in all the datasets and the measurements to a file for future use, then you can select the \emph{Export JSON} option in the \emph{File} menu. Note that this file does not contain the image and so you will also have to keep the plot image along with this JSON file. To use the information stored in the JSON file, simply use the \emph{Import JSON} option in the \emph{File} menu. The Export and Import feature can also be used to reuse axes calibrations across multiple plot images which are plotted on the same axes.
+
+\section{Custom Scripts}
+
+\section{Personal Hosting}
+
 \end{document}
