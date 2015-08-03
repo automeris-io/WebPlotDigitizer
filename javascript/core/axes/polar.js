@@ -28,11 +28,12 @@ wpd.PolarAxes = (function () {
         var isCalibrated = false,
             isDegrees = false,
             isClockwise = false,
+            isLog = false,
 
             x0, y0, x1, y1, x2, y2, r1, theta1, r2, theta2,
             dist10, dist20, dist12, phi0, alpha0;
 
-            processCalibration = function(cal, is_degrees, is_clockwise) {  
+            processCalibration = function(cal, is_degrees, is_clockwise, is_log_r) {  
                 var cp0 = cal.getPoint(0),
                     cp1 = cal.getPoint(1),
                     cp2 = cal.getPoint(2);
@@ -56,7 +57,13 @@ wpd.PolarAxes = (function () {
     		        theta1 = (Math.PI/180.0)*theta1;
         			theta2 = (Math.PI/180.0)*theta2;
 		        }
-		    			    
+		    	
+                if(is_log_r) {
+                    isLog = true;
+                    r1 = Math.log(r1)/Math.log(10);
+                    r2 = Math.log(r2)/Math.log(10);
+                }
+                		    
 		        // Distance between 1 and 0.
 		        dist10 = Math.sqrt((x1-x0)*(x1-x0) + (y1-y0)*(y1-y0)); 
 		    
@@ -116,6 +123,10 @@ wpd.PolarAxes = (function () {
 			
 		    if(isDegrees === true) {
 		        thetap = 180.0*thetap/Math.PI;
+            }
+
+            if(isLog) {
+                rp = Math.pow(10, rp);
             }
 
             data[0] = rp;

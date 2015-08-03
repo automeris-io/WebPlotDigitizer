@@ -138,13 +138,14 @@ wpd.polarCalibration = (function () {
     }
 
     function align() {
-        var r1 = parseFloat(document.getElementById('rpoint1').value),
-	        theta1 = parseFloat(document.getElementById('thetapoint1').value),
-	        r2 = parseFloat(document.getElementById('rpoint2').value),
-	        theta2 = parseFloat(document.getElementById('thetapoint2').value),
-	        degrees = document.getElementById('degrees').checked,
-	        radians = document.getElementById('radians').checked,
-	        orientation = document.getElementById('clockwise').checked,
+        var r1 = parseFloat(document.getElementById('polar-r1').value),
+	        theta1 = parseFloat(document.getElementById('polar-theta1').value),
+	        r2 = parseFloat(document.getElementById('polar-r2').value),
+	        theta2 = parseFloat(document.getElementById('polar-theta2').value),
+	        degrees = document.getElementById('polar-degrees').checked,
+	        radians = document.getElementById('polar-radians').checked,
+	        orientation = document.getElementById('polar-clockwise').checked,
+            rlog = document.getElementById('polar-log-scale').checked,
             axes = new wpd.PolarAxes(),
             plot,
             isDegrees = degrees,
