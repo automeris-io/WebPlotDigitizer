@@ -1509,62 +1509,6 @@ wpd.PlotData = (function () {
 
 */
 
-
-var wpd = wpd || {};
-
-wpd.AveragingWindowAlgo = (function () {
-
-    var Algo = function () {
-
-        var xStep = 5, yStep = 5;
-
-        this.getParamList = function () {
-            return [['ΔX', 'Px', 10], ['ΔY', 'Px', 10]];
-        };
-
-        this.setParam = function (index, val) {
-            if(index === 0) {
-                xStep = val;
-            } else if(index === 1) {
-                yStep = val;
-            }
-        };
-
-        this.run = function (plotData) {
-            var autoDetector = plotData.getAutoDetector(),
-                dataSeries = plotData.getActiveDataSeries(),
-                algoCore = new wpd.AveragingWindowCore(autoDetector.binaryData, autoDetector.imageHeight, autoDetector.imageWidth, xStep, yStep, dataSeries);
-
-            algoCore.run();
-        };
-
-    };
-    return Algo;
-})();
-
-/*
-    WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
-
-    Copyright 2010-2015 Ankit Rohatgi <ankitrohatgi@hotmail.com>
-
-    This file is part of WebPlotDigitizer.
-
-    WebPlotDigitizer is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    WebPlotDigitizer is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
-
-
-*/
-
 var wpd = wpd || {};
 
 wpd.AveragingWindowCore = (function () {
@@ -1671,6 +1615,62 @@ wpd.AveragingWindowCore = (function () {
 
               return dataSeries;
         };
+    };
+    return Algo;
+})();
+
+/*
+    WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
+
+    Copyright 2010-2015 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+
+    This file is part of WebPlotDigitizer.
+
+    WebPlotDigitizer is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    WebPlotDigitizer is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
+
+
+*/
+
+
+var wpd = wpd || {};
+
+wpd.AveragingWindowAlgo = (function () {
+
+    var Algo = function () {
+
+        var xStep = 5, yStep = 5;
+
+        this.getParamList = function () {
+            return [['ΔX', 'Px', 10], ['ΔY', 'Px', 10]];
+        };
+
+        this.setParam = function (index, val) {
+            if(index === 0) {
+                xStep = val;
+            } else if(index === 1) {
+                yStep = val;
+            }
+        };
+
+        this.run = function (plotData) {
+            var autoDetector = plotData.getAutoDetector(),
+                dataSeries = plotData.getActiveDataSeries(),
+                algoCore = new wpd.AveragingWindowCore(autoDetector.binaryData, autoDetector.imageHeight, autoDetector.imageWidth, xStep, yStep, dataSeries);
+
+            algoCore.run();
+        };
+
     };
     return Algo;
 })();
@@ -2750,11 +2750,12 @@ wpd.PolarAxes = (function () {
         var isCalibrated = false,
             isDegrees = false,
             isClockwise = false,
+            isLog = false,
 
             x0, y0, x1, y1, x2, y2, r1, theta1, r2, theta2,
             dist10, dist20, dist12, phi0, alpha0;
 
-            processCalibration = function(cal, is_degrees, is_clockwise) {  
+            processCalibration = function(cal, is_degrees, is_clockwise, is_log_r) {  
                 var cp0 = cal.getPoint(0),
                     cp1 = cal.getPoint(1),
                     cp2 = cal.getPoint(2);
@@ -2778,7 +2779,13 @@ wpd.PolarAxes = (function () {
     		        theta1 = (Math.PI/180.0)*theta1;
         			theta2 = (Math.PI/180.0)*theta2;
 		        }
-		    			    
+		    	
+                if(is_log_r) {
+                    isLog = true;
+                    r1 = Math.log(r1)/Math.log(10);
+                    r2 = Math.log(r2)/Math.log(10);
+                }
+                		    
 		        // Distance between 1 and 0.
 		        dist10 = Math.sqrt((x1-x0)*(x1-x0) + (y1-y0)*(y1-y0)); 
 		    
@@ -2838,6 +2845,10 @@ wpd.PolarAxes = (function () {
 			
 		    if(isDegrees === true) {
 		        thetap = 180.0*thetap/Math.PI;
+            }
+
+            if(isLog) {
+                rp = Math.pow(10, rp);
             }
 
             data[0] = rp;
@@ -5376,13 +5387,14 @@ wpd.polarCalibration = (function () {
     }
 
     function align() {
-        var r1 = parseFloat(document.getElementById('rpoint1').value),
-	        theta1 = parseFloat(document.getElementById('thetapoint1').value),
-	        r2 = parseFloat(document.getElementById('rpoint2').value),
-	        theta2 = parseFloat(document.getElementById('thetapoint2').value),
-	        degrees = document.getElementById('degrees').checked,
-	        radians = document.getElementById('radians').checked,
-	        orientation = document.getElementById('clockwise').checked,
+        var r1 = parseFloat(document.getElementById('polar-r1').value),
+	        theta1 = parseFloat(document.getElementById('polar-theta1').value),
+	        r2 = parseFloat(document.getElementById('polar-r2').value),
+	        theta2 = parseFloat(document.getElementById('polar-theta2').value),
+	        degrees = document.getElementById('polar-degrees').checked,
+	        radians = document.getElementById('polar-radians').checked,
+	        orientation = document.getElementById('polar-clockwise').checked,
+            rlog = document.getElementById('polar-log-scale').checked,
             axes = new wpd.PolarAxes(),
             plot,
             isDegrees = degrees,
