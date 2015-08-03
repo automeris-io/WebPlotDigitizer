@@ -88,8 +88,8 @@ wpd.PolarAxes = (function () {
             return isCalibrated;
         };
 
-        this.calibrate = function (calib, is_degrees, is_clockwise) {
-            isCalibrated = processCalibration(calib, is_degrees, is_clockwise);
+        this.calibrate = function (calib, is_degrees, is_clockwise, is_log_r) {
+            isCalibrated = processCalibration(calib, is_degrees, is_clockwise, is_log_r);
             return isCalibrated;
         };
 

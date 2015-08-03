@@ -153,7 +153,7 @@ wpd.polarCalibration = (function () {
 
         calib.setDataAt(1, r1, theta1);
         calib.setDataAt(2, r2, theta2);
-        axes.calibrate(calib, isDegrees, orientation);
+        axes.calibrate(calib, isDegrees, orientation, rlog);
 
         plot = wpd.appData.getPlotData();
         plot.axes = axes;

@@ -2810,8 +2810,8 @@ wpd.PolarAxes = (function () {
             return isCalibrated;
         };
 
-        this.calibrate = function (calib, is_degrees, is_clockwise) {
-            isCalibrated = processCalibration(calib, is_degrees, is_clockwise);
+        this.calibrate = function (calib, is_degrees, is_clockwise, is_log_r) {
+            isCalibrated = processCalibration(calib, is_degrees, is_clockwise, is_log_r);
             return isCalibrated;
         };
 
@@ -5402,7 +5402,7 @@ wpd.polarCalibration = (function () {
 
         calib.setDataAt(1, r1, theta1);
         calib.setDataAt(2, r2, theta2);
-        axes.calibrate(calib, isDegrees, orientation);
+        axes.calibrate(calib, isDegrees, orientation, rlog);
 
         plot = wpd.appData.getPlotData();
         plot.axes = axes;
