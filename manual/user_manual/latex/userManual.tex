@@ -4,8 +4,15 @@
 \usepackage{graphicx}
 \usepackage{caption}
 \usepackage{subcaption}
-\renewcommand{\baselinestretch}{1.2}
+\renewcommand{\baselinestretch}{1.1}
 \usepackage[margin=1.2in]{geometry}
+\usepackage{xcolor}
+\hypersetup{
+    colorlinks,
+    linkcolor={red!50!black},
+    citecolor={blue!50!black},
+    urlcolor={blue!80!black}
+}
 
 \begin{document}
 \title{WebPlotDigitizer User Manual\\ Version 3.9}
@@ -14,9 +21,19 @@
 \tableofcontents
 \newpage
 \section{Introduction}
-A large quantity of useful information is available only as plotted data points in an image. In these images, it is easy to determine the relationship between the variables involved, but recovering the exact numerical values of the data is usually a tedious and error prone process. To aid this time consuming task of data recovery, many digitization softwares have been developed over the years. However, even with the abundance of free and commercial softwares, this task remains daunting and prone to errors. Many of the existing softwares are either designed to work only on specific operating systems or work with a limited variety of plots. Some are just difficult to use or prone to errors. Finally, many require a paid license which prevents their widespread use by students, independent researchers or organizations with limited resources.
+A large quantity of technical data is available only in the form of plots and images. In these images, it is easy to visualize the relationship between the variables involved, but recovering the exact numerical values of the data is usually a tedious and error prone process. To aid this time consuming task of data recovery, many digitization tools have been developed over the years, but this task remains daunting and prone to errors. The common complains with the existing tools are as follows:
 
-Because of the above limitations in current digitizing softwares, WebPlotDigitizer was developed to facilitate easy and accurate data extraction from a variety of plot types and also maps. This program has been built using HTML5 which allows it to run within most popular web browsers and does not require an installation process that is performed by the user. This is distributed free of charge as an opensource software. A screenshot of a typical session of the software is shown in Figure \ref{fig:screenshot}.
+\begin{itemize}
+\item{Limited in features, often supporting only a few specific plot types.}
+\item{Compatible with only some specific operating systems.}
+\item{Difficult to use or prone to errors.}
+\item{No longer maintained by the original developer.}
+\item{Closed source.}
+\end{itemize}
+
+Because of the above limitations with the current digitizing tools, WebPlotDigitizer was developed to facilitate easy and accurate data extraction from a variety of plot types. This program has been built using HTML5 which allows it to run within most popular web browsers and does not require to be installed by the user. This is distributed free of charge as an opensource software and since its creation in 2011, this tool has gained thousands of users and has been cited in many published articles.
+
+A screenshot of a typical session of the software is shown in Figure \ref{fig:screenshot}.
 
 \begin{figure}
 \begin{center}
@@ -27,23 +44,23 @@ Because of the above limitations in current digitizing softwares, WebPlotDigitiz
 \end{figure}
 
 \subsection{History}
-WebPlotDigitizer was initially developed while working on my graduate studies at the University of Notre Dame. Having to extract data from many publications for comparing and contrasting my own findings in the lab was a time consuming task. The search for a tool to aid this process usually ended in realizing that most of the existing softwares for this purpose did not fulfill many of the requirements. I was faced with a similar task as an undergraduate student. Back then, just writing a simple Java based code for picking a few points by clicking on them manually was sufficient. My advisor at Notre Dame also had a Matlab code to do this job for two dimensional XY plots, but the points still had to be picked manually. None of these options were very convenient.
+WebPlotDigitizer was initially developed while working on my graduate studies at the University of Notre Dame. Having to extract data from many publications for comparing and contrasting my own findings in the lab was a time consuming task. The search for a tool to aid this process usually ended in realizing that most of the existing tools for this purpose did not fulfill many of the requirements. 
 
 Some of the experimental work in the lab required me to learn some basic image processing techniques which eventually formed the basis of the automatic detection algorithms used here. Image processing knowledge along with some interest in learning the very popular HTML5 APIs were a perfect match to create a web based data extraction tool like this.
 
-WebPlotDigitizer is now used by hundreds of people everyday and because of this interest, I have continued to refine the software in my spare time.
+WebPlotDigitizer is now used by thousands everyday and because of this interest, I have continued to maintain and improve the software in my spare time.
 
 \subsection{User Manual and Tutorials}
 This user manual describes the various capabilities of the software and aims to help the user in making an effective use of the software. This manual may be updated continuously to match the latest deployed version of the software. A few video tutorials for the previous version of the software are available at \url{http://arohatgi.info/WebPlotDigitizer}. Other resources to find technical information about the software are also being considered.
 
 \subsection{License}
-WebPlotDigitizer is distributed under GNU General Public License version 3 by Ankit Rohatgi. For complete terms and conditions, please refer to \url{http://www.gnu.org/copyleft/gpl.html}
+WebPlotDigitizer is distributed under GNU General Public License version 3 by Ankit Rohatgi. For the complete terms and conditions, please refer to \url{http://www.gnu.org/copyleft/gpl.html}
 
 \subsection{Source Code}
 WebPlotDigitizer is an open source software (see above). The source code can be obtained from GitHub (\url{https://github.com/ankitrohatgi/WebPlotDigitizer/}). Feel free to contact via email if you wish to contribute to this project.
 
 \subsection{Availability}
-The latest released version of the software can be used directly from the website \url{http://arohatgi.info/WebPlotDigitizer}. For the Google Chrome web browser, an \emph{app} pointing to the online software is also available at the Chrome App Store (\url{https://chrome.google.com/webstore/category/apps}).
+The latest stable version of the software can be used directly from the website \url{http://arohatgi.info/WebPlotDigitizer}. For the Google Chrome web browser, an \emph{app} pointing to the online software is also available at the Chrome App Store (\url{https://chrome.google.com/webstore/category/apps}).
 
 \subsection{Supported Browsers}
 The HTML5 capabilities required by WebPlotDigitizer have been available in all popular browsers for the last 2 to 3 years. Version 3.9 was ensured to work without any issues on recent versions of Google Chrome, Firefox, Safari and Internet Explorer.
@@ -66,13 +83,13 @@ E-Mail & ankitrohatgi@hotmail.com\\
 \end{center}
 
 \subsection{Reporting Issues}
-In case of issues with the data recovery, access to the software or general technical questions, feel free to contact via e-mail. Issues specific to bugs in the software can also be reported on the issues page on GitHub: \url{https://github.com/ankitrohatgi/WebPlotDigitizer/issues}
+Feel free to contact via e-mail to report issues or offer suggestions. If you are comfortable with GitHub, then please use the issue tracker for this project: \url{https://github.com/ankitrohatgi/WebPlotDigitizer/issues}
 
 \subsection{Data Privacy}
 WebPlotDigitizer's image analysis code runs entirely on the user's computer and does not store the loaded images or data on to any server. When \emph{Graph in Plotly} option is selected, the digitized data is transmitted to Plotly (\url{http://plot.ly}) servers.
 
 \subsection{Funding}
-WebPlotDigitizer is not funded by any organization. PayPal donations from the website and my personal time and effort are responsible for keeping this project afloat.
+WebPlotDigitizer is not funded by any organization. This project is entirely supported by the PayPal donations from generous supporters and my personal time and effort.
 
 \section{Loading Plots}
 The image file containing the figure to be analyzed can be loaded into the software in the following ways:
@@ -80,7 +97,7 @@ The image file containing the figure to be analyzed can be loaded into the softw
 \item{{\bf Drag \& Drop Operation:} Image can be dragged and dropped from the file browser on to the image viewing area of the application.}
 \item{{\bf File Menu $\rightarrow$ Load Image:} Browse for a file on the hard disk to load.}
 \item{{\bf Copy-Paste from Clipboard:} This is only supported in Google Chrome web browser. An image selected by copying in a PDF or an image viewer can be pasted on to the software via a simple copy-paste operation.}
-\item{{\bf File Menu $\rightarrow$ Webcam Capture:} A snapshot taken from the webcam can also be used. For best results, the webcam should be pointed directly along the normal to the plot surface. In the future, some image transformation features might be added to WebPlotDigitizer to compensate for the distortions.}  
+\item{{\bf File Menu $\rightarrow$ Webcam Capture:} A snapshot taken from the webcam can also be used. For best results, the webcam should be pointed directly along the normal to the plot surface. In the future, some perspective transformation tools might be added to WebPlotDigitizer to compensate for the distortions when the camera is not perfectly aligned.}  
 \end{enumerate}
 
 \subsection{Supported Image Formats}
