@@ -28,16 +28,14 @@ A large quantity of technical data is available only in the form of plots and im
 \item{Compatible with only some specific operating systems.}
 \item{Difficult to use or prone to errors.}
 \item{No longer maintained by the original developer.}
-\item{Closed source.}
+\item{Closed source or no freedom to modify the code.}
 \end{itemize}
 
-Because of the above limitations with the current digitizing tools, WebPlotDigitizer was developed to facilitate easy and accurate data extraction from a variety of plot types. This program has been built using HTML5 which allows it to run within most popular web browsers and does not require to be installed by the user. This is distributed free of charge as an opensource software and since its creation in 2011, this tool has gained thousands of users and has been cited in many published articles.
-
-A screenshot of a typical session of the software is shown in Figure \ref{fig:screenshot}.
+Because of the above limitations with the current digitizing tools, WebPlotDigitizer was developed to facilitate easy and accurate data extraction from a variety of plot types. This program has been built using HTML5 which allows it to run within most popular web browsers and does not require to be installed by the user. This is distributed free of charge as an opensource software and since its creation in 2011, this tool has gained thousands of users and has been cited in many published articles. A screenshot of a typical session of the software is shown in Figure \ref{fig:screenshot}.
 
 \begin{figure}
 \begin{center}
-\includegraphics[width=6in]{./figures/screenshot.png}
+\fbox{\includegraphics[width=6in]{./figures/screenshot.png}}
 \caption{Screenshot of WebPlotDigitizer showing the data points recovered on a plot via automatic detection.}
 \label{fig:screenshot}
 \end{center}
@@ -51,7 +49,7 @@ Some of the experimental work in the lab required me to learn some basic image p
 WebPlotDigitizer is now used by thousands everyday and because of this interest, I have continued to maintain and improve the software in my spare time.
 
 \subsection{User Manual and Tutorials}
-This user manual describes the various capabilities of the software and aims to help the user in making an effective use of the software. This manual may be updated continuously to match the latest deployed version of the software. A few video tutorials for the previous version of the software are available at \url{http://arohatgi.info/WebPlotDigitizer}. Other resources to find technical information about the software are also being considered.
+This user manual describes the various capabilities of the software and aims to help the user in making an effective use of the software. This manual may be updated continuously to match the latest deployed version of the software. A few video tutorials for the previous version of the software are available at \url{http://arohatgi.info/WebPlotDigitizer}. If the you want me to document the underlying theory and algorithms, then please write me an email.
 
 \subsection{License}
 WebPlotDigitizer is distributed under GNU General Public License version 3 by Ankit Rohatgi. For the complete terms and conditions, please refer to \url{http://www.gnu.org/copyleft/gpl.html}
@@ -63,7 +61,7 @@ WebPlotDigitizer is an open source software (see above). The source code can be 
 The latest stable version of the software can be used directly from the website \url{http://arohatgi.info/WebPlotDigitizer}. For the Google Chrome web browser, an \emph{app} pointing to the online software is also available at the Chrome App Store (\url{https://chrome.google.com/webstore/category/apps}).
 
 \subsection{Supported Browsers}
-The HTML5 capabilities required by WebPlotDigitizer have been available in all popular browsers for the last 2 to 3 years. Version 3.9 was ensured to work without any issues on recent versions of Google Chrome, Firefox, Safari and Internet Explorer.
+The HTML5 capabilities required by WebPlotDigitizer have been available in all popular browsers for the last 2 to 3 years. Version 3.9 was ensured to work without any issues on recent versions of Google Chrome, Firefox, Safari, Internet Explorer and Microsoft Edge.
 
 
 \subsection{Citing WebPlotDigitizer}
@@ -78,6 +76,7 @@ Website & \url{http://arohatgi.info/WebPlotDigitizer}\\
 Version & 3.9\\
 Date & August, 2015\\
 E-Mail & ankitrohatgi@hotmail.com\\
+Location & Austin, Texas, USA\\
 \hline
 \end{tabular}
 \end{center}
@@ -86,7 +85,7 @@ E-Mail & ankitrohatgi@hotmail.com\\
 Feel free to contact via e-mail to report issues or offer suggestions. If you are comfortable with GitHub, then please use the issue tracker for this project: \url{https://github.com/ankitrohatgi/WebPlotDigitizer/issues}
 
 \subsection{Data Privacy}
-WebPlotDigitizer's image analysis code runs entirely on the user's computer and does not store the loaded images or data on to any server. When \emph{Graph in Plotly} option is selected, the digitized data is transmitted to Plotly (\url{http://plot.ly}) servers.
+WebPlotDigitizer's image analysis code runs entirely on the user's computer and does not store the loaded images or data on to any server. When \emph{Graph in Plotly} option is selected, the digitized data is transmitted to Plotly (\url{http://plot.ly}) servers. For a detailed privacy policy, please refer to \url{http://arohatgi.info/WebPlotDigitizer/privacy.html}.
 
 \subsection{Funding}
 WebPlotDigitizer is not funded by any organization. This project is entirely supported by the PayPal donations from generous supporters and my personal time and effort.
@@ -106,23 +105,23 @@ WebPlotDigitizer relies on the image formats supported by the HTML5 \emph{canvas
 Please note that loading PDF files directly is not supported. It is recommended that you use the tools built into your PDF reader to save the image of the region of interest or copy the image area into the clipboard and paste into WebPlotDigitizer. Pasting images from the clipboard is only supported for Google Chrome.
 
 
-\section{Define Axes}
+\section{Calibrate Axes}
 
-After loading the desired image, you should specify the type of axes that is used in the plot. This step is required for the software to correctly map the image pixels to possible data points in the image. Depending on the plot type, you will have to select a few known points on the axes. On clicking the \emph{Axes $\rightarrow$ Define Axes} menu item, you should be presented with the menu shown in Figure \ref{fig:defineAxesPopup}.
+After loading the desired image, you should specify the type of axes that is used in the plot. This step is required for the software to correctly map the image pixels to possible data points in the image. Depending on the plot type, you will have to select a few known points on the axes. On clicking the \emph{Axes $\rightarrow$ Calibrate Axes} menu item, you should be presented with the menu shown in Figure \ref{fig:defineAxesPopup}.
 \begin{figure}
 \begin{center}
-\includegraphics[width=3in]{./figures/defineAxesPopup.png}
+\fbox{\includegraphics[width=3in]{./figures/defineAxesPopup.png}}
 \caption{Popup with plot types that are supported in the software.}
 \label{fig:defineAxesPopup}
 \end{center}
 \end{figure}
 
 \subsection{2D (X-Y) Plot}
-Most plots that are on a two dimensional cartesian coordinate system fall under this category. Plots with non-orthogonal axes or plots rotated by an angle are also supported.
+Most plots that are on a two dimensional cartesian coordinate system fall under this category. Plots with non-orthogonal axes or plots rotated by an angle should work just fine, but images with perspective distortions will not yield accurate results. You can use image editing tools such as Gimp (\url{http://www.gimp.org/}) to correct the perspective distortions before using WebPlotDigitizer.
 
-On selecting this option, you should be presented with a popup window which asks you to click on two points on the horizontal axis and two points on the vertical axis. After clicking \emph{Proceed} on that popup, click on two points on one of the two axes $(x_1, x_2)$ and two on the other $(y_1, y_2)$. For better accuracy during the digitization process, pick the points that are as far away from each other as possible. Also, note down the data values at $(x_1, x_2)$ and $(y_1, y_2)$ positions as you will be required to enter those once the four points have been clicked on. 
+After selecting the 2D (X-Y) plot option, another popup window appears with instructions to click on two points on the horizontal axis and two points on the vertical axis. After reading these instructions, and closing this popup, click on two points on one of the two axes $(x_1, x_2)$ and two on the other $(y_1, y_2)$. For better accuracy during the digitization process, pick the points that are as far away from each other as possible. Note down the data values at $(x_1, x_2)$ and $(y_1, y_2)$ positions as you will be required to enter those once the four points have been clicked on. Based on the location of the four points on the image and the values specified by you, WebPlotDigitizer is able to create a continuous mathematical relationship between any pixel location on the image and the corresponding data value.
 
-You can also make fine adjustments to the location of a calibration point that is highlighted in green using keyboard cursor keys. Pressing the \emph{Shift}-key along with the cursor keys will move the point at a faster rate. To highlight a point to be adjusted, you can also click on the point after selecting the four required points. Zooming-in the image can help improve the accuracy.
+During selection of the four points, you can also make fine adjustments to the location of a calibration point that is highlighted in green using keyboard cursor keys. Pressing the \emph{Shift}-key along with the cursor keys will move the point at a faster rate. To highlight a a different point than what is already selected, you just need to click on the other point after the four points have been placed on the screen. Zooming into the image can help improve the accuracy.
 
 After the four points have been clicked on, press \emph{Continue} and another popup window will appear where you will be required to enter the values at these points. This helps the software map the image pixels corresponding to data points to their actual values when the image is digitized. To view the mapping equations, select the \emph{Transformation Equations} option from the \emph{Axes} menu.
 
@@ -140,11 +139,11 @@ After the four points have been clicked on, press \emph{Continue} and another po
 \label{fig:xyAlignment}
 \end{figure}
 
-\subsubsection{Format of Calibration Values}
+\subsubsection{Calibration Value Format}
 \label{sec:formattingInput}
 Like most computer programs, WebPlotDigitizer accepts integers (e.g. 1, 2, 3 etc.) or floating point numbers (e.g. 3.14159). Some extra things to keep in mind are as follows:
 \begin{enumerate}
-\item{Fractions (e.g. $1/2$) are not computed as numbers.}
+\item{Fractions are not computed as numbers. Entering $1/2$ (for example), will not be considered as 0.5.}
 \item{For exponentials, the caret symbol (\^{}) is not recognized and the values have to be entered as 1.45e-10 for $1.45 \times 10^{-10}$ (for example).}
 \item{{\bf Dates:} This is enabled only for 2D (X-Y) Plots. At the time of calibration, the dates have to be entered in the format shown below. With the final digitized data, however, results can be formatted in many different ways (see section \ref{sec:formattingDatesCSV}).
 \begin{center}
@@ -167,7 +166,7 @@ Year & YYYY & 2012 (treated as any integer)\\
 \subsubsection{Bar Charts vs. Histograms}
 
 \subsection{Polar Diagram}
-Select this option if the data points in the image are plotted on a polar axes. On selecting this, you will be required to click on three known points including the center of the polar diagram (Figure \ref{fig:polarAlignment}). After clicking on 3 points, you can also select the axes orientation and select Degrees or Radians for the angle. The values entered here also have to follow the format similar to 2D (X-Y) Plots. Dates are not parsed here.
+Select this option if the data points in the image are plotted on a polar axes. On selecting this, you will be required to click on three known points including the center of the polar diagram (Figure \ref{fig:polarAlignment}). After clicking on 3 points, you can also select the axes orientation and select Degrees or Radians for the angle. For log-polar diagrams, you can select the log scale option. The values entered here also have to follow the format similar to 2D (X-Y) Plots. Dates can not be used for values in this case.
 
 \begin{figure}
 \centering
@@ -184,7 +183,7 @@ Select this option if the data points in the image are plotted on a polar axes. 
 \end{figure}
  
 \subsection{Ternary Diagram}
-Ternary phase diagrams are typically harder to read than simple two dimensional cartesian or polar plots. Using this software to recover data makes the process of data recovery extremely straightforward and thus reduces the possibility of misinterpreting the data. For this type of plot, simply mark the three corners as shown in the instructions and then specify the range of variables and orientation of the diagram (Figure \ref{fig:ternaryAlignment}).
+Ternary phase diagrams are harder to interpret than simple two dimensional cartesian or polar plots. Using this software to recover data makes the process of data recovery extremely straightforward and thus reduces the possibility of misinterpreting the data. For this type of plot, simply mark the three corners as shown in the instructions and then specify the range of variables and orientation of the diagram (Figure \ref{fig:ternaryAlignment}).
 
 \begin{figure}
 \centering
@@ -200,8 +199,8 @@ Ternary phase diagrams are typically harder to read than simple two dimensional 
 \label{fig:ternaryAlignment}
 \end{figure}
 
-\subsection{Map With Scale Bar}
-This plot type is similar to 2D (X-Y) Plots and is to be used for images that only have scale information (e.g. microscope images or maps). To calibrate this plot type, simply click on the two ends of the scale bar and enter the scale value. You can also specify the label to be used for the unit (Figure \ref{fig:mapAlignment}). The coordinates reported by the software assume the origin to be located at the top left of the image with positive y-axes pointing downwards. The (x,y) values that are generated are scaled using the value entered during calibration.
+\subsection{Maps/Microscope Images}
+The \emph{Map with Scale Bar} option is similar to 2D (X-Y) Plots and is to be used for images that only have scale information (e.g. microscope images or maps). To calibrate the pixels to the scale bar in these images, simply click on the two ends of the scale bar and enter the scale value. You can also specify the label to be used for the unit (Figure \ref{fig:mapAlignment}). The coordinates reported by the software assume the origin to be located at the top left of the image with positive y-axes pointing downwards. The (x,y) values that are generated are scaled using the value entered during calibration.
 
 \begin{figure}
 \centering
@@ -211,7 +210,7 @@ This plot type is similar to 2D (X-Y) Plots and is to be used for images that on
 \end{subfigure}
 \begin{subfigure}[b]{0.3\textwidth}
 \includegraphics[width=\textwidth]{./figures/mapAlignment.png}
-\caption{Specify scale value and unit label}
+\caption{Specify the scale value and the unit label}
 \end{subfigure}}
 \caption{Alignment for maps and microscope images.}
 \label{fig:mapAlignment}
