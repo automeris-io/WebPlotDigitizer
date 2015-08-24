@@ -229,6 +229,7 @@ This plot type is similar to the Map plot type and is provided just as a conveni
 After calibrating the axes, you can select the \emph{Transformation Equations} option in the \emph{Axes} menu to view the relationship that is constructed by WebPlotDigitizer to convert image pixels to data. This feature allows users to use this mapping in other graphics codes or softwares where it may be required to convert image pixel locations to corresponding data or vice versa.
 
 \section{Grid Removal}
+Most automatic extraction algorithms of WebPlotDigitizer rely on the color differences of the useful data from the background and these work only when there are no background artifacts of the same color as the data. In many plots with grid lines, it is difficult for the extraction algorithms to distinguish between the background grid lines and the data curves (often in the same color). For such plots, a grid removal tool has been added, that can be used to remove the interfering horizontal and vertical lines present in the image before data extraction.
 
 \section{Acquire Data}
 
