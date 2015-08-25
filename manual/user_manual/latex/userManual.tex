@@ -1,5 +1,5 @@
-\documentclass[letterpaper, 10pt]{article}
-\usepackage{palatino}
+\documentclass[letterpaper, 11pt]{article}
+%\usepackage{palatino}%
 \usepackage{hyperref}
 \usepackage{graphicx}
 \usepackage{caption}
@@ -107,7 +107,7 @@ Please note that loading PDF files directly is not supported. It is recommended 
 
 \section{Calibrate Axes}
 
-After loading the desired image, you should specify the type of axes that is used in the plot. This step is required for the software to correctly map the image pixels to possible data points in the image. Depending on the plot type, you will have to select a few known points on the axes. On clicking the \emph{Axes $\rightarrow$ Calibrate Axes} menu item, you should be presented with the menu shown in Figure \ref{fig:defineAxesPopup}.
+After loading the desired image, you should specify the type of axes that is used in the plot. This step is required for the software to correctly map the image pixels to the corresponding data values in the image. Depending on the plot type, you will have to select a few known points on the axes. On clicking the \emph{Axes $\rightarrow$ Calibrate Axes} menu item, you should be presented with the menu shown in Figure \ref{fig:defineAxesPopup}.
 \begin{figure}
 \begin{center}
 \fbox{\includegraphics[width=3in]{./figures/defineAxesPopup.png}}
@@ -119,9 +119,9 @@ After loading the desired image, you should specify the type of axes that is use
 \subsection{2D (X-Y) Plot}
 Most plots that are on a two dimensional cartesian coordinate system fall under this category. Plots with non-orthogonal axes or plots rotated by an angle should work just fine, but images with perspective distortions will not yield accurate results. You can use image editing tools such as Gimp (\url{http://www.gimp.org/}) to correct the perspective distortions before using WebPlotDigitizer.
 
-After selecting the 2D (X-Y) plot option, another popup window appears with instructions to click on two points on the horizontal axis and two points on the vertical axis. After reading these instructions, and closing this popup, click on two points on one of the two axes $(x_1, x_2)$ and two on the other $(y_1, y_2)$. For better accuracy during the digitization process, pick the points that are as far away from each other as possible. Note down the data values at $(x_1, x_2)$ and $(y_1, y_2)$ positions as you will be required to enter those once the four points have been clicked on. Based on the location of the four points on the image and the values specified by you, WebPlotDigitizer is able to create a continuous mathematical relationship between any pixel location on the image and the corresponding data value.
+After selecting the 2D (X-Y) plot option, another popup window appears with instructions to click on two points on the horizontal axis and two points on the vertical axis. After reading these instructions, and closing this popup, click on two points on one of the axes $(x_1, x_2)$ and two on the other $(y_1, y_2)$. For better accuracy during the digitization process, pick the points that are as far away from each other as possible. Note down the data values at $(x_1, x_2)$ and $(y_1, y_2)$ positions as you will be required to enter those once the four points have been clicked on.
 
-During selection of the four points, you can also make fine adjustments to the location of a calibration point that is highlighted in green using keyboard cursor keys. Pressing the \emph{Shift}-key along with the cursor keys will move the point at a faster rate. To highlight a a different point than what is already selected, you just need to click on the other point after the four points have been placed on the screen. Zooming into the image can help improve the accuracy.
+During selection of the four points, you can also make fine adjustments to the location of a calibration point that is highlighted in green using keyboard cursor keys. Pressing the \emph{Shift}-key along with the cursor keys will move the point at a faster rate. To highlight a different point than what is already selected, you just need to click on the other point after the four points have been placed on the screen. Zooming into the image can help improve the accuracy.
 
 After the four points have been clicked on, press \emph{Continue} and another popup window will appear where you will be required to enter the values at these points. This helps the software map the image pixels corresponding to data points to their actual values when the image is digitized. To view the mapping equations, select the \emph{Transformation Equations} option from the \emph{Axes} menu.
 
@@ -229,7 +229,7 @@ This plot type is similar to the Map plot type and is provided just as a conveni
 After calibrating the axes, you can select the \emph{Transformation Equations} option in the \emph{Axes} menu to view the relationship that is constructed by WebPlotDigitizer to convert image pixels to data. This feature allows users to use this mapping in other graphics codes or softwares where it may be required to convert image pixel locations to corresponding data or vice versa.
 
 \section{Grid Removal}
-Most automatic extraction algorithms of WebPlotDigitizer rely on the color differences of the useful data from the background and these work only when there are no background artifacts of the same color as the data. In many plots with grid lines, it is difficult for the extraction algorithms to distinguish between the background grid lines and the data curves (often in the same color). For such plots, a grid removal tool has been added, that can be used to remove the interfering horizontal and vertical lines present in the image before data extraction.
+The automatic extraction algorithms of WebPlotDigitizer rely on the color differences between the data points or curves and the background. This approach works only when there are very few background artifacts of the same color as the data. In many plots with grid lines, it is difficult for the extraction algorithms to distinguish between the background grid lines and the data curves (often in the same color). For such plots, a grid removal tool has been added, that can be used to remove the interfering horizontal and vertical lines present in the image before data extraction.
 
 \section{Acquire Data}
 
