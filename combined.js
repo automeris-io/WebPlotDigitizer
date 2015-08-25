@@ -4329,7 +4329,7 @@ wpd.graphicsWidget = (function () {
         originalImage.src = imgSrc;
     }
 
-    function loadImageFromData(idata, iwidth, iheight, doReset) {        
+    function loadImageFromData(idata, iwidth, iheight, doReset, keepZoom) {        
         removeTool();
         removeRepainter();
         originalWidth = iwidth;
@@ -4342,7 +4342,13 @@ wpd.graphicsWidget = (function () {
         oriImageCtx.putImageData(idata, 0, 0);
         originalImageData = idata;
         resetAllLayers();
-        zoomFit();
+        
+        if(!keepZoom) {
+            zoomFit();
+        } else {
+            setZoomRatio(zoomRatio);
+        }
+
         if(doReset) {
             wpd.appData.reset();
             wpd.appData.plotLoaded(originalImageData);
@@ -4401,7 +4407,7 @@ wpd.graphicsWidget = (function () {
     // run an external operation on the image data. this would normally mean a reset.
     function runImageOp(operFn, doReset) {
        var opResult = operFn(originalImageData, originalWidth, originalHeight);
-       loadImageFromData(opResult.imageData, opResult.width, opResult.height, doReset);
+       loadImageFromData(opResult.imageData, opResult.width, opResult.height, doReset, opResult.keepZoom);
     }
 
     function getImageData() {
@@ -6666,7 +6672,8 @@ wpd.gridDetection = (function () {
         return {
             imageData: idata,
             width: width,
-            height: height
+            height: height,
+            keepZoom: true
         };
     }
 
@@ -6679,8 +6686,6 @@ wpd.gridDetection = (function () {
         var plotData = wpd.appData.getPlotData();
         if(plotData.backupImageData != null) {
             wpd.graphicsWidget.runImageOp(resetImageOp);
-        } else {
-            console.log('Grid Reset: No backup Image!');
         }
     }
 

@@ -173,7 +173,8 @@ wpd.gridDetection = (function () {
         return {
             imageData: idata,
             width: width,
-            height: height
+            height: height,
+            keepZoom: true
         };
     }
 
@@ -186,8 +187,6 @@ wpd.gridDetection = (function () {
         var plotData = wpd.appData.getPlotData();
         if(plotData.backupImageData != null) {
             wpd.graphicsWidget.runImageOp(resetImageOp);
-        } else {
-            console.log('Grid Reset: No backup Image!');
         }
     }
 
