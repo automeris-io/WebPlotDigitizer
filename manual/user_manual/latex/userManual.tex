@@ -231,6 +231,15 @@ After calibrating the axes, you can select the \emph{Transformation Equations} o
 \section{Grid Removal}
 The automatic extraction algorithms of WebPlotDigitizer rely on the color differences between the data points or curves and the background. This approach works only when there are very few background artifacts of the same color as the data. In many plots with grid lines, it is difficult for the extraction algorithms to distinguish between the background grid lines and the data curves (often in the same color). For such plots, a grid removal tool has been added, that can be used to remove the interfering horizontal and vertical lines present in the image before data extraction.
 
+To perform a grid removal operation, select the \emph{Remove Grid} option from the \emph{Axes} menu. A new set of controls should appear on the side with the following:
+\begin{itemize}
+\item{{\bf Mask Editing}: Mark a rectangular region on the image after clicking the \emph{Box} button. This will specify the region in which grid removal is to be performed. Use the \emph{Clear} button to delete the selection. \emph{View} button will simply display the box selection.}
+\item{{\bf Color Selection}: Use the \emph{Pick} button and specify the background color of the plot. If the \emph{Background Mode} option is unchecked, then the selected color should be the foreground color of the grid lines. The number next to the \emph{Pick} button is the acceptable distance from the selected color. With some hit-and-trial, you pick the distance that works the best. The \emph{Test} button can be used to test the color detection.}
+\item{{\bf Horizontal and Vertical Parameters:} By default both horizontal and vertical grid lines will be removed. To turn off detection in one of these directions, just uncheck the appropriate option. The \emph{X\%} and \emph{Y\%} parameters are used to specify the percentage of the height or the width that is taken up by the grid line. For solid grid lines, this number will be higher. For dotted or dashed lines, this number will be smaller.}
+\end{itemize}
+
+To run the grid line removal tool, press the \emph{Detect} button. If the results are not satisfactory, then you can adjust the various parameters and click \emph{Detect} again. Hit \emph{Reset} to restore the original image.
+
 \section{Acquire Data}
 
 Once the plot axes have been calibrated, you can begin selecting data points on the image. Also note that the numbers below the zoom window reflect actual data coordinates corresponding to your mouse position on the image. If you see incorrect numbers here, then perhaps incorrect calibration values were entered. You must repeat the axes calibration in this situation. 
@@ -263,7 +272,7 @@ The controls available in this mode are as follows:
 \item{{\bf Delete Point (D): }After clicking this button or pressing the 'D' key, you can click on a previously added data point to delete it.}
 \item{{\bf Clear Points: }This deletes all data points added on the image. This does not clear the axes calibration.}
 \item{{\bf View Data: }This launches a popup dialog where the collected data can be viewed, exported to a CSV file or Plotly. See section \ref{sec:csvData} for details.}
-\item{{\bf Edit Labels: }This option is only available for Bar Charts.}
+\item{{\bf Edit Labels: }This option is only available for Bar Charts. After clicking this button, you can edit the labels for a data points by clicking on them.}
 \end{enumerate}
 
 \subsection{Automatic Mode}
@@ -271,7 +280,7 @@ The controls available in the automatic mode are used for selecting the appropri
 
 Automatic data extraction relies on separating the color of the data points or curves from the background in the image. The extraction algorithms can work in two modes of color extraction: Foreground mode and Background mode. In the foreground mode, the algorithms look for the foreground color specified for the data and ignore everything else. In the background mode, the algorithms include everything except the background color as potential data points. If the data points or curves of interest are uniformly colored (approximately), then the foreground mode may be more suitable. Otherwise if the background is uniformly colored (approximately) and the curve or data points are not then the background mode may me more suitable.
 
-The extraction algorithms also need to know the region of the image to be searched for the specified colors. The software does not search the entire image as in many cases, the data point or the curve colors may be repeated in non-data parts of the image. To specify the region of interest, use the \emph{Box}, \emph{Pen} and \emph{Erase} tools (described below) to paint over a yellow mask over the data part of the image as shown in Figure \ref{fig:markRegion}. The extraction algorithms will look for data only under  the yellow colored region. The various controls available in this mode are as follows:
+The extraction algorithms also need to know the region of the image to be searched for the specified colors. The software does not search the entire image as in many cases the data point or the curve colors may be present in non-data parts of the image as well. To specify the region of interest, use the \emph{Box}, \emph{Pen} and \emph{Erase} tools (described below) to paint over a yellow mask over the data part of the image as shown in Figure \ref{fig:markRegion}. The extraction algorithms will look for data only under the yellow colored region. The various controls available in this mode are as follows:
 \begin{figure}
 \begin{center}
 \includegraphics[width=4in]{./figures/markRegion.png}
@@ -284,8 +293,8 @@ The extraction algorithms also need to know the region of the image to be search
 
 
 \begin{enumerate}
-\item{{\bf Dataset: }Pick the dataset from the list to specify the data series the data points are to be added to (or modified). See section \ref{sec:multipleDatasets} for further details.}
 \item{{\bf Manual Mode: }Switch to manual mode. You can switch between these modes at any time.}
+\item{{\bf Dataset: }Pick the dataset from the list to specify the data series the data points are to be added to (or modified). See section \ref{sec:multipleDatasets} for further details.}
 \item{{\bf Mask Controls:} These controls are to be used to mark the search region for the extraction algorithms. Use the following drawing tools to highlight the approximate region containing data. You should try to exclude all features that are similar in color to the desired data points.}
 \begin{enumerate}
     \item{{\bf Box: }This is used to mark a rectangular region to be used during the search for data points.}
@@ -422,10 +431,7 @@ For distance measurements, if the chosen plot type is a \emph{Map} axes, then th
 If you wish to save the axes calibration, data points in all the datasets and the measurements to a file for future use, then you can select the \emph{Export JSON} option in the \emph{File} menu. Note that this file does not contain the image and so you will also have to keep the plot image along with this JSON file. To use the information stored in the JSON file, simply use the \emph{Import JSON} option in the \emph{File} menu. The Export and Import feature can also be used to reuse axes calibrations across multiple plot images which are plotted on the same axes.
 
 \section{Custom Scripts}
-Users can also create custom scripts to automate some of the digitization tasks or add new functionality. Custom scripts have access to most of the WebPlotDigitizer's API. A few examples can be seen on \url{http://github.com/ankitrohatgi/WebPlotDigitizer-Examples}. If you need help with custom scripts, then send me an email.
-
-\section{Personal Hosting}
-You can host WebPlotDigitizer on a personal or corporate network with just a simple HTTP server with PHP support. All image processing and other calculations related to the digitization occurs on the client browser, so the server does not need any significant resources. The PHP backend is used simply to bounce back CSV and JSON files to get around the restrictions imposed by HTML5.
+Users can also create custom scripts to automate some of the digitization tasks or add new functionality. The custom scripts have access to most of the WebPlotDigitizer's API and so it is possible to accomplish fairly complicated tasks. A few simple examples can be found on \url{http://github.com/ankitrohatgi/WebPlotDigitizer-Examples}. If you need assistance with custom scripting, then feel free to contact me.
 
 
 \end{document}
