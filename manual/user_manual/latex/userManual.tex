@@ -49,10 +49,10 @@ Some of the experimental work in the lab required me to learn some basic image p
 WebPlotDigitizer is now used by thousands everyday and because of this interest, I have continued to maintain and improve the software in my spare time.
 
 \subsection{User Manual and Tutorials}
-This user manual describes the various capabilities of the software and aims to help the user in making an effective use of the software. This manual may be updated continuously to match the latest deployed version of the software. A few video tutorials for the previous version of the software are available at \url{http://arohatgi.info/WebPlotDigitizer}. If the you want me to document the underlying theory and algorithms, then please write me an email.
+This user manual describes the various capabilities of the software and aims to help the user in making an effective use of the software. This manual may be updated continuously to match the latest deployed version of the software. A few video tutorials are also available at \url{http://arohatgi.info/WebPlotDigitizer}. If the you want me to document the underlying theory and algorithms, then please send me a request over email.
 
 \subsection{License}
-WebPlotDigitizer is distributed under GNU General Public License version 3 by Ankit Rohatgi. For the complete terms and conditions, please refer to \url{http://www.gnu.org/copyleft/gpl.html}
+WebPlotDigitizer is distributed under the GNU General Public License version 3 by Ankit Rohatgi. For the complete terms and conditions, please refer to \url{http://www.gnu.org/copyleft/gpl.html}
 
 \subsection{Source Code}
 WebPlotDigitizer is an open source software (see above). The source code can be obtained from GitHub (\url{https://github.com/ankitrohatgi/WebPlotDigitizer/}). Feel free to contact via email if you wish to contribute to this project.
@@ -61,8 +61,7 @@ WebPlotDigitizer is an open source software (see above). The source code can be 
 The latest stable version of the software can be used directly from the website \url{http://arohatgi.info/WebPlotDigitizer}. For the Google Chrome web browser, an \emph{app} pointing to the online software is also available at the Chrome App Store (\url{https://chrome.google.com/webstore/category/apps}).
 
 \subsection{Supported Browsers}
-The HTML5 capabilities required by WebPlotDigitizer have been available in all popular browsers for the last 2 to 3 years. Version 3.9 was ensured to work without any issues on recent versions of Google Chrome, Firefox, Safari, Internet Explorer and Microsoft Edge.
-
+WebPlotDigitizer should be compatible with most popular web browsers that support HTML5 and were released in the last 2 to 3 years. Version 3.9 had been tested on recent versions of Google Chrome, Firefox, Safari, Internet Explorer and Microsoft Edge.
 
 \subsection{Citing WebPlotDigitizer}
 If you wish to cite WebPlotDigitizer in any of your works, then please use the following information:
@@ -74,7 +73,7 @@ Author & Ankit Rohatgi\\
 Title & WebPlotDigitizer\\
 Website & \url{http://arohatgi.info/WebPlotDigitizer}\\
 Version & 3.9\\
-Date & September, 2015\\
+Date & October, 2015\\
 E-Mail & ankitrohatgi@hotmail.com\\
 Location & Austin, Texas, USA\\
 \hline
@@ -133,9 +132,9 @@ After the four points have been clicked on, press \emph{Continue} and another po
 \end{subfigure}
 \begin{subfigure}[b]{0.4\textwidth}
 \includegraphics[width=\textwidth]{./figures/xyAlignment.png}
-\caption{Specify values}
+\caption{Specify data values at the selected points to calibrate the axes.}
 \end{subfigure}}
-\caption{Alignment for 2D (X-Y) Plot.}
+\caption{Calibrating a 2D (X-Y) plot.}
 \label{fig:xyAlignment}
 \end{figure}
 
@@ -145,8 +144,10 @@ Like most computer programs, WebPlotDigitizer accepts integers (e.g. 1, 2, 3 etc
 \begin{enumerate}
 \item{Fractions are not computed as numbers. Entering $1/2$ (for example), will not be considered as 0.5.}
 \item{For exponentials, the caret symbol (\^{}) is not recognized and the values have to be entered as 1.45e-10 for $1.45 \times 10^{-10}$ (for example).}
-\item{{\bf Dates:} This is enabled only for 2D (X-Y) Plots. At the time of calibration, the dates have to be entered in the format shown below. With the final digitized data, however, results can be formatted in many different ways (see section \ref{sec:formattingDatesCSV}).
+\item{{\bf Dates:} This is enabled only for 2D (X-Y) Plots. At the time of calibration, the dates have to be entered in the format shown below. With the final digitized data, however, results can be formatted in many different ways (see Section \ref{sec:formattingDatesCSV}).
 \begin{center}
+\begin{table}[h]	
+\caption{Input format for dates in a 2D (X-Y) Plot.}
 \begin{tabular}{|c|c|c|}
 \hline
 Date & Format & Examples\\
@@ -156,6 +157,7 @@ Year, Month & YYYY/MM & 2012/10 or 1989/5\\
 Year & YYYY & 2012 (treated as any integer)\\
 \hline
 \end{tabular}
+\end{table}
 \end{center}
 }
 \end{enumerate}
@@ -164,25 +166,60 @@ Year & YYYY & 2012 (treated as any integer)\\
 \subsection{Bar Charts}
 
 \subsubsection{Bar Charts vs. Histograms}
-For bar charts with a continuous variation of data along the data axis, but with only a discrete set of labels on the other, select the \emph{2D Bar Plot} option when calibrating the axes. For plots such as histograms where both the axes are continuously varying, you should still select the \emph{2D (X-Y) Plot} option and use the manual mode or the \emph{histogram} algorithm for data extraction.
+For bar charts with a continuous variation of data along the data axis, but with only a discrete set of labels on the other, select the \emph{2D Bar Plot} option when calibrating the axes. For plots such as histograms where both the axes are continuously varying, you should still select the \emph{2D (X-Y) Plot} option and use the manual mode or the \emph{histogram} algorithm for data extraction (see Figure \ref{fig:barVsHistogram}).
+
+\begin{figure}[h]
+\centering
+{\begin{subfigure}[b]{0.45\textwidth}
+\includegraphics[width=\textwidth]{./figures/barchart.png}
+\caption{For bar charts with discrete items on the independent axis, use the 2D Bar Chart option when calibrating the axes.}
+\end{subfigure}
+\hspace{5mm}
+\begin{subfigure}[b]{0.45\textwidth}
+\includegraphics[width=\textwidth]{./figures/histogram.png}
+\caption{For histograms, both axes have continuously varying quantities. For this case, use the 2D (X-Y) Plot option and select the \emph{histogram} algorithm.}
+\end{subfigure}}
+\caption{Bar Charts vs. Histograms}
+\label{fig:barVsHistogram}
+\end{figure}
+
 
 \subsubsection{Axes Calibration for Bar Charts}
-Select the \emph{2D Bar Plot} option when calibrating the axes and follow the instructions to select two points on the continuously varying data axis that is along the bars. Next, specify the values at these two points so that WebPlotDigitizer can construct a mathematical relationship between the pixel position along this axis and the corresponding data value.
+Select the \emph{2D Bar Plot} option when calibrating the axes and follow the instructions to select two points on the continuously varying data axis that is along the bars. Next, specify the values at these two points so that WebPlotDigitizer can construct a mathematical relationship between the pixel position along this axis and the corresponding data value (see Figure \ref{fig:barAlignment}).
 
 After calibration, you can manually click on the bars to mark the points or use the automatic extraction mode where you can use the color of the bars to extract data points. For bar charts, you can also edit the labels of each individual data point.
+
+\begin{figure}[h]
+\centering
+{\begin{subfigure}[b]{0.8\textwidth}
+\includegraphics[width=\textwidth]{./figures/barInfo.png}
+\caption{Instructions for calibrating bar chart axes.}
+\end{subfigure}
+\\
+\vspace{5mm}
+\begin{subfigure}[b]{0.6\textwidth}
+\includegraphics[width=\textwidth]{./figures/barAlignment.png}
+\caption{Specify values at the two points selected on the continuous axis.}
+\end{subfigure}}
+\caption{Calibrating axes for 2D Bar Plots.}
+\label{fig:barAlignment}
+\end{figure}
+
 
 \subsection{Polar Diagram}
 Select this option if the data points in the image are plotted on a polar axes. On selecting this, you will be required to click on three known points including the center of the polar diagram (Figure \ref{fig:polarAlignment}). After clicking on 3 points, you can also select the axes orientation and select Degrees or Radians for the angle. For log-polar diagrams, you can select the log scale option. The values entered here also have to follow the format similar to 2D (X-Y) Plots. Dates can not be used for values in this case.
 
-\begin{figure}
+\begin{figure}[h]
 \centering
-{\begin{subfigure}[b]{0.4\textwidth}
+{\begin{subfigure}[b]{0.5\textwidth}
 \includegraphics[width=\textwidth]{./figures/polarInfo.png}
 \caption{Mark three points to align axes}
 \end{subfigure}
-\begin{subfigure}[b]{0.3\textwidth}
+\\
+\vspace{5mm}
+\begin{subfigure}[b]{0.5\textwidth}
 \includegraphics[width=\textwidth]{./figures/polarAlignment.png}
-\caption{Specify values}
+\caption{Specify values at the two points other than the origin.}
 \end{subfigure}}
 \caption{Alignment for Polar Diagram.}
 \label{fig:polarAlignment}
@@ -191,7 +228,7 @@ Select this option if the data points in the image are plotted on a polar axes. 
 \subsection{Ternary Diagram}
 Ternary phase diagrams are harder to interpret than simple two dimensional cartesian or polar plots. Using this software to recover data makes the process of data recovery extremely straightforward and thus reduces the possibility of misinterpreting the data. For this type of plot, simply mark the three corners as shown in the instructions and then specify the range of variables and orientation of the diagram (Figure \ref{fig:ternaryAlignment}).
 
-\begin{figure}
+\begin{figure}[h]
 \centering
 {\begin{subfigure}[b]{0.4\textwidth}
 \includegraphics[width=\textwidth]{./figures/ternaryInfo.png}
@@ -231,7 +268,7 @@ After calibrating the axes, you can select the \emph{Transformation Equations} o
 \section{Grid Removal}
 The automatic extraction algorithms of WebPlotDigitizer rely on the color differences between the data points or curves and the background. This approach works only when there are very few background artifacts of the same color as the data. In many plots with grid lines, it is difficult for the extraction algorithms to distinguish between the background grid lines and the data curves (often in the same color). For such plots, a grid removal tool has been added, that can be used to remove the interfering horizontal and vertical lines present in the image before data extraction.
 
-To perform a grid removal operation, select the \emph{Remove Grid} option from the \emph{Axes} menu. A new set of controls should appear on the side with the following:
+To perform a grid removal operation, select the \emph{Remove Grid} option from the \emph{Axes} menu. A new set of controls should appear on the side as shown in Figure \ref{fig:gridRemoval}.
 \begin{itemize}
 \item{{\bf Mask Editing}: Mark a rectangular region on the image after clicking the \emph{Box} button. This will specify the region in which grid removal is to be performed. Use the \emph{Clear} button to delete the selection. \emph{View} button will simply display the box selection.}
 \item{{\bf Color Selection}: Use the \emph{Pick} button and specify the background color of the plot. If the \emph{Background Mode} option is unchecked, then the selected color should be the foreground color of the grid lines. The number next to the \emph{Pick} button is the acceptable distance from the selected color. With some hit-and-trial, you pick the distance that works the best. The \emph{Test} button can be used to test the color detection.}
@@ -239,6 +276,14 @@ To perform a grid removal operation, select the \emph{Remove Grid} option from t
 \end{itemize}
 
 To run the grid line removal tool, press the \emph{Detect} button. If the results are not satisfactory, then you can adjust the various parameters and click \emph{Detect} again. Hit \emph{Reset} to restore the original image.
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=2.2in]{./figures/gridRemoval.png}
+\caption{Grid removal controls.}
+\label{fig:gridRemoval}
+\end{center}
+\end{figure}
 
 \section{Acquire Data}
 
@@ -272,7 +317,7 @@ The controls available in this mode are as follows:
 \item{{\bf Delete Point (D): }After clicking this button or pressing the 'D' key, you can click on a previously added data point to delete it.}
 \item{{\bf Clear Points: }This deletes all data points added on the image. This does not clear the axes calibration.}
 \item{{\bf View Data: }This launches a popup dialog where the collected data can be viewed, exported to a CSV file or Plotly. See section \ref{sec:csvData} for details.}
-\item{{\bf Edit Labels: }This option is only available for Bar Charts. After clicking this button, you can edit the labels for a data points by clicking on them.}
+\item{{\bf Edit Labels: }This option is only available for 2D Bar Plots. After clicking this button, you can edit the labels for a data points by clicking on them.}
 \end{enumerate}
 
 \subsection{Automatic Mode}
@@ -342,9 +387,9 @@ This algorithm is useful for counting number of objects, determining the locatio
 For plots that have multiple sets of data, you can capture data for one dataset, export the CSV file, then clear all the data points and start over to collect data for the next set. This may be acceptable in many cases, but this is can be somewhat inconvenient if you wish to return to an old dataset and modify some data points. Also, this way, you will not be able to store data for all the datasets in an exported JSON file (see section \ref{sec:csvData}). 
 
 A better option is to create a separate dataset for each series you wish to capture by selecting the \emph{Add} option in the \emph{Manage Dataset} popup that can be accessed from the \emph{Data} menu (Figure \ref{fig:manageDatasets}). From this popup, you can also delete or rename a dataset. After adding multiple sets, you can then switch between these from the dataset menus available in the manual and automatic extraction controls and also in the \emph{View Data} window. By default, one dataset called "Default Dataset" is available.
-\begin{figure}
+\begin{figure}[h]
 \begin{center}
-\includegraphics[width=3.5in]{./figures/wpd_dataset_2.png}
+\includegraphics[width=3.5in]{./figures/manageDatasets.png}
 \caption{Add, delete or rename datasets corresponding to each series of data in the plot.}
 \label{fig:manageDatasets}
 \end{center}
