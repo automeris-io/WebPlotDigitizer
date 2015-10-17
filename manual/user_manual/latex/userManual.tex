@@ -127,11 +127,12 @@ After the four points have been clicked on, press \emph{Continue} and another po
 \begin{figure}
 \centering
 {\begin{subfigure}[b]{0.4\textwidth}
-\includegraphics[width=\textwidth]{./figures/xyAxesInfo.png}
+\fbox{\includegraphics[width=\textwidth]{./figures/xyAxesInfo.png}}
 \caption{Mark four points to align axes}
 \end{subfigure}
-\begin{subfigure}[b]{0.4\textwidth}
-\includegraphics[width=\textwidth]{./figures/xyAlignment.png}
+\hspace{5mm}
+\begin{subfigure}[b]{0.45\textwidth}
+\fbox{\includegraphics[width=\textwidth]{./figures/xyAlignment.png}}
 \caption{Specify data values at the selected points to calibrate the axes.}
 \end{subfigure}}
 \caption{Calibrating a 2D (X-Y) plot.}
@@ -192,13 +193,13 @@ After calibration, you can manually click on the bars to mark the points or use 
 \begin{figure}[h]
 \centering
 {\begin{subfigure}[b]{0.8\textwidth}
-\includegraphics[width=\textwidth]{./figures/barInfo.png}
+\fbox{\includegraphics[width=\textwidth]{./figures/barInfo.png}}
 \caption{Instructions for calibrating bar chart axes.}
 \end{subfigure}
 \\
 \vspace{5mm}
 \begin{subfigure}[b]{0.6\textwidth}
-\includegraphics[width=\textwidth]{./figures/barAlignment.png}
+\fbox{\includegraphics[width=\textwidth]{./figures/barAlignment.png}}
 \caption{Specify values at the two points selected on the continuous axis.}
 \end{subfigure}}
 \caption{Calibrating axes for 2D Bar Plots.}
@@ -212,13 +213,13 @@ Select this option if the data points in the image are plotted on a polar axes. 
 \begin{figure}[h]
 \centering
 {\begin{subfigure}[b]{0.5\textwidth}
-\includegraphics[width=\textwidth]{./figures/polarInfo.png}
+\fbox{\includegraphics[width=\textwidth]{./figures/polarInfo.png}}
 \caption{Mark three points to align axes}
 \end{subfigure}
 \\
 \vspace{5mm}
 \begin{subfigure}[b]{0.5\textwidth}
-\includegraphics[width=\textwidth]{./figures/polarAlignment.png}
+\fbox{\includegraphics[width=\textwidth]{./figures/polarAlignment.png}}
 \caption{Specify values at the two points other than the origin.}
 \end{subfigure}}
 \caption{Alignment for Polar Diagram.}
@@ -231,11 +232,12 @@ Ternary phase diagrams are harder to interpret than simple two dimensional carte
 \begin{figure}[h]
 \centering
 {\begin{subfigure}[b]{0.4\textwidth}
-\includegraphics[width=\textwidth]{./figures/ternaryInfo.png}
+\fbox{\includegraphics[width=\textwidth]{./figures/ternaryInfo.png}}
 \caption{Mark three points to align axes}
 \end{subfigure}
-\begin{subfigure}[b]{0.4\textwidth}
-\includegraphics[width=\textwidth]{./figures/ternaryAlignment.png}
+\hspace{5mm}
+\begin{subfigure}[b]{0.45\textwidth}
+\fbox{\includegraphics[width=\textwidth]{./figures/ternaryAlignment.png}}
 \caption{Specify values}
 \end{subfigure}}
 \caption{Alignment for Ternary Diagram.}
@@ -247,12 +249,13 @@ The \emph{Map with Scale Bar} option is similar to 2D (X-Y) Plots and is to be u
 
 \begin{figure}
 \centering
-{\begin{subfigure}[b]{0.3\textwidth}
-\includegraphics[width=\textwidth]{./figures/mapInfo.png}
+{\begin{subfigure}[b]{0.4\textwidth}
+\fbox{\includegraphics[width=\textwidth]{./figures/mapInfo.png}}
 \caption{Mark ends of the scale bar}
 \end{subfigure}
+\hspace{5mm}
 \begin{subfigure}[b]{0.3\textwidth}
-\includegraphics[width=\textwidth]{./figures/mapAlignment.png}
+\fbox{\includegraphics[width=\textwidth]{./figures/mapAlignment.png}}
 \caption{Specify the scale value and the unit label}
 \end{subfigure}}
 \caption{Alignment for maps and microscope images.}
@@ -279,7 +282,7 @@ To run the grid line removal tool, press the \emph{Detect} button. If the result
 
 \begin{figure}
 \begin{center}
-\includegraphics[width=2.2in]{./figures/gridRemoval.png}
+\fbox{\includegraphics[width=2.2in]{./figures/gridRemoval.png}}
 \caption{Grid removal controls.}
 \label{fig:gridRemoval}
 \end{center}
@@ -294,12 +297,13 @@ WebPlotDigitizer should also show a side panel with the data acquisition control
 \begin{figure}
 \centering
 {
-\begin{subfigure}{0.3\textwidth}
-\includegraphics[width=\textwidth]{./figures/manualSidebar.png}
+\begin{subfigure}{0.35\textwidth}
+\fbox{\includegraphics[width=\textwidth]{./figures/manualSidebar.png}}
 \caption{Manual Mode}
 \end{subfigure}
-\begin{subfigure}{0.3\textwidth}
-\includegraphics[width=\textwidth]{./figures/autoSidebar.png}
+\hspace{5mm}
+\begin{subfigure}{0.4\textwidth}
+\fbox{\includegraphics[width=\textwidth]{./figures/autoSidebar.png}}
 \caption{Automatic Mode}
 \end{subfigure}
 }
@@ -363,7 +367,7 @@ The extraction algorithms also need to know the region of the image to be search
 Four different digitization algorithms are available in WebPlotDigitizer as shown in Figure \ref{fig:autoExtractAlgos}. The \emph{Averaging Window} algorithm is set as the default as it is usually suitable in most simple cases.
 \begin{figure}
 \begin{center}
-\includegraphics[width=2in]{./figures/wpd_algos.png}
+\fbox{\includegraphics[width=2.5in]{./figures/wpd_algos.png}}
 \caption{Four automatic extraction algorithms are available. These are subject to change in the future releases.}
 \label{fig:autoExtractAlgos}
 \end{center}
@@ -389,7 +393,7 @@ For plots that have multiple sets of data, you can capture data for one dataset,
 A better option is to create a separate dataset for each series you wish to capture by selecting the \emph{Add} option in the \emph{Manage Dataset} popup that can be accessed from the \emph{Data} menu (Figure \ref{fig:manageDatasets}). From this popup, you can also delete or rename a dataset. After adding multiple sets, you can then switch between these from the dataset menus available in the manual and automatic extraction controls and also in the \emph{View Data} window. By default, one dataset called "Default Dataset" is available.
 \begin{figure}[h]
 \begin{center}
-\includegraphics[width=3.5in]{./figures/manageDatasets.png}
+\fbox{\includegraphics[width=3.5in]{./figures/manageDatasets.png}}
 \caption{Add, delete or rename datasets corresponding to each series of data in the plot.}
 \label{fig:manageDatasets}
 \end{center}
@@ -402,7 +406,7 @@ Once the required data points are marked on the image using the manual mode, aut
  
 \begin{figure}
 \begin{center}
-\includegraphics[width=6in]{./figures/wpd_formatting.png}
+\fbox{\includegraphics[width=6in]{./figures/wpd_formatting.png}}
 \caption{CSV formatted digitized data. This can be sorted, pasted to a .CSV file or graphed in Plotly.}
 \label{fig:csvOutput}
 \end{center}
@@ -414,7 +418,7 @@ The digitized data can be left unsorted (Raw Output) or by one of the axes varia
 If one or both of the axes in a 2D (X-Y) plot contain dates then fields to specify the output format of the values are also shown (Figure \ref{fig:dateFormat}). In these fields, the following pieces of text are replaced with the corresponding part of the date to format the text (case insensitive):
 \begin{figure}
 \begin{center}
-\includegraphics[width=2.5in]{./figures/dateFormat.png}
+\fbox{\includegraphics[width=3in]{./figures/dateFormat.png}}
 \caption{Field to specify formatting of dates. This appears on X, Y or both axes depending on which variables contained dates at the time of axes calibration.}
 \label{fig:dateFormat}
 \end{center}
