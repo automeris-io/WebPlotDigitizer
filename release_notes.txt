@@ -2,7 +2,7 @@ RELEASE NOTES
 
 Version 3.9
 ===========
-Yet to be released
+October 18, 2015
 
 New Features:
 - Initial implementation of grid removal.
