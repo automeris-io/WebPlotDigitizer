@@ -255,3 +255,7 @@ select {
     margin: 3px;
     padding: 0px;
 }
+
+.i18n-string {
+    display: hidden;
+}

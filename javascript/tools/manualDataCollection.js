@@ -26,7 +26,7 @@ var wpd = wpd || {};
 wpd.acquireData = (function () {
     function load() {
         if(!wpd.appData.isAligned()) {
-            wpd.messagePopup.show("Acquire Data", "Please calibrate the axes before acquiring data.");
+            wpd.messagePopup.show(wpd.gettext('acquire-data'), wpd.gettext('acquire-data-calibration'));
         } else {
             showSidebar();
             wpd.dataPointCounter.setCount();
@@ -59,7 +59,7 @@ wpd.acquireData = (function () {
         if(wpd.appData.getPlotData().getActiveDataSeries().getCount() <= 0) {
             return;
         }
-        wpd.okCancelPopup.show("Clear data points?", "This will delete all data points from this dataset", confirmedClearAll, function() {});
+        wpd.okCancelPopup.show(wpd.gettext('clear-data-points'), wpd.gettext('clear-data-points-text'), confirmedClearAll, function() {});
     }
 
     function undo() {

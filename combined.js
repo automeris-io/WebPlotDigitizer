@@ -29,7 +29,7 @@ wpd.initApp = function() {// This is run when the page loads.
     wpd.layoutManager.initialLayout();
     if(!wpd.loadRemoteData()) {
         wpd.graphicsWidget.loadImageFromURL('start.png');
-        wpd.messagePopup.show('Unstable Version Warning!', 'You are using a beta version of WebPlotDigitizer. There may be some issues with the software that are expected.');
+        wpd.messagePopup.show(wpd.gettext('unstable-version-warning'), wpd.gettext('unstable-version-warning-text'));
     }
     document.getElementById('loadingCurtain').style.display = 'none';
 
@@ -5311,7 +5311,7 @@ wpd.xyCalibration = (function () {
         calib.setDataAt(3, xmax, ymax);
         if(!axes.calibrate(calib, xlog, ylog)) {
             wpd.popup.close('xyAlignment');
-            wpd.messagePopup.show('Invalid Inputs', 'Please enter valid values for calibration.', getCornerValues);
+            wpd.messagePopup.show(wpd.gettext('calibration-invalid-inputs'), wpd.gettext('calibration-enter-valid'), getCornerValues);
             return false;
         }
         plot = wpd.appData.getPlotData();
@@ -5357,7 +5357,7 @@ wpd.barCalibration = (function () {
         calib.setDataAt(1, 0, p2);
         if(!axes.calibrate(calib, isLogScale)) {
             wpd.popup.close('barAlignment');
-            wpd.messagePopup.show('Invalid Inputs', 'Please enter valid values for calibration.', getCornerValues);
+            wpd.messagePopup.show(wpd.gettext('calibration-invalid-inputs'), wpd.gettext('calibration-enter-valid'), getCornerValues);
             return false;
         }
         plot = wpd.appData.getPlotData();
@@ -7097,7 +7097,7 @@ var wpd = wpd || {};
 wpd.acquireData = (function () {
     function load() {
         if(!wpd.appData.isAligned()) {
-            wpd.messagePopup.show("Acquire Data", "Please calibrate the axes before acquiring data.");
+            wpd.messagePopup.show(wpd.gettext('acquire-data'), wpd.gettext('acquire-data-calibration'));
         } else {
             showSidebar();
             wpd.dataPointCounter.setCount();
@@ -7130,7 +7130,7 @@ wpd.acquireData = (function () {
         if(wpd.appData.getPlotData().getActiveDataSeries().getCount() <= 0) {
             return;
         }
-        wpd.okCancelPopup.show("Clear data points?", "This will delete all data points from this dataset", confirmedClearAll, function() {});
+        wpd.okCancelPopup.show(wpd.gettext('clear-data-points'), wpd.gettext('clear-data-points-text'), confirmedClearAll, function() {});
     }
 
     function undo() {
@@ -8723,6 +8723,38 @@ wpd.download = (function() {
 
 var wpd = wpd || {};
 
+wpd.gettext = function(stringId) {
+    var $str = document.getElementById('i18n-string-' + stringId);
+    if($str) {
+        return $str.innerHTML;
+    }
+    return 'i18n string';
+};
+/*
+	WebPlotDigitizer - http://arohatgi.info/WebPlotdigitizer
+
+	Copyright 2010-2015 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+
+	This file is part of WebPlotDigitizer.
+
+    WebPlotDIgitizer is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    WebPlotDigitizer is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
+
+
+*/
+
+var wpd = wpd || {};
+
 wpd.plotly = (function() {
     
     function send(dataObject) {
@@ -9013,7 +9045,7 @@ wpd.saveResume = (function () {
                 if(wpd.appData.isAligned()) {
                     wpd.acquireData.load();
                 }
-                wpd.messagePopup.show("Import JSON","JSON data has been loaded!");
+                wpd.messagePopup.show(wpd.gettext('import-json'), wpd.gettext("json-data-loaded"));
             };
             fileReader.readAsText($fileInput.files[0]);
         }
