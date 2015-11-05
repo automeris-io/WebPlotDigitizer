@@ -56,7 +56,7 @@ wpd.xyCalibration = (function () {
         calib.setDataAt(3, xmax, ymax);
         if(!axes.calibrate(calib, xlog, ylog)) {
             wpd.popup.close('xyAlignment');
-            wpd.messagePopup.show('Invalid Inputs', 'Please enter valid values for calibration.', getCornerValues);
+            wpd.messagePopup.show(wpd.gettext('calibration-invalid-inputs'), wpd.gettext('calibration-enter-valid'), getCornerValues);
             return false;
         }
         plot = wpd.appData.getPlotData();
@@ -102,7 +102,7 @@ wpd.barCalibration = (function () {
         calib.setDataAt(1, 0, p2);
         if(!axes.calibrate(calib, isLogScale)) {
             wpd.popup.close('barAlignment');
-            wpd.messagePopup.show('Invalid Inputs', 'Please enter valid values for calibration.', getCornerValues);
+            wpd.messagePopup.show(wpd.gettext('calibration-invalid-inputs'), wpd.gettext('calibration-enter-valid'), getCornerValues);
             return false;
         }
         plot = wpd.appData.getPlotData();

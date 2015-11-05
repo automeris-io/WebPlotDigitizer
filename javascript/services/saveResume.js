@@ -257,7 +257,7 @@ wpd.saveResume = (function () {
                 if(wpd.appData.isAligned()) {
                     wpd.acquireData.load();
                 }
-                wpd.messagePopup.show("Import JSON","JSON data has been loaded!");
+                wpd.messagePopup.show(wpd.gettext('import-json'), wpd.gettext("json-data-loaded"));
             };
             fileReader.readAsText($fileInput.files[0]);
         }

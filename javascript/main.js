@@ -29,7 +29,7 @@ wpd.initApp = function() {// This is run when the page loads.
     wpd.layoutManager.initialLayout();
     if(!wpd.loadRemoteData()) {
         wpd.graphicsWidget.loadImageFromURL('start.png');
-        wpd.messagePopup.show('Unstable Version Warning!', 'You are using a beta version of WebPlotDigitizer. There may be some issues with the software that are expected.');
+        wpd.messagePopup.show(wpd.gettext('unstable-version-warning'), wpd.gettext('unstable-version-warning-text'));
     }
     document.getElementById('loadingCurtain').style.display = 'none';
 
