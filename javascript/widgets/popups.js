@@ -153,7 +153,7 @@ wpd.busyNote = (function () {
         if(noteDiv == null) {
             noteDiv = document.createElement('div');
             noteDiv.id = 'wait';
-            noteDiv.innerHTML = '<p align="center">Processing...</p>';
+            noteDiv.innerHTML = '<p align="center">' + wpd.gettext('processing') + '...</p>';
         }
         document.body.appendChild(noteDiv);
         isVisible = true;
@@ -224,6 +224,6 @@ wpd.okCancelPopup = (function () {
 })();
 
 wpd.unsupported = function () {
-    wpd.messagePopup.show("Unsupported Feature!", "This feature has not been implemented in the current version. This may be available in a future release.");
+    wpd.messagePopup.show(wpd.gettext('unsupported'), wpd.gettext('unsupported-text'));
 };
 

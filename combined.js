@@ -3394,7 +3394,7 @@ wpd.dataSeriesManagement = (function () {
 
     function manage() {
         if(!wpd.appData.isAligned()) {
-            wpd.messagePopup.show("Manage Datasets", "Please calibrate the axes before managing datasets.");
+            wpd.messagePopup.show(wpd.gettext('manage-datasets'), wpd.gettext('manage-datasets-text'));
         } else {
             var $nameField = document.getElementById('manage-data-series-name'),
                 $pointCount = document.getElementById('manage-data-series-point-count'),
@@ -3438,11 +3438,11 @@ wpd.dataSeriesManagement = (function () {
         close();
 
         if(wpd.appData.getPlotData().dataSeriesColl.length === 1) {
-            wpd.messagePopup.show("Can Not Delete!", "You can not delete this dataset as at least one dataset is required.", manage);
+            wpd.messagePopup.show(wpd.gettext('can-not-delete-dataset'), wpd.gettext('can-not-delete-dataset-text'), manage);
             return;
         }
 
-        wpd.okCancelPopup.show("Delete Dataset", "Are you sure that you want to delete the dataset and all containing data points?", function() {
+        wpd.okCancelPopup.show(wpd.gettext('delete-dataset'), wpd.gettext('delete-dataset-text'), function() {
             // delete the dataset
             var plotData = wpd.appData.getPlotData(),
                 index = plotData.getActiveDataSeriesIndex();
@@ -3587,7 +3587,7 @@ wpd.dataTable = (function () {
         $variableNames.innerHTML = dataCache.fields.join(', ');
 
         $dateFormattingContainer.style.display = 'none';
-        sortingHTML += '<option value="raw">Raw</option>';
+        sortingHTML += '<option value="raw">' + wpd.gettext('raw') + '</option>';
         for(i = 0; i < dataCache.fields.length; i++) {
 
             // Sorting
@@ -3602,7 +3602,7 @@ wpd.dataTable = (function () {
             }
         }
         if(dataCache.allowConnectivity) {
-            sortingHTML += '<option value="NearestNeighbor">Nearest Neighbor</option>';
+            sortingHTML += '<option value="NearestNeighbor">' + wpd.gettext('nearest-neighbor') + '</option>';
         }
         $sortingVariables.innerHTML = sortingHTML;
         updateSortingControls();
@@ -4364,7 +4364,7 @@ wpd.graphicsWidget = (function () {
             };
             droppedFile.readAsDataURL(fileInfo);
         } else {
-            wpd.messagePopup.show("ERROR: Invalid File!", "Please load a valid image file. Common image formats such as JPG, PNG, BMP, GIF etc. should work. PDF or Word documents are not accepted.");
+            wpd.messagePopup.show(wpd.gettext('invalid-file'), wpd.gettext('invalid-file-text'));
             wpd.busyNote.close();
         }
     }
@@ -4766,7 +4766,7 @@ wpd.busyNote = (function () {
         if(noteDiv == null) {
             noteDiv = document.createElement('div');
             noteDiv.id = 'wait';
-            noteDiv.innerHTML = '<p align="center">Processing...</p>';
+            noteDiv.innerHTML = '<p align="center">' + wpd.gettext('processing') + '...</p>';
         }
         document.body.appendChild(noteDiv);
         isVisible = true;
@@ -4837,7 +4837,7 @@ wpd.okCancelPopup = (function () {
 })();
 
 wpd.unsupported = function () {
-    wpd.messagePopup.show("Unsupported Feature!", "This feature has not been implemented in the current version. This may be available in a future release.");
+    wpd.messagePopup.show(wpd.gettext('unsupported'), wpd.gettext('unsupported-text'));
 };
 
 /*
@@ -4977,7 +4977,7 @@ var wpd = wpd || {};
 wpd.transformationEquations = (function () {
     function show() {
         if(wpd.appData.isAligned() === false) {
-            wpd.messagePopup.show("Transformation Equations","Transformation equations are available only after axes have been calibrated.");
+            wpd.messagePopup.show(wpd.gettext('transformation-eqns'), wpd.gettext('transformation-eqns-text'));
             return;
         }
         wpd.popup.show('axes-transformation-equations-window');
@@ -5059,7 +5059,7 @@ wpd.webcamCapture = (function () {
     }
 
     function unsupportedBrowser() {
-        wpd.messagePopup.show('Webcam Capture','Your browser does not support webcam capture using HTML5 APIs. A recent version of Google Chrome is recommended.');
+        wpd.messagePopup.show(wpd.gettext('webcam-capture'), wpd.gettext('webcam-capture-text'));
     }
 
     function getUserMedia() {
@@ -5777,28 +5777,28 @@ wpd.algoManager = (function() {
 
         // Averaging Window
         if(!(axes instanceof wpd.BarAxes)) {
-            innerHTML += '<option value="averagingWindow">Averaging Window</option>';
+            innerHTML += '<option value="averagingWindow">' + wpd.gettext('averaging-window') + '</option>';
         }
 
         // X Step w/ Interpolation and X Step
         if((axes instanceof wpd.XYAxes) && (!axes.isLogX()) && (!axes.isLogY())) {
-            innerHTML += '<option value="XStepWithInterpolation">X Step w/ Interpolation</option>';
-            innerHTML += '<option value="XStep">X Step</option>';
+            innerHTML += '<option value="XStepWithInterpolation">' + wpd.gettext('x-step-with-interpolation') + '</option>';
+            innerHTML += '<option value="XStep">' + wpd.gettext('x-step') + '</option>';
         }
 
         // Blob Detector
         if(!(axes instanceof wpd.BarAxes)) {
-            innerHTML += '<option value="blobDetector">Blob Detector</option>';
+            innerHTML += '<option value="blobDetector">' + wpd.gettext('blob-detector') + '</option>';
         }
 
         // Bar Extraction
         if(axes instanceof wpd.BarAxes) {
-            innerHTML += '<option value="barExtraction">Bar Extraction</option>';
+            innerHTML += '<option value="barExtraction">' + wpd.gettext('bar-extraction') + '</option>';
         }
 
         // Histogram
         if(axes instanceof wpd.XYAxes) {
-            innerHTML += '<option value="histogram">Histogram</option>';
+            innerHTML += '<option value="histogram">' + wpd.gettext('histogram') + '</option>';
         }
 
         $algoOptions.innerHTML = innerHTML;
@@ -6056,7 +6056,7 @@ wpd.colorPicker = (function () {
         return {
             color: wpd.appData.getPlotData().getAutoDetector().fgColor,
             triggerElementId: 'color-button',
-            title: 'Specify Plot (Foreground) Color',
+            title: wpd.gettext('specify-foreground-color'),
             setColorDelegate: function(col) {
                 wpd.appData.getPlotData().getAutoDetector().fgColor = col;
             }
@@ -6067,7 +6067,7 @@ wpd.colorPicker = (function () {
         return {
             color: wpd.appData.getPlotData().getAutoDetector().bgColor,
             triggerElementId: 'color-button',
-            title: 'Specify Background Color',
+            title: wpd.gettext('specify-background-color'),
             setColorDelegate: function(col) {
                 wpd.appData.getPlotData().getAutoDetector().bgColor = col;
             }

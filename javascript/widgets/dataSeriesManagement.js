@@ -32,7 +32,7 @@ wpd.dataSeriesManagement = (function () {
 
     function manage() {
         if(!wpd.appData.isAligned()) {
-            wpd.messagePopup.show("Manage Datasets", "Please calibrate the axes before managing datasets.");
+            wpd.messagePopup.show(wpd.gettext('manage-datasets'), wpd.gettext('manage-datasets-text'));
         } else {
             var $nameField = document.getElementById('manage-data-series-name'),
                 $pointCount = document.getElementById('manage-data-series-point-count'),
@@ -76,11 +76,11 @@ wpd.dataSeriesManagement = (function () {
         close();
 
         if(wpd.appData.getPlotData().dataSeriesColl.length === 1) {
-            wpd.messagePopup.show("Can Not Delete!", "You can not delete this dataset as at least one dataset is required.", manage);
+            wpd.messagePopup.show(wpd.gettext('can-not-delete-dataset'), wpd.gettext('can-not-delete-dataset-text'), manage);
             return;
         }
 
-        wpd.okCancelPopup.show("Delete Dataset", "Are you sure that you want to delete the dataset and all containing data points?", function() {
+        wpd.okCancelPopup.show(wpd.gettext('delete-dataset'), wpd.gettext('delete-dataset-text'), function() {
             // delete the dataset
             var plotData = wpd.appData.getPlotData(),
                 index = plotData.getActiveDataSeriesIndex();

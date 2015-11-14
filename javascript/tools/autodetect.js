@@ -79,28 +79,28 @@ wpd.algoManager = (function() {
 
         // Averaging Window
         if(!(axes instanceof wpd.BarAxes)) {
-            innerHTML += '<option value="averagingWindow">Averaging Window</option>';
+            innerHTML += '<option value="averagingWindow">' + wpd.gettext('averaging-window') + '</option>';
         }
 
         // X Step w/ Interpolation and X Step
         if((axes instanceof wpd.XYAxes) && (!axes.isLogX()) && (!axes.isLogY())) {
-            innerHTML += '<option value="XStepWithInterpolation">X Step w/ Interpolation</option>';
-            innerHTML += '<option value="XStep">X Step</option>';
+            innerHTML += '<option value="XStepWithInterpolation">' + wpd.gettext('x-step-with-interpolation') + '</option>';
+            innerHTML += '<option value="XStep">' + wpd.gettext('x-step') + '</option>';
         }
 
         // Blob Detector
         if(!(axes instanceof wpd.BarAxes)) {
-            innerHTML += '<option value="blobDetector">Blob Detector</option>';
+            innerHTML += '<option value="blobDetector">' + wpd.gettext('blob-detector') + '</option>';
         }
 
         // Bar Extraction
         if(axes instanceof wpd.BarAxes) {
-            innerHTML += '<option value="barExtraction">Bar Extraction</option>';
+            innerHTML += '<option value="barExtraction">' + wpd.gettext('bar-extraction') + '</option>';
         }
 
         // Histogram
         if(axes instanceof wpd.XYAxes) {
-            innerHTML += '<option value="histogram">Histogram</option>';
+            innerHTML += '<option value="histogram">' + wpd.gettext('histogram') + '</option>';
         }
 
         $algoOptions.innerHTML = innerHTML;

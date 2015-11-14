@@ -86,7 +86,7 @@ wpd.dataTable = (function () {
         $variableNames.innerHTML = dataCache.fields.join(', ');
 
         $dateFormattingContainer.style.display = 'none';
-        sortingHTML += '<option value="raw">Raw</option>';
+        sortingHTML += '<option value="raw">' + wpd.gettext('raw') + '</option>';
         for(i = 0; i < dataCache.fields.length; i++) {
 
             // Sorting
@@ -101,7 +101,7 @@ wpd.dataTable = (function () {
             }
         }
         if(dataCache.allowConnectivity) {
-            sortingHTML += '<option value="NearestNeighbor">Nearest Neighbor</option>';
+            sortingHTML += '<option value="NearestNeighbor">' + wpd.gettext('nearest-neighbor') + '</option>';
         }
         $sortingVariables.innerHTML = sortingHTML;
         updateSortingControls();
