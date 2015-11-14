@@ -168,7 +168,7 @@ wpd.colorPicker = (function () {
         return {
             color: wpd.appData.getPlotData().getAutoDetector().fgColor,
             triggerElementId: 'color-button',
-            title: 'Specify Plot (Foreground) Color',
+            title: wpd.gettext('specify-foreground-color'),
             setColorDelegate: function(col) {
                 wpd.appData.getPlotData().getAutoDetector().fgColor = col;
             }
@@ -179,7 +179,7 @@ wpd.colorPicker = (function () {
         return {
             color: wpd.appData.getPlotData().getAutoDetector().bgColor,
             triggerElementId: 'color-button',
-            title: 'Specify Background Color',
+            title: wpd.gettext('specify-background-color'),
             setColorDelegate: function(col) {
                 wpd.appData.getPlotData().getAutoDetector().bgColor = col;
             }

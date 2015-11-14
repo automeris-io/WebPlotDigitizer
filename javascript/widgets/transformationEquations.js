@@ -26,7 +26,7 @@ var wpd = wpd || {};
 wpd.transformationEquations = (function () {
     function show() {
         if(wpd.appData.isAligned() === false) {
-            wpd.messagePopup.show("Transformation Equations","Transformation equations are available only after axes have been calibrated.");
+            wpd.messagePopup.show(wpd.gettext('transformation-eqns'), wpd.gettext('transformation-eqns-text'));
             return;
         }
         wpd.popup.show('axes-transformation-equations-window');
