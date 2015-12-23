@@ -427,3 +427,16 @@
         <input type="button" value="Cancel" onclick="wpd.dataPointLabelEditor.cancel();"/>
     </p>
     </div>
+
+    <!-- Perspective Transform Instructions -->
+    <div id="perspective-info" class="popup" style="width:500px;">
+    <div class="popupheading">Perspective Transformation</div>
+    <p align="center"><img src="images/perspective.png" width="350"></p>
+    <br/>
+    <p align="center">Click on four corners of the region to be transformed as shown.</p>
+    <br/>
+    <p align="center">
+        <input type="button" value="OK" onclick="wpd.perspective.pickCorners();"/>
+        <input type="button" value="Cancel" onclick="wpd.popup.close('perspective-info');"/>
+    </p>
+    </div>
