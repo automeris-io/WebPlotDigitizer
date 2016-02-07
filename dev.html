@@ -3,7 +3,7 @@
 <!-- 
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Copyright 2010-2015 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2016 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
@@ -29,7 +29,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
 <meta http-equiv="Pragma" content="no-cache"/>
 <meta http-equiv="Expires" content="0"/>
-<title>WebPlotDigitizer - Copyright 2010-2015 Ankit Rohatgi</title>
+<title>WebPlotDigitizer - Copyright 2010-2016 Ankit Rohatgi</title>
 <link rel="stylesheet" href="styles.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="widgets.css" type="text/css" media="screen" />
 
