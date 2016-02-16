@@ -43,11 +43,11 @@ wpd.AveragingWindowCore = (function () {
             dataSeries.clearAll();
 
             for (coli = 0; coli < dw; coli++) {
-                
+
                 blobs = -1;
                 firstbloby = -2.0*yStep;
                 bi = 0;
-                
+
                 // Scan vertically for blobs:
 
                 for (rowi = 0; rowi < dh; rowi++) {
@@ -67,8 +67,8 @@ wpd.AveragingWindowCore = (function () {
                 if (blobs >= 0) {
                     xi = coli;
                     for (blbi = 0; blbi <= blobs; blbi++) {
-                      yi = blobAvg[blbi];
-                      
+                      yi = blobAvg[blbi] + 0.5; // add 0.5 to shift to the middle of the pixels instead of the starting edge.
+
                       xPoints[xPointsPicked] = [];
                       xPoints[xPointsPicked][0] = parseFloat(xi);
                       xPoints[xPointsPicked][1] = parseFloat(yi);
@@ -76,30 +76,30 @@ wpd.AveragingWindowCore = (function () {
                       xPointsPicked = xPointsPicked + 1;
                     }
                 }
-                
+
               }
 
               if (xPointsPicked === 0) {
                     return;
               }
-              
+
               for(pi = 0; pi < xPointsPicked; pi++) {
                 if(xPoints[pi][2] === true) {// if still available
                   inRange = true;
                   xxi = pi+1;
-                  
+
                   oldX = xPoints[pi][0];
                   oldY = xPoints[pi][1];
-                  
+
                   avgX = oldX;
                   avgY = oldY;
-                  
+
                   matches = 1;
-                  
+
                   while((inRange === true) && (xxi < xPointsPicked)) {
                     newX = xPoints[xxi][0];
                     newY = xPoints[xxi][1];
-                
+
                     if( (Math.abs(newX-oldX) <= xStep) && (Math.abs(newY-oldY) <= yStep) && (xPoints[xxi][2] === true)) {
                         avgX = (avgX*matches + newX)/(matches+1.0);
                         avgY = (avgY*matches + newY)/(matches+1.0);
@@ -110,17 +110,17 @@ wpd.AveragingWindowCore = (function () {
                     if (newX > oldX + 2*xStep) {
                         inRange = false;
                     }
-                
+
                     xxi = xxi + 1;
                   }
-                  
-                  xPoints[pi][2] = false; 
-                  
+
+                  xPoints[pi][2] = false;
+
                   pointsPicked = pointsPicked + 1;
                   dataSeries.addPixel(parseFloat(avgX), parseFloat(avgY));
 
                 }
-                
+
               }
 
               xPoints = [];
@@ -130,4 +130,3 @@ wpd.AveragingWindowCore = (function () {
     };
     return Algo;
 })();
-
