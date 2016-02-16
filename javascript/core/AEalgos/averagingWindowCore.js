@@ -65,7 +65,7 @@ wpd.AveragingWindowCore = (function () {
                 }
 
                 if (blobs >= 0) {
-                    xi = coli;
+                    xi = coli + 0.5;
                     for (blbi = 0; blbi <= blobs; blbi++) {
                       yi = blobAvg[blbi] + 0.5; // add 0.5 to shift to the middle of the pixels instead of the starting edge.
 
