@@ -2043,15 +2043,15 @@ wpd.BarExtractionAlgo = function() {
 wpd = wpd || {};
 
 wpd.BlobDetectorAlgo = (function () {
-    
+
     var Algo = function () {
         var min_dia, max_dia;
 
         this.getParamList = function () {
             var isAligned = wpd.appData.isAligned(),
                 axes = wpd.appData.getPlotData().axes;
-            
-            if (isAligned && axes instanceof wpd.MapAxes) { 
+
+            if (isAligned && axes instanceof wpd.MapAxes) {
 			    return [['Min Diameter', 'Units', 0], ['Max Diameter', 'Units', 5000]];
             }
 
@@ -2076,13 +2076,13 @@ wpd.BlobDetectorAlgo = (function () {
                 blobs = [],
                 xi, yi,
                 blobPtIndex,
-                bIndex, 
+                bIndex,
                 nxi, nyi,
                 bxi, byi,
                 pcount,
                 dia;
 
-            if (dw <= 0 || dh <= 0 || autoDetector.binaryData == null 
+            if (dw <= 0 || dh <= 0 || autoDetector.binaryData == null
                 || autoDetector.binaryData.length === 0) {
                 return;
             }
@@ -2116,7 +2116,7 @@ wpd.BlobDetectorAlgo = (function () {
                                         if (!(pixelVisited[nyi*dw + nxi] === true) && autoDetector.binaryData[nyi*dw + nxi] === true) {
 
                                             pixelVisited[nyi*dw + nxi] = true;
-                                            
+
                                             pcount = blobs[bIndex].pixels.length;
 
                                             blobs[bIndex].pixels[pcount] = {
@@ -2140,10 +2140,10 @@ wpd.BlobDetectorAlgo = (function () {
             for (bIndex = 0; bIndex < blobs.length; bIndex++) {
                 blobs[bIndex].moment = 0;
                 for (blobPtIndex = 0; blobPtIndex < blobs[bIndex].pixels.length; blobPtIndex++) {
-                    blobs[bIndex].moment = blobs[bIndex].moment 
+                    blobs[bIndex].moment = blobs[bIndex].moment
                         + (blobs[bIndex].pixels[blobPtIndex].x - blobs[bIndex].centroid.x)*(blobs[bIndex].pixels[blobPtIndex].x - blobs[bIndex].centroid.x)
                         + (blobs[bIndex].pixels[blobPtIndex].y - blobs[bIndex].centroid.y)*(blobs[bIndex].pixels[blobPtIndex].y - blobs[bIndex].centroid.y);
-                        
+
                 }
                 if (plotData.axes instanceof wpd.MapAxes) {
                     blobs[bIndex].area = plotData.axes.pixelToDataArea(blobs[bIndex].area);
@@ -2151,7 +2151,8 @@ wpd.BlobDetectorAlgo = (function () {
 
                 dia = 2.0*Math.sqrt(blobs[bIndex].area/Math.PI);
                 if (dia <= max_dia && dia >= min_dia) {
-                    dataSeries.addPixel(blobs[bIndex].centroid.x, blobs[bIndex].centroid.y, [blobs[bIndex].area, blobs[bIndex].moment]);
+                    // add 0.5 pixel offset to shift to the center of the pixels.
+                    dataSeries.addPixel(blobs[bIndex].centroid.x + 0.5, blobs[bIndex].centroid.y + 0.5, [blobs[bIndex].area, blobs[bIndex].moment]);
                 }
             }
         };
@@ -2159,7 +2160,6 @@ wpd.BlobDetectorAlgo = (function () {
 
     return Algo;
 })();
-
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
