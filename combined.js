@@ -1857,22 +1857,25 @@ var wpd = wpd || {};
 wpd.BarValue = function () {
     this.npoints = 0;
 
-    this.avgVal = 0;
+    this.avgValTop = 0;
+
+    this.avgValBot = 0;
 
     this.avgX = 0;
 
-    this.append = function(x,val) {
+    this.append = function(x, valTop, valBot) {
         this.avgX = (this.npoints*this.avgX + x)/(this.npoints + 1.0);
-        this.avgVal = (this.npoints*this.avgVal + val)/(this.npoints + 1.0);
+        this.avgValTop = (this.npoints*this.avgValTop + valTop)/(this.npoints + 1.0);
+        this.avgValBot = (this.npoints*this.avgValBot + valBot)/(this.npoints + 1.0);
         this.npoints++;
     };
 
-    this.isPointInGroup = function(x,val,del_x, del_val) {
+    this.isPointInGroup = function(x, valTop, valBot, del_x, del_val) {
         if(this.npoints === 0) {
             return true;
         }
 
-        if(Math.abs(this.avgX - x) <= del_x && Math.abs(this.avgVal - val) <= del_val) {
+        if(Math.abs(this.avgX - x) <= del_x && Math.abs(this.avgValTop - valTop) <= del_val && Math.abs(this.avgValBot - valBot) <= del_val) {
             return true;
         }
 
@@ -1907,8 +1910,9 @@ wpd.BarExtractionAlgo = function() {
     this.run = function(plotData) {
         var autoDetector = plotData.getAutoDetector(),
             dataSeries = plotData.getActiveDataSeries(),
-            orientation = plotData.axes.getOrientation(),
+            orientation = plotData.axes.getOrientation(),                
             barValueColl = [],
+            valTop, valBot, valCount, val,
             px, py,
             width = autoDetector.imageWidth,
             height = autoDetector.imageHeight,
@@ -1918,77 +1922,78 @@ wpd.BarExtractionAlgo = function() {
             dataVal,
             pxVal,
             mkeys,
+            topVal,
+            botVal,
             
-            detectData = function (pix_x, pix_y, dir) {
-                if(autoDetector.binaryData[pix_y*width + pix_x]) {
+            appendData = function (x, valTop, valBot) {                
+                pixelAdded = false;
+                for(barValuei = 0; barValuei < barValueColl.length; barValuei++) {
+                    bv = barValueColl[barValuei];
 
-                    pixelAdded = false;
-                    barValuei = 0;
-                    dataVal = [pix_x, pix_y];
-                    
-                    for(barValuei = 0; barValuei < barValueColl.length; barValuei++) {
-                        bv = barValueColl[barValuei];
-                        if(dir === 'Y') {
-                            if(bv.isPointInGroup(dataVal[0], dataVal[1], delX, delVal)) {
-                                bv.append(dataVal[0], dataVal[1]);
-                                pixelAdded = true;
-                                break;
-                            }
-                        } else { // X
-                            if(bv.isPointInGroup(dataVal[1], dataVal[0], delX, delVal)) {
-                                bv.append(dataVal[1], dataVal[0]);
-                                pixelAdded = true;
-                                break;
-                            }
-                        }
-                    }
-                    if(!pixelAdded) {
-                        barValueColl.push(new wpd.BarValue());
-                        if(dir === 'Y') {
-                            barValueColl[barValueColl.length-1].append(dataVal[0], dataVal[1]);
-                        } else {
-                            barValueColl[barValueColl.length-1].append(dataVal[1], dataVal[0]);
-                        }
+                    if(bv.isPointInGroup(x, valTop, valBot, delX, delVal)) {
+                        bv.append(x, valTop, valBot);
                         pixelAdded = true;
+                        break;
                     }
-                    return true;
                 }
-                return false;
+                if(!pixelAdded) {
+                    bv = new wpd.BarValue();
+                    bv.append(x, valTop, valBot);
+                    barValueColl.push(bv);
+                }
             };
 
         dataSeries.clearAll();
 
         // Switch directions based on axes orientation and direction of data along that axes:
+        // For each direction, look for both top and bottom side of the bar to account for cases where some bars are oriented
+        // in the increasing direction, while others are in a decreasing direction
         if(orientation.axes === 'Y') {
-            for (px = 0; px < width; px++) {
-                if(orientation.direction === 'increasing') {
-                    for(py = 0; py < height; py++) {
-                        if(detectData(px, py, orientation.axes)) {
-                            break;
-                        }
+            for (px = 0; px < width; px++) {                
+                valTop = 0;
+                valBot = height - 1;
+                valCount = 0;
+
+                for(py = 0; py < height; py++) {
+                    if(autoDetector.binaryData[py*width + px]) {
+                        valTop = py;
+                        valCount++;
+                        break;
                     }
-                } else {
-                    for(py = height-1; py >= 0; py--) {
-                        if(detectData(px, py, orientation.axes)) {
-                            break;
-                        }
+                }
+                for(py = height-1; py >= 0; py--) {
+                    if(autoDetector.binaryData[py*width + px]) {
+                        valBot = py;
+                        valCount++;
+                        break;
                     }
+                }
+                if(valCount === 2) { // found both top and bottom ends
+                    appendData(px, valTop, valBot);
                 }
             }
         } else {
             for (py = 0; py < height; py++) {
-                if(orientation.direction === 'increasing') {
-                    for(px = width-1; px >= 0; px--) {
-                        if(detectData(px, py, orientation.axes)) {
-                            break;
-                        }
+                valTop = width - 1;
+                valBot = 0;
+                valCount = 0;
+
+                for(px = width-1; px >= 0; px--) {
+                    if(autoDetector.binaryData[py*width + px]) {
+                        valTop = px;
+                        valCount++;
+                        break;
                     }
-                } else {
-                    for(px = 0; px < width; px++) {
-                        if(detectData(px, py, orientation.axes)) {
-                            break;
-                        }
+                }
+                for(px = 0; px < width; px++) {
+                    if(autoDetector.binaryData[py*width + px]) {
+                        valBot = px;
+                        valCount++;
+                        break;
                     }
+                }
+                if(valCount === 2) {
+                    appendData(py, valTop, valBot);
                 }
             }
         }
@@ -2001,20 +2006,35 @@ wpd.BarExtractionAlgo = function() {
         }
 
         for(barValuei = 0; barValuei < barValueColl.length; barValuei++) {
+            
             bv = barValueColl[barValuei];
-            if(plotData.axes.dataPointsHaveLabels) {
-                if(orientation.axes === 'Y') {
-                    dataSeries.addPixel(bv.avgX, bv.avgVal, ["Bar" + barValuei]);
-                } else {
-                    dataSeries.addPixel(bv.avgVal, bv.avgX, ["Bar" + barValuei]);
-                }
+            
+            valTop = plotData.axes.pixelToData(bv.avgX, bv.avgValTop)[0];
+            valBot = plotData.axes.pixelToData(bv.avgX, bv.avgValBot)[0];
+                
+            if(valTop + valBot < 0) {
+                val = orientation.direction === 'increasing' ? bv.avgValBot : bv.avgValTop;
             } else {
-                 if(orientation.axes === 'Y') {
-                    dataSeries.addPixel(bv.avgX, bv.avgVal);
-                } else {
-                    dataSeries.addPixel(bv.avgVal, bv.avgX);
-                }
+                val = orientation.direction === 'increasing' ? bv.avgValTop : bv.avgValBot;
             }
+
+            if(plotData.axes.dataPointsHaveLabels) {
+               
+                if(orientation.axes === 'Y') {
+                    dataSeries.addPixel(bv.avgX, val, ["Bar" + barValuei]);
+                } else {
+                    dataSeries.addPixel(val, bv.avgX, ["Bar" + barValuei]);
+                }
+
+            } else {
+
+                if(orientation.axes === 'Y') {
+                    dataSeries.addPixel(bv.avgX, val);
+                } else {
+                    dataSeries.addPixel(val, bv.avgX);
+                }
+
+            }            
         }
     };
 };
