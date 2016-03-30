@@ -178,8 +178,13 @@ wpd.BarExtractionAlgo = function() {
             
             bv = barValueColl[barValuei];
             
-            valTop = plotData.axes.pixelToData(bv.avgX, bv.avgValTop)[0];
-            valBot = plotData.axes.pixelToData(bv.avgX, bv.avgValBot)[0];
+            if(orientation.axes === 'Y') {
+                valTop = plotData.axes.pixelToData(bv.avgX, bv.avgValTop)[0];
+                valBot = plotData.axes.pixelToData(bv.avgX, bv.avgValBot)[0];
+            } else {
+                valTop = plotData.axes.pixelToData(bv.avgValTop, bv.avgX)[0];
+                valBot = plotData.axes.pixelToData(bv.avgValBot, bv.avgX)[0];
+            }
                 
             if(valTop + valBot < 0) {
                 val = orientation.direction === 'increasing' ? bv.avgValBot : bv.avgValTop;
