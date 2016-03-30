@@ -190,17 +190,17 @@ wpd.BarExtractionAlgo = function() {
             if(plotData.axes.dataPointsHaveLabels) {
                
                 if(orientation.axes === 'Y') {
-                    dataSeries.addPixel(bv.avgX, val, ["Bar" + barValuei]);
+                    dataSeries.addPixel(bv.avgX + 0.5, val + 0.5, ["Bar" + barValuei]);
                 } else {
-                    dataSeries.addPixel(val, bv.avgX, ["Bar" + barValuei]);
+                    dataSeries.addPixel(val + 0.5, bv.avgX + 0.5, ["Bar" + barValuei]);
                 }
 
             } else {
 
                 if(orientation.axes === 'Y') {
-                    dataSeries.addPixel(bv.avgX, val);
+                    dataSeries.addPixel(bv.avgX + 0.5, val + 0.5);
                 } else {
-                    dataSeries.addPixel(val, bv.avgX);
+                    dataSeries.addPixel(val + 0.5, bv.avgX + 0.5);
                 }
 
             }            
