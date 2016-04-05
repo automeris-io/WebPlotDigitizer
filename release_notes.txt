@@ -4,8 +4,11 @@ Version 3.10
 ============
 To be released
 
-Improvements:
-- Improved sub-pixel behavior of the default averaging window algorithm and blob detector.
+New Features:
+
+- Improved sub-pixel behavior of the default averaging window algorithm, blob detector and bar extraction.
+- Re-worked bar extraction algorithm to allow capturing both negative and positive values in the same chart (horizontal or vertical).
+- Added ability to re-edit axes calibration after collecting data.
 
 Version 3.9
 ===========
