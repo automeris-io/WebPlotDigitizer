@@ -5308,6 +5308,11 @@ wpd.xyCalibration = (function () {
         wpd.popup.show('xyAxesInfo');
     }
 
+    function reload() {
+        var tool = new wpd.AxesCornersTool(4, 2, ['X1', 'X2', 'Y1', 'Y2'], true);
+        wpd.graphicsWidget.setTool(tool);
+    }
+
     function pickCorners() {
         wpd.popup.close('xyAxesInfo');
         var tool = new wpd.AxesCornersTool(4, 2, ['X1', 'X2', 'Y1', 'Y2']);
@@ -5347,6 +5352,7 @@ wpd.xyCalibration = (function () {
 
     return {
         start: start,
+        reload: reload,
         pickCorners: pickCorners,
         getCornerValues: getCornerValues,
         align: align
@@ -5357,6 +5363,11 @@ wpd.barCalibration = (function () {
 
     function start() {
         wpd.popup.show('barAxesInfo');
+    }
+
+    function reload() {
+        var tool = new wpd.AxesCornersTool(2, 2, ['P1', 'P2'], true);
+        wpd.graphicsWidget.setTool(tool);
     }
 
     function pickCorners() {
@@ -5393,6 +5404,7 @@ wpd.barCalibration = (function () {
 
     return {
         start: start,
+        reload: reload,
         pickCorners: pickCorners,
         getCornerValues: getCornerValues,
         align: align
@@ -5404,6 +5416,11 @@ wpd.polarCalibration = (function () {
 
     function start() {
         wpd.popup.show('polarAxesInfo');
+    }
+
+    function reload() {
+        var tool = new wpd.AxesCornersTool(3, 2, ['Origin', 'P1', 'P2'], true);
+        wpd.graphicsWidget.setTool(tool);
     }
 
     function pickCorners() {
@@ -5443,6 +5460,7 @@ wpd.polarCalibration = (function () {
 
     return {
         start: start,
+        reload: reload,
         pickCorners: pickCorners,
         getCornerValues: getCornerValues,
         align: align
@@ -5454,6 +5472,11 @@ wpd.ternaryCalibration = (function () {
 
     function start() {
         wpd.popup.show('ternaryAxesInfo');
+    }
+
+    function reload() {
+        var tool = new wpd.AxesCornersTool(3, 3, ['A', 'B', 'C'], true);
+        wpd.graphicsWidget.setTool(tool);
     }
 
     function pickCorners() {
@@ -5484,6 +5507,7 @@ wpd.ternaryCalibration = (function () {
 
     return {
         start: start,
+        reload: reload,
         pickCorners: pickCorners,
         getCornerValues: getCornerValues,
         align: align
@@ -5497,11 +5521,15 @@ wpd.mapCalibration = (function () {
         wpd.popup.show('mapAxesInfo');
     }
 
+    function reload() {
+        var tool = new wpd.AxesCornersTool(2, 2, ['P1', 'P2'],true);
+        wpd.graphicsWidget.setTool(tool);
+    }
+
     function pickCorners() {
         wpd.popup.close('mapAxesInfo');
         var tool = new wpd.AxesCornersTool(2, 2, ['P1', 'P2']);
         wpd.graphicsWidget.setTool(tool);
-        tool.onComplete = getCornerValues;
     }
 
     function getCornerValues() {
@@ -5525,6 +5553,7 @@ wpd.mapCalibration = (function () {
 
     return {
         start: start,
+        reload: reload,
         pickCorners: pickCorners,
         getCornerValues: getCornerValues,
         align: align
@@ -5535,14 +5564,23 @@ wpd.mapCalibration = (function () {
 
 wpd.AxesCornersTool = (function () {
 
-    var Tool = function(maxPoints, dimensions, pointLabels) {
+    var Tool = function(maxPoints, dimensions, pointLabels, reloadTool) {
         var pointCount = 0,
             ncal = new wpd.Calibration(dimensions),
             isCapturingCorners = true; 
 
-        ncal.labels = pointLabels;
-        wpd.alignAxes.setActiveCalib(ncal);
-        wpd.graphicsWidget.resetData();
+        if(reloadTool) {
+            pointCount = maxPoints;
+            ncal = wpd.alignAxes.getActiveCalib();
+            isCapturingCorners = false;
+        } else {
+            pointCount = 0;
+            ncal = new wpd.Calibration(dimensions);
+            isCapturingCorners = true;
+            ncal.labels = pointLabels;
+            wpd.alignAxes.setActiveCalib(ncal);
+            wpd.graphicsWidget.resetData();
+        }
 
         this.onMouseClick = function(ev, pos, imagePos) {
 
@@ -5709,13 +5747,32 @@ wpd.alignAxes = (function () {
         calib = cal;
     }
 
+    function editAlignment() {
+        var hasAlignment = wpd.appData.isAligned() && calibrator != null;
+        if(hasAlignment) {
+            wpd.popup.show('edit-or-reset-calibration-popup');
+        } else {
+            wpd.popup.show('axesList');
+        }
+    }
+
+    function reloadCalibrationForEditing() {
+        wpd.popup.close('edit-or-reset-calibration-popup');        
+        calibrator.reload();
+        wpd.graphicsWidget.setRepainter(new wpd.AlignmentCornersRepainter());
+        wpd.graphicsWidget.forceHandlerRepaint();
+        wpd.sidebar.show('axes-calibration-sidebar');
+    }
+
     return {
         start: initiatePlotAlignment,
         calibrationCompleted: calibrationCompleted,
         getCornerValues: getCornerValues,
         align: align,
         getActiveCalib: getActiveCalib,
-        setActiveCalib: setActiveCalib
+        setActiveCalib: setActiveCalib,
+        editAlignment: editAlignment,
+        reloadCalibrationForEditing: reloadCalibrationForEditing
     };
 
 })();

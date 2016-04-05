@@ -135,7 +135,7 @@ Problems loading? Make sure you have a recent version of Google Chrome, Firefox,
     <div class="wpd-menu-header">Axes</div>
     <div class="wpd-menu-dropdown">
         <ul>
-            <li id="wpd-axesmenu-defineaxes" onclick="wpd.popup.show('axesList');">Calibrate Axes</li>
+            <li id="wpd-axesmenu-defineaxes" onclick="wpd.alignAxes.editAlignment();">Calibrate Axes</li>
             <li id="wpd-axesmenu-grid" onclick="wpd.gridDetection.start();">Remove Grid</li>
             <li id="wpd-axesmenu-perspective" onclick="wpd.perspective.start();">Perspective Transformation</li>
             <li id="wpd-axesmenu-tranformation-equations" onclick="wpd.transformationEquations.show();">Transformation Equations</li>
@@ -836,6 +836,21 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
     <p align="center">
         <input type="button" value="OK" onclick="wpd.perspective.pickCorners();"/>
         <input type="button" value="Cancel" onclick="wpd.popup.close('perspective-info');"/>
+    </p>
+    </div>
+
+    <!-- Edit or Reset Calibration Dialog -->
+    <div id="edit-or-reset-calibration-popup" class="popup" style="width:500px;">
+    <div class="popupheading">Edit Existing Calibration?</div>
+    <br/>
+    <p align="center">Do you wish to tweak existing axes calibration or select a new axes type?</p>
+    <br/>
+    <p align="center">
+        <input type="button" value="Edit Calibration" onclick="wpd.alignAxes.reloadCalibrationForEditing();"/>
+
+        <input type="button" value="Change Axes Type" onclick="wpd.popup.close('edit-or-reset-calibration-popup');wpd.popup.show('axesList');"/>
+
+        <input type="button" value="Cancel" onclick="wpd.popup.close('edit-or-reset-calibration-popup');"/>
     </p>
     </div>
 
