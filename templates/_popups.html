@@ -440,3 +440,18 @@
         <input type="button" value="Cancel" onclick="wpd.popup.close('perspective-info');"/>
     </p>
     </div>
+
+    <!-- Edit or Reset Calibration Dialog -->
+    <div id="edit-or-reset-calibration-popup" class="popup" style="width:500px;">
+    <div class="popupheading">Edit Existing Calibration?</div>
+    <br/>
+    <p align="center">Do you wish to tweak existing axes calibration or select a new axes type?</p>
+    <br/>
+    <p align="center">
+        <input type="button" value="Edit Calibration" onclick="wpd.alignAxes.reloadCalibrationForEditing();"/>
+
+        <input type="button" value="Change Axes Type" onclick="wpd.popup.close('edit-or-reset-calibration-popup');wpd.popup.show('axesList');"/>
+
+        <input type="button" value="Cancel" onclick="wpd.popup.close('edit-or-reset-calibration-popup');"/>
+    </p>
+    </div>
