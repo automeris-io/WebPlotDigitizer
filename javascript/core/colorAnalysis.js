@@ -68,7 +68,7 @@ wpd.colorAnalyzer = (function () {
 
         var colorGroupColl = [], // collection of color groups
             pixi,
-            r, g, b,
+            r, g, b, a,
             groupi,
             groupMatched,
             rtnVal = [],
@@ -81,6 +81,10 @@ wpd.colorAnalyzer = (function () {
             r = imageData.data[pixi];
             g = imageData.data[pixi + 1];
             b = imageData.data[pixi + 2];
+            a = imageData.data[pixi + 3];
+            if(a === 0) {
+                r = 255; g = 255; b = 255;
+            }
 
             groupMatched = false;
 
