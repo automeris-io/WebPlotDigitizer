@@ -7,8 +7,11 @@ To be released
 New Features:
 
 - Improved sub-pixel behavior of the default averaging window algorithm, blob detector and bar extraction.
-- Re-worked bar extraction algorithm to allow capturing both negative and positive values in the same chart (horizontal or vertical).
 - Added ability to re-edit axes calibration after collecting data.
+
+Bug fixes:
+- Re-worked bar extraction algorithm to allow capturing both negative and positive values in the same chart (horizontal or vertical).
+- Allow automatic extraction algorithms to work with images with a transparent background.
 
 Version 3.9
 ===========
