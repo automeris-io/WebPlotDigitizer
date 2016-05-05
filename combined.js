@@ -168,14 +168,20 @@ wpd.AutoDetector = (function () {
 
         this.generateBinaryDataFromMask = function () {
 
-            var maski, img_index, dist, 
+            var maski, img_index, dist, ir, ig, ib, ia,
                 ref_color = this.colorDetectionMode === 'fg' ? this.fgColor : this.bgColor;
 
             for(maski = 0; maski < this.mask.length; maski++) {
                 img_index = this.mask[maski];
-                dist = Math.sqrt( (this.imageData.data[img_index*4] - ref_color[0])*(this.imageData.data[img_index*4] - ref_color[0]) + 
-                    (this.imageData.data[img_index*4+1] - ref_color[1])*(this.imageData.data[img_index*4+1] - ref_color[1]) + 
-                    (this.imageData.data[img_index*4+2] - ref_color[2])*(this.imageData.data[img_index*4+2] - ref_color[2]));
+                ir = this.imageData.data[img_index*4];
+                ig = this.imageData.data[img_index*4+1];
+                ib = this.imageData.data[img_index*4+2];
+                ia = this.imageData.data[img_index*4+3];
+                if(ia === 0) { // for transparent images, assume white RGB
+                    ir = 255; ig = 255; ib = 255;
+                }
+
+                dist = wpd.dist3d(ir, ig, ib, ref_color[0], ref_color[1], ref_color[2]);
 
                 if(this.colorDetectionMode === 'fg') {
                     if(dist <= this.colorDistance) {
@@ -192,12 +198,21 @@ wpd.AutoDetector = (function () {
         this.generateBinaryDataUsingFullImage = function () {
             
             var dist, img_index,
-                ref_color = this.colorDetectionMode === 'fg' ? this.fgColor : this.bgColor; 
+                ref_color = this.colorDetectionMode === 'fg' ? this.fgColor : this.bgColor,
+                ir,ig,ib,ia; 
 
             for(img_index = 0; img_index < this.imageData.data.length/4; img_index++) {
-                dist = Math.sqrt( (this.imageData.data[img_index*4] - ref_color[0])*(this.imageData.data[img_index*4] - ref_color[0]) + 
-                    (this.imageData.data[img_index*4+1] - ref_color[1])*(this.imageData.data[img_index*4+1] - ref_color[1]) + 
-                    (this.imageData.data[img_index*4+2] - ref_color[2])*(this.imageData.data[img_index*4+2] - ref_color[2]));
+                ir = this.imageData.data[img_index*4];
+                ig = this.imageData.data[img_index*4+1];
+                ib = this.imageData.data[img_index*4+2];
+                ia = this.imageData.data[img_index*4+3];
+
+                // If image is transparent, then assume white background.
+                if(ia === 0) {
+                    ir = 255; ig = 255; ib = 255;
+                }
+                
+                dist = wpd.dist3d(ir, ig, ib, ref_color[0], ref_color[1], ref_color[2]);           
 
                 if(this.colorDetectionMode === 'fg') {
                     if(dist <= this.colorDistance) {
@@ -243,7 +258,7 @@ wpd.AutoDetector = (function () {
             this.imageWidth = this.imageData.width;
             this.imageHeight = this.imageData.height;
 
-            var xi, yi, dist, img_index, maski;
+            var xi, yi, dist, img_index, maski, ir, ig, ib, ia;
 
             if (this.gridMask.pixels == null || this.gridMask.pixels.length === 0) {
                 // Use full image if no mask is present
@@ -252,9 +267,16 @@ wpd.AutoDetector = (function () {
                 for(yi = 0; yi < this.imageHeight; yi++) {
                     for(xi = 0; xi < this.imageWidth; xi++) {
                         img_index = yi*this.imageWidth + xi;
-                        dist = wpd.dist3d(this.gridLineColor[0], this.gridLineColor[1], this.gridLineColor[2],
-                                          this.imageData.data[img_index*4], this.imageData.data[img_index*4 + 1],
-                                          this.imageData.data[img_index*4 + 2]);
+                        ir = this.imageData.data[img_index*4];
+                        ig = this.imageData.data[img_index*4+1];
+                        ib = this.imageData.data[img_index*4+2];
+                        ia = this.imageData.data[img_index*4+3];
+
+                        if(ia === 0) { // assume white color when image is transparent
+                            ir = 255; ig = 255; ib = 255;
+                        }
+
+                        dist = wpd.dist3d(this.gridLineColor[0], this.gridLineColor[1], this.gridLineColor[2], ir, ig, ib);
                         
                         if(this.gridBackgroundMode) {
                             if (dist > this.gridColorDistance) {
@@ -280,9 +302,13 @@ wpd.AutoDetector = (function () {
 
             for (maski = 0; maski < this.gridMask.pixels.length; maski++) {
                 img_index = this.gridMask.pixels[maski];
-                dist = wpd.dist3d(this.gridLineColor[0], this.gridLineColor[1], this.gridLineColor[2],
-                                  this.imageData.data[img_index*4], this.imageData.data[img_index*4 + 1],
-                                  this.imageData.data[img_index*4 + 2]);
+                ir = this.imageData.data[img_index*4];
+                ig = this.imageData.data[img_index*4+1];
+                ib = this.imageData.data[img_index*4+2];
+                ia = this.imageData.data[img_index*4+3];
+
+                dist = wpd.dist3d(this.gridLineColor[0], this.gridLineColor[1], this.gridLineColor[2], ir, ig, ib);
+
                 if(this.gridBackgroundMode) {
                     if (dist > this.gridColorDistance) {
                         this.gridBinaryData[img_index] = true;
@@ -498,7 +524,7 @@ wpd.colorAnalyzer = (function () {
 
         var colorGroupColl = [], // collection of color groups
             pixi,
-            r, g, b,
+            r, g, b, a,
             groupi,
             groupMatched,
             rtnVal = [],
@@ -511,6 +537,10 @@ wpd.colorAnalyzer = (function () {
             r = imageData.data[pixi];
             g = imageData.data[pixi + 1];
             b = imageData.data[pixi + 2];
+            a = imageData.data[pixi + 3];
+            if(a === 0) {
+                r = 255; g = 255; b = 255;
+            }
 
             groupMatched = false;
 
@@ -6223,10 +6253,21 @@ wpd.colorPicker = (function () {
 wpd.ColorPickerTool = (function () {
     var Tool = function () {
         var ctx = wpd.graphicsWidget.getAllContexts();
+
         this.onMouseClick = function(ev, pos, imagePos) {
-            var pixData = ctx.oriImageCtx.getImageData(imagePos.x, imagePos.y, 1, 1);
-            this.onComplete([pixData.data[0], pixData.data[1], pixData.data[2]]);
+            var ir, ig, ib, ia, pixData;
+            
+            pixData = ctx.oriImageCtx.getImageData(imagePos.x, imagePos.y, 1, 1);
+            ir = pixData.data[0];
+            ig = pixData.data[1];
+            ib = pixData.data[2];
+            ia = pixData.data[3];
+            if(ia === 0) { // for transparent color, assume white RGB
+                ir = 255; ig = 255; ib = 255;
+            }
+            this.onComplete([ir, ig, ib]);
         };
+
         this.onComplete = function(col) {};
     };
     return Tool;
