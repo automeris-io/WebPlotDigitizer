@@ -2,7 +2,7 @@ RELEASE NOTES
 
 Version 3.10
 ============
-To be released
+May 8, 2016
 
 New Features:
 
