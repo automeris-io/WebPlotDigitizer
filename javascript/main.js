@@ -29,7 +29,7 @@ wpd.initApp = function() {// This is run when the page loads.
     wpd.layoutManager.initialLayout();
     if(!wpd.loadRemoteData()) {
         wpd.graphicsWidget.loadImageFromURL('start.png');
-        wpd.messagePopup.show(wpd.gettext('unstable-version-warning'), wpd.gettext('unstable-version-warning-text'));
+        //wpd.messagePopup.show(wpd.gettext('unstable-version-warning'), wpd.gettext('unstable-version-warning-text'));
     }
     document.getElementById('loadingCurtain').style.display = 'none';
 
