@@ -29,7 +29,7 @@ wpd.initApp = function() {// This is run when the page loads.
     wpd.layoutManager.initialLayout();
     if(!wpd.loadRemoteData()) {
         wpd.graphicsWidget.loadImageFromURL('start.png');
-        //wpd.messagePopup.show(wpd.gettext('unstable-version-warning'), wpd.gettext('unstable-version-warning-text'));
+        wpd.messagePopup.show(wpd.gettext('unstable-version-warning'), wpd.gettext('unstable-version-warning-text'));
     }
     document.getElementById('loadingCurtain').style.display = 'none';
 
@@ -1539,62 +1539,6 @@ wpd.PlotData = (function () {
 
 */
 
-
-var wpd = wpd || {};
-
-wpd.AveragingWindowAlgo = (function () {
-
-    var Algo = function () {
-
-        var xStep = 5, yStep = 5;
-
-        this.getParamList = function () {
-            return [['ΔX', 'Px', 10], ['ΔY', 'Px', 10]];
-        };
-
-        this.setParam = function (index, val) {
-            if(index === 0) {
-                xStep = val;
-            } else if(index === 1) {
-                yStep = val;
-            }
-        };
-
-        this.run = function (plotData) {
-            var autoDetector = plotData.getAutoDetector(),
-                dataSeries = plotData.getActiveDataSeries(),
-                algoCore = new wpd.AveragingWindowCore(autoDetector.binaryData, autoDetector.imageHeight, autoDetector.imageWidth, xStep, yStep, dataSeries);
-
-            algoCore.run();
-        };
-
-    };
-    return Algo;
-})();
-
-/*
-    WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
-
-    Copyright 2010-2016 Ankit Rohatgi <ankitrohatgi@hotmail.com>
-
-    This file is part of WebPlotDigitizer.
-
-    WebPlotDigitizer is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    WebPlotDigitizer is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
-
-
-*/
-
 var wpd = wpd || {};
 
 wpd.AveragingWindowCore = (function () {
@@ -1704,6 +1648,62 @@ wpd.AveragingWindowCore = (function () {
     };
     return Algo;
 })();
+/*
+    WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
+
+    Copyright 2010-2016 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+
+    This file is part of WebPlotDigitizer.
+
+    WebPlotDigitizer is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    WebPlotDigitizer is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
+
+
+*/
+
+
+var wpd = wpd || {};
+
+wpd.AveragingWindowAlgo = (function () {
+
+    var Algo = function () {
+
+        var xStep = 5, yStep = 5;
+
+        this.getParamList = function () {
+            return [['ΔX', 'Px', 10], ['ΔY', 'Px', 10]];
+        };
+
+        this.setParam = function (index, val) {
+            if(index === 0) {
+                xStep = val;
+            } else if(index === 1) {
+                yStep = val;
+            }
+        };
+
+        this.run = function (plotData) {
+            var autoDetector = plotData.getAutoDetector(),
+                dataSeries = plotData.getActiveDataSeries(),
+                algoCore = new wpd.AveragingWindowCore(autoDetector.binaryData, autoDetector.imageHeight, autoDetector.imageWidth, xStep, yStep, dataSeries);
+
+            algoCore.run();
+        };
+
+    };
+    return Algo;
+})();
+
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
@@ -3257,10 +3257,10 @@ wpd.XYAxes = (function () {
         
         this.getBounds = function() {
             return {
-                x1: xmin,
-                x2: xmax,
-                y3: ymin,
-                y4: ymax
+                x1: isLogScaleX ? Math.pow(10, xmin) : xmin,
+                x2: isLogScaleX ? Math.pow(10, xmax) : xmax,
+                y3: isLogScaleY ? Math.pow(10, ymin) : ymin,
+                y4: isLogScaleY ? Math.pow(10, ymax) : ymax
             };
         };
 
@@ -3304,9 +3304,16 @@ wpd.XYAxes = (function () {
         this.dataToPixel = function(x, y) {
             var xf, yf, dat_vec, rtnPix;
 
+            if(isLogScaleX) {
+                x = Math.log(x)/Math.log(10);
+            }
+            if(isLogScaleY) {
+                y = Math.log(y)/Math.log(10);
+            }
+
             dat_vec = [x - c_vec[0], y - c_vec[1]];
             rtnPix = wpd.mat.mult2x2Vec(a_inv_mat, dat_vec);
-            // TODO: add support for log-scale
+            
             xf = rtnPix[0];
             yf = rtnPix[1];
 
@@ -5892,7 +5899,7 @@ wpd.algoManager = (function() {
         }
 
         // X Step w/ Interpolation and X Step
-        if((axes instanceof wpd.XYAxes) && (!axes.isLogX()) && (!axes.isLogY())) {
+        if(axes instanceof wpd.XYAxes) {
             innerHTML += '<option value="XStepWithInterpolation">' + wpd.gettext('x-step-with-interpolation') + '</option>';
             innerHTML += '<option value="XStep">' + wpd.gettext('x-step') + '</option>';
         }

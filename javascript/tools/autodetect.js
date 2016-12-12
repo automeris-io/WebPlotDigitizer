@@ -83,7 +83,7 @@ wpd.algoManager = (function() {
         }
 
         // X Step w/ Interpolation and X Step
-        if((axes instanceof wpd.XYAxes) && (!axes.isLogX()) && (!axes.isLogY())) {
+        if(axes instanceof wpd.XYAxes) {
             innerHTML += '<option value="XStepWithInterpolation">' + wpd.gettext('x-step-with-interpolation') + '</option>';
             innerHTML += '<option value="XStep">' + wpd.gettext('x-step') + '</option>';
         }
