@@ -116,10 +116,10 @@ wpd.XYAxes = (function () {
         
         this.getBounds = function() {
             return {
-                x1: xmin,
-                x2: xmax,
-                y3: ymin,
-                y4: ymax
+                x1: isLogScaleX ? Math.pow(10, xmin) : xmin,
+                x2: isLogScaleX ? Math.pow(10, xmax) : xmax,
+                y3: isLogScaleY ? Math.pow(10, ymin) : ymin,
+                y4: isLogScaleY ? Math.pow(10, ymax) : ymax
             };
         };
 
@@ -163,9 +163,16 @@ wpd.XYAxes = (function () {
         this.dataToPixel = function(x, y) {
             var xf, yf, dat_vec, rtnPix;
 
+            if(isLogScaleX) {
+                x = Math.log(x)/Math.log(10);
+            }
+            if(isLogScaleY) {
+                y = Math.log(y)/Math.log(10);
+            }
+
             dat_vec = [x - c_vec[0], y - c_vec[1]];
             rtnPix = wpd.mat.mult2x2Vec(a_inv_mat, dat_vec);
-            // TODO: add support for log-scale
+            
             xf = rtnPix[0];
             yf = rtnPix[1];
 
