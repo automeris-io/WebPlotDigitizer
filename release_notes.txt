@@ -1,5 +1,13 @@
 RELEASE NOTES
 
+Version 3.11
+============
+Under development
+
+New Features:
+
+- X Step w/ Interpolation and X Step algorithms now work with log scale XY axes.
+
 Version 3.10
 ============
 May 8, 2016
