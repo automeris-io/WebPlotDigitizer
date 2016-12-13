@@ -1,24 +1,176 @@
-# Chinese (Simplified, China) translations for PROJECT.
+# Chinese (Simplified, China) translations for .
 # Copyright (C) 2016 ORGANIZATION
-# This file is distributed under the same license as the PROJECT project.
+# This file is distributed under the same license as the  project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2016.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: WebPlotDigitizer\n"
+"Project-Id-Version:  WebPlotDigitizer\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2016-12-12 22:35-0600\n"
-"PO-Revision-Date: 2016-12-12 22:51-0600\n"
-"Language: zh_CN\n"
+"POT-Creation-Date: 2016-12-12 23:58-0600\n"
+"PO-Revision-Date: 2016-12-12 23:26-0600\n"
+"Last-Translator: \n"
+"Language: zh_Hans_CN\n"
 "Language-Team: zh_Hans_CN <LL@li.org>\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
+"Plural-Forms: nplurals=1; plural=0\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.3.4\n"
-"Last-Translator: \n"
-"X-Generator: Poedit 1.8.11\n"
 
 #: templates/_strings.html:2
 msgid "Unstable version warning!"
 msgstr "不稳定的版本警告 ！"
+
+#: templates/_strings.html:3
+msgid ""
+"You are using a beta version of WebPlotDigitizer. There may be some "
+"issues with the software that are expected."
+msgstr "您正在使用 WebPlotDigitizer beta 版本。可能有一些问题与软件，预计。"
+
+#: templates/_strings.html:4
+msgid "Import JSON"
+msgstr ""
+
+#: templates/_strings.html:5
+msgid "JSON data has been loaded!"
+msgstr ""
+
+#: templates/_strings.html:6
+msgid "Invalid Inputs"
+msgstr ""
+
+#: templates/_strings.html:7
+msgid "Please enter valid values for calibration."
+msgstr ""
+
+#: templates/_strings.html:8
+msgid "Invalid Log Scale Value"
+msgstr ""
+
+#: templates/_strings.html:9
+msgid ""
+"Values on a log scale axis can not be zero as log(0) is undefined. Please"
+" enter a non-zero value."
+msgstr ""
+
+#: templates/_strings.html:10
+msgid "Acquire Data"
+msgstr ""
+
+#: templates/_strings.html:11
+msgid "Please calibrate the axes before acquiring data."
+msgstr ""
+
+#: templates/_strings.html:12
+msgid "Clear data points?"
+msgstr ""
+
+#: templates/_strings.html:13
+msgid "This will delete all data points from this dataset"
+msgstr ""
+
+#: templates/_strings.html:14
+msgid "Webcam Capture"
+msgstr ""
+
+#: templates/_strings.html:15
+msgid ""
+"Your browser does not support webcam capture using HTML5 APIs. A recent "
+"version of Google Chrome is recommended."
+msgstr ""
+
+#: templates/_strings.html:16
+msgid "Transformation Equations"
+msgstr ""
+
+#: templates/_strings.html:17
+msgid ""
+"Transformation equations are available only after axes have been "
+"calibrated."
+msgstr ""
+
+#: templates/_strings.html:18
+msgid "Unsupported Feature!"
+msgstr ""
+
+#: templates/_strings.html:19
+msgid ""
+"This feature has not been implemented in the current version. This may be"
+" available in a future release."
+msgstr ""
+
+#: templates/_strings.html:20
+msgid "Processing"
+msgstr ""
+
+#: templates/_strings.html:21
+msgid "ERROR: Invalid File!"
+msgstr ""
+
+#: templates/_strings.html:22
+msgid ""
+"Please load a valid image file. Common image formats such as JPG, PNG, "
+"BMP, GIF etc. should work. PDF or Word documents are not accepted."
+msgstr ""
+
+#: templates/_strings.html:23
+msgid "Raw"
+msgstr ""
+
+#: templates/_strings.html:24
+msgid "Nearest Neighbor"
+msgstr ""
+
+#: templates/_strings.html:25
+msgid "Manage Datasets"
+msgstr ""
+
+#: templates/_strings.html:26
+msgid "Please calibrate the axes before managing datasets."
+msgstr ""
+
+#: templates/_strings.html:27
+msgid "Can Not Delete!"
+msgstr ""
+
+#: templates/_strings.html:28 templates/_strings.html:30
+msgid "You can not delete this dataset as at least one dataset is required."
+msgstr ""
+
+#: templates/_strings.html:29
+msgid "Delete Dataset"
+msgstr ""
+
+#: templates/_strings.html:31
+msgid "Averaging Window"
+msgstr ""
+
+#: templates/_strings.html:32
+msgid "X Step w/ Interpolation"
+msgstr ""
+
+#: templates/_strings.html:33
+msgid "X Step"
+msgstr ""
+
+#: templates/_strings.html:34
+msgid "Blob Detector"
+msgstr ""
+
+#: templates/_strings.html:35
+msgid "Bar Extraction"
+msgstr ""
+
+#: templates/_strings.html:36
+msgid "Histogram"
+msgstr ""
+
+#: templates/_strings.html:37
+msgid "Specify Plot (Foreground) Color"
+msgstr ""
+
+#: templates/_strings.html:38
+msgid "Specify Background Color"
+msgstr ""
+
