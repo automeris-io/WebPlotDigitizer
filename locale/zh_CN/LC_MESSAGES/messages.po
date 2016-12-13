@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  WebPlotDigitizer\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2016-12-12 23:58-0600\n"
+"POT-Creation-Date: 2016-12-13 00:23-0600\n"
 "PO-Revision-Date: 2016-12-12 23:26-0600\n"
 "Last-Translator: \n"
 "Language: zh_Hans_CN\n"
@@ -18,6 +18,526 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.3.4\n"
 
+#: templates/_menubar.html:2
+msgid "File"
+msgstr ""
+
+#: templates/_menubar.html:5
+msgid "Load Image"
+msgstr ""
+
+#: templates/_menubar.html:6 templates/_popups.html:53
+#: templates/_strings.html:14
+msgid "Webcam Capture"
+msgstr ""
+
+#: templates/_menubar.html:7 templates/_popups.html:42
+msgid "Run Script"
+msgstr ""
+
+#: templates/_menubar.html:8
+msgid "Save Image"
+msgstr ""
+
+#: templates/_menubar.html:9 templates/_popups.html:379
+msgid "Export JSON"
+msgstr ""
+
+#: templates/_menubar.html:10 templates/_popups.html:390
+#: templates/_strings.html:4
+msgid "Import JSON"
+msgstr ""
+
+#: templates/_menubar.html:30
+msgid "Axes"
+msgstr ""
+
+#: templates/_menubar.html:33
+msgid "Calibrate Axes"
+msgstr ""
+
+#: templates/_menubar.html:34
+msgid "Remove Grid"
+msgstr ""
+
+#: templates/_menubar.html:36 templates/_popups.html:370
+#: templates/_strings.html:16
+msgid "Transformation Equations"
+msgstr ""
+
+#: templates/_menubar.html:41
+msgid "Data"
+msgstr ""
+
+#: templates/_menubar.html:44 templates/_strings.html:10
+msgid "Acquire Data"
+msgstr ""
+
+#: templates/_menubar.html:45 templates/_popups.html:341
+#: templates/_strings.html:25
+msgid "Manage Datasets"
+msgstr ""
+
+#: templates/_menubar.html:50
+msgid "Measure"
+msgstr ""
+
+#: templates/_menubar.html:53
+msgid "Distances"
+msgstr ""
+
+#: templates/_menubar.html:54
+msgid "Angles"
+msgstr ""
+
+#: templates/_menubar.html:61
+msgid "Help"
+msgstr ""
+
+#: templates/_menubar.html:64
+msgid "About WebPlotDigitizer"
+msgstr ""
+
+#: templates/_menubar.html:65
+msgid "Tutorials"
+msgstr ""
+
+#: templates/_menubar.html:66
+msgid "User Manual"
+msgstr ""
+
+#: templates/_menubar.html:67
+msgid "GitHub Page"
+msgstr ""
+
+#: templates/_menubar.html:68
+msgid "Report Issues"
+msgstr ""
+
+#: templates/_menubar.html:69
+msgid "Donate (PayPal)"
+msgstr ""
+
+#: templates/_popups.html:7
+msgid "Load Image File"
+msgstr ""
+
+#: templates/_popups.html:19
+msgid "Magnified View Settings"
+msgstr ""
+
+#: templates/_popups.html:23
+msgid "Magnification"
+msgstr ""
+
+#: templates/_popups.html:23
+msgid "Times"
+msgstr ""
+
+#: templates/_popups.html:25
+msgid "Crosshair Color"
+msgstr ""
+
+#: templates/_popups.html:28
+msgid "Black"
+msgstr ""
+
+#: templates/_popups.html:29
+msgid "Red"
+msgstr ""
+
+#: templates/_popups.html:30
+msgid "Yellow"
+msgstr ""
+
+#: templates/_popups.html:44
+msgid ""
+"Load a Javascript file to further extend the capabilities of "
+"WebPlotDigitizer. For examples, visit the"
+msgstr ""
+
+#: templates/_popups.html:44
+msgid "WebPlotDigitizer-Examples repository"
+msgstr ""
+
+#: templates/_popups.html:79
+msgid "Choose Plot Type"
+msgstr ""
+
+#: templates/_popups.html:83
+msgid "2D (X-Y) Plot"
+msgstr ""
+
+#: templates/_popups.html:84
+msgid "2D Bar Plot"
+msgstr ""
+
+#: templates/_popups.html:85
+msgid "Polar Diagram"
+msgstr ""
+
+#: templates/_popups.html:86
+msgid "Ternary Diagram"
+msgstr ""
+
+#: templates/_popups.html:87
+msgid "Map With Scale Bar"
+msgstr ""
+
+#: templates/_popups.html:88
+msgid "Image"
+msgstr ""
+
+#: templates/_popups.html:97
+msgid "X and Y Axes Calibration"
+msgstr ""
+
+#: templates/_popups.html:99
+msgid ""
+"Enter X-values of the two points clicked on X-axis and Y-values of the "
+"two points clicked on Y-axes"
+msgstr ""
+
+#: templates/_popups.html:104 templates/_popups.html:134
+#: templates/_popups.html:165
+msgid "Point 1"
+msgstr ""
+
+#: templates/_popups.html:105 templates/_popups.html:135
+#: templates/_popups.html:166
+msgid "Point 2"
+msgstr ""
+
+#: templates/_popups.html:106 templates/_popups.html:136
+#: templates/_popups.html:167
+msgid "Log Scale"
+msgstr ""
+
+#: templates/_popups.html:109
+msgid "X-Axis"
+msgstr ""
+
+#: templates/_popups.html:115
+msgid "Y-Axis"
+msgstr ""
+
+#: templates/_popups.html:121
+msgid ""
+"*For dates, use yyyy/mm/dd format (e.g. 2013/10/23 or 2013/10). For "
+"exponents, enter values as 1e-3 for 10^-3."
+msgstr ""
+
+#: templates/_popups.html:129
+msgid "Bar Chart Calibration"
+msgstr ""
+
+#: templates/_popups.html:130
+msgid ""
+"Enter the values at the two points selected on the continuous axes along "
+"the bars"
+msgstr ""
+
+#: templates/_popups.html:151
+msgid "Scale Size"
+msgstr ""
+
+#: templates/_popups.html:160 templates/_popups.html:293
+msgid "Align Polar Axes"
+msgstr ""
+
+#: templates/_popups.html:183
+msgid "Degrees"
+msgstr ""
+
+#: templates/_popups.html:183
+msgid "Radians"
+msgstr ""
+
+#: templates/_popups.html:184
+msgid "Clockwise"
+msgstr ""
+
+#: templates/_popups.html:191
+msgid "Select Range of Variables"
+msgstr ""
+
+#: templates/_popups.html:193
+msgid "Axes Orientation"
+msgstr ""
+
+#: templates/_popups.html:197
+msgid "Normal"
+msgstr ""
+
+#: templates/_popups.html:197
+msgid "Reverse"
+msgstr ""
+
+#: templates/_popups.html:200
+msgid "Range of Variables"
+msgstr ""
+
+#: templates/_popups.html:202
+msgid "0 to 1"
+msgstr ""
+
+#: templates/_popups.html:202
+msgid "0 to 100"
+msgstr ""
+
+#: templates/_popups.html:210
+msgid "Acquired Data"
+msgstr ""
+
+#: templates/_popups.html:215
+msgid "Dataset"
+msgstr ""
+
+#: templates/_popups.html:216
+msgid "Variables"
+msgstr ""
+
+#: templates/_popups.html:224
+msgid ""
+"*Plotly is a secure data analysis and graphing site with data sharing and"
+" access controls."
+msgstr ""
+
+#: templates/_popups.html:225
+msgid ""
+"Visit <a href=\"http://plot.ly\" "
+"target=\"plotlyWebsite\">http://plot.ly</a> for details."
+msgstr ""
+
+#: templates/_popups.html:229
+msgid "Sort"
+msgstr ""
+
+#: templates/_popups.html:230
+msgid "Sort by"
+msgstr ""
+
+#: templates/_popups.html:231
+msgid "Order"
+msgstr ""
+
+#: templates/_popups.html:233
+msgid "Ascending"
+msgstr ""
+
+#: templates/_popups.html:234
+msgid "Descending"
+msgstr ""
+
+#: templates/_popups.html:238
+msgid "Format"
+msgstr ""
+
+#: templates/_popups.html:241
+msgid "Date Formatting"
+msgstr ""
+
+#: templates/_popups.html:245
+msgid "Number Formatting"
+msgstr ""
+
+#: templates/_popups.html:246
+msgid "Digits"
+msgstr ""
+
+#: templates/_popups.html:248
+msgid "Ignore"
+msgstr ""
+
+#: templates/_popups.html:249
+msgid "Fixed"
+msgstr ""
+
+#: templates/_popups.html:250
+msgid "Precision"
+msgstr ""
+
+#: templates/_popups.html:251
+msgid "Exponential"
+msgstr ""
+
+#: templates/_popups.html:254
+msgid "Column Separator"
+msgstr ""
+
+#: templates/_popups.html:263
+msgid "Align X-Y Axes"
+msgstr ""
+
+#: templates/_popups.html:266
+msgid ""
+"Click four known points on the axes in the <font color=\"red\">order "
+"shown in red</font>. Two on the X axis (X1, X2) and two on the Y axis "
+"(Y1, Y2)"
+msgstr ""
+
+#: templates/_popups.html:273
+msgid "Align Bar Chart Axes"
+msgstr ""
+
+#: templates/_popups.html:276
+msgid "Click on two known points (P1, P2) on the continuous axes along the bars"
+msgstr ""
+
+#: templates/_popups.html:283
+msgid "Align Map To Scale Bar"
+msgstr ""
+
+#: templates/_popups.html:286
+msgid "Click on the two ends of the scale bar on the map."
+msgstr ""
+
+#: templates/_popups.html:296
+msgid "Click on the center, followed by two known points."
+msgstr ""
+
+#: templates/_popups.html:303
+msgid "Align Ternary Axes"
+msgstr ""
+
+#: templates/_popups.html:306
+msgid "Click on the three corners in the order shown above."
+msgstr ""
+
+#: templates/_popups.html:313
+msgid "WebPlotDigitizer - Web Based Plot Digitizer"
+msgstr ""
+
+#: templates/_popups.html:315
+msgid "Version"
+msgstr ""
+
+#: templates/_popups.html:316
+msgid ""
+"This program is distributed under the <a "
+"href=\"https://www.gnu.org/licenses/gpl-3.0-standalone.html\" "
+"target=\"_blank\">GNU General Public License Version 3</a>."
+msgstr ""
+
+#: templates/_popups.html:317
+msgid "Copyright"
+msgstr ""
+
+#: templates/_popups.html:325
+msgid "Specify Color"
+msgstr ""
+
+#: templates/_popups.html:333
+msgid "Dominant Colors"
+msgstr ""
+
+#: templates/_popups.html:346
+msgid "Selected Dataset"
+msgstr ""
+
+#: templates/_popups.html:346
+msgid "Default Dataset"
+msgstr ""
+
+#: templates/_popups.html:350
+msgid "Dataset Name"
+msgstr ""
+
+#: templates/_popups.html:355
+msgid "Data Points"
+msgstr ""
+
+#: templates/_popups.html:371
+msgid "The following relationships are being used to convert image pixels to data"
+msgstr ""
+
+#: templates/_popups.html:380
+msgid ""
+"This JSON file contains the axes calibration and the digitized data "
+"points from this plot. This file can be imported later to resume work or "
+"reuse the calibration in another plot."
+msgstr ""
+
+#: templates/_popups.html:391
+msgid ""
+"Specify a previously exported JSON file to load here. Note that this will"
+" clear any unsaved data points in the current plot."
+msgstr ""
+
+#: templates/_popups.html:393
+msgid "JSON File"
+msgstr ""
+
+#: templates/_popups.html:403
+msgid "Keyboard Shortcuts"
+msgstr ""
+
+#: templates/_popups.html:404
+msgid ""
+"Click to select a data point. The following keys can then be used to the "
+"adjust the position"
+msgstr ""
+
+#: templates/_popups.html:407
+msgid "Cursor (Arrows)"
+msgstr ""
+
+#: templates/_popups.html:407
+msgid "Move up/down/right/left"
+msgstr ""
+
+#: templates/_popups.html:408
+msgid "Shift + Cursor"
+msgstr ""
+
+#: templates/_popups.html:408
+msgid "Faster rate of movement"
+msgstr ""
+
+#: templates/_popups.html:409
+msgid "Select next point"
+msgstr ""
+
+#: templates/_popups.html:410
+msgid "Select previous point"
+msgstr ""
+
+#: templates/_popups.html:411
+msgid "Del/Backspace"
+msgstr ""
+
+#: templates/_popups.html:411
+msgid "Delete point"
+msgstr ""
+
+#: templates/_popups.html:412
+msgid "Edit label (Bar Chart)"
+msgstr ""
+
+#: templates/_popups.html:421
+msgid "Edit Label"
+msgstr ""
+
+#: templates/_popups.html:423
+msgid "Label"
+msgstr ""
+
+#: templates/_popups.html:433
+msgid "Perspective Transformation"
+msgstr ""
+
+#: templates/_popups.html:436
+msgid "Click on four corners of the region to be transformed as shown."
+msgstr ""
+
+#: templates/_popups.html:446
+msgid "Edit Existing Calibration?"
+msgstr ""
+
+#: templates/_popups.html:448
+msgid "Do you wish to tweak existing axes calibration or select a new axes type?"
+msgstr ""
+
 #: templates/_strings.html:2
 msgid "Unstable version warning!"
 msgstr "不稳定的版本警告 ！"
@@ -27,10 +547,6 @@ msgid ""
 "You are using a beta version of WebPlotDigitizer. There may be some "
 "issues with the software that are expected."
 msgstr "您正在使用 WebPlotDigitizer beta 版本。可能有一些问题与软件，预计。"
-
-#: templates/_strings.html:4
-msgid "Import JSON"
-msgstr ""
 
 #: templates/_strings.html:5
 msgid "JSON data has been loaded!"
@@ -54,10 +570,6 @@ msgid ""
 " enter a non-zero value."
 msgstr ""
 
-#: templates/_strings.html:10
-msgid "Acquire Data"
-msgstr ""
-
 #: templates/_strings.html:11
 msgid "Please calibrate the axes before acquiring data."
 msgstr ""
@@ -70,18 +582,10 @@ msgstr ""
 msgid "This will delete all data points from this dataset"
 msgstr ""
 
-#: templates/_strings.html:14
-msgid "Webcam Capture"
-msgstr ""
-
 #: templates/_strings.html:15
 msgid ""
 "Your browser does not support webcam capture using HTML5 APIs. A recent "
 "version of Google Chrome is recommended."
-msgstr ""
-
-#: templates/_strings.html:16
-msgid "Transformation Equations"
 msgstr ""
 
 #: templates/_strings.html:17
@@ -120,10 +624,6 @@ msgstr ""
 
 #: templates/_strings.html:24
 msgid "Nearest Neighbor"
-msgstr ""
-
-#: templates/_strings.html:25
-msgid "Manage Datasets"
 msgstr ""
 
 #: templates/_strings.html:26
