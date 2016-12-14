@@ -9,8 +9,8 @@
 	<p align="center"><input type="file" id="fileLoadBox"/></p>
 	<p>&nbsp;</p>
 	<p align="center">
-        <input type="button" value="Load" onclick="wpd.graphicsWidget.load();"/>
-        <input type="button" value="Cancel" onclick="wpd.popup.close('loadNewImage');"/>
+        <input type="button" value="{{ _("Load") }}" onclick="wpd.graphicsWidget.load();"/>
+        <input type="button" value="{{ _("Cancel") }}" onclick="wpd.popup.close('loadNewImage');"/>
     </p>
 	</div>
 
@@ -34,7 +34,7 @@
     </table>
     </center>
     <p>&nbsp;</p>
-    <p align="center"><input type="button" value="Apply" onclick="wpd.zoomView.applySettings();"/> <input type="button" value="Cancel" onclick="wpd.popup.close('zoom-settings-popup');"/></p>
+    <p align="center"><input type="button" value="Apply" onclick="wpd.zoomView.applySettings();"/> <input type="button" value="{{ _("Cancel") }}" onclick="wpd.popup.close('zoom-settings-popup');"/></p>
     </div>
 
     <!-- Run Script -->
@@ -45,7 +45,7 @@
     <p>&nbsp;</p>
     <p align="center"><input type="file" id="runScriptFileInput"/></p>
     <p>&nbsp;</p>
-    <p align="center"><input type="button" value="Run" onclick="wpd.scriptInjector.load();"/> <input type="button" value="Cancel" onclick="wpd.scriptInjector.cancel();"/></p>
+    <p align="center"><input type="button" value="{{ _("Run") }}" onclick="wpd.scriptInjector.load();"/> <input type="button" value="{{ _("Cancel") }}" onclick="wpd.scriptInjector.cancel();"/></p>
     </div>
 
     <!-- Webcam Capture -->
@@ -53,7 +53,7 @@
     <div class="popupheading">{{ _("Webcam Capture") }}</div>
     <p>&nbsp;</p>
     <p align="center"><video id="webcamVideo" autoplay="true" height="350"></video></p>
-    <p align="center"><input type="button" value="Capture" onclick="wpd.webcamCapture.capture();"/> <input type="button" value="Cancel" onclick="wpd.webcamCapture.cancel();"/></p>
+    <p align="center"><input type="button" value="{{ _("Capture") }}" onclick="wpd.webcamCapture.capture();"/> <input type="button" value="{{ _("Cancel") }}" onclick="wpd.webcamCapture.cancel();"/></p>
     </div>
 
     <!-- Generic Message Popup -->
@@ -62,7 +62,7 @@
     <p>&nbsp;</p>
     <p align="center" id="message-popup-text"></p>
     <p>&nbsp;</p>
-    <p align="center"><input type="button" value="OK" onclick="wpd.messagePopup.close()"/></p>
+    <p align="center"><input type="button" value="{{ _("OK") }}" onclick="wpd.messagePopup.close()"/></p>
     </div>
 
     <!-- Generic Ok/Cancel Popup -->
@@ -71,7 +71,7 @@
     <p>&nbsp;</p>
     <p align="center" id="ok-cancel-popup-text"></p>
     <p>&nbsp;</p>
-    <p align="center"><input type="button" value="OK" onclick="wpd.okCancelPopup.ok()"/> <input type="button" value="Cancel" onclick="wpd.okCancelPopup.cancel()"/></p>
+    <p align="center"><input type="button" value="{{ _("OK") }}" onclick="wpd.okCancelPopup.ok()"/> <input type="button" value="{{ _("Cancel") }}" onclick="wpd.okCancelPopup.cancel()"/></p>
     </div>
 
     <!-- Choose axes type -->
@@ -89,7 +89,7 @@
 	</table>
 	</center>
 	<p>&nbsp;</p>
-	<p align="center"><input type="button" value="Align Axes" onclick="wpd.alignAxes.start();">&nbsp;<input type="button" value="Cancel" onClick="wpd.popup.close('axesList');"></p>
+	<p align="center"><input type="button" value="Align Axes" onclick="wpd.alignAxes.start();">&nbsp;<input type="button" value="{{ _("Cancel") }}" onClick="wpd.popup.close('axesList');"></p>
 	</div>
 
     <!-- XY Alignment -->
@@ -120,7 +120,7 @@
 	</table>
 	<p align="center" class="footnote">{{ _("*For dates, use yyyy/mm/dd format (e.g. 2013/10/23 or 2013/10). For exponents, enter values as 1e-3 for 10^-3.") }}</p>
 	<p>&nbsp;</p>
-	<p align="center"><input type="button" id="xybtn" value="OK" onclick="wpd.alignAxes.align();" /></p>
+	<p align="center"><input type="button" id="xybtn" value="{{ _("OK") }}" onclick="wpd.alignAxes.align();" /></p>
 	</center>
 	</div>
 
@@ -133,7 +133,7 @@
         <tr>
             <td align="center" valign="bottom">{{ _("Point 1") }}</td>
             <td align="center" valign="bottom" width="80">{{ _("Point 2") }}</td>
-            <td align="center" valign="Log Scale" width="80">{{ _("Log Scale") }}</td>
+            <td align="center" valign="bottom" width="80">{{ _("Log Scale") }}</td>
         </tr>
         <tr>
             <td align="center"><input type="text" size="8" id="bar-axes-p1" value="0" /></td>
@@ -143,16 +143,16 @@
     </table>
     </center>
     <p>&nbsp;</p>
-    <p align="center"><input type="button" value="OK" onclick="wpd.alignAxes.align();"/></p>
+    <p align="center"><input type="button" value="{{ _("OK") }}" onclick="wpd.alignAxes.align();"/></p>
     </div>
 
     <!-- Map Alignment -->
 	<div id="mapAlignment" class="popup" style="width: 200px;">
 	<div class="popupheading">{{ _("Scale Size") }}</div>
 	<p>&nbsp;</p>
-	<p align="center"><input type="text" size="6" id="scaleLength" value="1"> <input type="text" size="6" id="scaleUnits" value="Units"/></p>
+	<p align="center"><input type="text" size="6" id="scaleLength" value="1"> <input type="text" size="6" id="scaleUnits" value="{{ _("Units") }}"/></p>
 	<p>&nbsp;</p>
-	<p align="center"><input type="button" id="xybtn" value="OK" onclick="wpd.alignAxes.align();"></p>
+	<p align="center"><input type="button" id="xybtn" value="{{ _("OK") }}" onclick="wpd.alignAxes.align();"></p>
 	</div>
 
     <!-- Polar Alignment -->
@@ -183,7 +183,7 @@
 	<p align="center"><label><input type="radio" id="polar-degrees" name="angleUnits" checked> {{ _("Degrees") }}</label> <label><input type="radio" id="polar-radians" name="angleUnits"> {{ _("Radians") }}</p></label>
 	<p align="center"><input type="checkbox" id="polar-clockwise"> {{ _("Clockwise") }}</p>
     <br/>
-	<p align="center"><input type="button" value="OK" onclick="wpd.alignAxes.align();"></p>
+	<p align="center"><input type="button" value="{{ _("OK") }}" onclick="wpd.alignAxes.align();"></p>
 	</div>
 
     <!-- Ternary Alignment -->
@@ -202,7 +202,7 @@
 	<table><tr><td><p align="center"><input type="radio" id="range0to1" name="ternaryRange" checked> {{ _("0 to 1") }}&nbsp;&nbsp;</p></td><td><p align="center">&nbsp;&nbsp;<input type="radio" id="range0to100" name="ternaryRange"> {{ _("0 to 100") }}</p></td></tr></table>
 	</center>
 	<p>&nbsp;</p>
-	<p align="center"><input type="button" value="OK" onclick="wpd.alignAxes.align();"></p>
+	<p align="center"><input type="button" value="{{ _("OK") }}" onclick="wpd.alignAxes.align();"></p>
 	</div>
 
     <!-- View Data -->
@@ -216,10 +216,10 @@
     <p align="center">{{ _("Variables") }}: <span id="dataVariables"></span></p>
 	<p align="center"><textarea id="digitizedDataTable" style="width: 480px; height: 250px;"></textarea></p>
 	<p align="center">
-		<input type="button" value="Select All" onclick="wpd.dataTable.selectAll();"/>
-        <input type="button" value="Download .CSV" onclick="wpd.dataTable.generateCSV();"/>
-		<input type="button" value="Graph in Plotly*" onclick="wpd.dataTable.exportToPlotly();"/>
-		<input type="button" value="Close" onclick="wpd.popup.close('csvWindow');"/>
+		<input type="button" value="{{ _("Select All") }}" onclick="wpd.dataTable.selectAll();"/>
+        <input type="button" value="{{ _("Download .CSV") }}" onclick="wpd.dataTable.generateCSV();"/>
+		<input type="button" value="{{ _("Graph in Plotly*") }}" onclick="wpd.dataTable.exportToPlotly();"/>
+		<input type="button" value="{{ _("Close") }}" onclick="wpd.popup.close('csvWindow');"/>
 	</p>
 	<p align="center" class="footnote">{{ _("*Plotly is a secure data analysis and graphing site with data sharing and access controls.") }}</p>
 	<p align="center" class="footnote">{{ _("Visit <a href=\"http://plot.ly\" target=\"plotlyWebsite\">http://plot.ly</a> for details.") }}</p>
@@ -265,7 +265,7 @@
 	<p align="center"><img src="images/xyaxes.png" /></p>
 	<p align="center">{{ _("Click four known points on the axes in the <font color=\"red\">order shown in red</font>. Two on the X axis (X1, X2) and two on the Y axis (Y1, Y2)") }}.</p>
 	<p>&nbsp;</p>
-	<p align="center"><input type="button" value="Proceed" onclick="wpd.xyCalibration.pickCorners();" /></p>
+	<p align="center"><input type="button" value="{{ _("Proceed") }}" onclick="wpd.xyCalibration.pickCorners();" /></p>
 	</div>
 
     <!-- Bar Chart Axes Calibration Intructions -->
@@ -275,7 +275,7 @@
     <p align="center"><img src="images/barchart.png" /></p>
     <p align="center">{{ _("Click on two known points (P1, P2) on the continuous axes along the bars") }}</p>
     <p>&nbsp;</p>
-    <p align="center"><input type="button" value="Proceed" onclick="wpd.barCalibration.pickCorners();" /></p>
+    <p align="center"><input type="button" value="{{ _("Proceed") }}" onclick="wpd.barCalibration.pickCorners();" /></p>
     </div>
 
     <!-- Map Axes Calibration Instructions -->
@@ -285,7 +285,7 @@
 	<p align="center"><img src="images/map.png" /></p>
 	<p align="center">{{ _("Click on the two ends of the scale bar on the map.") }}</p>
 	<p>&nbsp;</p>
-	<p align="center"><input type="button" value="Proceed" onclick="wpd.mapCalibration.pickCorners();"></p>
+	<p align="center"><input type="button" value="{{ _("Proceed") }}" onclick="wpd.mapCalibration.pickCorners();"></p>
 	</div>
 
     <!-- Polar Axes Calibration Instructions -->
@@ -295,7 +295,7 @@
 	<p align="center"><img src="images/polaraxes.png" /></p>
 	<p align="center">{{ _("Click on the center, followed by two known points.") }}</p>
 	<p>&nbsp;</p>
-	<p align="center"><input type="button" value="Proceed" onclick="wpd.polarCalibration.pickCorners();"></p>
+	<p align="center"><input type="button" value="{{ _("Proceed") }}" onclick="wpd.polarCalibration.pickCorners();"></p>
 	</div>
 
     <!-- Ternary Axes Calibration Instructions -->
@@ -305,7 +305,7 @@
 	<p align="center"><img src="images/ternaryaxes.png" /></p>
 	<p align="center">{{ _("Click on the three corners in the order shown above.") }}</p>
 	<p>&nbsp;</p>
-	<p align="center"><input type="button" value="Proceed" onclick="wpd.ternaryCalibration.pickCorners();"></p>
+	<p align="center"><input type="button" value="{{ _("Proceed") }}" onclick="wpd.ternaryCalibration.pickCorners();"></p>
 	</div>
 
     <!-- About WPD -->
@@ -317,7 +317,7 @@
 	<p align="center">{{ _("Copyright") }} 2010-2016 Ankit Rohatgi &lt;ankitrohatgi@hotmail.com&gt;</p>
 	<p align="center"><a href="http://arohatgi.info/WebPlotDigitizer" target="website">http://arohatgi.info/WebPlotDigitizer</a></p>
 	<p>&nbsp;</p>
-	<p align="center"><input type="button" value="Close" onclick="wpd.popup.close('helpWindow');"></p>
+	<p align="center"><input type="button" value="{{ _("Close") }}" onclick="wpd.popup.close('helpWindow');"></p>
 	</div>
 
     <!-- Color Selection -->
@@ -328,11 +328,11 @@
 	<p align="center">&nbsp;</p>
 	<p align="center">R:<input type="text" value="255" id="color-selection-red" size="3">&nbsp;
 	G:<input type="text" id="color-selection-green" value="255" size="3">&nbsp; B:<input type="text" id="color-selection-blue" value="255" size="3">
-	 <input type="button" value="Color Picker" onclick="wpd.colorSelectionWidget.pickColor();"></p>
+	 <input type="button" value="{{ _("Color Picker") }}" onclick="wpd.colorSelectionWidget.pickColor();"></p>
 	<p align="center">&nbsp;</p>
     <p>{{ _("Dominant Colors") }}: <div id="color-selection-options" style="text-align:center;"></div></p>
     <p>&nbsp;</p>
-	<p align="center"><input type="button" value="Done" onclick="wpd.colorSelectionWidget.setColor();"></p>
+	<p align="center"><input type="button" value="{{ _("Done") }}" onclick="wpd.colorSelectionWidget.setColor();"></p>
 	</div>
 
 
@@ -349,7 +349,7 @@
     <tr>
         <td align="right">{{ _("Dataset Name") }}: </td><td> &nbsp;
         <input type="text" id="manage-data-series-name" onblur="wpd.dataSeriesManagement.editSeriesName();" onchange="wpd.dataSeriesManagement.editSeriesName();"/>
-        <input type="button" value="Change" onclick="wpd.dataSeriesManagement.editSeriesName();"/></td>
+        <input type="button" value="{{ _("Change") }}" onclick="wpd.dataSeriesManagement.editSeriesName();"/></td>
     </tr>
     <tr>
         <td align="right">{{ _("Data Points") }}: </td><td> &nbsp;<span id="manage-data-series-point-count">0</span></td>
@@ -358,10 +358,10 @@
     </center>
     <p>&nbsp;</p>
     <p align="center">
-        <input type="button" value="Add" onclick="wpd.dataSeriesManagement.addSeries();"/>
-        <input type="button" value="Delete" onclick="wpd.dataSeriesManagement.deleteSeries();"/>
-        <input type="button" value="View Data" onclick="wpd.dataSeriesManagement.viewData();"/>
-        <input type="button" value="Close" onclick="wpd.popup.close('manage-data-series-window');"/>
+        <input type="button" value="{{ _("Add") }}" onclick="wpd.dataSeriesManagement.addSeries();"/>
+        <input type="button" value="{{ _("Delete") }}" onclick="wpd.dataSeriesManagement.deleteSeries();"/>
+        <input type="button" value="{{ _("View Data") }}" onclick="wpd.dataSeriesManagement.viewData();"/>
+        <input type="button" value="{{ _("Close") }}" onclick="wpd.popup.close('manage-data-series-window');"/>
     </p>
     </div>
 
@@ -371,7 +371,7 @@
     <p>{{ _("The following relationships are being used to convert image pixels to data") }}:</p>
     <div id="axes-transformation-equation-list"></div>
     <p>&nbsp;</p>
-    <p align="center"><input type="button" value="Close" onclick="wpd.popup.close('axes-transformation-equations-window');"/></p>
+    <p align="center"><input type="button" value="{{ _("Close") }}" onclick="wpd.popup.close('axes-transformation-equations-window');"/></p>
     </div>
 
     <!-- Export JSON -->
@@ -380,8 +380,8 @@
     <p>{{ _("This JSON file contains the axes calibration and the digitized data points from this plot. This file can be imported later to resume work or reuse the calibration in another plot.") }}</p>
     <p>&nbsp;</p>
     <p align="center">
-        <input type="button" value="Download" onclick="wpd.saveResume.download();"/>
-        <input type="button" value="Close" onclick="wpd.popup.close('export-json-window');"/>
+        <input type="button" value="{{ _("Download") }}" onclick="wpd.saveResume.download();"/>
+        <input type="button" value="{{ _("Close") }}" onclick="wpd.popup.close('export-json-window');"/>
     </p>
     </div>
 
@@ -393,8 +393,8 @@
     <p align="center">{{ _("JSON File") }}: <input type="file" id="import-json-file"/></p>
     <p>&nbsp;</p>
     <p align="center">
-        <input type="button" value="Import" onclick="wpd.saveResume.read();"/>
-        <input type="button" value="Cancel" onclick="wpd.popup.close('import-json-window');"/>
+        <input type="button" value="{{ _("Import") }}" onclick="wpd.saveResume.read();"/>
+        <input type="button" value="{{ _("Cancel") }}" onclick="wpd.popup.close('import-json-window');"/>
     </p>
     </div>
 
@@ -413,18 +413,18 @@
     </table>
     </center>
     <p>&nbsp;</p>
-    <p align="center"><input type="button" value="Close" onclick="wpd.popup.close('adjust-data-points-keyboard-shortcuts-window');"/></p>
+    <p align="center"><input type="button" value="{{ _("Close") }}" onclick="wpd.popup.close('adjust-data-points-keyboard-shortcuts-window');"/></p>
     </div>
 
     <!-- Data point label editor -->
     <div id="data-point-label-editor" class="popup" style="width:280px;">
     <div class="popupheading">{{ _("Edit Label") }}</div>
     <p>&nbsp;</p>
-    <p align="center">{{ _("Label") }}: <input type="text" value="Data Point" id="data-point-label-field" onkeydown="wpd.dataPointLabelEditor.keydown(event);"/></p>
+    <p align="center">{{ _("Label") }}: <input type="text" value="{{ _("Data Point") }}" id="data-point-label-field" onkeydown="wpd.dataPointLabelEditor.keydown(event);"/></p>
     <p>&nbsp;</p>
     <p align="center">
-        <input type="button" value="OK" onclick="wpd.dataPointLabelEditor.ok();"/>
-        <input type="button" value="Cancel" onclick="wpd.dataPointLabelEditor.cancel();"/>
+        <input type="button" value="{{ _("OK") }}" onclick="wpd.dataPointLabelEditor.ok();"/>
+        <input type="button" value="{{ _("Cancel") }}" onclick="wpd.dataPointLabelEditor.cancel();"/>
     </p>
     </div>
 
@@ -436,8 +436,8 @@
     <p align="center">{{ _("Click on four corners of the region to be transformed as shown.") }}</p>
     <br/>
     <p align="center">
-        <input type="button" value="OK" onclick="wpd.perspective.pickCorners();"/>
-        <input type="button" value="Cancel" onclick="wpd.popup.close('perspective-info');"/>
+        <input type="button" value="{{ _("OK") }}" onclick="wpd.perspective.pickCorners();"/>
+        <input type="button" value="{{ _("Cancel") }}" onclick="wpd.popup.close('perspective-info');"/>
     </p>
     </div>
 
@@ -448,10 +448,10 @@
     <p align="center">{{ _("Do you wish to tweak existing axes calibration or select a new axes type?") }}</p>
     <br/>
     <p align="center">
-        <input type="button" value="Edit Calibration" onclick="wpd.alignAxes.reloadCalibrationForEditing();"/>
+        <input type="button" value="{{ _("Edit Calibration") }}" onclick="wpd.alignAxes.reloadCalibrationForEditing();"/>
 
-        <input type="button" value="Change Axes Type" onclick="wpd.popup.close('edit-or-reset-calibration-popup');wpd.popup.show('axesList');"/>
+        <input type="button" value="{{ _("Change Axes Type") }}" onclick="wpd.popup.close('edit-or-reset-calibration-popup');wpd.popup.show('axesList');"/>
 
-        <input type="button" value="Cancel" onclick="wpd.popup.close('edit-or-reset-calibration-popup');"/>
+        <input type="button" value="{{ _("Cancel") }}" onclick="wpd.popup.close('edit-or-reset-calibration-popup');"/>
     </p>
     </div>
