@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2016-12-13 00:23-0600\n"
+"POT-Creation-Date: 2016-12-13 20:08-0600\n"
 "PO-Revision-Date: 2016-12-12 23:01-0600\n"
 "Last-Translator: \n"
 "Language: fr_FR\n"
@@ -17,6 +17,20 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.3.4\n"
+
+#: templates/_base.html:42
+msgid "Loading application, please wait..."
+msgstr ""
+
+#: templates/_base.html:45
+msgid ""
+"Problems loading? Make sure you have a recent version of Google Chrome, "
+"Firefox, Safari or Internet Explorer 11 installed."
+msgstr ""
+
+#: templates/_base.html:67
+msgid "Fit"
+msgstr ""
 
 #: templates/_menubar.html:2
 msgid "File"
@@ -122,6 +136,18 @@ msgstr ""
 msgid "Load Image File"
 msgstr ""
 
+#: templates/_popups.html:12
+msgid "Load"
+msgstr ""
+
+#: templates/_popups.html:13 templates/_popups.html:37
+#: templates/_popups.html:48 templates/_popups.html:56
+#: templates/_popups.html:74 templates/_popups.html:92
+#: templates/_popups.html:397 templates/_popups.html:427
+#: templates/_popups.html:440 templates/_popups.html:455
+msgid "Cancel"
+msgstr ""
+
 #: templates/_popups.html:19
 msgid "Magnified View Settings"
 msgstr ""
@@ -158,6 +184,22 @@ msgstr ""
 
 #: templates/_popups.html:44
 msgid "WebPlotDigitizer-Examples repository"
+msgstr ""
+
+#: templates/_popups.html:48
+msgid "Run"
+msgstr ""
+
+#: templates/_popups.html:56
+msgid "Capture"
+msgstr ""
+
+#: templates/_popups.html:65 templates/_popups.html:74
+#: templates/_popups.html:123 templates/_popups.html:146
+#: templates/_popups.html:155 templates/_popups.html:186
+#: templates/_popups.html:205 templates/_popups.html:426
+#: templates/_popups.html:439
+msgid "OK"
 msgstr ""
 
 #: templates/_popups.html:79
@@ -241,6 +283,10 @@ msgstr ""
 msgid "Scale Size"
 msgstr ""
 
+#: templates/_popups.html:153
+msgid "Units"
+msgstr ""
+
 #: templates/_popups.html:160 templates/_popups.html:293
 msgid "Align Polar Axes"
 msgstr ""
@@ -289,12 +335,31 @@ msgstr ""
 msgid "Acquired Data"
 msgstr ""
 
-#: templates/_popups.html:215
+#: templates/_popups.html:215 templates/_sidebars.html:12
+#: templates/_sidebars.html:45
 msgid "Dataset"
 msgstr ""
 
 #: templates/_popups.html:216
 msgid "Variables"
+msgstr ""
+
+#: templates/_popups.html:219
+msgid "Select All"
+msgstr ""
+
+#: templates/_popups.html:220
+msgid "Download .CSV"
+msgstr ""
+
+#: templates/_popups.html:221
+msgid "Graph in Plotly*"
+msgstr ""
+
+#: templates/_popups.html:222 templates/_popups.html:320
+#: templates/_popups.html:364 templates/_popups.html:374
+#: templates/_popups.html:384 templates/_popups.html:416
+msgid "Close"
 msgstr ""
 
 #: templates/_popups.html:224
@@ -376,6 +441,12 @@ msgid ""
 "(Y1, Y2)"
 msgstr ""
 
+#: templates/_popups.html:268 templates/_popups.html:278
+#: templates/_popups.html:288 templates/_popups.html:298
+#: templates/_popups.html:308
+msgid "Proceed"
+msgstr ""
+
 #: templates/_popups.html:273
 msgid "Align Bar Chart Axes"
 msgstr ""
@@ -427,8 +498,16 @@ msgstr ""
 msgid "Specify Color"
 msgstr ""
 
+#: templates/_popups.html:331
+msgid "Color Picker"
+msgstr ""
+
 #: templates/_popups.html:333
 msgid "Dominant Colors"
+msgstr ""
+
+#: templates/_popups.html:335
+msgid "Done"
 msgstr ""
 
 #: templates/_popups.html:346
@@ -443,8 +522,28 @@ msgstr ""
 msgid "Dataset Name"
 msgstr ""
 
-#: templates/_popups.html:355
+#: templates/_popups.html:352
+msgid "Change"
+msgstr ""
+
+#: templates/_popups.html:355 templates/_sidebars.html:29
+#: templates/_sidebars.html:64
 msgid "Data Points"
+msgstr ""
+
+#: templates/_popups.html:361
+msgid "Add"
+msgstr ""
+
+#: templates/_popups.html:362
+msgid "Delete"
+msgstr ""
+
+#: templates/_popups.html:363 templates/_sidebars.html:26
+#: templates/_sidebars.html:61 templates/_sidebars.html:77
+#: templates/_sidebars.html:91 templates/_sidebars.html:105
+#: templates/_sidebars.html:119
+msgid "View Data"
 msgstr ""
 
 #: templates/_popups.html:371
@@ -458,6 +557,10 @@ msgid ""
 "reuse the calibration in another plot."
 msgstr ""
 
+#: templates/_popups.html:383
+msgid "Download"
+msgstr ""
+
 #: templates/_popups.html:391
 msgid ""
 "Specify a previously exported JSON file to load here. Note that this will"
@@ -466,6 +569,10 @@ msgstr ""
 
 #: templates/_popups.html:393
 msgid "JSON File"
+msgstr ""
+
+#: templates/_popups.html:396
+msgid "Import"
 msgstr ""
 
 #: templates/_popups.html:403
@@ -522,6 +629,10 @@ msgstr ""
 msgid "Label"
 msgstr ""
 
+#: templates/_popups.html:423
+msgid "Data Point"
+msgstr ""
+
 #: templates/_popups.html:433
 msgid "Perspective Transformation"
 msgstr ""
@@ -536,6 +647,105 @@ msgstr ""
 
 #: templates/_popups.html:448
 msgid "Do you wish to tweak existing axes calibration or select a new axes type?"
+msgstr ""
+
+#: templates/_popups.html:451
+msgid "Edit Calibration"
+msgstr ""
+
+#: templates/_popups.html:453
+msgid "Change Axes Type"
+msgstr ""
+
+#: templates/_sidebars.html:3
+msgid "Axes Calibration"
+msgstr ""
+
+#: templates/_sidebars.html:4
+msgid ""
+"Click points to select and use cursor keys to adjust positions. Use "
+"Shift+Arrow for faster movement. Click complete when finished."
+msgstr ""
+
+#: templates/_sidebars.html:10
+msgid "Manual Mode"
+msgstr ""
+
+#: templates/_sidebars.html:34
+msgid "Edit Image"
+msgstr ""
+
+#: templates/_sidebars.html:43
+msgid "Automatic Mode"
+msgstr ""
+
+#: templates/_sidebars.html:47 templates/_sidebars.html:127
+msgid "Mask"
+msgstr ""
+
+#: templates/_sidebars.html:49 templates/_sidebars.html:134
+msgid "Color"
+msgstr ""
+
+#: templates/_sidebars.html:49
+msgid "Foreground Color"
+msgstr ""
+
+#: templates/_sidebars.html:49
+msgid "Background Color"
+msgstr ""
+
+#: templates/_sidebars.html:50
+msgid "Distance"
+msgstr ""
+
+#: templates/_sidebars.html:53
+msgid "Algorithm"
+msgstr ""
+
+#: templates/_sidebars.html:69
+msgid "Measure Distances"
+msgstr ""
+
+#: templates/_sidebars.html:76 templates/_sidebars.html:90
+#: templates/_sidebars.html:104 templates/_sidebars.html:118
+msgid "Clear All"
+msgstr ""
+
+#: templates/_sidebars.html:83
+msgid "Measure Angles"
+msgstr ""
+
+#: templates/_sidebars.html:97
+msgid "Measure Path"
+msgstr ""
+
+#: templates/_sidebars.html:111
+msgid "Measure Closed Path"
+msgstr ""
+
+#: templates/_sidebars.html:125
+msgid "Detect Grid"
+msgstr ""
+
+#: templates/_sidebars.html:139
+msgid "Background Mode"
+msgstr ""
+
+#: templates/_sidebars.html:142
+msgid "Horizontal"
+msgstr ""
+
+#: templates/_sidebars.html:143
+msgid "X%"
+msgstr ""
+
+#: templates/_sidebars.html:144
+msgid "Vertical"
+msgstr ""
+
+#: templates/_sidebars.html:145
+msgid "Y%"
 msgstr ""
 
 #: templates/_strings.html:2
@@ -672,5 +882,9 @@ msgstr ""
 
 #: templates/_strings.html:38
 msgid "Specify Background Color"
+msgstr ""
+
+#: templates/_toolbars.html:4 templates/_toolbars.html:9
+msgid "Stroke Width"
 msgstr ""
 
