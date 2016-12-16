@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2016-12-13 20:59-0600\n"
+"POT-Creation-Date: 2016-12-15 22:53-0600\n"
 "PO-Revision-Date: 2016-12-12 23:09-0600\n"
 "Last-Translator: \n"
 "Language: en_US\n"
@@ -17,6 +17,10 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.3.4\n"
+
+#: templates/_base.html:26
+msgid "Web based tool to extract numerical data from plots and graph images."
+msgstr ""
 
 #: templates/_base.html:42
 msgid "Loading application, please wait..."
@@ -186,7 +190,7 @@ msgstr ""
 msgid "WebPlotDigitizer-Examples repository"
 msgstr ""
 
-#: templates/_popups.html:48
+#: templates/_popups.html:48 templates/_sidebars.html:59
 msgid "Run"
 msgstr ""
 
@@ -667,20 +671,60 @@ msgid ""
 "Shift+Arrow for faster movement. Click complete when finished."
 msgstr ""
 
+#: templates/_sidebars.html:5
+msgid "Complete!"
+msgstr ""
+
 #: templates/_sidebars.html:10
 msgid "Manual Mode"
+msgstr ""
+
+#: templates/_sidebars.html:10 templates/_sidebars.html:43
+msgid "Automatic Mode"
+msgstr ""
+
+#: templates/_sidebars.html:15
+msgid "Add Point"
+msgstr ""
+
+#: templates/_sidebars.html:16
+msgid "Adjust Point"
+msgstr ""
+
+#: templates/_sidebars.html:20
+msgid "Delete Point"
+msgstr ""
+
+#: templates/_sidebars.html:21 templates/_sidebars.html:60
+msgid "Clear Points"
+msgstr ""
+
+#: templates/_sidebars.html:25
+msgid "Edit Labels"
 msgstr ""
 
 #: templates/_sidebars.html:34
 msgid "Edit Image"
 msgstr ""
 
-#: templates/_sidebars.html:43
-msgid "Automatic Mode"
-msgstr ""
-
 #: templates/_sidebars.html:47 templates/_sidebars.html:127
 msgid "Mask"
+msgstr ""
+
+#: templates/_sidebars.html:47 templates/_sidebars.html:128
+msgid "Box"
+msgstr ""
+
+#: templates/_sidebars.html:47
+msgid "Pen"
+msgstr ""
+
+#: templates/_sidebars.html:47
+msgid "Erase"
+msgstr ""
+
+#: templates/_sidebars.html:47 templates/_sidebars.html:130
+msgid "View"
 msgstr ""
 
 #: templates/_sidebars.html:49 templates/_sidebars.html:134
@@ -695,8 +739,16 @@ msgstr ""
 msgid "Background Color"
 msgstr ""
 
+#: templates/_sidebars.html:49
+msgid "Click to change color"
+msgstr ""
+
 #: templates/_sidebars.html:50
 msgid "Distance"
+msgstr ""
+
+#: templates/_sidebars.html:51
+msgid "Filter Colors"
 msgstr ""
 
 #: templates/_sidebars.html:53
@@ -705,6 +757,14 @@ msgstr ""
 
 #: templates/_sidebars.html:69
 msgid "Measure Distances"
+msgstr ""
+
+#: templates/_sidebars.html:71
+msgid "Add Pair"
+msgstr ""
+
+#: templates/_sidebars.html:72
+msgid "Delete Pair"
 msgstr ""
 
 #: templates/_sidebars.html:76 templates/_sidebars.html:90
@@ -716,8 +776,24 @@ msgstr ""
 msgid "Measure Angles"
 msgstr ""
 
+#: templates/_sidebars.html:85
+msgid "Add Angle"
+msgstr ""
+
+#: templates/_sidebars.html:86
+msgid "Delete Angle"
+msgstr ""
+
 #: templates/_sidebars.html:97
 msgid "Measure Path"
+msgstr ""
+
+#: templates/_sidebars.html:99 templates/_sidebars.html:113
+msgid "Add Path"
+msgstr ""
+
+#: templates/_sidebars.html:100 templates/_sidebars.html:114
+msgid "Delete Path"
 msgstr ""
 
 #: templates/_sidebars.html:111
@@ -726,6 +802,18 @@ msgstr ""
 
 #: templates/_sidebars.html:125
 msgid "Detect Grid"
+msgstr ""
+
+#: templates/_sidebars.html:129
+msgid "Clear"
+msgstr ""
+
+#: templates/_sidebars.html:135
+msgid "Pick"
+msgstr ""
+
+#: templates/_sidebars.html:137
+msgid "Test"
 msgstr ""
 
 #: templates/_sidebars.html:139
@@ -746,6 +834,14 @@ msgstr ""
 
 #: templates/_sidebars.html:145
 msgid "Y%"
+msgstr ""
+
+#: templates/_sidebars.html:149
+msgid "Detect"
+msgstr ""
+
+#: templates/_sidebars.html:151
+msgid "Reset"
 msgstr ""
 
 #: templates/_strings.html:2
@@ -884,7 +980,15 @@ msgstr ""
 msgid "Specify Background Color"
 msgstr ""
 
+#: templates/_toolbars.html:3
+msgid "Erase All"
+msgstr ""
+
 #: templates/_toolbars.html:4 templates/_toolbars.html:9
 msgid "Stroke Width"
+msgstr ""
+
+#: templates/_toolbars.html:14
+msgid "View Keyboard Shortcuts"
 msgstr ""
 
