@@ -1,6 +1,6 @@
 <!-- Erase Toolbar -->
 <div id="eraseToolbar" class="toolbar" style="width:350px;">
-<p><input type="button" id="clearMaskBtn" value="Erase All" style="width:80px;" onclick="wpd.dataMask.clearMask();"/>
+<p><input type="button" id="clearMaskBtn" value="{{ _("Erase All") }}" style="width:80px;" onclick="wpd.dataMask.clearMask();"/>
 {{ _("Stroke Width") }} <input type="range" id="eraseThickness" min="1" max="150" value="20" style="width:100px;"></p>
 </div>
 
@@ -11,5 +11,5 @@
 
 <!-- Adjust Points Toolbar -->
 <div id="adjustDataPointsToolbar" class="toolbar" style="width:350px;">
-<p><input type="button" value="View Keyboard Shortcuts" onclick="wpd.popup.show('adjust-data-points-keyboard-shortcuts-window');"/></p>
+<p><input type="button" value="{{ _("View Keyboard Shortcuts") }}" onclick="wpd.popup.show('adjust-data-points-keyboard-shortcuts-window');"/></p>
 </div>
