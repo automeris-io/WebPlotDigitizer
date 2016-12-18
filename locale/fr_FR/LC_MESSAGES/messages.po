@@ -7,23 +7,22 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2016-12-15 22:53-0600\n"
+"POT-Creation-Date: 2016-12-18 10:36-0600\n"
 "PO-Revision-Date: 2016-12-16 21:22-0600\n"
 "Last-Translator: \n"
 "Language: fr_FR\n"
 "Language-Team: fr_FR <LL@li.org>\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Plural-Forms: nplurals=2; plural=(n > 1)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.3.4\n"
-"X-Generator: Poedit 1.8.11\n"
 
 #: templates/_base.html:26
 msgid "Web based tool to extract numerical data from plots and graph images."
 msgstr ""
-"Outil pour extraire des données numériques provenant de parcelles et graphique "
-"des images sur le Web."
+"Outil pour extraire des données numériques provenant de parcelles et "
+"graphique des images sur le Web."
 
 #: templates/_base.html:42
 msgid "Loading application, please wait..."
@@ -31,11 +30,11 @@ msgstr "demande Chargement, s'il vous plaît patienter ..."
 
 #: templates/_base.html:45
 msgid ""
-"Problems loading? Make sure you have a recent version of Google Chrome, Firefox, "
-"Safari or Internet Explorer 11 installed."
+"Problems loading? Make sure you have a recent version of Google Chrome, "
+"Firefox, Safari or Internet Explorer 11 installed."
 msgstr ""
-"Problèmes de chargement? Assurez-vous que vous avez une version récente de "
-"Google Chrome, Firefox, Safari ou Internet Explorer 11 est installé."
+"Problèmes de chargement? Assurez-vous que vous avez une version récente "
+"de Google Chrome, Firefox, Safari ou Internet Explorer 11 est installé."
 
 #: templates/_base.html:67
 msgid "Fit"
@@ -49,7 +48,8 @@ msgstr "Fichier"
 msgid "Load Image"
 msgstr "Charger l'image"
 
-#: templates/_menubar.html:6 templates/_popups.html:53 templates/_strings.html:14
+#: templates/_menubar.html:6 templates/_popups.html:53
+#: templates/_strings.html:14
 msgid "Webcam Capture"
 msgstr "Capture de webcam"
 
@@ -65,7 +65,8 @@ msgstr "Enregistrer l'image"
 msgid "Export JSON"
 msgstr "Exportation de JSON"
 
-#: templates/_menubar.html:10 templates/_popups.html:390 templates/_strings.html:4
+#: templates/_menubar.html:10 templates/_popups.html:390
+#: templates/_strings.html:4
 msgid "Import JSON"
 msgstr "importation JSON"
 
@@ -81,7 +82,8 @@ msgstr "Calibrer les Axes"
 msgid "Remove Grid"
 msgstr "Retirez la grille"
 
-#: templates/_menubar.html:36 templates/_popups.html:370 templates/_strings.html:16
+#: templates/_menubar.html:36 templates/_popups.html:370
+#: templates/_strings.html:16
 msgid "Transformation Equations"
 msgstr "Équations de transformation"
 
@@ -93,7 +95,8 @@ msgstr "Données"
 msgid "Acquire Data"
 msgstr "Acquérir les données"
 
-#: templates/_menubar.html:45 templates/_popups.html:341 templates/_strings.html:25
+#: templates/_menubar.html:45 templates/_popups.html:341
+#: templates/_strings.html:25
 msgid "Manage Datasets"
 msgstr "Ensembles de données"
 
@@ -145,10 +148,11 @@ msgstr "Charger le fichier Image"
 msgid "Load"
 msgstr "Charger"
 
-#: templates/_popups.html:13 templates/_popups.html:37 templates/_popups.html:48
-#: templates/_popups.html:56 templates/_popups.html:74 templates/_popups.html:92
-#: templates/_popups.html:397 templates/_popups.html:427 templates/_popups.html:440
-#: templates/_popups.html:455
+#: templates/_popups.html:13 templates/_popups.html:37
+#: templates/_popups.html:48 templates/_popups.html:56
+#: templates/_popups.html:74 templates/_popups.html:92
+#: templates/_popups.html:397 templates/_popups.html:427
+#: templates/_popups.html:440 templates/_popups.html:455
 msgid "Cancel"
 msgstr "Annulé"
 
@@ -182,8 +186,8 @@ msgstr "Jaune"
 
 #: templates/_popups.html:44
 msgid ""
-"Load a Javascript file to further extend the capabilities of WebPlotDigitizer. "
-"For examples, visit the"
+"Load a Javascript file to further extend the capabilities of "
+"WebPlotDigitizer. For examples, visit the"
 msgstr ""
 "Charger un fichier Javascript pour étendre les fonctionnalités de "
 "WebPlotDigitizer. Pour obtenir des exemples, visitez le"
@@ -200,9 +204,11 @@ msgstr "Exécuter"
 msgid "Capture"
 msgstr "Capturer"
 
-#: templates/_popups.html:65 templates/_popups.html:74 templates/_popups.html:123
-#: templates/_popups.html:146 templates/_popups.html:155 templates/_popups.html:186
-#: templates/_popups.html:205 templates/_popups.html:426 templates/_popups.html:439
+#: templates/_popups.html:65 templates/_popups.html:74
+#: templates/_popups.html:123 templates/_popups.html:146
+#: templates/_popups.html:155 templates/_popups.html:186
+#: templates/_popups.html:205 templates/_popups.html:426
+#: templates/_popups.html:439
 msgid "OK"
 msgstr "OK"
 
@@ -240,21 +246,24 @@ msgstr "X et Y Axes étalonnage"
 
 #: templates/_popups.html:99
 msgid ""
-"Enter X-values of the two points clicked on X-axis and Y-values of the two "
-"points clicked on Y-axes"
+"Enter X-values of the two points clicked on X-axis and Y-values of the "
+"two points clicked on Y-axes"
 msgstr ""
-"Entrez les valeurs X des deux points de cliqué sur l’axe x et Y des deux points "
-"de cliqué sur les axes des ordonnées"
+"Entrez les valeurs X des deux points de cliqué sur l’axe x et Y des deux "
+"points de cliqué sur les axes des ordonnées"
 
-#: templates/_popups.html:104 templates/_popups.html:134 templates/_popups.html:165
+#: templates/_popups.html:104 templates/_popups.html:134
+#: templates/_popups.html:165
 msgid "Point 1"
 msgstr "Point 1"
 
-#: templates/_popups.html:105 templates/_popups.html:135 templates/_popups.html:166
+#: templates/_popups.html:105 templates/_popups.html:135
+#: templates/_popups.html:166
 msgid "Point 2"
 msgstr "Point 2"
 
-#: templates/_popups.html:106 templates/_popups.html:136 templates/_popups.html:167
+#: templates/_popups.html:106 templates/_popups.html:136
+#: templates/_popups.html:167
 msgid "Log Scale"
 msgstr "Échelle logarithmique"
 
@@ -268,11 +277,11 @@ msgstr "Axe Y"
 
 #: templates/_popups.html:121
 msgid ""
-"*For dates, use yyyy/mm/dd format (e.g. 2013/10/23 or 2013/10). For exponents, "
-"enter values as 1e-3 for 10^-3."
+"*For dates, use yyyy/mm/dd format (e.g. 2013/10/23 or 2013/10). For "
+"exponents, enter values as 1e-3 for 10^-3."
 msgstr ""
-"Pour les dates, utilisez le format aaaa/mm/jj (23/10/2013 ou 2013/10). Pour les "
-"exposants, entrez des valeurs comme 1e-3 pour 10^-3."
+"Pour les dates, utilisez le format aaaa/mm/jj (23/10/2013 ou 2013/10). "
+"Pour les exposants, entrez des valeurs comme 1e-3 pour 10^-3."
 
 #: templates/_popups.html:129
 msgid "Bar Chart Calibration"
@@ -280,10 +289,11 @@ msgstr "Étalonnage de graphique à barres"
 
 #: templates/_popups.html:130
 msgid ""
-"Enter the values at the two points selected on the continuous axes along the bars"
+"Enter the values at the two points selected on the continuous axes along "
+"the bars"
 msgstr ""
-"Entrez les valeurs dans les deux points choisis sur les axes continues le long "
-"des barres"
+"Entrez les valeurs dans les deux points choisis sur les axes continues le"
+" long des barres"
 
 #: templates/_popups.html:151
 msgid "Scale Size"
@@ -362,26 +372,27 @@ msgstr "Télécharger .CSV"
 msgid "Graph in Plotly*"
 msgstr "Graphique en Plotly *"
 
-#: templates/_popups.html:222 templates/_popups.html:320 templates/_popups.html:364
-#: templates/_popups.html:374 templates/_popups.html:384 templates/_popups.html:416
+#: templates/_popups.html:222 templates/_popups.html:320
+#: templates/_popups.html:364 templates/_popups.html:374
+#: templates/_popups.html:384 templates/_popups.html:416
 msgid "Close"
 msgstr "Fermer"
 
 #: templates/_popups.html:224
 msgid ""
-"*Plotly is a secure data analysis and graphing site with data sharing and access "
-"controls."
+"*Plotly is a secure data analysis and graphing site with data sharing and"
+" access controls."
 msgstr ""
-"*Plotly est un site de l’analyse et la représentation graphique de données "
-"sécurisé avec contrôles d’accès et de partage de données."
+"*Plotly est un site de l’analyse et la représentation graphique de "
+"données sécurisé avec contrôles d’accès et de partage de données."
 
 #: templates/_popups.html:225
 msgid ""
-"Visit <a href=\"http://plot.ly\" target=\"plotlyWebsite\">http://plot.ly</a> for "
-"details."
+"Visit <a href=\"http://plot.ly\" "
+"target=\"plotlyWebsite\">http://plot.ly</a> for details."
 msgstr ""
-"Visitez <a href=\"http://plot.ly\" target=\"plotlyWebsite\">http://plot.ly</a> "
-"pour plus de détails."
+"Visitez <a href=\"http://plot.ly\" "
+"target=\"plotlyWebsite\">http://plot.ly</a> pour plus de détails."
 
 #: templates/_popups.html:229
 msgid "Sort"
@@ -445,15 +456,17 @@ msgstr "Aligner les Axes X-Y"
 
 #: templates/_popups.html:266
 msgid ""
-"Click four known points on the axes in the <font color=\"red\">order shown in "
-"red</font>. Two on the X axis (X1, X2) and two on the Y axis (Y1, Y2)"
-msgstr ""
-"Cliquez sur quatre points connus sur les axes dans l' <font color=\"red\">ordre "
-"indiqué en rouge</font>. Deux sur l’axe des X (X1, X2) et deux sur l’axe des Y "
+"Click four known points on the axes in the <font color=\"red\">order "
+"shown in red</font>. Two on the X axis (X1, X2) and two on the Y axis "
 "(Y1, Y2)"
+msgstr ""
+"Cliquez sur quatre points connus sur les axes dans l' <font "
+"color=\"red\">ordre indiqué en rouge</font>. Deux sur l’axe des X (X1, "
+"X2) et deux sur l’axe des Y (Y1, Y2)"
 
-#: templates/_popups.html:268 templates/_popups.html:278 templates/_popups.html:288
-#: templates/_popups.html:298 templates/_popups.html:308
+#: templates/_popups.html:268 templates/_popups.html:278
+#: templates/_popups.html:288 templates/_popups.html:298
+#: templates/_popups.html:308
 msgid "Proceed"
 msgstr "Continuer"
 
@@ -464,8 +477,8 @@ msgstr "Aligner les Axes du graphique à barres"
 #: templates/_popups.html:276
 msgid "Click on two known points (P1, P2) on the continuous axes along the bars"
 msgstr ""
-"Cliquez sur les deux points connus (P1, P2) sur les axes continues le long des "
-"barres"
+"Cliquez sur les deux points connus (P1, P2) sur les axes continues le "
+"long des barres"
 
 #: templates/_popups.html:283
 msgid "Align Map To Scale Bar"
@@ -497,13 +510,13 @@ msgstr "Version"
 
 #: templates/_popups.html:316
 msgid ""
-"This program is distributed under the <a href=\"https://www.gnu.org/licenses/"
-"gpl-3.0-standalone.html\" target=\"_blank\">GNU General Public License Version "
-"3</a>."
+"This program is distributed under the <a "
+"href=\"https://www.gnu.org/licenses/gpl-3.0-standalone.html\" "
+"target=\"_blank\">GNU General Public License Version 3</a>."
 msgstr ""
-"Ce programme est distribué sous la <a href=\"https://www.gnu.org/licenses/"
-"gpl-3.0-standalone.html\" target=\"_blank\">GNU General Public License Version "
-"3</a>."
+"Ce programme est distribué sous la <a "
+"href=\"https://www.gnu.org/licenses/gpl-3.0-standalone.html\" "
+"target=\"_blank\">GNU General Public License Version 3</a>."
 
 #: templates/_popups.html:317
 msgid "Copyright"
@@ -564,18 +577,18 @@ msgstr "Voir les données"
 #: templates/_popups.html:371
 msgid "The following relationships are being used to convert image pixels to data"
 msgstr ""
-"Les relations suivantes sont utilisées pour convertir les pixels de l’image aux "
-"données"
+"Les relations suivantes sont utilisées pour convertir les pixels de "
+"l’image aux données"
 
 #: templates/_popups.html:380
 msgid ""
-"This JSON file contains the axes calibration and the digitized data points from "
-"this plot. This file can be imported later to resume work or reuse the "
-"calibration in another plot."
+"This JSON file contains the axes calibration and the digitized data "
+"points from this plot. This file can be imported later to resume work or "
+"reuse the calibration in another plot."
 msgstr ""
-"Ce fichier JSON contient la calibration des axes et les points de données "
-"numérisées de ce complot. Ce fichier peut être importé plus tard pour reprendre "
-"ses activités ou réutiliser l’étalonnage à une autre parcelle."
+"Ce fichier JSON contient la calibration des axes et les points de données"
+" numérisées de ce complot. Ce fichier peut être importé plus tard pour "
+"reprendre ses activités ou réutiliser l’étalonnage à une autre parcelle."
 
 #: templates/_popups.html:383
 msgid "Download"
@@ -583,11 +596,12 @@ msgstr "Télécharger"
 
 #: templates/_popups.html:391
 msgid ""
-"Specify a previously exported JSON file to load here. Note that this will clear "
-"any unsaved data points in the current plot."
+"Specify a previously exported JSON file to load here. Note that this will"
+" clear any unsaved data points in the current plot."
 msgstr ""
-"Spécifiez un fichier JSON précédemment exporté pour charger ici. À noter que "
-"cela effacera toute unsaved points de données dans le graphique actuel."
+"Spécifiez un fichier JSON précédemment exporté pour charger ici. À noter "
+"que cela effacera toute unsaved points de données dans le graphique "
+"actuel."
 
 #: templates/_popups.html:393
 msgid "JSON File"
@@ -603,11 +617,11 @@ msgstr "Raccourcis clavier"
 
 #: templates/_popups.html:404
 msgid ""
-"Click to select a data point. The following keys can then be used to the adjust "
-"the position"
+"Click to select a data point. The following keys can then be used to the "
+"adjust the position"
 msgstr ""
-"Cliquez pour sélectionner un point de données. Les touches suivantes peuvent "
-"être utilisées pour les ajuster la position"
+"Cliquez pour sélectionner un point de données. Les touches suivantes "
+"peuvent être utilisées pour les ajuster la position"
 
 #: templates/_popups.html:407
 msgid "Cursor (Arrows)"
@@ -664,7 +678,8 @@ msgstr "Transformation de perspective"
 #: templates/_popups.html:436
 msgid "Click on four corners of the region to be transformed as shown."
 msgstr ""
-"Cliquez sur les quatre coins de la région à être transformé, comme illustré."
+"Cliquez sur les quatre coins de la région à être transformé, comme "
+"illustré."
 
 #: templates/_popups.html:446
 msgid "Edit Existing Calibration?"
@@ -673,8 +688,8 @@ msgstr "Modifier le calibrage existant?"
 #: templates/_popups.html:448
 msgid "Do you wish to tweak existing axes calibration or select a new axes type?"
 msgstr ""
-"Vous souhaitez tweak étalonnage d’axes existants ou sélectionnez un nouveau type "
-"d’axes?"
+"Vous souhaitez tweak étalonnage d’axes existants ou sélectionnez un "
+"nouveau type d’axes?"
 
 #: templates/_popups.html:451
 msgid "Edit Calibration"
@@ -690,12 +705,13 @@ msgstr "Calibration des axes"
 
 #: templates/_sidebars.html:4
 msgid ""
-"Click points to select and use cursor keys to adjust positions. Use Shift+Arrow "
-"for faster movement. Click complete when finished."
+"Click points to select and use cursor keys to adjust positions. Use "
+"Shift+Arrow for faster movement. Click complete when finished."
 msgstr ""
-"Cliquez sur les points pour sélectionner et utiliser les touches de curseur pour "
-"ajuster les positions. Utilisez MAJ + touche de direction pour un déplacement "
-"plus rapide. Cliquez sur terminé lorsque vous avez terminé."
+"Cliquez sur les points pour sélectionner et utiliser les touches de "
+"curseur pour ajuster les positions. Utilisez MAJ + touche de direction "
+"pour un déplacement plus rapide. Cliquez sur terminé lorsque vous avez "
+"terminé."
 
 #: templates/_sidebars.html:5
 msgid "Complete!"
@@ -876,11 +892,11 @@ msgstr "Attention version instable!"
 
 #: templates/_strings.html:3
 msgid ""
-"You are using a beta version of WebPlotDigitizer. There may be some issues with "
-"the software that are expected."
+"You are using a beta version of WebPlotDigitizer. There may be some "
+"issues with the software that are expected."
 msgstr ""
-"Vous utilisez une version bêta de WebPlotDigitizer. Il peut y avoir quelques "
-"problèmes avec le logiciel qui sont attendus."
+"Vous utilisez une version bêta de WebPlotDigitizer. Il peut y avoir "
+"quelques problèmes avec le logiciel qui sont attendus."
 
 #: templates/_strings.html:5
 msgid "JSON data has been loaded!"
@@ -900,11 +916,11 @@ msgstr "Invalid Valeur échelle logarithmique"
 
 #: templates/_strings.html:9
 msgid ""
-"Values on a log scale axis can not be zero as log(0) is undefined. Please enter "
-"a non-zero value."
+"Values on a log scale axis can not be zero as log(0) is undefined. Please"
+" enter a non-zero value."
 msgstr ""
-"Les valeurs sur un axe d'échelle logarithmique ne peut pas être zéro log (0) est "
-"indéfini. S'il vous plaît entrer une valeur non nulle."
+"Les valeurs sur un axe d'échelle logarithmique ne peut pas être zéro log "
+"(0) est indéfini. S'il vous plaît entrer une valeur non nulle."
 
 #: templates/_strings.html:11
 msgid "Please calibrate the axes before acquiring data."
@@ -917,22 +933,24 @@ msgstr "Effacer les points de données?"
 #: templates/_strings.html:13
 msgid "This will delete all data points from this dataset"
 msgstr ""
-"Ceci va supprimer tous les points de données à partir de cet ensemble de données"
+"Ceci va supprimer tous les points de données à partir de cet ensemble de "
+"données"
 
 #: templates/_strings.html:15
 msgid ""
-"Your browser does not support webcam capture using HTML5 APIs. A recent version "
-"of Google Chrome is recommended."
+"Your browser does not support webcam capture using HTML5 APIs. A recent "
+"version of Google Chrome is recommended."
 msgstr ""
-"Votre navigateur ne supporte pas la capture de la webcam en utilisant les API "
-"HTML5. Une version récente de Google Chrome est recommandé."
+"Votre navigateur ne supporte pas la capture de la webcam en utilisant les"
+" API HTML5. Une version récente de Google Chrome est recommandé."
 
 #: templates/_strings.html:17
 msgid ""
-"Transformation equations are available only after axes have been calibrated."
+"Transformation equations are available only after axes have been "
+"calibrated."
 msgstr ""
-"Les équations de transformation ne sont disponibles qu’après que axes ont été "
-"calibrés."
+"Les équations de transformation ne sont disponibles qu’après que axes ont"
+" été calibrés."
 
 #: templates/_strings.html:18
 msgid "Unsupported Feature!"
@@ -940,11 +958,11 @@ msgstr "Fonctionnalité non gérée!"
 
 #: templates/_strings.html:19
 msgid ""
-"This feature has not been implemented in the current version. This may be "
-"available in a future release."
+"This feature has not been implemented in the current version. This may be"
+" available in a future release."
 msgstr ""
-"Cette fonction n’a pas été implémentée dans la version actuelle. Cela peut être "
-"disponible dans une version ultérieure."
+"Cette fonction n’a pas été implémentée dans la version actuelle. Cela "
+"peut être disponible dans une version ultérieure."
 
 #: templates/_strings.html:20
 msgid "Processing"
@@ -956,12 +974,12 @@ msgstr "ERREUR: Fichier non valide!"
 
 #: templates/_strings.html:22
 msgid ""
-"Please load a valid image file. Common image formats such as JPG, PNG, BMP, GIF "
-"etc. should work. PDF or Word documents are not accepted."
+"Please load a valid image file. Common image formats such as JPG, PNG, "
+"BMP, GIF etc. should work. PDF or Word documents are not accepted."
 msgstr ""
-"Veuillez charger un fichier image valide. Formats d’image courants tels que JPG, "
-"PNG, BMP, GIF etc. devrait fonctionner. Documents PDF ou Word ne sont pas "
-"acceptés."
+"Veuillez charger un fichier image valide. Formats d’image courants tels "
+"que JPG, PNG, BMP, GIF etc. devrait fonctionner. Documents PDF ou Word ne"
+" sont pas acceptés."
 
 #: templates/_strings.html:23
 msgid "Raw"
@@ -1030,3 +1048,4 @@ msgstr "Largeur de course"
 #: templates/_toolbars.html:14
 msgid "View Keyboard Shortcuts"
 msgstr "Voir les raccourcis clavier"
+
