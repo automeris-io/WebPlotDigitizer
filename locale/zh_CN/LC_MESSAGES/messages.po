@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  WebPlotDigitizer\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-01-08 14:03-0600\n"
+"POT-Creation-Date: 2017-01-09 21:13-0600\n"
 "PO-Revision-Date: 2016-12-12 23:26-0600\n"
 "Last-Translator: \n"
 "Language: zh_Hans_CN\n"
@@ -96,43 +96,47 @@ msgstr ""
 msgid "Manage Datasets"
 msgstr ""
 
-#: templates/_menubar.html:50
+#: templates/_menubar.html:46
+msgid "Export Data"
+msgstr ""
+
+#: templates/_menubar.html:51
 msgid "Measure"
 msgstr ""
 
-#: templates/_menubar.html:53
+#: templates/_menubar.html:54
 msgid "Distances"
 msgstr ""
 
-#: templates/_menubar.html:54
+#: templates/_menubar.html:55
 msgid "Angles"
 msgstr ""
 
-#: templates/_menubar.html:61
+#: templates/_menubar.html:62
 msgid "Help"
 msgstr ""
 
-#: templates/_menubar.html:64
+#: templates/_menubar.html:65
 msgid "About WebPlotDigitizer"
 msgstr ""
 
-#: templates/_menubar.html:65
+#: templates/_menubar.html:66
 msgid "Tutorials"
 msgstr ""
 
-#: templates/_menubar.html:66
+#: templates/_menubar.html:67
 msgid "User Manual"
 msgstr ""
 
-#: templates/_menubar.html:67
+#: templates/_menubar.html:68
 msgid "GitHub Page"
 msgstr ""
 
-#: templates/_menubar.html:68
+#: templates/_menubar.html:69
 msgid "Report Issues"
 msgstr ""
 
-#: templates/_menubar.html:69
+#: templates/_menubar.html:70
 msgid "Donate (PayPal)"
 msgstr ""
 
