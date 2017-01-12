@@ -29,6 +29,26 @@ wpd.dataExport = (function () {
         // open dialog box explaining data format
     }
 
+    function getValueAtPixel(ptIndex, axes, pixel) {
+        var val = axes.pixelToData(pixel.x, pixel.y);
+        if(axes instanceof wpd.XYAxes) {
+            for(var i = 0; i <= 1; i++) {
+                if(axes.isDate(i)) {
+                    var dformat = axes.getInitialDateFormat(i);                
+                    val[i] = wpd.dateConverter.formatDateNumber(val[i], dformat);
+                }
+            }
+        } else if(axes instanceof wpd.BarAxes) {
+            val = ['', val[0]];
+            if(pixel.metadata == null) {
+                val[0] = "Bar" + ptIndex;
+            } else {
+                val[0] = pixel.metadata[0];
+            }            
+        }
+        return val;
+    }
+
     function generateCSV() {
         // generate file and trigger download
 
@@ -77,7 +97,7 @@ wpd.dataExport = (function () {
             pts = dsColl[i].getCount();
             for(j = 0; j < pts; j++) {
                 var px = dsColl[i].getPixel(j);
-                var val = axes.pixelToData(px.x, px.y);
+                var val = getValueAtPixel(j, axes, px);
                 var di;
                 for(di = 0; di < axdims; di++) {
                     valData[j][i*axdims + di] = val[di];
