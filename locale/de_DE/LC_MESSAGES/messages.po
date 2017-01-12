@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-01-11 20:41-0600\n"
-"PO-Revision-Date: 2017-01-08 14:02-0600\n"
+"POT-Creation-Date: 2017-01-11 20:48-0600\n"
+"PO-Revision-Date: 2017-01-11 20:47-0600\n"
 "Last-Translator: \n"
 "Language: de_DE\n"
 "Language-Team: de_DE <LL@li.org>\n"
@@ -103,7 +103,7 @@ msgstr "Verwalten von Datensätzen"
 
 #: templates/_menubar.html:46
 msgid "Export Data"
-msgstr ""
+msgstr "Daten zu exportieren"
 
 #: templates/_menubar.html:51
 msgid "Measure"
