@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-01-11 20:48-0600\n"
+"POT-Creation-Date: 2017-01-12 21:15-0600\n"
 "PO-Revision-Date: 2016-12-18 10:38-0600\n"
 "Last-Translator: \n"
 "Language: ru\n"
@@ -996,4 +996,625 @@ msgstr ""
 #: templates/_toolbars.html:14
 msgid "View Keyboard Shortcuts"
 msgstr ""
+
+#~ msgid "Web based tool to extract numerical data from plots and graph images."
+#~ msgstr ""
+
+#~ msgid "Loading application, please wait..."
+#~ msgstr ""
+
+#~ msgid ""
+#~ msgstr ""
+
+#~ msgid "Fit"
+#~ msgstr ""
+
+#~ msgid "File"
+#~ msgstr ""
+
+#~ msgid "Load Image"
+#~ msgstr ""
+
+#~ msgid "Webcam Capture"
+#~ msgstr ""
+
+#~ msgid "Run Script"
+#~ msgstr ""
+
+#~ msgid "Save Image"
+#~ msgstr ""
+
+#~ msgid "Export JSON"
+#~ msgstr ""
+
+#~ msgid "Import JSON"
+#~ msgstr ""
+
+#~ msgid "Axes"
+#~ msgstr ""
+
+#~ msgid "Calibrate Axes"
+#~ msgstr ""
+
+#~ msgid "Remove Grid"
+#~ msgstr ""
+
+#~ msgid "Transformation Equations"
+#~ msgstr ""
+
+#~ msgid "Data"
+#~ msgstr ""
+
+#~ msgid "Acquire Data"
+#~ msgstr ""
+
+#~ msgid "Manage Datasets"
+#~ msgstr ""
+
+#~ msgid "Export Data"
+#~ msgstr ""
+
+#~ msgid "Measure"
+#~ msgstr ""
+
+#~ msgid "Distances"
+#~ msgstr ""
+
+#~ msgid "Angles"
+#~ msgstr ""
+
+#~ msgid "Help"
+#~ msgstr ""
+
+#~ msgid "About WebPlotDigitizer"
+#~ msgstr ""
+
+#~ msgid "Tutorials"
+#~ msgstr ""
+
+#~ msgid "User Manual"
+#~ msgstr ""
+
+#~ msgid "GitHub Page"
+#~ msgstr ""
+
+#~ msgid "Report Issues"
+#~ msgstr ""
+
+#~ msgid "Donate (PayPal)"
+#~ msgstr ""
+
+#~ msgid "Load Image File"
+#~ msgstr ""
+
+#~ msgid "Load"
+#~ msgstr ""
+
+#~ msgid "Cancel"
+#~ msgstr ""
+
+#~ msgid "Magnified View Settings"
+#~ msgstr ""
+
+#~ msgid "Magnification"
+#~ msgstr ""
+
+#~ msgid "Times"
+#~ msgstr ""
+
+#~ msgid "Crosshair Color"
+#~ msgstr ""
+
+#~ msgid "Black"
+#~ msgstr ""
+
+#~ msgid "Red"
+#~ msgstr ""
+
+#~ msgid "Yellow"
+#~ msgstr ""
+
+#~ msgid "WebPlotDigitizer-Examples repository"
+#~ msgstr ""
+
+#~ msgid "Run"
+#~ msgstr ""
+
+#~ msgid "Capture"
+#~ msgstr ""
+
+#~ msgid "OK"
+#~ msgstr ""
+
+#~ msgid "Choose Plot Type"
+#~ msgstr ""
+
+#~ msgid "2D (X-Y) Plot"
+#~ msgstr ""
+
+#~ msgid "2D Bar Plot"
+#~ msgstr ""
+
+#~ msgid "Polar Diagram"
+#~ msgstr ""
+
+#~ msgid "Ternary Diagram"
+#~ msgstr ""
+
+#~ msgid "Map With Scale Bar"
+#~ msgstr ""
+
+#~ msgid "Image"
+#~ msgstr ""
+
+#~ msgid "X and Y Axes Calibration"
+#~ msgstr ""
+
+#~ msgid "Point 1"
+#~ msgstr ""
+
+#~ msgid "Point 2"
+#~ msgstr ""
+
+#~ msgid "Log Scale"
+#~ msgstr ""
+
+#~ msgid "X-Axis"
+#~ msgstr ""
+
+#~ msgid "Y-Axis"
+#~ msgstr ""
+
+#~ msgid "Bar Chart Calibration"
+#~ msgstr ""
+
+#~ msgid "Scale Size"
+#~ msgstr ""
+
+#~ msgid "Units"
+#~ msgstr ""
+
+#~ msgid "Align Polar Axes"
+#~ msgstr ""
+
+#~ msgid "Degrees"
+#~ msgstr ""
+
+#~ msgid "Radians"
+#~ msgstr ""
+
+#~ msgid "Clockwise"
+#~ msgstr ""
+
+#~ msgid "Select Range of Variables"
+#~ msgstr ""
+
+#~ msgid "Axes Orientation"
+#~ msgstr ""
+
+#~ msgid "Normal"
+#~ msgstr ""
+
+#~ msgid "Reverse"
+#~ msgstr ""
+
+#~ msgid "Range of Variables"
+#~ msgstr ""
+
+#~ msgid "0 to 1"
+#~ msgstr ""
+
+#~ msgid "0 to 100"
+#~ msgstr ""
+
+#~ msgid "Acquired Data"
+#~ msgstr ""
+
+#~ msgid "Dataset"
+#~ msgstr ""
+
+#~ msgid "Variables"
+#~ msgstr ""
+
+#~ msgid "Select All"
+#~ msgstr ""
+
+#~ msgid "Download .CSV"
+#~ msgstr ""
+
+#~ msgid "Graph in Plotly*"
+#~ msgstr ""
+
+#~ msgid "Close"
+#~ msgstr ""
+
+#~ msgid "Sort"
+#~ msgstr ""
+
+#~ msgid "Sort by"
+#~ msgstr ""
+
+#~ msgid "Order"
+#~ msgstr ""
+
+#~ msgid "Ascending"
+#~ msgstr ""
+
+#~ msgid "Descending"
+#~ msgstr ""
+
+#~ msgid "Format"
+#~ msgstr ""
+
+#~ msgid "Date Formatting"
+#~ msgstr ""
+
+#~ msgid "Number Formatting"
+#~ msgstr ""
+
+#~ msgid "Digits"
+#~ msgstr ""
+
+#~ msgid "Ignore"
+#~ msgstr ""
+
+#~ msgid "Fixed"
+#~ msgstr ""
+
+#~ msgid "Precision"
+#~ msgstr ""
+
+#~ msgid "Exponential"
+#~ msgstr ""
+
+#~ msgid "Column Separator"
+#~ msgstr ""
+
+#~ msgid "Align X-Y Axes"
+#~ msgstr ""
+
+#~ msgid "Proceed"
+#~ msgstr ""
+
+#~ msgid "Align Bar Chart Axes"
+#~ msgstr ""
+
+#~ msgid "Align Map To Scale Bar"
+#~ msgstr ""
+
+#~ msgid "Click on the two ends of the scale bar on the map."
+#~ msgstr ""
+
+#~ msgid "Click on the center, followed by two known points."
+#~ msgstr ""
+
+#~ msgid "Align Ternary Axes"
+#~ msgstr ""
+
+#~ msgid "Click on the three corners in the order shown above."
+#~ msgstr ""
+
+#~ msgid "WebPlotDigitizer - Web Based Plot Digitizer"
+#~ msgstr ""
+
+#~ msgid "Version"
+#~ msgstr ""
+
+#~ msgid "Copyright"
+#~ msgstr ""
+
+#~ msgid "Specify Color"
+#~ msgstr ""
+
+#~ msgid "Color Picker"
+#~ msgstr ""
+
+#~ msgid "Dominant Colors"
+#~ msgstr ""
+
+#~ msgid "Done"
+#~ msgstr ""
+
+#~ msgid "Selected Dataset"
+#~ msgstr ""
+
+#~ msgid "Default Dataset"
+#~ msgstr ""
+
+#~ msgid "Dataset Name"
+#~ msgstr ""
+
+#~ msgid "Change"
+#~ msgstr ""
+
+#~ msgid "Data Points"
+#~ msgstr ""
+
+#~ msgid "Add"
+#~ msgstr ""
+
+#~ msgid "Delete"
+#~ msgstr ""
+
+#~ msgid "View Data"
+#~ msgstr ""
+
+#~ msgid "Download"
+#~ msgstr ""
+
+#~ msgid "JSON File"
+#~ msgstr ""
+
+#~ msgid "Import"
+#~ msgstr ""
+
+#~ msgid "Keyboard Shortcuts"
+#~ msgstr ""
+
+#~ msgid "Cursor (Arrows)"
+#~ msgstr ""
+
+#~ msgid "Move up/down/right/left"
+#~ msgstr ""
+
+#~ msgid "Shift + Cursor"
+#~ msgstr ""
+
+#~ msgid "Faster rate of movement"
+#~ msgstr ""
+
+#~ msgid "Select next point"
+#~ msgstr ""
+
+#~ msgid "Select previous point"
+#~ msgstr ""
+
+#~ msgid "Del/Backspace"
+#~ msgstr ""
+
+#~ msgid "Delete point"
+#~ msgstr ""
+
+#~ msgid "Edit label (Bar Chart)"
+#~ msgstr ""
+
+#~ msgid "Edit Label"
+#~ msgstr ""
+
+#~ msgid "Label"
+#~ msgstr ""
+
+#~ msgid "Data Point"
+#~ msgstr ""
+
+#~ msgid "Perspective Transformation"
+#~ msgstr ""
+
+#~ msgid "Click on four corners of the region to be transformed as shown."
+#~ msgstr ""
+
+#~ msgid "Edit Existing Calibration?"
+#~ msgstr ""
+
+#~ msgid "Edit Calibration"
+#~ msgstr ""
+
+#~ msgid "Change Axes Type"
+#~ msgstr ""
+
+#~ msgid "Axes Calibration"
+#~ msgstr ""
+
+#~ msgid "Complete!"
+#~ msgstr ""
+
+#~ msgid "Manual Mode"
+#~ msgstr ""
+
+#~ msgid "Automatic Mode"
+#~ msgstr ""
+
+#~ msgid "Add Point"
+#~ msgstr ""
+
+#~ msgid "Adjust Point"
+#~ msgstr ""
+
+#~ msgid "Delete Point"
+#~ msgstr ""
+
+#~ msgid "Clear Points"
+#~ msgstr ""
+
+#~ msgid "Edit Labels"
+#~ msgstr ""
+
+#~ msgid "Edit Image"
+#~ msgstr ""
+
+#~ msgid "Mask"
+#~ msgstr ""
+
+#~ msgid "Box"
+#~ msgstr ""
+
+#~ msgid "Pen"
+#~ msgstr ""
+
+#~ msgid "Erase"
+#~ msgstr ""
+
+#~ msgid "View"
+#~ msgstr ""
+
+#~ msgid "Color"
+#~ msgstr ""
+
+#~ msgid "Foreground Color"
+#~ msgstr ""
+
+#~ msgid "Background Color"
+#~ msgstr ""
+
+#~ msgid "Click to change color"
+#~ msgstr ""
+
+#~ msgid "Distance"
+#~ msgstr ""
+
+#~ msgid "Filter Colors"
+#~ msgstr ""
+
+#~ msgid "Algorithm"
+#~ msgstr ""
+
+#~ msgid "Measure Distances"
+#~ msgstr ""
+
+#~ msgid "Add Pair"
+#~ msgstr ""
+
+#~ msgid "Delete Pair"
+#~ msgstr ""
+
+#~ msgid "Clear All"
+#~ msgstr ""
+
+#~ msgid "Measure Angles"
+#~ msgstr ""
+
+#~ msgid "Add Angle"
+#~ msgstr ""
+
+#~ msgid "Delete Angle"
+#~ msgstr ""
+
+#~ msgid "Measure Path"
+#~ msgstr ""
+
+#~ msgid "Add Path"
+#~ msgstr ""
+
+#~ msgid "Delete Path"
+#~ msgstr ""
+
+#~ msgid "Measure Closed Path"
+#~ msgstr ""
+
+#~ msgid "Detect Grid"
+#~ msgstr ""
+
+#~ msgid "Clear"
+#~ msgstr ""
+
+#~ msgid "Pick"
+#~ msgstr ""
+
+#~ msgid "Test"
+#~ msgstr ""
+
+#~ msgid "Background Mode"
+#~ msgstr ""
+
+#~ msgid "Horizontal"
+#~ msgstr ""
+
+#~ msgid "X%"
+#~ msgstr ""
+
+#~ msgid "Vertical"
+#~ msgstr ""
+
+#~ msgid "Y%"
+#~ msgstr ""
+
+#~ msgid "Detect"
+#~ msgstr ""
+
+#~ msgid "Reset"
+#~ msgstr ""
+
+#~ msgid "Unstable version warning!"
+#~ msgstr ""
+
+#~ msgid "JSON data has been loaded!"
+#~ msgstr ""
+
+#~ msgid "Invalid Inputs"
+#~ msgstr ""
+
+#~ msgid "Please enter valid values for calibration."
+#~ msgstr ""
+
+#~ msgid "Invalid Log Scale Value"
+#~ msgstr ""
+
+#~ msgid "Please calibrate the axes before acquiring data."
+#~ msgstr ""
+
+#~ msgid "Clear data points?"
+#~ msgstr ""
+
+#~ msgid "This will delete all data points from this dataset"
+#~ msgstr ""
+
+#~ msgid "Unsupported Feature!"
+#~ msgstr ""
+
+#~ msgid "Processing"
+#~ msgstr ""
+
+#~ msgid "ERROR: Invalid File!"
+#~ msgstr ""
+
+#~ msgid "Raw"
+#~ msgstr ""
+
+#~ msgid "Nearest Neighbor"
+#~ msgstr ""
+
+#~ msgid "Please calibrate the axes before managing datasets."
+#~ msgstr ""
+
+#~ msgid "Can Not Delete!"
+#~ msgstr ""
+
+#~ msgid "You can not delete this dataset as at least one dataset is required."
+#~ msgstr ""
+
+#~ msgid "Delete Dataset"
+#~ msgstr ""
+
+#~ msgid "Averaging Window"
+#~ msgstr ""
+
+#~ msgid "X Step w/ Interpolation"
+#~ msgstr ""
+
+#~ msgid "X Step"
+#~ msgstr ""
+
+#~ msgid "Blob Detector"
+#~ msgstr ""
+
+#~ msgid "Bar Extraction"
+#~ msgstr ""
+
+#~ msgid "Histogram"
+#~ msgstr ""
+
+#~ msgid "Specify Plot (Foreground) Color"
+#~ msgstr ""
+
+#~ msgid "Specify Background Color"
+#~ msgstr ""
+
+#~ msgid "Erase All"
+#~ msgstr ""
+
+#~ msgid "Stroke Width"
+#~ msgstr ""
+
+#~ msgid "View Keyboard Shortcuts"
+#~ msgstr ""
 
