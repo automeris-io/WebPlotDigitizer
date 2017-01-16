@@ -55,6 +55,13 @@ wpd.xyCalibration = (function () {
             plot,
             calib = wpd.alignAxes.getActiveCalib();
 
+        // validate log scale values
+        if((xlog && (parseFloat(xmin) == 0 || parseFloat(xmax) == 0)) || (ylog && (parseFloat(ymin) == 0 || parseFloat(ymax) == 0))) {
+            wpd.popup.close('xyAlignment');
+            wpd.messagePopup.show(wpd.gettext('calibration-invalid-log-inputs'), wpd.gettext('calibration-enter-valid-log'), getCornerValues);
+            return false;            
+        }
+
         calib.setDataAt(0, xmin, ymin);
         calib.setDataAt(1, xmax, ymin);
         calib.setDataAt(2, xmin, ymin);
