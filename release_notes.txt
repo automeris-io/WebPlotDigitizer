@@ -2,7 +2,7 @@ RELEASE NOTES
 
 Version 3.11
 ============
-Under development
+January 17, 2017
 
 New Features:
 
