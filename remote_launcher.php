@@ -23,13 +23,13 @@
 
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/> 
-<meta name="Description" content="WebPlotDigitizer v3.10 - Web based tool to extract numerical data from plots and graph images."/>
+<meta name="Description" content="WebPlotDigitizer v3.11 - Web based tool to extract numerical data from plots and graph images."/>
 <meta name="Keywords" content="Plot, Digitizer, WebPlotDigitizer, Ankit Rohatgi, Extract Data, Convert Plots, XY, Polar, Ternary, Map, HTML5"/>
 <meta name="Author" content="Ankit Rohatgi"/>
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
 <meta http-equiv="Pragma" content="no-cache"/>
 <meta http-equiv="Expires" content="0"/>
-<title>WebPlotDigitizer - Copyright 2010-2016 Ankit Rohatgi</title>
+<title>WebPlotDigitizer - Copyright 2010-2017 Ankit Rohatgi</title>
 <link rel="stylesheet" href="styles.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="widgets.css" type="text/css" media="screen" />
 
@@ -148,6 +148,7 @@ Problems loading? Make sure you have a recent version of Google Chrome, Firefox,
         <ul>
             <li id="wpd-datamenu-acquire" onclick="wpd.acquireData.load();">Acquire Data</li>
             <li id="wpd-datamenu-manage" onclick="wpd.dataSeriesManagement.manage();">Manage Datasets</li>
+            <li id="wpd-datamenu-manage" onclick="wpd.dataExport.generateCSV();">Export Data</li>
         </ul>
     </div>
 </div>
@@ -418,7 +419,7 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
     <p>&nbsp;</p>
     <center>
     <table>
-    <tr><td><p>Magnification: </p></td><td><p><input type="text" id="zoom-magnification-value" size="3"/> Times</p></td></tr>
+    <tr><td><p>Magnification: </p></td><td><p><input type="text" id="zoom-magnification-value" size="3"/>Times</p></td></tr>
     <tr>
         <td><p>Crosshair Color: </p></td>
         <td><p>
@@ -531,7 +532,7 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
         <tr>
             <td align="center" valign="bottom">Point 1</td>
             <td align="center" valign="bottom" width="80">Point 2</td>
-            <td align="center" valign="Log Scale" width="80">Log Scale</td>
+            <td align="center" valign="bottom" width="80">Log Scale</td>
         </tr>
         <tr>
             <td align="center"><input type="text" size="8" id="bar-axes-p1" value="0" /></td>
@@ -710,9 +711,9 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
 	<div id="helpWindow" class="popup" style="width: 600px;">
 	<div class="popupheading">WebPlotDigitizer - Web Based Plot Digitizer</div>
 	<p>&nbsp;</p>
-    <p align="center">Version 3.10</p>
+    <p align="center">Version 3.11</p>
 	<p align="center">This program is distributed under the <a href="https://www.gnu.org/licenses/gpl-3.0-standalone.html" target="_blank">GNU General Public License Version 3</a>.</p>
-	<p align="center">Copyright 2010-2016 Ankit Rohatgi &lt;ankitrohatgi@hotmail.com&gt;</p>
+	<p align="center">Copyright 2010-2017 Ankit Rohatgi &lt;ankitrohatgi@hotmail.com&gt;</p>
 	<p align="center"><a href="http://arohatgi.info/WebPlotDigitizer" target="website">http://arohatgi.info/WebPlotDigitizer</a></p>
 	<p>&nbsp;</p>
 	<p align="center"><input type="button" value="Close" onclick="wpd.popup.close('helpWindow');"></p>
@@ -862,6 +863,8 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
 <div class="i18n-string" id="i18n-string-json-data-loaded">JSON data has been loaded!</div>
 <div class="i18n-string" id="i18n-string-calibration-invalid-inputs">Invalid Inputs</div>
 <div class="i18n-string" id="i18n-string-calibration-enter-valid">Please enter valid values for calibration.</div>
+<div class="i18n-string" id="i18n-string-calibration-invalid-log-inputs">Invalid Log Scale Value</div>
+<div class="i18n-string" id="i18n-string-calibration-enter-valid-log">Values on a log scale axis can not be zero as log(0) is undefined. Please enter a non-zero value.</div>
 <div class="i18n-string" id="i18n-string-acquire-data">Acquire Data</div>
 <div class="i18n-string" id="i18n-string-acquire-data-calibration">Please calibrate the axes before acquiring data.</div>
 <div class="i18n-string" id="i18n-string-clear-data-points">Clear data points?</div>

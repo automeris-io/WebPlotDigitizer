@@ -1,5 +1,15 @@
 RELEASE NOTES
 
+Version 3.11
+============
+Under development
+
+New Features:
+
+- X Step w/ Interpolation and X Step algorithms now work with log scale XY axes.
+- Add ability to export all datasets to a single combined CSV file from the Data menu.
+- Add internationalization support and translate to French and German.
+
 Version 3.10
 ============
 May 8, 2016
