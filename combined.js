@@ -6623,7 +6623,7 @@ wpd.graphicsHelper = (function () {
         ctx.oriDataCtx.beginPath();
         ctx.oriDataCtx.fillStyle = fillStyle;
         ctx.oriDataCtx.strokeStyle = "rgb(255, 255, 255)";
-        ctx.oriDataCtx.arc(imagePx.x, imagePx.y, 4, 0, 2.0*Math.PI, true);
+        ctx.oriDataCtx.arc(imagePx.x, imagePx.y, 2, 0, 2.0*Math.PI, true);
         ctx.oriDataCtx.fill();
         ctx.oriDataCtx.stroke();
     }
