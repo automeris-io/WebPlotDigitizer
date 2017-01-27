@@ -6593,7 +6593,8 @@ wpd.graphicsHelper = (function () {
     function drawPoint(imagePx, fillStyle, label) {
         var screenPx = wpd.graphicsWidget.screenPx(imagePx.x, imagePx.y),
             ctx = wpd.graphicsWidget.getAllContexts(),
-            labelWidth;
+            labelWidth,
+            imageHeight = wpd.graphicsWidget.getImageSize().height;
 
         // Display Data Canvas Layer
         if(label != null) {
@@ -6623,7 +6624,7 @@ wpd.graphicsHelper = (function () {
         ctx.oriDataCtx.beginPath();
         ctx.oriDataCtx.fillStyle = fillStyle;
         ctx.oriDataCtx.strokeStyle = "rgb(255, 255, 255)";
-        ctx.oriDataCtx.arc(imagePx.x, imagePx.y, 2, 0, 2.0*Math.PI, true);
+        ctx.oriDataCtx.arc(imagePx.x, imagePx.y, imageHeight > 1500 ? 4 : 2, 0, 2.0*Math.PI, true);
         ctx.oriDataCtx.fill();
         ctx.oriDataCtx.stroke();
     }
