@@ -50,6 +50,7 @@ wpd.dataExport = (function () {
     }
 
     function generateCSV() {
+        wpd.popup.close('export-all-data-popup');
         // generate file and trigger download
 
         // loop over all datasets
@@ -60,7 +61,8 @@ wpd.dataExport = (function () {
 
         if(axes == null || dsColl == null || dsColl.length === 0) {
             // axes is not aligned, show an error message?
-            return
+            wpd.messagePopup.show(wpd.gettext('no-datasets-to-export-error'), wpd.gettext('no-datasets-to-export'));
+            return;
         }
 
         var axLab = axes.getAxesLabels(),
@@ -114,8 +116,26 @@ wpd.dataExport = (function () {
         wpd.download.csv(JSON.stringify(csvText), "wpd_datasets");
     }
 
+    function exportToPlotly() {
+        wpd.popup.close('export-all-data-popup');
+        // generate file and trigger download
+
+        // loop over all datasets
+        var plotData = wpd.appData.getPlotData(),
+            axes = plotData.axes,
+            dsColl = plotData.dataSeriesColl,
+            i, j;
+
+        if(axes == null || dsColl == null || dsColl.length === 0) {
+            // axes is not aligned, show an error message?
+            wpd.messagePopup.show(wpd.gettext('no-datasets-to-export-error'), wpd.gettext('no-datasets-to-export'));
+            return;
+        }
+    }
+
     return {
         show: show,
-        generateCSV: generateCSV
+        generateCSV: generateCSV,
+        exportToPlotly: exportToPlotly
     };
 })();

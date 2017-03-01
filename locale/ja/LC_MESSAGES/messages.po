@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-01-26 23:26-0600\n"
+"POT-Creation-Date: 2017-03-01 00:40-0600\n"
 "PO-Revision-Date: 2016-12-18 10:38-0600\n"
 "Last-Translator: \n"
 "Language: ja\n"
@@ -97,7 +97,7 @@ msgid "Manage Datasets"
 msgstr ""
 
 #: templates/_menubar.html:46
-msgid "Export Data"
+msgid "Export All Data"
 msgstr ""
 
 #: templates/_menubar.html:51
@@ -153,6 +153,7 @@ msgstr ""
 #: templates/_popups.html:74 templates/_popups.html:92
 #: templates/_popups.html:397 templates/_popups.html:427
 #: templates/_popups.html:440 templates/_popups.html:455
+#: templates/_popups.html:467
 msgid "Cancel"
 msgstr ""
 
@@ -356,7 +357,7 @@ msgstr ""
 msgid "Select All"
 msgstr ""
 
-#: templates/_popups.html:220
+#: templates/_popups.html:220 templates/_popups.html:465
 msgid "Download .CSV"
 msgstr ""
 
@@ -663,6 +664,14 @@ msgstr ""
 
 #: templates/_popups.html:453
 msgid "Change Axes Type"
+msgstr ""
+
+#: templates/_popups.html:461
+msgid "Export All Datasets"
+msgstr ""
+
+#: templates/_popups.html:466
+msgid "Export to Plotly"
 msgstr ""
 
 #: templates/_sidebars.html:3
@@ -982,6 +991,14 @@ msgstr ""
 
 #: templates/_strings.html:38
 msgid "Specify Background Color"
+msgstr ""
+
+#: templates/_strings.html:39
+msgid "Please add some data before exporting."
+msgstr ""
+
+#: templates/_strings.html:40
+msgid "Error: No datasets to export!"
 msgstr ""
 
 #: templates/_toolbars.html:3
@@ -1615,5 +1632,8 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "View Keyboard Shortcuts"
+#~ msgstr ""
+
+#~ msgid "No datasets to export!"
 #~ msgstr ""
 
