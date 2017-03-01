@@ -1539,62 +1539,6 @@ wpd.PlotData = (function () {
 
 */
 
-
-var wpd = wpd || {};
-
-wpd.AveragingWindowAlgo = (function () {
-
-    var Algo = function () {
-
-        var xStep = 5, yStep = 5;
-
-        this.getParamList = function () {
-            return [['ΔX', 'Px', 10], ['ΔY', 'Px', 10]];
-        };
-
-        this.setParam = function (index, val) {
-            if(index === 0) {
-                xStep = val;
-            } else if(index === 1) {
-                yStep = val;
-            }
-        };
-
-        this.run = function (plotData) {
-            var autoDetector = plotData.getAutoDetector(),
-                dataSeries = plotData.getActiveDataSeries(),
-                algoCore = new wpd.AveragingWindowCore(autoDetector.binaryData, autoDetector.imageHeight, autoDetector.imageWidth, xStep, yStep, dataSeries);
-
-            algoCore.run();
-        };
-
-    };
-    return Algo;
-})();
-
-/*
-    WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
-
-    Copyright 2010-2016 Ankit Rohatgi <ankitrohatgi@hotmail.com>
-
-    This file is part of WebPlotDigitizer.
-
-    WebPlotDigitizer is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    WebPlotDigitizer is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
-
-
-*/
-
 var wpd = wpd || {};
 
 wpd.AveragingWindowCore = (function () {
@@ -1704,6 +1648,62 @@ wpd.AveragingWindowCore = (function () {
     };
     return Algo;
 })();
+/*
+    WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
+
+    Copyright 2010-2016 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+
+    This file is part of WebPlotDigitizer.
+
+    WebPlotDigitizer is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    WebPlotDigitizer is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
+
+
+*/
+
+
+var wpd = wpd || {};
+
+wpd.AveragingWindowAlgo = (function () {
+
+    var Algo = function () {
+
+        var xStep = 5, yStep = 5;
+
+        this.getParamList = function () {
+            return [['ΔX', 'Px', 10], ['ΔY', 'Px', 10]];
+        };
+
+        this.setParam = function (index, val) {
+            if(index === 0) {
+                xStep = val;
+            } else if(index === 1) {
+                yStep = val;
+            }
+        };
+
+        this.run = function (plotData) {
+            var autoDetector = plotData.getAutoDetector(),
+                dataSeries = plotData.getActiveDataSeries(),
+                algoCore = new wpd.AveragingWindowCore(autoDetector.binaryData, autoDetector.imageHeight, autoDetector.imageWidth, xStep, yStep, dataSeries);
+
+            algoCore.run();
+        };
+
+    };
+    return Algo;
+})();
+
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
@@ -8874,6 +8874,7 @@ wpd.dataExport = (function () {
     }
 
     function generateCSV() {
+        wpd.popup.close('export-all-data-popup');
         // generate file and trigger download
 
         // loop over all datasets
@@ -8884,7 +8885,8 @@ wpd.dataExport = (function () {
 
         if(axes == null || dsColl == null || dsColl.length === 0) {
             // axes is not aligned, show an error message?
-            return
+            wpd.messagePopup.show(wpd.gettext('no-datasets-to-export-error'), wpd.gettext('no-datasets-to-export'));
+            return;
         }
 
         var axLab = axes.getAxesLabels(),
@@ -8938,9 +8940,27 @@ wpd.dataExport = (function () {
         wpd.download.csv(JSON.stringify(csvText), "wpd_datasets");
     }
 
+    function exportToPlotly() {
+        wpd.popup.close('export-all-data-popup');
+        // generate file and trigger download
+
+        // loop over all datasets
+        var plotData = wpd.appData.getPlotData(),
+            axes = plotData.axes,
+            dsColl = plotData.dataSeriesColl,
+            i, j;
+
+        if(axes == null || dsColl == null || dsColl.length === 0) {
+            // axes is not aligned, show an error message?
+            wpd.messagePopup.show(wpd.gettext('no-datasets-to-export-error'), wpd.gettext('no-datasets-to-export'));
+            return;
+        }
+    }
+
     return {
         show: show,
-        generateCSV: generateCSV
+        generateCSV: generateCSV,
+        exportToPlotly: exportToPlotly
     };
 })();
 /*

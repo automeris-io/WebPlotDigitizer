@@ -152,7 +152,7 @@ Problems loading? Make sure you have a recent version of Google Chrome, Firefox,
         <ul>
             <li id="wpd-datamenu-acquire" onclick="wpd.acquireData.load();">Acquire Data</li>
             <li id="wpd-datamenu-manage" onclick="wpd.dataSeriesManagement.manage();">Manage Datasets</li>
-            <li id="wpd-datamenu-manage" onclick="wpd.dataExport.generateCSV();">Export Data</li>
+            <li id="wpd-datamenu-manage" onclick="wpd.popup.show('export-all-data-popup');">Export All Data</li>
         </ul>
     </div>
 </div>
@@ -859,6 +859,18 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
     </p>
     </div>
 
+    <!-- Export all data dialog -->
+    <div id="export-all-data-popup" class="popup" style="width:400px;">
+    <div class="popupheading">Export All Datasets</div>
+    <p>Export data from all datasets</p>
+    <br/>
+    <p align="center">
+        <input type="button" value="Download .CSV" onclick="wpd.dataExport.generateCSV();"/>
+        <input type="button" value="Export to Plotly" onclick="wpd.dataExport.exportToPlotly();"/>
+        <input type="button" value="Cancel" onclick="wpd.popup.close('export-all-data-popup');"/>
+    </p>
+    </div>
+
 <!-- strings for translation -->
 <div class="i18n-string" id="i18n-string-wpd">WebPlotDigitizer</div>
 <div class="i18n-string" id="i18n-string-unstable-version-warning">Unstable version warning!</div>
@@ -898,6 +910,8 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
 <div class="i18n-string" id="i18n-string-histogram">Histogram</div>
 <div class="i18n-string" id="i18n-string-specify-foreground-color">Specify Plot (Foreground) Color</div>
 <div class="i18n-string" id="i18n-string-specify-background-color">Specify Background Color</div>
+<div class="i18n-string" id="i18n-string-no-datasets-to-export">Please add some data before exporting.</div>
+<div class="i18n-string" id="i18n-string-no-datasets-to-export-error">Error: No datasets to export!</div>
 
 
 

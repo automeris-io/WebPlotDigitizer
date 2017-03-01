@@ -455,3 +455,15 @@
         <input type="button" value="{{ _("Cancel") }}" onclick="wpd.popup.close('edit-or-reset-calibration-popup');"/>
     </p>
     </div>
+
+    <!-- Export all data dialog -->
+    <div id="export-all-data-popup" class="popup" style="width:400px;">
+    <div class="popupheading">{{ _("Export All Datasets") }}</div>
+    <p>Export data from all datasets</p>
+    <br/>
+    <p align="center">
+        <input type="button" value="{{ _("Download .CSV") }}" onclick="wpd.dataExport.generateCSV();"/>
+        <input type="button" value="{{ _("Export to Plotly") }}" onclick="wpd.dataExport.exportToPlotly();"/>
+        <input type="button" value="{{ _("Cancel") }}" onclick="wpd.popup.close('export-all-data-popup');"/>
+    </p>
+    </div>
