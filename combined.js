@@ -8942,19 +8942,43 @@ wpd.dataExport = (function () {
 
     function exportToPlotly() {
         wpd.popup.close('export-all-data-popup');
-        // generate file and trigger download
 
         // loop over all datasets
         var plotData = wpd.appData.getPlotData(),
             axes = plotData.axes,
             dsColl = plotData.dataSeriesColl,
-            i, j;
+            i, coli, rowi,
+            dataProvider = wpd.plotDataProvider,
+            pdata,
+            plotlyData = { "data": [] },
+            colName;
 
         if(axes == null || dsColl == null || dsColl.length === 0) {
             // axes is not aligned, show an error message?
             wpd.messagePopup.show(wpd.gettext('no-datasets-to-export-error'), wpd.gettext('no-datasets-to-export'));
             return;
         }
+
+        for(i = 0; i < dsColl.length; i++) {
+            dataProvider.setDatasetIndex(i);
+            pdata = dataProvider.getData();
+            plotlyData.data[i] = {};
+
+            // loop over columns
+            for(coli = 0; coli < 2; coli++) {
+                colName = (coli === 0) ? 'x' : 'y';
+                plotlyData.data[i][colName] = [];
+                for(rowi = 0; rowi < pdata.rawData.length; rowi++) {
+                    if(pdata.fieldDateFormat[coli] != null) {
+                        plotlyData.data[i][colName][rowi] = wpd.dateConverter(pdata.rawData[rowi][coli], "yyyy-mm-dd");
+                    } else {
+                        plotlyData.data[i][colName][rowi] = pdata.rawData[rowi][coli];
+                    }
+                }
+            }
+        }
+
+        wpd.plotly.send(plotlyData);
     }
 
     return {
