@@ -346,6 +346,10 @@ wpd.DataPointsRepainter = (function () {
                 hasLabels = false,
                 pointLabel;
 
+            if(plotData.axes == null) {
+                return; // this can happen when removing widgets when a new file is loaded:
+            }
+
             if(plotData.axes.dataPointsHaveLabels && mkeys != null && mkeys[0] === 'Label') {
                 hasLabels = true;
             }
