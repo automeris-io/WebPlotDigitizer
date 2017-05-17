@@ -28,12 +28,12 @@ WebPlotDigitizer is distributed under [GNU AGPL v3](https://www.gnu.org/licenses
 Offline Development/Usage
 -------------------------
 
-This tool has to be hosted on a HTTP server with PHP for some javascript features and PHP scripts to function correctly. The master branch of the code is usually unstable and not recommended for download (only for development). To download a stable release of this app, check [Releases](https://github.com/ankitrohatgi/WebPlotDigitizer/releases).
+This tool has to be hosted on a HTTP server with PHP for some javascript features and PHP scripts to function correctly. The 'master' branch of the code is stable and the 'develop' branch is meant for development. To download a stable release of this app, check [Releases](https://github.com/ankitrohatgi/WebPlotDigitizer/releases).
 
 Development/Hacking
 -------------------
 
-  - dev.html and index.html are generated files!
+  - dev.html, index.html etc. are generated files so do not edit them directly.
   - index.html is the deployed page on the website and uses a compiled and compressed version of the javascript code.
   - dev.html is to be used during development. This uses the uncompressed/uncompiled javascript files.
   - build.sh generates dev.html and index.html based on the files in the templates folder and the javascript folder.
