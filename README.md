@@ -20,6 +20,11 @@ Scripting
 
 Users can load scripts to extend the capabilities of WebPlotDigitizer. For samples see [WebPlotDigitizer-Examples](http://github.com/ankitrohatgi/WebPlotDigitizer-Examples). If you are looking for a custom script, then email me.
 
+License
+-------
+
+WebPlotDigitizer is distributed under [GNU AGPL v3](https://www.gnu.org/licenses/agpl-3.0.en.html).
+
 Offline Development/Usage
 -------------------------
 
