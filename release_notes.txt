@@ -1,5 +1,16 @@
 RELEASE NOTES
 
+Version 3.12
+============
+Coming soon
+
+New Features
+- Export all datasets to PlotLy together using the "Export All Datasets" option.
+- Minor improvement of axes calibration point graphics
+
+Bug Fixes
+- Minor bug fixes related to drag-drop of image
+
 Version 3.11
 ============
 January 17, 2017
