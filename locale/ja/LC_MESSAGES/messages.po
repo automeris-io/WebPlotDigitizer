@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-04-22 15:33-0500\n"
+"POT-Creation-Date: 2017-05-16 22:55-0500\n"
 "PO-Revision-Date: 2016-12-18 10:38-0600\n"
 "Last-Translator: \n"
 "Language: ja\n"
@@ -495,8 +495,8 @@ msgstr ""
 #: templates/_popups.html:316
 msgid ""
 "This program is distributed under the <a "
-"href=\"https://www.gnu.org/licenses/gpl-3.0-standalone.html\" "
-"target=\"_blank\">GNU General Public License Version 3</a>."
+"href=\"https://www.gnu.org/licenses/agpl-3.0-standalone.html\" "
+"target=\"_blank\">GNU Affero General Public License Version 3</a>."
 msgstr ""
 
 #: templates/_popups.html:317
@@ -1635,5 +1635,13 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "No datasets to export!"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "This program is distributed under the"
+#~ " <a "
+#~ "href=\"https://www.gnu.org/licenses/gpl-3.0-standalone.html\" "
+#~ "target=\"_blank\">GNU Affero General Public "
+#~ "License Version 3</a>."
 #~ msgstr ""
 

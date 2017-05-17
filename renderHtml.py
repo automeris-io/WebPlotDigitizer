@@ -26,6 +26,7 @@ def renderPage(filename):
     print "Rendering", filename
     pageTemplate = env.get_template(filename)
     for lang in languages:
+        print "\tLanguage", lang
         translation = WPDTranslation(lang)
         env.install_gettext_translations(translation)
         page = pageTemplate.render()
