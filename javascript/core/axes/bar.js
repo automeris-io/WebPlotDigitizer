@@ -38,7 +38,7 @@ wpd.BarAxes = (function () {
             return isCalibrated;
         };
 
-        this.calibrate = function(calibration, isLog) {
+        this.calibrate = function(calibration, isLog, isRotated) {
             isCalibrated = false;
             var cp1 = calibration.getPoint(0),
                 cp2 = calibration.getPoint(1);
@@ -59,6 +59,17 @@ wpd.BarAxes = (function () {
             }
 
             orientation = this.calculateOrientation();
+            
+            if(!isRotated) {
+                // ignore rotation and assume axes is precisely vertical or horizontal
+                if(orientation.axes == 'Y') {
+                    x2 = x1;
+                } else {
+                    y2 = y1;
+                }
+                // recalculate orientation:
+                orientation = this.calculateOrientation();
+            }
 
             isCalibrated = true;
             return true;

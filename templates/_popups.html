@@ -125,7 +125,7 @@
 	</div>
 
     <!-- Bar Alignment -->
-    <div id="barAlignment" class="popup" style="width: 400px;">
+    <div id="barAlignment" class="popup" style="width: 420px;">
     <div class="popupheading">{{ _("Bar Chart Calibration") }}</div>
     <p align="center">{{ _("Enter the values at the two points selected on the continuous axes along the bars") }}</p>
     <center>
@@ -142,7 +142,8 @@
         </tr>
     </table>
     </center>
-    <p>&nbsp;</p>
+    <p align="center"><label><input type="checkbox" id="bar-axes-rotated"/> Rotated axes (not exactly vertical or horizontal)</label></p>
+    <br/>
     <p align="center"><input type="button" value="{{ _("OK") }}" onclick="wpd.alignAxes.align();"/></p>
     </div>
 
