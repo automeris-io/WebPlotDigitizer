@@ -4,9 +4,13 @@ Version 3.12
 ============
 Coming soon
 
+Licensing
+- Moved to GNU AGPL v3 from GNU GPL v3
+
 New Features
 - Export all datasets to PlotLy together using the "Export All Datasets" option.
 - Minor improvement of axes calibration point graphics
+- Provide user the option to account for axes rotation for bar charts when the charts are not perfectly vertical or horizontal.
 
 Bug Fixes
 - Minor bug fixes related to drag-drop of image
