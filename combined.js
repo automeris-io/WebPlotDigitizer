@@ -1539,6 +1539,62 @@ wpd.PlotData = (function () {
 
 */
 
+
+var wpd = wpd || {};
+
+wpd.AveragingWindowAlgo = (function () {
+
+    var Algo = function () {
+
+        var xStep = 5, yStep = 5;
+
+        this.getParamList = function () {
+            return [['ΔX', 'Px', 10], ['ΔY', 'Px', 10]];
+        };
+
+        this.setParam = function (index, val) {
+            if(index === 0) {
+                xStep = val;
+            } else if(index === 1) {
+                yStep = val;
+            }
+        };
+
+        this.run = function (plotData) {
+            var autoDetector = plotData.getAutoDetector(),
+                dataSeries = plotData.getActiveDataSeries(),
+                algoCore = new wpd.AveragingWindowCore(autoDetector.binaryData, autoDetector.imageHeight, autoDetector.imageWidth, xStep, yStep, dataSeries);
+
+            algoCore.run();
+        };
+
+    };
+    return Algo;
+})();
+
+/*
+    WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
+
+    Copyright 2010-2017 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+
+    This file is part of WebPlotDigitizer.
+
+    WebPlotDigitizer is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    WebPlotDigitizer is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
+
+
+*/
+
 var wpd = wpd || {};
 
 wpd.AveragingWindowCore = (function () {
@@ -1648,62 +1704,6 @@ wpd.AveragingWindowCore = (function () {
     };
     return Algo;
 })();
-/*
-    WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
-
-    Copyright 2010-2017 Ankit Rohatgi <ankitrohatgi@hotmail.com>
-
-    This file is part of WebPlotDigitizer.
-
-    WebPlotDigitizer is free software: you can redistribute it and/or modify
-    it under the terms of the GNU Affero General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    WebPlotDigitizer is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU Affero General Public License for more details.
-
-    You should have received a copy of the GNU Affero General Public License
-    along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
-
-
-*/
-
-
-var wpd = wpd || {};
-
-wpd.AveragingWindowAlgo = (function () {
-
-    var Algo = function () {
-
-        var xStep = 5, yStep = 5;
-
-        this.getParamList = function () {
-            return [['ΔX', 'Px', 10], ['ΔY', 'Px', 10]];
-        };
-
-        this.setParam = function (index, val) {
-            if(index === 0) {
-                xStep = val;
-            } else if(index === 1) {
-                yStep = val;
-            }
-        };
-
-        this.run = function (plotData) {
-            var autoDetector = plotData.getAutoDetector(),
-                dataSeries = plotData.getActiveDataSeries(),
-                algoCore = new wpd.AveragingWindowCore(autoDetector.binaryData, autoDetector.imageHeight, autoDetector.imageWidth, xStep, yStep, dataSeries);
-
-            algoCore.run();
-        };
-
-    };
-    return Algo;
-})();
-
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
@@ -2469,7 +2469,7 @@ wpd.BarAxes = (function () {
             return isCalibrated;
         };
 
-        this.calibrate = function(calibration, isLog) {
+        this.calibrate = function(calibration, isLog, isRotated) {
             isCalibrated = false;
             var cp1 = calibration.getPoint(0),
                 cp2 = calibration.getPoint(1);
@@ -2490,6 +2490,17 @@ wpd.BarAxes = (function () {
             }
 
             orientation = this.calculateOrientation();
+            
+            if(!isRotated) {
+                // ignore rotation and assume axes is precisely vertical or horizontal
+                if(orientation.axes == 'Y') {
+                    x2 = x1;
+                } else {
+                    y2 = y1;
+                }
+                // recalculate orientation:
+                orientation = this.calculateOrientation();
+            }
 
             isCalibrated = true;
             return true;
@@ -5428,13 +5439,14 @@ wpd.barCalibration = (function () {
         var p1 = document.getElementById('bar-axes-p1').value,
 	        p2 = document.getElementById('bar-axes-p2').value,
 	        isLogScale = document.getElementById('bar-axes-log-scale').checked,
+            isRotated = document.getElementById('bar-axes-rotated').checked,
             axes = new wpd.BarAxes(),
             plot,
             calib = wpd.alignAxes.getActiveCalib();
 
         calib.setDataAt(0, 0, p1);
         calib.setDataAt(1, 0, p2);
-        if(!axes.calibrate(calib, isLogScale)) {
+        if(!axes.calibrate(calib, isLogScale, isRotated)) {
             wpd.popup.close('barAlignment');
             wpd.messagePopup.show(wpd.gettext('calibration-invalid-inputs'), wpd.gettext('calibration-enter-valid'), getCornerValues);
             return false;

@@ -112,13 +112,14 @@ wpd.barCalibration = (function () {
         var p1 = document.getElementById('bar-axes-p1').value,
 	        p2 = document.getElementById('bar-axes-p2').value,
 	        isLogScale = document.getElementById('bar-axes-log-scale').checked,
+            isRotated = document.getElementById('bar-axes-rotated').checked,
             axes = new wpd.BarAxes(),
             plot,
             calib = wpd.alignAxes.getActiveCalib();
 
         calib.setDataAt(0, 0, p1);
         calib.setDataAt(1, 0, p2);
-        if(!axes.calibrate(calib, isLogScale)) {
+        if(!axes.calibrate(calib, isLogScale, isRotated)) {
             wpd.popup.close('barAlignment');
             wpd.messagePopup.show(wpd.gettext('calibration-invalid-inputs'), wpd.gettext('calibration-enter-valid'), getCornerValues);
             return false;
