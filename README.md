@@ -1,3 +1,7 @@
+# Version4 Branch
+
+Some major backend changes are underway in this branch.
+
 WebPlotDigitizer
 ================
 
