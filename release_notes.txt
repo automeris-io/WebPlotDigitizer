@@ -2,13 +2,13 @@ RELEASE NOTES
 
 Version 3.12
 ============
-Coming soon
+June 3, 2017
 
 Licensing
 - Moved to GNU AGPL v3 from GNU GPL v3
 
 New Features
-- Export all datasets to PlotLy together using the "Export All Datasets" option.
+- Export all datasets to Plotly together using the "Export All Datasets" option.
 - Minor improvement of axes calibration point graphics
 - Provide user the option to account for axes rotation for bar charts when the charts are not perfectly vertical or horizontal.
 
