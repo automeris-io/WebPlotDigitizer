@@ -1,21 +1,21 @@
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotdigitizer
 
-	Copyright 2010-2016 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2017 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
     WebPlotDIgitizer is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
+    it under the terms of the GNU Affero General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
     WebPlotDigitizer is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+    GNU Affero General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
+    You should have received a copy of the GNU Affero General Public License
     along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
 
 
@@ -50,6 +50,7 @@ wpd.dataExport = (function () {
     }
 
     function generateCSV() {
+        wpd.popup.close('export-all-data-popup');
         // generate file and trigger download
 
         // loop over all datasets
@@ -60,7 +61,8 @@ wpd.dataExport = (function () {
 
         if(axes == null || dsColl == null || dsColl.length === 0) {
             // axes is not aligned, show an error message?
-            return
+            wpd.messagePopup.show(wpd.gettext('no-datasets-to-export-error'), wpd.gettext('no-datasets-to-export'));
+            return;
         }
 
         var axLab = axes.getAxesLabels(),
@@ -114,8 +116,50 @@ wpd.dataExport = (function () {
         wpd.download.csv(JSON.stringify(csvText), "wpd_datasets");
     }
 
+    function exportToPlotly() {
+        wpd.popup.close('export-all-data-popup');
+
+        // loop over all datasets
+        var plotData = wpd.appData.getPlotData(),
+            axes = plotData.axes,
+            dsColl = plotData.dataSeriesColl,
+            i, coli, rowi,
+            dataProvider = wpd.plotDataProvider,
+            pdata,
+            plotlyData = { "data": [] },
+            colName;
+
+        if(axes == null || dsColl == null || dsColl.length === 0) {
+            // axes is not aligned, show an error message?
+            wpd.messagePopup.show(wpd.gettext('no-datasets-to-export-error'), wpd.gettext('no-datasets-to-export'));
+            return;
+        }
+
+        for(i = 0; i < dsColl.length; i++) {
+            dataProvider.setDatasetIndex(i);
+            pdata = dataProvider.getData();
+            plotlyData.data[i] = {};
+
+            // loop over columns
+            for(coli = 0; coli < 2; coli++) {
+                colName = (coli === 0) ? 'x' : 'y';
+                plotlyData.data[i][colName] = [];
+                for(rowi = 0; rowi < pdata.rawData.length; rowi++) {
+                    if(pdata.fieldDateFormat[coli] != null) {
+                        plotlyData.data[i][colName][rowi] = wpd.dateConverter(pdata.rawData[rowi][coli], "yyyy-mm-dd");
+                    } else {
+                        plotlyData.data[i][colName][rowi] = pdata.rawData[rowi][coli];
+                    }
+                }
+            }
+        }
+
+        wpd.plotly.send(plotlyData);
+    }
+
     return {
         show: show,
-        generateCSV: generateCSV
+        generateCSV: generateCSV,
+        exportToPlotly: exportToPlotly
     };
 })();

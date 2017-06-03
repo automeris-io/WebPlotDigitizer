@@ -3,27 +3,27 @@
 <!-- 
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Copyright 2010-2016 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2017 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
     WebPlotDigitizer is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
+    it under the terms of the GNU Affero General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
     WebPlotDigitizer is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+    GNU Affero General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
+    You should have received a copy of the GNU Affero General Public License
     along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/> 
-<meta name="Description" content="WebPlotDigitizer v3.11 - Web based tool to extract numerical data from plots and graph images."/>
+<meta name="Description" content="WebPlotDigitizer v3.12 - Web based tool to extract numerical data from plots and graph images."/>
 <meta name="Keywords" content="Plot, Digitizer, WebPlotDigitizer, Ankit Rohatgi, Extract Data, Convert Plots, XY, Polar, Ternary, Map, HTML5"/>
 <meta name="Author" content="Ankit Rohatgi"/>
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
@@ -148,7 +148,7 @@ Problems loading? Make sure you have a recent version of Google Chrome, Firefox,
         <ul>
             <li id="wpd-datamenu-acquire" onclick="wpd.acquireData.load();">Acquire Data</li>
             <li id="wpd-datamenu-manage" onclick="wpd.dataSeriesManagement.manage();">Manage Datasets</li>
-            <li id="wpd-datamenu-manage" onclick="wpd.dataExport.generateCSV();">Export Data</li>
+            <li id="wpd-datamenu-manage" onclick="wpd.popup.show('export-all-data-popup');">Export All Data</li>
         </ul>
     </div>
 </div>
@@ -524,7 +524,7 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
 	</div>
 
     <!-- Bar Alignment -->
-    <div id="barAlignment" class="popup" style="width: 400px;">
+    <div id="barAlignment" class="popup" style="width: 420px;">
     <div class="popupheading">Bar Chart Calibration</div>
     <p align="center">Enter the values at the two points selected on the continuous axes along the bars</p>
     <center>
@@ -541,7 +541,8 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
         </tr>
     </table>
     </center>
-    <p>&nbsp;</p>
+    <p align="center"><label><input type="checkbox" id="bar-axes-rotated"/> Rotated axes (not exactly vertical or horizontal)</label></p>
+    <br/>
     <p align="center"><input type="button" value="OK" onclick="wpd.alignAxes.align();"/></p>
     </div>
 
@@ -711,8 +712,8 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
 	<div id="helpWindow" class="popup" style="width: 600px;">
 	<div class="popupheading">WebPlotDigitizer - Web Based Plot Digitizer</div>
 	<p>&nbsp;</p>
-    <p align="center">Version 3.11</p>
-	<p align="center">This program is distributed under the <a href="https://www.gnu.org/licenses/gpl-3.0-standalone.html" target="_blank">GNU General Public License Version 3</a>.</p>
+    <p align="center">Version 3.12</p>
+	<p align="center">This program is distributed under the <a href="https://www.gnu.org/licenses/agpl-3.0-standalone.html" target="_blank">GNU Affero General Public License Version 3</a>.</p>
 	<p align="center">Copyright 2010-2017 Ankit Rohatgi &lt;ankitrohatgi@hotmail.com&gt;</p>
 	<p align="center"><a href="http://arohatgi.info/WebPlotDigitizer" target="website">http://arohatgi.info/WebPlotDigitizer</a></p>
 	<p>&nbsp;</p>
@@ -855,6 +856,18 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
     </p>
     </div>
 
+    <!-- Export all data dialog -->
+    <div id="export-all-data-popup" class="popup" style="width:400px;">
+    <div class="popupheading">Export All Datasets</div>
+    <p>Export data from all datasets</p>
+    <br/>
+    <p align="center">
+        <input type="button" value="Download .CSV" onclick="wpd.dataExport.generateCSV();"/>
+        <input type="button" value="Export to Plotly" onclick="wpd.dataExport.exportToPlotly();"/>
+        <input type="button" value="Cancel" onclick="wpd.popup.close('export-all-data-popup');"/>
+    </p>
+    </div>
+
 <!-- strings for translation -->
 <div class="i18n-string" id="i18n-string-wpd">WebPlotDigitizer</div>
 <div class="i18n-string" id="i18n-string-unstable-version-warning">Unstable version warning!</div>
@@ -894,6 +907,8 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
 <div class="i18n-string" id="i18n-string-histogram">Histogram</div>
 <div class="i18n-string" id="i18n-string-specify-foreground-color">Specify Plot (Foreground) Color</div>
 <div class="i18n-string" id="i18n-string-specify-background-color">Specify Background Color</div>
+<div class="i18n-string" id="i18n-string-no-datasets-to-export">Please add some data before exporting.</div>
+<div class="i18n-string" id="i18n-string-no-datasets-to-export-error">Error: No datasets to export!</div>
 
 
 

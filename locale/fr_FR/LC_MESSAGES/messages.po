@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-01-12 21:26-0600\n"
-"PO-Revision-Date: 2017-01-11 20:46-0600\n"
+"POT-Creation-Date: 2017-05-31 23:07-0500\n"
+"PO-Revision-Date: 2017-05-16 22:52-0500\n"
 "Last-Translator: \n"
 "Language: fr_FR\n"
 "Language-Team: fr_FR <LL@li.org>\n"
@@ -61,11 +61,11 @@ msgstr "Exécuter le script"
 msgid "Save Image"
 msgstr "Enregistrer l'image"
 
-#: templates/_menubar.html:9 templates/_popups.html:379
+#: templates/_menubar.html:9 templates/_popups.html:380
 msgid "Export JSON"
 msgstr "Exportation de JSON"
 
-#: templates/_menubar.html:10 templates/_popups.html:390
+#: templates/_menubar.html:10 templates/_popups.html:391
 #: templates/_strings.html:4
 msgid "Import JSON"
 msgstr "importation de JSON"
@@ -82,7 +82,7 @@ msgstr "Calibrer les Axes"
 msgid "Remove Grid"
 msgstr "Supprimer la Grille"
 
-#: templates/_menubar.html:36 templates/_popups.html:370
+#: templates/_menubar.html:36 templates/_popups.html:371
 #: templates/_strings.html:16
 msgid "Transformation Equations"
 msgstr "Équations de Transformation"
@@ -95,14 +95,14 @@ msgstr "Données"
 msgid "Acquire Data"
 msgstr "Acquérir les Données"
 
-#: templates/_menubar.html:45 templates/_popups.html:341
+#: templates/_menubar.html:45 templates/_popups.html:342
 #: templates/_strings.html:25
 msgid "Manage Datasets"
 msgstr "Gérer les Ensembles de Données"
 
 #: templates/_menubar.html:46
-msgid "Export Data"
-msgstr "Exportation de Données"
+msgid "Export All Data"
+msgstr ""
 
 #: templates/_menubar.html:51
 msgid "Measure"
@@ -155,8 +155,9 @@ msgstr "Charger"
 #: templates/_popups.html:13 templates/_popups.html:37
 #: templates/_popups.html:48 templates/_popups.html:56
 #: templates/_popups.html:74 templates/_popups.html:92
-#: templates/_popups.html:397 templates/_popups.html:427
-#: templates/_popups.html:440 templates/_popups.html:455
+#: templates/_popups.html:398 templates/_popups.html:428
+#: templates/_popups.html:441 templates/_popups.html:456
+#: templates/_popups.html:468
 msgid "Cancel"
 msgstr "Annulé"
 
@@ -209,10 +210,10 @@ msgid "Capture"
 msgstr "Capturer"
 
 #: templates/_popups.html:65 templates/_popups.html:74
-#: templates/_popups.html:123 templates/_popups.html:146
-#: templates/_popups.html:155 templates/_popups.html:186
-#: templates/_popups.html:205 templates/_popups.html:426
-#: templates/_popups.html:439
+#: templates/_popups.html:123 templates/_popups.html:147
+#: templates/_popups.html:156 templates/_popups.html:187
+#: templates/_popups.html:206 templates/_popups.html:427
+#: templates/_popups.html:440
 msgid "OK"
 msgstr "OK"
 
@@ -257,17 +258,17 @@ msgstr ""
 " des deux points cliqués sur les axes Y"
 
 #: templates/_popups.html:104 templates/_popups.html:134
-#: templates/_popups.html:165
+#: templates/_popups.html:166
 msgid "Point 1"
 msgstr "Point 1"
 
 #: templates/_popups.html:105 templates/_popups.html:135
-#: templates/_popups.html:166
+#: templates/_popups.html:167
 msgid "Point 2"
 msgstr "Point 2"
 
 #: templates/_popups.html:106 templates/_popups.html:136
-#: templates/_popups.html:167
+#: templates/_popups.html:168
 msgid "Log Scale"
 msgstr "Échelle logarithmique"
 
@@ -299,90 +300,90 @@ msgstr ""
 "Entrez les valeurs dans les deux points choisis sur les axes continues le"
 " long des barres"
 
-#: templates/_popups.html:151
+#: templates/_popups.html:152
 msgid "Scale Size"
 msgstr "Taille de L’échelle"
 
-#: templates/_popups.html:153
+#: templates/_popups.html:154
 msgid "Units"
 msgstr "Unités"
 
-#: templates/_popups.html:160 templates/_popups.html:293
+#: templates/_popups.html:161 templates/_popups.html:294
 msgid "Align Polar Axes"
 msgstr "Aligner les Axes Polaires"
 
-#: templates/_popups.html:183
+#: templates/_popups.html:184
 msgid "Degrees"
 msgstr "Degrés"
 
-#: templates/_popups.html:183
+#: templates/_popups.html:184
 msgid "Radians"
 msgstr "Radians"
 
-#: templates/_popups.html:184
+#: templates/_popups.html:185
 msgid "Clockwise"
 msgstr "Rotation à Droite"
 
-#: templates/_popups.html:191
+#: templates/_popups.html:192
 msgid "Select Range of Variables"
 msgstr "Sélectionner L'intervalle des Variables"
 
-#: templates/_popups.html:193
+#: templates/_popups.html:194
 msgid "Axes Orientation"
 msgstr "Orientation des Axes"
 
-#: templates/_popups.html:197
+#: templates/_popups.html:198
 msgid "Normal"
 msgstr "Normal"
 
-#: templates/_popups.html:197
+#: templates/_popups.html:198
 msgid "Reverse"
 msgstr "Inverser"
 
-#: templates/_popups.html:200
+#: templates/_popups.html:201
 msgid "Range of Variables"
 msgstr "Intervalle de variables"
 
-#: templates/_popups.html:202
+#: templates/_popups.html:203
 msgid "0 to 1"
 msgstr "0 à 1"
 
-#: templates/_popups.html:202
+#: templates/_popups.html:203
 msgid "0 to 100"
 msgstr "0 à 100"
 
-#: templates/_popups.html:210
+#: templates/_popups.html:211
 msgid "Acquired Data"
 msgstr "Données Acquises"
 
-#: templates/_popups.html:215 templates/_sidebars.html:12
+#: templates/_popups.html:216 templates/_sidebars.html:12
 #: templates/_sidebars.html:45
 msgid "Dataset"
 msgstr "Ensemble de Données"
 
-#: templates/_popups.html:216
+#: templates/_popups.html:217
 msgid "Variables"
 msgstr "Variables"
 
-#: templates/_popups.html:219
+#: templates/_popups.html:220
 msgid "Select All"
 msgstr "Sélectionner Tout"
 
-#: templates/_popups.html:220
+#: templates/_popups.html:221 templates/_popups.html:466
 msgid "Download .CSV"
 msgstr "Télécharger .CSV"
 
-#: templates/_popups.html:221
+#: templates/_popups.html:222
 msgid "Graph in Plotly*"
 msgstr "Graphique dans Plotly*"
 
-#: templates/_popups.html:222 templates/_popups.html:320
-#: templates/_popups.html:364 templates/_popups.html:374
-#: templates/_popups.html:384 templates/_popups.html:416
+#: templates/_popups.html:223 templates/_popups.html:321
+#: templates/_popups.html:365 templates/_popups.html:375
+#: templates/_popups.html:385 templates/_popups.html:417
 msgid "Close"
 msgstr "Fermer"
 
-#: templates/_popups.html:224
+#: templates/_popups.html:225
 msgid ""
 "*Plotly is a secure data analysis and graphing site with data sharing and"
 " access controls."
@@ -390,7 +391,7 @@ msgstr ""
 "*Plotly est un site d’analyse et de représentation graphique de données "
 "sécurisé avec des contrôles d’accès et de partage de données."
 
-#: templates/_popups.html:225
+#: templates/_popups.html:226
 msgid ""
 "Visit <a href=\"http://plot.ly\" "
 "target=\"plotlyWebsite\">http://plot.ly</a> for details."
@@ -398,67 +399,67 @@ msgstr ""
 "Visitez <a href=\"http://plot.ly\" "
 "target=\"plotlyWebsite\">http://plot.ly</a> pour plus de détails."
 
-#: templates/_popups.html:229
+#: templates/_popups.html:230
 msgid "Sort"
 msgstr "Trier"
 
-#: templates/_popups.html:230
+#: templates/_popups.html:231
 msgid "Sort by"
 msgstr "Trier par"
 
-#: templates/_popups.html:231
+#: templates/_popups.html:232
 msgid "Order"
 msgstr "Commander"
 
-#: templates/_popups.html:233
+#: templates/_popups.html:234
 msgid "Ascending"
 msgstr "Ascendant"
 
-#: templates/_popups.html:234
+#: templates/_popups.html:235
 msgid "Descending"
 msgstr "Descendant"
 
-#: templates/_popups.html:238
+#: templates/_popups.html:239
 msgid "Format"
 msgstr "Format"
 
-#: templates/_popups.html:241
+#: templates/_popups.html:242
 msgid "Date Formatting"
 msgstr "Formatage de Date"
 
-#: templates/_popups.html:245
+#: templates/_popups.html:246
 msgid "Number Formatting"
 msgstr "Formatage de Nombre"
 
-#: templates/_popups.html:246
+#: templates/_popups.html:247
 msgid "Digits"
 msgstr "Chiffres"
 
-#: templates/_popups.html:248
+#: templates/_popups.html:249
 msgid "Ignore"
 msgstr "Ignorer"
 
-#: templates/_popups.html:249
+#: templates/_popups.html:250
 msgid "Fixed"
 msgstr "Fixé"
 
-#: templates/_popups.html:250
+#: templates/_popups.html:251
 msgid "Precision"
 msgstr "Précision"
 
-#: templates/_popups.html:251
+#: templates/_popups.html:252
 msgid "Exponential"
 msgstr "Exponentiel"
 
-#: templates/_popups.html:254
+#: templates/_popups.html:255
 msgid "Column Separator"
 msgstr "Séparateur de Colonnes"
 
-#: templates/_popups.html:263
+#: templates/_popups.html:264
 msgid "Align X-Y Axes"
 msgstr "Aligner les Axes X-Y"
 
-#: templates/_popups.html:266
+#: templates/_popups.html:267
 msgid ""
 "Click four known points on the axes in the <font color=\"red\">order "
 "shown in red</font>. Two on the X axis (X1, X2) and two on the Y axis "
@@ -468,123 +469,120 @@ msgstr ""
 "color=\"red\">ordre indiqué en rouge</font>. Deux sur l’axe X (X1, X2) et"
 " deux sur l’axe Y (Y1, Y2)"
 
-#: templates/_popups.html:268 templates/_popups.html:278
-#: templates/_popups.html:288 templates/_popups.html:298
-#: templates/_popups.html:308
+#: templates/_popups.html:269 templates/_popups.html:279
+#: templates/_popups.html:289 templates/_popups.html:299
+#: templates/_popups.html:309
 msgid "Proceed"
 msgstr "Continuer"
 
-#: templates/_popups.html:273
+#: templates/_popups.html:274
 msgid "Align Bar Chart Axes"
 msgstr "Aligner les Axes du Graphique à Barres"
 
-#: templates/_popups.html:276
+#: templates/_popups.html:277
 msgid "Click on two known points (P1, P2) on the continuous axes along the bars"
 msgstr ""
 "Cliquez sur deux points connus (P1, P2) sur les axes continues le long "
 "des barres"
 
-#: templates/_popups.html:283
+#: templates/_popups.html:284
 msgid "Align Map To Scale Bar"
 msgstr "Aligner la Carte au Barre D’échelle"
 
-#: templates/_popups.html:286
+#: templates/_popups.html:287
 msgid "Click on the two ends of the scale bar on the map."
 msgstr "Cliquez sur les deux extrémités de la barre d’échelle sur la carte."
 
-#: templates/_popups.html:296
+#: templates/_popups.html:297
 msgid "Click on the center, followed by two known points."
 msgstr "Cliquez sur le centre, suivi de deux points connus."
 
-#: templates/_popups.html:303
+#: templates/_popups.html:304
 msgid "Align Ternary Axes"
 msgstr "Aligner les Axes Ternaires"
 
-#: templates/_popups.html:306
+#: templates/_popups.html:307
 msgid "Click on the three corners in the order shown above."
 msgstr "Cliquez sur les trois coins dans l’ordre indiqué ci-dessus."
 
-#: templates/_popups.html:313
+#: templates/_popups.html:314
 msgid "WebPlotDigitizer - Web Based Plot Digitizer"
 msgstr "WebPlotDigitizer - Numériseur de Graphe Basé sur le Web"
 
-#: templates/_popups.html:315
+#: templates/_popups.html:316
 msgid "Version"
 msgstr "Version"
 
-#: templates/_popups.html:316
+#: templates/_popups.html:317
 msgid ""
 "This program is distributed under the <a "
-"href=\"https://www.gnu.org/licenses/gpl-3.0-standalone.html\" "
-"target=\"_blank\">GNU General Public License Version 3</a>."
+"href=\"https://www.gnu.org/licenses/agpl-3.0-standalone.html\" "
+"target=\"_blank\">GNU Affero General Public License Version 3</a>."
 msgstr ""
-"Ce programme est distribué sous la <a "
-"href=\"https://www.gnu.org/licenses/gpl-3.0-standalone.html\" "
-"target=\"_blank\">Licence Publique Générale GNU Version 3</a>."
 
-#: templates/_popups.html:317
+#: templates/_popups.html:318
 msgid "Copyright"
 msgstr "Copyright"
 
-#: templates/_popups.html:325
+#: templates/_popups.html:326
 msgid "Specify Color"
 msgstr "Spécifiez la Couleur"
 
-#: templates/_popups.html:331
+#: templates/_popups.html:332
 msgid "Color Picker"
 msgstr "Sélecteur de Couleur"
 
-#: templates/_popups.html:333
+#: templates/_popups.html:334
 msgid "Dominant Colors"
 msgstr "Couleurs Dominantes"
 
-#: templates/_popups.html:335
+#: templates/_popups.html:336
 msgid "Done"
 msgstr "Terminé"
 
-#: templates/_popups.html:346
+#: templates/_popups.html:347
 msgid "Selected Dataset"
 msgstr "Ensemble de Données Sélectionné"
 
-#: templates/_popups.html:346
+#: templates/_popups.html:347
 msgid "Default Dataset"
 msgstr "Ensemble de Données par Défaut"
 
-#: templates/_popups.html:350
+#: templates/_popups.html:351
 msgid "Dataset Name"
 msgstr "Nom de L'ensemble de Données"
 
-#: templates/_popups.html:352
+#: templates/_popups.html:353
 msgid "Change"
 msgstr "Modifier"
 
-#: templates/_popups.html:355 templates/_sidebars.html:29
+#: templates/_popups.html:356 templates/_sidebars.html:29
 #: templates/_sidebars.html:64
 msgid "Data Points"
 msgstr "Points de Données"
 
-#: templates/_popups.html:361
+#: templates/_popups.html:362
 msgid "Add"
 msgstr "Ajouter"
 
-#: templates/_popups.html:362
+#: templates/_popups.html:363
 msgid "Delete"
 msgstr "Supprimer"
 
-#: templates/_popups.html:363 templates/_sidebars.html:26
+#: templates/_popups.html:364 templates/_sidebars.html:26
 #: templates/_sidebars.html:61 templates/_sidebars.html:77
 #: templates/_sidebars.html:91 templates/_sidebars.html:105
 #: templates/_sidebars.html:119
 msgid "View Data"
 msgstr "Voir les Données"
 
-#: templates/_popups.html:371
+#: templates/_popups.html:372
 msgid "The following relationships are being used to convert image pixels to data"
 msgstr ""
 "Les relations suivantes sont utilisées pour convertir les pixels de "
 "l’image en données"
 
-#: templates/_popups.html:380
+#: templates/_popups.html:381
 msgid ""
 "This JSON file contains the axes calibration and the digitized data "
 "points from this plot. This file can be imported later to resume work or "
@@ -594,11 +592,11 @@ msgstr ""
 "numérisés de ce graphe. Ce fichier peut être importé plus tard pour "
 "reprendre l'activité ou réutiliser l’étalonnage dans un autre graphe."
 
-#: templates/_popups.html:383
+#: templates/_popups.html:384
 msgid "Download"
 msgstr "Télécharger"
 
-#: templates/_popups.html:391
+#: templates/_popups.html:392
 msgid ""
 "Specify a previously exported JSON file to load here. Note that this will"
 " clear any unsaved data points in the current plot."
@@ -607,19 +605,19 @@ msgstr ""
 " que cela effacera tous les points de données non enregistrés dans le "
 "graphe actuel."
 
-#: templates/_popups.html:393
+#: templates/_popups.html:394
 msgid "JSON File"
 msgstr "Fichier JSON"
 
-#: templates/_popups.html:396
+#: templates/_popups.html:397
 msgid "Import"
 msgstr "Importer"
 
-#: templates/_popups.html:403
+#: templates/_popups.html:404
 msgid "Keyboard Shortcuts"
 msgstr "Raccourcis Clavier"
 
-#: templates/_popups.html:404
+#: templates/_popups.html:405
 msgid ""
 "Click to select a data point. The following keys can then be used to the "
 "adjust the position"
@@ -627,81 +625,89 @@ msgstr ""
 "Cliquez pour sélectionner un point de données. Les touches suivantes "
 "peuvent être utilisées pour ajuster la position"
 
-#: templates/_popups.html:407
+#: templates/_popups.html:408
 msgid "Cursor (Arrows)"
 msgstr "Curseur (Flèches)"
 
-#: templates/_popups.html:407
+#: templates/_popups.html:408
 msgid "Move up/down/right/left"
 msgstr "Se déplacer vers le haut/le bas/à droite/à gauche"
 
-#: templates/_popups.html:408
+#: templates/_popups.html:409
 msgid "Shift + Cursor"
 msgstr "Maj + Curseur"
 
-#: templates/_popups.html:408
+#: templates/_popups.html:409
 msgid "Faster rate of movement"
 msgstr "Accélérer la vitesse du mouvement"
 
-#: templates/_popups.html:409
+#: templates/_popups.html:410
 msgid "Select next point"
 msgstr "Sélectionnez le point suivant"
 
-#: templates/_popups.html:410
+#: templates/_popups.html:411
 msgid "Select previous point"
 msgstr "Sélectionnez le point précédent"
 
-#: templates/_popups.html:411
+#: templates/_popups.html:412
 msgid "Del/Backspace"
 msgstr "Suppr/Retour arrière"
 
-#: templates/_popups.html:411
+#: templates/_popups.html:412
 msgid "Delete point"
 msgstr "Supprimer le point"
 
-#: templates/_popups.html:412
+#: templates/_popups.html:413
 msgid "Edit label (Bar Chart)"
 msgstr "Modifier l’étiquette (Diagramme à Barres)"
 
-#: templates/_popups.html:421
+#: templates/_popups.html:422
 msgid "Edit Label"
 msgstr "Modifier le Label"
 
-#: templates/_popups.html:423
+#: templates/_popups.html:424
 msgid "Label"
 msgstr "Label"
 
-#: templates/_popups.html:423
+#: templates/_popups.html:424
 msgid "Data Point"
 msgstr "Point de Données"
 
-#: templates/_popups.html:433
+#: templates/_popups.html:434
 msgid "Perspective Transformation"
 msgstr "Transformation de Perspective"
 
-#: templates/_popups.html:436
+#: templates/_popups.html:437
 msgid "Click on four corners of the region to be transformed as shown."
 msgstr ""
 "Cliquez sur les quatre coins de la région pour être transformé, comme "
 "montré."
 
-#: templates/_popups.html:446
+#: templates/_popups.html:447
 msgid "Edit Existing Calibration?"
 msgstr "Modifier L'étalonnage Existant?"
 
-#: templates/_popups.html:448
+#: templates/_popups.html:449
 msgid "Do you wish to tweak existing axes calibration or select a new axes type?"
 msgstr ""
 "Souhaitez-vous affiner l'étalonnage existant des axes ou sélectionner un "
 "nouveau type d'axe?"
 
-#: templates/_popups.html:451
+#: templates/_popups.html:452
 msgid "Edit Calibration"
 msgstr "Modifier L'étalonnage"
 
-#: templates/_popups.html:453
+#: templates/_popups.html:454
 msgid "Change Axes Type"
 msgstr "Modifier le Type des Axes"
+
+#: templates/_popups.html:462
+msgid "Export All Datasets"
+msgstr ""
+
+#: templates/_popups.html:467
+msgid "Export to Plotly"
+msgstr ""
 
 #: templates/_sidebars.html:3
 msgid "Axes Calibration"
@@ -1040,6 +1046,14 @@ msgstr "Spécifier la Couleur du Graphe (Avant-plan)"
 msgid "Specify Background Color"
 msgstr "Spécifier la Couleur D’arrière-plan"
 
+#: templates/_strings.html:39
+msgid "Please add some data before exporting."
+msgstr ""
+
+#: templates/_strings.html:40
+msgid "Error: No datasets to export!"
+msgstr ""
+
 #: templates/_toolbars.html:3
 msgid "Erase All"
 msgstr "Tout Effacer"
@@ -1051,4 +1065,10 @@ msgstr "Largeur du Trait"
 #: templates/_toolbars.html:14
 msgid "View Keyboard Shortcuts"
 msgstr "Voir les Raccourcis du Clavier"
+
+#~ msgid "Export Data"
+#~ msgstr "Exportation de Données"
+
+#~ msgid ""
+#~ msgstr ""
 
