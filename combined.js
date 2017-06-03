@@ -1,21 +1,21 @@
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotdigitizer
 
-	Copyright 2010-2016 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2017 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
     WebPlotDIgitizer is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
+    it under the terms of the GNU Affero General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
     WebPlotDigitizer is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+    GNU Affero General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
+    You should have received a copy of the GNU Affero General Public License
     along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
 
 
@@ -57,21 +57,21 @@ document.addEventListener("DOMContentLoaded", wpd.initApp, true);
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Copyright 2010-2016 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2017 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
     WebPlotDigitizer is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
+    it under the terms of the GNU Affero General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
     WebPlotDigitizer is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+    GNU Affero General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
+    You should have received a copy of the GNU Affero General Public License
     along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
 
 
@@ -116,21 +116,21 @@ wpd.appData = (function () {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Copyright 2010-2016 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2017 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
     WebPlotDigitizer is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
+    it under the terms of the GNU Affero General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
     WebPlotDigitizer is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+    GNU Affero General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
+    You should have received a copy of the GNU Affero General Public License
     along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
 
 
@@ -328,21 +328,21 @@ wpd.AutoDetector = (function () {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotdigitizer
 
-	Copyright 2010-2016 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2017 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
     WebPlotDIgitizer is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
+    it under the terms of the GNU Affero General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
     WebPlotDigitizer is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+    GNU Affero General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
+    You should have received a copy of the GNU Affero General Public License
     along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
 
 
@@ -457,21 +457,21 @@ wpd.Calibration = (function () {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Copyright 2010-2016 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2017 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
     WebPlotDigitizer is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
+    it under the terms of the GNU Affero General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
     WebPlotDigitizer is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+    GNU Affero General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
+    You should have received a copy of the GNU Affero General Public License
     along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
 
 
@@ -591,21 +591,21 @@ wpd.colorAnalyzer = (function () {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotdigitizer
 
-	Copyright 2010-2016 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2017 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
     WebPlotDIgitizer is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
+    it under the terms of the GNU Affero General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
     WebPlotDigitizer is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+    GNU Affero General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
+    You should have received a copy of the GNU Affero General Public License
     along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
 
 
@@ -765,21 +765,21 @@ wpd.ConnectedPoints = (function () {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotdigitizer
 
-	Copyright 2010-2016 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2017 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
     WebPlotDIgitizer is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
+    it under the terms of the GNU Affero General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
     WebPlotDigitizer is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+    GNU Affero General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
+    You should have received a copy of the GNU Affero General Public License
     along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
 
 
@@ -930,21 +930,21 @@ wpd.DataSeries = (function () {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Copyright 2010-2016 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2017 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
     WebPlotDigitizer is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
+    it under the terms of the GNU Affero General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
     WebPlotDigitizer is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+    GNU Affero General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
+    You should have received a copy of the GNU Affero General Public License
     along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
 
 
@@ -1109,21 +1109,21 @@ wpd.dateConverter = (function () {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotdigitizer
 
-	Copyright 2010-2016 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2017 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
     WebPlotDIgitizer is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
+    it under the terms of the GNU Affero General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
     WebPlotDigitizer is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+    GNU Affero General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
+    You should have received a copy of the GNU Affero General Public License
     along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
 
 
@@ -1205,21 +1205,21 @@ wpd.gridDetectionCore = (function () {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Copyright 2010-2016 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2017 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
     WebPlotDigitizer is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
+    it under the terms of the GNU Affero General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
     WebPlotDigitizer is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+    GNU Affero General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
+    You should have received a copy of the GNU Affero General Public License
     along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
 
 
@@ -1276,21 +1276,21 @@ wpd.InputParser = (function () {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Copyright 2010-2016 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2017 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
     WebPlotDigitizer is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
+    it under the terms of the GNU Affero General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
     WebPlotDigitizer is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+    GNU Affero General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
+    You should have received a copy of the GNU Affero General Public License
     along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
 
 
@@ -1425,21 +1425,21 @@ wpd.cspline_interp = function(cs, x) {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotdigitizer
 
-	Copyright 2010-2016 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2017 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
     WebPlotDIgitizer is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
+    it under the terms of the GNU Affero General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
     WebPlotDigitizer is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+    GNU Affero General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
+    You should have received a copy of the GNU Affero General Public License
     along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
 
 
@@ -1519,21 +1519,21 @@ wpd.PlotData = (function () {
 /*
     WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-    Copyright 2010-2016 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+    Copyright 2010-2017 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
     This file is part of WebPlotDigitizer.
 
     WebPlotDigitizer is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
+    it under the terms of the GNU Affero General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
     WebPlotDigitizer is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+    GNU Affero General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
+    You should have received a copy of the GNU Affero General Public License
     along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
 
 
@@ -1575,21 +1575,21 @@ wpd.AveragingWindowAlgo = (function () {
 /*
     WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-    Copyright 2010-2016 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+    Copyright 2010-2017 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
     This file is part of WebPlotDigitizer.
 
     WebPlotDigitizer is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
+    it under the terms of the GNU Affero General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
     WebPlotDigitizer is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+    GNU Affero General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
+    You should have received a copy of the GNU Affero General Public License
     along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
 
 
@@ -1707,21 +1707,21 @@ wpd.AveragingWindowCore = (function () {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Copyright 2010-2016 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2017 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
     WebPlotDigitizer is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
+    it under the terms of the GNU Affero General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
     WebPlotDigitizer is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+    GNU Affero General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
+    You should have received a copy of the GNU Affero General Public License
     along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
 
 
@@ -1862,21 +1862,21 @@ wpd.AveragingWindowWithStepSizeAlgo = (function () {
 /*
     WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-    Copyright 2010-2016 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+    Copyright 2010-2017 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
     This file is part of WebPlotDigitizer.
 
     WebPlotDigitizer is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
+    it under the terms of the GNU Affero General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
     WebPlotDigitizer is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+    GNU Affero General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
+    You should have received a copy of the GNU Affero General Public License
     along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
 
 
@@ -2076,21 +2076,21 @@ wpd.BarExtractionAlgo = function() {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Copyright 2010-2016 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2017 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
     WebPlotDigitizer is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
+    it under the terms of the GNU Affero General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
     WebPlotDigitizer is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+    GNU Affero General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
+    You should have received a copy of the GNU Affero General Public License
     along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
 
 
@@ -2218,21 +2218,21 @@ wpd.BlobDetectorAlgo = (function () {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Copyright 2010-2016 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2017 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
     WebPlotDigitizer is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
+    it under the terms of the GNU Affero General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
     WebPlotDigitizer is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+    GNU Affero General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
+    You should have received a copy of the GNU Affero General Public License
     along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
 
 
@@ -2432,21 +2432,21 @@ wpd.XStepWithInterpolationAlgo = (function () {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotdigitizer
 
-	Copyright 2010-2016 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2017 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
     WebPlotDIgitizer is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
+    it under the terms of the GNU Affero General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
     WebPlotDigitizer is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+    GNU Affero General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
+    You should have received a copy of the GNU Affero General Public License
     along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
 
 
@@ -2469,7 +2469,7 @@ wpd.BarAxes = (function () {
             return isCalibrated;
         };
 
-        this.calibrate = function(calibration, isLog) {
+        this.calibrate = function(calibration, isLog, isRotated) {
             isCalibrated = false;
             var cp1 = calibration.getPoint(0),
                 cp2 = calibration.getPoint(1);
@@ -2490,6 +2490,17 @@ wpd.BarAxes = (function () {
             }
 
             orientation = this.calculateOrientation();
+            
+            if(!isRotated) {
+                // ignore rotation and assume axes is precisely vertical or horizontal
+                if(orientation.axes == 'Y') {
+                    x2 = x1;
+                } else {
+                    y2 = y1;
+                }
+                // recalculate orientation:
+                orientation = this.calculateOrientation();
+            }
 
             isCalibrated = true;
             return true;
@@ -2584,21 +2595,21 @@ wpd.BarAxes = (function () {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotdigitizer
 
-	Copyright 2010-2016 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2017 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
     WebPlotDIgitizer is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
+    it under the terms of the GNU Affero General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
     WebPlotDigitizer is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+    GNU Affero General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
+    You should have received a copy of the GNU Affero General Public License
     along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
 
 
@@ -2663,21 +2674,21 @@ wpd.ImageAxes = (function () {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotdigitizer
 
-	Copyright 2010-2016 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2017 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
     WebPlotDIgitizer is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
+    it under the terms of the GNU Affero General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
     WebPlotDigitizer is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+    GNU Affero General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
+    You should have received a copy of the GNU Affero General Public License
     along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
 
 
@@ -2777,21 +2788,21 @@ wpd.MapAxes = (function () {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotdigitizer
 
-	Copyright 2010-2016 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2017 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
     WebPlotDIgitizer is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
+    it under the terms of the GNU Affero General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
     WebPlotDigitizer is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+    GNU Affero General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
+    You should have received a copy of the GNU Affero General Public License
     along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
 
 
@@ -2963,21 +2974,21 @@ wpd.PolarAxes = (function () {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotdigitizer
 
-	Copyright 2010-2016 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2017 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
     WebPlotDIgitizer is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
+    it under the terms of the GNU Affero General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
     WebPlotDigitizer is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+    GNU Affero General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
+    You should have received a copy of the GNU Affero General Public License
     along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
 
 
@@ -3142,21 +3153,21 @@ wpd.TernaryAxes = (function () {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotdigitizer
 
-	Copyright 2010-2016 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2017 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
     WebPlotDIgitizer is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
+    it under the terms of the GNU Affero General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
     WebPlotDigitizer is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+    GNU Affero General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
+    You should have received a copy of the GNU Affero General Public License
     along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
 
 
@@ -3424,21 +3435,21 @@ wpd.XYAxes = (function () {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Copyright 2010-2016 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2017 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
     WebPlotDigitizer is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
+    it under the terms of the GNU Affero General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
     WebPlotDigitizer is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+    GNU Affero General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
+    You should have received a copy of the GNU Affero General Public License
     along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
 
 
@@ -3563,21 +3574,21 @@ wpd.dataSeriesManagement = (function () {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Copyright 2010-2016 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2017 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
     WebPlotDigitizer is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
+    it under the terms of the GNU Affero General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
     WebPlotDigitizer is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+    GNU Affero General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
+    You should have received a copy of the GNU Affero General Public License
     along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
 
 
@@ -3879,21 +3890,21 @@ wpd.dataTable = (function () {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Copyright 2010-2016 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2017 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
     WebPlotDigitizer is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
+    it under the terms of the GNU Affero General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
     WebPlotDigitizer is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+    GNU Affero General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
+    You should have received a copy of the GNU Affero General Public License
     along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
 
 
@@ -4599,21 +4610,21 @@ wpd.graphicsWidget = (function () {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotdigitizer
 
-	Copyright 2010-2016 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2017 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
     WebPlotDIgitizer is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
+    it under the terms of the GNU Affero General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
     WebPlotDigitizer is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+    GNU Affero General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
+    You should have received a copy of the GNU Affero General Public License
     along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
 
 
@@ -4675,21 +4686,21 @@ wpd.layoutManager = (function () {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Copyright 2010-2016 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2017 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
     WebPlotDigitizer is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
+    it under the terms of the GNU Affero General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
     WebPlotDigitizer is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+    GNU Affero General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
+    You should have received a copy of the GNU Affero General Public License
     along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
 
 
@@ -4904,21 +4915,21 @@ wpd.unsupported = function () {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Copyright 2010-2016 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2017 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
     WebPlotDigitizer is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
+    it under the terms of the GNU Affero General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
     WebPlotDigitizer is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+    GNU Affero General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
+    You should have received a copy of the GNU Affero General Public License
     along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
 
 
@@ -4967,21 +4978,21 @@ wpd.sidebar = (function () {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Copyright 2010-2016 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2017 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
     WebPlotDigitizer is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
+    it under the terms of the GNU Affero General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
     WebPlotDigitizer is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+    GNU Affero General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
+    You should have received a copy of the GNU Affero General Public License
     along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
 
 
@@ -5013,21 +5024,21 @@ wpd.toolbar = (function () {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Copyright 2010-2016 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2017 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
     WebPlotDigitizer is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
+    it under the terms of the GNU Affero General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
     WebPlotDigitizer is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+    GNU Affero General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
+    You should have received a copy of the GNU Affero General Public License
     along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
 
 
@@ -5089,21 +5100,21 @@ wpd.transformationEquations = (function () {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Copyright 2010-2016 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2017 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
     WebPlotDigitizer is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
+    it under the terms of the GNU Affero General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
     WebPlotDigitizer is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+    GNU Affero General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
+    You should have received a copy of the GNU Affero General Public License
     along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
 
 
@@ -5181,21 +5192,21 @@ wpd.webcamCapture = (function () {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Copyright 2010-2016 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2017 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
     WebPlotDigitizer is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
+    it under the terms of the GNU Affero General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
     WebPlotDigitizer is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+    GNU Affero General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
+    You should have received a copy of the GNU Affero General Public License
     along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
 
 */
@@ -5317,21 +5328,21 @@ wpd.zoomView = (function() {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Copyright 2010-2016 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2017 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
     WebPlotDigitizer is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
+    it under the terms of the GNU Affero General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
     WebPlotDigitizer is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+    GNU Affero General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
+    You should have received a copy of the GNU Affero General Public License
     along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
 
 
@@ -5428,13 +5439,14 @@ wpd.barCalibration = (function () {
         var p1 = document.getElementById('bar-axes-p1').value,
 	        p2 = document.getElementById('bar-axes-p2').value,
 	        isLogScale = document.getElementById('bar-axes-log-scale').checked,
+            isRotated = document.getElementById('bar-axes-rotated').checked,
             axes = new wpd.BarAxes(),
             plot,
             calib = wpd.alignAxes.getActiveCalib();
 
         calib.setDataAt(0, 0, p1);
         calib.setDataAt(1, 0, p2);
-        if(!axes.calibrate(calib, isLogScale)) {
+        if(!axes.calibrate(calib, isLogScale, isRotated)) {
             wpd.popup.close('barAlignment');
             wpd.messagePopup.show(wpd.gettext('calibration-invalid-inputs'), wpd.gettext('calibration-enter-valid'), getCornerValues);
             return false;
@@ -5824,21 +5836,21 @@ wpd.alignAxes = (function () {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Copyright 2010-2016 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2017 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
     WebPlotDigitizer is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
+    it under the terms of the GNU Affero General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
     WebPlotDigitizer is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+    GNU Affero General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
+    You should have received a copy of the GNU Affero General Public License
     along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
 
 
@@ -6014,21 +6026,21 @@ wpd.algoManager = (function() {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Copyright 2010-2016 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2017 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
     WebPlotDigitizer is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
+    it under the terms of the GNU Affero General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
     WebPlotDigitizer is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+    GNU Affero General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
+    You should have received a copy of the GNU Affero General Public License
     along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
 
 
@@ -6302,21 +6314,21 @@ wpd.ColorFilterRepainter = (function () {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotdigitizer
 
-	Copyright 2010-2016 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2017 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
     WebPlotDIgitizer is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
+    it under the terms of the GNU Affero General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
     WebPlotDigitizer is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+    GNU Affero General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
+    You should have received a copy of the GNU Affero General Public License
     along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
 
 
@@ -6563,21 +6575,21 @@ wpd.measurementDataProvider = (function() {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Copyright 2010-2016 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2017 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
     WebPlotDigitizer is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
+    it under the terms of the GNU Affero General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
     WebPlotDigitizer is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+    GNU Affero General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
+    You should have received a copy of the GNU Affero General Public License
     along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
 
 
@@ -6593,7 +6605,8 @@ wpd.graphicsHelper = (function () {
     function drawPoint(imagePx, fillStyle, label) {
         var screenPx = wpd.graphicsWidget.screenPx(imagePx.x, imagePx.y),
             ctx = wpd.graphicsWidget.getAllContexts(),
-            labelWidth;
+            labelWidth,
+            imageHeight = wpd.graphicsWidget.getImageSize().height;
 
         // Display Data Canvas Layer
         if(label != null) {
@@ -6623,7 +6636,7 @@ wpd.graphicsHelper = (function () {
         ctx.oriDataCtx.beginPath();
         ctx.oriDataCtx.fillStyle = fillStyle;
         ctx.oriDataCtx.strokeStyle = "rgb(255, 255, 255)";
-        ctx.oriDataCtx.arc(imagePx.x, imagePx.y, 4, 0, 2.0*Math.PI, true);
+        ctx.oriDataCtx.arc(imagePx.x, imagePx.y, imageHeight > 1500 ? 4 : 2, 0, 2.0*Math.PI, true);
         ctx.oriDataCtx.fill();
         ctx.oriDataCtx.stroke();
     }
@@ -6636,21 +6649,21 @@ wpd.graphicsHelper = (function () {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Copyright 2010-2016 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2017 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
     WebPlotDigitizer is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
+    it under the terms of the GNU Affero General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
     WebPlotDigitizer is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+    GNU Affero General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
+    You should have received a copy of the GNU Affero General Public License
     along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
 
 
@@ -7066,21 +7079,21 @@ wpd.GridMaskPainter = (function () {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Copyright 2010-2016 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2017 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
     WebPlotDigitizer is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
+    it under the terms of the GNU Affero General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
     WebPlotDigitizer is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+    GNU Affero General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
+    You should have received a copy of the GNU Affero General Public License
     along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
 
 
@@ -7146,21 +7159,21 @@ wpd.imageOps = (function () {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Copyright 2010-2016 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2017 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
     WebPlotDigitizer is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
+    it under the terms of the GNU Affero General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
     WebPlotDigitizer is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+    GNU Affero General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
+    You should have received a copy of the GNU Affero General Public License
     along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
 
 
@@ -7208,21 +7221,21 @@ wpd.keyCodes = (function () {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Copyright 2010-2016 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2017 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
     WebPlotDigitizer is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
+    it under the terms of the GNU Affero General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
     WebPlotDigitizer is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+    GNU Affero General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
+    You should have received a copy of the GNU Affero General Public License
     along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
 
 
@@ -7553,6 +7566,10 @@ wpd.DataPointsRepainter = (function () {
                 hasLabels = false,
                 pointLabel;
 
+            if(plotData.axes == null) {
+                return; // this can happen when removing widgets when a new file is loaded:
+            }
+
             if(plotData.axes.dataPointsHaveLabels && mkeys != null && mkeys[0] === 'Label') {
                 hasLabels = true;
             }
@@ -7748,21 +7765,21 @@ wpd.dataPointCounter = (function () {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Copyright 2010-2016 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2017 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
     WebPlotDigitizer is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
+    it under the terms of the GNU Affero General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
     WebPlotDigitizer is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+    GNU Affero General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
+    You should have received a copy of the GNU Affero General Public License
     along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
 
 
@@ -8118,21 +8135,21 @@ wpd.MaskPainter = (function() {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Copyright 2010-2016 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2017 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
     WebPlotDigitizer is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
+    it under the terms of the GNU Affero General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
     WebPlotDigitizer is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+    GNU Affero General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
+    You should have received a copy of the GNU Affero General Public License
     along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
 
 
@@ -8634,21 +8651,21 @@ wpd.MeasurementRepainter = (function () {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Copyright 2010-2016 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2017 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
     WebPlotDigitizer is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
+    it under the terms of the GNU Affero General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
     WebPlotDigitizer is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+    GNU Affero General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
+    You should have received a copy of the GNU Affero General Public License
     along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
 
 
@@ -8710,21 +8727,21 @@ wpd.perspectiveCornersTool = function () {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotdigitizer
 
-	Copyright 2010-2016 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2017 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
     WebPlotDIgitizer is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
+    it under the terms of the GNU Affero General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
     WebPlotDigitizer is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+    GNU Affero General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
+    You should have received a copy of the GNU Affero General Public License
     along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
 
 
@@ -8771,21 +8788,21 @@ wpd.ajax = (function() {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotdigitizer
 
-	Copyright 2010-2016 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2017 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
     WebPlotDIgitizer is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
+    it under the terms of the GNU Affero General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
     WebPlotDigitizer is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+    GNU Affero General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
+    You should have received a copy of the GNU Affero General Public License
     along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
 
 
@@ -8824,21 +8841,21 @@ wpd.args = (function() {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotdigitizer
 
-	Copyright 2010-2016 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2017 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
     WebPlotDIgitizer is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
+    it under the terms of the GNU Affero General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
     WebPlotDigitizer is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+    GNU Affero General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
+    You should have received a copy of the GNU Affero General Public License
     along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
 
 
@@ -8873,6 +8890,7 @@ wpd.dataExport = (function () {
     }
 
     function generateCSV() {
+        wpd.popup.close('export-all-data-popup');
         // generate file and trigger download
 
         // loop over all datasets
@@ -8883,7 +8901,8 @@ wpd.dataExport = (function () {
 
         if(axes == null || dsColl == null || dsColl.length === 0) {
             // axes is not aligned, show an error message?
-            return
+            wpd.messagePopup.show(wpd.gettext('no-datasets-to-export-error'), wpd.gettext('no-datasets-to-export'));
+            return;
         }
 
         var axLab = axes.getAxesLabels(),
@@ -8937,29 +8956,71 @@ wpd.dataExport = (function () {
         wpd.download.csv(JSON.stringify(csvText), "wpd_datasets");
     }
 
+    function exportToPlotly() {
+        wpd.popup.close('export-all-data-popup');
+
+        // loop over all datasets
+        var plotData = wpd.appData.getPlotData(),
+            axes = plotData.axes,
+            dsColl = plotData.dataSeriesColl,
+            i, coli, rowi,
+            dataProvider = wpd.plotDataProvider,
+            pdata,
+            plotlyData = { "data": [] },
+            colName;
+
+        if(axes == null || dsColl == null || dsColl.length === 0) {
+            // axes is not aligned, show an error message?
+            wpd.messagePopup.show(wpd.gettext('no-datasets-to-export-error'), wpd.gettext('no-datasets-to-export'));
+            return;
+        }
+
+        for(i = 0; i < dsColl.length; i++) {
+            dataProvider.setDatasetIndex(i);
+            pdata = dataProvider.getData();
+            plotlyData.data[i] = {};
+
+            // loop over columns
+            for(coli = 0; coli < 2; coli++) {
+                colName = (coli === 0) ? 'x' : 'y';
+                plotlyData.data[i][colName] = [];
+                for(rowi = 0; rowi < pdata.rawData.length; rowi++) {
+                    if(pdata.fieldDateFormat[coli] != null) {
+                        plotlyData.data[i][colName][rowi] = wpd.dateConverter(pdata.rawData[rowi][coli], "yyyy-mm-dd");
+                    } else {
+                        plotlyData.data[i][colName][rowi] = pdata.rawData[rowi][coli];
+                    }
+                }
+            }
+        }
+
+        wpd.plotly.send(plotlyData);
+    }
+
     return {
         show: show,
-        generateCSV: generateCSV
+        generateCSV: generateCSV,
+        exportToPlotly: exportToPlotly
     };
 })();
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Copyright 2010-2016 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2017 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
     WebPlotDigitizer is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
+    it under the terms of the GNU Affero General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
     WebPlotDigitizer is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+    GNU Affero General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
+    You should have received a copy of the GNU Affero General Public License
     along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
 
 
@@ -9034,21 +9095,21 @@ wpd.download = (function() {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotdigitizer
 
-	Copyright 2010-2016 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2017 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
     WebPlotDIgitizer is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
+    it under the terms of the GNU Affero General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
     WebPlotDigitizer is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+    GNU Affero General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
+    You should have received a copy of the GNU Affero General Public License
     along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
 
 
@@ -9066,21 +9127,21 @@ wpd.gettext = function(stringId) {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotdigitizer
 
-	Copyright 2010-2016 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2017 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
     WebPlotDIgitizer is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
+    it under the terms of the GNU Affero General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
     WebPlotDigitizer is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+    GNU Affero General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
+    You should have received a copy of the GNU Affero General Public License
     along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
 
 
@@ -9122,21 +9183,21 @@ wpd.plotly = (function() {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Copyright 2010-2016 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2017 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
     WebPlotDigitizer is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
+    it under the terms of the GNU Affero General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
     WebPlotDigitizer is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+    GNU Affero General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
+    You should have received a copy of the GNU Affero General Public License
     along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
 
 
@@ -9394,21 +9455,21 @@ wpd.saveResume = (function () {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
-	Copyright 2010-2016 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2017 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
     WebPlotDigitizer is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
+    it under the terms of the GNU Affero General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
     WebPlotDigitizer is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+    GNU Affero General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
+    You should have received a copy of the GNU Affero General Public License
     along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
 
 
@@ -9460,21 +9521,21 @@ wpd.scriptInjector = (function () {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotdigitizer
 
-	Copyright 2010-2016 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2017 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
     WebPlotDIgitizer is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
+    it under the terms of the GNU Affero General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
     WebPlotDigitizer is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+    GNU Affero General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
+    You should have received a copy of the GNU Affero General Public License
     along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
 
 
@@ -9572,21 +9633,21 @@ wpd.websocket = (function () {
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotdigitizer
 
-	Copyright 2010-2016 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2017 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
 
     WebPlotDIgitizer is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
+    it under the terms of the GNU Affero General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
     WebPlotDigitizer is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+    GNU Affero General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
+    You should have received a copy of the GNU Affero General Public License
     along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
 
 

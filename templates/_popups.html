@@ -125,7 +125,7 @@
 	</div>
 
     <!-- Bar Alignment -->
-    <div id="barAlignment" class="popup" style="width: 400px;">
+    <div id="barAlignment" class="popup" style="width: 420px;">
     <div class="popupheading">{{ _("Bar Chart Calibration") }}</div>
     <p align="center">{{ _("Enter the values at the two points selected on the continuous axes along the bars") }}</p>
     <center>
@@ -142,7 +142,8 @@
         </tr>
     </table>
     </center>
-    <p>&nbsp;</p>
+    <p align="center"><label><input type="checkbox" id="bar-axes-rotated"/> Rotated axes (not exactly vertical or horizontal)</label></p>
+    <br/>
     <p align="center"><input type="button" value="{{ _("OK") }}" onclick="wpd.alignAxes.align();"/></p>
     </div>
 
@@ -313,7 +314,7 @@
 	<div class="popupheading">{{ _("WebPlotDigitizer - Web Based Plot Digitizer") }}</div>
 	<p>&nbsp;</p>
     <p align="center">{{ _("Version") }} {{ wpdVersion }}</p>
-	<p align="center">{{ _("This program is distributed under the <a href=\"https://www.gnu.org/licenses/gpl-3.0-standalone.html\" target=\"_blank\">GNU General Public License Version 3</a>.") }}</p>
+	<p align="center">{{ _("This program is distributed under the <a href=\"https://www.gnu.org/licenses/agpl-3.0-standalone.html\" target=\"_blank\">GNU Affero General Public License Version 3</a>.") }}</p>
 	<p align="center">{{ _("Copyright") }} 2010-2017 Ankit Rohatgi &lt;ankitrohatgi@hotmail.com&gt;</p>
 	<p align="center"><a href="http://arohatgi.info/WebPlotDigitizer" target="website">http://arohatgi.info/WebPlotDigitizer</a></p>
 	<p>&nbsp;</p>
@@ -453,5 +454,17 @@
         <input type="button" value="{{ _("Change Axes Type") }}" onclick="wpd.popup.close('edit-or-reset-calibration-popup');wpd.popup.show('axesList');"/>
 
         <input type="button" value="{{ _("Cancel") }}" onclick="wpd.popup.close('edit-or-reset-calibration-popup');"/>
+    </p>
+    </div>
+
+    <!-- Export all data dialog -->
+    <div id="export-all-data-popup" class="popup" style="width:400px;">
+    <div class="popupheading">{{ _("Export All Datasets") }}</div>
+    <p>Export data from all datasets</p>
+    <br/>
+    <p align="center">
+        <input type="button" value="{{ _("Download .CSV") }}" onclick="wpd.dataExport.generateCSV();"/>
+        <input type="button" value="{{ _("Export to Plotly") }}" onclick="wpd.dataExport.exportToPlotly();"/>
+        <input type="button" value="{{ _("Cancel") }}" onclick="wpd.popup.close('export-all-data-popup');"/>
     </p>
     </div>
