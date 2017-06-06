@@ -42,9 +42,9 @@ wpd.download = (function() {
         formElement.setAttribute('method', 'post');
 
         if(format === 'json') {
-            formElement.setAttribute('action', 'php/json.php');
+            formElement.setAttribute('action', 'internal/download/json');
         } else if (format === 'csv') {
-            formElement.setAttribute('action', 'php/csvexport.php');
+            formElement.setAttribute('action', 'internal/download/csv');
         }
 
         formData.setAttribute('name', "data");
