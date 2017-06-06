@@ -3837,7 +3837,7 @@ wpd.dataTable = (function () {
 
     function generateCSV() {
         var datasetName = dataProvider.getDatasetNames()[dataProvider.getDatasetIndex()];
-        wpd.download.csv(JSON.stringify(tableText), datasetName);
+        wpd.download.csv(tableText, datasetName);
     }
 
     function exportToPlotly() {
@@ -8953,7 +8953,7 @@ wpd.dataExport = (function () {
         }
         
         // download
-        wpd.download.csv(JSON.stringify(csvText), "wpd_datasets");
+        wpd.download.csv(csvText, "wpd_datasets");
     }
 
     function exportToPlotly() {
@@ -9047,9 +9047,9 @@ wpd.download = (function() {
         formElement.setAttribute('method', 'post');
 
         if(format === 'json') {
-            formElement.setAttribute('action', 'php/json.php');
+            formElement.setAttribute('action', 'internal/download/json');
         } else if (format === 'csv') {
-            formElement.setAttribute('action', 'php/csvexport.php');
+            formElement.setAttribute('action', 'internal/download/csv');
         }
 
         formData.setAttribute('name', "data");
