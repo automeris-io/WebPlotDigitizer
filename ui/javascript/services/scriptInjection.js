@@ -40,7 +40,7 @@ wpd.scriptInjector = (function () {
             var fileReader = new FileReader();
             fileReader.onload = function() {
                 if(typeof wpdscript !== "undefined") {
-                    delete wpdscript;
+                    wpdscript = null;
                 }
                 eval(fileReader.result);
                 if(typeof wpdscript !== "wpdscript") {
