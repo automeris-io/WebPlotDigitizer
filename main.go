@@ -1,0 +1,67 @@
+/*
+	WebPlotDigitizer - http://arohatgi.info/WebPlotdigitizer
+
+	Copyright 2010-2017 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+
+	This file is part of WebPlotDigitizer.
+
+    WebPlotDIgitizer is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    WebPlotDigitizer is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+package main
+
+import (
+	"encoding/json"
+	"fmt"
+	"io/ioutil"
+	"log"
+	"net/http"
+)
+
+// ServerSettings - global server settings
+type ServerSettings struct {
+	HTTPPort string
+}
+
+func main() {
+
+	// read server settings
+	file, err := ioutil.ReadFile("settings.json")
+	if err != nil {
+		fmt.Printf("Error reading setting.json: %v\n", err)
+	}
+	var settings ServerSettings
+	json.Unmarshal(file, &settings)
+
+	// host the ui frontend
+	fs := WPDFileSystem{http.Dir("ui")}
+	http.Handle("/", http.FileServer(fs))
+
+	// internal backend API
+	http.HandleFunc("/internal/download/csv", func(w http.ResponseWriter, r *http.Request) {
+		HandleDownload(w, r, "csv")
+	})
+
+	http.HandleFunc("/internal/download/json", func(w http.ResponseWriter, r *http.Request) {
+		HandleDownload(w, r, "json")
+	})
+
+	// start the server
+	log.Println("Starting server on port", settings.HTTPPort)
+	err = http.ListenAndServe(":"+settings.HTTPPort, nil)
+	if err != nil {
+		fmt.Printf("Error starting server, exiting!")
+	}
+
+}
