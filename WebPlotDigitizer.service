@@ -1,0 +1,17 @@
+# Edit paths below
+# Install:
+# 	systemctl enable WebPlotDigitizer.service
+# Start:
+# 	service WebPlotDigizer start
+
+[Unit]
+Description=WebPlotDigitizer
+ConditionPathExists=/wpd/path
+
+[Service]
+Restart=always
+RestartSec=3
+ExecStart=/wpd/path
+
+[Install]
+WantedBy=multi-user.target
