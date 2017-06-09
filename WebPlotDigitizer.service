@@ -11,6 +11,7 @@ ConditionPathExists=/wpd/path
 [Service]
 Restart=always
 RestartSec=3
+WorkingDirectory=/wpd/path
 ExecStart=/wpd/path
 
 [Install]
