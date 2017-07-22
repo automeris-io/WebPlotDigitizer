@@ -11,7 +11,8 @@
 
 [Unit]
 Description=WebPlotDigitizer
-ConditionPathExists=/wpd/path
+Wants=network-online.target
+After=network-online.target
 
 [Service]
 User=username
