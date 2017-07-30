@@ -22,46 +22,45 @@
 package main
 
 import (
-    "encoding/json"
-    "fmt"
-    "io/ioutil"
-    "log"
-    "net/http"
+	"encoding/json"
+	"io/ioutil"
+	"log"
+	"net/http"
 )
 
 // ServerSettings - global server settings
 type ServerSettings struct {
-    HTTPPort string
+	HTTPPort string
 }
 
 func main() {
 
-    // read server settings
-    file, err := ioutil.ReadFile("settings.json")
-    if err != nil {
-        fmt.Printf("Error reading setting.json: %v\n", err)
-    }
-    var settings ServerSettings
-    json.Unmarshal(file, &settings)
+	// read server settings
+	file, err := ioutil.ReadFile("settings.json")
+	if err != nil {
+		log.Fatal("Error reading setting.json")
+	}
+	var settings ServerSettings
+	json.Unmarshal(file, &settings)
 
-    // host the ui frontend
-    fs := WPDFileSystem{http.Dir("ui")}
-    http.Handle("/", http.FileServer(fs))
+	// host the ui frontend
+	fs := WPDFileSystem{http.Dir("ui")}
+	http.Handle("/", http.FileServer(fs))
 
-    // internal backend API
-    http.HandleFunc("/internal/download/csv", func(w http.ResponseWriter, r *http.Request) {
-        HandleDownload(w, r, "csv")
-    })
+	// internal backend API
+	http.HandleFunc("/internal/download/csv", func(w http.ResponseWriter, r *http.Request) {
+		HandleDownload(w, r, "csv")
+	})
 
-    http.HandleFunc("/internal/download/json", func(w http.ResponseWriter, r *http.Request) {
-        HandleDownload(w, r, "json")
-    })
+	http.HandleFunc("/internal/download/json", func(w http.ResponseWriter, r *http.Request) {
+		HandleDownload(w, r, "json")
+	})
 
-    // start the server
-    log.Println("Starting server on port", settings.HTTPPort)
-    err = http.ListenAndServe(":"+settings.HTTPPort, nil)
-    if err != nil {
-        fmt.Printf("Error starting server, exiting!")
-    }
+	// start the server
+	log.Println("Starting server on port", settings.HTTPPort)
+	err = http.ListenAndServe(":"+settings.HTTPPort, nil)
+	if err != nil {
+		log.Fatal("Error starting server, exiting!")
+	}
 
 }
