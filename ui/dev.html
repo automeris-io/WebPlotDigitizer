@@ -30,6 +30,7 @@
 <meta http-equiv="Pragma" content="no-cache"/>
 <meta http-equiv="Expires" content="0"/>
 <title>WebPlotDigitizer - Copyright 2010-2017 Ankit Rohatgi</title>
+<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 <link rel="stylesheet" href="styles.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="widgets.css" type="text/css" media="screen" />
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
@@ -215,14 +216,34 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
 
         </div>
 
-        <div id="graphicsContainer">
-            <!-- the main canvas goes here -->
-            <div id="canvasDiv" style="position:relative;">
-                <canvas id="mainCanvas" class="canvasLayers" style="z-index:1;"></canvas>
-                <canvas id="dataCanvas" class="canvasLayers" style="z-index:2;"></canvas>
-                <canvas id="drawCanvas" class="canvasLayers" style="z-index:3;"></canvas>
-                <canvas id="hoverCanvas" class="canvasLayers" style="z-index:4;"></canvas>
-                <canvas id="topCanvas" class="canvasLayers" style="z-index:5;"></canvas>
+        <div style="display: flex;">
+            <div id="left-side-container" style="width:200px; flex: 0 0 200px;">
+                <!-- tree control -->
+                <div style="display: flex; flex-direction: column; width: 198px; max-height:100%;">
+    <div id="tree-container" style="flex: 1; overflow-y: auto;">
+        <!-- tree -->
+    </div>
+    
+    <!-- tree widgets -->
+    <div class="tree-widget" style="flex: 0 0 100px; display: none;">
+        widget 1
+    </div>
+    
+    <div class="tree-widget" style="flex: 0 0 100px; display: inline;">
+        widget 2
+    </div>
+</div>                
+            </div>
+
+            <div id="graphicsContainer" style="flex: 1;">
+                <!-- the main canvas goes here -->
+                <div id="canvasDiv" style="position:relative;">
+                    <canvas id="mainCanvas" class="canvasLayers" style="z-index:1;"></canvas>
+                    <canvas id="dataCanvas" class="canvasLayers" style="z-index:2;"></canvas>
+                    <canvas id="drawCanvas" class="canvasLayers" style="z-index:3;"></canvas>
+                    <canvas id="hoverCanvas" class="canvasLayers" style="z-index:4;"></canvas>
+                    <canvas id="topCanvas" class="canvasLayers" style="z-index:5;"></canvas>
+                </div>
             </div>
         </div>
     </div>

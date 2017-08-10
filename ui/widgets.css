@@ -148,3 +148,29 @@ hr {
 select {
     border: none;
 }
+
+.tree-item {
+    cursor: pointer;
+    padding: 2px;
+    margin-bottom: 20px;
+}
+.tree-folder {
+    cursor: pointer;
+    padding: 2px;
+}
+.tree-list {
+    list-style: none;
+    padding-left: 15px;
+    font-family: sans-serif;
+    font-size: 11pt;
+    line-height: 150%;
+}
+
+.tree-item:hover, .tree-folder:hover {
+    background: #FFD8C7;
+}
+
+.tree-selected, .tree-item:active, .tree-folder:active, .tree-selected:hover {
+    background: #FF9466;
+}
+
