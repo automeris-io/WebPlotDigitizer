@@ -28,7 +28,8 @@ wpd.layoutManager = (function () {
         $graphicsContainer,
         $sidebarContainer,
         $sidebarControlsContainer,
-        $mainContainer;
+        $mainContainer,
+        $treeContainer;
 
     // Redo layout when window is resized
     function adjustLayout() {
@@ -40,6 +41,7 @@ wpd.layoutManager = (function () {
         $mainContainer.style.width = windowWidth - $sidebarContainer.offsetWidth - 5 + 'px';
         $mainContainer.style.height = windowHeight + 'px';
         $graphicsContainer.style.height = windowHeight - 44 + 'px';
+        $treeContainer.style.height = windowHeight - 44 + 'px';
         wpd.sidebar.resize();
     }
 
@@ -63,9 +65,12 @@ wpd.layoutManager = (function () {
         $sidebarContainer = document.getElementById('sidebarContainer');
         $sidebarControlsContainer = document.getElementById('sidebarControlsContainer');
         $mainContainer = document.getElementById('mainContainer');
+        $treeContainer = document.getElementById('left-side-container');
         adjustLayout();
          
         window.addEventListener('resize', adjustLayoutOnResize, false);
+
+        wpd.tree.init();
     }
 
     return {

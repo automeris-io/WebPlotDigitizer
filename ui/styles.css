@@ -71,6 +71,7 @@ tr,td {
 
 #graphicsContainer {
     overflow: auto;
+    display: inline-block;
 }
 
 #sidebarContainer {
@@ -130,7 +131,7 @@ tr,td {
 select {
 	height: 20px;
 	font-size:13px;
-	font-family: Verdana, Sans Serif;
+	font-family: Verdana, sans-serif;
 	border: thin grey solid;
 }
 

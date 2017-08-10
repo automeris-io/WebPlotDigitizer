@@ -34,7 +34,6 @@ type ServerSettings struct {
 }
 
 func main() {
-
 	// read server settings
 	file, err := ioutil.ReadFile("settings.json")
 	if err != nil {
@@ -62,5 +61,4 @@ func main() {
 	if err != nil {
 		log.Fatal("Error starting server, exiting!")
 	}
-
 }
