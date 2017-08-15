@@ -1,0 +1,13 @@
+{
+    "name": "WebPlotDigitizer",
+    "short_name": "WebPlotDigitizer",
+    "start_url": "./index.html",
+    "display": "standalone",
+    "background_color": "#fff",
+    "theme_color": "#e6e6e6",
+    "description": "Send any image or screenshot to WebPlotDigitizer",
+    "icons": [{
+      "src": "images/icon192x192.png",
+      "sizes": "192x192"
+    }]
+}

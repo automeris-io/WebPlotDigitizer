@@ -32,7 +32,18 @@
 <title>WebPlotDigitizer - Copyright 2010-2017 Ankit Rohatgi</title>
 <link rel="stylesheet" href="styles.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="widgets.css" type="text/css" media="screen" />
-
+<link rel="manifest" href="manifest.json" />
+<script type="text/javascript">
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('./sw.js').then(function(registration) {
+        // Registration was successful
+        console.log('ServiceWorker registration successful with scope: ', registration.scope);
+      }).catch(function(err) {
+        // registration failed :(
+        console.log('ServiceWorker registration failed: ', err);
+      });
+    }
+</script>
 {% block scripts %}{% endblock %}
 </head>
 
