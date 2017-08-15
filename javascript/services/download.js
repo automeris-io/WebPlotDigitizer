@@ -23,6 +23,20 @@
 
 var wpd = wpd || {};
 
+function download(filename, text, type) {
+    var element = document.createElement('a');
+
+    element.href = window.URL.createObjectURL(new Blob([text], {type: type}));
+    element.download = filename;
+  
+    element.style.display = 'none';
+    document.body.appendChild(element);
+  
+    element.click();
+  
+    document.body.removeChild(element);
+}
+
 wpd.download = (function() {
     
     function textFile(data, filename, format) {
@@ -31,37 +45,34 @@ wpd.download = (function() {
             formData,
             formFilename,
             jsonData = data;
-        
-        // Create a hidden form and submit
-        formContainer = document.createElement('div');
-        formElement = document.createElement('form');
-        formData = document.createElement('textarea');
-        formFilename = document.createElement('input');
-        formFilename.type = 'hidden';
 
-        formElement.setAttribute('method', 'post');
-
-        if(format === 'json') {
-            formElement.setAttribute('action', 'php/json.php');
-        } else if (format === 'csv') {
-            formElement.setAttribute('action', 'php/csvexport.php');
+        filename = stripIllegalCharacters(filename);
+        var type;
+        switch (format) {
+            case 'json':
+                type = 'application/json';
+                filename = filename + '.json';
+                break;
+            case 'csv':
+                type = 'text/csv';
+                filename = filename + '.csv';
+                data = JSON.parse(data);
+                break;
+            default:
+                throw new Error(format + ' is not a valid format');
+                break;
         }
-
-        formData.setAttribute('name', "data");
-        formData.setAttribute('id', "data");
-        formFilename.setAttribute('name', 'filename');
-        formFilename.setAttribute('id', 'filename');
-        formFilename.value = stripIllegalCharacters(filename);
-
-        formElement.appendChild(formData);
-        formElement.appendChild(formFilename);
-        formContainer.appendChild(formElement);
-        document.body.appendChild(formContainer);
-        formContainer.style.display = 'none';
-
-        formData.innerHTML = jsonData;
-        formElement.submit();
-        document.body.removeChild(formContainer);
+        
+        var element = document.createElement('a');
+        element.href = URL.createObjectURL(new Blob([data], {type: type}));
+        element.download = filename;
+        
+        element.style.display = 'none';
+        document.body.appendChild(element);
+        
+        element.click();
+        
+        document.body.removeChild(element);
     }
 
     function json(jsonData, filename) {
