@@ -23,29 +23,56 @@
 
 var wpd = wpd || {};
 
-function download(filename, text, type) {
-    var element = document.createElement('a');
-
-    element.href = window.URL.createObjectURL(new Blob([text], {type: type}));
-    element.download = filename;
-  
-    element.style.display = 'none';
-    document.body.appendChild(element);
-  
-    element.click();
-  
-    document.body.removeChild(element);
-}
-
 wpd.download = (function() {
-    
+
     function textFile(data, filename, format) {
+        if (wpd.browserInfo.downloadAttr) {
+            return textFileLocal(data, filename, format);
+        } else {
+            return textFileRemote(data, filename, format);
+        }
+    }
+
+    function textFileRemote(data, filename, format) {
         var formContainer,
             formElement,
             formData,
             formFilename,
             jsonData = data;
+        
+        // Create a hidden form and submit
+        formContainer = document.createElement('div');
+        formElement = document.createElement('form');
+        formData = document.createElement('textarea');
+        formFilename = document.createElement('input');
+        formFilename.type = 'hidden';
 
+        formElement.setAttribute('method', 'post');
+
+        if(format === 'json') {
+            formElement.setAttribute('action', 'php/json.php');
+        } else if (format === 'csv') {
+            formElement.setAttribute('action', 'php/csvexport.php');
+        }
+
+        formData.setAttribute('name', "data");
+        formData.setAttribute('id', "data");
+        formFilename.setAttribute('name', 'filename');
+        formFilename.setAttribute('id', 'filename');
+        formFilename.value = stripIllegalCharacters(filename);
+
+        formElement.appendChild(formData);
+        formElement.appendChild(formFilename);
+        formContainer.appendChild(formElement);
+        document.body.appendChild(formContainer);
+        formContainer.style.display = 'none';
+
+        formData.innerHTML = jsonData;
+        formElement.submit();
+        document.body.removeChild(formContainer);
+    }
+
+    function textFileLocal(data, filename, format) {
         filename = stripIllegalCharacters(filename);
         var type;
         switch (format) {

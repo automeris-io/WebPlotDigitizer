@@ -31,7 +31,10 @@ wpd.browserInfo = (function () {
         }
     }
 
+    var downloadAttrSupported = ("download" in document.createElement("a"));
+    
     return {
-        checkBrowser : checkBrowser
+        checkBrowser : checkBrowser,
+        downloadAttr : downloadAttrSupported
     };
 })();
