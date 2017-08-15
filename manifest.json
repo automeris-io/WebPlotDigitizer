@@ -1,7 +1,7 @@
 {
     "name": "WebPlotDigitizer",
     "short_name": "WebPlotDigitizer",
-    "start_url": "./index.html",
+    "start_url": "/WebPlotDigitizer/app/",
     "display": "standalone",
     "background_color": "#fff",
     "theme_color": "#e6e6e6",
@@ -9,5 +9,9 @@
     "icons": [{
       "src": "images/icon192x192.png",
       "sizes": "192x192"
+    },
+    {
+      "src": "images/icon512x512.png",
+      "sizes": "512x512"
     }]
 }
