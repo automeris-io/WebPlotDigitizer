@@ -52,5 +52,3 @@ wpd.loadRemoteData = function() {
     return false;
 };
 
-document.addEventListener("DOMContentLoaded", wpd.initApp, true);
-

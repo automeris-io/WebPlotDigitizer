@@ -379,11 +379,29 @@ wpd.graphicsWidget = (function () {
         hoverTimer = setTimeout(hoverOverCanvas(ev), 10);
     }
 
+    function getDroppedUri(ev) {
+        var uriFilter = function(uri) {
+            return (uri.indexOf("http://") == 0 || uri.indexOf("https://") == 0);
+        };
+        var uriList = ev.dataTransfer.getData("text/plain");
+        if (uriList == null) {
+            return null;
+        }
+        return uriList.split(/\n/).filter(uriFilter)[0];
+    }
+
     function dropHandler(ev) {
-        wpd.busyNote.show();
-        var allDrop = ev.dataTransfer.files;
-        if (allDrop.length === 1) {
-            fileLoader(allDrop[0]);
+        var files = ev.dataTransfer.files;
+        if (files.length === 1) {
+            wpd.busyNote.show();
+            fileLoader(files[0]);
+            return;
+        }
+        var uri = getDroppedUri(ev);
+        if (uri != null) {
+            wpd.busyNote.show();
+            loadImageFromSrc(uri);
+            return;
         }
     }
 
@@ -504,12 +522,19 @@ wpd.graphicsWidget = (function () {
         firstLoad = false;
     }
 
-    function loadImageFromSrc(imgSrc) {
+    function loadImageFromSrc(imgSrc, callback) {
         var originalImage = document.createElement('img');
+        if (imgSrc.substring(0, 5) !== "data:") {
+            originalImage.crossOrigin = "Anonymous";
+            wpd.appData.setImageName(imgSrc);
+        }
         originalImage.onload = function () {
             loadImage(originalImage);
+            if (callback != null) {
+                callback();
+            }
         };
-        originalImage.src = imgSrc;
+        originalImage.src = wpd.appData.getCorsProxyURL(imgSrc);
     }
 
     function loadImageFromData(idata, iwidth, iheight, doReset, keepZoom) {        
@@ -542,6 +567,7 @@ wpd.graphicsWidget = (function () {
         if(fileInfo.type.match("image.*")) {
             var droppedFile = new FileReader();
             droppedFile.onload = function() {
+                wpd.appData.setImageName(fileInfo.name);
                 var imageInfo = droppedFile.result;
                 loadImageFromSrc(imageInfo);
             };
@@ -595,6 +621,10 @@ wpd.graphicsWidget = (function () {
 
     function getImageData() {
         return originalImageData;
+    }
+
+    function getImageDataURL(type, encoderOptions) {
+        return $oriImageCanvas && $oriImageCanvas.toDataURL(type, encoderOptions);
     }
 
     function setTool(tool) {
@@ -693,6 +723,8 @@ wpd.graphicsWidget = (function () {
         loadImageFromData: loadImageFromData,
         load: loadNewFile,
         runImageOp: runImageOp,
+
+        getImageDataURL: getImageDataURL,
 
         setTool: setTool,
         removeTool: removeTool,

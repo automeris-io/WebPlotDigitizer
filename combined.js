@@ -52,8 +52,6 @@ wpd.loadRemoteData = function() {
     return false;
 };
 
-document.addEventListener("DOMContentLoaded", wpd.initApp, true);
-
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
@@ -81,7 +79,9 @@ var wpd = wpd || {};
 // maintain and manage current state of the application
 wpd.appData = (function () {
     var isAligned = false,
-        plotData;
+        plotData,
+        corsProxy,
+        imageName;
 
     function reset() {
         isAligned = false;
@@ -106,11 +106,40 @@ wpd.appData = (function () {
         getPlotData().topColors = wpd.colorAnalyzer.getTopColors(imageData);
     }
 
+    function getCorsProxy() {
+        return corsProxy;
+    }
+
+    function setCorsProxy(val) {
+        corsProxy = val;
+    }
+
+    function getCorsProxyURL(url) {
+        if (corsProxy != null && url.substring(0, 4) === 'http') {
+            return corsProxy + "/" + url;
+        } else {
+            return url;
+        }
+    }
+
+    function getImageName() {
+        return imageName;
+    }
+
+    function setImageName(val) {
+        imageName = val;
+    }
+
     return {
         isAligned: isAlignedFn,
         getPlotData: getPlotData,
         reset: reset,
-        plotLoaded: plotLoaded
+        plotLoaded: plotLoaded,
+        getCorsProxy: getCorsProxy,
+        getCorsProxyURL: getCorsProxyURL,
+        setCorsProxy: setCorsProxy,
+        getImageName: getImageName,
+        setImageName: setImageName
     };
 })();
 /*
@@ -4268,11 +4297,29 @@ wpd.graphicsWidget = (function () {
         hoverTimer = setTimeout(hoverOverCanvas(ev), 10);
     }
 
+    function getDroppedUri(ev) {
+        var uriFilter = function(uri) {
+            return (uri.indexOf("http://") == 0 || uri.indexOf("https://") == 0);
+        };
+        var uriList = ev.dataTransfer.getData("text/plain");
+        if (uriList == null) {
+            return null;
+        }
+        return uriList.split(/\n/).filter(uriFilter)[0];
+    }
+
     function dropHandler(ev) {
-        wpd.busyNote.show();
-        var allDrop = ev.dataTransfer.files;
-        if (allDrop.length === 1) {
-            fileLoader(allDrop[0]);
+        var files = ev.dataTransfer.files;
+        if (files.length === 1) {
+            wpd.busyNote.show();
+            fileLoader(files[0]);
+            return;
+        }
+        var uri = getDroppedUri(ev);
+        if (uri != null) {
+            wpd.busyNote.show();
+            loadImageFromSrc(uri);
+            return;
         }
     }
 
@@ -4393,12 +4440,19 @@ wpd.graphicsWidget = (function () {
         firstLoad = false;
     }
 
-    function loadImageFromSrc(imgSrc) {
+    function loadImageFromSrc(imgSrc, callback) {
         var originalImage = document.createElement('img');
+        if (imgSrc.substring(0, 5) !== "data:") {
+            originalImage.crossOrigin = "Anonymous";
+            wpd.appData.setImageName(imgSrc);
+        }
         originalImage.onload = function () {
             loadImage(originalImage);
+            if (callback != null) {
+                callback();
+            }
         };
-        originalImage.src = imgSrc;
+        originalImage.src = wpd.appData.getCorsProxyURL(imgSrc);
     }
 
     function loadImageFromData(idata, iwidth, iheight, doReset, keepZoom) {        
@@ -4431,6 +4485,7 @@ wpd.graphicsWidget = (function () {
         if(fileInfo.type.match("image.*")) {
             var droppedFile = new FileReader();
             droppedFile.onload = function() {
+                wpd.appData.setImageName(fileInfo.name);
                 var imageInfo = droppedFile.result;
                 loadImageFromSrc(imageInfo);
             };
@@ -4484,6 +4539,10 @@ wpd.graphicsWidget = (function () {
 
     function getImageData() {
         return originalImageData;
+    }
+
+    function getImageDataURL(type, encoderOptions) {
+        return $oriImageCanvas && $oriImageCanvas.toDataURL(type, encoderOptions);
     }
 
     function setTool(tool) {
@@ -4582,6 +4641,8 @@ wpd.graphicsWidget = (function () {
         loadImageFromData: loadImageFromData,
         load: loadNewFile,
         runImageOp: runImageOp,
+
+        getImageDataURL: getImageDataURL,
 
         setTool: setTool,
         removeTool: removeTool,
@@ -6358,23 +6419,23 @@ wpd.plotDataProvider = (function() {
         wpd.dataPointCounter.setCount();
     }
 
-    function getData() {
-        var axes = wpd.appData.getPlotData().axes;
-
+    function getData(optionalDataSeries) {
+        var plotData = wpd.appData.getPlotData();
+        var dataSeries = optionalDataSeries || plotData.getActiveDataSeries();
+        var axes = plotData.axes;
         if(axes instanceof wpd.BarAxes) {
-            return getBarAxesData();
+            return getBarAxesData(dataSeries);
         } else {
-            return getGeneralAxesData();
+            return getGeneralAxesData(dataSeries);
         }
     }
 
-    function getBarAxesData() {
+    function getBarAxesData(dataSeries) {
         var fields = [],
             fieldDateFormat = [],
             rawData = [],
             isFieldSortable = [],
             plotData = wpd.appData.getPlotData(),
-            dataSeries = plotData.getActiveDataSeries(),
             axes = plotData.axes,
             rowi, coli,
             dataPt,
@@ -6404,6 +6465,7 @@ wpd.plotDataProvider = (function() {
         isFieldSortable = [false, true];
 
         return {
+            name: dataSeries.name,
             fields: fields,
             fieldDateFormat: fieldDateFormat,
             rawData: rawData,
@@ -6413,11 +6475,10 @@ wpd.plotDataProvider = (function() {
         };
     }
 
-    function getGeneralAxesData() {
+    function getGeneralAxesData(dataSeries) {
         // 2D XY, Polar, Ternary, Image, Map
 
         var plotData = wpd.appData.getPlotData(),
-            dataSeries = plotData.getActiveDataSeries(),
             axes = plotData.axes,
             fields = [],
             fieldDateFormat = [],
@@ -6473,6 +6534,7 @@ wpd.plotDataProvider = (function() {
         }
 
         return {
+            name: dataSeries.name,
             fields: fields,
             fieldDateFormat: fieldDateFormat,
             rawData: rawData,
@@ -9223,6 +9285,7 @@ wpd.saveResume = (function () {
 
        plotData.reset();
        wpd.appData.isAligned(false);
+       wpd.appData.setImageName(rdata.imageName);
         
        if(rdata.axesType == null) {
            return;
@@ -9325,6 +9388,7 @@ wpd.saveResume = (function () {
 
     function generateJSON() {
         var plotData = wpd.appData.getPlotData(),
+            imageName = wpd.appData.getImageName(),
             calibration = plotData.calibration,
             outData = {
                     wpd: {
@@ -9334,7 +9398,8 @@ wpd.saveResume = (function () {
                         calibration: null,
                         dataSeries: [],
                         distanceMeasurementData: null,
-                        angleMeasurementData: null
+                        angleMeasurementData: null,
+                        imageName: imageName
                     }
                 },
             json_string = '',
@@ -9449,7 +9514,9 @@ wpd.saveResume = (function () {
         save: save,
         load: load,
         download: download,
-        read: read
+        read: read,
+        generateJSON: generateJSON,
+        resumeFromJSON: resumeFromJSON
     };
 })();
 /*

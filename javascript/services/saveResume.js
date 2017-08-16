@@ -41,6 +41,7 @@ wpd.saveResume = (function () {
 
        plotData.reset();
        wpd.appData.isAligned(false);
+       wpd.appData.setImageName(rdata.imageName);
         
        if(rdata.axesType == null) {
            return;
@@ -143,6 +144,7 @@ wpd.saveResume = (function () {
 
     function generateJSON() {
         var plotData = wpd.appData.getPlotData(),
+            imageName = wpd.appData.getImageName(),
             calibration = plotData.calibration,
             outData = {
                     wpd: {
@@ -152,7 +154,8 @@ wpd.saveResume = (function () {
                         calibration: null,
                         dataSeries: [],
                         distanceMeasurementData: null,
-                        angleMeasurementData: null
+                        angleMeasurementData: null,
+                        imageName: imageName
                     }
                 },
             json_string = '',
@@ -267,6 +270,8 @@ wpd.saveResume = (function () {
         save: save,
         load: load,
         download: download,
-        read: read
+        read: read,
+        generateJSON: generateJSON,
+        resumeFromJSON: resumeFromJSON
     };
 })();

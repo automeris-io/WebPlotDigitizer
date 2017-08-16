@@ -25,7 +25,9 @@ var wpd = wpd || {};
 // maintain and manage current state of the application
 wpd.appData = (function () {
     var isAligned = false,
-        plotData;
+        plotData,
+        corsProxy,
+        imageName;
 
     function reset() {
         isAligned = false;
@@ -50,10 +52,39 @@ wpd.appData = (function () {
         getPlotData().topColors = wpd.colorAnalyzer.getTopColors(imageData);
     }
 
+    function getCorsProxy() {
+        return corsProxy;
+    }
+
+    function setCorsProxy(val) {
+        corsProxy = val;
+    }
+
+    function getCorsProxyURL(url) {
+        if (corsProxy != null && url.substring(0, 4) === 'http') {
+            return corsProxy + "/" + url;
+        } else {
+            return url;
+        }
+    }
+
+    function getImageName() {
+        return imageName;
+    }
+
+    function setImageName(val) {
+        imageName = val;
+    }
+
     return {
         isAligned: isAlignedFn,
         getPlotData: getPlotData,
         reset: reset,
-        plotLoaded: plotLoaded
+        plotLoaded: plotLoaded,
+        getCorsProxy: getCorsProxy,
+        getCorsProxyURL: getCorsProxyURL,
+        setCorsProxy: setCorsProxy,
+        getImageName: getImageName,
+        setImageName: setImageName
     };
 })();

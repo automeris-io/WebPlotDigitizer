@@ -45,23 +45,23 @@ wpd.plotDataProvider = (function() {
         wpd.dataPointCounter.setCount();
     }
 
-    function getData() {
-        var axes = wpd.appData.getPlotData().axes;
-
+    function getData(optionalDataSeries) {
+        var plotData = wpd.appData.getPlotData();
+        var dataSeries = optionalDataSeries || plotData.getActiveDataSeries();
+        var axes = plotData.axes;
         if(axes instanceof wpd.BarAxes) {
-            return getBarAxesData();
+            return getBarAxesData(dataSeries);
         } else {
-            return getGeneralAxesData();
+            return getGeneralAxesData(dataSeries);
         }
     }
 
-    function getBarAxesData() {
+    function getBarAxesData(dataSeries) {
         var fields = [],
             fieldDateFormat = [],
             rawData = [],
             isFieldSortable = [],
             plotData = wpd.appData.getPlotData(),
-            dataSeries = plotData.getActiveDataSeries(),
             axes = plotData.axes,
             rowi, coli,
             dataPt,
@@ -91,6 +91,7 @@ wpd.plotDataProvider = (function() {
         isFieldSortable = [false, true];
 
         return {
+            name: dataSeries.name,
             fields: fields,
             fieldDateFormat: fieldDateFormat,
             rawData: rawData,
@@ -100,11 +101,10 @@ wpd.plotDataProvider = (function() {
         };
     }
 
-    function getGeneralAxesData() {
+    function getGeneralAxesData(dataSeries) {
         // 2D XY, Polar, Ternary, Image, Map
 
         var plotData = wpd.appData.getPlotData(),
-            dataSeries = plotData.getActiveDataSeries(),
             axes = plotData.axes,
             fields = [],
             fieldDateFormat = [],
@@ -160,6 +160,7 @@ wpd.plotDataProvider = (function() {
         }
 
         return {
+            name: dataSeries.name,
             fields: fields,
             fieldDateFormat: fieldDateFormat,
             rawData: rawData,

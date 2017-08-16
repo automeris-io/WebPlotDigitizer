@@ -88,6 +88,7 @@ alt="free web stats"></a></div></noscript>
 <!-- End of StatCounder Code -->
 
 
+<script>document.addEventListener("DOMContentLoaded", wpd.initApp, true);</script>
 </head>
 
 <body>
