@@ -90,6 +90,7 @@
 <script src="javascript/widgets/sidebars.js"></script>
 <script src="javascript/widgets/toolbars.js"></script>
 <script src="javascript/widgets/transformationEquations.js"></script>
+<script src="javascript/widgets/tree.js"></script>
 <script src="javascript/widgets/webcam.js"></script>
 <script src="javascript/widgets/zoom.js"></script>
 
@@ -225,13 +226,31 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
     </div>
     
     <!-- tree widgets -->
-    <div class="tree-widget" style="flex: 0 0 100px; display: none;">
-        widget 1
+    <div id="axes-group-tree-widget" class="tree-widget" style="flex: 0 0 100px;">
+        <p><b>Axes</b></p>
+        <center>
+        <p><input type="button" value="Calibrate" style="width:150px;" onclick="wpd.alignAxes.editAlignment();"/></p>
+        <p><input type="button" value="Import Calibration" style="width:150px;"/></p>
+        <p><input type="button" value="Export Calibration" style="width:150px;"/></p>
+        </center>
     </div>
     
-    <div class="tree-widget" style="flex: 0 0 100px; display: inline;">
-        widget 2
+    <div id="dataset-group-tree-widget" class="tree-widget" style="flex: 0 0 100px;">
+        <p><b>Datasets</b></p>
+        <center>
+        <p><input type="button" value="Add Dataset" style="width:150px;" onclick="wpd.dataSeriesManagement.addSeries();"/></p>
+        <p><input type="button" value="Export All Data" style="width:150px;" onclick="wpd.popup.show('export-all-data-popup');"/></p>
+        </center>
     </div>
+
+    <div id="measurement-group-tree-widget" class="tree-widget" style="flex: 0 0 100px;">
+        <p><b>Measurements</b></p>
+        <center>
+        <p><input type="button" value="Distance" style="width:150px;" onclick="wpd.tree.addMeasurement(wpd.measurementModes.distance);"/></p>
+        <p><input type="button" value="Angle" style="width:150px;" onclick="wpd.tree.addMeasurement(wpd.measurementModes.angle);"/></p>
+        </center>
+    </div>
+    
 </div>                
             </div>
 

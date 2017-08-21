@@ -179,3 +179,7 @@ select {
     background: #FF9466;
 }
 
+.tree-widget {
+    display: none;
+    border-top: thin lightgrey solid;
+}

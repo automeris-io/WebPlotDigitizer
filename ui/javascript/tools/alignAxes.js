@@ -440,6 +440,7 @@ wpd.alignAxes = (function () {
             wpd.appData.getPlotData().axes = imageAxes;
             wpd.appData.isAligned(true);
             wpd.acquireData.load();
+            wpd.tree.refresh();
         }
 
         if(calibrator != null) {
@@ -466,6 +467,7 @@ wpd.alignAxes = (function () {
         }
         wpd.appData.isAligned(true);
         wpd.acquireData.load();
+        wpd.tree.refresh();
     }
 
     function getActiveCalib() {

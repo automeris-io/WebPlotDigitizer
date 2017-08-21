@@ -43,7 +43,8 @@ wpd.measurementModes = {
         getData: function() {
             var plotData = wpd.appData.getPlotData();
             return plotData.distanceMeasurementData;
-        }
+        },
+        treePath: '/Measurements/Distance'
     },
     angle: {
         name: 'angle',
@@ -64,7 +65,8 @@ wpd.measurementModes = {
         getData: function() {
             var plotData = wpd.appData.getPlotData();
             return plotData.angleMeasurementData;
-        }
+        },
+        treePath: '/Measurements/Angle'
     },
     openPath: {
         name: 'open-path',

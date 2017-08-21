@@ -27,7 +27,6 @@ wpd.TreeWidget = class {
         this.$mainElem = $elem;
         this.treeData = null;
         this.$mainElem.addEventListener("click", e => this._onclick(e));
-        this.$mainElem.classList.add("tree-widget");
         this.idmap = [];
         this.itemCount = 0;
     }
@@ -41,8 +40,7 @@ wpd.TreeWidget = class {
             htmlStr = "<ul class=\"tree-list-root\">";
         }
 
-        let i = 0;
-        for(i=0; i < data.length; i++) {
+        for(let i = 0; i < data.length; i++) {
             let item = data[i];
             this.itemCount++;
             if(typeof(item) === "string") {
@@ -81,14 +79,14 @@ wpd.TreeWidget = class {
         });
     }
 
-    selectItem(itemPath) {
+    selectPath(itemPath, suppressSecondaryActions) {
         const itemId = this.idmap.indexOf(itemPath);
         if(itemId >= 0) {
             this._unselectAll();
             const $item = document.getElementById("tree-item-id-" + itemId);
             $item.classList.add("tree-selected");
             if(this.itemSelectionCallback != null) {
-                this.itemSelectionCallback($item, itemPath);
+                this.itemSelectionCallback($item, itemPath, suppressSecondaryActions);
             }
         }
     }
@@ -102,7 +100,7 @@ wpd.TreeWidget = class {
             if(this.itemSelectionCallback != null) {
                 let itemId = parseInt(e.target.id.replace("tree-item-id-",""),10);
                 if(!isNaN(itemId)) {
-                    this.itemSelectionCallback(e.target, this.idmap[itemId]);
+                    this.itemSelectionCallback(e.target, this.idmap[itemId], false);
                 }
             }
         }
@@ -117,28 +115,106 @@ wpd.tree = (function() {
 
     let treeWidget = null;
 
-    function init() {
-        const $treeElem = document.getElementById("tree-container");
-        const treeData = [
-            {"Axes": ["XY Axes"]},
-            {"Datasets":[
-                    "Default Dataset", 
-                    ]
-            },
-            {"Measurements": []}
-        ];        
+    function buildTree() {
+        if(treeWidget == null) {
+            return;
+        }
+        let treeData = [];
         
-        let treeWidget = new wpd.TreeWidget($treeElem);
-        treeWidget.onItemSelection(function(elem, path) {
-            console.log(path);
-        });
-        // separate out:
+        const plotData = wpd.appData.getPlotData();
+        
+        const axes = plotData.axes;
+        if(axes == null) {
+            treeData.push({"Axes": []});
+        } else {
+            treeData.push({"Axes": [axes.name]});
+        }
+
+        const datasetNames = plotData.getDataSeriesNames();
+        treeData.push({"Datasets": datasetNames});
+
+        let measurementItems = [];
+        if(plotData.angleMeasurementData != null) {
+            measurementItems.push("Angle");
+        }
+        if(plotData.distanceMeasurementData != null) {
+            measurementItems.push("Distance");
+        }
+        treeData.push({"Measurements": measurementItems});
+
         treeWidget.render(treeData);
-        treeWidget.selectItem("/Datasets");
+
+        showTreeItemWidget(null);
+    }
+
+    function showTreeItemWidget(id) {
+        const $treeWidgets = document.querySelectorAll(".tree-widget");
+        $treeWidgets.forEach(function($e) {
+            if($e.id === id) {
+                $e.style.display = "inline";
+            } else {
+                $e.style.display = "none";
+            }
+        });
+    }
+
+    function resetGraphics() {
+        wpd.graphicsWidget.removeTool();
+        wpd.graphicsWidget.resetData();
+        wpd.sidebar.clear();
+    }
+
+    function onSelection(elem, path, suppressSecondaryActions) {
+        if(path === "/Datasets") {
+            resetGraphics();
+            showTreeItemWidget("dataset-group-tree-widget");
+        } else if(path === "/Axes") {
+            resetGraphics();
+            showTreeItemWidget("axes-group-tree-widget");
+        } else if(path === "/Measurements") {
+            resetGraphics();
+            showTreeItemWidget("measurement-group-tree-widget");
+        } else if(path === wpd.measurementModes.distance.treePath) {
+            if(!suppressSecondaryActions) {
+                wpd.measurement.start(wpd.measurementModes.distance);
+            }
+            showTreeItemWidget(null);
+        } else if(path === wpd.measurementModes.angle.treePath) {
+            if(!suppressSecondaryActions) {
+                wpd.measurement.start(wpd.measurementModes.angle);
+            }
+            showTreeItemWidget(null);
+        } else {
+            showTreeItemWidget(null);
+        }
+    }
+
+    function init() {
+        const $treeElem = document.getElementById("tree-container");        
+        treeWidget = new wpd.TreeWidget($treeElem);
+        treeWidget.onItemSelection(onSelection)
+        buildTree();
+    }
+
+    function refresh() {
+        buildTree();
+    }
+
+    function selectPath(path) {
+        treeWidget.selectPath(path);
+    }
+
+    function addMeasurement(mode) {
+        wpd.measurement.start(mode);
+        refresh();
+        wpd.tree.selectPath(mode.treePath, true);
     }
 
     return {
-        init: init
+        init: init,
+        refresh: refresh,
+        selectPath: selectPath,
+        addMeasurement: addMeasurement        
     };
 })();
 
