@@ -174,7 +174,6 @@ wpd.tree = (function() {
             plotData.setActiveDataSeriesIndex(dsIdx);
             // refresh UI
             wpd.acquireData.load();
-            wpd.dataPointCounter.setCount();
         }
         showTreeItemWidget('dataset-item-tree-widget');
     }

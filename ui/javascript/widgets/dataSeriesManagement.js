@@ -68,6 +68,7 @@ wpd.dataSeriesManagement = (function () {
         plotData.setActiveDataSeriesIndex(index);
         updateApp();
         nameIndex++;
+        wpd.tree.refresh();
         manage();
     }
 
@@ -110,8 +111,6 @@ wpd.dataSeriesManagement = (function () {
 
     function updateApp() {
         wpd.graphicsWidget.forceHandlerRepaint();
-        wpd.autoExtraction.updateDatasetControl();
-        wpd.acquireData.updateDatasetControl();
         wpd.dataPointCounter.setCount();
     }
 

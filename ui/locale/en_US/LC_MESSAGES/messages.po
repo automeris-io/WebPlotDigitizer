@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-08-26 14:07-0500\n"
+"POT-Creation-Date: 2017-08-26 14:42-0500\n"
 "PO-Revision-Date: 2016-12-12 23:09-0600\n"
 "Last-Translator: \n"
 "Language: en_US\n"
@@ -66,7 +66,7 @@ msgstr ""
 msgid "Import JSON"
 msgstr ""
 
-#: templates/_menubar.html:30 templates/_tree.html:8 templates/_tree.html:43
+#: templates/_menubar.html:30 templates/_tree.html:8 templates/_tree.html:44
 msgid "Axes"
 msgstr ""
 
@@ -534,7 +534,7 @@ msgstr ""
 msgid "Change"
 msgstr ""
 
-#: templates/_popups.html:356 templates/_tree.html:38
+#: templates/_popups.html:356 templates/_tree.html:39
 msgid "Data Points"
 msgstr ""
 
@@ -546,8 +546,8 @@ msgstr ""
 msgid "Delete"
 msgstr ""
 
-#: templates/_popups.html:364 templates/_tree.html:36 templates/_tree.html:53
-#: templates/_tree.html:61
+#: templates/_popups.html:364 templates/_tree.html:37 templates/_tree.html:54
+#: templates/_tree.html:62
 msgid "View Data"
 msgstr ""
 
@@ -744,7 +744,7 @@ msgstr ""
 msgid "Click to change color"
 msgstr ""
 
-#: templates/_sidebars.html:24 templates/_tree.html:27 templates/_tree.html:50
+#: templates/_sidebars.html:24 templates/_tree.html:27 templates/_tree.html:51
 msgid "Distance"
 msgstr ""
 
@@ -944,7 +944,7 @@ msgstr ""
 msgid "You can not delete this dataset as at least one dataset is required."
 msgstr ""
 
-#: templates/_strings.html:29
+#: templates/_strings.html:29 templates/_tree.html:36
 msgid "Delete Dataset"
 msgstr ""
 
@@ -1024,23 +1024,23 @@ msgstr ""
 msgid "Measurements"
 msgstr ""
 
-#: templates/_tree.html:28 templates/_tree.html:58
+#: templates/_tree.html:28 templates/_tree.html:59
 msgid "Angle"
 msgstr ""
 
 #: templates/_tree.html:35
-msgid "Rename"
+msgid "Rename Dataset"
 msgstr ""
 
-#: templates/_tree.html:37
+#: templates/_tree.html:38
 msgid "Clear Data"
 msgstr ""
 
-#: templates/_tree.html:45
+#: templates/_tree.html:46
 msgid "Edit"
 msgstr ""
 
-#: templates/_tree.html:52 templates/_tree.html:60
+#: templates/_tree.html:53 templates/_tree.html:61
 msgid "Clear All"
 msgstr ""
 
@@ -1666,5 +1666,8 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "No datasets to export!"
+#~ msgstr ""
+
+#~ msgid "Rename"
 #~ msgstr ""
 
