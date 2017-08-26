@@ -222,6 +222,23 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
         <p><input type="button" value="Edit" style="width:150px;" onclick=""/></p>
         </center>
     </div>
+       
+    <div id="distance-item-tree-widget" class="tree-widget" style="flex: 0 0 100px;">
+        <p class="sidebar-title">Distance</p>
+        <center> 
+        <p><input type="button" value="Clear All" style="width:150px;" onclick="wpd.measurement.clearAll();"/></p>
+        <p><input type="button" value="View Data" style="width:150px;" onclick="wpd.dataTable.showDistanceData();"/></p>
+        </center>
+    </div>       
+    
+    <div id="angle-item-tree-widget" class="tree-widget" style="flex: 0 0 100px;">
+        <p class="sidebar-title">Angle</p>
+        <center> 
+        <p><input type="button" value="Clear All" style="width:150px;" onclick="wpd.measurement.clearAll();"/></p>
+        <p><input type="button" value="View Data" style="width:150px;" onclick="wpd.dataTable.showAngleData();"/></p>
+        </center>
+    </div>       
+    
     
 </div>                
             </div>
@@ -305,10 +322,6 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
     <input type="button" value="Add Pair (A)" style="width: 115px;" id="add-pair-button" onclick="wpd.measurement.addItem();"/>
     <input type="button" value="Delete Pair (D)" style="width: 115px;" id="delete-pair-button" onclick="wpd.measurement.deleteItem();"/> 
 </p>
-<p>
-    <input type="button" value="Clear All" style="width: 115px;" id="clear-all-pairs-button" onclick="wpd.measurement.clearAll();"/>
-    <input type="button" value="View Data" style="width: 115px;" id="view-measurement-data-button" onclick="wpd.dataTable.showDistanceData();"/>
-</p>
 </div>
 
 <!-- angle measurement -->
@@ -317,10 +330,6 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
 <p>
     <input type="button" value="Add Angle (A)" style="width: 115px;" id="add-angle-button" onclick="wpd.measurement.addItem();"/>
     <input type="button" value="Delete Angle (D)" style="width: 115px;" id="delete-angle-button" onclick="wpd.measurement.deleteItem();"/>
-</p>
-<p>
-    <input type="button" value="Clear All" style="width: 115px;" onclick="wpd.measurement.clearAll();"/>
-    <input type="button" value="View Data" style="width: 115px;" onclick="wpd.dataTable.showAngleData();"/>
 </p>
 </div>
 
@@ -331,10 +340,6 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
     <input type="button" value="Add Path (A)" style="width: 115px;" id="add-open-path-button" onclick="wpd.measurement.addItem();"/>
     <input type="button" value="Delete Path (D)" style="width: 115px;" id="delete-open-path-button" onclick="wpd.measurement.deleteItem();"/>
 </p>
-<p>
-    <input type="button" value="Clear All" style="width: 115px;" onclick="wpd.measurement.clearAll();"/>
-    <input type="button" value="View Data" style="width: 115px;" onclick="wpd.dataTable.showOpenPathData();"/>
-</p>
 </div>
 
 <!-- closed path measurement -->
@@ -343,10 +348,6 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
 <p>
     <input type="button" value="Add Path (A)" style="width: 115px;" id="add-closed-path-button" onclick="wpd.measurement.addItem();"/>
     <input type="button" value="Delete Path (D)" style="width: 115px;" id="delete-closed-path-button" onclick="wpd.measurement.deleteItem();"/>
-</p>
-<p>
-    <input type="button" value="Clear All" style="width: 115px;" onclick="wpd.measurement.clearAll();"/>
-    <input type="button" value="View Data" style="width: 115px;" onclick="wpd.dataTable.showClosedPathData();"/>
 </p>
 </div>
 

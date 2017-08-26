@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-08-26 10:40-0500\n"
+"POT-Creation-Date: 2017-08-26 14:07-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -65,7 +65,7 @@ msgstr ""
 msgid "Import JSON"
 msgstr ""
 
-#: templates/_menubar.html:30
+#: templates/_menubar.html:30 templates/_tree.html:8 templates/_tree.html:43
 msgid "Axes"
 msgstr ""
 
@@ -95,7 +95,7 @@ msgstr ""
 msgid "Manage Datasets"
 msgstr ""
 
-#: templates/_menubar.html:46
+#: templates/_menubar.html:46 templates/_tree.html:20
 msgid "Export All Data"
 msgstr ""
 
@@ -343,7 +343,7 @@ msgstr ""
 msgid "Acquired Data"
 msgstr ""
 
-#: templates/_popups.html:216
+#: templates/_popups.html:216 templates/_tree.html:33
 msgid "Dataset"
 msgstr ""
 
@@ -545,9 +545,8 @@ msgstr ""
 msgid "Delete"
 msgstr ""
 
-#: templates/_popups.html:364 templates/_sidebars.html:54
-#: templates/_sidebars.html:67 templates/_sidebars.html:80
-#: templates/_sidebars.html:93
+#: templates/_popups.html:364 templates/_tree.html:36 templates/_tree.html:53
+#: templates/_tree.html:61
 msgid "View Data"
 msgstr ""
 
@@ -708,11 +707,11 @@ msgstr ""
 msgid "Automatic Extraction"
 msgstr ""
 
-#: templates/_sidebars.html:21 templates/_sidebars.html:101
+#: templates/_sidebars.html:21 templates/_sidebars.html:85
 msgid "Mask"
 msgstr ""
 
-#: templates/_sidebars.html:21 templates/_sidebars.html:102
+#: templates/_sidebars.html:21 templates/_sidebars.html:86
 msgid "Box"
 msgstr ""
 
@@ -724,11 +723,11 @@ msgstr ""
 msgid "Erase"
 msgstr ""
 
-#: templates/_sidebars.html:21 templates/_sidebars.html:104
+#: templates/_sidebars.html:21 templates/_sidebars.html:88
 msgid "View"
 msgstr ""
 
-#: templates/_sidebars.html:23 templates/_sidebars.html:108
+#: templates/_sidebars.html:23 templates/_sidebars.html:92
 msgid "Color"
 msgstr ""
 
@@ -744,7 +743,7 @@ msgstr ""
 msgid "Click to change color"
 msgstr ""
 
-#: templates/_sidebars.html:24
+#: templates/_sidebars.html:24 templates/_tree.html:27 templates/_tree.html:50
 msgid "Distance"
 msgstr ""
 
@@ -772,80 +771,75 @@ msgstr ""
 msgid "Delete Pair"
 msgstr ""
 
-#: templates/_sidebars.html:53 templates/_sidebars.html:66
-#: templates/_sidebars.html:79 templates/_sidebars.html:92
-msgid "Clear All"
-msgstr ""
-
-#: templates/_sidebars.html:60
+#: templates/_sidebars.html:56
 msgid "Measure Angles"
 msgstr ""
 
-#: templates/_sidebars.html:62
+#: templates/_sidebars.html:58
 msgid "Add Angle"
 msgstr ""
 
-#: templates/_sidebars.html:63
+#: templates/_sidebars.html:59
 msgid "Delete Angle"
 msgstr ""
 
-#: templates/_sidebars.html:73
+#: templates/_sidebars.html:65
 msgid "Measure Path"
 msgstr ""
 
-#: templates/_sidebars.html:75 templates/_sidebars.html:88
+#: templates/_sidebars.html:67 templates/_sidebars.html:76
 msgid "Add Path"
 msgstr ""
 
-#: templates/_sidebars.html:76 templates/_sidebars.html:89
+#: templates/_sidebars.html:68 templates/_sidebars.html:77
 msgid "Delete Path"
 msgstr ""
 
-#: templates/_sidebars.html:86
+#: templates/_sidebars.html:74
 msgid "Measure Closed Path"
 msgstr ""
 
-#: templates/_sidebars.html:99
+#: templates/_sidebars.html:83
 msgid "Detect Grid"
 msgstr ""
 
-#: templates/_sidebars.html:103
+#: templates/_sidebars.html:87
 msgid "Clear"
 msgstr ""
 
-#: templates/_sidebars.html:109
+#: templates/_sidebars.html:93
 msgid "Pick"
 msgstr ""
 
-#: templates/_sidebars.html:111
+#: templates/_sidebars.html:95
 msgid "Test"
 msgstr ""
 
-#: templates/_sidebars.html:113
+#: templates/_sidebars.html:97
 msgid "Background Mode"
 msgstr ""
 
-#: templates/_sidebars.html:116
+#: templates/_sidebars.html:100
 msgid "Horizontal"
 msgstr ""
 
-#: templates/_sidebars.html:117
+#: templates/_sidebars.html:101
 msgid "X%"
 msgstr ""
 
-#: templates/_sidebars.html:118
+#: templates/_sidebars.html:102
 msgid "Vertical"
 msgstr ""
 
-#: templates/_sidebars.html:119
+#: templates/_sidebars.html:103
 msgid "Y%"
 msgstr ""
 
-#: templates/_sidebars.html:123
+#: templates/_sidebars.html:107
 msgid "Detect"
 msgstr ""
 
-#: templates/_sidebars.html:125
+#: templates/_sidebars.html:109
 msgid "Reset"
 msgstr ""
 
@@ -1003,5 +997,49 @@ msgstr ""
 
 #: templates/_toolbars.html:14
 msgid "View Keyboard Shortcuts"
+msgstr ""
+
+#: templates/_tree.html:10
+msgid "Calibrate"
+msgstr ""
+
+#: templates/_tree.html:11
+msgid "Import Calibration"
+msgstr ""
+
+#: templates/_tree.html:12
+msgid "Export Calibration"
+msgstr ""
+
+#: templates/_tree.html:17
+msgid "Datasets"
+msgstr ""
+
+#: templates/_tree.html:19
+msgid "Add Dataset"
+msgstr ""
+
+#: templates/_tree.html:25
+msgid "Measurements"
+msgstr ""
+
+#: templates/_tree.html:28 templates/_tree.html:58
+msgid "Angle"
+msgstr ""
+
+#: templates/_tree.html:35
+msgid "Rename"
+msgstr ""
+
+#: templates/_tree.html:37
+msgid "Clear Data"
+msgstr ""
+
+#: templates/_tree.html:45
+msgid "Edit"
+msgstr ""
+
+#: templates/_tree.html:52 templates/_tree.html:60
+msgid "Clear All"
 msgstr ""
 
