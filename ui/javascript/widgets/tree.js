@@ -179,10 +179,6 @@ wpd.tree = (function() {
         showTreeItemWidget('dataset-item-tree-widget');
     }
 
-    function onMeasurementSelection(elem, path, suppressSecondaryActions) {
-
-    }
-
     function onSelection(elem, path, suppressSecondaryActions) {
         if(path === "/Datasets") {
             resetGraphics();
@@ -197,16 +193,16 @@ wpd.tree = (function() {
             if(!suppressSecondaryActions) {
                 wpd.measurement.start(wpd.measurementModes.distance);
             }
-            showTreeItemWidget(null);
+            showTreeItemWidget('distance-item-tree-widget');
         } else if(path === wpd.measurementModes.angle.treePath) {
             if(!suppressSecondaryActions) {
                 wpd.measurement.start(wpd.measurementModes.angle);
             }
-            showTreeItemWidget(null);
+            showTreeItemWidget('angle-item-tree-widget');
         } else if(path.startsWith("/Datasets/")) {
             onDatasetSelection(elem, path, suppressSecondaryActions);
-        } else if(path.startsWith("/Measurements/")) {
-            onMeasurementSelection(elem, path, suppressSecondaryActions);
+        } else if(path.startsWith("/Axes/")) {
+
         } else {
             showTreeItemWidget(null);
         }
