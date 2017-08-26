@@ -164,6 +164,25 @@ wpd.tree = (function() {
         wpd.sidebar.clear();
     }
 
+    function onDatasetSelection(elem, path, suppressSecondaryActions) {
+        if(!suppressSecondaryActions) {
+            // get dataset index
+            const plotData = wpd.appData.getPlotData();
+            const dsNamesColl = plotData.getDataSeriesNames();
+            const dsIdx = dsNamesColl.indexOf(path.replace("/Datasets/",""));
+            // set active dataset 
+            plotData.setActiveDataSeriesIndex(dsIdx);
+            // refresh UI
+            wpd.acquireData.load();
+            wpd.dataPointCounter.setCount();
+        }
+        showTreeItemWidget('dataset-item-tree-widget');
+    }
+
+    function onMeasurementSelection(elem, path, suppressSecondaryActions) {
+
+    }
+
     function onSelection(elem, path, suppressSecondaryActions) {
         if(path === "/Datasets") {
             resetGraphics();
@@ -184,6 +203,10 @@ wpd.tree = (function() {
                 wpd.measurement.start(wpd.measurementModes.angle);
             }
             showTreeItemWidget(null);
+        } else if(path.startsWith("/Datasets/")) {
+            onDatasetSelection(elem, path, suppressSecondaryActions);
+        } else if(path.startsWith("/Measurements/")) {
+            onMeasurementSelection(elem, path, suppressSecondaryActions);
         } else {
             showTreeItemWidget(null);
         }
@@ -200,8 +223,8 @@ wpd.tree = (function() {
         buildTree();
     }
 
-    function selectPath(path) {
-        treeWidget.selectPath(path);
+    function selectPath(path, suppressSecondaryActions) {
+        treeWidget.selectPath(path, suppressSecondaryActions);
     }
 
     function addMeasurement(mode) {

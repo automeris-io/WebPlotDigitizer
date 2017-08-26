@@ -135,10 +135,6 @@ input[type="file"] {
     font-size:14px;
 }
 
-.vertical-spacer {
-    height: 3px;
-}
-
 hr {
     height: 1px;
     border: none;
@@ -181,5 +177,10 @@ select {
 
 .tree-widget {
     display: none;
-    border-top: thin lightgrey solid;
+    font-size: 13px;
 }
+
+.tree-widget p {
+    margin: 5px 0px 5px 0px;
+}
+

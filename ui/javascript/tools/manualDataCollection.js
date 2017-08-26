@@ -29,6 +29,7 @@ wpd.acquireData = (function () {
             wpd.messagePopup.show(wpd.gettext('acquire-data'), wpd.gettext('acquire-data-calibration'));
         } else {
             showSidebar();
+            wpd.autoExtraction.start();
             wpd.dataPointCounter.setCount();
             wpd.graphicsWidget.removeTool();
             wpd.graphicsWidget.setRepainter(new wpd.DataPointsRepainter());
@@ -71,7 +72,6 @@ wpd.acquireData = (function () {
  
     function showSidebar() {
         wpd.sidebar.show('acquireDataSidebar');
-        updateDatasetControl();
         updateControlVisibility();
         wpd.dataPointCounter.setCount();
     }
@@ -84,20 +84,6 @@ wpd.acquireData = (function () {
         } else {
             $editLabelsBtn.style.display = 'none';
         }
-    }
-
-    function updateDatasetControl() {
-        var plotData = wpd.appData.getPlotData(),
-            currentDataset = plotData.getActiveDataSeries(), // just to create a dataset if there is none.
-            currentIndex = plotData.getActiveDataSeriesIndex(),
-            $datasetList = document.getElementById('manual-sidebar-dataset-list'),
-            listHTML = '',
-            i;
-        for(i = 0; i < plotData.dataSeriesColl.length; i++) {
-            listHTML += '<option>'+plotData.dataSeriesColl[i].name+'</option>';
-        }
-        $datasetList.innerHTML = listHTML;
-        $datasetList.selectedIndex = currentIndex;
     }
 
     function changeDataset($datasetList) {
@@ -154,7 +140,6 @@ wpd.acquireData = (function () {
         showSidebar: showSidebar,
         switchToolOnKeyPress: switchToolOnKeyPress,
         isToolSwitchKey: isToolSwitchKey,
-        updateDatasetControl: updateDatasetControl,
         changeDataset: changeDataset,
         editLabels: editLabels
     };
