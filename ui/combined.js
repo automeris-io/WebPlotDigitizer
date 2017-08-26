@@ -3514,6 +3514,7 @@ wpd.dataSeriesManagement = (function () {
         plotData.setActiveDataSeriesIndex(index);
         updateApp();
         nameIndex++;
+        wpd.tree.refresh();
         manage();
     }
 
@@ -3556,8 +3557,6 @@ wpd.dataSeriesManagement = (function () {
 
     function updateApp() {
         wpd.graphicsWidget.forceHandlerRepaint();
-        wpd.autoExtraction.updateDatasetControl();
-        wpd.acquireData.updateDatasetControl();
         wpd.dataPointCounter.setCount();
     }
 
@@ -5290,7 +5289,6 @@ wpd.tree = (function() {
             plotData.setActiveDataSeriesIndex(dsIdx);
             // refresh UI
             wpd.acquireData.load();
-            wpd.dataPointCounter.setCount();
         }
         showTreeItemWidget('dataset-item-tree-widget');
     }
@@ -7491,6 +7489,8 @@ wpd.acquireData = (function () {
         if(!wpd.appData.isAligned()) {
             wpd.messagePopup.show(wpd.gettext('acquire-data'), wpd.gettext('acquire-data-calibration'));
         } else {
+            wpd.graphicsWidget.removeTool();
+            wpd.graphicsWidget.resetData();
             showSidebar();
             wpd.autoExtraction.start();
             wpd.dataPointCounter.setCount();
@@ -7498,6 +7498,9 @@ wpd.acquireData = (function () {
             wpd.graphicsWidget.setRepainter(new wpd.DataPointsRepainter());
 
             manualSelection();
+            
+            wpd.graphicsWidget.forceHandlerRepaint();
+            wpd.dataPointCounter.setCount();
         }
     }
 

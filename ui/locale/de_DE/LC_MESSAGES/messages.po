@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-08-26 14:07-0500\n"
+"POT-Creation-Date: 2017-08-26 14:42-0500\n"
 "PO-Revision-Date: 2017-01-11 20:47-0600\n"
 "Last-Translator: \n"
 "Language: de_DE\n"
@@ -71,7 +71,7 @@ msgstr "JSON zu exportieren"
 msgid "Import JSON"
 msgstr "Importieren JSON"
 
-#: templates/_menubar.html:30 templates/_tree.html:8 templates/_tree.html:43
+#: templates/_menubar.html:30 templates/_tree.html:8 templates/_tree.html:44
 msgid "Axes"
 msgstr "Achsen"
 
@@ -556,7 +556,7 @@ msgstr "Datensatzname"
 msgid "Change"
 msgstr "Änderung"
 
-#: templates/_popups.html:356 templates/_tree.html:38
+#: templates/_popups.html:356 templates/_tree.html:39
 msgid "Data Points"
 msgstr "Datenpunkte"
 
@@ -568,8 +568,8 @@ msgstr "Hinzufügen"
 msgid "Delete"
 msgstr "Löschen"
 
-#: templates/_popups.html:364 templates/_tree.html:36 templates/_tree.html:53
-#: templates/_tree.html:61
+#: templates/_popups.html:364 templates/_tree.html:37 templates/_tree.html:54
+#: templates/_tree.html:62
 msgid "View Data"
 msgstr "Daten anzeigen"
 
@@ -779,7 +779,7 @@ msgstr "Hintergrundfarbe"
 msgid "Click to change color"
 msgstr "Klicken Sie auf Farbe ändern"
 
-#: templates/_sidebars.html:24 templates/_tree.html:27 templates/_tree.html:50
+#: templates/_sidebars.html:24 templates/_tree.html:27 templates/_tree.html:51
 msgid "Distance"
 msgstr "Entfernung"
 
@@ -992,7 +992,7 @@ msgstr ""
 "Dieser Datensatz kann nicht gelöscht werden, da mindestens ein Datensatz "
 "benötigt wird."
 
-#: templates/_strings.html:29
+#: templates/_strings.html:29 templates/_tree.html:36
 msgid "Delete Dataset"
 msgstr "Datensatz löschen"
 
@@ -1072,23 +1072,23 @@ msgstr ""
 msgid "Measurements"
 msgstr ""
 
-#: templates/_tree.html:28 templates/_tree.html:58
+#: templates/_tree.html:28 templates/_tree.html:59
 msgid "Angle"
 msgstr ""
 
 #: templates/_tree.html:35
-msgid "Rename"
+msgid "Rename Dataset"
 msgstr ""
 
-#: templates/_tree.html:37
+#: templates/_tree.html:38
 msgid "Clear Data"
 msgstr ""
 
-#: templates/_tree.html:45
+#: templates/_tree.html:46
 msgid "Edit"
 msgstr ""
 
-#: templates/_tree.html:52 templates/_tree.html:60
+#: templates/_tree.html:53 templates/_tree.html:61
 msgid "Clear All"
 msgstr "Alle löschen"
 
@@ -1109,4 +1109,7 @@ msgstr "Alle löschen"
 
 #~ msgid "Clear Points"
 #~ msgstr "Klare Punkte"
+
+#~ msgid "Rename"
+#~ msgstr ""
 

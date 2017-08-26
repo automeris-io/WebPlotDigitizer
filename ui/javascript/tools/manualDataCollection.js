@@ -28,6 +28,8 @@ wpd.acquireData = (function () {
         if(!wpd.appData.isAligned()) {
             wpd.messagePopup.show(wpd.gettext('acquire-data'), wpd.gettext('acquire-data-calibration'));
         } else {
+            wpd.graphicsWidget.removeTool();
+            wpd.graphicsWidget.resetData();
             showSidebar();
             wpd.autoExtraction.start();
             wpd.dataPointCounter.setCount();
@@ -35,6 +37,9 @@ wpd.acquireData = (function () {
             wpd.graphicsWidget.setRepainter(new wpd.DataPointsRepainter());
 
             manualSelection();
+            
+            wpd.graphicsWidget.forceHandlerRepaint();
+            wpd.dataPointCounter.setCount();
         }
     }
 
