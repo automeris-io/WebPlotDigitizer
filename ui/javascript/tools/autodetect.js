@@ -24,24 +24,8 @@ var wpd = wpd || {};
 wpd.autoExtraction = (function () {
 
     function start() {
-        wpd.sidebar.show('auto-extraction-sidebar');
-        updateDatasetControl();
         wpd.colorPicker.init();
         wpd.algoManager.updateAlgoList();
-    }
-
-    function updateDatasetControl() {
-        var plotData = wpd.appData.getPlotData(),
-            currentDataset = plotData.getActiveDataSeries(), // just to create a dataset if there is none.
-            currentIndex = plotData.getActiveDataSeriesIndex(),
-            $datasetList = document.getElementById('automatic-sidebar-dataset-list'),
-            listHTML = '',
-            i;
-        for(i = 0; i < plotData.dataSeriesColl.length; i++) {
-            listHTML += '<option>'+plotData.dataSeriesColl[i].name+'</option>';
-        }
-        $datasetList.innerHTML = listHTML;
-        $datasetList.selectedIndex = currentIndex;
     }
 
     function changeDataset() {
@@ -54,7 +38,6 @@ wpd.autoExtraction = (function () {
           
     return {
         start: start,
-        updateDatasetControl: updateDatasetControl,
         changeDataset: changeDataset
     };
 })();

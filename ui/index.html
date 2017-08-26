@@ -182,7 +182,7 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
     
     <!-- tree widgets -->
     <div id="axes-group-tree-widget" class="tree-widget" style="flex: 0 0 100px;">
-        <p><b>Axes</b></p>
+        <p class="sidebar-title">Axes</p>
         <center>
         <p><input type="button" value="Calibrate" style="width:150px;" onclick="wpd.alignAxes.editAlignment();"/></p>
         <p><input type="button" value="Import Calibration" style="width:150px;"/></p>
@@ -191,7 +191,7 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
     </div>
     
     <div id="dataset-group-tree-widget" class="tree-widget" style="flex: 0 0 100px;">
-        <p><b>Datasets</b></p>
+        <p class="sidebar-title">Datasets</p>
         <center>
         <p><input type="button" value="Add Dataset" style="width:150px;" onclick="wpd.dataSeriesManagement.addSeries();"/></p>
         <p><input type="button" value="Export All Data" style="width:150px;" onclick="wpd.popup.show('export-all-data-popup');"/></p>
@@ -199,10 +199,27 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
     </div>
 
     <div id="measurement-group-tree-widget" class="tree-widget" style="flex: 0 0 100px;">
-        <p><b>Measurements</b></p>
+        <p class="sidebar-title">Measurements</p>
         <center>
         <p><input type="button" value="Distance" style="width:150px;" onclick="wpd.tree.addMeasurement(wpd.measurementModes.distance);"/></p>
         <p><input type="button" value="Angle" style="width:150px;" onclick="wpd.tree.addMeasurement(wpd.measurementModes.angle);"/></p>
+        </center>
+    </div>
+
+    <div id="dataset-item-tree-widget" class="tree-widget" style="flex: 0 0 100px;">
+        <p class="sidebar-title">Dataset</p>
+        <center>
+        <p><input type="button" value="Rename" style="width:150px;" onclick="wpd.dataSeriesManagement.addSeries();"/></p>
+        <p><input type="button" value="View Data" style="width:150px;" onclick="wpd.dataTable.showTable();"/></p>
+        <p><input type="button" value="Clear Data" style="width:150px;" onclick="wpd.acquireData.clearAll();"/></p>        
+        <p>Data Points: <span class="data-point-counter">0</span></p>
+        </center>
+    </div>
+
+    <div id="axes-item-tree-widget" class="tree-widget" style="flex: 0 0 100px;">
+        <p class="sidebar-title">Axes</p>
+        <center> 
+        <p><input type="button" value="Edit" style="width:150px;" onclick=""/></p>
         </center>
     </div>
     
@@ -244,28 +261,32 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
 <p align="center"><input type="button" value="Complete!" style="width: 120px;" onclick="wpd.alignAxes.getCornerValues();"/></p>
 </div>
 
-<!-- manual mode -->
+<!-- acquire data -->
 <div id="acquireDataSidebar" class="sidebar">
-<p class="sidebar-title">Manual Mode <input type="button" value="Automatic Mode" style="width: 125px;" onclick="wpd.autoExtraction.start();"></p>
-<hr/>
-<p>Dataset <select id="manual-sidebar-dataset-list" onchange="wpd.acquireData.changeDataset(this);" style="width:160px;"></select></p>
-<hr/>
+<p class="sidebar-title">Manual</p>
 <p>
     <input type="button" value="Add Point (A)" onclick="wpd.acquireData.manualSelection();" style="width:115px;" id="manual-select-button">
     <input type="button" value="Adjust Point (S)" onClick="wpd.acquireData.adjustPoints();" style="width: 115px;" id="manual-adjust-button">
 </p>
-<div class="vertical-spacer"></div>
 <p>
     <input type="button" value="Delete Point (D)" onclick="wpd.acquireData.deletePoint();" style="width: 115px;" id="delete-point-button">
-    <input id="clearAllBtn" type="button" value="Clear Points" onCLick="wpd.acquireData.clearAll();" style="width: 115px;">
-</p>
-<div class="vertical-spacer"></div>
-<p>
     <input type="button" value="Edit Labels (E)" id="edit-data-labels" onclick="wpd.acquireData.editLabels();" style="display: none; width: 115px;">
-    <input type="button" value="View Data" id="saveBtn" onclick="wpd.dataTable.showTable();" style="width:115px;">
 </p>
-<div class="vertical-spacer"></div>
-<p>Data Points: <span class="data-point-counter">0</span></p>
+<br/>
+<p class="sidebar-title">Automatic Extraction</p>
+<p>Mask <input type="button" value="Box" style="width:50px;" onclick="wpd.dataMask.markBox();" id="box-mask"><input type="button" value="Pen" style="width:45px;" onClick="wpd.dataMask.markPen();" id="pen-mask"><input type="button" value="Erase" style="width:50px;" onClick="wpd.dataMask.eraseMarks();" id="erase-mask"><input type="button" value="View" style="width:40px;" onclick="wpd.dataMask.viewMask();" id="view-mask"/></p>
+<hr/>
+<p>Color <select id="color-detection-mode-select" onchange="wpd.colorPicker.changeDetectionMode();"><option value="fg">Foreground Color</option><option value="bg">Background Color</option></select><input type="button" id="color-button" value=" " onclick="wpd.colorPicker.startPicker();" style="width: 25px;" title="Click to change color"/></p>
+<p>Distance <td><td><input type="text" size="3" id="color-distance-value" onchange="wpd.colorPicker.changeColorDistance();"/>
+<input type="button" value="Filter Colors" onclick="wpd.colorPicker.testColorDetection();" style="width: 90px;"></p>
+<hr/>
+<p>Algorithm
+<select id="auto-extract-algo-name" onchange="wpd.algoManager.applyAlgoSelection();"></select>
+</p>
+<div id="algo-parameter-container" style="margin-left: 10px; margin-top: 5px;"></div>
+<p style="margin-top: 5px;">
+    <input type="button" value="Run" style="width:40px;" onclick="wpd.algoManager.run();"/>
+</p>
 </div>
 
 <!-- edit image -->
@@ -277,32 +298,6 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
 <p align="center"><input type="button" value="Save .PNG" style="width: 150px;" onclick="savePNG();"></p>
 </div>
 
-<!-- automatic mode -->
-<div id="auto-extraction-sidebar" class="sidebar">
-<p class="sidebar-title">Automatic Mode <input type="button" value="Manual Mode" style="width:110px;" onclick="wpd.acquireData.load();"/></p>
-<hr/>
-<p>Dataset <select id="automatic-sidebar-dataset-list" onchange="wpd.acquireData.changeDataset(this);" style="width:160px;"></select></p>
-<hr/>
-<p>Mask <input type="button" value="Box" style="width:50px;" onclick="wpd.dataMask.markBox();" id="box-mask"><input type="button" value="Pen" style="width:45px;" onClick="wpd.dataMask.markPen();" id="pen-mask"><input type="button" value="Erase" style="width:50px;" onClick="wpd.dataMask.eraseMarks();" id="erase-mask"><input type="button" value="View" style="width:40px;" onclick="wpd.dataMask.viewMask();" id="view-mask"/></p>
-<hr/>
-<p>Color <select id="color-detection-mode-select" onchange="wpd.colorPicker.changeDetectionMode();"><option value="fg">Foreground Color</option><option value="bg">Background Color</option></select><input type="button" id="color-button" value=" " onclick="wpd.colorPicker.startPicker();" style="width: 25px;" title="Click to change color"/></p>
-<p>Distance <td><td><input type="text" size="3" id="color-distance-value" onchange="wpd.colorPicker.changeColorDistance();"/>
-<input type="button" value="Filter Colors" onclick="wpd.colorPicker.testColorDetection();" style="width: 90px;"></p>
-<hr/>
-<p>Algorithm
-<select id="auto-extract-algo-name" onchange="wpd.algoManager.applyAlgoSelection();"></select>
-</p>
-<div id="algo-parameter-container" style="margin-left: 10px; margin-top: 5px;"></div>
-<div class="vertical-spacer"></div>
-<p style="margin-top: 5px;">
-    <input type="button" value="Run" style="width:40px;" onclick="wpd.algoManager.run();"/>
-    <input type="button" value="Clear Points" style="width:95px;" onclick="wpd.acquireData.clearAll();"/>
-    <input type="button" value="View Data" style="width:80px;" onclick="wpd.dataTable.showTable();"/>
-</p>
-<hr/>
-<p>Data Points: <span class="data-point-counter">0</span></p>
-</div>
-
 <!-- distance measurement -->
 <div id="measure-distances-sidebar" class="sidebar">
 <p class="sidebar-title">Measure Distances</p>
@@ -310,7 +305,6 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
     <input type="button" value="Add Pair (A)" style="width: 115px;" id="add-pair-button" onclick="wpd.measurement.addItem();"/>
     <input type="button" value="Delete Pair (D)" style="width: 115px;" id="delete-pair-button" onclick="wpd.measurement.deleteItem();"/> 
 </p>
-<div class="vertical-spacer"></div>
 <p>
     <input type="button" value="Clear All" style="width: 115px;" id="clear-all-pairs-button" onclick="wpd.measurement.clearAll();"/>
     <input type="button" value="View Data" style="width: 115px;" id="view-measurement-data-button" onclick="wpd.dataTable.showDistanceData();"/>
@@ -324,7 +318,6 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
     <input type="button" value="Add Angle (A)" style="width: 115px;" id="add-angle-button" onclick="wpd.measurement.addItem();"/>
     <input type="button" value="Delete Angle (D)" style="width: 115px;" id="delete-angle-button" onclick="wpd.measurement.deleteItem();"/>
 </p>
-<div class="vertical-spacer"></div>
 <p>
     <input type="button" value="Clear All" style="width: 115px;" onclick="wpd.measurement.clearAll();"/>
     <input type="button" value="View Data" style="width: 115px;" onclick="wpd.dataTable.showAngleData();"/>
@@ -338,7 +331,6 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
     <input type="button" value="Add Path (A)" style="width: 115px;" id="add-open-path-button" onclick="wpd.measurement.addItem();"/>
     <input type="button" value="Delete Path (D)" style="width: 115px;" id="delete-open-path-button" onclick="wpd.measurement.deleteItem();"/>
 </p>
-<div class="vertical-spacer"></div>
 <p>
     <input type="button" value="Clear All" style="width: 115px;" onclick="wpd.measurement.clearAll();"/>
     <input type="button" value="View Data" style="width: 115px;" onclick="wpd.dataTable.showOpenPathData();"/>
@@ -352,7 +344,6 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
     <input type="button" value="Add Path (A)" style="width: 115px;" id="add-closed-path-button" onclick="wpd.measurement.addItem();"/>
     <input type="button" value="Delete Path (D)" style="width: 115px;" id="delete-closed-path-button" onclick="wpd.measurement.deleteItem();"/>
 </p>
-<div class="vertical-spacer"></div>
 <p>
     <input type="button" value="Clear All" style="width: 115px;" onclick="wpd.measurement.clearAll();"/>
     <input type="button" value="View Data" style="width: 115px;" onclick="wpd.dataTable.showClosedPathData();"/>

@@ -441,6 +441,7 @@ wpd.alignAxes = (function () {
             wpd.appData.isAligned(true);
             wpd.acquireData.load();
             wpd.tree.refresh();
+            wpd.tree.selectPath("/Datasets/Default Dataset", true);
         }
 
         if(calibrator != null) {
@@ -468,6 +469,7 @@ wpd.alignAxes = (function () {
         wpd.appData.isAligned(true);
         wpd.acquireData.load();
         wpd.tree.refresh();
+        wpd.tree.selectPath("/Datasets/Default Dataset", true);
     }
 
     function getActiveCalib() {
