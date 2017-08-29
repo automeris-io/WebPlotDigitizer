@@ -208,7 +208,7 @@ wpd.tree = (function() {
         } else if(path.startsWith("/Datasets/")) {
             onDatasetSelection(elem, path, suppressSecondaryActions);
         } else if(path.startsWith("/Axes/")) {
-
+            showTreeItemWidget(null);
         } else {
             showTreeItemWidget(null);
         }

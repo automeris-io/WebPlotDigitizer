@@ -442,13 +442,11 @@
     <!-- Add dataset -->
     <div id="add-dataset-popup" class="popup" style="width:400px;">
     <div class="popupheading">{{ _("Add Dataset") }}</div>
-    <center>
     <p>{{ _("Name") }}: <input type="text" id="add-single-dataset-name-input" value="New Dataset"/> <input type="button" value="{{ _("Add Single Dataset") }}" onclick="wpd.dataSeriesManagement.addSingleDataset();"/></p>
-    <hr/>
+    <br/>
     <p>{{ _("Count") }}: <input type="text" id="add-multiple-datasets-count-input" value="1"/> <input type="button" value="{{ _("Add Multiple Datasets") }}" onclick="wpd.dataSeriesManagement.addMultipleDatasets();"/></p>
     <br/>
-    <p><input type="button" value="{{ _("Cancel") }}" onclick="wpd.popup.close('add-dataset-popup');"/></p>
-    </center>
+    <p align="center"><input type="button" value="{{ _("Cancel") }}" onclick="wpd.popup.close('add-dataset-popup');"/></p>
     </div>
 
     <!-- Rename dataset -->

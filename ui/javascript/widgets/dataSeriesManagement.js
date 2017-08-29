@@ -40,6 +40,10 @@ wpd.dataSeriesManagement = (function () {
     }
 
     function showAddDataset() {
+        if(!wpd.appData.isAligned()) {
+            wpd.messagePopup.show(wpd.gettext('acquire-data'), wpd.gettext('acquire-data-calibration'));
+            return;
+        } 
         const $singleDatasetName = document.getElementById('add-single-dataset-name-input');
         let suffix = getDatasetCount();
         let dsName = wpd.gettext("dataset") + " " + suffix;

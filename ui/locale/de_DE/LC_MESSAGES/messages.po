@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-08-28 23:07-0500\n"
+"POT-Creation-Date: 2017-08-28 23:33-0500\n"
 "PO-Revision-Date: 2017-01-11 20:47-0600\n"
 "Last-Translator: \n"
 "Language: de_DE\n"
@@ -153,8 +153,8 @@ msgstr "laden/last"
 #: templates/_popups.html:74 templates/_popups.html:92
 #: templates/_popups.html:368 templates/_popups.html:398
 #: templates/_popups.html:411 templates/_popups.html:426
-#: templates/_popups.html:438 templates/_popups.html:450
-#: templates/_popups.html:461
+#: templates/_popups.html:438 templates/_popups.html:449
+#: templates/_popups.html:459
 msgid "Cancel"
 msgstr "Abbrechen"
 
@@ -670,27 +670,27 @@ msgstr ""
 msgid "Add Dataset"
 msgstr ""
 
-#: templates/_popups.html:446 templates/_popups.html:459
+#: templates/_popups.html:445 templates/_popups.html:457
 msgid "Name"
 msgstr ""
 
-#: templates/_popups.html:446
+#: templates/_popups.html:445
 msgid "Add Single Dataset"
 msgstr ""
 
-#: templates/_popups.html:448
+#: templates/_popups.html:447
 msgid "Count"
 msgstr ""
 
-#: templates/_popups.html:448
+#: templates/_popups.html:447
 msgid "Add Multiple Datasets"
 msgstr ""
 
-#: templates/_popups.html:456 templates/_tree.html:35
+#: templates/_popups.html:454 templates/_tree.html:35
 msgid "Rename Dataset"
 msgstr ""
 
-#: templates/_popups.html:461
+#: templates/_popups.html:459
 msgid "Rename"
 msgstr ""
 
@@ -712,7 +712,7 @@ msgid "Complete!"
 msgstr "Komplett!"
 
 #: templates/_sidebars.html:10
-msgid "Manual"
+msgid "Manual Extraction"
 msgstr ""
 
 #: templates/_sidebars.html:12
@@ -1141,5 +1141,8 @@ msgstr "Alle löschen"
 #~ msgstr "Kann nicht gelöscht werden!"
 
 #~ msgid "You can not delete this dataset as at least one dataset is required."
+#~ msgstr ""
+
+#~ msgid "Manual"
 #~ msgstr ""
 

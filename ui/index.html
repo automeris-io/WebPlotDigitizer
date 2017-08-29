@@ -280,7 +280,7 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
 
 <!-- acquire data -->
 <div id="acquireDataSidebar" class="sidebar">
-<p class="sidebar-title">Manual</p>
+<p class="sidebar-title">Manual Extraction</p>
 <p>
     <input type="button" value="Add Point (A)" onclick="wpd.acquireData.manualSelection();" style="width:115px;" id="manual-select-button">
     <input type="button" value="Adjust Point (S)" onClick="wpd.acquireData.adjustPoints();" style="width: 115px;" id="manual-adjust-button">
@@ -832,13 +832,11 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
     <!-- Add dataset -->
     <div id="add-dataset-popup" class="popup" style="width:400px;">
     <div class="popupheading">Add Dataset</div>
-    <center>
     <p>Name: <input type="text" id="add-single-dataset-name-input" value="New Dataset"/> <input type="button" value="Add Single Dataset" onclick="wpd.dataSeriesManagement.addSingleDataset();"/></p>
-    <hr/>
+    <br/>
     <p>Count: <input type="text" id="add-multiple-datasets-count-input" value="1"/> <input type="button" value="Add Multiple Datasets" onclick="wpd.dataSeriesManagement.addMultipleDatasets();"/></p>
     <br/>
-    <p><input type="button" value="Cancel" onclick="wpd.popup.close('add-dataset-popup');"/></p>
-    </center>
+    <p align="center"><input type="button" value="Cancel" onclick="wpd.popup.close('add-dataset-popup');"/></p>
     </div>
 
     <!-- Rename dataset -->
