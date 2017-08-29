@@ -16,7 +16,7 @@
     <div id="dataset-group-tree-widget" class="tree-widget" style="flex: 0 0 100px;">
         <p class="sidebar-title">{{ _("Datasets") }}</p>
         <center>
-        <p><input type="button" value="{{ _("Add Dataset") }}" style="width:150px;" onclick="wpd.dataSeriesManagement.addSeries();"/></p>
+        <p><input type="button" value="{{ _("Add Dataset") }}" style="width:150px;" onclick="wpd.dataSeriesManagement.showAddDataset();"/></p>
         <p><input type="button" value="{{ _("Export All Data") }}" style="width:150px;" onclick="wpd.popup.show('export-all-data-popup');"/></p>
         </center>
     </div>
@@ -32,8 +32,8 @@
     <div id="dataset-item-tree-widget" class="tree-widget" style="flex: 0 0 100px;">
         <p class="sidebar-title">{{ _("Dataset") }}</p>
         <center>
-        <p><input type="button" value="{{ _("Rename Dataset") }}" style="width:150px;" onclick="wpd.dataSeriesManagement.addSeries();"/></p>
-        <p><input type="button" value="{{ _("Delete Dataset") }}" style="width:150px;" onclick="wpd.dataSeriesManagement.addSeries();"/></p>
+        <p><input type="button" value="{{ _("Rename Dataset") }}" style="width:150px;" onclick="wpd.dataSeriesManagement.showRenameDataset();"/></p>
+        <p><input type="button" value="{{ _("Delete Dataset") }}" style="width:150px;" onclick="wpd.dataSeriesManagement.deleteDataset();"/></p>
         <p><input type="button" value="{{ _("View Data") }}" style="width:150px;" onclick="wpd.dataTable.showTable();"/></p>
         <p><input type="button" value="{{ _("Clear Data") }}" style="width:150px;" onclick="wpd.acquireData.clearAll();"/></p>        
         <p>{{ _("Data Points") }}: <span class="data-point-counter">0</span></p>
