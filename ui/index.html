@@ -108,7 +108,6 @@ Problems loading? Make sure you have a recent version of Google Chrome, Firefox,
     <div class="wpd-menu-dropdown">
         <ul>
             <li id="wpd-datamenu-acquire" onclick="wpd.acquireData.load();">Acquire Data</li>
-            <li id="wpd-datamenu-manage" onclick="wpd.dataSeriesManagement.manage();">Manage Datasets</li>
             <li id="wpd-datamenu-manage" onclick="wpd.popup.show('export-all-data-popup');">Export All Data</li>
         </ul>
     </div>
@@ -173,7 +172,7 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
         </div>
 
         <div style="display: flex;">
-            <div id="left-side-container" style="width:200px; flex: 0 0 169px; border-right: thin lightgrey solid;">
+            <div id="left-side-container" style="width:200px; flex: 0 0 169px;">
                 <!-- tree control -->
                 <div style="display: flex; flex-direction: column; width: 168px; max-height:100%;">
     <div id="tree-container" style="flex: 1; overflow-y: auto;">
@@ -193,7 +192,7 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
     <div id="dataset-group-tree-widget" class="tree-widget" style="flex: 0 0 100px;">
         <p class="sidebar-title">Datasets</p>
         <center>
-        <p><input type="button" value="Add Dataset" style="width:150px;" onclick="wpd.dataSeriesManagement.addSeries();"/></p>
+        <p><input type="button" value="Add Dataset" style="width:150px;" onclick="wpd.dataSeriesManagement.showAddDataset();"/></p>
         <p><input type="button" value="Export All Data" style="width:150px;" onclick="wpd.popup.show('export-all-data-popup');"/></p>
         </center>
     </div>
@@ -209,8 +208,8 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
     <div id="dataset-item-tree-widget" class="tree-widget" style="flex: 0 0 100px;">
         <p class="sidebar-title">Dataset</p>
         <center>
-        <p><input type="button" value="Rename Dataset" style="width:150px;" onclick="wpd.dataSeriesManagement.addSeries();"/></p>
-        <p><input type="button" value="Delete Dataset" style="width:150px;" onclick="wpd.dataSeriesManagement.addSeries();"/></p>
+        <p><input type="button" value="Rename Dataset" style="width:150px;" onclick="wpd.dataSeriesManagement.showRenameDataset();"/></p>
+        <p><input type="button" value="Delete Dataset" style="width:150px;" onclick="wpd.dataSeriesManagement.deleteDataset();"/></p>
         <p><input type="button" value="View Data" style="width:150px;" onclick="wpd.dataTable.showTable();"/></p>
         <p><input type="button" value="Clear Data" style="width:150px;" onclick="wpd.acquireData.clearAll();"/></p>        
         <p>Data Points: <span class="data-point-counter">0</span></p>
@@ -727,36 +726,6 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
 	<p align="center"><input type="button" value="Done" onclick="wpd.colorSelectionWidget.setColor();"></p>
 	</div>
 
-
-    <!-- Manage Data Series -->
-    <div id="manage-data-series-window" class="popup" style="width:400px;">
-    <div class="popupheading">Manage Datasets</div>
-    <p>&nbsp;</p>
-    <center>
-    <table>
-    <tr>
-        <td align="right">Selected Dataset: </td><td> &nbsp;<select id="manage-data-series-list" style="width:200px;" onchange="wpd.dataSeriesManagement.changeSelectedSeries();"><option>Default Dataset</option></select></td>
-    </tr>
-    <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
-    <tr>
-        <td align="right">Dataset Name: </td><td> &nbsp;
-        <input type="text" id="manage-data-series-name" onblur="wpd.dataSeriesManagement.editSeriesName();" onchange="wpd.dataSeriesManagement.editSeriesName();"/>
-        <input type="button" value="Change" onclick="wpd.dataSeriesManagement.editSeriesName();"/></td>
-    </tr>
-    <tr>
-        <td align="right">Data Points: </td><td> &nbsp;<span id="manage-data-series-point-count">0</span></td>
-    </tr>
-    </table>
-    </center>
-    <p>&nbsp;</p>
-    <p align="center">
-        <input type="button" value="Add" onclick="wpd.dataSeriesManagement.addSeries();"/>
-        <input type="button" value="Delete" onclick="wpd.dataSeriesManagement.deleteSeries();"/>
-        <input type="button" value="View Data" onclick="wpd.dataSeriesManagement.viewData();"/>
-        <input type="button" value="Close" onclick="wpd.popup.close('manage-data-series-window');"/>
-    </p>
-    </div>
-
     <!-- Axes Transformation Equations -->
     <div id="axes-transformation-equations-window" class="popup" style="width:600px;">
     <div class="popupheading">Transformation Equations</div>
@@ -860,6 +829,29 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
     </p>
     </div>
 
+    <!-- Add dataset -->
+    <div id="add-dataset-popup" class="popup" style="width:400px;">
+    <div class="popupheading">Add Dataset</div>
+    <center>
+    <p>Name: <input type="text" id="add-single-dataset-name-input" value="New Dataset"/> <input type="button" value="Add Single Dataset" onclick="wpd.dataSeriesManagement.addSingleDataset();"/></p>
+    <hr/>
+    <p>Count: <input type="text" id="add-multiple-datasets-count-input" value="1"/> <input type="button" value="Add Multiple Datasets" onclick="wpd.dataSeriesManagement.addMultipleDatasets();"/></p>
+    <br/>
+    <p><input type="button" value="Cancel" onclick="wpd.popup.close('add-dataset-popup');"/></p>
+    </center>
+    </div>
+
+    <!-- Rename dataset -->
+    <div id="rename-dataset-popup" class="popup" style="width:400px;">
+    <div class="popupheading">Rename Dataset</div>
+    <center>
+    <br/>
+    <p>Name: <input type="text" id="rename-dataset-name-input" value="Dataset"/></p>
+    <br/>
+    <p><input type="button" value="Rename" onclick="wpd.dataSeriesManagement.renameDataset();"/> <input type="button" value="Cancel" onclick="wpd.popup.close('rename-dataset-popup');"/></p>
+    </center>
+    </div>
+
 <!-- strings for translation -->
 <div class="i18n-string" id="i18n-string-wpd">WebPlotDigitizer</div>
 <div class="i18n-string" id="i18n-string-unstable-version-warning">Unstable version warning!</div>
@@ -887,10 +879,8 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
 <div class="i18n-string" id="i18n-string-nearest-neighbor">Nearest Neighbor</div>
 <div class="i18n-string" id="i18n-string-manage-datasets">Manage Datasets</div>
 <div class="i18n-string" id="i18n-string-manage-datasets-text">Please calibrate the axes before managing datasets.</div>
-<div class="i18n-string" id="i18n-string-can-not-delete-dataset">Can Not Delete!</div>
-<div class="i18n-string" id="i18n-string-can-not-delete-dataset-text">You can not delete this dataset as at least one dataset is required.</div>
 <div class="i18n-string" id="i18n-string-delete-dataset">Delete Dataset</div>
-<div class="i18n-string" id="i18n-string-delete-dataset-text">You can not delete this dataset as at least one dataset is required.</div>
+<div class="i18n-string" id="i18n-string-delete-dataset-text">Are you sure you want to delete this dataset?</div>
 <div class="i18n-string" id="i18n-string-averaging-window">Averaging Window</div>
 <div class="i18n-string" id="i18n-string-x-step-with-interpolation">X Step w/ Interpolation</div>
 <div class="i18n-string" id="i18n-string-x-step">X Step</div>
@@ -901,6 +891,11 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
 <div class="i18n-string" id="i18n-string-specify-background-color">Specify Background Color</div>
 <div class="i18n-string" id="i18n-string-no-datasets-to-export">Please add some data before exporting.</div>
 <div class="i18n-string" id="i18n-string-no-datasets-to-export-error">Error: No datasets to export!</div>
+<div class="i18n-string" id="i18n-string-add-dataset-error">Add Dataset Error!</div>
+<div class="i18n-string" id="i18n-string-rename-dataset-error">Rename Dataset Error!</div>
+<div class="i18n-string" id="i18n-string-dataset-exists-error">Dataset with this name already exists. Please pick a different name.</div>
+<div class="i18n-string" id="i18n-string-add-dataset-count-error">Specify a valid number of datasets to add!</div>
+<div class="i18n-string" id="i18n-string-dataset">Dataset</div>
 
 
 

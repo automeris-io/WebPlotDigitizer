@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-08-26 14:42-0500\n"
+"POT-Creation-Date: 2017-08-28 23:07-0500\n"
 "PO-Revision-Date: 2017-05-16 22:52-0500\n"
 "Last-Translator: \n"
 "Language: fr_FR\n"
@@ -61,11 +61,11 @@ msgstr "Exécuter le script"
 msgid "Save Image"
 msgstr "Enregistrer l'image"
 
-#: templates/_menubar.html:9 templates/_popups.html:380
+#: templates/_menubar.html:9 templates/_popups.html:350
 msgid "Export JSON"
 msgstr "Exportation de JSON"
 
-#: templates/_menubar.html:10 templates/_popups.html:391
+#: templates/_menubar.html:10 templates/_popups.html:361
 #: templates/_strings.html:4
 msgid "Import JSON"
 msgstr "importation de JSON"
@@ -82,7 +82,7 @@ msgstr "Calibrer les Axes"
 msgid "Remove Grid"
 msgstr "Supprimer la Grille"
 
-#: templates/_menubar.html:36 templates/_popups.html:371
+#: templates/_menubar.html:36 templates/_popups.html:341
 #: templates/_strings.html:16
 msgid "Transformation Equations"
 msgstr "Équations de Transformation"
@@ -95,52 +95,47 @@ msgstr "Données"
 msgid "Acquire Data"
 msgstr "Acquérir les Données"
 
-#: templates/_menubar.html:45 templates/_popups.html:342
-#: templates/_strings.html:25
-msgid "Manage Datasets"
-msgstr "Gérer les Ensembles de Données"
-
-#: templates/_menubar.html:46 templates/_tree.html:20
+#: templates/_menubar.html:45 templates/_tree.html:20
 msgid "Export All Data"
 msgstr ""
 
-#: templates/_menubar.html:51
+#: templates/_menubar.html:50
 msgid "Measure"
 msgstr "Mesure"
 
-#: templates/_menubar.html:54
+#: templates/_menubar.html:53
 msgid "Distances"
 msgstr "Distances"
 
-#: templates/_menubar.html:55
+#: templates/_menubar.html:54
 msgid "Angles"
 msgstr "Angles"
 
-#: templates/_menubar.html:62
+#: templates/_menubar.html:61
 msgid "Help"
 msgstr "Aide"
 
-#: templates/_menubar.html:65
+#: templates/_menubar.html:64
 msgid "About WebPlotDigitizer"
 msgstr "À propos de WebPlotDigitizer"
 
-#: templates/_menubar.html:66
+#: templates/_menubar.html:65
 msgid "Tutorials"
 msgstr "Tutoriels"
 
-#: templates/_menubar.html:67
+#: templates/_menubar.html:66
 msgid "User Manual"
 msgstr "Manuel de l'utilisateur"
 
-#: templates/_menubar.html:68
+#: templates/_menubar.html:67
 msgid "GitHub Page"
 msgstr "Page de GitHub"
 
-#: templates/_menubar.html:69
+#: templates/_menubar.html:68
 msgid "Report Issues"
 msgstr "Signaler des Problèmes"
 
-#: templates/_menubar.html:70
+#: templates/_menubar.html:69
 msgid "Donate (PayPal)"
 msgstr "Faire un don (PayPal)"
 
@@ -155,9 +150,10 @@ msgstr "Charger"
 #: templates/_popups.html:13 templates/_popups.html:37
 #: templates/_popups.html:48 templates/_popups.html:56
 #: templates/_popups.html:74 templates/_popups.html:92
-#: templates/_popups.html:398 templates/_popups.html:428
-#: templates/_popups.html:441 templates/_popups.html:456
-#: templates/_popups.html:468
+#: templates/_popups.html:368 templates/_popups.html:398
+#: templates/_popups.html:411 templates/_popups.html:426
+#: templates/_popups.html:438 templates/_popups.html:450
+#: templates/_popups.html:461
 msgid "Cancel"
 msgstr "Annulé"
 
@@ -212,8 +208,8 @@ msgstr "Capturer"
 #: templates/_popups.html:65 templates/_popups.html:74
 #: templates/_popups.html:123 templates/_popups.html:147
 #: templates/_popups.html:156 templates/_popups.html:187
-#: templates/_popups.html:206 templates/_popups.html:427
-#: templates/_popups.html:440
+#: templates/_popups.html:206 templates/_popups.html:397
+#: templates/_popups.html:410
 msgid "OK"
 msgstr "OK"
 
@@ -356,7 +352,8 @@ msgstr "0 à 100"
 msgid "Acquired Data"
 msgstr "Données Acquises"
 
-#: templates/_popups.html:216 templates/_tree.html:33
+#: templates/_popups.html:216 templates/_strings.html:43
+#: templates/_tree.html:33
 msgid "Dataset"
 msgstr "Ensemble de Données"
 
@@ -368,7 +365,7 @@ msgstr "Variables"
 msgid "Select All"
 msgstr "Sélectionner Tout"
 
-#: templates/_popups.html:221 templates/_popups.html:466
+#: templates/_popups.html:221 templates/_popups.html:436
 msgid "Download .CSV"
 msgstr "Télécharger .CSV"
 
@@ -377,8 +374,8 @@ msgid "Graph in Plotly*"
 msgstr "Graphique dans Plotly*"
 
 #: templates/_popups.html:223 templates/_popups.html:321
-#: templates/_popups.html:365 templates/_popups.html:375
-#: templates/_popups.html:385 templates/_popups.html:417
+#: templates/_popups.html:345 templates/_popups.html:355
+#: templates/_popups.html:387
 msgid "Close"
 msgstr "Fermer"
 
@@ -539,46 +536,13 @@ msgstr "Couleurs Dominantes"
 msgid "Done"
 msgstr "Terminé"
 
-#: templates/_popups.html:347
-msgid "Selected Dataset"
-msgstr "Ensemble de Données Sélectionné"
-
-#: templates/_popups.html:347
-msgid "Default Dataset"
-msgstr "Ensemble de Données par Défaut"
-
-#: templates/_popups.html:351
-msgid "Dataset Name"
-msgstr "Nom de L'ensemble de Données"
-
-#: templates/_popups.html:353
-msgid "Change"
-msgstr "Modifier"
-
-#: templates/_popups.html:356 templates/_tree.html:39
-msgid "Data Points"
-msgstr "Points de Données"
-
-#: templates/_popups.html:362
-msgid "Add"
-msgstr "Ajouter"
-
-#: templates/_popups.html:363
-msgid "Delete"
-msgstr "Supprimer"
-
-#: templates/_popups.html:364 templates/_tree.html:37 templates/_tree.html:54
-#: templates/_tree.html:62
-msgid "View Data"
-msgstr "Voir les Données"
-
-#: templates/_popups.html:372
+#: templates/_popups.html:342
 msgid "The following relationships are being used to convert image pixels to data"
 msgstr ""
 "Les relations suivantes sont utilisées pour convertir les pixels de "
 "l’image en données"
 
-#: templates/_popups.html:381
+#: templates/_popups.html:351
 msgid ""
 "This JSON file contains the axes calibration and the digitized data "
 "points from this plot. This file can be imported later to resume work or "
@@ -588,11 +552,11 @@ msgstr ""
 "numérisés de ce graphe. Ce fichier peut être importé plus tard pour "
 "reprendre l'activité ou réutiliser l’étalonnage dans un autre graphe."
 
-#: templates/_popups.html:384
+#: templates/_popups.html:354
 msgid "Download"
 msgstr "Télécharger"
 
-#: templates/_popups.html:392
+#: templates/_popups.html:362
 msgid ""
 "Specify a previously exported JSON file to load here. Note that this will"
 " clear any unsaved data points in the current plot."
@@ -601,19 +565,19 @@ msgstr ""
 " que cela effacera tous les points de données non enregistrés dans le "
 "graphe actuel."
 
-#: templates/_popups.html:394
+#: templates/_popups.html:364
 msgid "JSON File"
 msgstr "Fichier JSON"
 
-#: templates/_popups.html:397
+#: templates/_popups.html:367
 msgid "Import"
 msgstr "Importer"
 
-#: templates/_popups.html:404
+#: templates/_popups.html:374
 msgid "Keyboard Shortcuts"
 msgstr "Raccourcis Clavier"
 
-#: templates/_popups.html:405
+#: templates/_popups.html:375
 msgid ""
 "Click to select a data point. The following keys can then be used to the "
 "adjust the position"
@@ -621,88 +585,116 @@ msgstr ""
 "Cliquez pour sélectionner un point de données. Les touches suivantes "
 "peuvent être utilisées pour ajuster la position"
 
-#: templates/_popups.html:408
+#: templates/_popups.html:378
 msgid "Cursor (Arrows)"
 msgstr "Curseur (Flèches)"
 
-#: templates/_popups.html:408
+#: templates/_popups.html:378
 msgid "Move up/down/right/left"
 msgstr "Se déplacer vers le haut/le bas/à droite/à gauche"
 
-#: templates/_popups.html:409
+#: templates/_popups.html:379
 msgid "Shift + Cursor"
 msgstr "Maj + Curseur"
 
-#: templates/_popups.html:409
+#: templates/_popups.html:379
 msgid "Faster rate of movement"
 msgstr "Accélérer la vitesse du mouvement"
 
-#: templates/_popups.html:410
+#: templates/_popups.html:380
 msgid "Select next point"
 msgstr "Sélectionnez le point suivant"
 
-#: templates/_popups.html:411
+#: templates/_popups.html:381
 msgid "Select previous point"
 msgstr "Sélectionnez le point précédent"
 
-#: templates/_popups.html:412
+#: templates/_popups.html:382
 msgid "Del/Backspace"
 msgstr "Suppr/Retour arrière"
 
-#: templates/_popups.html:412
+#: templates/_popups.html:382
 msgid "Delete point"
 msgstr "Supprimer le point"
 
-#: templates/_popups.html:413
+#: templates/_popups.html:383
 msgid "Edit label (Bar Chart)"
 msgstr "Modifier l’étiquette (Diagramme à Barres)"
 
-#: templates/_popups.html:422
+#: templates/_popups.html:392
 msgid "Edit Label"
 msgstr "Modifier le Label"
 
-#: templates/_popups.html:424
+#: templates/_popups.html:394
 msgid "Label"
 msgstr "Label"
 
-#: templates/_popups.html:424
+#: templates/_popups.html:394
 msgid "Data Point"
 msgstr "Point de Données"
 
-#: templates/_popups.html:434
+#: templates/_popups.html:404
 msgid "Perspective Transformation"
 msgstr "Transformation de Perspective"
 
-#: templates/_popups.html:437
+#: templates/_popups.html:407
 msgid "Click on four corners of the region to be transformed as shown."
 msgstr ""
 "Cliquez sur les quatre coins de la région pour être transformé, comme "
 "montré."
 
-#: templates/_popups.html:447
+#: templates/_popups.html:417
 msgid "Edit Existing Calibration?"
 msgstr "Modifier L'étalonnage Existant?"
 
-#: templates/_popups.html:449
+#: templates/_popups.html:419
 msgid "Do you wish to tweak existing axes calibration or select a new axes type?"
 msgstr ""
 "Souhaitez-vous affiner l'étalonnage existant des axes ou sélectionner un "
 "nouveau type d'axe?"
 
-#: templates/_popups.html:452
+#: templates/_popups.html:422
 msgid "Edit Calibration"
 msgstr "Modifier L'étalonnage"
 
-#: templates/_popups.html:454
+#: templates/_popups.html:424
 msgid "Change Axes Type"
 msgstr "Modifier le Type des Axes"
 
-#: templates/_popups.html:462
+#: templates/_popups.html:432
 msgid "Export All Datasets"
 msgstr ""
 
-#: templates/_popups.html:467
+#: templates/_popups.html:437
 msgid "Export to Plotly"
+msgstr ""
+
+#: templates/_popups.html:444 templates/_tree.html:19
+msgid "Add Dataset"
+msgstr ""
+
+#: templates/_popups.html:446 templates/_popups.html:459
+msgid "Name"
+msgstr ""
+
+#: templates/_popups.html:446
+msgid "Add Single Dataset"
+msgstr ""
+
+#: templates/_popups.html:448
+msgid "Count"
+msgstr ""
+
+#: templates/_popups.html:448
+msgid "Add Multiple Datasets"
+msgstr ""
+
+#: templates/_popups.html:456 templates/_tree.html:35
+msgid "Rename Dataset"
+msgstr ""
+
+#: templates/_popups.html:461
+msgid "Rename"
 msgstr ""
 
 #: templates/_sidebars.html:3
@@ -983,62 +975,76 @@ msgstr "Brut"
 msgid "Nearest Neighbor"
 msgstr "Voisin le plus proche"
 
+#: templates/_strings.html:25
+msgid "Manage Datasets"
+msgstr "Gérer les Ensembles de Données"
+
 #: templates/_strings.html:26
 msgid "Please calibrate the axes before managing datasets."
 msgstr "Veuillez étalonner les axes avant de gérer les ensembles de données."
 
-#: templates/_strings.html:27
-msgid "Can Not Delete!"
-msgstr "Suppression Impossible!"
-
-#: templates/_strings.html:28 templates/_strings.html:30
-msgid "You can not delete this dataset as at least one dataset is required."
-msgstr ""
-"Vous ne pouvez pas supprimer cet ensemble de données car il faut au moins"
-" un ensemble de données."
-
-#: templates/_strings.html:29 templates/_tree.html:36
+#: templates/_strings.html:27 templates/_tree.html:36
 msgid "Delete Dataset"
 msgstr "Supprimer L'ensemble de Données"
 
-#: templates/_strings.html:31
+#: templates/_strings.html:28
+msgid "Are you sure you want to delete this dataset?"
+msgstr ""
+
+#: templates/_strings.html:29
 msgid "Averaging Window"
 msgstr "Moyennage de Fenêtre"
 
-#: templates/_strings.html:32
+#: templates/_strings.html:30
 msgid "X Step w/ Interpolation"
 msgstr "Étape X avec/Interpolation"
 
-#: templates/_strings.html:33
+#: templates/_strings.html:31
 msgid "X Step"
 msgstr "Étape X"
 
-#: templates/_strings.html:34
+#: templates/_strings.html:32
 msgid "Blob Detector"
 msgstr "Détecteur de Blob"
 
-#: templates/_strings.html:35
+#: templates/_strings.html:33
 msgid "Bar Extraction"
 msgstr "Extraction de barre"
 
-#: templates/_strings.html:36
+#: templates/_strings.html:34
 msgid "Histogram"
 msgstr "Histogramme"
 
-#: templates/_strings.html:37
+#: templates/_strings.html:35
 msgid "Specify Plot (Foreground) Color"
 msgstr "Spécifier la Couleur du Graphe (Avant-plan)"
 
-#: templates/_strings.html:38
+#: templates/_strings.html:36
 msgid "Specify Background Color"
 msgstr "Spécifier la Couleur D’arrière-plan"
 
-#: templates/_strings.html:39
+#: templates/_strings.html:37
 msgid "Please add some data before exporting."
 msgstr ""
 
-#: templates/_strings.html:40
+#: templates/_strings.html:38
 msgid "Error: No datasets to export!"
+msgstr ""
+
+#: templates/_strings.html:39
+msgid "Add Dataset Error!"
+msgstr ""
+
+#: templates/_strings.html:40
+msgid "Rename Dataset Error!"
+msgstr ""
+
+#: templates/_strings.html:41
+msgid "Dataset with this name already exists. Please pick a different name."
+msgstr ""
+
+#: templates/_strings.html:42
+msgid "Specify a valid number of datasets to add!"
 msgstr ""
 
 #: templates/_toolbars.html:3
@@ -1069,10 +1075,6 @@ msgstr ""
 msgid "Datasets"
 msgstr ""
 
-#: templates/_tree.html:19
-msgid "Add Dataset"
-msgstr ""
-
 #: templates/_tree.html:25
 msgid "Measurements"
 msgstr ""
@@ -1081,13 +1083,17 @@ msgstr ""
 msgid "Angle"
 msgstr ""
 
-#: templates/_tree.html:35
-msgid "Rename Dataset"
-msgstr ""
+#: templates/_tree.html:37 templates/_tree.html:54 templates/_tree.html:62
+msgid "View Data"
+msgstr "Voir les Données"
 
 #: templates/_tree.html:38
 msgid "Clear Data"
 msgstr ""
+
+#: templates/_tree.html:39
+msgid "Data Points"
+msgstr "Points de Données"
 
 #: templates/_tree.html:46
 msgid "Edit"
@@ -1113,5 +1119,29 @@ msgstr "Effacer Tout"
 #~ msgstr "Effacer les Points"
 
 #~ msgid "Rename"
+#~ msgstr ""
+
+#~ msgid "Selected Dataset"
+#~ msgstr "Ensemble de Données Sélectionné"
+
+#~ msgid "Default Dataset"
+#~ msgstr "Ensemble de Données par Défaut"
+
+#~ msgid "Dataset Name"
+#~ msgstr "Nom de L'ensemble de Données"
+
+#~ msgid "Change"
+#~ msgstr "Modifier"
+
+#~ msgid "Add"
+#~ msgstr "Ajouter"
+
+#~ msgid "Delete"
+#~ msgstr "Supprimer"
+
+#~ msgid "Can Not Delete!"
+#~ msgstr "Suppression Impossible!"
+
+#~ msgid "You can not delete this dataset as at least one dataset is required."
 #~ msgstr ""
 

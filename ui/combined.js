@@ -3471,115 +3471,121 @@ var wpd = wpd || {};
 
 wpd.dataSeriesManagement = (function () {
 
-    var nameIndex = 1;
-    
-    function updateSeriesList() {
-    }
-
-    function manage() {
-        if(!wpd.appData.isAligned()) {
-            wpd.messagePopup.show(wpd.gettext('manage-datasets'), wpd.gettext('manage-datasets-text'));
-        } else {
-            var $nameField = document.getElementById('manage-data-series-name'),
-                $pointCount = document.getElementById('manage-data-series-point-count'),
-                $datasetList = document.getElementById('manage-data-series-list'),
-                plotData = wpd.appData.getPlotData(),
-                activeDataSeries = plotData.getActiveDataSeries(),
-                seriesList = plotData.getDataSeriesNames(),
-                activeSeriesIndex = plotData.getActiveDataSeriesIndex(),
-                listHtml = '',
-                i;
-
-            $nameField.value = activeDataSeries.name;
-            $pointCount.innerHTML = activeDataSeries.getCount();
-            for(i = 0; i < seriesList.length; i++) {
-                listHtml += '<option value="'+ i + '">' + seriesList[i] + '</option>';
-            }
-            $datasetList.innerHTML = listHtml;
-            $datasetList.selectedIndex = activeSeriesIndex;
-
-            // TODO: disable delete button if only one series is present
-            wpd.popup.show('manage-data-series-window');
+    function datasetWithNameExists(name) {
+        const plotData = wpd.appData.getPlotData();
+        const dsNameColl = plotData.getDataSeriesNames();
+        if(dsNameColl.indexOf(name) >= 0) {
+            return true;
         }
+        return false;
     }
 
-    function addSeries() {
-        var plotData = wpd.appData.getPlotData(),
-            seriesName = 'Dataset ' + nameIndex,
-            index = plotData.dataSeriesColl.length;
+    function getDatasetCount() {
+        const plotData = wpd.appData.getPlotData();
+        return plotData.getDataSeriesCount();                
+    }
+
+    function showAddDataset() {
+        const $singleDatasetName = document.getElementById('add-single-dataset-name-input');
+        let suffix = getDatasetCount();
+        let dsName = wpd.gettext("dataset") + " " + suffix;
+        while(datasetWithNameExists(dsName)) {
+            suffix++;
+            dsName = wpd.gettext("dataset") + " " + suffix;
+        }
+        $singleDatasetName.value = dsName;
+        wpd.popup.show('add-dataset-popup');
+    }
+
+    function showRenameDataset() {
+        const plotData = wpd.appData.getPlotData();
+        const ds = plotData.getActiveDataSeries();
+        const $dsName = document.getElementById('rename-dataset-name-input');
+        $dsName.value = ds.name;
+        wpd.popup.show('rename-dataset-popup');
+    }
+
+    function renameDataset() {
+        const $dsName = document.getElementById('rename-dataset-name-input');
+        wpd.popup.close('rename-dataset-popup');
         
-        close();
-        plotData.dataSeriesColl[index] = new wpd.DataSeries();
-        plotData.dataSeriesColl[index].name = seriesName;
-        plotData.setActiveDataSeriesIndex(index);
-        updateApp();
-        nameIndex++;
+        if(datasetWithNameExists($dsName.value.trim())) {
+            wpd.messagePopup.show(wpd.gettext("rename-dataset-error"), wpd.gettext("dataset-exists-error"), showRenameDataset);
+            return;
+        }
+        
+        const plotData = wpd.appData.getPlotData();
+        const ds = plotData.getActiveDataSeries();
+        ds.name = $dsName.value.trim();
         wpd.tree.refresh();
-        manage();
+        wpd.tree.selectPath("/Datasets/" + ds.name, true);
     }
+    
+    function addSingleDataset() {
+        const $singleDatasetName = document.getElementById('add-single-dataset-name-input');
 
-    function deleteSeries() {
-        // if this is the only dataset, then disallow delete!
-        close();
+        wpd.popup.close('add-dataset-popup');
 
-        if(wpd.appData.getPlotData().dataSeriesColl.length === 1) {
-            wpd.messagePopup.show(wpd.gettext('can-not-delete-dataset'), wpd.gettext('can-not-delete-dataset-text'), manage);
+        // do not add if this name already exists
+        if(datasetWithNameExists($singleDatasetName.value.trim())) {
+            wpd.messagePopup.show(wpd.gettext("add-dataset-error"), wpd.gettext("dataset-exists-error"), function() {
+                wpd.popup.show('add-dataset-popup');
+            });
             return;
         }
 
-        wpd.okCancelPopup.show(wpd.gettext('delete-dataset'), wpd.gettext('delete-dataset-text'), function() {
-            // delete the dataset
-            var plotData = wpd.appData.getPlotData(),
-                index = plotData.getActiveDataSeriesIndex();
-            plotData.dataSeriesColl.splice(index,1);
-            plotData.setActiveDataSeriesIndex(0);
-            manage();
-        }, function() {
-            // 'cancel'
-            manage();
+        const plotData = wpd.appData.getPlotData();
+        let ds = new wpd.DataSeries();
+        ds.name = $singleDatasetName.value.trim();
+        plotData.dataSeriesColl.push(ds);
+        wpd.tree.refreshPreservingSelection();                
+    }
+
+    function addMultipleDatasets() {
+        const $dsCount = document.getElementById('add-multiple-datasets-count-input');
+        const dsCount = parseInt($dsCount.value,0);
+        wpd.popup.close('add-dataset-popup');
+        if(dsCount > 0) {
+            const plotData = wpd.appData.getPlotData();
+            let idx = getDatasetCount();
+            const prefix = wpd.gettext("dataset") + " ";
+            let i = 0;
+            while(i < dsCount) {
+                let dsName = prefix + idx;
+                if(!datasetWithNameExists(dsName)) {
+                    let ds = new wpd.DataSeries();
+                    ds.name = dsName;
+                    plotData.dataSeriesColl.push(ds);
+                    i++;
+                }
+                idx++;
+            }
+            wpd.tree.refreshPreservingSelection();
+        } else {
+            wpd.messagePopup(wpd.gettext("add-dataset-error"), wpd.gettext("add-dataset-count-error"), function() { wpd.popup.show('add-dataset-popup'); });
+        }
+    }
+
+    function deleteDataset() {
+        wpd.okCancelPopup.show(wpd.gettext("delete-dataset"), wpd.gettext("delete-dataset-text"), function() {
+
+            const plotData = wpd.appData.getPlotData();
+            const dsIdx = plotData.getActiveDataSeriesIndex();
+            if(dsIdx >= 0) {
+                plotData.dataSeriesColl.splice(dsIdx,1);
+                wpd.tree.refresh();
+                wpd.tree.selectPath("/Datasets");                
+            }
         });
     }
 
-    function viewData() {
-        close();
-        wpd.dataTable.showTable();
-    }
-
-    function changeSelectedSeries() {
-        var $list = document.getElementById('manage-data-series-list'),
-            plotData = wpd.appData.getPlotData();
-
-        close();
-        plotData.setActiveDataSeriesIndex($list.selectedIndex);
-        updateApp();
-        manage();
-    }
-
-    function updateApp() {
-        wpd.graphicsWidget.forceHandlerRepaint();
-        wpd.dataPointCounter.setCount();
-    }
-
-    function editSeriesName() {
-        var activeSeries = wpd.appData.getPlotData().getActiveDataSeries(),
-            $name = document.getElementById('manage-data-series-name');
-        close();
-        activeSeries.name = $name.value;
-        updateApp(); // overkill, but not too bad.
-        manage();
-    }
-
-    function close() {
-        wpd.popup.close('manage-data-series-window');
-    }
-
     return {
-        manage: manage,
-        addSeries: addSeries,
-        deleteSeries: deleteSeries,
-        viewData: viewData,
-        changeSelectedSeries: changeSelectedSeries,
-        editSeriesName: editSeriesName
+        showAddDataset: showAddDataset,
+        showRenameDataset: showRenameDataset,
+        renameDataset: renameDataset,
+        addSingleDataset: addSingleDataset,
+        addMultipleDatasets: addMultipleDatasets,
+        deleteDataset: deleteDataset
     };
 })();
 /*
@@ -5144,6 +5150,7 @@ wpd.TreeWidget = class {
         this.$mainElem.addEventListener("click", e => this._onclick(e));
         this.idmap = [];
         this.itemCount = 0;
+        this.selectedPath = null;
     }
 
     _renderFolder(data, basePath, isInnerFolder) {
@@ -5180,7 +5187,7 @@ wpd.TreeWidget = class {
         this.itemCount = 0;
         this.treeData = treeData;
         this.$mainElem.innerHTML = this._renderFolder(this.treeData, "", false);
-        console.log(this.idmap);
+        this.selectedPath = null;
     }
 
     _unselectAll() {
@@ -5192,12 +5199,14 @@ wpd.TreeWidget = class {
         $items.forEach(function($e) {
             $e.classList.remove("tree-selected");
         });
+        this.selectedPath = null;
     }
 
     selectPath(itemPath, suppressSecondaryActions) {
         const itemId = this.idmap.indexOf(itemPath);
         if(itemId >= 0) {
             this._unselectAll();
+            this.selectedPath = itemPath;
             const $item = document.getElementById("tree-item-id-" + itemId);
             $item.classList.add("tree-selected");
             if(this.itemSelectionCallback != null) {
@@ -5223,6 +5232,10 @@ wpd.TreeWidget = class {
 
     onItemSelection(callback) {
         this.itemSelectionCallback = callback;
+    }
+
+    getSelectedPath() {
+        return this.selectedPath;
     }
 };
 
@@ -5333,6 +5346,16 @@ wpd.tree = (function() {
         buildTree();
     }
 
+    function refreshPreservingSelection() {
+        if(treeWidget != null) {
+            const selectedPath = treeWidget.getSelectedPath();
+            refresh();
+            treeWidget.selectPath(selectedPath, true);
+        } else {
+            refresh();
+        }
+    }
+
     function selectPath(path, suppressSecondaryActions) {
         treeWidget.selectPath(path, suppressSecondaryActions);
     }
@@ -5346,6 +5369,7 @@ wpd.tree = (function() {
     return {
         init: init,
         refresh: refresh,
+        refreshPreservingSelection: refreshPreservingSelection,
         selectPath: selectPath,
         addMeasurement: addMeasurement        
     };

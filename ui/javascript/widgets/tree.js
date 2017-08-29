@@ -29,6 +29,7 @@ wpd.TreeWidget = class {
         this.$mainElem.addEventListener("click", e => this._onclick(e));
         this.idmap = [];
         this.itemCount = 0;
+        this.selectedPath = null;
     }
 
     _renderFolder(data, basePath, isInnerFolder) {
@@ -65,7 +66,7 @@ wpd.TreeWidget = class {
         this.itemCount = 0;
         this.treeData = treeData;
         this.$mainElem.innerHTML = this._renderFolder(this.treeData, "", false);
-        console.log(this.idmap);
+        this.selectedPath = null;
     }
 
     _unselectAll() {
@@ -77,12 +78,14 @@ wpd.TreeWidget = class {
         $items.forEach(function($e) {
             $e.classList.remove("tree-selected");
         });
+        this.selectedPath = null;
     }
 
     selectPath(itemPath, suppressSecondaryActions) {
         const itemId = this.idmap.indexOf(itemPath);
         if(itemId >= 0) {
             this._unselectAll();
+            this.selectedPath = itemPath;
             const $item = document.getElementById("tree-item-id-" + itemId);
             $item.classList.add("tree-selected");
             if(this.itemSelectionCallback != null) {
@@ -108,6 +111,10 @@ wpd.TreeWidget = class {
 
     onItemSelection(callback) {
         this.itemSelectionCallback = callback;
+    }
+
+    getSelectedPath() {
+        return this.selectedPath;
     }
 };
 
@@ -218,6 +225,16 @@ wpd.tree = (function() {
         buildTree();
     }
 
+    function refreshPreservingSelection() {
+        if(treeWidget != null) {
+            const selectedPath = treeWidget.getSelectedPath();
+            refresh();
+            treeWidget.selectPath(selectedPath, true);
+        } else {
+            refresh();
+        }
+    }
+
     function selectPath(path, suppressSecondaryActions) {
         treeWidget.selectPath(path, suppressSecondaryActions);
     }
@@ -231,6 +248,7 @@ wpd.tree = (function() {
     return {
         init: init,
         refresh: refresh,
+        refreshPreservingSelection: refreshPreservingSelection,
         selectPath: selectPath,
         addMeasurement: addMeasurement        
     };

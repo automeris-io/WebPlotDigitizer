@@ -336,36 +336,6 @@
 	<p align="center"><input type="button" value="{{ _("Done") }}" onclick="wpd.colorSelectionWidget.setColor();"></p>
 	</div>
 
-
-    <!-- Manage Data Series -->
-    <div id="manage-data-series-window" class="popup" style="width:400px;">
-    <div class="popupheading">{{ _("Manage Datasets") }}</div>
-    <p>&nbsp;</p>
-    <center>
-    <table>
-    <tr>
-        <td align="right">{{ _("Selected Dataset") }}: </td><td> &nbsp;<select id="manage-data-series-list" style="width:200px;" onchange="wpd.dataSeriesManagement.changeSelectedSeries();"><option>{{ _("Default Dataset") }}</option></select></td>
-    </tr>
-    <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
-    <tr>
-        <td align="right">{{ _("Dataset Name") }}: </td><td> &nbsp;
-        <input type="text" id="manage-data-series-name" onblur="wpd.dataSeriesManagement.editSeriesName();" onchange="wpd.dataSeriesManagement.editSeriesName();"/>
-        <input type="button" value="{{ _("Change") }}" onclick="wpd.dataSeriesManagement.editSeriesName();"/></td>
-    </tr>
-    <tr>
-        <td align="right">{{ _("Data Points") }}: </td><td> &nbsp;<span id="manage-data-series-point-count">0</span></td>
-    </tr>
-    </table>
-    </center>
-    <p>&nbsp;</p>
-    <p align="center">
-        <input type="button" value="{{ _("Add") }}" onclick="wpd.dataSeriesManagement.addSeries();"/>
-        <input type="button" value="{{ _("Delete") }}" onclick="wpd.dataSeriesManagement.deleteSeries();"/>
-        <input type="button" value="{{ _("View Data") }}" onclick="wpd.dataSeriesManagement.viewData();"/>
-        <input type="button" value="{{ _("Close") }}" onclick="wpd.popup.close('manage-data-series-window');"/>
-    </p>
-    </div>
-
     <!-- Axes Transformation Equations -->
     <div id="axes-transformation-equations-window" class="popup" style="width:600px;">
     <div class="popupheading">{{ _("Transformation Equations") }}</div>
@@ -467,4 +437,27 @@
         <input type="button" value="{{ _("Export to Plotly") }}" onclick="wpd.dataExport.exportToPlotly();"/>
         <input type="button" value="{{ _("Cancel") }}" onclick="wpd.popup.close('export-all-data-popup');"/>
     </p>
+    </div>
+
+    <!-- Add dataset -->
+    <div id="add-dataset-popup" class="popup" style="width:400px;">
+    <div class="popupheading">{{ _("Add Dataset") }}</div>
+    <center>
+    <p>{{ _("Name") }}: <input type="text" id="add-single-dataset-name-input" value="New Dataset"/> <input type="button" value="{{ _("Add Single Dataset") }}" onclick="wpd.dataSeriesManagement.addSingleDataset();"/></p>
+    <hr/>
+    <p>{{ _("Count") }}: <input type="text" id="add-multiple-datasets-count-input" value="1"/> <input type="button" value="{{ _("Add Multiple Datasets") }}" onclick="wpd.dataSeriesManagement.addMultipleDatasets();"/></p>
+    <br/>
+    <p><input type="button" value="{{ _("Cancel") }}" onclick="wpd.popup.close('add-dataset-popup');"/></p>
+    </center>
+    </div>
+
+    <!-- Rename dataset -->
+    <div id="rename-dataset-popup" class="popup" style="width:400px;">
+    <div class="popupheading">{{ _("Rename Dataset") }}</div>
+    <center>
+    <br/>
+    <p>{{ _("Name") }}: <input type="text" id="rename-dataset-name-input" value="Dataset"/></p>
+    <br/>
+    <p><input type="button" value="{{ _("Rename") }}" onclick="wpd.dataSeriesManagement.renameDataset();"/> <input type="button" value="{{ _("Cancel") }}" onclick="wpd.popup.close('rename-dataset-popup');"/></p>
+    </center>
     </div>
