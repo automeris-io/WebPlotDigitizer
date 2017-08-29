@@ -29,7 +29,6 @@ wpd.initApp = function() {// This is run when the page loads.
     wpd.layoutManager.initialLayout();
     if(!wpd.loadRemoteData()) {
         wpd.graphicsWidget.loadImageFromURL('start.png');
-        //wpd.messagePopup.show(wpd.gettext('unstable-version-warning'), wpd.gettext('unstable-version-warning-text'));
     }
     document.getElementById('loadingCurtain').style.display = 'none';
 
@@ -3486,6 +3485,10 @@ wpd.dataSeriesManagement = (function () {
     }
 
     function showAddDataset() {
+        if(!wpd.appData.isAligned()) {
+            wpd.messagePopup.show(wpd.gettext('acquire-data'), wpd.gettext('acquire-data-calibration'));
+            return;
+        } 
         const $singleDatasetName = document.getElementById('add-single-dataset-name-input');
         let suffix = getDatasetCount();
         let dsName = wpd.gettext("dataset") + " " + suffix;
@@ -5329,7 +5332,7 @@ wpd.tree = (function() {
         } else if(path.startsWith("/Datasets/")) {
             onDatasetSelection(elem, path, suppressSecondaryActions);
         } else if(path.startsWith("/Axes/")) {
-
+            showTreeItemWidget(null);
         } else {
             showTreeItemWidget(null);
         }
