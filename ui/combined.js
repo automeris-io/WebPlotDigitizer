@@ -4407,7 +4407,9 @@ wpd.graphicsWidget = (function () {
         wpd.busyNote.close();
 
         // TODO: move this logic outside the graphics widget!
-        if (firstLoad === false) {
+        if (firstLoad) {
+            wpd.sidebar.show('start-sidebar');
+        } else {
             wpd.popup.show('axesList');
         }
         firstLoad = false;

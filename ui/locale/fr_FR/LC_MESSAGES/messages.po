@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-08-28 23:33-0500\n"
+"POT-Creation-Date: 2017-08-30 21:19-0500\n"
 "PO-Revision-Date: 2017-05-16 22:52-0500\n"
 "Last-Translator: \n"
 "Language: fr_FR\n"
@@ -874,6 +874,14 @@ msgstr "Détecter"
 msgid "Reset"
 msgstr "Réinitialiser"
 
+#: templates/_sidebars.html:117
+msgid "Load an Image"
+msgstr ""
+
+#: templates/_sidebars.html:118
+msgid "Watch Tutorial"
+msgstr ""
+
 #: templates/_strings.html:2
 msgid "Unstable version warning!"
 msgstr "Attention version instable!"
@@ -1146,5 +1154,8 @@ msgstr "Effacer Tout"
 #~ msgstr ""
 
 #~ msgid "Manual"
+#~ msgstr ""
+
+#~ msgid "Start Here"
 #~ msgstr ""
 

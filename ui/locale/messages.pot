@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-08-28 23:33-0500\n"
+"POT-Creation-Date: 2017-08-30 21:19-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -833,6 +833,14 @@ msgstr ""
 
 #: templates/_sidebars.html:109
 msgid "Reset"
+msgstr ""
+
+#: templates/_sidebars.html:117
+msgid "Load an Image"
+msgstr ""
+
+#: templates/_sidebars.html:118
+msgid "Watch Tutorial"
 msgstr ""
 
 #: templates/_strings.html:2
