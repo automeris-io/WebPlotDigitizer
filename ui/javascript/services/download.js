@@ -25,7 +25,25 @@ var wpd = wpd || {};
 
 wpd.download = (function() {
     
-    function textFile(data, filename, format) {
+    function textFile(data, filename) {
+        if(wpd.browserInfo.downloadAttributeSupported) {
+            textFileLocal(data, filename);
+        } else {
+            textFileServer(data, filename);
+        }
+    }
+
+    function textFileLocal(data, filename) {
+        let $downloadElem = document.createElement('a');
+        $downloadElem.href = URL.createObjectURL(new Blob([data]), {type:"text/plain"});
+        $downloadElem.download = stripIllegalCharacters(filename);
+        $downloadElem.style.display = "none";
+        document.body.appendChild($downloadElem);
+        $downloadElem.click();
+        document.body.removeChild($downloadElem);
+    }
+
+    function textFileServer(data, filename) {
         var formContainer,
             formElement,
             formData,
@@ -40,12 +58,7 @@ wpd.download = (function() {
         formFilename.type = 'hidden';
 
         formElement.setAttribute('method', 'post');
-
-        if(format === 'json') {
-            formElement.setAttribute('action', 'internal/download/json');
-        } else if (format === 'csv') {
-            formElement.setAttribute('action', 'internal/download/csv');
-        }
+        formElement.setAttribute('action', 'internal/download/text');
 
         formData.setAttribute('name', "data");
         formData.setAttribute('id', "data");
@@ -66,16 +79,16 @@ wpd.download = (function() {
 
     function json(jsonData, filename) {
         if(filename == null) {
-            filename = 'wpd_plot_data';
+            filename = 'wpd_plot_data.json';
         }
-        textFile(jsonData, filename, 'json');
+        textFile(jsonData, filename);
     }
 
     function csv(csvData, filename) {
         if(filename == null) {
-            filename = 'data';
+            filename = 'data.csv';
         }
-        textFile(csvData, filename, 'csv');
+        textFile(csvData, filename);
     }
 
     function stripIllegalCharacters(filename) {

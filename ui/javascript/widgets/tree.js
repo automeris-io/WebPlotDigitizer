@@ -45,7 +45,7 @@ wpd.TreeWidget = class {
             let item = data[i];
             this.itemCount++;
             if(typeof(item) === "string") {
-                htmlStr += "<li>"
+                htmlStr += "<li title=\"" + item + "\">";
                 htmlStr += "<span class=\"tree-item\" id=\"tree-item-id-" + this.itemCount + "\">" + item + "</span>";
                 this.idmap[this.itemCount] = basePath + "/" + item;
             } else if(typeof(item) === "object") {

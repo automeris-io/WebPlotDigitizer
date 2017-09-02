@@ -47,12 +47,8 @@ func main() {
 	http.Handle("/", http.FileServer(fs))
 
 	// internal backend API
-	http.HandleFunc("/internal/download/csv", func(w http.ResponseWriter, r *http.Request) {
-		HandleDownload(w, r, "csv")
-	})
-
-	http.HandleFunc("/internal/download/json", func(w http.ResponseWriter, r *http.Request) {
-		HandleDownload(w, r, "json")
+	http.HandleFunc("/internal/download/text", func(w http.ResponseWriter, r *http.Request) {
+		HandleDownload(w, r)
 	})
 
 	// start the server
