@@ -264,7 +264,7 @@ wpd.dataTable = (function () {
 
     function generateCSV() {
         var datasetName = dataProvider.getDatasetNames()[dataProvider.getDatasetIndex()];
-        wpd.download.csv(tableText, datasetName);
+        wpd.download.csv(tableText, datasetName + ".csv");
     }
 
     function exportToPlotly() {

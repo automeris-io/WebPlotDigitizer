@@ -113,7 +113,7 @@ wpd.dataExport = (function () {
         }
         
         // download
-        wpd.download.csv(csvText, "wpd_datasets");
+        wpd.download.csv(csvText, "wpd_datasets.csv");
     }
 
     function exportToPlotly() {

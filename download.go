@@ -23,19 +23,15 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"net/http"
 )
 
 // HandleDownload - Handle CSV/JSON downloads
-func HandleDownload(w http.ResponseWriter, r *http.Request, fileExt string) {
+func HandleDownload(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "POST" {
-		ipAddr := GetIP(r)
 		r.ParseForm()
 		filename := r.Form.Get("filename")
-		log.Printf("Download [%v] from IP [%v]\n", fileExt, ipAddr)
-
-		w.Header().Set("Content-Disposition", "attachment; filename=\""+filename+"."+fileExt+"\"")
+		w.Header().Set("Content-Disposition", "attachment; filename=\""+filename+"\"")
 		w.Header().Set("Content-Type", r.Header.Get("Content-Type"))
 		fmt.Fprintf(w, r.Form.Get("data"))
 	}
