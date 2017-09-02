@@ -122,6 +122,24 @@ wpd.tree = (function() {
 
     let treeWidget = null;
 
+    function getAxesName(axes) {
+        if(axes instanceof wpd.XYAxes) {
+            return wpd.gettext("axes-name-xy");
+        } else if(axes instanceof wpd.ImageAxes) {
+            return wpd.gettext("axes-name-image");
+        } else if(axes instanceof wpd.BarAxes) {
+            return wpd.gettext("axes-name-bar");
+        } else if(axes instanceof wpd.PolarAxes) {
+            return wpd.gettext("axes-name-polar");
+        } else if(axes instanceof wpd.TernaryAxes) {
+            return wpd.gettext("axes-name-ternary");
+        } else if(axes instanceof wpd.MapAxes) {
+            return wpd.gettext("axes-name-map");
+        } else {
+            return "Unknown Axes";
+        }
+    }
+
     function buildTree() {
         if(treeWidget == null) {
             return;
@@ -131,23 +149,29 @@ wpd.tree = (function() {
         const plotData = wpd.appData.getPlotData();
         
         const axes = plotData.axes;
+        let axesFolder = {};
         if(axes == null) {
-            treeData.push({"Axes": []});
+            axesFolder[wpd.gettext("axes")] = [];
         } else {
-            treeData.push({"Axes": [axes.name]});
+            axesFolder[wpd.gettext("axes")] = [getAxesName(axes)];
         }
+        treeData.push(axesFolder);
 
         const datasetNames = plotData.getDataSeriesNames();
-        treeData.push({"Datasets": datasetNames});
+        let datasetsFolder = {};
+        datasetsFolder[wpd.gettext("datasets")] = datasetNames;
+        treeData.push(datasetsFolder);
 
         let measurementItems = [];
         if(plotData.angleMeasurementData != null) {
-            measurementItems.push("Angle");
+            measurementItems.push(wpd.gettext("angle"));
         }
         if(plotData.distanceMeasurementData != null) {
-            measurementItems.push("Distance");
+            measurementItems.push(wpd.gettext("distance"));
         }
-        treeData.push({"Measurements": measurementItems});
+        let measurementFolder = {};
+        measurementFolder[wpd.gettext("measurements")] = measurementItems;
+        treeData.push(measurementFolder);
 
         treeWidget.render(treeData);
 
@@ -176,7 +200,7 @@ wpd.tree = (function() {
             // get dataset index
             const plotData = wpd.appData.getPlotData();
             const dsNamesColl = plotData.getDataSeriesNames();
-            const dsIdx = dsNamesColl.indexOf(path.replace("/Datasets/",""));
+            const dsIdx = dsNamesColl.indexOf(path.replace("/"+ wpd.gettext("datasets") +"/",""));
             // set active dataset 
             plotData.setActiveDataSeriesIndex(dsIdx);
             // refresh UI
@@ -186,30 +210,32 @@ wpd.tree = (function() {
     }
 
     function onSelection(elem, path, suppressSecondaryActions) {
-        if(path === "/Datasets") {
+        if(path === "/" + wpd.gettext("datasets")) {
             resetGraphics();
             showTreeItemWidget("dataset-group-tree-widget");
-        } else if(path === "/Axes") {
+        } else if(path === "/" + wpd.gettext("axes")) {
             resetGraphics();
             showTreeItemWidget("axes-group-tree-widget");
-        } else if(path === "/Measurements") {
+        } else if(path === "/" + wpd.gettext("measurements")) {
             resetGraphics();
             showTreeItemWidget("measurement-group-tree-widget");
-        } else if(path === wpd.measurementModes.distance.treePath) {
+        } else if(path === '/'+wpd.gettext('measurements')+'/'+wpd.gettext('distance')) {
             if(!suppressSecondaryActions) {
                 wpd.measurement.start(wpd.measurementModes.distance);
             }
             showTreeItemWidget('distance-item-tree-widget');
-        } else if(path === wpd.measurementModes.angle.treePath) {
+        } else if(path === '/'+wpd.gettext('measurements')+'/'+wpd.gettext('angle')) {
             if(!suppressSecondaryActions) {
                 wpd.measurement.start(wpd.measurementModes.angle);
             }
             showTreeItemWidget('angle-item-tree-widget');
-        } else if(path.startsWith("/Datasets/")) {
+        } else if(path.startsWith("/"+ wpd.gettext("datasets") +"/")) {
             onDatasetSelection(elem, path, suppressSecondaryActions);
-        } else if(path.startsWith("/Axes/")) {
+        } else if(path.startsWith("/" + wpd.gettext("axes") + "/")) {
+            resetGraphics();
             showTreeItemWidget(null);
         } else {
+            resetGraphics();
             showTreeItemWidget(null);
         }
     }
@@ -242,7 +268,11 @@ wpd.tree = (function() {
     function addMeasurement(mode) {
         wpd.measurement.start(mode);
         refresh();
-        wpd.tree.selectPath(mode.treePath, true);
+        if(mode === wpd.measurementModes.distance) { 
+            wpd.tree.selectPath("/"+wpd.gettext("measurements")+"/"+wpd.gettext("distance"), true);
+        } else if(mode === wpd.measurementModes.angle) {
+            wpd.tree.selectPath("/"+wpd.gettext("measurements")+"/"+wpd.gettext("angle"), true);
+        }
     }
 
     return {

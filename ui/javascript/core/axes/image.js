@@ -57,8 +57,6 @@ wpd.ImageAxes = (function () {
                 dataToPixel: ['x_pixel = x_data', 'y_pixel = y_data']
             };
         };
-
-        this.name = "Image";
     };
 
     AxesObj.prototype.numCalibrationPointsRequired = function() {
