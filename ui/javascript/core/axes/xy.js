@@ -263,8 +263,6 @@ wpd.XYAxes = (function () {
                 angle: 90
             };
         };
-
-        this.name = "XY";
     };
 
     AxesObj.prototype.numCalibrationPointsRequired = function() {

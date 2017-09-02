@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-09-02 08:44-0500\n"
+"POT-Creation-Date: 2017-09-02 16:46-0500\n"
 "PO-Revision-Date: 2017-01-11 20:47-0600\n"
 "Last-Translator: \n"
 "Language: de_DE\n"
@@ -45,7 +45,7 @@ msgstr "passen"
 msgid "File"
 msgstr "Datei"
 
-#: templates/_menubar.html:5
+#: templates/_menubar.html:5 templates/_sidebars.html:117
 msgid "Load Image"
 msgstr "Bild laden"
 
@@ -71,7 +71,8 @@ msgstr "JSON zu exportieren"
 msgid "Import JSON"
 msgstr "Importieren JSON"
 
-#: templates/_menubar.html:30 templates/_tree.html:8 templates/_tree.html:44
+#: templates/_menubar.html:30 templates/_strings.html:46 templates/_tree.html:8
+#: templates/_tree.html:44
 msgid "Axes"
 msgstr "Achsen"
 
@@ -238,7 +239,7 @@ msgstr "Ternäres Diagramm"
 msgid "Map With Scale Bar"
 msgstr "Karte mit Maßstabsleiste"
 
-#: templates/_popups.html:88
+#: templates/_popups.html:88 templates/_strings.html:50
 msgid "Image"
 msgstr "Bild"
 
@@ -771,7 +772,8 @@ msgstr "Hintergrundfarbe"
 msgid "Click to change color"
 msgstr "Klicken Sie auf Farbe ändern"
 
-#: templates/_sidebars.html:24 templates/_tree.html:27 templates/_tree.html:51
+#: templates/_sidebars.html:24 templates/_strings.html:47
+#: templates/_tree.html:27 templates/_tree.html:51
 msgid "Distance"
 msgstr "Entfernung"
 
@@ -871,12 +873,16 @@ msgstr "Erkennen"
 msgid "Reset"
 msgstr "Zurücksetzen"
 
-#: templates/_sidebars.html:117
-msgid "Load an Image"
+#: templates/_sidebars.html:118
+msgid "Tutorial Video"
 msgstr ""
 
-#: templates/_sidebars.html:118
-msgid "Watch Tutorial"
+#: templates/_sidebars.html:119
+msgid "Visit Website"
+msgstr ""
+
+#: templates/_sidebars.html:120
+msgid "Visit GitHub"
 msgstr ""
 
 #: templates/_strings.html:2
@@ -1050,6 +1056,38 @@ msgstr ""
 msgid "Specify a valid number of datasets to add!"
 msgstr ""
 
+#: templates/_strings.html:44 templates/_tree.html:17
+msgid "Datasets"
+msgstr ""
+
+#: templates/_strings.html:45 templates/_tree.html:25
+msgid "Measurements"
+msgstr ""
+
+#: templates/_strings.html:48 templates/_tree.html:28 templates/_tree.html:59
+msgid "Angle"
+msgstr ""
+
+#: templates/_strings.html:49
+msgid "XY"
+msgstr ""
+
+#: templates/_strings.html:51
+msgid "Bar"
+msgstr ""
+
+#: templates/_strings.html:52
+msgid "Polar"
+msgstr ""
+
+#: templates/_strings.html:53
+msgid "Ternary"
+msgstr ""
+
+#: templates/_strings.html:54
+msgid "Map"
+msgstr ""
+
 #: templates/_toolbars.html:3
 msgid "Erase All"
 msgstr "Alle löschen"
@@ -1072,18 +1110,6 @@ msgstr ""
 
 #: templates/_tree.html:12
 msgid "Export Calibration"
-msgstr ""
-
-#: templates/_tree.html:17
-msgid "Datasets"
-msgstr ""
-
-#: templates/_tree.html:25
-msgid "Measurements"
-msgstr ""
-
-#: templates/_tree.html:28 templates/_tree.html:59
-msgid "Angle"
 msgstr ""
 
 #: templates/_tree.html:37 templates/_tree.html:54 templates/_tree.html:62
@@ -1155,5 +1181,11 @@ msgstr "Alle löschen"
 #~ msgstr ""
 
 #~ msgid "Start Here"
+#~ msgstr ""
+
+#~ msgid "Load an Image"
+#~ msgstr ""
+
+#~ msgid "Watch Tutorial"
 #~ msgstr ""
 

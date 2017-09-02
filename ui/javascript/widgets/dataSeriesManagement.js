@@ -76,7 +76,7 @@ wpd.dataSeriesManagement = (function () {
         const ds = plotData.getActiveDataSeries();
         ds.name = $dsName.value.trim();
         wpd.tree.refresh();
-        wpd.tree.selectPath("/Datasets/" + ds.name, true);
+        wpd.tree.selectPath("/"+wpd.gettext("datasets")+"/" + ds.name, true);
     }
     
     function addSingleDataset() {
@@ -132,7 +132,7 @@ wpd.dataSeriesManagement = (function () {
             if(dsIdx >= 0) {
                 plotData.dataSeriesColl.splice(dsIdx,1);
                 wpd.tree.refresh();
-                wpd.tree.selectPath("/Datasets");                
+                wpd.tree.selectPath("/"+wpd.gettext("datasets"));
             }
         });
     }

@@ -168,8 +168,6 @@ wpd.PolarAxes = (function () {
                 pixelToData: [rEqn, thetaEqn]
             };
         };
-
-        this.name = "Polar";
     };
 
     AxesObj.prototype.numCalibrationPointsRequired = function() {
