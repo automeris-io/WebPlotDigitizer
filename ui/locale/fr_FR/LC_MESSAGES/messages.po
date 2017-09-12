@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-09-11 22:10-0500\n"
+"POT-Creation-Date: 2017-09-11 22:13-0500\n"
 "PO-Revision-Date: 2017-05-16 22:52-0500\n"
 "Last-Translator: \n"
 "Language: fr_FR\n"
@@ -50,11 +50,11 @@ msgid "Image"
 msgstr "Image"
 
 #: templates/_menubar.html:2
-msgid "Upload JSON"
+msgid "Download JSON"
 msgstr ""
 
 #: templates/_menubar.html:3
-msgid "Download JSON"
+msgid "Load JSON"
 msgstr ""
 
 #: templates/_menubar.html:4
@@ -1218,5 +1218,8 @@ msgstr "Effacer Tout"
 #~ msgstr ""
 
 #~ msgid "Watch Tutorial"
+#~ msgstr ""
+
+#~ msgid "Upload JSON"
 #~ msgstr ""
 
