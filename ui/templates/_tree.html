@@ -8,6 +8,7 @@
         <p class="sidebar-title">{{ _("Axes") }}</p>
         <center>
         <p><input type="button" value="{{ _("Calibrate") }}" style="width:150px;" onclick="wpd.alignAxes.editAlignment();"/></p>
+        <p><input type="button" value="{{ _("Remove Grid") }}" style="width:150px;" onclick="wpd.gridDetection.start();"/></p>
         <!-- <p><input type="button" value="{{ _("Import Calibration") }}" style="width:150px;"/></p> -->
         <!-- <p><input type="button" value="{{ _("Export Calibration") }}" style="width:150px;"/></p> -->
         </center>
@@ -16,7 +17,8 @@
     <div id="axes-item-tree-widget" class="tree-widget" style="flex: 0 0 100px;">
         <p class="sidebar-title">{{ _("Axes") }}</p>
         <center>
-        <p><input type="button" value="{{ _("Edit") }}" style="width:150px;" onclick="wpd.alignAxes.editAlignment();"/></p>        
+        <p><input type="button" value="{{ _("Edit") }}" style="width:150px;" onclick="wpd.alignAxes.editAlignment();"/></p>
+        <p><input type="button" value="{{ _("View Equations") }}" style="width:150px;" onclick="wpd.transformationEquations.show();"/></p>        
         </center>
     </div>
     

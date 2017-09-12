@@ -1,4 +1,10 @@
-<div class="wpd-menu">
+<button onclick="wpd.popup.show('loadNewImage');" title="{{ _("Load new image") }}">&uarr; {{ _("Image") }}</button>
+<button onclick="wpd.saveResume.save();" title="{{ _("Upload JSON") }}">&darr; .json</button>
+<button onclick="wpd.saveResume.load();" title="{{ _("Download JSON") }}">&uarr; .json</button>
+<button onclick="wpd.scriptInjector.start();" title="{{ _("Load a script") }}">&uarr; {{ _("Script") }}</button>
+
+<!--
+<div class="wpd-menu">    
     <div class="wpd-menu-header">{{ _("File") }}</div>
     <div class="wpd-menu-dropdown">
         <ul>
@@ -11,7 +17,6 @@
         </ul>
     </div>
 </div>
-<!--
 <div class="wpd-menu">
     <div class="wpd-menu-header">Image</div>
     <div class="wpd-menu-dropdown">
@@ -26,13 +31,14 @@
     </div>
 </div>
 -->
+<!--
 <div class="wpd-menu">
     <div class="wpd-menu-header">{{ _("Axes") }}</div>
     <div class="wpd-menu-dropdown">
         <ul>
             <li id="wpd-axesmenu-defineaxes" onclick="wpd.alignAxes.editAlignment();">{{ _("Calibrate Axes") }}</li>
             <li id="wpd-axesmenu-grid" onclick="wpd.gridDetection.start();">{{ _("Remove Grid") }}</li>
-            <!-- <li id="wpd-axesmenu-perspective" onclick="wpd.perspective.start();">Perspective Transformation</li> -->
+            <li id="wpd-axesmenu-perspective" onclick="wpd.perspective.start();">Perspective Transformation</li>
             <li id="wpd-axesmenu-tranformation-equations" onclick="wpd.transformationEquations.show();">{{ _("Transformation Equations") }}</li>
         </ul>
     </div>
@@ -52,11 +58,12 @@
         <ul>
             <li id="wpd-analyzemenu-distance" onclick="wpd.measurement.start(wpd.measurementModes.distance);">{{ _("Distances") }}</li>
             <li id="wpd-analyzemenu-angles" onclick="wpd.measurement.start(wpd.measurementModes.angle);">{{ _("Angles") }}</li>
-            <!-- <li id="wpd-analyzemenu-open-path" onclick="wpd.measurement.start(wpd.measurementModes.openPath);">Path Length</li> -->
-            <!-- <li id="wpd-analyzemenu-closed-path" onclick="wpd.measurement.start(wpd.measurementModes.closedPath);">Area &amp; Circumference</li> -->
+            <li id="wpd-analyzemenu-open-path" onclick="wpd.measurement.start(wpd.measurementModes.openPath);">Path Length</li>
+            <li id="wpd-analyzemenu-closed-path" onclick="wpd.measurement.start(wpd.measurementModes.closedPath);">Area &amp; Circumference</li>
         </ul>
     </div>
 </div>
+-->
 <div class="wpd-menu">
     <div class="wpd-menu-header">{{ _("Help") }}</div>
     <div class="wpd-menu-dropdown">

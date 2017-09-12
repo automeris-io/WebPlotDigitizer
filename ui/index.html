@@ -64,7 +64,13 @@ Problems loading? Make sure you have a recent version of Google Chrome, Firefox,
     <!-- toolbar + graphics -->
     <div id="mainContainer">
         <div id="topContainer">
-            <div id="menuButtonsContainer"><div class="wpd-menu">
+            <div id="menuButtonsContainer"><button onclick="wpd.popup.show('loadNewImage');" title="Load new image">&uarr; Image</button>
+<button onclick="wpd.saveResume.save();" title="Upload JSON">&darr; .json</button>
+<button onclick="wpd.saveResume.load();" title="Download JSON">&uarr; .json</button>
+<button onclick="wpd.scriptInjector.start();" title="Load a script">&uarr; Script</button>
+
+<!--
+<div class="wpd-menu">    
     <div class="wpd-menu-header">File</div>
     <div class="wpd-menu-dropdown">
         <ul>
@@ -77,7 +83,6 @@ Problems loading? Make sure you have a recent version of Google Chrome, Firefox,
         </ul>
     </div>
 </div>
-<!--
 <div class="wpd-menu">
     <div class="wpd-menu-header">Image</div>
     <div class="wpd-menu-dropdown">
@@ -92,13 +97,14 @@ Problems loading? Make sure you have a recent version of Google Chrome, Firefox,
     </div>
 </div>
 -->
+<!--
 <div class="wpd-menu">
     <div class="wpd-menu-header">Axes</div>
     <div class="wpd-menu-dropdown">
         <ul>
             <li id="wpd-axesmenu-defineaxes" onclick="wpd.alignAxes.editAlignment();">Calibrate Axes</li>
             <li id="wpd-axesmenu-grid" onclick="wpd.gridDetection.start();">Remove Grid</li>
-            <!-- <li id="wpd-axesmenu-perspective" onclick="wpd.perspective.start();">Perspective Transformation</li> -->
+            <li id="wpd-axesmenu-perspective" onclick="wpd.perspective.start();">Perspective Transformation</li>
             <li id="wpd-axesmenu-tranformation-equations" onclick="wpd.transformationEquations.show();">Transformation Equations</li>
         </ul>
     </div>
@@ -118,11 +124,12 @@ Problems loading? Make sure you have a recent version of Google Chrome, Firefox,
         <ul>
             <li id="wpd-analyzemenu-distance" onclick="wpd.measurement.start(wpd.measurementModes.distance);">Distances</li>
             <li id="wpd-analyzemenu-angles" onclick="wpd.measurement.start(wpd.measurementModes.angle);">Angles</li>
-            <!-- <li id="wpd-analyzemenu-open-path" onclick="wpd.measurement.start(wpd.measurementModes.openPath);">Path Length</li> -->
-            <!-- <li id="wpd-analyzemenu-closed-path" onclick="wpd.measurement.start(wpd.measurementModes.closedPath);">Area &amp; Circumference</li> -->
+            <li id="wpd-analyzemenu-open-path" onclick="wpd.measurement.start(wpd.measurementModes.openPath);">Path Length</li>
+            <li id="wpd-analyzemenu-closed-path" onclick="wpd.measurement.start(wpd.measurementModes.closedPath);">Area &amp; Circumference</li>
         </ul>
     </div>
 </div>
+-->
 <div class="wpd-menu">
     <div class="wpd-menu-header">Help</div>
     <div class="wpd-menu-dropdown">
@@ -184,6 +191,7 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
         <p class="sidebar-title">Axes</p>
         <center>
         <p><input type="button" value="Calibrate" style="width:150px;" onclick="wpd.alignAxes.editAlignment();"/></p>
+        <p><input type="button" value="Remove Grid" style="width:150px;" onclick="wpd.gridDetection.start();"/></p>
         <!-- <p><input type="button" value="Import Calibration" style="width:150px;"/></p> -->
         <!-- <p><input type="button" value="Export Calibration" style="width:150px;"/></p> -->
         </center>
@@ -192,7 +200,8 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
     <div id="axes-item-tree-widget" class="tree-widget" style="flex: 0 0 100px;">
         <p class="sidebar-title">Axes</p>
         <center>
-        <p><input type="button" value="Edit" style="width:150px;" onclick="wpd.alignAxes.editAlignment();"/></p>        
+        <p><input type="button" value="Edit" style="width:150px;" onclick="wpd.alignAxes.editAlignment();"/></p>
+        <p><input type="button" value="View Equations" style="width:150px;" onclick="wpd.transformationEquations.show();"/></p>        
         </center>
     </div>
     
@@ -916,6 +925,7 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
 <div class="i18n-string" id="i18n-string-axes-name-polar">Polar</div>
 <div class="i18n-string" id="i18n-string-axes-name-ternary">Ternary</div>
 <div class="i18n-string" id="i18n-string-axes-name-map">Map</div>
+<div class="i18n-string" id="i18n-string-project">Project</div>
 
 
 
