@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-09-11 21:32-0500\n"
+"POT-Creation-Date: 2017-09-11 22:10-0500\n"
 "PO-Revision-Date: 2017-05-16 22:52-0500\n"
 "Last-Translator: \n"
 "Language: fr_FR\n"
@@ -40,103 +40,128 @@ msgstr ""
 msgid "Fit"
 msgstr "Adapter"
 
+#: templates/_menubar.html:1
+msgid "Load new image"
+msgstr ""
+
+#: templates/_menubar.html:1 templates/_popups.html:88
+#: templates/_strings.html:50
+msgid "Image"
+msgstr "Image"
+
 #: templates/_menubar.html:2
+msgid "Upload JSON"
+msgstr ""
+
+#: templates/_menubar.html:3
+msgid "Download JSON"
+msgstr ""
+
+#: templates/_menubar.html:4
+msgid "Load a script"
+msgstr ""
+
+#: templates/_menubar.html:4
+msgid "Script"
+msgstr ""
+
+#: templates/_menubar.html:8
 msgid "File"
 msgstr "Fichier"
 
-#: templates/_menubar.html:5 templates/_sidebars.html:117
+#: templates/_menubar.html:11 templates/_sidebars.html:117
 msgid "Load Image"
 msgstr "Charger l'image"
 
-#: templates/_menubar.html:6 templates/_popups.html:53
+#: templates/_menubar.html:12 templates/_popups.html:53
 #: templates/_strings.html:14
 msgid "Webcam Capture"
 msgstr "Capture de webcam"
 
-#: templates/_menubar.html:7 templates/_popups.html:42
+#: templates/_menubar.html:13 templates/_popups.html:42
 msgid "Run Script"
 msgstr "Exécuter le script"
 
-#: templates/_menubar.html:8
+#: templates/_menubar.html:14
 msgid "Save Image"
 msgstr "Enregistrer l'image"
 
-#: templates/_menubar.html:9 templates/_popups.html:350
+#: templates/_menubar.html:15 templates/_popups.html:350
 msgid "Export JSON"
 msgstr "Exportation de JSON"
 
-#: templates/_menubar.html:10 templates/_popups.html:361
+#: templates/_menubar.html:16 templates/_popups.html:361
 #: templates/_strings.html:4
 msgid "Import JSON"
 msgstr "importation de JSON"
 
-#: templates/_menubar.html:30 templates/_strings.html:46 templates/_tree.html:8
-#: templates/_tree.html:17
+#: templates/_menubar.html:36 templates/_strings.html:46 templates/_tree.html:8
+#: templates/_tree.html:18
 msgid "Axes"
 msgstr "Axes"
 
-#: templates/_menubar.html:33
+#: templates/_menubar.html:39
 msgid "Calibrate Axes"
 msgstr "Calibrer les Axes"
 
-#: templates/_menubar.html:34
+#: templates/_menubar.html:40 templates/_tree.html:11
 msgid "Remove Grid"
 msgstr "Supprimer la Grille"
 
-#: templates/_menubar.html:36 templates/_popups.html:341
+#: templates/_menubar.html:42 templates/_popups.html:341
 #: templates/_strings.html:16
 msgid "Transformation Equations"
 msgstr "Équations de Transformation"
 
-#: templates/_menubar.html:41
+#: templates/_menubar.html:47
 msgid "Data"
 msgstr "Données"
 
-#: templates/_menubar.html:44 templates/_strings.html:10
+#: templates/_menubar.html:50 templates/_strings.html:10
 msgid "Acquire Data"
 msgstr "Acquérir les Données"
 
-#: templates/_menubar.html:45 templates/_tree.html:27
+#: templates/_menubar.html:51 templates/_tree.html:29
 msgid "Export All Data"
 msgstr ""
 
-#: templates/_menubar.html:50
+#: templates/_menubar.html:56
 msgid "Measure"
 msgstr "Mesure"
 
-#: templates/_menubar.html:53
+#: templates/_menubar.html:59
 msgid "Distances"
 msgstr "Distances"
 
-#: templates/_menubar.html:54
+#: templates/_menubar.html:60
 msgid "Angles"
 msgstr "Angles"
 
-#: templates/_menubar.html:61
+#: templates/_menubar.html:68
 msgid "Help"
 msgstr "Aide"
 
-#: templates/_menubar.html:64
+#: templates/_menubar.html:71
 msgid "About WebPlotDigitizer"
 msgstr "À propos de WebPlotDigitizer"
 
-#: templates/_menubar.html:65
+#: templates/_menubar.html:72
 msgid "Tutorials"
 msgstr "Tutoriels"
 
-#: templates/_menubar.html:66
+#: templates/_menubar.html:73
 msgid "User Manual"
 msgstr "Manuel de l'utilisateur"
 
-#: templates/_menubar.html:67
+#: templates/_menubar.html:74
 msgid "GitHub Page"
 msgstr "Page de GitHub"
 
-#: templates/_menubar.html:68
+#: templates/_menubar.html:75
 msgid "Report Issues"
 msgstr "Signaler des Problèmes"
 
-#: templates/_menubar.html:69
+#: templates/_menubar.html:76
 msgid "Donate (PayPal)"
 msgstr "Faire un don (PayPal)"
 
@@ -237,10 +262,6 @@ msgstr "Diagramme Ternaire"
 #: templates/_popups.html:87
 msgid "Map With Scale Bar"
 msgstr "Carte Avec Barre D'échelle"
-
-#: templates/_popups.html:88 templates/_strings.html:50
-msgid "Image"
-msgstr "Image"
 
 #: templates/_popups.html:97
 msgid "X and Y Axes Calibration"
@@ -354,7 +375,7 @@ msgid "Acquired Data"
 msgstr "Données Acquises"
 
 #: templates/_popups.html:216 templates/_strings.html:43
-#: templates/_tree.html:40
+#: templates/_tree.html:42
 msgid "Dataset"
 msgstr "Ensemble de Données"
 
@@ -670,7 +691,7 @@ msgstr ""
 msgid "Export to Plotly"
 msgstr ""
 
-#: templates/_popups.html:444 templates/_tree.html:26
+#: templates/_popups.html:444 templates/_tree.html:28
 msgid "Add Dataset"
 msgstr ""
 
@@ -690,7 +711,7 @@ msgstr ""
 msgid "Add Multiple Datasets"
 msgstr ""
 
-#: templates/_popups.html:454 templates/_tree.html:42
+#: templates/_popups.html:454 templates/_tree.html:44
 msgid "Rename Dataset"
 msgstr ""
 
@@ -776,7 +797,7 @@ msgid "Click to change color"
 msgstr "Cliquez pour changer la couleur"
 
 #: templates/_sidebars.html:24 templates/_strings.html:47
-#: templates/_tree.html:34 templates/_tree.html:51
+#: templates/_tree.html:36 templates/_tree.html:53
 msgid "Distance"
 msgstr "Distance"
 
@@ -997,7 +1018,7 @@ msgstr "Gérer les Ensembles de Données"
 msgid "Please calibrate the axes before managing datasets."
 msgstr "Veuillez étalonner les axes avant de gérer les ensembles de données."
 
-#: templates/_strings.html:27 templates/_tree.html:43
+#: templates/_strings.html:27 templates/_tree.html:45
 msgid "Delete Dataset"
 msgstr "Supprimer L'ensemble de Données"
 
@@ -1061,15 +1082,15 @@ msgstr ""
 msgid "Specify a valid number of datasets to add!"
 msgstr ""
 
-#: templates/_strings.html:44 templates/_tree.html:24
+#: templates/_strings.html:44 templates/_tree.html:26
 msgid "Datasets"
 msgstr ""
 
-#: templates/_strings.html:45 templates/_tree.html:32
+#: templates/_strings.html:45 templates/_tree.html:34
 msgid "Measurements"
 msgstr ""
 
-#: templates/_strings.html:48 templates/_tree.html:35 templates/_tree.html:59
+#: templates/_strings.html:48 templates/_tree.html:37 templates/_tree.html:61
 msgid "Angle"
 msgstr ""
 
@@ -1093,6 +1114,10 @@ msgstr ""
 msgid "Map"
 msgstr ""
 
+#: templates/_strings.html:55
+msgid "Project"
+msgstr ""
+
 #: templates/_toolbars.html:3
 msgid "Erase All"
 msgstr "Tout Effacer"
@@ -1109,31 +1134,35 @@ msgstr "Voir les Raccourcis du Clavier"
 msgid "Calibrate"
 msgstr ""
 
-#: templates/_tree.html:11
+#: templates/_tree.html:12
 msgid "Import Calibration"
 msgstr ""
 
-#: templates/_tree.html:12
+#: templates/_tree.html:13
 msgid "Export Calibration"
 msgstr ""
 
-#: templates/_tree.html:19
+#: templates/_tree.html:20
 msgid "Edit"
 msgstr ""
 
-#: templates/_tree.html:44 templates/_tree.html:54 templates/_tree.html:62
+#: templates/_tree.html:21
+msgid "View Equations"
+msgstr ""
+
+#: templates/_tree.html:46 templates/_tree.html:56 templates/_tree.html:64
 msgid "View Data"
 msgstr "Voir les Données"
 
-#: templates/_tree.html:45
+#: templates/_tree.html:47
 msgid "Clear Data"
 msgstr ""
 
-#: templates/_tree.html:46
+#: templates/_tree.html:48
 msgid "Data Points"
 msgstr "Points de Données"
 
-#: templates/_tree.html:53 templates/_tree.html:61
+#: templates/_tree.html:55 templates/_tree.html:63
 msgid "Clear All"
 msgstr "Effacer Tout"
 
