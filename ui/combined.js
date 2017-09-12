@@ -5347,7 +5347,7 @@ wpd.tree = (function() {
             onDatasetSelection(elem, path, suppressSecondaryActions);
         } else if(path.startsWith("/" + wpd.gettext("axes") + "/")) {
             resetGraphics();
-            showTreeItemWidget(null);
+            showTreeItemWidget("axes-item-tree-widget");
         } else {
             resetGraphics();
             showTreeItemWidget(null);
