@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  WebPlotDigitizer\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-09-11 22:10-0500\n"
+"POT-Creation-Date: 2017-09-11 22:13-0500\n"
 "PO-Revision-Date: 2017-09-02 17:03-0500\n"
 "Last-Translator: \n"
 "Language: zh_Hans_CN\n"
@@ -46,11 +46,11 @@ msgid "Image"
 msgstr "像素图"
 
 #: templates/_menubar.html:2
-msgid "Upload JSON"
+msgid "Download JSON"
 msgstr ""
 
 #: templates/_menubar.html:3
-msgid "Download JSON"
+msgid "Load JSON"
 msgstr ""
 
 #: templates/_menubar.html:4
@@ -1741,5 +1741,8 @@ msgstr "清除所有"
 #~ msgstr ""
 
 #~ msgid "No datasets to export!"
+#~ msgstr ""
+
+#~ msgid "Upload JSON"
 #~ msgstr ""
 
