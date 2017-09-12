@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-09-02 18:15-0500\n"
+"POT-Creation-Date: 2017-09-11 21:32-0500\n"
 "PO-Revision-Date: 2017-01-11 20:47-0600\n"
 "Last-Translator: \n"
 "Language: de_DE\n"
@@ -72,7 +72,7 @@ msgid "Import JSON"
 msgstr "Importieren JSON"
 
 #: templates/_menubar.html:30 templates/_strings.html:46 templates/_tree.html:8
-#: templates/_tree.html:44
+#: templates/_tree.html:17
 msgid "Axes"
 msgstr "Achsen"
 
@@ -97,7 +97,7 @@ msgstr "Daten"
 msgid "Acquire Data"
 msgstr "Erfassung von Daten"
 
-#: templates/_menubar.html:45 templates/_tree.html:20
+#: templates/_menubar.html:45 templates/_tree.html:27
 msgid "Export All Data"
 msgstr ""
 
@@ -355,7 +355,7 @@ msgid "Acquired Data"
 msgstr "Die erfassten Daten"
 
 #: templates/_popups.html:216 templates/_strings.html:43
-#: templates/_tree.html:33
+#: templates/_tree.html:40
 msgid "Dataset"
 msgstr "Datensatz"
 
@@ -667,7 +667,7 @@ msgstr ""
 msgid "Export to Plotly"
 msgstr ""
 
-#: templates/_popups.html:444 templates/_tree.html:19
+#: templates/_popups.html:444 templates/_tree.html:26
 msgid "Add Dataset"
 msgstr ""
 
@@ -687,7 +687,7 @@ msgstr ""
 msgid "Add Multiple Datasets"
 msgstr ""
 
-#: templates/_popups.html:454 templates/_tree.html:35
+#: templates/_popups.html:454 templates/_tree.html:42
 msgid "Rename Dataset"
 msgstr ""
 
@@ -773,7 +773,7 @@ msgid "Click to change color"
 msgstr "Klicken Sie auf Farbe ändern"
 
 #: templates/_sidebars.html:24 templates/_strings.html:47
-#: templates/_tree.html:27 templates/_tree.html:51
+#: templates/_tree.html:34 templates/_tree.html:51
 msgid "Distance"
 msgstr "Entfernung"
 
@@ -992,7 +992,7 @@ msgstr "Verwalten von Datensätzen"
 msgid "Please calibrate the axes before managing datasets."
 msgstr "Bitte kalibrieren Sie die Achsen, bevor Datasets verwalten."
 
-#: templates/_strings.html:27 templates/_tree.html:36
+#: templates/_strings.html:27 templates/_tree.html:43
 msgid "Delete Dataset"
 msgstr "Datensatz löschen"
 
@@ -1056,15 +1056,15 @@ msgstr ""
 msgid "Specify a valid number of datasets to add!"
 msgstr ""
 
-#: templates/_strings.html:44 templates/_tree.html:17
+#: templates/_strings.html:44 templates/_tree.html:24
 msgid "Datasets"
 msgstr ""
 
-#: templates/_strings.html:45 templates/_tree.html:25
+#: templates/_strings.html:45 templates/_tree.html:32
 msgid "Measurements"
 msgstr ""
 
-#: templates/_strings.html:48 templates/_tree.html:28 templates/_tree.html:59
+#: templates/_strings.html:48 templates/_tree.html:35 templates/_tree.html:59
 msgid "Angle"
 msgstr ""
 
@@ -1112,21 +1112,21 @@ msgstr ""
 msgid "Export Calibration"
 msgstr ""
 
-#: templates/_tree.html:37 templates/_tree.html:54 templates/_tree.html:62
+#: templates/_tree.html:19
+msgid "Edit"
+msgstr ""
+
+#: templates/_tree.html:44 templates/_tree.html:54 templates/_tree.html:62
 msgid "View Data"
 msgstr "Daten anzeigen"
 
-#: templates/_tree.html:38
+#: templates/_tree.html:45
 msgid "Clear Data"
 msgstr ""
 
-#: templates/_tree.html:39
+#: templates/_tree.html:46
 msgid "Data Points"
 msgstr "Datenpunkte"
-
-#: templates/_tree.html:46
-msgid "Edit"
-msgstr ""
 
 #: templates/_tree.html:53 templates/_tree.html:61
 msgid "Clear All"

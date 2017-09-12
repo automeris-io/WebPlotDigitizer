@@ -233,6 +233,13 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
         <!-- <p><input type="button" value="Export Calibration" style="width:150px;"/></p> -->
         </center>
     </div>
+
+    <div id="axes-item-tree-widget" class="tree-widget" style="flex: 0 0 100px;">
+        <p class="sidebar-title">Axes</p>
+        <center>
+        <p><input type="button" value="Edit" style="width:150px;" onclick="wpd.alignAxes.editAlignment();"/></p>        
+        </center>
+    </div>
     
     <div id="dataset-group-tree-widget" class="tree-widget" style="flex: 0 0 100px;">
         <p class="sidebar-title">Datasets</p>
@@ -258,13 +265,6 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
         <p><input type="button" value="View Data" style="width:150px;" onclick="wpd.dataTable.showTable();"/></p>
         <p><input type="button" value="Clear Data" style="width:150px;" onclick="wpd.acquireData.clearAll();"/></p>        
         <p>Data Points: <span class="data-point-counter">0</span></p>
-        </center>
-    </div>
-
-    <div id="axes-item-tree-widget" class="tree-widget" style="flex: 0 0 100px;">
-        <p class="sidebar-title">Axes</p>
-        <center> 
-        <p><input type="button" value="Edit" style="width:150px;" onclick=""/></p>
         </center>
     </div>
        
