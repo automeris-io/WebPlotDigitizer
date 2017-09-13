@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-09-12 21:32-0500\n"
+"POT-Creation-Date: 2017-09-12 22:46-0500\n"
 "PO-Revision-Date: 2017-01-11 20:47-0600\n"
 "Last-Translator: \n"
 "Language: de_DE\n"
@@ -24,11 +24,11 @@ msgstr ""
 "Web-basiertes Werkzeug zum Extrahieren von numerischen Daten aus "
 "Parzellen und Grafik Bilder."
 
-#: templates/_base.html:43
+#: templates/_base.html:46
 msgid "Loading application, please wait..."
 msgstr "Warten Sie Anwendung wird geladen, bitte..."
 
-#: templates/_base.html:46
+#: templates/_base.html:49
 msgid ""
 "Problems loading? Make sure you have a recent version of Google Chrome, "
 "Firefox, Safari or Internet Explorer 11 installed."
@@ -37,7 +37,7 @@ msgstr ""
 "von Google Chrome, Firefox, Safari oder Internet Explorer 11 installiert "
 "haben."
 
-#: templates/_base.html:68
+#: templates/_base.html:71
 msgid "Fit"
 msgstr "passen"
 

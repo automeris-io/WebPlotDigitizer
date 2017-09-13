@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  WebPlotDigitizer\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-09-12 21:32-0500\n"
+"POT-Creation-Date: 2017-09-12 22:46-0500\n"
 "PO-Revision-Date: 2017-09-02 17:03-0500\n"
 "Last-Translator: \n"
 "Language: zh_Hans_CN\n"
@@ -22,17 +22,17 @@ msgstr ""
 msgid "Web based tool to extract numerical data from plots and graph images."
 msgstr "基于Web的图片数据提取工具。"
 
-#: templates/_base.html:43
+#: templates/_base.html:46
 msgid "Loading application, please wait..."
 msgstr "正在启动，请稍等..."
 
-#: templates/_base.html:46
+#: templates/_base.html:49
 msgid ""
 "Problems loading? Make sure you have a recent version of Google Chrome, "
 "Firefox, Safari or Internet Explorer 11 installed."
 msgstr "启动遇到问题？请确保您安装了最新版本的浏览器。"
 
-#: templates/_base.html:68
+#: templates/_base.html:71
 msgid "Fit"
 msgstr "还原"
 
