@@ -39,6 +39,7 @@
 <script src="javascript/controllers/browserInfo.js"></script>
 <script src="javascript/controllers/dataSeriesManagement.js"></script>
 <script src="javascript/controllers/i18n.js"></script>
+<script src="javascript/controllers/imageManager.js"></script>
 <script src="javascript/core/AEalgos/averagingWindow.js"></script>
 <script src="javascript/core/AEalgos/averagingWindowCore.js"></script>
 <script src="javascript/core/AEalgos/averagingWindowWithStepSize.js"></script>
@@ -464,10 +465,10 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
 	<div id="loadNewImage" class="popup" style="width: 400px;">
 	<div class="popupheading">Load Image File</div>
 	<p>&nbsp;</p>
-	<p align="center"><input type="file" id="fileLoadBox"/></p>
+	<p align="center"><input type="file" id="fileLoadBox" onchange="wpd.imageManager.load();"/></p>
 	<p>&nbsp;</p>
 	<p align="center">
-        <input type="button" value="Load" onclick="wpd.graphicsWidget.load();"/>
+        <input type="button" value="Load" onclick="wpd.imageManager.load();"/>
         <input type="button" value="Cancel" onclick="wpd.popup.close('loadNewImage');"/>
     </p>
 	</div>

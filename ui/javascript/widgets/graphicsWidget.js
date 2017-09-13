@@ -383,7 +383,7 @@ wpd.graphicsWidget = (function () {
         wpd.busyNote.show();
         var allDrop = ev.dataTransfer.files;
         if (allDrop.length === 1) {
-            fileLoader(allDrop[0]);
+            wpd.imageManager.loadFromFile(allDrop[0]);
         }
     }
 
@@ -394,10 +394,8 @@ wpd.graphicsWidget = (function () {
                 for(var i = 0; i < items.length; i++) {
                     if(items[i].type.indexOf("image") !== -1) {
                         wpd.busyNote.show();
-                        var blob = items[i].getAsFile();
-                        var URLObj = window.URL || window.webkitURL;
-                        var source = URLObj.createObjectURL(blob);
-                        fileLoader(blob);
+                        var imageFile = items[i].getAsFile();
+                        wpd.imageManager.loadFromFile(imageFile);
                     }
                 }
             }
@@ -467,19 +465,14 @@ wpd.graphicsWidget = (function () {
         
         wpd.zoomView.initZoom();
         
-        document.getElementById('fileLoadBox').addEventListener("change", loadNewFile); 
-
         // Paste image from clipboard
         window.addEventListener('paste', function(event) {pasteHandler(event);}, false);
     }
 
-    function loadImage(originalImage) {
-        
+    function loadImage(originalImage) {        
         if($mainCanvas == null) {
             init();
-        }
-        wpd.appData.reset();
-        wpd.sidebar.clear();
+        }        
         removeTool();
         removeRepainter();
         originalWidth = originalImage.width;
@@ -492,29 +485,11 @@ wpd.graphicsWidget = (function () {
         oriImageCtx.drawImage(originalImage, 0, 0, originalWidth, originalHeight);
         originalImageData = oriImageCtx.getImageData(0, 0, originalWidth, originalHeight);
         resetAllLayers();
-        zoomFit();
-        wpd.appData.plotLoaded(originalImageData);
-        
-        wpd.busyNote.close();
-
-        // TODO: move this logic outside the graphics widget!
-        if (firstLoad) {
-            wpd.sidebar.show('start-sidebar');
-        } else {
-            wpd.popup.show('axesList');
-        }
-        firstLoad = false;
+        zoomFit();        
+        return originalImageData;
     }
 
-    function loadImageFromSrc(imgSrc) {
-        var originalImage = document.createElement('img');
-        originalImage.onload = function () {
-            loadImage(originalImage);
-        };
-        originalImage.src = imgSrc;
-    }
-
-    function loadImageFromData(idata, iwidth, iheight, doReset, keepZoom) {        
+    function loadImageFromData(idata, iwidth, iheight, keepZoom) {        
         removeTool();
         removeRepainter();
         originalWidth = iwidth;
@@ -533,36 +508,6 @@ wpd.graphicsWidget = (function () {
         } else {
             setZoomRatio(zoomRatio);
         }
-
-        if(doReset) {
-            wpd.appData.reset();
-            wpd.appData.plotLoaded(originalImageData);
-        }
-    }
-
-    function fileLoader(fileInfo) {
-        if(fileInfo.type.match("image.*")) {
-            var droppedFile = new FileReader();
-            droppedFile.onload = function() {
-                var imageInfo = droppedFile.result;
-                loadImageFromSrc(imageInfo);
-            };
-            droppedFile.readAsDataURL(fileInfo);
-        } else {
-            wpd.messagePopup.show(wpd.gettext('invalid-file'), wpd.gettext('invalid-file-text'));
-            wpd.busyNote.close();
-        }
-    }
-
-
-    function loadNewFile() {
-        var fileLoadElem = document.getElementById('fileLoadBox');
-        if(fileLoadElem.files.length == 1) {
-            var fileInfo = fileLoadElem.files[0];
-            wpd.busyNote.show();
-            fileLoader(fileInfo);
-        }
-        wpd.popup.close('loadNewImage');
     }
 
     function saveImage() {
@@ -590,9 +535,9 @@ wpd.graphicsWidget = (function () {
     }
 
     // run an external operation on the image data. this would normally mean a reset.
-    function runImageOp(operFn, doReset) {
+    function runImageOp(operFn) {
        var opResult = operFn(originalImageData, originalWidth, originalHeight);
-       loadImageFromData(opResult.imageData, opResult.width, opResult.height, doReset, opResult.keepZoom);
+       loadImageFromData(opResult.imageData, opResult.width, opResult.height, opResult.keepZoom);
     }
 
     function getImageData() {
@@ -690,10 +635,7 @@ wpd.graphicsWidget = (function () {
         toggleExtendedCrosshairBtn: toggleExtendedCrosshairBtn,
         setZoomRatio: setZoomRatio,
         getZoomRatio: getZoomRatio,
-
-        loadImageFromURL: loadImageFromSrc,
-        loadImageFromData: loadImageFromData,
-        load: loadNewFile,
+        
         runImageOp: runImageOp,
 
         setTool: setTool,
@@ -717,6 +659,7 @@ wpd.graphicsWidget = (function () {
         forceHandlerRepaint: forceHandlerRepaint,
         getRepainter: getRepainter,
 
-        saveImage: saveImage
+        saveImage: saveImage,
+        loadImage: loadImage
     };
 })();
