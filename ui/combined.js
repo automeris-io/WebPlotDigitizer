@@ -4132,7 +4132,7 @@ wpd.graphicsWidget = (function () {
         wpd.busyNote.show();
         var allDrop = ev.dataTransfer.files;
         if (allDrop.length === 1) {
-            fileLoader(allDrop[0]);
+            wpd.imageManager.loadFromFile(allDrop[0]);
         }
     }
 
@@ -9982,6 +9982,7 @@ wpd.imageManager = (function () {
         let imageData = wpd.graphicsWidget.loadImage(image);
         wpd.appData.plotLoaded(imageData);
         wpd.busyNote.close();
+        wpd.tree.refresh();
 
         if (_firstLoad) {
             wpd.sidebar.show('start-sidebar');
