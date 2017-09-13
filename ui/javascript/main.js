@@ -28,7 +28,7 @@ wpd.initApp = function() {// This is run when the page loads.
     wpd.browserInfo.checkBrowser();
     wpd.layoutManager.initialLayout();
     if(!wpd.loadRemoteData()) {
-        wpd.graphicsWidget.loadImageFromURL('start.png');
+        wpd.imageManager.loadFromURL('start.png');
     }
     document.getElementById('loadingCurtain').style.display = 'none';
 
@@ -44,7 +44,7 @@ wpd.loadRemoteData = function() {
         return false;
     }
     if(wpdremote.status === 'success' && wpdremote.localUrl != null) {
-        wpd.graphicsWidget.loadImageFromURL(wpdremote.localUrl);
+        wpd.imageManager.loadFromURL(wpdremote.localUrl);
         wpd.popup.show('axesList');
         return true;
     }
