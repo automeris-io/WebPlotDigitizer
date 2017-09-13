@@ -68,6 +68,7 @@ wpd.imageManager = (function () {
         let imageData = wpd.graphicsWidget.loadImage(image);
         wpd.appData.plotLoaded(imageData);
         wpd.busyNote.close();
+        wpd.tree.refresh();
 
         if (_firstLoad) {
             wpd.sidebar.show('start-sidebar');
