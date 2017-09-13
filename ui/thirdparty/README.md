@@ -6,3 +6,8 @@ Use the ./getThirdparty.sh script, or follow the following steps manually:
     - Download: https://dl.google.com/closure-compiler/compiler-latest.zip
     - Extract to closure-compiler folder
     - Rename (or symlink) the .jar file to compiler.jar
+
+2) PDFJS:
+    - Download: https://github.com/mozilla/pdf.js/releases/download/v1.8.188/pdfjs-1.8.188-dist.zip
+    - Extract to pdfjs folder
+

@@ -57,7 +57,7 @@ wpd.imageManager = (function () {
                 //PDFJS.disableWorker = true;
                 PDFJS.getDocument(pdfurl).then(function(pdf) {
                     pdf.getPage(1).then(function (page) {                        
-                        let scale = 1.5;
+                        let scale = 3;
                         let viewport = page.getViewport(scale);
                         let $canvas = document.createElement('canvas');
                         let ctx = $canvas.getContext('2d');
