@@ -353,7 +353,7 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
 <p>Mask <input type="button" value="Box" style="width:50px;" onclick="wpd.dataMask.markBox();" id="box-mask"><input type="button" value="Pen" style="width:45px;" onClick="wpd.dataMask.markPen();" id="pen-mask"><input type="button" value="Erase" style="width:50px;" onClick="wpd.dataMask.eraseMarks();" id="erase-mask"><input type="button" value="View" style="width:40px;" onclick="wpd.dataMask.viewMask();" id="view-mask"/></p>
 <hr/>
 <p>Color <select id="color-detection-mode-select" onchange="wpd.colorPicker.changeDetectionMode();"><option value="fg">Foreground Color</option><option value="bg">Background Color</option></select><input type="button" id="color-button" value=" " onclick="wpd.colorPicker.startPicker();" style="width: 25px;" title="Click to change color"/></p>
-<p>Distance <td><td><input type="text" size="3" id="color-distance-value" onchange="wpd.colorPicker.changeColorDistance();"/>
+<p>Distance <input type="text" size="3" id="color-distance-value" onchange="wpd.colorPicker.changeColorDistance();"/>
 <input type="button" value="Filter Colors" onclick="wpd.colorPicker.testColorDetection();" style="width: 90px;"></p>
 <hr/>
 <p>Algorithm
@@ -641,7 +641,7 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
         </tr>
     </table>
     </center>
-	<p align="center"><label><input type="radio" id="polar-degrees" name="angleUnits" checked> Degrees</label> <label><input type="radio" id="polar-radians" name="angleUnits"> Radians</p></label>
+	<p align="center"><label><input type="radio" id="polar-degrees" name="angleUnits" checked> Degrees</label> <label><input type="radio" id="polar-radians" name="angleUnits"> Radians</label></p>
 	<p align="center"><input type="checkbox" id="polar-clockwise"> Clockwise</p>
     <br/>
 	<p align="center"><input type="button" value="OK" onclick="wpd.alignAxes.align();"></p>
@@ -787,11 +787,11 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
 	<p align="center">&nbsp;</p>
     <div style="text-align:center;"><div id="color-selection-selected-color-box" class="largeColorBox"></div></div>
 	<p align="center">&nbsp;</p>
-	<p align="center">R:<input type="text" value="255" id="color-selection-red" size="3">&nbsp;
-	G:<input type="text" id="color-selection-green" value="255" size="3">&nbsp; B:<input type="text" id="color-selection-blue" value="255" size="3">
-	 <input type="button" value="Color Picker" onclick="wpd.colorSelectionWidget.pickColor();"></p>
+	<p align="center">R:<input type="text" value="255" id="color-selection-red" size="3"/>&nbsp;
+	G:<input type="text" id="color-selection-green" value="255" size="3"/>&nbsp; B:<input type="text" id="color-selection-blue" value="255" size="3"/>
+	 <input type="button" value="Color Picker" onclick="wpd.colorSelectionWidget.pickColor();"/></p>
 	<p align="center">&nbsp;</p>
-    <p>Dominant Colors: <div id="color-selection-options" style="text-align:center;"></div></p>
+    <p>Dominant Colors:</p><div id="color-selection-options" style="text-align:center;"></div>
     <p>&nbsp;</p>
 	<p align="center"><input type="button" value="Done" onclick="wpd.colorSelectionWidget.setColor();"></p>
 	</div>

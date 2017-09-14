@@ -122,6 +122,16 @@ wpd.tree = (function() {
 
     let treeWidget = null;
 
+    // polyfill for IE11/Microsoft Edge
+    if (window.NodeList && !NodeList.prototype.forEach) {
+        NodeList.prototype.forEach = function (callback, thisArg) {
+            thisArg = thisArg || window;
+            for (var i = 0; i < this.length; i++) {
+                callback.call(thisArg, this[i], i, this);
+            }
+        };
+    }
+
     function getAxesName(axes) {
         if(axes instanceof wpd.XYAxes) {
             return wpd.gettext("axes-name-xy");

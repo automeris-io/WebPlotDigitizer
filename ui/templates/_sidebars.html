@@ -21,7 +21,7 @@
 <p>{{ _("Mask") }} <input type="button" value="{{ _("Box") }}" style="width:50px;" onclick="wpd.dataMask.markBox();" id="box-mask"><input type="button" value="{{ _("Pen") }}" style="width:45px;" onClick="wpd.dataMask.markPen();" id="pen-mask"><input type="button" value="{{ _("Erase") }}" style="width:50px;" onClick="wpd.dataMask.eraseMarks();" id="erase-mask"><input type="button" value="{{ _("View") }}" style="width:40px;" onclick="wpd.dataMask.viewMask();" id="view-mask"/></p>
 <hr/>
 <p>{{ _("Color") }} <select id="color-detection-mode-select" onchange="wpd.colorPicker.changeDetectionMode();"><option value="fg">{{ _("Foreground Color") }}</option><option value="bg">{{ _("Background Color") }}</option></select><input type="button" id="color-button" value=" " onclick="wpd.colorPicker.startPicker();" style="width: 25px;" title="{{ _("Click to change color") }}"/></p>
-<p>{{ _("Distance") }} <td><td><input type="text" size="3" id="color-distance-value" onchange="wpd.colorPicker.changeColorDistance();"/>
+<p>{{ _("Distance") }} <input type="text" size="3" id="color-distance-value" onchange="wpd.colorPicker.changeColorDistance();"/>
 <input type="button" value="{{ _("Filter Colors") }}" onclick="wpd.colorPicker.testColorDetection();" style="width: 90px;"></p>
 <hr/>
 <p>{{ _("Algorithm") }}
