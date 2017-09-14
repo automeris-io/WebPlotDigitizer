@@ -241,7 +241,7 @@ wpd.saveResume = (function () {
 
     function downloadJSON() {
         // get project name
-        let projectName = stripIllegalCharacters("wpd_project.json");
+        let projectName = stripIllegalCharacters(document.getElementById("project-name-input").value) + ".json";
 
         wpd.download.json(generateJSON(), projectName); 
         wpd.popup.close('export-json-window');
@@ -249,7 +249,7 @@ wpd.saveResume = (function () {
 
     function downloadProject() {        
         // get project name
-        let projectName = stripIllegalCharacters("wpd_project");
+        let projectName = stripIllegalCharacters(document.getElementById("project-name-input").value);
 
         // get JSON
         let json = generateJSON();

@@ -349,7 +349,9 @@
     <div id="export-json-window" class="popup" style="width:500px;">
     <div class="popupheading">{{ _("Export JSON/Project") }}</div>
     <p>{{ _("This JSON file contains the axes calibration, digitized data and measurements. This file can be loaded to resume work at a later time. You can also download a combined 'project file' which includes this JSON and also the image in a single file.") }}</p>
-    <br>
+    <br/>
+    <p align="center">Project file name: <input type="text" value="wpd_project" id="project-name-input"/>.json/.tar</p>
+    <br/>
     <p align="center">
         <input type="button" value="{{ _("Download JSON") }}" onclick="wpd.saveResume.downloadJSON();"/>
         <input type="button" value="{{ _("Download Project (JSON+Image)") }}" onclick="wpd.saveResume.downloadProject();"/>
