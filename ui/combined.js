@@ -4376,6 +4376,18 @@ wpd.graphicsWidget = (function () {
         }
     }
 
+    function getImagePNG() {
+        let imageURL = $oriImageCanvas.toDataURL("image/png");                
+        let bstr = atob(imageURL.split(',')[1]);
+        let n = bstr.length;
+        let u8arr = new Uint8Array(n);
+        while(n--) {
+            u8arr[n] = bstr.charCodeAt(n);
+        }
+        imageFile = new Blob([u8arr], {type:"image/png", encoding:'utf-8'});
+        return imageFile;
+    }
+
     return {
         zoomIn: zoomIn,
         zoomOut: zoomOut,
@@ -4409,7 +4421,9 @@ wpd.graphicsWidget = (function () {
         getRepainter: getRepainter,
 
         saveImage: saveImage,
-        loadImage: loadImage
+        loadImage: loadImage,
+
+        getImagePNG: getImagePNG
     };
 })();
 /*
@@ -9382,7 +9396,7 @@ wpd.saveResume = (function () {
            }
        }
 
-
+       wpd.tree.refresh();
     }
 
     function generateJSON() {
@@ -9481,36 +9495,100 @@ wpd.saveResume = (function () {
         return json_string;
     }
 
-    function download() {
-        wpd.download.json(generateJSON()); 
+    function stripIllegalCharacters(filename) {
+        return filename.replace(/[^a-zA-Z\d+\.\-_\s]/g,"_");
+    }
+
+    function downloadJSON() {
+        // get project name
+        let projectName = stripIllegalCharacters("wpd_project.json");
+
+        wpd.download.json(generateJSON(), projectName); 
         wpd.popup.close('export-json-window');
     }
 
+    function downloadProject() {        
+        // get project name
+        let projectName = stripIllegalCharacters("wpd_project");
+
+        // get JSON
+        let json = generateJSON();
+
+        // get Image
+        let imageFile = wpd.graphicsWidget.getImagePNG();
+
+        // projectInfo
+        let projectInfo = JSON.stringify({"version": [4,0], "json": "wpd.json", "image": "image.png"});
+
+        // generate project file
+        let tarWriter = new tarball.TarWriter();
+        tarWriter.addFolder(projectName + "/");
+        tarWriter.addTextFile(projectName + "/info.json", projectInfo);
+        tarWriter.addTextFile(projectName + "/wpd.json", json);
+        tarWriter.addFile(projectName + "/image.png", imageFile);
+        tarWriter.download(projectName + ".tar");
+        wpd.popup.close('export-json-window');
+    }
+
+    function readJSONFileOnly(jsonFile) {
+        var fileReader = new FileReader();
+        fileReader.onload = function () {
+            var json_data = JSON.parse(fileReader.result);
+            resumeFromJSON(json_data); 
+            
+            wpd.graphicsWidget.resetData();
+            wpd.graphicsWidget.removeTool();
+            wpd.graphicsWidget.removeRepainter();
+            if(wpd.appData.isAligned()) {
+                wpd.acquireData.load();
+            }
+            wpd.messagePopup.show(wpd.gettext('import-json'), wpd.gettext("json-data-loaded"));
+        };
+        fileReader.readAsText(file);
+    }
+
+    function readProjectFile(file) {
+        wpd.busyNote.show();
+        var tarReader = new tarball.TarReader();
+        tarReader.readFile(file).then(function(fileInfo) {
+            wpd.busyNote.close();
+            let infoIndex = fileInfo.findIndex(info => info.name.endsWith("/info.json"));
+            if(infoIndex >= 0) {
+                let projectName = fileInfo[infoIndex].name.replace("/info.json","");
+                let wpdimage = tarReader.getFileBlob(projectName + "/image.png", "image/png");
+                wpdimage.name = "image.png";                
+                let wpdjson = JSON.parse(tarReader.getTextFile(projectName + "/wpd.json"));
+                wpd.imageManager.loadFromFile(wpdimage, true).then(() => {
+                    resumeFromJSON(wpdjson);                    
+                    if(wpd.appData.isAligned()) {
+                        wpd.acquireData.load();
+                    }                    
+                });
+            }
+        }, function(err) {
+            console.log(err);
+        });
+    }   
+
     function read() {
-        var $fileInput = document.getElementById('import-json-file');
+        const $fileInput = document.getElementById('import-json-file');
         wpd.popup.close('import-json-window');
         if($fileInput.files.length === 1) {
-            var fileReader = new FileReader();
-            fileReader.onload = function () {
-                var json_data = JSON.parse(fileReader.result);
-                resumeFromJSON(json_data); 
-                
-                wpd.graphicsWidget.resetData();
-                wpd.graphicsWidget.removeTool();
-                wpd.graphicsWidget.removeRepainter();
-                if(wpd.appData.isAligned()) {
-                    wpd.acquireData.load();
-                }
-                wpd.messagePopup.show(wpd.gettext('import-json'), wpd.gettext("json-data-loaded"));
-            };
-            fileReader.readAsText($fileInput.files[0]);
+            let file = $fileInput.files[0];
+            
+            if(file.type == "application/json") {
+                readJSONFileOnly(file);
+            } else {
+                readProjectFile(file);
+            }            
         }
     }
 
     return {
         save: save,
         load: load,
-        download: download,
+        downloadJSON: downloadJSON,
+        downloadProject: downloadProject,
         read: read
     };
 })();
@@ -9954,29 +10032,61 @@ wpd.imageManager = (function () {
         wpd.popup.close('loadNewImage');
     }
 
-    function loadFromFile(imageFile) {
-        if(imageFile.type.match("image.*")) {
-            wpd.busyNote.show();
-            let reader = new FileReader();
-            reader.onload = function() {
-                let url = reader.result;
-                loadFromURL(url);
+    function loadFromFile(imageFile, resumedProject) {
+        return new Promise((resolve, reject) => {
+            if(imageFile.type.match("image.*")) {
+                wpd.busyNote.show();
+                let reader = new FileReader();
+                reader.onload = function() {
+                    let url = reader.result;
+                    loadFromURL(url, resumedProject).then(resolve);
+                };
+                reader.readAsDataURL(imageFile);
+            } else if(imageFile.type == "application/pdf") {
+                wpd.busyNote.show();
+                let reader = new FileReader();
+                reader.onload = function() {
+                    let pdfurl = reader.result;
+                    //PDFJS.disableWorker = true;
+                    PDFJS.getDocument(pdfurl).then(function(pdf) {
+                        pdf.getPage(1).then(function (page) {                        
+                            let scale = 3;
+                            let viewport = page.getViewport(scale);
+                            let $canvas = document.createElement('canvas');
+                            let ctx = $canvas.getContext('2d');
+                            $canvas.width = viewport.width;
+                            $canvas.height = viewport.height;
+                            page.render({ canvasContext: ctx, viewport: viewport }).promise.then(function() {
+                                let url = $canvas.toDataURL();
+                                loadFromURL(url, resumedProject).then(resolve);
+                            }, function(err) {
+                                console.log(err);
+                                wpd.busyNote.close();
+                                reject(err);
+                            });
+                        });
+                    });
+                };
+                reader.readAsDataURL(imageFile);
+            } else {
+                console.log(imageFile.type);
+                wpd.messagePopup.show(wpd.gettext('invalid-file'), wpd.gettext('invalid-file-text'));            
+            }
+        });        
+    }
+
+    function loadFromURL(url, resumedProject) {
+        return new Promise((resolve, reject) => {
+            let image = new Image();
+            image.onload = function() {
+                _setImage(image, resumedProject);
+                resolve();
             };
-            reader.readAsDataURL(imageFile);
-        } else {
-            wpd.messagePopup.show(wpd.gettext('invalid-file'), wpd.gettext('invalid-file-text'));            
-        }
+            image.src = url;
+        });
     }
 
-    function loadFromURL(url) {        
-        let image = new Image();
-        image.onload = function() {
-            _setImage(image);
-        };
-        image.src = url;
-    }
-
-    function _setImage(image) {
+    function _setImage(image, resumedProject) {
         wpd.appData.reset();
         wpd.sidebar.clear();
         let imageData = wpd.graphicsWidget.loadImage(image);
@@ -9986,7 +10096,7 @@ wpd.imageManager = (function () {
 
         if (_firstLoad) {
             wpd.sidebar.show('start-sidebar');
-        } else {
+        } else if(!resumedProject) {
             wpd.popup.show('axesList');
         }
         _firstLoad = false;

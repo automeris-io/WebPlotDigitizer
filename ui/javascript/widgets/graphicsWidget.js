@@ -627,6 +627,18 @@ wpd.graphicsWidget = (function () {
         }
     }
 
+    function getImagePNG() {
+        let imageURL = $oriImageCanvas.toDataURL("image/png");                
+        let bstr = atob(imageURL.split(',')[1]);
+        let n = bstr.length;
+        let u8arr = new Uint8Array(n);
+        while(n--) {
+            u8arr[n] = bstr.charCodeAt(n);
+        }
+        imageFile = new Blob([u8arr], {type:"image/png", encoding:'utf-8'});
+        return imageFile;
+    }
+
     return {
         zoomIn: zoomIn,
         zoomOut: zoomOut,
@@ -660,6 +672,8 @@ wpd.graphicsWidget = (function () {
         getRepainter: getRepainter,
 
         saveImage: saveImage,
-        loadImage: loadImage
+        loadImage: loadImage,
+
+        getImagePNG: getImagePNG
     };
 })();

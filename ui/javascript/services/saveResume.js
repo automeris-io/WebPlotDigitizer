@@ -138,7 +138,7 @@ wpd.saveResume = (function () {
            }
        }
 
-
+       wpd.tree.refresh();
     }
 
     function generateJSON() {
@@ -237,36 +237,100 @@ wpd.saveResume = (function () {
         return json_string;
     }
 
-    function download() {
-        wpd.download.json(generateJSON()); 
+    function stripIllegalCharacters(filename) {
+        return filename.replace(/[^a-zA-Z\d+\.\-_\s]/g,"_");
+    }
+
+    function downloadJSON() {
+        // get project name
+        let projectName = stripIllegalCharacters("wpd_project.json");
+
+        wpd.download.json(generateJSON(), projectName); 
         wpd.popup.close('export-json-window');
     }
 
+    function downloadProject() {        
+        // get project name
+        let projectName = stripIllegalCharacters("wpd_project");
+
+        // get JSON
+        let json = generateJSON();
+
+        // get Image
+        let imageFile = wpd.graphicsWidget.getImagePNG();
+
+        // projectInfo
+        let projectInfo = JSON.stringify({"version": [4,0], "json": "wpd.json", "image": "image.png"});
+
+        // generate project file
+        let tarWriter = new tarball.TarWriter();
+        tarWriter.addFolder(projectName + "/");
+        tarWriter.addTextFile(projectName + "/info.json", projectInfo);
+        tarWriter.addTextFile(projectName + "/wpd.json", json);
+        tarWriter.addFile(projectName + "/image.png", imageFile);
+        tarWriter.download(projectName + ".tar");
+        wpd.popup.close('export-json-window');
+    }
+
+    function readJSONFileOnly(jsonFile) {
+        var fileReader = new FileReader();
+        fileReader.onload = function () {
+            var json_data = JSON.parse(fileReader.result);
+            resumeFromJSON(json_data); 
+            
+            wpd.graphicsWidget.resetData();
+            wpd.graphicsWidget.removeTool();
+            wpd.graphicsWidget.removeRepainter();
+            if(wpd.appData.isAligned()) {
+                wpd.acquireData.load();
+            }
+            wpd.messagePopup.show(wpd.gettext('import-json'), wpd.gettext("json-data-loaded"));
+        };
+        fileReader.readAsText(file);
+    }
+
+    function readProjectFile(file) {
+        wpd.busyNote.show();
+        var tarReader = new tarball.TarReader();
+        tarReader.readFile(file).then(function(fileInfo) {
+            wpd.busyNote.close();
+            let infoIndex = fileInfo.findIndex(info => info.name.endsWith("/info.json"));
+            if(infoIndex >= 0) {
+                let projectName = fileInfo[infoIndex].name.replace("/info.json","");
+                let wpdimage = tarReader.getFileBlob(projectName + "/image.png", "image/png");
+                wpdimage.name = "image.png";                
+                let wpdjson = JSON.parse(tarReader.getTextFile(projectName + "/wpd.json"));
+                wpd.imageManager.loadFromFile(wpdimage, true).then(() => {
+                    resumeFromJSON(wpdjson);                    
+                    if(wpd.appData.isAligned()) {
+                        wpd.acquireData.load();
+                    }                    
+                });
+            }
+        }, function(err) {
+            console.log(err);
+        });
+    }   
+
     function read() {
-        var $fileInput = document.getElementById('import-json-file');
+        const $fileInput = document.getElementById('import-json-file');
         wpd.popup.close('import-json-window');
         if($fileInput.files.length === 1) {
-            var fileReader = new FileReader();
-            fileReader.onload = function () {
-                var json_data = JSON.parse(fileReader.result);
-                resumeFromJSON(json_data); 
-                
-                wpd.graphicsWidget.resetData();
-                wpd.graphicsWidget.removeTool();
-                wpd.graphicsWidget.removeRepainter();
-                if(wpd.appData.isAligned()) {
-                    wpd.acquireData.load();
-                }
-                wpd.messagePopup.show(wpd.gettext('import-json'), wpd.gettext("json-data-loaded"));
-            };
-            fileReader.readAsText($fileInput.files[0]);
+            let file = $fileInput.files[0];
+            
+            if(file.type == "application/json") {
+                readJSONFileOnly(file);
+            } else {
+                readProjectFile(file);
+            }            
         }
     }
 
     return {
         save: save,
         load: load,
-        download: download,
+        downloadJSON: downloadJSON,
+        downloadProject: downloadProject,
         read: read
     };
 })();

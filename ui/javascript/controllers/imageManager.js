@@ -40,55 +40,61 @@ wpd.imageManager = (function () {
         wpd.popup.close('loadNewImage');
     }
 
-    function loadFromFile(imageFile) {
-        if(imageFile.type.match("image.*")) {
-            wpd.busyNote.show();
-            let reader = new FileReader();
-            reader.onload = function() {
-                let url = reader.result;
-                loadFromURL(url);
-            };
-            reader.readAsDataURL(imageFile);
-        } else if(imageFile.type == "application/pdf") {
-            wpd.busyNote.show();
-            let reader = new FileReader();
-            reader.onload = function() {
-                let pdfurl = reader.result;
-                //PDFJS.disableWorker = true;
-                PDFJS.getDocument(pdfurl).then(function(pdf) {
-                    pdf.getPage(1).then(function (page) {                        
-                        let scale = 3;
-                        let viewport = page.getViewport(scale);
-                        let $canvas = document.createElement('canvas');
-                        let ctx = $canvas.getContext('2d');
-                        $canvas.width = viewport.width;
-                        $canvas.height = viewport.height;
-                        page.render({ canvasContext: ctx, viewport: viewport }).promise.then(function() {
-                            let url = $canvas.toDataURL();
-                            loadFromURL(url);
-                        }, function(err) {
-                            console.log(err);
-                            wpd.busyNote.close();
+    function loadFromFile(imageFile, resumedProject) {
+        return new Promise((resolve, reject) => {
+            if(imageFile.type.match("image.*")) {
+                wpd.busyNote.show();
+                let reader = new FileReader();
+                reader.onload = function() {
+                    let url = reader.result;
+                    loadFromURL(url, resumedProject).then(resolve);
+                };
+                reader.readAsDataURL(imageFile);
+            } else if(imageFile.type == "application/pdf") {
+                wpd.busyNote.show();
+                let reader = new FileReader();
+                reader.onload = function() {
+                    let pdfurl = reader.result;
+                    //PDFJS.disableWorker = true;
+                    PDFJS.getDocument(pdfurl).then(function(pdf) {
+                        pdf.getPage(1).then(function (page) {                        
+                            let scale = 3;
+                            let viewport = page.getViewport(scale);
+                            let $canvas = document.createElement('canvas');
+                            let ctx = $canvas.getContext('2d');
+                            $canvas.width = viewport.width;
+                            $canvas.height = viewport.height;
+                            page.render({ canvasContext: ctx, viewport: viewport }).promise.then(function() {
+                                let url = $canvas.toDataURL();
+                                loadFromURL(url, resumedProject).then(resolve);
+                            }, function(err) {
+                                console.log(err);
+                                wpd.busyNote.close();
+                                reject(err);
+                            });
                         });
                     });
-                });
+                };
+                reader.readAsDataURL(imageFile);
+            } else {
+                console.log(imageFile.type);
+                wpd.messagePopup.show(wpd.gettext('invalid-file'), wpd.gettext('invalid-file-text'));            
+            }
+        });        
+    }
+
+    function loadFromURL(url, resumedProject) {
+        return new Promise((resolve, reject) => {
+            let image = new Image();
+            image.onload = function() {
+                _setImage(image, resumedProject);
+                resolve();
             };
-            reader.readAsDataURL(imageFile);
-        } else {
-            console.log(imageFile.type);
-            wpd.messagePopup.show(wpd.gettext('invalid-file'), wpd.gettext('invalid-file-text'));            
-        }
+            image.src = url;
+        });
     }
 
-    function loadFromURL(url) {        
-        let image = new Image();
-        image.onload = function() {
-            _setImage(image);
-        };
-        image.src = url;
-    }
-
-    function _setImage(image) {
+    function _setImage(image, resumedProject) {
         wpd.appData.reset();
         wpd.sidebar.clear();
         let imageData = wpd.graphicsWidget.loadImage(image);
@@ -98,7 +104,7 @@ wpd.imageManager = (function () {
 
         if (_firstLoad) {
             wpd.sidebar.show('start-sidebar');
-        } else {
+        } else if(!resumedProject) {
             wpd.popup.show('axesList');
         }
         _firstLoad = false;

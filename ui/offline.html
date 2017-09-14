@@ -40,6 +40,7 @@
 
 <!-- thirdparty -->
 <script src="thirdparty/pdfjs/build/pdf.js"></script>
+<script src="thirdparty/tarballjs/tarballjs-master/tarball.js"></script>
 </head>
 
 <body>
@@ -56,8 +57,8 @@ Problems loading? Make sure you have a recent version of Google Chrome, Firefox,
     <div id="mainContainer">
         <div id="topContainer">
             <div id="menuButtonsContainer"><button onclick="wpd.popup.show('loadNewImage');" title="Load new image">&uarr; Image</button>
-<button onclick="wpd.saveResume.save();" title="Download JSON">&darr; .json</button>
-<button onclick="wpd.saveResume.load();" title="Load JSON">&uarr; .json</button>
+<button onclick="wpd.saveResume.load();" title="Load JSON">&uarr; Project</button>
+<button onclick="wpd.saveResume.save();" title="Download JSON">&darr; Project</button>
 <button onclick="wpd.scriptInjector.start();" title="Load a script">&uarr; Script</button>
 
 <!--
@@ -748,21 +749,22 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
 
     <!-- Export JSON -->
     <div id="export-json-window" class="popup" style="width:500px;">
-    <div class="popupheading">Export JSON</div>
-    <p>This JSON file contains the axes calibration and the digitized data points from this plot. This file can be imported later to resume work or reuse the calibration in another plot.</p>
-    <p>&nbsp;</p>
+    <div class="popupheading">Export JSON/Project</div>
+    <p>This JSON file contains the axes calibration, digitized data and measurements. This file can be loaded to resume work at a later time. You can also download a combined 'project file' which includes this JSON and also the image in a single file.</p>
+    <br>
     <p align="center">
-        <input type="button" value="Download" onclick="wpd.saveResume.download();"/>
-        <input type="button" value="Close" onclick="wpd.popup.close('export-json-window');"/>
+        <input type="button" value="Download JSON" onclick="wpd.saveResume.downloadJSON();"/>
+        <input type="button" value="Download Project (JSON+Image)" onclick="wpd.saveResume.downloadProject();"/>
+        <input type="button" value="Cancel" onclick="wpd.popup.close('export-json-window');"/>
     </p>
     </div>
 
     <!-- Import JSON -->
     <div id="import-json-window" class="popup" style="width:500px;">
-    <div class="popupheading">Import JSON</div>
-    <p>Specify a previously exported JSON file to load here. Note that this will clear any unsaved data points in the current plot.</p>
+    <div class="popupheading">Import JSON/Project</div>
+    <p>Specify a previously exported JSON/project file to load here. Note that this will clear any unsaved data points in the current plot.</p>
     <p>&nbsp;</p>
-    <p align="center">JSON File: <input type="file" id="import-json-file"/></p>
+    <p align="center">JSON/Project File: <input type="file" id="import-json-file"/></p>
     <p>&nbsp;</p>
     <p align="center">
         <input type="button" value="Import" onclick="wpd.saveResume.read();"/>
