@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-09-13 23:10-0500\n"
+"POT-Creation-Date: 2017-09-13 23:24-0500\n"
 "PO-Revision-Date: 2016-12-18 10:38-0600\n"
 "Last-Translator: \n"
 "Language: ja\n"
@@ -86,7 +86,7 @@ msgstr ""
 msgid "Export JSON"
 msgstr ""
 
-#: templates/_menubar.html:16 templates/_strings.html:4
+#: templates/_menubar.html:16
 msgid "Import JSON"
 msgstr ""
 
@@ -171,10 +171,10 @@ msgstr ""
 #: templates/_popups.html:13 templates/_popups.html:37
 #: templates/_popups.html:48 templates/_popups.html:56
 #: templates/_popups.html:74 templates/_popups.html:92
-#: templates/_popups.html:356 templates/_popups.html:369
-#: templates/_popups.html:399 templates/_popups.html:412
-#: templates/_popups.html:427 templates/_popups.html:439
-#: templates/_popups.html:450 templates/_popups.html:460
+#: templates/_popups.html:356 templates/_popups.html:370
+#: templates/_popups.html:400 templates/_popups.html:413
+#: templates/_popups.html:428 templates/_popups.html:440
+#: templates/_popups.html:451 templates/_popups.html:461
 msgid "Cancel"
 msgstr ""
 
@@ -227,8 +227,8 @@ msgstr ""
 #: templates/_popups.html:65 templates/_popups.html:74
 #: templates/_popups.html:123 templates/_popups.html:147
 #: templates/_popups.html:156 templates/_popups.html:187
-#: templates/_popups.html:206 templates/_popups.html:398
-#: templates/_popups.html:411
+#: templates/_popups.html:206 templates/_popups.html:399
+#: templates/_popups.html:412
 msgid "OK"
 msgstr ""
 
@@ -374,7 +374,7 @@ msgstr ""
 msgid "Select All"
 msgstr ""
 
-#: templates/_popups.html:221 templates/_popups.html:437
+#: templates/_popups.html:221 templates/_popups.html:438
 msgid "Download .CSV"
 msgstr ""
 
@@ -383,7 +383,7 @@ msgid "Graph in Plotly*"
 msgstr ""
 
 #: templates/_popups.html:223 templates/_popups.html:321
-#: templates/_popups.html:345 templates/_popups.html:388
+#: templates/_popups.html:345 templates/_popups.html:389
 msgid "Close"
 msgstr ""
 
@@ -555,139 +555,141 @@ msgstr ""
 msgid "Download Project (JSON+Image)"
 msgstr ""
 
-#: templates/_popups.html:362
+#: templates/_popups.html:362 templates/_strings.html:4
 msgid "Import JSON/Project"
 msgstr ""
 
 #: templates/_popups.html:363
-msgid ""
-"Specify a previously exported JSON/project file to load here. Note that "
-"this will clear any unsaved data points in the current plot."
+msgid "Specify a previously exported JSON/project file to load here."
 msgstr ""
 
-#: templates/_popups.html:365
+#: templates/_popups.html:364
+msgid "NOTE: This will clear any unsaved data in the current plot."
+msgstr ""
+
+#: templates/_popups.html:366
 msgid "JSON/Project File"
 msgstr ""
 
-#: templates/_popups.html:368
+#: templates/_popups.html:369
 msgid "Import"
 msgstr ""
 
-#: templates/_popups.html:375
+#: templates/_popups.html:376
 msgid "Keyboard Shortcuts"
 msgstr ""
 
-#: templates/_popups.html:376
+#: templates/_popups.html:377
 msgid ""
 "Click to select a data point. The following keys can then be used to the "
 "adjust the position"
 msgstr ""
 
-#: templates/_popups.html:379
+#: templates/_popups.html:380
 msgid "Cursor (Arrows)"
 msgstr ""
 
-#: templates/_popups.html:379
+#: templates/_popups.html:380
 msgid "Move up/down/right/left"
 msgstr ""
 
-#: templates/_popups.html:380
+#: templates/_popups.html:381
 msgid "Shift + Cursor"
 msgstr ""
 
-#: templates/_popups.html:380
+#: templates/_popups.html:381
 msgid "Faster rate of movement"
 msgstr ""
 
-#: templates/_popups.html:381
+#: templates/_popups.html:382
 msgid "Select next point"
 msgstr ""
 
-#: templates/_popups.html:382
+#: templates/_popups.html:383
 msgid "Select previous point"
 msgstr ""
 
-#: templates/_popups.html:383
+#: templates/_popups.html:384
 msgid "Del/Backspace"
 msgstr ""
 
-#: templates/_popups.html:383
+#: templates/_popups.html:384
 msgid "Delete point"
 msgstr ""
 
-#: templates/_popups.html:384
+#: templates/_popups.html:385
 msgid "Edit label (Bar Chart)"
 msgstr ""
 
-#: templates/_popups.html:393
+#: templates/_popups.html:394
 msgid "Edit Label"
 msgstr ""
 
-#: templates/_popups.html:395
+#: templates/_popups.html:396
 msgid "Label"
 msgstr ""
 
-#: templates/_popups.html:395
+#: templates/_popups.html:396
 msgid "Data Point"
 msgstr ""
 
-#: templates/_popups.html:405
+#: templates/_popups.html:406
 msgid "Perspective Transformation"
 msgstr ""
 
-#: templates/_popups.html:408
+#: templates/_popups.html:409
 msgid "Click on four corners of the region to be transformed as shown."
 msgstr ""
 
-#: templates/_popups.html:418
+#: templates/_popups.html:419
 msgid "Edit Existing Calibration?"
 msgstr ""
 
-#: templates/_popups.html:420
+#: templates/_popups.html:421
 msgid "Do you wish to tweak existing axes calibration or select a new axes type?"
 msgstr ""
 
-#: templates/_popups.html:423
+#: templates/_popups.html:424
 msgid "Edit Calibration"
 msgstr ""
 
-#: templates/_popups.html:425
+#: templates/_popups.html:426
 msgid "Change Axes Type"
 msgstr ""
 
-#: templates/_popups.html:433
+#: templates/_popups.html:434
 msgid "Export All Datasets"
 msgstr ""
 
-#: templates/_popups.html:438
+#: templates/_popups.html:439
 msgid "Export to Plotly"
 msgstr ""
 
-#: templates/_popups.html:445 templates/_tree.html:28
+#: templates/_popups.html:446 templates/_tree.html:28
 msgid "Add Dataset"
 msgstr ""
 
-#: templates/_popups.html:446 templates/_popups.html:458
+#: templates/_popups.html:447 templates/_popups.html:459
 msgid "Name"
 msgstr ""
 
-#: templates/_popups.html:446
+#: templates/_popups.html:447
 msgid "Add Single Dataset"
 msgstr ""
 
-#: templates/_popups.html:448
+#: templates/_popups.html:449
 msgid "Count"
 msgstr ""
 
-#: templates/_popups.html:448
+#: templates/_popups.html:449
 msgid "Add Multiple Datasets"
 msgstr ""
 
-#: templates/_popups.html:455 templates/_tree.html:44
+#: templates/_popups.html:456 templates/_tree.html:44
 msgid "Rename Dataset"
 msgstr ""
 
-#: templates/_popups.html:460
+#: templates/_popups.html:461
 msgid "Rename"
 msgstr ""
 
@@ -889,7 +891,7 @@ msgid ""
 msgstr ""
 
 #: templates/_strings.html:5
-msgid "JSON data has been loaded!"
+msgid "JSON/Project data has been loaded!"
 msgstr ""
 
 #: templates/_strings.html:6
@@ -1780,5 +1782,12 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Add Multiple Datasets"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Specify a previously exported JSON/project "
+#~ "file to load here. Note that this"
+#~ " will clear any unsaved data points"
+#~ " in the current plot."
 #~ msgstr ""
 

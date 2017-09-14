@@ -136,9 +136,7 @@ wpd.saveResume = (function () {
            for(i = 0; i < rdata.angleMeasurementData.length; i++) {
                plotData.angleMeasurementData.addConnection(rdata.angleMeasurementData[i]);
            }
-       }
-
-       wpd.tree.refresh();
+       }       
     }
 
     function generateJSON() {
@@ -280,10 +278,8 @@ wpd.saveResume = (function () {
             
             wpd.graphicsWidget.resetData();
             wpd.graphicsWidget.removeTool();
-            wpd.graphicsWidget.removeRepainter();
-            if(wpd.appData.isAligned()) {
-                wpd.acquireData.load();
-            }
+            wpd.graphicsWidget.removeRepainter();            
+            wpd.tree.refresh();
             wpd.messagePopup.show(wpd.gettext('import-json'), wpd.gettext("json-data-loaded"));
         };
         fileReader.readAsText(file);
@@ -301,10 +297,9 @@ wpd.saveResume = (function () {
                 wpdimage.name = "image.png";                
                 let wpdjson = JSON.parse(tarReader.getTextFile(projectName + "/wpd.json"));
                 wpd.imageManager.loadFromFile(wpdimage, true).then(() => {
-                    resumeFromJSON(wpdjson);                    
-                    if(wpd.appData.isAligned()) {
-                        wpd.acquireData.load();
-                    }                    
+                    resumeFromJSON(wpdjson);
+                    wpd.tree.refresh();
+                    wpd.messagePopup.show(wpd.gettext('import-json'), wpd.gettext("json-data-loaded"));
                 });
             }
         }, function(err) {

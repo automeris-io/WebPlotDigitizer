@@ -820,9 +820,10 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
     <!-- Import JSON -->
     <div id="import-json-window" class="popup" style="width:500px;">
     <div class="popupheading">Import JSON/Project</div>
-    <p>Specify a previously exported JSON/project file to load here. Note that this will clear any unsaved data points in the current plot.</p>
+    <p>Specify a previously exported JSON/project file to load here. </p>
+    <p>NOTE: This will clear any unsaved data in the current plot.</p>
     <p>&nbsp;</p>
-    <p align="center">JSON/Project File: <input type="file" id="import-json-file"/></p>
+    <p align="center">JSON/Project File: <input type="file" id="import-json-file" onchange="wpd.saveResume.read();"/></p>
     <p>&nbsp;</p>
     <p align="center">
         <input type="button" value="Import" onclick="wpd.saveResume.read();"/>
@@ -925,8 +926,8 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
 <div class="i18n-string" id="i18n-string-wpd">WebPlotDigitizer</div>
 <div class="i18n-string" id="i18n-string-unstable-version-warning">Unstable version warning!</div>
 <div class="i18n-string" id="i18n-string-unstable-version-warning-text">You are using a beta version of WebPlotDigitizer. There may be some issues with the software that are expected.</div>
-<div class="i18n-string" id="i18n-string-import-json">Import JSON</div>
-<div class="i18n-string" id="i18n-string-json-data-loaded">JSON data has been loaded!</div>
+<div class="i18n-string" id="i18n-string-import-json">Import JSON/Project</div>
+<div class="i18n-string" id="i18n-string-json-data-loaded">JSON/Project data has been loaded!</div>
 <div class="i18n-string" id="i18n-string-calibration-invalid-inputs">Invalid Inputs</div>
 <div class="i18n-string" id="i18n-string-calibration-enter-valid">Please enter valid values for calibration.</div>
 <div class="i18n-string" id="i18n-string-calibration-invalid-log-inputs">Invalid Log Scale Value</div>

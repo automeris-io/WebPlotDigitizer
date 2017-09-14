@@ -360,9 +360,10 @@
     <!-- Import JSON -->
     <div id="import-json-window" class="popup" style="width:500px;">
     <div class="popupheading">{{ _("Import JSON/Project") }}</div>
-    <p>{{ _("Specify a previously exported JSON/project file to load here. Note that this will clear any unsaved data points in the current plot.") }}</p>
+    <p>{{ _("Specify a previously exported JSON/project file to load here.") }} </p>
+    <p>{{ _("NOTE: This will clear any unsaved data in the current plot.") }}</p>
     <p>&nbsp;</p>
-    <p align="center">{{ _("JSON/Project File") }}: <input type="file" id="import-json-file"/></p>
+    <p align="center">{{ _("JSON/Project File") }}: <input type="file" id="import-json-file" onchange="wpd.saveResume.read();"/></p>
     <p>&nbsp;</p>
     <p align="center">
         <input type="button" value="{{ _("Import") }}" onclick="wpd.saveResume.read();"/>
