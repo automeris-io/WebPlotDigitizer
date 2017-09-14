@@ -5045,6 +5045,7 @@ wpd.tree = (function() {
 
     let treeWidget = null;
 
+    // polyfill for IE11/Microsoft Edge
     if (window.NodeList && !NodeList.prototype.forEach) {
         NodeList.prototype.forEach = function (callback, thisArg) {
             thisArg = thisArg || window;
