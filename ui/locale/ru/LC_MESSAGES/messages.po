@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-09-14 01:23-0500\n"
+"POT-Creation-Date: 2017-09-14 01:30-0500\n"
 "PO-Revision-Date: 2016-12-18 10:38-0600\n"
 "Last-Translator: \n"
 "Language: ru\n"
@@ -30,7 +30,7 @@ msgstr ""
 #: templates/_base.html:50
 msgid ""
 "Problems loading? Make sure you have a recent version of Google Chrome, "
-"Firefox, Safari or Internet Explorer 11 installed."
+"Firefox, Safari or Microsoft Edge installed."
 msgstr ""
 
 #: templates/_base.html:72
@@ -1783,5 +1783,12 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Add Multiple Datasets"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Problems loading? Make sure you have "
+#~ "a recent version of Google Chrome, "
+#~ "Firefox, Safari or Internet Explorer 11"
+#~ " installed."
 #~ msgstr ""
 
