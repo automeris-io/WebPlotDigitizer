@@ -11,3 +11,7 @@ Use the ./getThirdparty.sh script, or follow the following steps manually:
     - Download: https://github.com/mozilla/pdf.js/releases/download/v1.8.188/pdfjs-1.8.188-dist.zip
     - Extract to pdfjs folder
 
+3) tarballjs:
+    - Download: https://github.com/ankitrohatgi/tarballjs/archive/master.zip
+    - Extract to tarballjs folder
+
