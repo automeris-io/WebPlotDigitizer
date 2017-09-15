@@ -1,16 +1,4 @@
 {% extends "_base.html" %}
 {% block scripts %}
 <script src="combined-compiled.js"></script>
-
-<!-- Simple hit counter -->
-<script src="https://automeris.io/scripts/analytics.js"></script>
-<script>
-var wpdkey = 'WPD';
-var wpdsubkey = wpd.args.getValue('subkey');
-if (wpdsubkey != null && wpdsubkey != '') {
-    wpdkey = wpdkey + '-' + wpdsubkey;
-}
-ar.capture({"key":wpdkey});
-</script>
-
 {% endblock %}
