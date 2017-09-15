@@ -25,6 +25,8 @@ var wpd = wpd || {};
 
 wpd.plotDataProvider = (function() {
 
+    let _dsIdx = 0;
+
     function getDatasetNames() {
         var plotData = wpd.appData.getPlotData(),
             datasetNames = [],
@@ -36,13 +38,11 @@ wpd.plotDataProvider = (function() {
     }
 
     function getDatasetIndex() {
-        return wpd.appData.getPlotData().getActiveDataSeriesIndex();
+        return _dsIdx;
     }
 
     function setDatasetIndex(index) {
-        wpd.appData.getPlotData().setActiveDataSeriesIndex(index);
-        wpd.graphicsWidget.forceHandlerRepaint();
-        wpd.dataPointCounter.setCount();
+        _dsIdx = index;        
     }
 
     function getData() {
@@ -61,7 +61,7 @@ wpd.plotDataProvider = (function() {
             rawData = [],
             isFieldSortable = [],
             plotData = wpd.appData.getPlotData(),
-            dataSeries = plotData.getActiveDataSeries(),
+            dataSeries = plotData.dataSeriesColl[_dsIdx],
             axes = plotData.axes,
             rowi, coli,
             dataPt,
@@ -104,7 +104,7 @@ wpd.plotDataProvider = (function() {
         // 2D XY, Polar, Ternary, Image, Map
 
         var plotData = wpd.appData.getPlotData(),
-            dataSeries = plotData.getActiveDataSeries(),
+            dataSeries = plotData.dataSeriesColl[_dsIdx],
             axes = plotData.axes,
             fields = [],
             fieldDateFormat = [],

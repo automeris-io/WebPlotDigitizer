@@ -32,6 +32,7 @@ wpd.dataTable = (function () {
     
     function showPlotData() {
         dataProvider = wpd.plotDataProvider;
+        dataProvider.setDatasetIndex(wpd.appData.getPlotData().getActiveDataSeriesIndex());
         show();
     }
 
