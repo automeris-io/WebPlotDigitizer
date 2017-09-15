@@ -1,6 +1,6 @@
 # Version4 Branch
 
-Some major backend changes are underway in this branch.
+Next major update of WPD. Very frequent code changes are going on here.
 
 WebPlotDigitizer
 ================
@@ -9,43 +9,13 @@ A web based tool to extract numerical data from plot images. Supports XY, Polar,
 
 This tool has been developed using HTML5, CSS3 and Javascript and therefore runs from within the browser and requires no installation.
 
-Homepage
---------
-
-This project is hosted on [http://arohatgi.info/WebPlotDigitizer](http://arohatgi.info/WebPlotDigitizer)
-
-Usage
------
-
-Instructions and video tutorials are available at [http://arohatgi.info/WebPlotDigitizer/tutorial.html](http://arohatgi.info/WebPlotDigitizer/tutorial.html)
-
-Scripting
----------
-
-Users can load scripts to extend the capabilities of WebPlotDigitizer. For samples see [WebPlotDigitizer-Examples](http://github.com/ankitrohatgi/WebPlotDigitizer-Examples). If you are looking for a custom script, then email me.
-
 License
 -------
 
 WebPlotDigitizer is distributed under [GNU AGPL v3](https://www.gnu.org/licenses/agpl-3.0.en.html).
 
-Offline Development/Usage
--------------------------
-
-This tool has to be hosted on a HTTP server with PHP for some javascript features and PHP scripts to function correctly. The 'master' branch of the code is stable and the 'develop' branch is meant for development. To download a stable release of this app, check [Releases](https://github.com/ankitrohatgi/WebPlotDigitizer/releases).
-
-Development/Hacking
--------------------
-
-  - dev.html, index.html etc. are generated files so do not edit them directly.
-  - index.html is the deployed page on the website and uses a compiled and compressed version of the javascript code.
-  - dev.html is to be used during development. This uses the uncompressed/uncompiled javascript files.
-  - build.sh generates dev.html and index.html based on the files in the templates folder and the javascript folder.
-  - Host the pages on a PHP enabled web server (e.g. php -S localhost:8000 ) during development.
-
 Contact
 -------
 
 Ankit Rohatgi <ankitrohatgi@hotmail.com>
-
 
