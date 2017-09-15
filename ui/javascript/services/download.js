@@ -58,7 +58,7 @@ wpd.download = (function() {
         formFilename.type = 'hidden';
 
         formElement.setAttribute('method', 'post');
-        formElement.setAttribute('action', 'internal/download/text');
+        formElement.setAttribute('action', 'download/text');
 
         formData.setAttribute('name', "data");
         formData.setAttribute('id', "data");

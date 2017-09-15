@@ -30,7 +30,10 @@ import (
 
 // ServerSettings - global server settings
 type ServerSettings struct {
+	Hostname string
 	HTTPPort string
+	Logging  bool
+	LogPath  string
 }
 
 func main() {
@@ -47,13 +50,20 @@ func main() {
 	http.Handle("/", http.FileServer(fs))
 
 	// internal backend API
-	http.HandleFunc("/internal/download/text", func(w http.ResponseWriter, r *http.Request) {
+	http.HandleFunc("/download/text", func(w http.ResponseWriter, r *http.Request) {
 		HandleDownload(w, r)
 	})
 
+	// logging
+	http.HandleFunc("/logging", func(w http.ResponseWriter, r *http.Request) {
+		// enabled?
+		// post data
+	})
+
 	// start the server
-	log.Println("Starting server on port", settings.HTTPPort)
-	err = http.ListenAndServe(":"+settings.HTTPPort, nil)
+	addr := settings.Hostname + ":" + settings.HTTPPort
+	log.Println("Starting server on: ", addr)
+	err = http.ListenAndServe(addr, nil)
 	if err != nil {
 		log.Fatal("Error starting server, exiting!")
 	}
