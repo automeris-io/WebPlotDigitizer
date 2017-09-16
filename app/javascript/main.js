@@ -27,28 +27,9 @@ wpd.initApp = function() {// This is run when the page loads.
 
     wpd.browserInfo.checkBrowser();
     wpd.layoutManager.initialLayout();
-    if(!wpd.loadRemoteData()) {
-        wpd.imageManager.loadFromURL('start.png');
-    }
+    wpd.imageManager.loadFromURL('start.png');
     document.getElementById('loadingCurtain').style.display = 'none';
 
-};
-
-wpd.loadRemoteData = function() {
-
-    if(typeof wpdremote === "undefined") { 
-        return false; 
-    }
-    if(wpdremote.status != null && wpdremote.status === 'fail') {
-        wpd.messagePopup.show('Remote Upload Failed!', 'Remote Upload Failed!');
-        return false;
-    }
-    if(wpdremote.status === 'success' && wpdremote.localUrl != null) {
-        wpd.imageManager.loadFromURL(wpdremote.localUrl);
-        wpd.popup.show('axesList');
-        return true;
-    }
-    return false;
 };
 
 document.addEventListener("DOMContentLoaded", wpd.initApp, true);
