@@ -46,7 +46,7 @@ func main() {
 	json.Unmarshal(file, &settings)
 
 	// host the ui frontend
-	fs := WPDFileSystem{http.Dir("ui")}
+	fs := WPDFileSystem{http.Dir("../app")}
 	http.Handle("/", http.FileServer(fs))
 
 	// internal backend API
