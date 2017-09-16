@@ -1,4 +1,4 @@
-# Edit paths, usernam below
+# Edit paths, username below
 #
 # Install:
 # 	systemctl enable WebPlotDigitizer.service
@@ -18,8 +18,8 @@ After=network-online.target
 User=username
 Restart=always
 RestartSec=3
-WorkingDirectory=/wpd/path
-ExecStart=/wpd/path
+WorkingDirectory=path/to/wpd/webserver
+ExecStart=path/to/wpd/webserver
 
 [Install]
 WantedBy=multi-user.target
