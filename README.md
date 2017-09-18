@@ -44,4 +44,21 @@ To run the electron app, follow these steps:
 
 At the moment, this is only an basic implementation. If you are familiar with electron app development, then feel free to contribute here.
 
+Development Dependencies
+------------------------
+UI:
+    - See app/thirdparty folder and download the required third party libraries and dependencies.
+    - A recent Java to run the javascript compiler (Google Closure Compiler).
+    - Python 2.7 with jinja2 package and pybabel to compile the HTML templates.
+
+Web Server:
+    - A recent Go compiler
+
+Electron App:
+    - npm
+
+Translations
+------------
+
+If you would like to translate WPD to your language, then please email me.
 
