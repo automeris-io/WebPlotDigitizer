@@ -46,6 +46,7 @@ At the moment, this is only an basic implementation. If you are familiar with el
 
 Development Dependencies
 ------------------------
+
 UI:
     - See app/thirdparty folder and download the required third party libraries and dependencies.
     - A recent Java to run the javascript compiler (Google Closure Compiler).
