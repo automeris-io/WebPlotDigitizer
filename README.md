@@ -5,15 +5,15 @@ A web based tool to extract numerical data from plot images. Supports XY, Polar,
 
 ![WPD Screenshot](/screenshot.png?raw=true "WebPlotDigitizer 4.0")
 
-License
--------
-
-WebPlotDigitizer is distributed under [GNU AGPL v3](https://www.gnu.org/licenses/agpl-3.0.en.html).
-
 Contact
 -------
 
 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+
+License
+-------
+
+WebPlotDigitizer is distributed under [GNU AGPL v3](https://www.gnu.org/licenses/agpl-3.0.en.html).
 
 Stable Versions
 ---------------
