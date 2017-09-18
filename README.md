@@ -3,6 +3,8 @@ WebPlotDigitizer 4.0
 
 A web based tool to extract numerical data from plot images. Supports XY, Polar, Ternary diagrams and Maps. This is an opensource tool that is used by thousands and [cited in over 600 published articles](https://scholar.google.com/scholar?as_vis=1&q=WebPlotDigitizer&hl=en&as_sdt=0,44). Checkout http://arohatgi.info/WebPlotDigitizer for more details.
 
+![WPD Screenshot](/screenshot.png?raw=true "WebPlotDigitizer 4.0")
+
 License
 -------
 
