@@ -1,5 +1,19 @@
 RELEASE NOTES
 
+Version 4.0
+===========
+Under development
+
+New Features:
+
+- PDF support: In addition to traditional images, PDF documents can also be uploaded now.
+- Combined project files: Users can now download both image and JSON data in combined .tar files. In later versions, the JSON will also contain auto extraction parameters.
+- Tree control in the UI: This makes it much easier to work with multiple datasets. In later versions, multi-axes support will be added.
+- Go backend: PHP has been replaced with Go based backend to allow for more hosting flexibility in the future.
+- Client side downloads: For most new browsers, CSV/JSON/tar files can be generated and downloaded entirely in the browser. Data will not require to be bounced off of the server.
+- Added Simplified Chinese translations.
+- A lot of code refactoring with more ES6 code.
+
 Version 3.12
 ============
 June 3, 2017

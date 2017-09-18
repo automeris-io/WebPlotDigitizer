@@ -1,47 +1,65 @@
-WebPlotDigitizer
-================
+WebPlotDigitizer 4.0
+====================
 
-A web based tool to extract numerical data from plot images. Supports XY, Polar, Ternary diagrams and Maps.
-
-This tool has been developed using HTML5, CSS3 and Javascript and therefore runs from within the browser and requires no installation.
-
-Homepage
---------
-
-This project is hosted on [http://arohatgi.info/WebPlotDigitizer](http://arohatgi.info/WebPlotDigitizer)
-
-Usage
------
-
-Instructions and video tutorials are available at [http://arohatgi.info/WebPlotDigitizer/tutorial.html](http://arohatgi.info/WebPlotDigitizer/tutorial.html)
-
-Scripting
----------
-
-Users can load scripts to extend the capabilities of WebPlotDigitizer. For samples see [WebPlotDigitizer-Examples](http://github.com/ankitrohatgi/WebPlotDigitizer-Examples). If you are looking for a custom script, then email me.
+A web based tool to extract numerical data from plot images. Supports XY, Polar, Ternary diagrams and Maps. This is an opensource tool that is used by thousands and [cited in over 600 published articles](https://scholar.google.com/scholar?as_vis=1&q=WebPlotDigitizer&hl=en&as_sdt=0,44). Checkout http://arohatgi.info/WebPlotDigitizer for more details.
 
 License
 -------
 
 WebPlotDigitizer is distributed under [GNU AGPL v3](https://www.gnu.org/licenses/agpl-3.0.en.html).
 
-Offline Development/Usage
--------------------------
-
-This tool has to be hosted on a HTTP server with PHP for some javascript features and PHP scripts to function correctly. The 'master' branch of the code is stable and the 'develop' branch is meant for development. To download a stable release of this app, check [Releases](https://github.com/ankitrohatgi/WebPlotDigitizer/releases).
-
-Development/Hacking
--------------------
-
-  - dev.html, index.html etc. are generated files so do not edit them directly.
-  - index.html is the deployed page on the website and uses a compiled and compressed version of the javascript code.
-  - dev.html is to be used during development. This uses the uncompressed/uncompiled javascript files.
-  - build.sh generates dev.html and index.html based on the files in the templates folder and the javascript folder.
-  - Host the pages on a PHP enabled web server (e.g. php -S localhost:8000 ) during development.
-
 Contact
 -------
 
 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
+Stable Versions
+---------------
+
+The master branch in this repository is unstable and it is not recommended to use this code in production. To access stable releases, checkout: https://github.com/ankitrohatgi/WebPlotDigitizer/releases
+
+Web Version
+-----------
+
+PHP backend has now been replaced with a simple Go server. To start the server do the following:
+
+    cd webserver
+    cp settings.json.example settings.json
+    # edit settings.json as needed
+    go build
+    ./webserver
+
+You can now open this WPD in your web browser.
+
+The Go based server will be extended to include typical server side features like server-side data storage, remote APIs etc.
+
+Electron App
+------------
+
+To run the electron app, follow these steps:
+
+    cd electron
+    npm install
+    npm start
+
+At the moment, this is only an basic implementation. If you are familiar with electron app development, then feel free to contribute here.
+
+Development Dependencies
+------------------------
+
+UI:
+    - See app/thirdparty folder and download the required third party libraries and dependencies.
+    - A recent Java to run the javascript compiler (Google Closure Compiler).
+    - Python 2.7 with jinja2 package and pybabel to compile the HTML templates.
+
+Web Server:
+    - A recent Go compiler
+
+Electron App:
+    - npm
+
+Translations
+------------
+
+If you would like to translate WPD to your language, then please email me.
 
