@@ -1,0 +1,80 @@
+<button onclick="wpd.popup.show('loadNewImage');" title="{{ _("Load new image") }}">&uarr; {{ _("Image") }}</button>
+<button onclick="wpd.saveResume.load();" title="{{ _("Load JSON") }}">&uarr; Project</button>
+<button onclick="wpd.saveResume.save();" title="{{ _("Download JSON") }}">&darr; Project</button>
+<button onclick="wpd.scriptInjector.start();" title="{{ _("Load a script") }}">&uarr; {{ _("Script") }}</button>
+
+<!--
+<div class="wpd-menu">    
+    <div class="wpd-menu-header">{{ _("File") }}</div>
+    <div class="wpd-menu-dropdown">
+        <ul>
+            <li id="wpd-filemenu-loadimage" onclick="wpd.popup.show('loadNewImage');">{{ _("Load Image") }}</li>
+            <li id="wpd-filemenu-capture" onclick="wpd.webcamCapture.start();">{{ _("Webcam Capture") }}</li>
+            <li id="wpd-filemenu-runscript" onclick="wpd.scriptInjector.start();">{{ _("Run Script") }}</li>
+            <li id="wpd-filemenu-saveimage" onclick="wpd.graphicsWidget.saveImage();">{{ _("Save Image") }}</li>
+            <li id="wpd-filemenu-exportdata" onclick="wpd.saveResume.save();">{{ _("Export JSON") }}</li>
+            <li id="wpd-filemenu-import" onclick="wpd.saveResume.load();">{{ _("Import JSON") }}</li>
+        </ul>
+    </div>
+</div>
+<div class="wpd-menu">
+    <div class="wpd-menu-header">Image</div>
+    <div class="wpd-menu-dropdown">
+        <ul>
+            <li>Restore Image</li>
+            <li>Crop</li>
+            <li>Rotate</li>
+            <li>Resize</li>
+            <li>Grayscale</li>
+            <li>Threshold</li>
+        </ul>
+    </div>
+</div>
+-->
+<!--
+<div class="wpd-menu">
+    <div class="wpd-menu-header">{{ _("Axes") }}</div>
+    <div class="wpd-menu-dropdown">
+        <ul>
+            <li id="wpd-axesmenu-defineaxes" onclick="wpd.alignAxes.editAlignment();">{{ _("Calibrate Axes") }}</li>
+            <li id="wpd-axesmenu-grid" onclick="wpd.gridDetection.start();">{{ _("Remove Grid") }}</li>
+            <li id="wpd-axesmenu-perspective" onclick="wpd.perspective.start();">Perspective Transformation</li>
+            <li id="wpd-axesmenu-tranformation-equations" onclick="wpd.transformationEquations.show();">{{ _("Transformation Equations") }}</li>
+        </ul>
+    </div>
+</div>
+<div class="wpd-menu">
+    <div class="wpd-menu-header">{{ _("Data") }}</div>
+    <div class="wpd-menu-dropdown">
+        <ul>
+            <li id="wpd-datamenu-acquire" onclick="wpd.acquireData.load();">{{ _("Acquire Data") }}</li>
+            <li id="wpd-datamenu-manage" onclick="wpd.popup.show('export-all-data-popup');">{{ _("Export All Data") }}</li>
+        </ul>
+    </div>
+</div>
+<div class="wpd-menu">
+    <div class="wpd-menu-header">{{ _("Measure") }}</div>
+    <div class="wpd-menu-dropdown">
+        <ul>
+            <li id="wpd-analyzemenu-distance" onclick="wpd.measurement.start(wpd.measurementModes.distance);">{{ _("Distances") }}</li>
+            <li id="wpd-analyzemenu-angles" onclick="wpd.measurement.start(wpd.measurementModes.angle);">{{ _("Angles") }}</li>
+            <li id="wpd-analyzemenu-open-path" onclick="wpd.measurement.start(wpd.measurementModes.openPath);">Path Length</li>
+            <li id="wpd-analyzemenu-closed-path" onclick="wpd.measurement.start(wpd.measurementModes.closedPath);">Area &amp; Circumference</li>
+        </ul>
+    </div>
+</div>
+-->
+<div class="wpd-menu">
+    <div class="wpd-menu-header">{{ _("Help") }}</div>
+    <div class="wpd-menu-dropdown">
+        <ul>
+            <li id="wpd-helpmenu-about" onclick="wpd.popup.show('helpWindow');">{{ _("About WebPlotDigitizer") }}</li>
+            <li id="wpd-helpmenu-tutorial"><a href="http://arohatgi.info/WebPlotDigitizer/tutorial.html" target="_blank">{{ _("Tutorials") }}</a></li>
+            <li id="wpd-helpmenu-manual"><a href="http://arohatgi.info/WebPlotDigitizer/userManual.pdf" target="_blank">{{ _("User Manual") }}</a></li>
+            <li id="wpd-helpmenu-github"><a href="https://github.com/ankitrohatgi/WebPlotDigitizer" target="_blank">{{ _("GitHub Page") }}</a></li>
+            <li id="wpd-helpmenu-issues"><a href="https://github.com/ankitrohatgi/WebPlotDigitizer/issues" target="_blank">{{ _("Report Issues") }}</a></li>
+            <li id="wpd-helpmenu-donate"><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=CVFJGV5SNEV9J&lc=US&item_name=WebPlotDigitizer&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted" target="_blank">{{ _("Donate (PayPal)") }}</a></li>
+        </ul>
+    </div>
+</div>
+
