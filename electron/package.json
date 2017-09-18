@@ -2,7 +2,7 @@
   "name": "WebPlotDigitizer",
   "version": "4.0.0",
   "description": "Extract data from images of charts",
-  "main": "electron/main.js",
+  "main": "main.js",
   "scripts": {
     "start": "electron ."
   },
