@@ -18,7 +18,7 @@ WebPlotDigitizer is distributed under [GNU AGPL v3](https://www.gnu.org/licenses
 Stable Versions
 ---------------
 
-The master branch in this repository is unstable and it is not recommended to use this code in production. To access stable releases, checkout: https://github.com/ankitrohatgi/WebPlotDigitizer/releases
+The master branch in this repository is unstable and not recommended to be used in production. To access stable releases, checkout: https://github.com/ankitrohatgi/WebPlotDigitizer/releases
 
 Development Dependencies
 ------------------------
@@ -70,6 +70,18 @@ To run the electron app, follow these steps:
     npm start
 
 At the moment, this is only an basic implementation. If you are familiar with electron app development, then feel free to contribute here.
+
+To build MacOS, Windows or Linux apps, make sure "electron-packager" is available:
+    
+    npm install electron-packager -g
+
+On a Linux development machine, you will also need "wine" to build the Windows app. To build the apps, run:
+   
+   cd electron
+   ./build-packages.sh
+
+This will create apps for Mac, Windows and Linux.
+
 
 Translations
 ------------
