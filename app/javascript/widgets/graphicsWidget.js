@@ -222,15 +222,15 @@ wpd.graphicsWidget = (function () {
     }
 
     function zoomFit() {
-        var viewportSize = wpd.layoutManager.getGraphicsViewportSize();
-        resize(viewportSize.width, viewportSize.height);
-
-        if(displayAspectRatio > aspectRatio) {
-            zoomRatio = height/(originalHeight*1.0);
-            resize(height*aspectRatio, height);
+        var viewportSize = wpd.layoutManager.getGraphicsViewportSize(),
+            newAspectRatio = viewportSize.width/(viewportSize.height*1.0);
+        
+        if(newAspectRatio > aspectRatio) {
+            zoomRatio = viewportSize.height/(originalHeight*1.0);
+            resize(viewportSize.height*aspectRatio, viewportSize.height);
         } else {
-            zoomRatio = width/(originalWidth*1.0);
-            resize(width, width/aspectRatio);
+            zoomRatio = viewportSize.width/(originalWidth*1.0);
+            resize(viewportSize.width, viewportSize.width/aspectRatio);
         }
     }
 
