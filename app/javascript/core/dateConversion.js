@@ -180,12 +180,12 @@ wpd.dateConverter = (function () {
 
         outputString = outputString.replace("mmmm", longMonths[dateObject.getUTCMonth()]);
         outputString = outputString.replace("mmm", shortMonths[dateObject.getUTCMonth()]);
-        outputString = outputString.replace("mm", (dateObject.getUTCMonth()+1));
-        outputString = outputString.replace("dd", dateObject.getUTCDate());
+        outputString = outputString.replace("mm", ("0" + (dateObject.getUTCMonth()+1)).slice(-2));
+        outputString = outputString.replace("dd", ("0" + dateObject.getUTCDate()).slice(-2));
 
-        outputString = outputString.replace("hh", dateObject.getUTCHours());
-        outputString = outputString.replace("ii", dateObject.getUTCMinutes());
-        outputString = outputString.replace("ss", dateObject.getUTCSeconds());
+        outputString = outputString.replace("hh", ("0" + dateObject.getUTCHours()).slice(-2));
+        outputString = outputString.replace("ii", ("0" + dateObject.getUTCMinutes()).slice(-2));
+        outputString = outputString.replace("ss", ("0" + dateObject.getUTCSeconds()).slice(-2));
 				
 		return outputString;
     }
