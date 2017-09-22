@@ -41,7 +41,7 @@ wpd.dateConverter = (function () {
 	    var dateParts = dateString.split("/"),
 			year,
 			month,
-			day,
+			date,
 			tempDate,
 			rtnValue;
 
