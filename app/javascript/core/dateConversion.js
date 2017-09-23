@@ -94,35 +94,17 @@ wpd.dateConverter = (function () {
     }
 
     function formatDate(dateObject, formatString) {
-        var longMonths = [
-                            "January", 
-                            "February", 
-                            "March", 
-                            "April", 
-                            "May", 
-                            "June", 
-                            "July", 
-                            "August", 
-                            "September",
-                            "October",
-                            "November",
-                            "December"
-                        ],
-            shortMonths = [
-                            "Jan",
-                            "Feb",
-                            "Mar",
-                            "Apr",
-                            "May",
-                            "Jun",
-                            "Jul",
-                            "Aug",
-                            "Sep",
-                            "Oct",
-                            "Nov",
-                            "Dec"
-                        ];
-        
+
+        var longMonths = [],
+            shortMonths = [],
+            tmpDate = new Date();
+
+        for(var i = 0; i < 12; i++) {
+            tmpDate.setUTCMonth(i);
+            longMonths.push(tmpDate.toLocaleString(undefined, {month:"long"}));
+            shortMonths.push(tmpDate.toLocaleString(undefined, {month:"short"}));
+        }
+
         var outputString = formatString;
 
         outputString = outputString.replace("YYYY", "yyyy");
