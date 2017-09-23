@@ -38,7 +38,7 @@ wpd.dateConverter = (function () {
 
     function toJD(dateString) {
         dateString = dateString.toString();
-	    var dateParts = dateString.split(/[-/ :]/),
+	    var dateParts = dateString.split(/[/ :]/),
             hasDatePart = dateString.indexOf('/') >= 0,
 			year,
 			month,
@@ -191,7 +191,7 @@ wpd.dateConverter = (function () {
     }
 
     function getFormatString(dateString) {
-    	var dateParts = dateString.split(/[-/ :]/),
+    	var dateParts = dateString.split(/[/ :]/),
             hasDatePart = dateString.indexOf('/') >= 0,
             formatString = 'yyyy/mm/dd hh:ii:ss';
         
