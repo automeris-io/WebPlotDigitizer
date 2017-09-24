@@ -302,7 +302,7 @@ wpd.dataTable = (function () {
                 }
 
                 if (dataCache.fieldDateFormat[coli] != null) {
-                    plotlyData.data[0][fieldName][rowi] = wpd.dateConverter.formatDateNumber(sortedData[rowi][coli], 'yyyy-mm-dd');
+                    plotlyData.data[0][fieldName][rowi] = wpd.dateConverter.formatDateNumber(sortedData[rowi][coli], 'yyyy-mm-dd hh:ii:ss');
                 } else {
                     plotlyData.data[0][fieldName][rowi] = sortedData[rowi][coli];
                 }
