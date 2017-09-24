@@ -29,6 +29,7 @@ wpd.dataTable = (function () {
         dataCache,
         sortedData,
         tableText;
+    var decSeparator = 1.1.toLocaleString().replace(/\d/g,'');
     
     function showPlotData() {
         dataProvider = wpd.plotDataProvider;
@@ -51,7 +52,14 @@ wpd.dataTable = (function () {
     function show() {
         wpd.graphicsWidget.removeTool();
         wpd.popup.show('csvWindow');
+        initializeColSeparator();
         refresh();
+    }
+
+    function initializeColSeparator(){
+        // avoid colSeparator === decSeparator
+        if(document.getElementById('data-number-format-separator').value.trim() === decSeparator)
+            document.getElementById('data-number-format-separator').value = decSeparator === "," ? "; " : ", ";
     }
 
     function refresh() {
@@ -249,6 +257,7 @@ wpd.dataTable = (function () {
                             rowValues[coli] = sortedData[rowi][coli];
                         }
                     }
+                    rowValues[coli] = rowValues[coli].toString().replace('.', decSeparator);
                 }
             }
             tableText += rowValues.join(colSeparator);
