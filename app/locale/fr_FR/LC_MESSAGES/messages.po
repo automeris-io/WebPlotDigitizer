@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-09-23 19:27-0500\n"
+"POT-Creation-Date: 2017-09-23 20:30-0500\n"
 "PO-Revision-Date: 2017-05-16 22:52-0500\n"
 "Last-Translator: \n"
 "Language: fr_FR\n"
@@ -63,102 +63,31 @@ msgstr ""
 msgid "Script"
 msgstr ""
 
-#: templates/_menubar.html:8
-msgid "File"
-msgstr "Fichier"
-
-#: templates/_menubar.html:11 templates/_sidebars.html:117
-msgid "Load Image"
-msgstr "Charger l'image"
-
-#: templates/_menubar.html:12 templates/_popups.html:53
-#: templates/_strings.html:14
-msgid "Webcam Capture"
-msgstr "Capture de webcam"
-
-#: templates/_menubar.html:13 templates/_popups.html:42
-msgid "Run Script"
-msgstr "Exécuter le script"
-
-#: templates/_menubar.html:14
-msgid "Save Image"
-msgstr "Enregistrer l'image"
-
-#: templates/_menubar.html:15
-msgid "Export JSON"
-msgstr "Exportation de JSON"
-
-#: templates/_menubar.html:16
-msgid "Import JSON"
-msgstr "importation de JSON"
-
-#: templates/_menubar.html:36 templates/_strings.html:46 templates/_tree.html:8
-#: templates/_tree.html:18
-msgid "Axes"
-msgstr "Axes"
-
-#: templates/_menubar.html:39
-msgid "Calibrate Axes"
-msgstr "Calibrer les Axes"
-
-#: templates/_menubar.html:40 templates/_tree.html:11
-msgid "Remove Grid"
-msgstr "Supprimer la Grille"
-
-#: templates/_menubar.html:42 templates/_popups.html:341
-#: templates/_strings.html:16
-msgid "Transformation Equations"
-msgstr "Équations de Transformation"
-
-#: templates/_menubar.html:47
-msgid "Data"
-msgstr "Données"
-
-#: templates/_menubar.html:50 templates/_strings.html:10
-msgid "Acquire Data"
-msgstr "Acquérir les Données"
-
-#: templates/_menubar.html:51 templates/_tree.html:29
-msgid "Export All Data"
-msgstr ""
-
-#: templates/_menubar.html:56
-msgid "Measure"
-msgstr "Mesure"
-
-#: templates/_menubar.html:59
-msgid "Distances"
-msgstr "Distances"
-
-#: templates/_menubar.html:60
-msgid "Angles"
-msgstr "Angles"
-
-#: templates/_menubar.html:68
+#: templates/_menubar.html:9
 msgid "Help"
 msgstr "Aide"
 
-#: templates/_menubar.html:71
+#: templates/_menubar.html:12
 msgid "About WebPlotDigitizer"
 msgstr "À propos de WebPlotDigitizer"
 
-#: templates/_menubar.html:72
+#: templates/_menubar.html:13
 msgid "Tutorials"
 msgstr "Tutoriels"
 
-#: templates/_menubar.html:73
+#: templates/_menubar.html:14
 msgid "User Manual"
 msgstr "Manuel de l'utilisateur"
 
-#: templates/_menubar.html:74
+#: templates/_menubar.html:15
 msgid "GitHub Page"
 msgstr "Page de GitHub"
 
-#: templates/_menubar.html:75
+#: templates/_menubar.html:16
 msgid "Report Issues"
 msgstr "Signaler des Problèmes"
 
-#: templates/_menubar.html:76
+#: templates/_menubar.html:17
 msgid "Donate (PayPal)"
 msgstr "Faire un don (PayPal)"
 
@@ -208,6 +137,10 @@ msgstr ""
 msgid "Yellow"
 msgstr ""
 
+#: templates/_popups.html:42
+msgid "Run Script"
+msgstr "Exécuter le script"
+
 #: templates/_popups.html:44
 msgid ""
 "Load a Javascript file to further extend the capabilities of "
@@ -221,6 +154,10 @@ msgstr ""
 #: templates/_popups.html:48 templates/_sidebars.html:32
 msgid "Run"
 msgstr "Exécuter"
+
+#: templates/_popups.html:53 templates/_strings.html:14
+msgid "Webcam Capture"
+msgstr "Capture de webcam"
 
 #: templates/_popups.html:56
 msgid "Capture"
@@ -537,6 +474,10 @@ msgstr ""
 #: templates/_popups.html:336
 msgid "Done"
 msgstr ""
+
+#: templates/_popups.html:341 templates/_strings.html:16
+msgid "Transformation Equations"
+msgstr "Équations de Transformation"
 
 #: templates/_popups.html:342
 msgid "The following relationships are being used to convert image pixels to data"
@@ -874,6 +815,10 @@ msgstr "Détecter"
 msgid "Reset"
 msgstr "Réinitialiser"
 
+#: templates/_sidebars.html:117
+msgid "Load Image"
+msgstr "Charger l'image"
+
 #: templates/_sidebars.html:118
 msgid "Tutorial Video"
 msgstr ""
@@ -921,6 +866,10 @@ msgid ""
 msgstr ""
 "Les valeurs sur un axe d'échelle logarithmique ne peut pas être zéro "
 "comme le log (0) est indéfini. Veuillez entrer une valeur non nulle."
+
+#: templates/_strings.html:10
+msgid "Acquire Data"
+msgstr "Acquérir les Données"
 
 #: templates/_strings.html:11
 msgid "Please calibrate the axes before acquiring data."
@@ -1067,6 +1016,10 @@ msgstr ""
 msgid "Measurements"
 msgstr ""
 
+#: templates/_strings.html:46 templates/_tree.html:8 templates/_tree.html:18
+msgid "Axes"
+msgstr "Axes"
+
 #: templates/_strings.html:48 templates/_tree.html:37 templates/_tree.html:61
 msgid "Angle"
 msgstr ""
@@ -1111,6 +1064,10 @@ msgstr "Voir les Raccourcis du Clavier"
 msgid "Calibrate"
 msgstr ""
 
+#: templates/_tree.html:11
+msgid "Remove Grid"
+msgstr "Supprimer la Grille"
+
 #: templates/_tree.html:12
 msgid "Import Calibration"
 msgstr ""
@@ -1125,6 +1082,10 @@ msgstr ""
 
 #: templates/_tree.html:21
 msgid "View Equations"
+msgstr ""
+
+#: templates/_tree.html:29
+msgid "Export All Data"
 msgstr ""
 
 #: templates/_tree.html:46 templates/_tree.html:56 templates/_tree.html:64
@@ -1505,4 +1466,31 @@ msgstr "Effacer Tout"
 
 #~ msgid "JSON data has been loaded!"
 #~ msgstr "Les données JSON ont été chargées!"
+
+#~ msgid "File"
+#~ msgstr "Fichier"
+
+#~ msgid "Save Image"
+#~ msgstr "Enregistrer l'image"
+
+#~ msgid "Export JSON"
+#~ msgstr "Exportation de JSON"
+
+#~ msgid "Import JSON"
+#~ msgstr "importation de JSON"
+
+#~ msgid "Calibrate Axes"
+#~ msgstr "Calibrer les Axes"
+
+#~ msgid "Data"
+#~ msgstr "Données"
+
+#~ msgid "Measure"
+#~ msgstr "Mesure"
+
+#~ msgid "Distances"
+#~ msgstr "Distances"
+
+#~ msgid "Angles"
+#~ msgstr "Angles"
 

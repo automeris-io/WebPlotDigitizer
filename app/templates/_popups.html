@@ -463,3 +463,16 @@
     <p><input type="button" value="{{ _("Rename") }}" onclick="wpd.dataSeriesManagement.renameDataset();"/> <input type="button" value="{{ _("Cancel") }}" onclick="wpd.popup.close('rename-dataset-popup');"/></p>
     </center>
     </div>
+
+    <!-- Unit testing -->
+    {% if enableTesting == True %}
+    <div id="tests-popup" class="popup" style="width:1000px;">
+    <div class="popupheading">Unit Tests</div>
+        <p align="center"><button onclick="wpd.popup.close('tests-popup');">Close</button></p>
+        <br/>
+        <div style="width:1000px; height: 800px; overflow-y: auto;">
+            <div id="qunit"></div>
+            <div id="qunit-fixture"></div>
+        </div>
+    </div>
+    {% endif %}

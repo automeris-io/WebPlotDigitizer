@@ -40,7 +40,7 @@ func (fs WPDFileSystem) Open(name string) (http.File, error) {
 
 	// prevent listing out directory contents
 	stat, err := file.Stat()
-	if stat.IsDir() && name != "/" {
+	if stat.IsDir() && name != "/" && name != "/tests" {
 		return nil, os.ErrNotExist
 	}
 

@@ -1,4 +1,7 @@
 {% extends "_base.html" %}
+
+{% set enableTesting = True %}
+
 {% block scripts %}
 <!-- Individual, uncompressed javascript files -->
 <script src="javascript/controllers/browserInfo.js"></script>
@@ -57,4 +60,9 @@
 <script src="javascript/widgets/tree.js"></script>
 <script src="javascript/widgets/webcam.js"></script>
 <script src="javascript/widgets/zoom.js"></script>
+
+<!-- tests -->
+<script src="tests/uitests.js"></script>
+<link rel="stylesheet" href="https://code.jquery.com/qunit/qunit-2.4.0.css">
+<script src="https://code.jquery.com/qunit/qunit-2.4.0.js"></script>
 {% endblock %}
