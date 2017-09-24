@@ -77,8 +77,8 @@ To build MacOS, Windows or Linux apps, make sure "electron-packager" is availabl
 
 On a Linux development machine, you will also need "wine" to build the Windows app. To build the apps, run:
    
-   cd electron
-   ./build-packages.sh
+    cd electron
+    ./build-packages.sh
 
 This will create apps for Mac, Windows and Linux.
 
