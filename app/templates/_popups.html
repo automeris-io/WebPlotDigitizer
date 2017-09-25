@@ -107,14 +107,14 @@
 		</tr>
 	    <tr>
             <td align="center">{{ _("X-Axis") }}:</td>
-	        <td align="center"><input type="text" size="8" id="xmin" value="0" /></td>
-	        <td align="center"><input type="text" size="8" id="xmax" value="1" /></td>
+	        <td align="center"><input type="text" size="8" id="xmin" value="0" onfocus="wpd.alignAxes.zoomCalPoint(0);" /></td>
+	        <td align="center"><input type="text" size="8" id="xmax" value="1" onfocus="wpd.alignAxes.zoomCalPoint(1);" /></td>
 	        <td align="center"><input type="checkbox" id="xlog"></td>
 	    </tr>
 	    <tr>
             <td align="center">{{ _("Y-Axis") }}:</td>
-	        <td align="center"><input type="text" size="8" id="ymin" value="0" /></td>
-	        <td align="center"><input type="text" size="8" id="ymax" value="1" /></td>
+	        <td align="center"><input type="text" size="8" id="ymin" value="0" onfocus="wpd.alignAxes.zoomCalPoint(2);" /></td>
+	        <td align="center"><input type="text" size="8" id="ymax" value="1" onfocus="wpd.alignAxes.zoomCalPoint(3);" /></td>
 	        <td align="center"><input type="checkbox" id="ylog" /></td>
 	    </tr>
 	</table>
@@ -136,8 +136,8 @@
             <td align="center" valign="bottom" width="80">{{ _("Log Scale") }}</td>
         </tr>
         <tr>
-            <td align="center"><input type="text" size="8" id="bar-axes-p1" value="0" /></td>
-            <td align="center"><input type="text" size="8" id="bar-axes-p2" value="1" /></td>
+            <td align="center"><input type="text" size="8" id="bar-axes-p1" value="0" onfocus="wpd.alignAxes.zoomCalPoint(0);" /></td>
+            <td align="center"><input type="text" size="8" id="bar-axes-p2" value="1" onfocus="wpd.alignAxes.zoomCalPoint(1);"/></td>
             <td align="center"><input type="checkbox" id="bar-axes-log-scale"/></td>
         </tr>
     </table>
@@ -169,14 +169,14 @@
         </tr>
         <tr>
             <td>R: </td>
-            <td align="center"><input type="text" size="6" id="polar-r1" value="1"/></td>
-            <td align="center"><input type="text" size="6" id="polar-r2" value="1"/></td>
+            <td align="center"><input type="text" size="6" id="polar-r1" value="1" onfocus="wpd.alignAxes.zoomCalPoint(1);" /></td>
+            <td align="center"><input type="text" size="6" id="polar-r2" value="1" onfocus="wpd.alignAxes.zoomCalPoint(2);" /></td>
             <td align="center"><input type="checkbox" id="polar-log-scale"/></td>
         </tr>
         <tr>
             <td>Θ: </td>
-            <td align="center"><input type="text" size="6" id="polar-theta1" value="1"/></td>
-            <td align="center"><input type="text" size="6" id="polar-theta2" value="1"/></td>
+            <td align="center"><input type="text" size="6" id="polar-theta1" value="1" onfocus="wpd.alignAxes.zoomCalPoint(1);" /></td>
+            <td align="center"><input type="text" size="6" id="polar-theta2" value="1" onfocus="wpd.alignAxes.zoomCalPoint(2);" /></td>
             <td align="center">&nbsp;</td>
         </tr>
     </table>
