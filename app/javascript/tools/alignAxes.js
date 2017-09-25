@@ -458,6 +458,11 @@ wpd.alignAxes = (function () {
         wpd.sidebar.show('axes-calibration-sidebar');
     }
 
+    function zoomCalPoint(i){
+        var calib = wpd.alignAxes.getActiveCalib(),
+            point = calib.getPoint(i);
+        wpd.graphicsWidget.updateZoomToImagePosn(point.px, point.py);
+    }
 
     function getCornerValues() {
         calibrator.getCornerValues();
@@ -508,6 +513,7 @@ wpd.alignAxes = (function () {
     return {
         start: initiatePlotAlignment,
         calibrationCompleted: calibrationCompleted,
+        zoomCalPoint: zoomCalPoint,
         getCornerValues: getCornerValues,
         align: align,
         getActiveCalib: getActiveCalib,
