@@ -39,9 +39,9 @@ wpd.graphicsHelper = (function () {
             ctx.dataCtx.font = "15px sans-serif";
             labelWidth = ctx.dataCtx.measureText(label).width;
             ctx.dataCtx.fillStyle = "rgba(255, 255, 255, 0.7)";
-            ctx.dataCtx.fillRect(screenPx.x - 13, screenPx.y - 8, labelWidth + 5, 35);
+            ctx.dataCtx.fillRect(screenPx.x - 7, screenPx.y - 16, labelWidth + 17, 26);
             ctx.dataCtx.fillStyle = fillStyle;
-            ctx.dataCtx.fillText(label, screenPx.x - 10, screenPx.y + 18);
+            ctx.dataCtx.fillText(label, screenPx.x + 7, screenPx.y + 5);
         }
 
         ctx.dataCtx.beginPath();
@@ -56,7 +56,7 @@ wpd.graphicsHelper = (function () {
             // No translucent background for text here.
             ctx.oriDataCtx.font = "15px sans-serif";
             ctx.oriDataCtx.fillStyle = fillStyle;
-            ctx.oriDataCtx.fillText(label, imagePx.x - 10, imagePx.y + 18);
+            ctx.oriDataCtx.fillText(label, imagePx.x + 7, imagePx.y + 5);
         }
 
         ctx.oriDataCtx.beginPath();
