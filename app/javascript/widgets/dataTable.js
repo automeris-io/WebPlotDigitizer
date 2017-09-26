@@ -274,7 +274,11 @@ wpd.dataTable = (function () {
 
     function copyToClipboard() {
         selectAll();
-        document.execCommand('copy');
+        try {
+            document.execCommand('copy');
+        } catch(ex) {
+            console.log('copyToClipboard', ex.message);
+        }
     }
 
     function generateCSV() {
