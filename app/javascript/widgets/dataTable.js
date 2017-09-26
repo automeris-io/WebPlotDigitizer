@@ -272,6 +272,11 @@ wpd.dataTable = (function () {
         $digitizedDataTable.select();
     }
 
+    function copyToClipboard() {
+        selectAll();
+        document.execCommand('copy');
+    }
+
     function generateCSV() {
         var datasetName = dataProvider.getDatasetNames()[dataProvider.getDatasetIndex()];
         wpd.download.csv(tableText, datasetName + ".csv");
@@ -319,6 +324,7 @@ wpd.dataTable = (function () {
         updateSortingControls: updateSortingControls,
         reSort: reSort,
         selectAll: selectAll,
+        copyToClipboard: copyToClipboard,
         generateCSV: generateCSV,
         exportToPlotly: exportToPlotly,
         changeDataset: changeDataset
