@@ -30,13 +30,13 @@ wpd.xyCalibration = (function () {
     }
 
     function reload() {
-        var tool = new wpd.AxesCornersTool(4, 2, ['X1', 'X2', 'Y1', 'Y2'], true);
+        var tool = new wpd.AxesCornersTool(4, 2, ['X1', 'X2', 'Y1', 'Y2'], ['N', 'N', 'E', 'E'], true);
         wpd.graphicsWidget.setTool(tool);
     }
 
     function pickCorners() {
         wpd.popup.close('xyAxesInfo');
-        var tool = new wpd.AxesCornersTool(4, 2, ['X1', 'X2', 'Y1', 'Y2']);
+        var tool = new wpd.AxesCornersTool(4, 2, ['X1', 'X2', 'Y1', 'Y2'], ['N', 'N', 'E', 'E']);
         wpd.graphicsWidget.setTool(tool);
     }
 
@@ -94,13 +94,13 @@ wpd.barCalibration = (function () {
     }
 
     function reload() {
-        var tool = new wpd.AxesCornersTool(2, 2, ['P1', 'P2'], true);
+        var tool = new wpd.AxesCornersTool(2, 2, ['P1', 'P2'], ['S', 'S'], true);
         wpd.graphicsWidget.setTool(tool);
     }
 
     function pickCorners() {
         wpd.popup.close('barAxesInfo');
-        var tool = new wpd.AxesCornersTool(2, 2, ['P1', 'P2']);
+        var tool = new wpd.AxesCornersTool(2, 2, ['P1', 'P2'], ['S', 'S']);
         wpd.graphicsWidget.setTool(tool);
     }
 
@@ -148,13 +148,13 @@ wpd.polarCalibration = (function () {
     }
 
     function reload() {
-        var tool = new wpd.AxesCornersTool(3, 2, ['Origin', 'P1', 'P2'], true);
+        var tool = new wpd.AxesCornersTool(3, 2, ['Origin', 'P1', 'P2'], ['E', 'S', 'S'], true);
         wpd.graphicsWidget.setTool(tool);
     }
 
     function pickCorners() {
         wpd.popup.close('polarAxesInfo');
-        var tool = new wpd.AxesCornersTool(3, 2, ['Origin', 'P1', 'P2']);
+        var tool = new wpd.AxesCornersTool(3, 2, ['Origin', 'P1', 'P2'], ['E', 'S', 'S']);
         wpd.graphicsWidget.setTool(tool);
     }
 
@@ -204,13 +204,13 @@ wpd.ternaryCalibration = (function () {
     }
 
     function reload() {
-        var tool = new wpd.AxesCornersTool(3, 3, ['A', 'B', 'C'], true);
+        var tool = new wpd.AxesCornersTool(3, 3, ['A', 'B', 'C'], ['S', 'S', 'E'], true);
         wpd.graphicsWidget.setTool(tool);
     }
 
     function pickCorners() {
         wpd.popup.close('ternaryAxesInfo');
-        var tool = new wpd.AxesCornersTool(3, 3, ['A', 'B', 'C']);
+        var tool = new wpd.AxesCornersTool(3, 3, ['A', 'B', 'C'], ['S', 'S', 'E']);
         wpd.graphicsWidget.setTool(tool);
     }
 
@@ -251,13 +251,13 @@ wpd.mapCalibration = (function () {
     }
 
     function reload() {
-        var tool = new wpd.AxesCornersTool(2, 2, ['P1', 'P2'],true);
+        var tool = new wpd.AxesCornersTool(2, 2, ['P1', 'P2'], ['S', 'S'], true);
         wpd.graphicsWidget.setTool(tool);
     }
 
     function pickCorners() {
         wpd.popup.close('mapAxesInfo');
-        var tool = new wpd.AxesCornersTool(2, 2, ['P1', 'P2']);
+        var tool = new wpd.AxesCornersTool(2, 2, ['P1', 'P2'], ['S', 'S']);
         wpd.graphicsWidget.setTool(tool);
     }
 
@@ -293,7 +293,7 @@ wpd.mapCalibration = (function () {
 
 wpd.AxesCornersTool = (function () {
 
-    var Tool = function(maxPoints, dimensions, pointLabels, reloadTool) {
+    var Tool = function(maxPoints, dimensions, pointLabels, pointLabelPositions, reloadTool) {
         var pointCount = 0,
             ncal = new wpd.Calibration(dimensions),
             isCapturingCorners = true; 
@@ -307,6 +307,7 @@ wpd.AxesCornersTool = (function () {
             ncal = new wpd.Calibration(dimensions);
             isCapturingCorners = true;
             ncal.labels = pointLabels;
+            ncal.labelPositions = pointLabelPositions;
             wpd.alignAxes.setActiveCalib(ncal);
             wpd.graphicsWidget.resetData();
         }
@@ -402,7 +403,7 @@ wpd.AlignmentCornersRepainter = (function () {
         		    fillStyle = "rgba(200,0,0,1)";
                 }
 
-                wpd.graphicsHelper.drawPoint(imagePx, fillStyle, cal.labels[i]);
+                wpd.graphicsHelper.drawPoint(imagePx, fillStyle, cal.labels[i], cal.labelPositions[i]);
             }
         };
     };

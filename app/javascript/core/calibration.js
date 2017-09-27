@@ -37,6 +37,7 @@ wpd.Calibration = (function () {
             selections = [];
 
         this.labels = [];
+        this.labelPositions = [];
 
         this.getCount = function () { return px.length; };
         this.getDimensions = function() { return dimensions; };
