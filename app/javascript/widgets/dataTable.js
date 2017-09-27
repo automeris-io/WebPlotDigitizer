@@ -266,19 +266,17 @@ wpd.dataTable = (function () {
         $digitizedDataTable.value = tableText;
     }
 
-    function selectAll() {
+
+    function copyToClipboard() {
         var $digitizedDataTable = document.getElementById('digitizedDataTable');
         $digitizedDataTable.focus();
         $digitizedDataTable.select();
-    }
-
-    function copyToClipboard() {
-        selectAll();
         try {
             document.execCommand('copy');
         } catch(ex) {
             console.log('copyToClipboard', ex.message);
         }
+        $digitizedDataTable.blur();
     }
 
     function generateCSV() {
@@ -327,7 +325,6 @@ wpd.dataTable = (function () {
         showDistanceData: showDistanceData,
         updateSortingControls: updateSortingControls,
         reSort: reSort,
-        selectAll: selectAll,
         copyToClipboard: copyToClipboard,
         generateCSV: generateCSV,
         exportToPlotly: exportToPlotly,
