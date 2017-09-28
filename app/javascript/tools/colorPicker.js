@@ -63,7 +63,7 @@ wpd.colorSelectionWidget = (function () {
 
     function renderColorOptions() {
         var $container = document.getElementById('color-selection-options'),
-            topColors = wpd.appData.getPlotData().topColors,
+            topColors = wpd.appData.getPlotData().getAutoDetector().topColors,
             colorCount = topColors.length > 10 ? 10 : topColors.length,
             colori,
             containerHtml = "",

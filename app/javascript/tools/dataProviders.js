@@ -25,7 +25,7 @@ var wpd = wpd || {};
 
 wpd.plotDataProvider = (function() {
 
-    let _dsIdx = 0;
+    let _ds = null;
 
     function getDatasetNames() {
         var plotData = wpd.appData.getPlotData(),
@@ -41,8 +41,8 @@ wpd.plotDataProvider = (function() {
         return _dsIdx;
     }
 
-    function setDatasetIndex(index) {
-        _dsIdx = index;        
+    function setDataset(ds) {
+        _ds = ds;
     }
 
     function getData() {

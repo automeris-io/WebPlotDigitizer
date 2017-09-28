@@ -27,87 +27,121 @@ var wpd = wpd || {};
 
 wpd.PlotData = class {
     constructor() {
-        this.activeSeriesIndex = 0;
-        this.activeAxesIndex = 0;
-        this.autoDetector = new wpd.AutoDetector();
-        this.topColors = null;
-        this.axesColl = [];
-        this.axes = null;
-        this.dataSeriesColl = [];
-        this.gridData = null;
-        this.calibration = null;
-        this.angleMeasurementData = null;
-        this.distanceMeasurementData = null;
-        this.openPathMeasurementData = null;
-        this.closedPathMeasurementData = null;
-        this.backupImageData = null;
-        this.objectAxesMap = new Map();
+        this.reset();
+    }
+
+    reset() {
+        this._autoDetector = null;
+        this._topColors = null;
+        this._axesColl = [];        
+        this._dataSetColl = [];
+        this._measurementColl = [];        
+        this._objectAxesMap = new Map();  
     }
 
     addAxes(ax) {
-        this.axesColl.push(ax);
+        this._axesColl.push(ax);
     }
 
-    removeAxes(ax) {
-        this.axesColl = this.axesColl.filter(function(a) {
-            a.name !== ax.name;
+    getAxesColl() {
+        return Object.freeze(this._axesColl);
+    }
+
+    getAxesNames() {
+        let names = [];
+        this._axesColl.forEach((ax) => {
+            names.push(ax.name);
         });
+    }
+
+    deleteAxes(ax) {
+        let axIdx = this._axesColl.indexOf(ax);
+        if(axIdx >= 0) {
+            this._axesColl.splice(axIdx, 1);
+
+            // take care of dependents
+            this._objectAxesMap.forEach((val, key, map) => {
+                if(val === ax) {
+                    map.set(key, null);
+                }
+            });
+        }
+    }
+
+    getAxesCount() {
+        return this._axesColl.length;
+    }
+
+    addDataset(ds) {
+        this._dataSetColl.push(ds);        
+        // by default bind ds to last axes
+        const axCount = this._axesColl.length;
+        if(axCount > 0) {
+            this._objectAxesMap.set(ds, this._axesColl[axCount-1]);
+        }
+    }
+
+    getDatasets() {
+        return Object.freeze(this._dataSetColl);
+    }
+
+    getDatasetNames() {
+        let names = [];
+        this._dataSetColl.forEach((ds) => {
+            names.push(ds.name);
+        });
+        return names;
+    }
+
+    getDatasetCount() {
+        return this._dataSetColl.length;
+    }
+
+    addMeasurement(ms) {
+        this._measurementColl.push(ms);
+    }
+
+    getMeasurements() {
+        return Object.freeze(this._measurementColl);
+    }
+
+    deleteMeasurement(ms) {
+        var msIdx = this._measurementColl.indexOf(ms);
+        if(msIdx >= 0) {
+            this._measurementColl.splice(msIdx, 1);
+            this._objectAxesMap.delete(ms);
+        }
+    }
+
+    setAxesForDataset(ax, ds) {
+        this._objectAxesMap.set(ds, ax);
+    }
+
+    setAxesForMeasurement(ax, ms) {
+        this._objectAxesMap.set(ms, ax);
+    }
+
+    getAxesForDataset(ds) {
+        this._objectAxesMap.get(ds);
+    }
+
+    getAxesForMeasurement(ms) {
+        this._objectAxesMap.get(ms);
+    }
+
+    deleteDataset(ds) {
+        var dsIdx = this._dataSetColl.indexOf(ds);
+        if(dsIdx >= 0) {
+            this._dataSetColl.splice(dsIdx, 1);
+            this._objectAxesMap.delete(ds);
+        }
+    }
         
-        for(let k in this.objectAxesMap.keys()) {
-            this.objectAxesMap.set(k, null);
-        }
-    }
-
-    getActiveAxes() {        
-        return this.axesColl[activeAxesIndex];
-    }
-
-    getActiveDataSeries() {
-        if (this.dataSeriesColl[activeSeriesIndex] == null) {
-            this.dataSeriesColl[activeSeriesIndex] = new wpd.DataSeries();
-        }
-        return this.dataSeriesColl[activeSeriesIndex];
-    };
-
-    getDataSeriesCount() {
-        return this.dataSeriesColl.length;
-    };
-
-    setActiveDataSeriesIndex(index) {
-        activeSeriesIndex = index;
-    };
-
-    getActiveDataSeriesIndex() {
-        return activeSeriesIndex;
-    };
-
     getAutoDetector() {
-        return autoDetector;
-    };
-
-    getDataSeriesNames() {
-        var rtnVal = [];
-        for(var i = 0; i < this.dataSeriesColl.length; i++) {
-            rtnVal[i] = this.dataSeriesColl[i].name;
+        if(this._autoDetector == null) {
+            this._autoDetector = new wpd.AutoDetector();
         }
-        return rtnVal;
-    };
-
-    reset() {
-        this.axes = null;
-        this.axesColl = [];
-        this.objectAxesMap.clear();
-        this.angleMeasurementData = null;
-        this.distanceMeasurementData = null;
-        this.openPathMeasurementData = null;
-        this.closedPathMeasurementData = null;
-        this.dataSeriesColl = [];
-        this.gridData = null;
-        this.calibration = null;
-        this.backupImageData = null;
-        activeSeriesIndex = 0;
-        activeAxesIndex = 0;
-        autoDetector = new wpd.AutoDetector();
-    };
+        return this._autoDetector;
+    }
 };
 

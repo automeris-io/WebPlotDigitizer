@@ -72,8 +72,7 @@ wpd.xyCalibration = (function () {
             return false;
         }
         plot = wpd.appData.getPlotData();
-        plot.axes = axes;
-        plot.calibration = calib;
+        plot.addAxes(axes);        
         wpd.popup.close('xyAlignment');
         return true;
     }
@@ -125,8 +124,7 @@ wpd.barCalibration = (function () {
             return false;
         }
         plot = wpd.appData.getPlotData();
-        plot.axes = axes;
-        plot.calibration = calib;
+        plot.addAxes(axes);        
         wpd.popup.close('barAlignment');
         return true;
     }
@@ -181,8 +179,7 @@ wpd.polarCalibration = (function () {
         axes.calibrate(calib, isDegrees, orientation, rlog);
 
         plot = wpd.appData.getPlotData();
-        plot.axes = axes;
-        plot.calibration = calib;
+        plot.addAxes(axes);        
         wpd.popup.close('polarAlignment');
         return true;
     }
@@ -228,8 +225,7 @@ wpd.ternaryCalibration = (function () {
 
         axes.calibrate(calib, range100, ternaryNormal);
         plot = wpd.appData.getPlotData();
-        plot.axes = axes;
-        plot.calibration = calib;
+        plot.addAxes(axes);
         wpd.popup.close('ternaryAlignment');
         return true;
     }
@@ -274,8 +270,7 @@ wpd.mapCalibration = (function () {
 
         axes.calibrate(calib, scaleLength, scaleUnits);
         plot = wpd.appData.getPlotData();
-        plot.axes = axes;
-        plot.calibration = calib;
+        plot.addAxes(axes);        
         wpd.popup.close('mapAlignment');
         return true;
     }
@@ -437,15 +432,14 @@ wpd.alignAxes = (function () {
             calibrator = null;
             var imageAxes = new wpd.ImageAxes();
             imageAxes.calibrate();
-            wpd.appData.getPlotData().axes = imageAxes;
-            wpd.appData.isAligned(true);
-            wpd.acquireData.load();
+            wpd.appData.getPlotData().addAxes(imageAxes);
             wpd.tree.refresh();
-            let dsColl = wpd.appData.getPlotData().dataSeriesColl;
-            if(dsColl.length > 0) {
-                let dsName = dsColl[0].name;
+            let dsNameColl = wpd.appData.getPlotData().getDatasetNames();
+            if(dsNameColl.length > 0) {
+                let dsName = dsNameColl[0];
                 wpd.tree.selectPath("/"+ wpd.gettext("datasets") +"/" + dsName, true);
             }
+            wpd.acquireData.load();
         }
 
         if(calibrator != null) {
@@ -475,14 +469,14 @@ wpd.alignAxes = (function () {
         if(!calibrator.align()) {
             return;
         }
-        wpd.appData.isAligned(true);
-        wpd.acquireData.load();
+        wpd.appData.isAligned(true);        
         wpd.tree.refresh();
-        let dsColl = wpd.appData.getPlotData().dataSeriesColl;
-        if(dsColl.length > 0) {
-            let dsName = dsColl[0].name;
+        let dsNameColl = wpd.appData.getPlotData().getDatasetNames();
+        if(dsNameColl.length > 0) {
+            let dsName = dsNameColl[0].name;
             wpd.tree.selectPath("/"+wpd.gettext("datasets")+"/"+dsName,true);
         }
+        wpd.acquireData.load();
     }
 
     function getActiveCalib() {

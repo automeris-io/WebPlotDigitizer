@@ -51,7 +51,7 @@ wpd.algoManager = (function() {
     function updateAlgoList() {
         
         var innerHTML = '',
-            axes = wpd.appData.getPlotData().axes,
+            axes = wpd.appData.getPlotData().getAxes()[0],
             $algoOptions = document.getElementById('auto-extract-algo-name');
 
         if(axes === axesPtr) {
@@ -115,7 +115,7 @@ wpd.algoManager = (function() {
 
     function renderParameters(algo) {
         var $paramContainer = document.getElementById('algo-parameter-container'),
-            algoParams = algo.getParamList(),
+            algoParams = algo.getParamList(wpd.appData.getPlotData().getAxes()[0]),
             pi,
             tableString = "<table>";
 
@@ -154,7 +154,10 @@ wpd.algoManager = (function() {
             autoDetector.imageData = ctx.oriImageCtx.getImageData(0, 0, imageSize.width, imageSize.height);
             autoDetector.generateBinaryData();
             wpd.graphicsWidget.setRepainter(repainter);
-            algo.run(wpd.appData.getPlotData());
+            let plotData = wpd.appData.getPlotData();
+            let ds = wpd.tree.getActiveDataset();
+            let axes = plotData.getAxes()[0];
+            algo.run(autoDetector, ds, axes);
             wpd.graphicsWidget.forceHandlerRepaint();
             wpd.dataPointCounter.setCount();
             wpd.busyNote.close();

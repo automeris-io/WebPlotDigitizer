@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-09-23 20:30-0500\n"
+"POT-Creation-Date: 2017-09-27 22:16-0500\n"
 "PO-Revision-Date: 2017-01-11 20:47-0600\n"
 "Last-Translator: \n"
 "Language: de_DE\n"
@@ -311,7 +311,7 @@ msgid "Variables"
 msgstr ""
 
 #: templates/_popups.html:220
-msgid "Select All"
+msgid "Copy to Clipboard"
 msgstr ""
 
 #: templates/_popups.html:221 templates/_popups.html:440
@@ -1286,7 +1286,7 @@ msgstr "Alle löschen"
 #~ msgstr "Variablen"
 
 #~ msgid "Select All"
-#~ msgstr "Wählen Sie alle"
+#~ msgstr ""
 
 #~ msgid "Download .CSV"
 #~ msgstr "Laden Sie herunter. CSV"

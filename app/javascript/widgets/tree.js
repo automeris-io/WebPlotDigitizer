@@ -121,6 +121,8 @@ wpd.TreeWidget = class {
 wpd.tree = (function() {
 
     let treeWidget = null;
+    let activeDataset = null;
+    let activeAxes = null;
 
     // polyfill for IE11/Microsoft Edge
     if (window.NodeList && !NodeList.prototype.forEach) {
@@ -209,12 +211,13 @@ wpd.tree = (function() {
         if(!suppressSecondaryActions) {
             // get dataset index
             const plotData = wpd.appData.getPlotData();
-            const dsNamesColl = plotData.getDataSeriesNames();
+            const dsNamesColl = plotData.getDatasetNames();
             const dsIdx = dsNamesColl.indexOf(path.replace("/"+ wpd.gettext("datasets") +"/",""));
-            // set active dataset 
-            plotData.setActiveDataSeriesIndex(dsIdx);
-            // refresh UI
-            wpd.acquireData.load();
+            if(dsIdx >= 0) {
+                activeDataset = plotData.getDatasets()[dsIdx];            
+                // refresh UI
+                wpd.acquireData.load();
+            }
         }
         showTreeItemWidget('dataset-item-tree-widget');
     }
@@ -285,12 +288,17 @@ wpd.tree = (function() {
         }
     }
 
+    function getActiveDataset() {
+
+    }
+
     return {
         init: init,
         refresh: refresh,
         refreshPreservingSelection: refreshPreservingSelection,
         selectPath: selectPath,
-        addMeasurement: addMeasurement        
+        addMeasurement: addMeasurement,
+        getActiveDataset: getActiveDataset        
     };
 })();
 

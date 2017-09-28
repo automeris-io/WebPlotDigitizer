@@ -28,18 +28,14 @@ wpd.XStepWithInterpolationAlgo = (function () {
         var param_xmin, param_delx, param_xmax, 
             param_smoothing, param_ymin, param_ymax;
 
-        this.getParamList = function () {
-            var isAligned = wpd.appData.isAligned(),
-                axes = wpd.appData.getPlotData().axes;
-        
-            if(isAligned && axes instanceof wpd.XYAxes) {
+        this.getParamList = function(axes) {
+            if(axes != null && axes instanceof wpd.XYAxes) {
                 var bounds = axes.getBounds();
                 return [["X_min","Units", bounds.x1],["ΔX Step","Units", (bounds.x2 - bounds.x1)/50.0], 
                         ["X_max","Units", bounds.x2],["Y_min","Units", bounds.y3],
                         ["Y_max","Units", bounds.y4],["Smoothing","% of ΔX", 0]];
 
-            } 
-
+            }
             return [["X_min","Units", 0],["ΔX Step","Units", 0.1],
                     ["X_max","Units", 0],["Y_min","Units", 0],
                     ["Y_max","Units", 0],["Smoothing","% of ΔX", 0]];
@@ -61,11 +57,8 @@ wpd.XStepWithInterpolationAlgo = (function () {
             }
         };
 
-        this.run = function (plotData) {
-            var autoDetector = plotData.getAutoDetector(),
-                dataSeries = plotData.getActiveDataSeries(),
-                axes = plotData.axes,
-                pointsPicked = 0,
+        this.run = function (autoDetector, dataSeries, axes) {
+            var pointsPicked = 0,
                 dw = autoDetector.imageWidth,
                 dh = autoDetector.imageHeight,
                 xi,

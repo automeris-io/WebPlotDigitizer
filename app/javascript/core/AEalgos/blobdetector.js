@@ -27,14 +27,10 @@ wpd.BlobDetectorAlgo = (function () {
     var Algo = function () {
         var min_dia, max_dia;
 
-        this.getParamList = function () {
-            var isAligned = wpd.appData.isAligned(),
-                axes = wpd.appData.getPlotData().axes;
-
-            if (isAligned && axes instanceof wpd.MapAxes) {
+        this.getParamList = function(axes) {
+            if (axes != null && axes instanceof wpd.MapAxes) {
 			    return [['Min Diameter', 'Units', 0], ['Max Diameter', 'Units', 5000]];
             }
-
 			return [['Min Diameter', 'Px', 0], ['Max Diameter', 'Px', 5000]];
         };
 
@@ -46,10 +42,8 @@ wpd.BlobDetectorAlgo = (function () {
             }
         };
 
-        this.run = function (plotData) {
-            var autoDetector = plotData.getAutoDetector(),
-                dataSeries = plotData.getActiveDataSeries(),
-                dw = autoDetector.imageWidth,
+        this.run = function (autoDetector, dataSeries, axes) {
+            var dw = autoDetector.imageWidth,
                 dh = autoDetector.imageHeight,
                 pixelVisited = [],
                 blobCount = 0,
@@ -125,7 +119,7 @@ wpd.BlobDetectorAlgo = (function () {
                         + (blobs[bIndex].pixels[blobPtIndex].y - blobs[bIndex].centroid.y)*(blobs[bIndex].pixels[blobPtIndex].y - blobs[bIndex].centroid.y);
 
                 }
-                if (plotData.axes instanceof wpd.MapAxes) {
+                if (axes instanceof wpd.MapAxes) {
                     blobs[bIndex].area = plotData.axes.pixelToDataArea(blobs[bIndex].area);
                 }
 

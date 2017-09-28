@@ -55,8 +55,8 @@ wpd.dataExport = (function () {
 
         // loop over all datasets
         var plotData = wpd.appData.getPlotData(),
-            axes = plotData.axes,
-            dsColl = plotData.dataSeriesColl,
+            axes = plotData.getAxesColl()[0],
+            dsColl = plotData.getDatasets(),
             i, j;
 
         if(axes == null || dsColl == null || dsColl.length === 0) {
@@ -121,8 +121,8 @@ wpd.dataExport = (function () {
 
         // loop over all datasets
         var plotData = wpd.appData.getPlotData(),
-            axes = plotData.axes,
-            dsColl = plotData.dataSeriesColl,
+            axes = plotData.getAxesColl()[0],
+            dsColl = plotData.getDatasets(),
             i, coli, rowi,
             dataProvider = wpd.plotDataProvider,
             pdata,
@@ -136,7 +136,7 @@ wpd.dataExport = (function () {
         }
 
         for(i = 0; i < dsColl.length; i++) {
-            dataProvider.setDatasetIndex(i);
+            dataProvider.setDataset(dsColl[i]);
             pdata = dataProvider.getData();
             plotlyData.data[i] = {};
 
