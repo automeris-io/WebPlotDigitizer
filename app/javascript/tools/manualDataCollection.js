@@ -48,7 +48,7 @@ wpd.acquireData = (function () {
     }
 
     function getAxes() {
-        return wpd.appData.plotData.getAxesColl()[0];
+        return wpd.appData.getPlotData().getAxesColl()[0];
     }
 
     function manualSelection() {
@@ -526,10 +526,9 @@ wpd.EditLabelsTool = function() {
 
 wpd.dataPointCounter = (function () {
     function setCount() {
-        var dataset = wpd.tree.getActiveDataset();
-        var $counters = document.getElementsByClassName('data-point-counter'),
-            ci;
-        for(ci = 0; ci < $counters.length; ci++) {
+        let dataset = wpd.tree.getActiveDataset();
+        let $counters = document.getElementsByClassName('data-point-counter');        
+        for(let ci = 0; ci < $counters.length; ci++) {
             $counters[ci].innerHTML = dataset.getCount();
         }
     }

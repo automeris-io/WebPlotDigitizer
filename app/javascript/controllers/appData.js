@@ -24,8 +24,7 @@
 var wpd = wpd || {};
 // maintain and manage current state of the application
 wpd.appData = (function () {
-    var isAligned = false,
-        plotData;
+    let plotData;
 
     function reset() {
         isAligned = false;
