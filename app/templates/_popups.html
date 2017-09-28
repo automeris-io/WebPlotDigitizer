@@ -107,14 +107,14 @@
 		</tr>
 	    <tr>
             <td align="center">{{ _("X-Axis") }}:</td>
-	        <td align="center"><input type="text" size="8" id="xmin" value="0" /></td>
-	        <td align="center"><input type="text" size="8" id="xmax" value="1" /></td>
+	        <td align="center"><input type="text" size="8" id="xmin" value="0" onfocus="wpd.alignAxes.zoomCalPoint(0);" /></td>
+	        <td align="center"><input type="text" size="8" id="xmax" value="1" onfocus="wpd.alignAxes.zoomCalPoint(1);" /></td>
 	        <td align="center"><input type="checkbox" id="xlog"></td>
 	    </tr>
 	    <tr>
             <td align="center">{{ _("Y-Axis") }}:</td>
-	        <td align="center"><input type="text" size="8" id="ymin" value="0" /></td>
-	        <td align="center"><input type="text" size="8" id="ymax" value="1" /></td>
+	        <td align="center"><input type="text" size="8" id="ymin" value="0" onfocus="wpd.alignAxes.zoomCalPoint(2);" /></td>
+	        <td align="center"><input type="text" size="8" id="ymax" value="1" onfocus="wpd.alignAxes.zoomCalPoint(3);" /></td>
 	        <td align="center"><input type="checkbox" id="ylog" /></td>
 	    </tr>
 	</table>
@@ -136,8 +136,8 @@
             <td align="center" valign="bottom" width="80">{{ _("Log Scale") }}</td>
         </tr>
         <tr>
-            <td align="center"><input type="text" size="8" id="bar-axes-p1" value="0" /></td>
-            <td align="center"><input type="text" size="8" id="bar-axes-p2" value="1" /></td>
+            <td align="center"><input type="text" size="8" id="bar-axes-p1" value="0" onfocus="wpd.alignAxes.zoomCalPoint(0);" /></td>
+            <td align="center"><input type="text" size="8" id="bar-axes-p2" value="1" onfocus="wpd.alignAxes.zoomCalPoint(1);"/></td>
             <td align="center"><input type="checkbox" id="bar-axes-log-scale"/></td>
         </tr>
     </table>
@@ -169,14 +169,14 @@
         </tr>
         <tr>
             <td>R: </td>
-            <td align="center"><input type="text" size="6" id="polar-r1" value="1"/></td>
-            <td align="center"><input type="text" size="6" id="polar-r2" value="1"/></td>
+            <td align="center"><input type="text" size="6" id="polar-r1" value="1" onfocus="wpd.alignAxes.zoomCalPoint(1);" /></td>
+            <td align="center"><input type="text" size="6" id="polar-r2" value="1" onfocus="wpd.alignAxes.zoomCalPoint(2);" /></td>
             <td align="center"><input type="checkbox" id="polar-log-scale"/></td>
         </tr>
         <tr>
             <td>Θ: </td>
-            <td align="center"><input type="text" size="6" id="polar-theta1" value="1"/></td>
-            <td align="center"><input type="text" size="6" id="polar-theta2" value="1"/></td>
+            <td align="center"><input type="text" size="6" id="polar-theta1" value="1" onfocus="wpd.alignAxes.zoomCalPoint(1);" /></td>
+            <td align="center"><input type="text" size="6" id="polar-theta2" value="1" onfocus="wpd.alignAxes.zoomCalPoint(2);" /></td>
             <td align="center">&nbsp;</td>
         </tr>
     </table>
@@ -217,7 +217,7 @@
     <p align="center">{{ _("Variables") }}: <span id="dataVariables"></span></p>
 	<p align="center"><textarea id="digitizedDataTable" style="width: 480px; height: 250px;"></textarea></p>
 	<p align="center">
-		<input type="button" value="{{ _("Select All") }}" onclick="wpd.dataTable.selectAll();"/>
+          	<input type="button" value="{{ _("Copy to Clipboard") }}" onclick="wpd.dataTable.copyToClipboard();"/>
         <input type="button" value="{{ _("Download .CSV") }}" onclick="wpd.dataTable.generateCSV();"/>
 		<input type="button" value="{{ _("Graph in Plotly*") }}" onclick="wpd.dataTable.exportToPlotly();"/>
 		<input type="button" value="{{ _("Close") }}" onclick="wpd.popup.close('csvWindow');"/>
@@ -463,3 +463,16 @@
     <p><input type="button" value="{{ _("Rename") }}" onclick="wpd.dataSeriesManagement.renameDataset();"/> <input type="button" value="{{ _("Cancel") }}" onclick="wpd.popup.close('rename-dataset-popup');"/></p>
     </center>
     </div>
+
+    <!-- Unit testing -->
+    {% if enableTesting == True %}
+    <div id="tests-popup" class="popup" style="width:1000px;">
+    <div class="popupheading">Unit Tests</div>
+        <p align="center"><button onclick="wpd.popup.close('tests-popup');">Close</button></p>
+        <br/>
+        <div style="width:1000px; height: 800px; overflow-y: auto;">
+            <div id="qunit"></div>
+            <div id="qunit-fixture"></div>
+        </div>
+    </div>
+    {% endif %}
