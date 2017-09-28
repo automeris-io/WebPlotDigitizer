@@ -37,10 +37,9 @@ wpd.saveResume = (function () {
        var plotData = wpd.appData.getPlotData(),
            rdata = json_data.wpd,
            calib,
-           i, j, ds, currDataset;
+           i, j, ds;
 
-       plotData.reset();
-       wpd.appData.isAligned(false);
+       plotData.reset();       
         
        if(rdata.axesType == null) {
            return;
@@ -64,48 +63,50 @@ wpd.saveResume = (function () {
                               rdata.calibration[i].dy,
                               rdata.calibration[i].dz);
 
-           }
-           plotData.calibration = calib;
+           }           
        }
 
+       let axes = null;
        if(rdata.axesType === 'XYAxes') {
-           plotData.axes = new wpd.XYAxes();
-           if(!plotData.axes.calibrate(plotData.calibration, 
-                                       rdata.axesParameters.isLogX,
-                                       rdata.axesParameters.isLogY)) {
+           axes = new wpd.XYAxes();
+           if(!axes.calibrate(calib, 
+                              rdata.axesParameters.isLogX,
+                              rdata.axesParameters.isLogY)) {
                return;
            }
        } else if (rdata.axesType === 'BarAxes') {
-           plotData.axes = new wpd.BarAxes();
-           if(!plotData.axes.calibrate(plotData.calibration, rdata.axesParameters.isLog)) {
+           axes = new wpd.BarAxes();
+           if(!axes.calibrate(calib, rdata.axesParameters.isLog)) {
                return;
            }
        } else if (rdata.axesType === 'PolarAxes') {
-           plotData.axes = new wpd.PolarAxes();
-           if(!plotData.axes.calibrate(plotData.calibration,
-                                      rdata.axesParameters.isDegrees,
-                                      rdata.axesParameters.isClockwise)) {
+           axes = new wpd.PolarAxes();
+           if(!axes.calibrate(calib,
+                              rdata.axesParameters.isDegrees,
+                              rdata.axesParameters.isClockwise)) {
                return;
            }
        } else if(rdata.axesType === 'TernaryAxes') {
-           plotData.axes = new wpd.TernaryAxes();
-           if(!plotData.axes.calibrate(plotData.calibration,
-                                      rdata.axesParameters.isRange100,
-                                      rdata.axesParameters.isNormalOrientation)) {
+           axes = new wpd.TernaryAxes();
+           if(!axes.calibrate(calib,
+                              rdata.axesParameters.isRange100,
+                              rdata.axesParameters.isNormalOrientation)) {
                return;
            }
        } else if(rdata.axesType === 'MapAxes') {
-           plotData.axes = new wpd.MapAxes();
-           if(!plotData.axes.calibrate(plotData.calibration,
-                                      rdata.axesParameters.scaleLength,
-                                      rdata.axesParameters.unitString)) {
+           axes = new wpd.MapAxes();
+           if(!axes.calibrate(calib,
+                              rdata.axesParameters.scaleLength,
+                              rdata.axesParameters.unitString)) {
                return;
            }
        } else if(rdata.axesType === 'ImageAxes') {
-           plotData.axes = new wpd.ImageAxes();
+           axes = new wpd.ImageAxes();
        }
 
-       wpd.appData.isAligned(true);
+       if(axes != null) {
+           plotData.addAxes(axes);
+       }
        
        if(rdata.dataSeries == null) {
            return;
@@ -113,8 +114,7 @@ wpd.saveResume = (function () {
 
        for(i = 0; i < rdata.dataSeries.length; i++) {
            ds = rdata.dataSeries[i];
-           plotData.dataSeriesColl[i] = new wpd.DataSeries();
-           currDataset = plotData.dataSeriesColl[i];
+           let currDataset = new wpd.DataSeries();           
            currDataset.name = ds.name;
            if(ds.metadataKeys != null) {
                currDataset.setMetadataKeys(ds.metadataKeys);
@@ -122,26 +122,30 @@ wpd.saveResume = (function () {
            for(j = 0; j < ds.data.length; j++) {
                currDataset.addPixel(ds.data[j].x, ds.data[j].y, ds.data[j].metadata);
            }
+           plotData.addDataset(currDataset);
        }
 
        if(rdata.distanceMeasurementData != null) {
-           plotData.distanceMeasurementData = new wpd.ConnectedPoints(2);
+           let dist = new wpd.ConnectedPoints(2);
            for(i = 0; i < rdata.distanceMeasurementData.length; i++) {
-               plotData.distanceMeasurementData.addConnection(rdata.distanceMeasurementData[i]);
+               dist.addConnection(rdata.distanceMeasurementData[i]);
            }
+           plotData.addMeasurement(dist);
        }
 
        if(rdata.angleMeasurementData != null) {
-           plotData.angleMeasurementData = new wpd.ConnectedPoints(3);
+           let angle = new wpd.ConnectedPoints(3);
            for(i = 0; i < rdata.angleMeasurementData.length; i++) {
-               plotData.angleMeasurementData.addConnection(rdata.angleMeasurementData[i]);
+               angle.addConnection(rdata.angleMeasurementData[i]);
            }
+           plotData.addMeasurement(angle);
        }       
     }
 
     function generateJSON() {
         var plotData = wpd.appData.getPlotData(),
-            calibration = plotData.calibration,
+            axes = plotData.getAxesCount() > 0 ? plotData.getAxesColl()[0] : null,
+            calibration = axes != null ? axes.calibration : null,
             outData = {
                     wpd: {
                         version: [3, 8], // [major, minor, subminor,...]
@@ -166,43 +170,44 @@ wpd.saveResume = (function () {
             }
         }
 
-        if(plotData.axes != null) {
-            if(plotData.axes instanceof wpd.XYAxes) {
+        if(axes != null) {
+            if(axes instanceof wpd.XYAxes) {
                 outData.wpd.axesType = 'XYAxes';
                 outData.wpd.axesParameters = {
-                    isLogX: plotData.axes.isLogX(),
-                    isLogY: plotData.axes.isLogY()
+                    isLogX: axes.isLogX(),
+                    isLogY: axes.isLogY()
                 };
-            } else if(plotData.axes instanceof wpd.BarAxes) {
+            } else if(axes instanceof wpd.BarAxes) {
                 outData.wpd.axesType = 'BarAxes';
                 outData.wpd.axesParameters = {
-                    isLog: plotData.axes.isLog()
+                    isLog: axes.isLog()
                 };
-            } else if(plotData.axes instanceof wpd.PolarAxes) {
+            } else if(axes instanceof wpd.PolarAxes) {
                 outData.wpd.axesType = 'PolarAxes';
                 outData.wpd.axesParameters = {
-                    isDegrees: plotData.axes.isThetaDegrees(),
-                    isClockwise: plotData.axes.isThetaClockwise()
+                    isDegrees: axes.isThetaDegrees(),
+                    isClockwise: axes.isThetaClockwise()
                 };
-            } else if(plotData.axes instanceof wpd.TernaryAxes) {
+            } else if(axes instanceof wpd.TernaryAxes) {
                 outData.wpd.axesType = 'TernaryAxes';
                 outData.wpd.axesParameters = {
-                    isRange100: plotData.axes.isRange100(),
-                    isNormalOrientation: plotData.axes.isNormalOrientation()
+                    isRange100: axes.isRange100(),
+                    isNormalOrientation: axes.isNormalOrientation()
                 };
-            } else if(plotData.axes instanceof wpd.MapAxes) {
+            } else if(axes instanceof wpd.MapAxes) {
                 outData.wpd.axesType = 'MapAxes';
                 outData.wpd.axesParameters = {
-                    scaleLength: plotData.axes.getScaleLength(),
-                    unitString: plotData.axes.getUnits() 
+                    scaleLength: axes.getScaleLength(),
+                    unitString: axes.getUnits() 
                 };
-            } else if(plotData.axes instanceof wpd.ImageAxes) {
+            } else if(axes instanceof wpd.ImageAxes) {
                 outData.wpd.axesType = 'ImageAxes';
             }
         }
 
-        for(i = 0; i < plotData.dataSeriesColl.length; i++) {
-            ds = plotData.dataSeriesColl[i];
+        let dsColl = plotData.getDatasets();
+        for(i = 0; i < dsColl.length; i++) {
+            ds = dsColl[i];
             outData.wpd.dataSeries[i] = {
                 name: ds.name,
                 data: []
@@ -214,10 +219,11 @@ wpd.saveResume = (function () {
             for(j = 0; j < ds.getCount(); j++) {
                 pixel = ds.getPixel(j);
                 outData.wpd.dataSeries[i].data[j] = pixel;
-                outData.wpd.dataSeries[i].data[j].value = plotData.axes.pixelToData(pixel.x, pixel.y);
+                outData.wpd.dataSeries[i].data[j].value = axes.pixelToData(pixel.x, pixel.y);
             }
         }
 
+        /*
         if (plotData.distanceMeasurementData != null) {
             outData.wpd.distanceMeasurementData = [];
             for(i = 0; i < plotData.distanceMeasurementData.connectionCount(); i++) {
@@ -230,7 +236,8 @@ wpd.saveResume = (function () {
                 outData.wpd.angleMeasurementData[i] = plotData.angleMeasurementData.getConnectionAt(i);
             }
         }
-
+        */
+        
         json_string = JSON.stringify(outData);
         return json_string;
     }

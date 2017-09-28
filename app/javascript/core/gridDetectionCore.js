@@ -27,11 +27,10 @@ wpd.gridDetectionCore = (function () {
 
     var hasHorizontal, hasVertical, xFrac = 0.1, yFrac = 0.1;
 
-    function run() {
+    function run(autoDetector) {
         var gridData = [],
             xi,
-            yi,
-            autoDetector = wpd.appData.getPlotData().getAutoDetector(),
+            yi,            
             xmin = autoDetector.gridMask.xmin,
             xmax = autoDetector.gridMask.xmax,
             ymin = autoDetector.gridMask.ymin,
@@ -75,7 +74,7 @@ wpd.gridDetectionCore = (function () {
              
         }
 
-        wpd.appData.getPlotData().gridData = gridData;
+        return gridData;
     }
 
     function setHorizontalParameters(has_horizontal, y_perc) {

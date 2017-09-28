@@ -27,7 +27,7 @@ wpd.dataSeriesManagement = (function () {
 
     function datasetWithNameExists(name) {
         const plotData = wpd.appData.getPlotData();
-        const dsNameColl = plotData.getDataSeriesNames();
+        const dsNameColl = plotData.getDatasetNames();
         if(dsNameColl.indexOf(name) >= 0) {
             return true;
         }
@@ -36,14 +36,10 @@ wpd.dataSeriesManagement = (function () {
 
     function getDatasetCount() {
         const plotData = wpd.appData.getPlotData();
-        return plotData.getDataSeriesCount();                
+        return plotData.getDatasetCount();
     }
 
-    function showAddDataset() {
-        if(!wpd.appData.isAligned()) {
-            wpd.messagePopup.show(wpd.gettext('acquire-data'), wpd.gettext('acquire-data-calibration'));
-            return;
-        } 
+    function showAddDataset() {         
         const $singleDatasetName = document.getElementById('add-single-dataset-name-input');
         let suffix = getDatasetCount();
         let dsName = wpd.gettext("dataset") + " " + suffix;
@@ -57,7 +53,7 @@ wpd.dataSeriesManagement = (function () {
 
     function showRenameDataset() {
         const plotData = wpd.appData.getPlotData();
-        const ds = plotData.getActiveDataSeries();
+        const ds = wpd.tree.getActiveDataset();
         const $dsName = document.getElementById('rename-dataset-name-input');
         $dsName.value = ds.name;
         wpd.popup.show('rename-dataset-popup');
@@ -71,9 +67,7 @@ wpd.dataSeriesManagement = (function () {
             wpd.messagePopup.show(wpd.gettext("rename-dataset-error"), wpd.gettext("dataset-exists-error"), showRenameDataset);
             return;
         }
-        
-        const plotData = wpd.appData.getPlotData();
-        const ds = plotData.getActiveDataSeries();
+        const ds = wpd.tree.getActiveDataset();
         ds.name = $dsName.value.trim();
         wpd.tree.refresh();
         wpd.tree.selectPath("/"+wpd.gettext("datasets")+"/" + ds.name, true);
@@ -95,7 +89,7 @@ wpd.dataSeriesManagement = (function () {
         const plotData = wpd.appData.getPlotData();
         let ds = new wpd.DataSeries();
         ds.name = $singleDatasetName.value.trim();
-        plotData.dataSeriesColl.push(ds);
+        plotData.addDataset(ds);        
         wpd.tree.refreshPreservingSelection();                
     }
 
@@ -113,7 +107,7 @@ wpd.dataSeriesManagement = (function () {
                 if(!datasetWithNameExists(dsName)) {
                     let ds = new wpd.DataSeries();
                     ds.name = dsName;
-                    plotData.dataSeriesColl.push(ds);
+                    plotData.addDataset(ds);
                     i++;
                 }
                 idx++;
@@ -126,14 +120,11 @@ wpd.dataSeriesManagement = (function () {
 
     function deleteDataset() {
         wpd.okCancelPopup.show(wpd.gettext("delete-dataset"), wpd.gettext("delete-dataset-text"), function() {
-
             const plotData = wpd.appData.getPlotData();
-            const dsIdx = plotData.getActiveDataSeriesIndex();
-            if(dsIdx >= 0) {
-                plotData.dataSeriesColl.splice(dsIdx,1);
-                wpd.tree.refresh();
-                wpd.tree.selectPath("/"+wpd.gettext("datasets"));
-            }
+            const ds = wpd.tree.getActiveDataset();
+            plotData.deleteDataset(ds);
+            wpd.tree.refresh();
+            wpd.tree.selectPath("/"+wpd.gettext("datasets"));            
         });
     }
 

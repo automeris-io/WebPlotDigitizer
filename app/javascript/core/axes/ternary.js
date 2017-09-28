@@ -60,8 +60,11 @@ wpd.TernaryAxes = (function () {
             return isCalibrated;
         };
 
+        this.calibration = null;
+
         this.calibrate = function (calib, range100, is_normal) {
-            isCalibrated = processCalibration(calib, range100, is_normal);
+            this.calibration = calib;
+            isCalibrated = processCalibration(calib, range100, is_normal);            
             return isCalibrated;
         };
 
