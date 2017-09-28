@@ -146,7 +146,7 @@ wpd.dataExport = (function () {
                 plotlyData.data[i][colName] = [];
                 for(rowi = 0; rowi < pdata.rawData.length; rowi++) {
                     if(pdata.fieldDateFormat[coli] != null) {
-                        plotlyData.data[i][colName][rowi] = wpd.dateConverter(pdata.rawData[rowi][coli], "yyyy-mm-dd");
+                        plotlyData.data[i][colName][rowi] = wpd.dateConverter.formatDateNumber(pdata.rawData[rowi][coli], "yyyy-mm-dd hh:ii:ss");
                     } else {
                         plotlyData.data[i][colName][rowi] = pdata.rawData[rowi][coli];
                     }

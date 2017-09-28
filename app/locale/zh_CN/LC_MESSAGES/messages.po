@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  WebPlotDigitizer\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-09-20 00:44-0500\n"
+"POT-Creation-Date: 2017-09-23 20:30-0500\n"
 "PO-Revision-Date: 2017-09-02 17:03-0500\n"
 "Last-Translator: \n"
 "Language: zh_Hans_CN\n"
@@ -61,102 +61,31 @@ msgstr ""
 msgid "Script"
 msgstr ""
 
-#: templates/_menubar.html:8
-msgid "File"
-msgstr "文件"
-
-#: templates/_menubar.html:11 templates/_sidebars.html:117
-msgid "Load Image"
-msgstr "导入图片"
-
-#: templates/_menubar.html:12 templates/_popups.html:53
-#: templates/_strings.html:14
-msgid "Webcam Capture"
-msgstr "拍照"
-
-#: templates/_menubar.html:13 templates/_popups.html:42
-msgid "Run Script"
-msgstr "运行脚本"
-
-#: templates/_menubar.html:14
-msgid "Save Image"
-msgstr "保存图片"
-
-#: templates/_menubar.html:15
-msgid "Export JSON"
-msgstr "导出JSON"
-
-#: templates/_menubar.html:16
-msgid "Import JSON"
-msgstr "导入JSON"
-
-#: templates/_menubar.html:36 templates/_strings.html:46 templates/_tree.html:8
-#: templates/_tree.html:18
-msgid "Axes"
-msgstr "坐标"
-
-#: templates/_menubar.html:39
-msgid "Calibrate Axes"
-msgstr "校正坐标"
-
-#: templates/_menubar.html:40 templates/_tree.html:11
-msgid "Remove Grid"
-msgstr "删除网格"
-
-#: templates/_menubar.html:42 templates/_popups.html:341
-#: templates/_strings.html:16
-msgid "Transformation Equations"
-msgstr "转换公式"
-
-#: templates/_menubar.html:47
-msgid "Data"
-msgstr "数据"
-
-#: templates/_menubar.html:50 templates/_strings.html:10
-msgid "Acquire Data"
-msgstr "获取数据"
-
-#: templates/_menubar.html:51 templates/_tree.html:29
-msgid "Export All Data"
-msgstr "导出所有数据"
-
-#: templates/_menubar.html:56
-msgid "Measure"
-msgstr "测量"
-
-#: templates/_menubar.html:59
-msgid "Distances"
-msgstr "距离"
-
-#: templates/_menubar.html:60
-msgid "Angles"
-msgstr "角度"
-
-#: templates/_menubar.html:68
+#: templates/_menubar.html:9
 msgid "Help"
 msgstr "帮助"
 
-#: templates/_menubar.html:71
+#: templates/_menubar.html:12
 msgid "About WebPlotDigitizer"
 msgstr "关于WebPlotDigitizer"
 
-#: templates/_menubar.html:72
+#: templates/_menubar.html:13
 msgid "Tutorials"
 msgstr "新手教程"
 
-#: templates/_menubar.html:73
+#: templates/_menubar.html:14
 msgid "User Manual"
 msgstr "使用手册"
 
-#: templates/_menubar.html:74
+#: templates/_menubar.html:15
 msgid "GitHub Page"
 msgstr "GitHub页面"
 
-#: templates/_menubar.html:75
+#: templates/_menubar.html:16
 msgid "Report Issues"
 msgstr "反馈问题"
 
-#: templates/_menubar.html:76
+#: templates/_menubar.html:17
 msgid "Donate (PayPal)"
 msgstr "资助我们（PayPal）"
 
@@ -206,6 +135,10 @@ msgstr ""
 msgid "Yellow"
 msgstr ""
 
+#: templates/_popups.html:42
+msgid "Run Script"
+msgstr "运行脚本"
+
 #: templates/_popups.html:44
 msgid ""
 "Load a Javascript file to further extend the capabilities of "
@@ -219,6 +152,10 @@ msgstr ""
 #: templates/_popups.html:48 templates/_sidebars.html:32
 msgid "Run"
 msgstr "运行"
+
+#: templates/_popups.html:53 templates/_strings.html:14
+msgid "Webcam Capture"
+msgstr "拍照"
 
 #: templates/_popups.html:56
 msgid "Capture"
@@ -291,7 +228,8 @@ msgstr ""
 
 #: templates/_popups.html:121
 msgid ""
-"*For dates, use yyyy/mm/dd format (e.g. 2013/10/23 or 2013/10). For "
+"*For dates, use yyyy/mm/dd hh:ii:ss format, where ii denotes minutes "
+"(e.g. 2013/10/23 or 2013/10 or 2013/10/23 10:15 or just 10:15). For "
 "exponents, enter values as 1e-3 for 10^-3."
 msgstr ""
 
@@ -534,6 +472,10 @@ msgstr ""
 #: templates/_popups.html:336
 msgid "Done"
 msgstr ""
+
+#: templates/_popups.html:341 templates/_strings.html:16
+msgid "Transformation Equations"
+msgstr "转换公式"
 
 #: templates/_popups.html:342
 msgid "The following relationships are being used to convert image pixels to data"
@@ -868,6 +810,10 @@ msgstr "检测"
 msgid "Reset"
 msgstr "重置"
 
+#: templates/_sidebars.html:117
+msgid "Load Image"
+msgstr "导入图片"
+
 #: templates/_sidebars.html:118
 msgid "Tutorial Video"
 msgstr ""
@@ -911,6 +857,10 @@ msgid ""
 "Values on a log scale axis can not be zero as log(0) is undefined. Please"
 " enter a non-zero value."
 msgstr "对数值不能为0。请输入非0数值。"
+
+#: templates/_strings.html:10
+msgid "Acquire Data"
+msgstr "获取数据"
 
 #: templates/_strings.html:11
 msgid "Please calibrate the axes before acquiring data."
@@ -1048,6 +998,10 @@ msgstr ""
 msgid "Measurements"
 msgstr ""
 
+#: templates/_strings.html:46 templates/_tree.html:8 templates/_tree.html:18
+msgid "Axes"
+msgstr "坐标"
+
 #: templates/_strings.html:48 templates/_tree.html:37 templates/_tree.html:61
 msgid "Angle"
 msgstr ""
@@ -1092,6 +1046,10 @@ msgstr "查看快捷键"
 msgid "Calibrate"
 msgstr ""
 
+#: templates/_tree.html:11
+msgid "Remove Grid"
+msgstr "删除网格"
+
 #: templates/_tree.html:12
 msgid "Import Calibration"
 msgstr ""
@@ -1107,6 +1065,10 @@ msgstr ""
 #: templates/_tree.html:21
 msgid "View Equations"
 msgstr ""
+
+#: templates/_tree.html:29
+msgid "Export All Data"
+msgstr "导出所有数据"
 
 #: templates/_tree.html:46 templates/_tree.html:56 templates/_tree.html:64
 msgid "View Data"
@@ -1131,13 +1093,13 @@ msgstr "清除所有"
 #~ msgstr ""
 
 #~ msgid ""
-#~ msgstr "启动遇到问题？请确保您安装了最新版本的浏览器。"
+#~ msgstr ""
 
 #~ msgid "Fit"
 #~ msgstr ""
 
 #~ msgid "File"
-#~ msgstr ""
+#~ msgstr "文件"
 
 #~ msgid "Load Image"
 #~ msgstr ""
@@ -1149,19 +1111,19 @@ msgstr "清除所有"
 #~ msgstr ""
 
 #~ msgid "Save Image"
-#~ msgstr ""
+#~ msgstr "保存图片"
 
 #~ msgid "Export JSON"
-#~ msgstr ""
+#~ msgstr "导出JSON"
 
 #~ msgid "Import JSON"
-#~ msgstr ""
+#~ msgstr "导入JSON"
 
 #~ msgid "Axes"
 #~ msgstr ""
 
 #~ msgid "Calibrate Axes"
-#~ msgstr ""
+#~ msgstr "校正坐标"
 
 #~ msgid "Remove Grid"
 #~ msgstr ""
@@ -1170,7 +1132,7 @@ msgstr "清除所有"
 #~ msgstr ""
 
 #~ msgid "Data"
-#~ msgstr ""
+#~ msgstr "数据"
 
 #~ msgid "Acquire Data"
 #~ msgstr ""
@@ -1182,13 +1144,13 @@ msgstr "清除所有"
 #~ msgstr ""
 
 #~ msgid "Measure"
-#~ msgstr ""
+#~ msgstr "测量"
 
 #~ msgid "Distances"
-#~ msgstr ""
+#~ msgstr "距离"
 
 #~ msgid "Angles"
-#~ msgstr ""
+#~ msgstr "角度"
 
 #~ msgid "Help"
 #~ msgstr ""

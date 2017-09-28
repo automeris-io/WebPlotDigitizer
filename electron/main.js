@@ -23,7 +23,7 @@ function createWindow () {
   }))
 
   mainWindow.setMenu(null)
-  mainWindow.setIcon(path.join(__dirname, '../app/images/icon.png'))
+  mainWindow.setIcon(path.join(__dirname, '../app/images/icon/icon.png'))
 
   // Open the DevTools.
   // mainWindow.webContents.openDevTools()

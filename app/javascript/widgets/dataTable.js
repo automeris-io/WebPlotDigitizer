@@ -266,10 +266,17 @@ wpd.dataTable = (function () {
         $digitizedDataTable.value = tableText;
     }
 
-    function selectAll() {
+
+    function copyToClipboard() {
         var $digitizedDataTable = document.getElementById('digitizedDataTable');
         $digitizedDataTable.focus();
         $digitizedDataTable.select();
+        try {
+            document.execCommand('copy');
+        } catch(ex) {
+            console.log('copyToClipboard', ex.message);
+        }
+        $digitizedDataTable.blur();
     }
 
     function generateCSV() {
@@ -302,7 +309,7 @@ wpd.dataTable = (function () {
                 }
 
                 if (dataCache.fieldDateFormat[coli] != null) {
-                    plotlyData.data[0][fieldName][rowi] = wpd.dateConverter.formatDateNumber(sortedData[rowi][coli], 'yyyy-mm-dd');
+                    plotlyData.data[0][fieldName][rowi] = wpd.dateConverter.formatDateNumber(sortedData[rowi][coli], 'yyyy-mm-dd hh:ii:ss');
                 } else {
                     plotlyData.data[0][fieldName][rowi] = sortedData[rowi][coli];
                 }
@@ -318,7 +325,7 @@ wpd.dataTable = (function () {
         showDistanceData: showDistanceData,
         updateSortingControls: updateSortingControls,
         reSort: reSort,
-        selectAll: selectAll,
+        copyToClipboard: copyToClipboard,
         generateCSV: generateCSV,
         exportToPlotly: exportToPlotly,
         changeDataset: changeDataset
