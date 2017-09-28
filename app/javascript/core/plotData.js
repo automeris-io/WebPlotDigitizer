@@ -27,7 +27,12 @@ var wpd = wpd || {};
 
 wpd.PlotData = class {
     constructor() {
-        this.reset();
+        this._autoDetector = null;
+        this._topColors = null;
+        this._axesColl = [];        
+        this._dataSetColl = [];
+        this._measurementColl = [];        
+        this._objectAxesMap = new Map();
     }
 
     reset() {
@@ -41,10 +46,15 @@ wpd.PlotData = class {
 
     addAxes(ax) {
         this._axesColl.push(ax);
+        if(this._axesColl.length == 1) {       
+            let ds = new wpd.DataSeries();
+            ds.name = "Default Dataset";
+            this.addDataset(ds);
+        }
     }
 
     getAxesColl() {
-        return Object.freeze(this._axesColl);
+        return this._axesColl;
     }
 
     getAxesNames() {
@@ -82,7 +92,7 @@ wpd.PlotData = class {
     }
 
     getDatasets() {
-        return Object.freeze(this._dataSetColl);
+        return this._dataSetColl;
     }
 
     getDatasetNames() {
@@ -102,7 +112,7 @@ wpd.PlotData = class {
     }
 
     getMeasurements() {
-        return Object.freeze(this._measurementColl);
+        return this._measurementColl;
     }
 
     deleteMeasurement(ms) {

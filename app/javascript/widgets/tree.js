@@ -160,7 +160,7 @@ wpd.tree = (function() {
         
         const plotData = wpd.appData.getPlotData();
         
-        const axes = plotData.axes;
+        const axes = plotData.getAxesColl()[0];
         let axesFolder = {};
         if(axes == null) {
             axesFolder[wpd.gettext("axes")] = [];
@@ -169,7 +169,7 @@ wpd.tree = (function() {
         }
         treeData.push(axesFolder);
 
-        const datasetNames = plotData.getDataSeriesNames();
+        const datasetNames = plotData.getDatasetNames();
         let datasetsFolder = {};
         datasetsFolder[wpd.gettext("datasets")] = datasetNames;
         treeData.push(datasetsFolder);
@@ -208,17 +208,17 @@ wpd.tree = (function() {
     }
 
     function onDatasetSelection(elem, path, suppressSecondaryActions) {
-        if(!suppressSecondaryActions) {
-            // get dataset index
-            const plotData = wpd.appData.getPlotData();
-            const dsNamesColl = plotData.getDatasetNames();
-            const dsIdx = dsNamesColl.indexOf(path.replace("/"+ wpd.gettext("datasets") +"/",""));
-            if(dsIdx >= 0) {
-                activeDataset = plotData.getDatasets()[dsIdx];            
-                // refresh UI
-                wpd.acquireData.load();
-            }
-        }
+        // get dataset index
+        const plotData = wpd.appData.getPlotData();
+        const dsNamesColl = plotData.getDatasetNames();
+        const dsIdx = dsNamesColl.indexOf(path.replace("/"+ wpd.gettext("datasets") +"/",""));
+        if(dsIdx >= 0) {
+            activeDataset = plotData.getDatasets()[dsIdx];
+            // refresh UI
+            if(!suppressSecondaryActions) {
+                wpd.acquireData.load();    
+            }            
+        }        
         showTreeItemWidget('dataset-item-tree-widget');
     }
 
@@ -289,7 +289,7 @@ wpd.tree = (function() {
     }
 
     function getActiveDataset() {
-
+        return activeDataset;
     }
 
     return {
