@@ -173,4 +173,56 @@ wpd.algoManager = (function() {
     };
 })();
 
+wpd.dataMask = (function () {
 
+    function grabMask() {
+        // Mask is just a list of pixels with the yellow color in the data layer
+        var ctx = wpd.graphicsWidget.getAllContexts(),
+            imageSize = wpd.graphicsWidget.getImageSize(),
+            maskDataPx = ctx.oriDataCtx.getImageData(0, 0, imageSize.width, imageSize.height),
+            maskData = [],
+            i,
+            mi = 0,
+            autoDetector = wpd.appData.getPlotData().getAutoDetector();
+        for(i = 0; i < maskDataPx.data.length; i+=4) {
+            if (maskDataPx.data[i] === 255 && maskDataPx.data[i+1] === 255 && maskDataPx.data[i+2] === 0) {
+                maskData[mi] = i/4; mi++;
+            }
+        }
+        autoDetector.mask = maskData;
+    }
+
+    function markBox() {
+        var tool = new wpd.BoxMaskTool();
+        wpd.graphicsWidget.setTool(tool);
+    }
+
+    function markPen() {
+        var tool = new wpd.PenMaskTool();
+        wpd.graphicsWidget.setTool(tool);
+    }
+
+    function eraseMarks() {
+        var tool = new wpd.EraseMaskTool();
+        wpd.graphicsWidget.setTool(tool);
+    }
+
+    function viewMask() {
+        var tool = new wpd.ViewMaskTool();
+        wpd.graphicsWidget.setTool(tool);
+    }
+
+    function clearMask() {
+        wpd.graphicsWidget.resetData();
+        grabMask();
+    }
+
+    return {
+        grabMask: grabMask,
+        markBox: markBox,
+        markPen: markPen,
+        eraseMarks: eraseMarks,
+        viewMask: viewMask,
+        clearMask: clearMask
+    };
+})();

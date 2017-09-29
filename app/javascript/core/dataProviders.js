@@ -171,8 +171,7 @@ wpd.plotDataProvider = (function() {
 
     return {
         getDatasetNames: getDatasetNames,
-        getDatasetIndex: getDatasetIndex,
-        setDatasetIndex: setDatasetIndex,
+        getDatasetIndex: getDatasetIndex,        
         getData: getData
     };
 })();
@@ -252,9 +251,7 @@ wpd.measurementDataProvider = (function() {
     }
 
     return {
-        getDatasetNames: getDatasetNames,
-        getDatasetIndex: getDatasetIndex,
-        setDatasetIndex: setDatasetIndex,
+        getDatasetNames: getDatasetNames,                
         setDataSource: setDataSource,
         getData: getData
     };
