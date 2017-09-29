@@ -20,7 +20,8 @@
 
 
 */
-wpd = wpd || {};
+
+var wpd = wpd || {};
 
 wpd.BlobDetectorAlgo = (function () {
 

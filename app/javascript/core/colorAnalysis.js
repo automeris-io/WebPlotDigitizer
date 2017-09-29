@@ -21,7 +21,7 @@
 
 */
 
-wpd = wpd || {};
+var wpd = wpd || {};
 
 wpd.ColorGroup = (function () {
     var CGroup = function(tolerance) {
