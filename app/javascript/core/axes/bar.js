@@ -148,6 +148,8 @@ wpd.BarAxes = (function () {
         this.getOrientation = function() {
             return orientation;
         };
+
+        this.name = "Bar";
     };
 
     AxesObj.prototype.numCalibrationPointsRequired = function () {

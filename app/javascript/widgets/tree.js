@@ -33,6 +33,8 @@ wpd.TreeWidget = class {
     }
 
     _renderFolder(data, basePath, isInnerFolder) {
+        if(data == null) return;
+
         let htmlStr = "";
         
         if(isInnerFolder) {
@@ -40,7 +42,7 @@ wpd.TreeWidget = class {
         } else {
             htmlStr = "<ul class=\"tree-list-root\">";
         }
-
+        
         for(let i = 0; i < data.length; i++) {
             let item = data[i];
             this.itemCount++;
@@ -134,24 +136,6 @@ wpd.tree = (function() {
         };
     }
 
-    function getAxesName(axes) {
-        if(axes instanceof wpd.XYAxes) {
-            return wpd.gettext("axes-name-xy");
-        } else if(axes instanceof wpd.ImageAxes) {
-            return wpd.gettext("axes-name-image");
-        } else if(axes instanceof wpd.BarAxes) {
-            return wpd.gettext("axes-name-bar");
-        } else if(axes instanceof wpd.PolarAxes) {
-            return wpd.gettext("axes-name-polar");
-        } else if(axes instanceof wpd.TernaryAxes) {
-            return wpd.gettext("axes-name-ternary");
-        } else if(axes instanceof wpd.MapAxes) {
-            return wpd.gettext("axes-name-map");
-        } else {
-            return "Unknown Axes";
-        }
-    }
-
     function buildTree() {
         if(treeWidget == null) {
             return;
@@ -159,14 +143,9 @@ wpd.tree = (function() {
         let treeData = [];
         
         const plotData = wpd.appData.getPlotData();
-        
-        const axes = plotData.getAxesColl()[0];
+                
         let axesFolder = {};
-        if(axes == null) {
-            axesFolder[wpd.gettext("axes")] = [];
-        } else {
-            axesFolder[wpd.gettext("axes")] = [getAxesName(axes)];
-        }
+        axesFolder[wpd.gettext("axes")] = plotData.getAxesNames();        
         treeData.push(axesFolder);
 
         const datasetNames = plotData.getDatasetNames();

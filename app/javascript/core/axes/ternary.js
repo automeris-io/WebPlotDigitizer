@@ -163,6 +163,8 @@ wpd.TernaryAxes = (function () {
                              ]
             };
         };
+
+        this.name = "Ternary";
     };
 
     AxesObj.prototype.numCalibrationPointsRequired = function() {
