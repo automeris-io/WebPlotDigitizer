@@ -24,14 +24,11 @@
 var wpd = wpd || {};
 
 wpd.ManualSelectionTool = (function () {
-    var Tool = function () {
-        var plotData = wpd.appData.getPlotData(),
-            axes = plotData.getAxesColl()[0],
-            dataset = wpd.tree.getActiveDataset();
-
+    var Tool = function (axes, dataset) {
+        
         this.onAttach = function () {
             document.getElementById('manual-select-button').classList.add('pressed-button');
-            wpd.graphicsWidget.setRepainter(new wpd.DataPointsRepainter());
+            wpd.graphicsWidget.setRepainter(new wpd.DataPointsRepainter(axes, dataset));
         };
 
        
@@ -58,7 +55,7 @@ wpd.ManualSelectionTool = (function () {
             }
 
             wpd.graphicsWidget.updateZoomOnEvent(ev);
-            wpd.dataPointCounter.setCount();
+            wpd.dataPointCounter.setCount(dataset.getCount());
 
             // If shiftkey was pressed while clicking on a point that has a label (e.g. bar charts),
             // then show a popup to edit the label
@@ -72,8 +69,7 @@ wpd.ManualSelectionTool = (function () {
         };
 
         this.onKeyDown = function (ev) {
-            var dataset = plotData.getdataset(),
-                lastPtIndex = dataset.getCount() - 1,
+            var lastPtIndex = dataset.getCount() - 1,
                 lastPt = dataset.getPixel(lastPtIndex),
                 stepSize = 0.5/wpd.graphicsWidget.getZoomRatio();
 
@@ -104,24 +100,22 @@ wpd.ManualSelectionTool = (function () {
 
 
 wpd.DeleteDataPointTool = (function () {
-    var Tool = function () {
-        var ctx = wpd.graphicsWidget.getAllContexts(),
-            plotData = wpd.appData.getPlotData(),
-            axes = plotData.getAxesColl()[0],
-            dataset = wpd.tree.getActiveDataset();;
+    var Tool = function (axes, dataset) {
+
+        var ctx = wpd.graphicsWidget.getAllContexts();
 
         this.onAttach = function () {
             document.getElementById('delete-point-button').classList.add('pressed-button');
-            wpd.graphicsWidget.setRepainter(new wpd.DataPointsRepainter());
+            wpd.graphicsWidget.setRepainter(new wpd.DataPointsRepainter(axes, dataset));
         };
 
         this.onMouseClick = function(ev, pos, imagePos) {
-            var dataset = plotData.getdataset();
+            
             dataset.removeNearestPixel(imagePos.x, imagePos.y);
             wpd.graphicsWidget.resetData();
             wpd.graphicsWidget.forceHandlerRepaint();
             wpd.graphicsWidget.updateZoomOnEvent(ev);
-            wpd.dataPointCounter.setCount();
+            wpd.dataPointCounter.setCount(dataset.getCount());
         };
 
         this.onKeyDown = function (ev) {
@@ -139,13 +133,10 @@ wpd.DeleteDataPointTool = (function () {
 
 
 wpd.DataPointsRepainter = (function () {
-    var Painter = function () {
+    var Painter = function (axes, dataset) {
 
         var drawPoints = function () {
-            var plotData = wpd.appData.getPlotData(),
-                axes = plotData.getAxesColl()[0],
-                dataset = wpd.tree.getActiveDataset(),
-                dindex,
+            var dindex,
                 imagePos,
                 fillStyle,
                 isSelected,
@@ -204,13 +195,11 @@ wpd.DataPointsRepainter = (function () {
 
 
 wpd.AdjustDataPointTool = (function () {
-    var Tool = function () {
-        var axes = plotData.getAxesColl()[0],
-            dataset = wpd.tree.getActiveDataset();
-
+    var Tool = function (axes, dataset) {
+        
         this.onAttach = function () {
             document.getElementById('manual-adjust-button').classList.add('pressed-button');
-            wpd.graphicsWidget.setRepainter(new wpd.DataPointsRepainter());
+            wpd.graphicsWidget.setRepainter(new wpd.DataPointsRepainter(axes, dataset));
             wpd.toolbar.show('adjustDataPointsToolbar');
         }; 
         
@@ -265,7 +254,7 @@ wpd.AdjustDataPointTool = (function () {
                 pointPx = selPoint.x;
                 pointPy = selPoint.y;
             } else if(wpd.keyCodes.isAlphabet(ev.keyCode, 'e')) {
-                if(wpd.appData.getPlotData().axes.dataPointsHaveLabels) {
+                if(axes.dataPointsHaveLabels) {
                     selIndex = dataset.getSelectedPixels()[0];
                     ev.preventDefault();
                     ev.stopPropagation();
@@ -303,14 +292,11 @@ wpd.AdjustDataPointTool = (function () {
     return Tool;
 })();
 
-wpd.EditLabelsTool = function() {
-
-    var axes = plotData.getAxesColl()[0],
-        dataset = wpd.tree.getActiveDataset();
-
+wpd.EditLabelsTool = function(axes, dataset) {
+    
     this.onAttach = function () {
         document.getElementById('edit-data-labels').classList.add('pressed-button');
-        wpd.graphicsWidget.setRepainter(new wpd.DataPointsRepainter());
+        wpd.graphicsWidget.setRepainter(new wpd.DataPointsRepainter(axes, dataset));
     };
 
     this.onRemove = function () {
@@ -337,17 +323,12 @@ wpd.EditLabelsTool = function() {
     };
 };
 
-wpd.dataPointCounter = (function () {
-    function setCount() {
-        let dataset = wpd.tree.getActiveDataset();
+wpd.dataPointCounter = {
+    setCount: function (count) {    
         let $counters = document.getElementsByClassName('data-point-counter');        
         for(let ci = 0; ci < $counters.length; ci++) {
-            $counters[ci].innerHTML = dataset.getCount();
+            $counters[ci].innerHTML = count;
         }
     }
-
-    return {
-        setCount: setCount
-    };
-})();
-
+};
+    

@@ -26,19 +26,10 @@ wpd.autoExtraction = (function () {
     function start() {
         wpd.colorPicker.init();
         wpd.algoManager.updateAlgoList();
-    }
+    }     
 
-    function changeDataset() {
-        var $datasetList = document.getElementById('automatic-sidebar-dataset-list'),
-            index = $datasetList.selectedIndex;
-        wpd.appData.getPlotData().setActiveDataSeriesIndex(index);
-        wpd.graphicsWidget.forceHandlerRepaint();
-        wpd.dataPointCounter.setCount();
-    }
-          
     return {
-        start: start,
-        changeDataset: changeDataset
+        start: start        
     };
 })();
 
@@ -46,19 +37,15 @@ wpd.autoExtraction = (function () {
 // Manage auto extract algorithms
 wpd.algoManager = (function() {
 
-    var axesPtr;
+    var axes, dataset;
 
     function updateAlgoList() {
         
-        var innerHTML = '',
-            axes = wpd.appData.getPlotData().getAxesColl()[0],
-            $algoOptions = document.getElementById('auto-extract-algo-name');
+        dataset = wpd.tree.getActiveDataset();
+        axes = wpd.appData.getPlotData().getAxesForDataset(dataset);
 
-        if(axes === axesPtr) {
-            return; // don't re-render if already done for this axes object.
-        } else {
-            axesPtr = axes;
-        }
+        var innerHTML = '',
+            $algoOptions = document.getElementById('auto-extract-algo-name');
 
         // Averaging Window
         if(!(axes instanceof wpd.BarAxes)) {
@@ -115,7 +102,7 @@ wpd.algoManager = (function() {
 
     function renderParameters(algo) {
         var $paramContainer = document.getElementById('algo-parameter-container'),
-            algoParams = algo.getParamList(wpd.appData.getPlotData().getAxesColl()[0]),
+            algoParams = algo.getParamList(axes),
             pi,
             tableString = "<table>";
 
@@ -133,37 +120,31 @@ wpd.algoManager = (function() {
 
     function run() {
         wpd.busyNote.show();
-        var fn = function () {
-            var autoDetector = wpd.appData.getPlotData().getAutoDetector(),
-                algo = autoDetector.algorithm,
-                repainter = new wpd.DataPointsRepainter(),
-                $paramFields = document.getElementsByClassName('algo-params'),
-                pi,
-                paramId, paramIndex,
-                ctx = wpd.graphicsWidget.getAllContexts(),
-                imageSize = wpd.graphicsWidget.getImageSize();
+        var autoDetector = wpd.appData.getPlotData().getAutoDetector(),
+            algo = autoDetector.algorithm,
+            repainter = new wpd.DataPointsRepainter(axes, dataset),
+            $paramFields = document.getElementsByClassName('algo-params'),
+            pi,
+            paramId, paramIndex,
+            ctx = wpd.graphicsWidget.getAllContexts(),
+            imageSize = wpd.graphicsWidget.getImageSize();
 
-            for(pi = 0; pi < $paramFields.length; pi++) {
-                paramId = $paramFields[pi].id;
-                paramIndex = parseInt(paramId.replace('algo-param-', ''), 10);
-                algo.setParam(paramIndex, parseFloat($paramFields[pi].value));
-            }
+        for(pi = 0; pi < $paramFields.length; pi++) {
+            paramId = $paramFields[pi].id;
+            paramIndex = parseInt(paramId.replace('algo-param-', ''), 10);
+            algo.setParam(paramIndex, parseFloat($paramFields[pi].value));
+        }
 
-            wpd.graphicsWidget.removeTool();
+        wpd.graphicsWidget.removeTool();
 
-            autoDetector.imageData = ctx.oriImageCtx.getImageData(0, 0, imageSize.width, imageSize.height);
-            autoDetector.generateBinaryData();
-            wpd.graphicsWidget.setRepainter(repainter);
-            let plotData = wpd.appData.getPlotData();
-            let ds = wpd.tree.getActiveDataset();
-            let axes = plotData.getAxesColl()[0];
-            algo.run(autoDetector, ds, axes);
-            wpd.graphicsWidget.forceHandlerRepaint();
-            wpd.dataPointCounter.setCount();
-            wpd.busyNote.close();
-            return true;
-        };
-        setTimeout(fn, 10); // This is required for the busy note to work!
+        autoDetector.imageData = ctx.oriImageCtx.getImageData(0, 0, imageSize.width, imageSize.height);
+        autoDetector.generateBinaryData();
+        wpd.graphicsWidget.setRepainter(repainter);            
+        algo.run(autoDetector, dataset, axes);
+        wpd.graphicsWidget.forceHandlerRepaint();
+        wpd.dataPointCounter.setCount(dataset.getCount());
+        wpd.busyNote.close();
+        return true;    
     }
 
     return {
