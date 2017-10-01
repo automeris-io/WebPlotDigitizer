@@ -87,7 +87,8 @@ wpd.PlotData = class {
         // by default bind ds to last axes
         const axCount = this._axesColl.length;
         if(axCount > 0) {
-            this._objectAxesMap.set(ds, this._axesColl[axCount-1]);
+            let axes = this._axesColl[axCount-1];
+            this.setAxesForDataset(ds, axes);            
         }
     }
 
@@ -123,20 +124,20 @@ wpd.PlotData = class {
         }
     }
 
-    setAxesForDataset(ax, ds) {
+    setAxesForDataset(ds, ax) {
         this._objectAxesMap.set(ds, ax);
     }
 
-    setAxesForMeasurement(ax, ms) {
+    setAxesForMeasurement(ms, ax) {
         this._objectAxesMap.set(ms, ax);
     }
 
     getAxesForDataset(ds) {
-        this._objectAxesMap.get(ds);
+        return this._objectAxesMap.get(ds);
     }
 
     getAxesForMeasurement(ms) {
-        this._objectAxesMap.get(ms);
+        return this._objectAxesMap.get(ms);
     }
 
     deleteDataset(ds) {

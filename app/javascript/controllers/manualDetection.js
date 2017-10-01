@@ -23,22 +23,28 @@
 
 var wpd = wpd || {};
 wpd.acquireData = (function () {
+
+    var dataset, axes;
+
     function load() {
         if(!wpd.appData.isAligned()) {
             wpd.messagePopup.show(wpd.gettext('acquire-data'), wpd.gettext('acquire-data-calibration'));
         } else {
+            dataset = getActiveDataset();
+            axes = getAxes();
+
             wpd.graphicsWidget.removeTool();
             wpd.graphicsWidget.resetData();
             showSidebar();
             wpd.autoExtraction.start();
             wpd.dataPointCounter.setCount();
             wpd.graphicsWidget.removeTool();
-            wpd.graphicsWidget.setRepainter(new wpd.DataPointsRepainter());
+            wpd.graphicsWidget.setRepainter(new wpd.DataPointsRepainter(axes, dataset));
 
             manualSelection();
             
             wpd.graphicsWidget.forceHandlerRepaint();
-            wpd.dataPointCounter.setCount();
+            wpd.dataPointCounter.setCount(dataset.getCount());
         }
     }
 
@@ -47,21 +53,21 @@ wpd.acquireData = (function () {
     }
 
     function getAxes() {
-        return wpd.appData.getPlotData().getAxesColl()[0];
+        return wpd.appData.getPlotData().getAxesForDataset(getActiveDataset());
     }
 
     function manualSelection() {
-        var tool = new wpd.ManualSelectionTool();
+        var tool = new wpd.ManualSelectionTool(axes, dataset);
         wpd.graphicsWidget.setTool(tool);
     }
 
     function deletePoint() {
-        var tool = new wpd.DeleteDataPointTool();
+        var tool = new wpd.DeleteDataPointTool(axes, dataset);
         wpd.graphicsWidget.setTool(tool);
     }
 
     function confirmedClearAll() {
-        getActiveDataset().clearAll();
+        dataset.clearAll();
         wpd.graphicsWidget.removeTool();
         wpd.graphicsWidget.resetData();
         wpd.dataPointCounter.setCount();
@@ -69,14 +75,14 @@ wpd.acquireData = (function () {
     }
 
     function clearAll() {
-        if(getActiveDataset().getCount() <= 0) {
+        if(dataset.getCount() <= 0) {
             return;
         }
         wpd.okCancelPopup.show(wpd.gettext('clear-data-points'), wpd.gettext('clear-data-points-text'), confirmedClearAll, function() {});
     }
 
     function undo() {
-        getActiveDataset().removeLastPixel();
+        dataset.removeLastPixel();
         wpd.graphicsWidget.resetData();
         wpd.graphicsWidget.forceHandlerRepaint();
         wpd.dataPointCounter.setCount();
@@ -89,8 +95,7 @@ wpd.acquireData = (function () {
     }
 
     function updateControlVisibility() {
-        var axes = getAxes(),
-            $editLabelsBtn = document.getElementById('edit-data-labels');
+        var $editLabelsBtn = document.getElementById('edit-data-labels');
         if(axes instanceof wpd.BarAxes) {
             $editLabelsBtn.style.display = 'inline-block';
         } else {
@@ -99,11 +104,11 @@ wpd.acquireData = (function () {
     }
 
     function adjustPoints() {
-        wpd.graphicsWidget.setTool(new wpd.AdjustDataPointTool());
+        wpd.graphicsWidget.setTool(new wpd.AdjustDataPointTool(axes, dataset));
     }
 
     function editLabels() {
-        wpd.graphicsWidget.setTool(new wpd.EditLabelsTool());
+        wpd.graphicsWidget.setTool(new wpd.EditLabelsTool(axes, dataset));
     }
 
     function switchToolOnKeyPress(alphaKey) {
@@ -153,12 +158,12 @@ wpd.dataPointLabelEditor = (function() {
 
     var ds, ptIndex, tool;
     
-    function show(dataSeries, pointIndex, initTool) {
-        var pixel = dataSeries.getPixel(pointIndex),
+    function show(dataset, pointIndex, initTool) {
+        var pixel = dataset.getPixel(pointIndex),
             originalLabel = pixel.metadata[0],
             $labelField;
         
-        ds = dataSeries;
+        ds = dataset;
         ptIndex = pointIndex;
         tool = initTool;
 

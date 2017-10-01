@@ -373,15 +373,13 @@ wpd.alignAxes = (function () {
         wpd.graphicsWidget.resetData();
         if(!calibrator.align()) {
             return;
-        }
-        wpd.appData.isAligned(true);        
+        }        
         wpd.tree.refresh();
         let dsNameColl = wpd.appData.getPlotData().getDatasetNames();
         if(dsNameColl.length > 0) {
-            let dsName = dsNameColl[0].name;
-            wpd.tree.selectPath("/"+wpd.gettext("datasets")+"/"+dsName,true);
-        }
-        wpd.acquireData.load();
+            let dsName = dsNameColl[0];
+            wpd.tree.selectPath("/"+wpd.gettext("datasets")+"/"+dsName);
+        }        
     }
 
     function editAlignment() {
