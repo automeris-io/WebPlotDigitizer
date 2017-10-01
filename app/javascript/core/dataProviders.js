@@ -27,42 +27,25 @@ wpd.plotDataProvider = (function() {
 
     let _ds = null;
 
-    function getDatasetNames() {
-        var plotData = wpd.appData.getPlotData(),
-            datasetNames = [],
-            di;
-        for(di = 0; di < plotData.dataSeriesColl.length; di++) {
-            datasetNames[di] = plotData.dataSeriesColl[di].name;
-        }
-        return datasetNames;
-    }
-
-    function getDatasetIndex() {
-        return _dsIdx;
-    }
-
     function setDataset(ds) {
         _ds = ds;
     }
 
     function getData() {
-        var axes = wpd.appData.getPlotData().axes;
+        var axes = wpd.appData.getPlotData().getAxesForDataset(_ds);
 
         if(axes instanceof wpd.BarAxes) {
-            return getBarAxesData();
+            return getBarAxesData(_ds, axes);
         } else {
-            return getGeneralAxesData();
+            return getGeneralAxesData(_ds, axes);
         }
     }
 
-    function getBarAxesData() {
+    function getBarAxesData(dataSeries, axes) {
         var fields = [],
             fieldDateFormat = [],
             rawData = [],
             isFieldSortable = [],
-            plotData = wpd.appData.getPlotData(),
-            dataSeries = plotData.dataSeriesColl[_dsIdx],
-            axes = plotData.axes,
             rowi, coli,
             dataPt,
             transformedDataPt,
@@ -96,17 +79,14 @@ wpd.plotDataProvider = (function() {
             rawData: rawData,
             allowConnectivity: false,
             connectivityFieldIndices: [],
-            isFieldSortable: isFieldSortable
+            isFieldSortable: isFieldSortable            
         };
     }
 
-    function getGeneralAxesData() {
+    function getGeneralAxesData(dataSeries, axes) {
         // 2D XY, Polar, Ternary, Image, Map
 
-        var plotData = wpd.appData.getPlotData(),
-            dataSeries = plotData.dataSeriesColl[_dsIdx],
-            axes = plotData.axes,
-            fields = [],
+        var fields = [],
             fieldDateFormat = [],
             connectivityFieldIndices = [],
             rawData = [],
@@ -170,8 +150,7 @@ wpd.plotDataProvider = (function() {
     }
 
     return {
-        getDatasetNames: getDatasetNames,
-        getDatasetIndex: getDatasetIndex,        
+        setDataset: setDataset,
         getData: getData
     };
 })();
