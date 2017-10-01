@@ -31,18 +31,27 @@ wpd.measurementModes = {
         deleteButtonId: 'delete-pair-button',
         sidebarId: 'measure-distances-sidebar',
         init: function() {
-            var plotData = wpd.appData.getPlotData();
-            if(plotData.distanceMeasurementData == null) {
-                plotData.distanceMeasurementData = new wpd.ConnectedPoints(2);
+            let plotData = wpd.appData.getPlotData();
+            if(plotData.getMeasurementsByType(wpd.DistanceMeasurement).length == 0) {
+                plotData.addMeasurement(new wpd.DistanceMeasurement());
             }
         },
         clear: function() {
-            var plotData = wpd.appData.getPlotData();
-            plotData.distanceMeasurementData = new wpd.ConnectedPoints(2);
+            let plotData = wpd.appData.getPlotData();
+            let distMeasures = plotData.getMeasurementsByType(wpd.DistanceMeasurement);
+            distMeasures.forEach(m => {
+                m.clearAll();
+            });
         },
         getData: function() {
-            var plotData = wpd.appData.getPlotData();
-            return plotData.distanceMeasurementData;
+            let plotData = wpd.appData.getPlotData();
+            let distMeasures = plotData.getMeasurementsByType(wpd.DistanceMeasurement);
+            return distMeasures[0];
+        },
+        getAxes: function() {
+            let plotData = wpd.appData.getPlotData();
+            let distMeasures = plotData.getMeasurementsByType(wpd.DistanceMeasurement);
+            return plotData.getAxesForMeasurement(distMeasures[0]);
         }
     },
     angle: {
@@ -52,60 +61,22 @@ wpd.measurementModes = {
         deleteButtonId: 'delete-angle-button',
         sidebarId: 'measure-angles-sidebar',
         init: function() {
-            var plotData = wpd.appData.getPlotData();
-            if(plotData.angleMeasurementData == null) {
-                plotData.angleMeasurementData = new wpd.ConnectedPoints(3);
+            let plotData = wpd.appData.getPlotData();
+            if(plotData.getMeasurementsByType(wpd.AngleMeasurement).length == 0) {
+                plotData.addMeasurement(new wpd.AngleMeasurement());
             }
         },
         clear: function() {
-            var plotData = wpd.appData.getPlotData();
-            plotData.angleMeasurementData = new wpd.ConnectedPoints(3);
+            let plotData = wpd.appData.getPlotData();
+            let angleMeasures = plotData.getMeasurementsByType(wpd.AngleMeasurement);
+            angleMeasures.forEach(m => {
+                m.clearAll();
+            });
         },
         getData: function() {
-            var plotData = wpd.appData.getPlotData();
-            return plotData.angleMeasurementData;
-        }
-    },
-    openPath: {
-        name: 'open-path',
-        connectivity: -1,
-        addButtonId: 'add-open-path-button',
-        deleteButtonId: 'delete-open-path-button',
-        sidebarId: 'measure-open-path-sidebar',
-        init: function() {
-            var plotData = wpd.appData.getPlotData();
-            if(plotData.openPathMeasurementData == null) {
-                plotData.openPathMeasurementData = new wpd.ConnectedPoints();
-            }
-        },
-        clear: function() {
-            var plotData = wpd.appData.getPlotData();
-            plotData.openPathMeasurementData = new wpd.ConnectedPoints();
-        },
-        getData: function() {
-            var plotData = wpd.appData.getPlotData();
-            return plotData.openPathMeasurementData;
-        }
-    },
-    closedPath: {
-        name: 'closed-path',
-        connectivity: -1,
-        addButtonId: 'add-closed-path-button',
-        deleteButtonId: 'delete-closed-path-button',
-        sidebarId: 'measure-closed-path-sidebar',
-        init: function() {
-            var plotData = wpd.appData.getPlotData();
-            if(plotData.closedPathMeasurementData == null) {
-                plotData.closedPathMeasurementData = new wpd.ConnectedPoints();
-            }
-        },
-        clear: function() {
-            var plotData = wpd.appData.getPlotData();
-            plotData.closedPathMeasurementData = new wpd.ConnectedPoints();
-        },
-        getData: function() {
-            var plotData = wpd.appData.getPlotData();
-            return plotData.closedPathMeasurementData;
+            let plotData = wpd.appData.getPlotData();
+            let angleMeasures = plotData.getMeasurementsByType(wpd.AngleMeasurement);
+            return angleMeasures[0];
         }
     }
 };
