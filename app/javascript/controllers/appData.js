@@ -25,10 +25,12 @@ var wpd = wpd || {};
 // maintain and manage current state of the application
 wpd.appData = (function () {
     let plotData;
+    let backupImageData = null;
 
     function reset() {
         isAligned = false;
         plotData = null;
+        backupImageData = null;
     }
 
     function getPlotData() {
@@ -50,6 +52,7 @@ wpd.appData = (function () {
         isAligned: isAligned,
         getPlotData: getPlotData,
         reset: reset,
-        plotLoaded: plotLoaded        
+        plotLoaded: plotLoaded,
+        backupImageData: backupImageData       
     };
 })();

@@ -141,8 +141,8 @@ wpd.gridDetection = (function () {
             backgroundMode = document.getElementById('grid-background-mode').checked,
             plotData = wpd.appData.getPlotData();
         
-        if(plotData.backupImageData == null) {
-            plotData.backupImageData = ctx.oriImageCtx.getImageData(0, 0, imageSize.width, imageSize.height);
+        if(wpd.appData.backupImageData == null) {
+            wpd.appData.backupImageData = ctx.oriImageCtx.getImageData(0, 0, imageSize.width, imageSize.height);
         }
 
         autoDetector.imageData = ctx.oriImageCtx.getImageData(0, 0, imageSize.width, imageSize.height);
@@ -163,7 +163,7 @@ wpd.gridDetection = (function () {
     }
 
     function resetImageOp(idata, width, height) {
-        var bkImg = wpd.appData.getPlotData().backupImageData,
+        var bkImg = wpd.appData.backupImageData,
             i;
 
         for(i = 0; i < bkImg.data.length; i++) {
