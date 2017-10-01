@@ -111,10 +111,26 @@ wpd.PlotData = class {
 
     addMeasurement(ms) {
         this._measurementColl.push(ms);
+
+        // if this is a distance measurement, then attach to fist existing image or map axes:
+        if(ms instanceof wpd.DistanceMeasurement && this._axesColl.length > 0) {
+            for(let aIdx = 0; aIdx < this._axesColl.length; aIdx++) {
+                if(this._axesColl[aIdx] instanceof wpd.MapAxes || this._axesColl[aIdx] instanceof wpd.ImageAxes) {
+                    this.setAxesForMeasurement(ms, this._axesColl[aIdx]);
+                    break;
+                }
+            }            
+        }
     }
 
-    getMeasurements() {
-        return this._measurementColl;
+    getMeasurementsByType(mtype) {
+        let mcoll = [];
+        this._measurementColl.forEach(m => {
+            if(m instanceof mtype) {
+                mcoll.push(m);
+            }
+        });
+        return mcoll;
     }
 
     deleteMeasurement(ms) {

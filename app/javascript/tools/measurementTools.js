@@ -127,8 +127,7 @@ wpd.AddMeasurementTool = (function () {
 
 wpd.DeleteMeasurementTool = (function () {
     var Tool = function (mode) {
-        var ctx = wpd.graphicsWidget.getAllContexts(),
-            plotData = wpd.appData.getPlotData();
+        var ctx = wpd.graphicsWidget.getAllContexts();
 
         this.onAttach = function () {
             document.getElementById(mode.deleteButtonId).classList.add('pressed-button');
@@ -294,7 +293,7 @@ wpd.MeasurementRepainter = (function () {
             },
             
             drawDistances = function () {
-                var distData = wpd.appData.getPlotData().distanceMeasurementData,
+                var distData = mode.getData(),
                     conn_count = distData.connectionCount(),
                     conni,
                     plist,
@@ -303,7 +302,7 @@ wpd.MeasurementRepainter = (function () {
                     spx0, spx1,
                     dist,
                     isSelected0, isSelected1,
-                    axes = wpd.appData.getPlotData().axes;
+                    axes = mode.getAxes();
 
                 for(conni = 0; conni < conn_count; conni++) {
                     plist = distData.getConnectionAt(conni);
@@ -331,7 +330,7 @@ wpd.MeasurementRepainter = (function () {
             },
             
             drawAngles = function () {
-                var angleData = wpd.appData.getPlotData().angleMeasurementData,
+                var angleData = mode.getData(),
                     conn_count = angleData.connectionCount(),
                     conni,
                     plist,

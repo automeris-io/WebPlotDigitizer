@@ -154,10 +154,12 @@ wpd.tree = (function() {
         treeData.push(datasetsFolder);
 
         let measurementItems = [];
-        if(plotData.angleMeasurementData != null) {
+        let distMeasures = plotData.getMeasurementsByType(wpd.DistanceMeasurement);
+        let angleMeasures = plotData.getMeasurementsByType(wpd.AngleMeasurement);
+        if(angleMeasures.length > 0) {
             measurementItems.push(wpd.gettext("angle"));
         }
-        if(plotData.distanceMeasurementData != null) {
+        if(distMeasures.length > 0) {
             measurementItems.push(wpd.gettext("distance"));
         }
         let measurementFolder = {};
