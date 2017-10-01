@@ -29,30 +29,32 @@ wpd.dataTable = (function () {
         dataCache,
         sortedData,
         tableText,
-        selectedDataset;
+        selectedDataset,
+        selectedMeasurement;
 
     var decSeparator = 1.1.toLocaleString().replace(/\d/g,'');
-
-    function getActiveDataset() {
-        return wpd.tree.getActiveDataset();
-    }
         
     function showPlotData() {
         dataProvider = wpd.plotDataProvider;
-        selectedDataset = getActiveDataset();
-        dataProvider.setDataset(selectedDataset);
+        selectedDataset = wpd.tree.getActiveDataset();
+        selectedMeasurement = null;
+        dataProvider.setDataSource(selectedDataset);
         show();
     }
 
     function showAngleData() {
         dataProvider = wpd.measurementDataProvider;
-        dataProvider.setDataSource('angle');
+        selectedMeasurement = wpd.appData.getPlotData().getMeasurementsByType(wpd.AngleMeasurement)[0];
+        selectedDataset = null;
+        dataProvider.setDataSource(selectedMeasurement);
         show();
     }
 
     function showDistanceData() {
         dataProvider = wpd.measurementDataProvider;
-        dataProvider.setDataSource('distance');
+        selectedMeasurement = wpd.appData.getPlotData().getMeasurementsByType(wpd.DistanceMeasurement)[0];
+        selectedDataset = null;
+        dataProvider.setDataSource(selectedMeasurement);        
         show();
     }
 
@@ -65,8 +67,9 @@ wpd.dataTable = (function () {
 
     function initializeColSeparator(){
         // avoid colSeparator === decSeparator
-        if(document.getElementById('data-number-format-separator').value.trim() === decSeparator)
+        if(document.getElementById('data-number-format-separator').value.trim() === decSeparator) {
             document.getElementById('data-number-format-separator').value = decSeparator === "," ? "; " : ", ";
+        }
     }
 
     function refresh() {
@@ -79,8 +82,7 @@ wpd.dataTable = (function () {
     function setupControls() {
 
         var $datasetControl = document.getElementById('data-table-dataset-control'),
-            $datasetList = document.getElementById('data-table-dataset-list'),
-            datasetNames = wpd.appData.getPlotData().getDatasetNames(),
+            $datasetList = document.getElementById('data-table-dataset-list'),            
             $sortingVariables = document.getElementById('data-sort-variables'),
             $variableNames = document.getElementById('dataVariables'),
             $dateFormattingContainer = document.getElementById('data-date-formatting-container'),
@@ -89,14 +91,31 @@ wpd.dataTable = (function () {
             datasetHTML = '',
             sortingHTML = '',
             dateFormattingHTML = '',
-            isAnyVariableDate = false;
+            isAnyVariableDate = false,
+            showDatasets = selectedDataset != null,
+            showMeasurements = selectedMeasurement != null;
 
-        // Datasets
-        datasetNames.forEach((name) => { datasetHTML += "<option>"+name+"</option>"; });
-        let selIdx = wpd.appData.getPlotData().getDatasets().indexOf(selectedDataset);
-        
-        $datasetList.innerHTML = datasetHTML;
-        $datasetList.selectedIndex = selIdx;
+        // gather names
+        let selIdx = 0;
+        if(showDatasets) {
+            let datasetNames = wpd.appData.getPlotData().getDatasetNames();            
+            datasetNames.forEach((name) => { datasetHTML += "<option value=\""+name+"\">"+name+"</option>"; });
+            $datasetList.innerHTML = datasetHTML;
+            $datasetList.value = selectedDataset.name;
+        } else if(showMeasurements) {
+            if(wpd.appData.getPlotData().getMeasurementsByType(wpd.AngleMeasurement).length > 0) {
+                datasetHTML += "<option value=\"angle\">" + wpd.gettext("angle-measurements") + "</option>";
+            }
+            if(wpd.appData.getPlotData().getMeasurementsByType(wpd.DistanceMeasurement).length > 0) {
+                datasetHTML += "<option value=\"distance\">" + wpd.gettext("distance-measurements") + "</option>";
+            }
+            $datasetList.innerHTML = datasetHTML;
+            if(selectedMeasurement instanceof wpd.AngleMeasurement) {
+                $datasetList.value = "angle";
+            } else if(selectedMeasurement instanceof wpd.DistanceMeasurement) {
+                $datasetList.value = "distance";
+            }
+        }
 
         // Variable Names
         $variableNames.innerHTML = dataCache.fields.join(', ');
@@ -132,8 +151,17 @@ wpd.dataTable = (function () {
 
     function changeDataset() {
         var $datasetList = document.getElementById('data-table-dataset-list');
-        selectedDataset = wpd.appData.getPlotData().getDatasets()[$datasetList.selectedIndex];
-        dataProvider.setDatasetIndex(selectedDataset);
+        if(selectedDataset != null) {
+            selectedDataset = wpd.appData.getPlotData().getDatasets()[$datasetList.selectedIndex];
+            dataProvider.setDataSource(selectedDataset);
+        } else if(selectedMeasurement != null) {
+            if($datasetList.value === "angle") {
+                selectedMeasurement = wpd.appData.getPlotData().getMeasurementsByType(wpd.AngleMeasurement)[0];
+            } else if($datasetList.value === "distance") {
+                selectedMeasurement = wpd.appData.getPlotData().getMeasurementsByType(wpd.DistanceMeasurement)[0];
+            }
+            dataProvider.setDataSource(selectedMeasurement);
+        }        
         refresh();
     }
 
@@ -288,7 +316,7 @@ wpd.dataTable = (function () {
     }
 
     function generateCSV() {
-        var datasetName = selectedDataset.name;
+        var datasetName = selectedDataset != null ? selectedDataset.name : ((selectedMeasurement instanceof wpd.AngleMeasurement) ? "angles" : "distances");
         wpd.download.csv(tableText, datasetName + ".csv");
     }
 
