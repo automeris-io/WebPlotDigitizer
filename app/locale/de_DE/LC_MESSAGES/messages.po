@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-10-01 00:34-0500\n"
+"POT-Creation-Date: 2017-10-01 02:58-0500\n"
 "PO-Revision-Date: 2017-01-11 20:47-0600\n"
 "Last-Translator: \n"
 "Language: de_DE\n"
@@ -1044,6 +1044,14 @@ msgstr ""
 
 #: templates/_strings.html:55
 msgid "Project"
+msgstr ""
+
+#: templates/_strings.html:56
+msgid "Distance Measurements"
+msgstr ""
+
+#: templates/_strings.html:57
+msgid "Angle Measurements"
 msgstr ""
 
 #: templates/_toolbars.html:3
