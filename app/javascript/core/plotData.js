@@ -62,6 +62,7 @@ wpd.PlotData = class {
         this._axesColl.forEach((ax) => {
             names.push(ax.name);
         });
+        return names;
     }
 
     deleteAxes(ax) {

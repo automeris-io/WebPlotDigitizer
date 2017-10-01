@@ -73,6 +73,7 @@ wpd.xyCalibration = (function () {
             wpd.messagePopup.show(wpd.gettext('calibration-invalid-inputs'), wpd.gettext('calibration-enter-valid'), getCornerValues);
             return false;
         }
+        axes.name = wpd.gettext("axes-name-xy");
         plot = wpd.appData.getPlotData();
         plot.addAxes(axes);        
         wpd.popup.close('xyAlignment');
@@ -127,6 +128,7 @@ wpd.barCalibration = (function () {
             wpd.messagePopup.show(wpd.gettext('calibration-invalid-inputs'), wpd.gettext('calibration-enter-valid'), getCornerValues);
             return false;
         }
+        axes.name = wpd.gettext("axes-name-bar");
         plot = wpd.appData.getPlotData();
         plot.addAxes(axes);        
         wpd.popup.close('barAlignment');
@@ -182,7 +184,7 @@ wpd.polarCalibration = (function () {
         _calibration.setDataAt(1, r1, theta1);
         _calibration.setDataAt(2, r2, theta2);
         axes.calibrate(_calibration, isDegrees, orientation, rlog);
-
+        axes.name = wpd.gettext("axes-name-polar");
         plot = wpd.appData.getPlotData();
         plot.addAxes(axes);        
         wpd.popup.close('polarAlignment');
@@ -231,6 +233,7 @@ wpd.ternaryCalibration = (function () {
             plot;
 
         axes.calibrate(_calibration, range100, ternaryNormal);
+        axes.name = wpd.gettext("axes-name-ternary");
         plot = wpd.appData.getPlotData();
         plot.addAxes(axes);
         wpd.popup.close('ternaryAlignment');
@@ -278,6 +281,7 @@ wpd.mapCalibration = (function () {
             plot;
 
         axes.calibrate(_calibration, scaleLength, scaleUnits);
+        axes.name = wpd.gettext("axes-name-map");
         plot = wpd.appData.getPlotData();
         plot.addAxes(axes);        
         wpd.popup.close('mapAlignment');
@@ -337,6 +341,7 @@ wpd.alignAxes = (function () {
             calibration = null;
             calibrator = null;
             var imageAxes = new wpd.ImageAxes();
+            imageAxes.name = wpd.gettext("axes-name-image")
             imageAxes.calibrate();
             wpd.appData.getPlotData().addAxes(imageAxes);
             wpd.tree.refresh();
