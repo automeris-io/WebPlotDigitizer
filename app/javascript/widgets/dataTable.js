@@ -28,12 +28,19 @@ wpd.dataTable = (function () {
     var dataProvider,
         dataCache,
         sortedData,
-        tableText;
+        tableText,
+        selectedDataset;
+
     var decSeparator = 1.1.toLocaleString().replace(/\d/g,'');
-    
+
+    function getActiveDataset() {
+        return wpd.tree.getActiveDataset();
+    }
+        
     function showPlotData() {
         dataProvider = wpd.plotDataProvider;
-        dataProvider.setDatasetIndex(wpd.appData.getPlotData().getActiveDataSeriesIndex());
+        selectedDataset = getActiveDataset();
+        dataProvider.setDataset(selectedDataset);
         show();
     }
 
@@ -73,7 +80,7 @@ wpd.dataTable = (function () {
 
         var $datasetControl = document.getElementById('data-table-dataset-control'),
             $datasetList = document.getElementById('data-table-dataset-list'),
-            datasetNames = dataProvider.getDatasetNames(),
+            datasetNames = wpd.appData.getPlotData().getDatasetNames(),
             $sortingVariables = document.getElementById('data-sort-variables'),
             $variableNames = document.getElementById('dataVariables'),
             $dateFormattingContainer = document.getElementById('data-date-formatting-container'),
@@ -85,11 +92,11 @@ wpd.dataTable = (function () {
             isAnyVariableDate = false;
 
         // Datasets
-        for (i = 0; i < datasetNames.length; i++) {
-            datasetHTML += '<option>' + datasetNames[i] + '</option>';
-        }
+        datasetNames.forEach((name) => { datasetHTML += "<option>"+name+"</option>"; });
+        let selIdx = wpd.appData.getPlotData().getDatasets().indexOf(selectedDataset);
+        
         $datasetList.innerHTML = datasetHTML;
-        $datasetList.selectedIndex = dataProvider.getDatasetIndex();
+        $datasetList.selectedIndex = selIdx;
 
         // Variable Names
         $variableNames.innerHTML = dataCache.fields.join(', ');
@@ -125,7 +132,8 @@ wpd.dataTable = (function () {
 
     function changeDataset() {
         var $datasetList = document.getElementById('data-table-dataset-list');
-        dataProvider.setDatasetIndex($datasetList.selectedIndex);
+        selectedDataset = wpd.appData.getPlotData().getDatasets()[$datasetList.selectedIndex];
+        dataProvider.setDatasetIndex(selectedDataset);
         refresh();
     }
 
@@ -280,7 +288,7 @@ wpd.dataTable = (function () {
     }
 
     function generateCSV() {
-        var datasetName = dataProvider.getDatasetNames()[dataProvider.getDatasetIndex()];
+        var datasetName = selectedDataset.name;
         wpd.download.csv(tableText, datasetName + ".csv");
     }
 
