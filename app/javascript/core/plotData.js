@@ -46,7 +46,7 @@ wpd.PlotData = class {
 
     addAxes(ax) {
         this._axesColl.push(ax);
-        if(this._axesColl.length == 1) {       
+        if(this._axesColl.length === 1 && this._dataSetColl.length === 0) {       
             let ds = new wpd.DataSeries();
             ds.name = "Default Dataset";
             this.addDataset(ds);

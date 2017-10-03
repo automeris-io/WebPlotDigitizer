@@ -212,12 +212,16 @@ wpd.tree = (function() {
         const axesNames = plotData.getAxesNames();
         const dsaxes = plotData.getAxesForDataset(activeDataset);
         const $selection = document.getElementById("dataset-item-axes-select");
-        let innerHTML = "";
+        let innerHTML = "<option value='-1'>None</option>";
         for(let axIdx = 0; axIdx < axesNames.length; axIdx++) {
             innerHTML += "<option value='" + axIdx + "'>" + axesNames[axIdx] + "</option>";
         }
         $selection.innerHTML = innerHTML;
-        $selection.value = axesNames.indexOf(dsaxes.name);
+        if(dsaxes == null) {
+            $selection.value = "-1";
+        } else {
+            $selection.value = axesNames.indexOf(dsaxes.name);
+        }
         activeAxes = dsaxes;
     }
 

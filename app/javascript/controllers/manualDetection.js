@@ -27,12 +27,12 @@ wpd.acquireData = (function () {
     var dataset, axes;
 
     function load() {
-        if(!wpd.appData.isAligned()) {
-            wpd.messagePopup.show(wpd.gettext('acquire-data'), wpd.gettext('acquire-data-calibration'));
-        } else {
-            dataset = getActiveDataset();
-            axes = getAxes();
+        dataset = getActiveDataset();
+        axes = getAxes();
 
+        if(axes == null) {
+            wpd.messagePopup.show(wpd.gettext('dataset-no-calibration'), wpd.gettext('calibrate-dataset'));
+        } else {            
             wpd.graphicsWidget.removeTool();
             wpd.graphicsWidget.resetData();
             showSidebar();
