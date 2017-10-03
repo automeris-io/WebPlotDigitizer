@@ -133,10 +133,12 @@ wpd.dataSeriesManagement = (function () {
         const axesColl = plotData.getAxesColl();
         const ds = wpd.tree.getActiveDataset();
         axIdx = parseInt(axIdx, 10);
-        if(axIdx >= 0 && axIdx < axesColl.length) {
-            plotData.setAxesForDataset(ds, axesColl[axIdx]);
-            wpd.tree.refreshPreservingSelection(true);
+        if(axIdx === -1) {
+            plotData.setAxesForDataset(ds, null);            
+        } else if(axIdx >= 0 && axIdx < axesColl.length) {
+            plotData.setAxesForDataset(ds, axesColl[axIdx]);            
         }
+        wpd.tree.refreshPreservingSelection(true);
     }
 
     return {
