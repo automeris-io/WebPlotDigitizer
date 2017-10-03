@@ -45,7 +45,7 @@ wpd.MapAxes = (function () {
         };
 
         this.calibrate = function (calib, scale_length, scale_units) {
-            this.calibration = cal;
+            this.calibration = calib;
             isCalibrated = processCalibration(calib, scale_length, scale_units);
             return isCalibrated;
         };

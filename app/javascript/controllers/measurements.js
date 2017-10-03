@@ -52,6 +52,17 @@ wpd.measurementModes = {
             let plotData = wpd.appData.getPlotData();
             let distMeasures = plotData.getMeasurementsByType(wpd.DistanceMeasurement);
             return plotData.getAxesForMeasurement(distMeasures[0]);
+        },
+        changeAxes: function(axIdx) {
+            let plotData = wpd.appData.getPlotData();
+            let ms = plotData.getMeasurementsByType(wpd.DistanceMeasurement)[0];
+            let axesColl = plotData.getAxesColl();
+            if(axIdx == -1) {
+                plotData.setAxesForMeasurement(ms, null);
+            } else {
+                plotData.setAxesForMeasurement(ms, axesColl[axIdx]);
+            }
+            wpd.tree.refreshPreservingSelection(true);
         }
     },
     angle: {
@@ -109,10 +120,15 @@ wpd.measurement = (function () {
         activeMode.clear();
     }
 
+    function changeAxes(axIdx) {
+        activeMode.changeAxes(parseInt(axIdx, 10));
+    }
+
     return {
         start: start,
         addItem: addItem,
         deleteItem: deleteItem,
-        clearAll: clearAll
+        clearAll: clearAll,
+        changeAxes: changeAxes
     };
 })();

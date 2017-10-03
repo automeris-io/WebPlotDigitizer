@@ -260,13 +260,13 @@ wpd.mapCalibration = (function () {
     }
 
     function reload() {
-        var tool = new wpd.AxesCornersTool(2, true, _calibration);
+        var tool = new wpd.AxesCornersTool(_calibration, true);
         wpd.graphicsWidget.setTool(tool);
     }
 
     function pickCorners() {
         wpd.popup.close('mapAxesInfo');
-        var tool = new wpd.AxesCornersTool(2, false, _calibration);
+        var tool = new wpd.AxesCornersTool(_calibration, false);
         wpd.graphicsWidget.setTool(tool);
     }
 

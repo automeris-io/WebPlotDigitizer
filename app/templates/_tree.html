@@ -41,6 +41,7 @@
     <div id="dataset-item-tree-widget" class="tree-widget" style="flex: 0 0 100px;">
         <p class="sidebar-title">{{ _("Dataset") }}</p>
         <center>
+        <p>{{ _("Axes") }}: <select id="dataset-item-axes-select" style="min-width:100px; max-width:150px;" onchange="wpd.dataSeriesManagement.changeAxes(this.value);"></select></p>
         <p><input type="button" value="{{ _("Rename Dataset") }}" style="width:150px;" onclick="wpd.dataSeriesManagement.showRenameDataset();"/></p>
         <p><input type="button" value="{{ _("Delete Dataset") }}" style="width:150px;" onclick="wpd.dataSeriesManagement.deleteDataset();"/></p>
         <p><input type="button" value="{{ _("View Data") }}" style="width:150px;" onclick="wpd.dataTable.showTable();"/></p>
@@ -51,7 +52,8 @@
        
     <div id="distance-item-tree-widget" class="tree-widget" style="flex: 0 0 100px;">
         <p class="sidebar-title">{{ _("Distance") }}</p>
-        <center> 
+        <center>
+        <p>{{ _("Axes") }}: <select id="distance-item-axes-select" style="min-width:100px; max-width:150px;" onchange="wpd.measurement.changeAxes(this.value);"></select></p> 
         <p><input type="button" value="{{ _("Clear All") }}" style="width:150px;" onclick="wpd.measurement.clearAll();"/></p>
         <p><input type="button" value="{{ _("View Data") }}" style="width:150px;" onclick="wpd.dataTable.showDistanceData();"/></p>
         </center>

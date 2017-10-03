@@ -128,12 +128,24 @@ wpd.dataSeriesManagement = (function () {
         });
     }
 
+    function changeAxes(axIdx) {
+        const plotData = wpd.appData.getPlotData();
+        const axesColl = plotData.getAxesColl();
+        const ds = wpd.tree.getActiveDataset();
+        axIdx = parseInt(axIdx, 10);
+        if(axIdx >= 0 && axIdx < axesColl.length) {
+            plotData.setAxesForDataset(ds, axesColl[axIdx]);
+            wpd.tree.refreshPreservingSelection(true);
+        }
+    }
+
     return {
         showAddDataset: showAddDataset,
         showRenameDataset: showRenameDataset,
         renameDataset: renameDataset,
         addSingleDataset: addSingleDataset,
         addMultipleDatasets: addMultipleDatasets,
-        deleteDataset: deleteDataset
+        deleteDataset: deleteDataset,
+        changeAxes: changeAxes
     };
 })();
