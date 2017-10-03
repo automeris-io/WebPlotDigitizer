@@ -31,8 +31,7 @@ wpd.AddMeasurementTool = (function () {
             plist = [];
 
         this.onAttach = function () {
-            document.getElementById(mode.addButtonId).classList.add('pressed-button');
-            wpd.graphicsWidget.setRepainter(new wpd.MeasurementRepainter(mode));
+            document.getElementById(mode.addButtonId).classList.add('pressed-button');            
         };
 
         this.onRemove = function () {
@@ -130,8 +129,7 @@ wpd.DeleteMeasurementTool = (function () {
         var ctx = wpd.graphicsWidget.getAllContexts();
 
         this.onAttach = function () {
-            document.getElementById(mode.deleteButtonId).classList.add('pressed-button');
-            wpd.graphicsWidget.setRepainter(new wpd.MeasurementRepainter(mode));
+            document.getElementById(mode.deleteButtonId).classList.add('pressed-button');            
         };
 
         this.onRemove = function () {
@@ -163,8 +161,7 @@ wpd.DeleteMeasurementTool = (function () {
 
 wpd.AdjustMeasurementTool = (function () {
     var Tool = function (mode) {
-        this.onAttach = function () {
-            wpd.graphicsWidget.setRepainter(new wpd.MeasurementRepainter(mode));
+        this.onAttach = function () {            
         };
 
         this.onMouseClick = function (ev, pos, imagePos) {
@@ -371,8 +368,7 @@ wpd.MeasurementRepainter = (function () {
 
         this.painterName = 'measurementRepainter-'+mode.name;
 
-        this.onAttach = function () {
-            wpd.graphicsWidget.resetData();
+        this.onAttach = function () {            
         };
 
         this.onRedraw = function () {

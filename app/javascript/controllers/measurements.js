@@ -102,16 +102,19 @@ wpd.measurement = (function () {
         mode.init();
         wpd.sidebar.show(mode.sidebarId);
         wpd.graphicsWidget.setTool(new wpd.AddMeasurementTool(mode));
+        wpd.graphicsWidget.setRepainter(new wpd.MeasurementRepainter(mode));
         wpd.graphicsWidget.forceHandlerRepaint();
         activeMode = mode;
     }
 
     function addItem() {
-        wpd.graphicsWidget.setTool(new wpd.AddMeasurementTool(activeMode));
+        wpd.graphicsWidget.setRepainter(new wpd.MeasurementRepainter(activeMode));
+        wpd.graphicsWidget.setTool(new wpd.AddMeasurementTool(activeMode));        
     }
 
     function deleteItem() {
-        wpd.graphicsWidget.setTool(new wpd.DeleteMeasurementTool(activeMode));
+        wpd.graphicsWidget.setRepainter(new wpd.MeasurementRepainter(activeMode));
+        wpd.graphicsWidget.setTool(new wpd.DeleteMeasurementTool(activeMode));        
     }
 
     function clearAll() {
