@@ -198,6 +198,7 @@ wpd.tree = (function() {
             activeDataset = plotData.getDatasets()[dsIdx];            
             // refresh UI
             if(!suppressSecondaryActions) {
+                resetGraphics();
                 wpd.acquireData.load();    
             }            
         }        
