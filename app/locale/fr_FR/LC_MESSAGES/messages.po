@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-10-01 02:58-0500\n"
+"POT-Creation-Date: 2017-10-02 23:15-0500\n"
 "PO-Revision-Date: 2017-05-16 22:52-0500\n"
 "Last-Translator: \n"
 "Language: fr_FR\n"
@@ -629,7 +629,7 @@ msgstr ""
 msgid "Add Multiple Datasets"
 msgstr ""
 
-#: templates/_popups.html:458 templates/_tree.html:44
+#: templates/_popups.html:458 templates/_tree.html:45
 msgid "Rename Dataset"
 msgstr ""
 
@@ -715,7 +715,7 @@ msgid "Click to change color"
 msgstr "Cliquez pour changer la couleur"
 
 #: templates/_sidebars.html:24 templates/_strings.html:47
-#: templates/_tree.html:36 templates/_tree.html:53
+#: templates/_tree.html:36 templates/_tree.html:54
 msgid "Distance"
 msgstr "Distance"
 
@@ -944,7 +944,7 @@ msgstr "Gérer les Ensembles de Données"
 msgid "Please calibrate the axes before managing datasets."
 msgstr "Veuillez étalonner les axes avant de gérer les ensembles de données."
 
-#: templates/_strings.html:27 templates/_tree.html:45
+#: templates/_strings.html:27 templates/_tree.html:46
 msgid "Delete Dataset"
 msgstr "Supprimer L'ensemble de Données"
 
@@ -1017,10 +1017,11 @@ msgid "Measurements"
 msgstr ""
 
 #: templates/_strings.html:46 templates/_tree.html:8 templates/_tree.html:18
+#: templates/_tree.html:44 templates/_tree.html:56
 msgid "Axes"
 msgstr "Axes"
 
-#: templates/_strings.html:48 templates/_tree.html:37 templates/_tree.html:61
+#: templates/_strings.html:48 templates/_tree.html:37 templates/_tree.html:63
 msgid "Angle"
 msgstr ""
 
@@ -1096,19 +1097,19 @@ msgstr ""
 msgid "Export All Data"
 msgstr ""
 
-#: templates/_tree.html:46 templates/_tree.html:56 templates/_tree.html:64
+#: templates/_tree.html:47 templates/_tree.html:58 templates/_tree.html:66
 msgid "View Data"
 msgstr "Voir les Données"
 
-#: templates/_tree.html:47
+#: templates/_tree.html:48
 msgid "Clear Data"
 msgstr ""
 
-#: templates/_tree.html:48
+#: templates/_tree.html:49
 msgid "Data Points"
 msgstr "Points de Données"
 
-#: templates/_tree.html:55 templates/_tree.html:63
+#: templates/_tree.html:57 templates/_tree.html:65
 msgid "Clear All"
 msgstr "Effacer Tout"
 
