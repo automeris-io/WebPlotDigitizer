@@ -105,7 +105,9 @@ input[type="button"].pressed-button, button.pressed-button {
 input[type="button"]:focus, button:focus {
     outline-width: 0;
 }
-
+input[type="button"]:disabled {
+	color: grey;
+}
 /* Sort of a hack to make button look right in Firefox */
 input[type="button"]::-moz-focus-inner {
 	margin-top: -1px;

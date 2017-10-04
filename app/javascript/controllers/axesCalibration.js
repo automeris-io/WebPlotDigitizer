@@ -76,7 +76,7 @@ wpd.XYAxesCalibrator = class extends wpd.AxesCalibrator {
             wpd.messagePopup.show(wpd.gettext('calibration-invalid-inputs'), wpd.gettext('calibration-enter-valid'), wpd.alignAxes.getCornerValues);
             return false;
         }
-        axes.name = wpd.gettext("axes-name-xy");
+        axes.name = wpd.alignAxes.makeAxesName(wpd.XYAxes);
         plot = wpd.appData.getPlotData();
         plot.addAxes(axes);        
         wpd.popup.close('xyAlignment');
@@ -115,7 +115,7 @@ wpd.BarAxesCalibrator = class extends wpd.AxesCalibrator {
             wpd.messagePopup.show(wpd.gettext('calibration-invalid-inputs'), wpd.gettext('calibration-enter-valid'), wpd.alignAxes.getCornerValues);
             return false;
         }
-        axes.name = wpd.gettext("axes-name-bar");
+        axes.name = wpd.alignAxes.makeAxesName(wpd.BarAxes);
         plot = wpd.appData.getPlotData();
         plot.addAxes(axes);        
         wpd.popup.close('barAlignment');
@@ -156,7 +156,7 @@ wpd.PolarAxesCalibrator = class extends wpd.AxesCalibrator {
         this._calibration.setDataAt(1, r1, theta1);
         this._calibration.setDataAt(2, r2, theta2);
         axes.calibrate(this._calibration, isDegrees, orientation, rlog);
-        axes.name = wpd.gettext("axes-name-polar");
+        axes.name = wpd.alignAxes.makeAxesName(wpd.PolarAxes);
         plot = wpd.appData.getPlotData();
         plot.addAxes(axes);        
         wpd.popup.close('polarAlignment');
@@ -189,7 +189,7 @@ wpd.TernaryAxesCalibrator = class extends wpd.AxesCalibrator {
             plot;
 
         axes.calibrate(this._calibration, range100, ternaryNormal);
-        axes.name = wpd.gettext("axes-name-ternary");
+        axes.name = wpd.alignAxes.makeAxesName(wpd.TernaryAxes);
         plot = wpd.appData.getPlotData();
         plot.addAxes(axes);
         wpd.popup.close('ternaryAlignment');
@@ -221,7 +221,7 @@ wpd.MapAxesCalibrator = class extends wpd.AxesCalibrator {
             plot;
 
         axes.calibrate(this._calibration, scaleLength, scaleUnits);
-        axes.name = wpd.gettext("axes-name-map");
+        axes.name = wpd.alignAxes.makeAxesName(wpd.MapAxes);
         plot = wpd.appData.getPlotData();
         plot.addAxes(axes);        
         wpd.popup.close('mapAlignment');
@@ -271,8 +271,8 @@ wpd.alignAxes = (function () {
         } else if(imageEl.checked === true) {
             calibration = null;
             calibrator = null;
-            var imageAxes = new wpd.ImageAxes();
-            imageAxes.name = wpd.gettext("axes-name-image")
+            var imageAxes = new wpd.ImageAxes();            
+            imageAxes.name = wpd.alignAxes.makeAxesName(wpd.ImageAxes);
             imageAxes.calibrate();
             wpd.appData.getPlotData().addAxes(imageAxes);
             wpd.tree.refresh();
@@ -368,8 +368,54 @@ wpd.alignAxes = (function () {
         });
     }
 
-    function renameAxes() {
-        
+    function showRenameAxes() {
+        const axes = wpd.tree.getActiveAxes();        
+        const $axName = document.getElementById("rename-axes-name-input");
+        $axName.value = axes.name;
+        wpd.popup.show('rename-axes-popup');
+    }
+
+    function renameAxes() {        
+        const $axName = document.getElementById("rename-axes-name-input");
+        wpd.popup.close('rename-axes-popup');        
+        // check if this name already exists
+        const name = $axName.value.trim();
+        const plotData = wpd.appData.getPlotData();        
+        if(plotData.getAxesNames().indexOf(name) >= 0 || name.length === 0) {
+            wpd.messagePopup.show(wpd.gettext("rename-axes-error"), wpd.gettext("axes-exists-error"), showRenameAxes);
+            return;
+        }        
+        const axes = wpd.tree.getActiveAxes();
+        axes.name = name;
+        wpd.tree.refresh();
+        wpd.tree.selectPath("/"+wpd.gettext("axes")+"/"+name, true);
+    }
+
+    function makeAxesName(axType) {
+        const plotData = wpd.appData.getPlotData();
+        let name = "";
+        const existingAxesNames = plotData.getAxesNames();
+        if(axType === wpd.XYAxes) {
+            name = wpd.gettext("axes-name-xy");
+        } else if(axType === wpd.PolarAxes) {
+            name = wpd.gettext("axes-name-polar");
+        } else if(axType === wpd.MapAxes) {
+            name = wpd.gettext("axes-name-map");
+        } else if(axType === wpd.TernaryAxes) {
+            name = wpd.gettext("axes-name-ternary");
+        } else if(axType === wpd.BarAxes) {
+            name = wpd.gettext("axes-name-bar");
+        } else if(axType === wpd.ImageAxes) {
+            name = wpd.gettext("axes-name-image");
+        }
+        // avoid conflict with an existing name
+        let idx = 2;
+        let fullName = name;
+        while(existingAxesNames.indexOf(fullName) >= 0) {
+            fullName = name + " " + idx;
+            idx++;
+        }
+        return fullName;
     }
 
     return {
@@ -383,7 +429,9 @@ wpd.alignAxes = (function () {
         reloadCalibrationForEditing: reloadCalibrationForEditing,
         addCalibration: addCalibration,
         deleteCalibration: deleteCalibration,
-        renameAxes: renameAxes
+        showRenameAxes: showRenameAxes,
+        makeAxesName: makeAxesName,
+        renameAxes: renameAxes 
     };
 
 })();

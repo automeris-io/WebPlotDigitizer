@@ -51,8 +51,7 @@ wpd.dataSeriesManagement = (function () {
         wpd.popup.show('add-dataset-popup');
     }
 
-    function showRenameDataset() {
-        const plotData = wpd.appData.getPlotData();
+    function showRenameDataset() {        
         const ds = wpd.tree.getActiveDataset();
         const $dsName = document.getElementById('rename-dataset-name-input');
         $dsName.value = ds.name;

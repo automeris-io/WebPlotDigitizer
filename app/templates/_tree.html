@@ -17,8 +17,8 @@
     <div id="axes-item-tree-widget" class="tree-widget" style="flex: 0 0 100px;">
         <p class="sidebar-title">{{ _("Axes") }}</p>
         <center>
-        <p><input type="button" value="{{ _("Rename") }}" style="width:150px;" onclick="wpd.alignAxes.renameAxes();"/></p>
-        <p><input type="button" value="{{ _("Tweak Calibration") }}" style="width:150px;" onclick="wpd.alignAxes.reloadCalibrationForEditing();"/></p>
+        <p><input type="button" value="{{ _("Rename") }}" style="width:150px;" onclick="wpd.alignAxes.showRenameAxes();"/></p>
+        <p><input type="button" value="{{ _("Tweak Calibration") }}" style="width:150px;" onclick="wpd.alignAxes.reloadCalibrationForEditing();" id="tweak-axes-calibration-button"/></p>
         <p><input type="button" value="{{ _("Delete") }}" style="width:150px;" onclick="wpd.alignAxes.deleteCalibration();"/></p>
         <p><input type="button" value="{{ _("View Equations") }}" style="width:150px;" onclick="wpd.transformationEquations.show();"/></p>        
         </center>
