@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-10-03 01:40-0500\n"
+"POT-Creation-Date: 2017-10-03 21:05-0500\n"
 "PO-Revision-Date: 2016-12-18 10:38-0600\n"
 "Last-Translator: \n"
 "Language: ja\n"
@@ -41,7 +41,7 @@ msgid "Load new image"
 msgstr ""
 
 #: templates/_menubar.html:1 templates/_popups.html:88
-#: templates/_strings.html:52
+#: templates/_strings.html:54
 msgid "Image"
 msgstr ""
 
@@ -104,6 +104,7 @@ msgstr ""
 #: templates/_popups.html:402 templates/_popups.html:415
 #: templates/_popups.html:430 templates/_popups.html:442
 #: templates/_popups.html:453 templates/_popups.html:463
+#: templates/_popups.html:474
 msgid "Cancel"
 msgstr ""
 
@@ -299,7 +300,7 @@ msgstr ""
 msgid "Acquired Data"
 msgstr ""
 
-#: templates/_popups.html:216 templates/_strings.html:45
+#: templates/_popups.html:216 templates/_strings.html:47
 #: templates/_tree.html:44
 msgid "Dataset"
 msgstr ""
@@ -612,6 +613,7 @@ msgid "Add Dataset"
 msgstr ""
 
 #: templates/_popups.html:449 templates/_popups.html:461
+#: templates/_popups.html:472
 msgid "Name"
 msgstr ""
 
@@ -631,8 +633,13 @@ msgstr ""
 msgid "Rename Dataset"
 msgstr ""
 
-#: templates/_popups.html:463 templates/_tree.html:20
+#: templates/_popups.html:463 templates/_popups.html:474
+#: templates/_tree.html:20
 msgid "Rename"
+msgstr ""
+
+#: templates/_popups.html:469
+msgid "Rename Axes"
 msgstr ""
 
 #: templates/_sidebars.html:3
@@ -709,7 +716,7 @@ msgstr ""
 msgid "Click to change color"
 msgstr ""
 
-#: templates/_sidebars.html:24 templates/_strings.html:49
+#: templates/_sidebars.html:24 templates/_strings.html:51
 #: templates/_tree.html:38 templates/_tree.html:56
 msgid "Distance"
 msgstr ""
@@ -995,63 +1002,71 @@ msgid "Dataset with this name already exists. Please pick a different name."
 msgstr ""
 
 #: templates/_strings.html:44
+msgid "Rename Axes Error!"
+msgstr ""
+
+#: templates/_strings.html:45
+msgid "Axes with this name already exists. Please pick a different name."
+msgstr ""
+
+#: templates/_strings.html:46
 msgid "Specify a valid number of datasets to add!"
 msgstr ""
 
-#: templates/_strings.html:46 templates/_tree.html:28
+#: templates/_strings.html:48 templates/_tree.html:28
 msgid "Datasets"
 msgstr ""
 
-#: templates/_strings.html:47 templates/_tree.html:36
+#: templates/_strings.html:49 templates/_tree.html:36
 msgid "Measurements"
 msgstr ""
 
-#: templates/_strings.html:48 templates/_tree.html:8 templates/_tree.html:18
+#: templates/_strings.html:50 templates/_tree.html:8 templates/_tree.html:18
 #: templates/_tree.html:46 templates/_tree.html:58
 msgid "Axes"
 msgstr ""
 
-#: templates/_strings.html:50 templates/_tree.html:39 templates/_tree.html:65
+#: templates/_strings.html:52 templates/_tree.html:39 templates/_tree.html:65
 msgid "Angle"
 msgstr ""
 
-#: templates/_strings.html:51
+#: templates/_strings.html:53
 msgid "XY"
 msgstr ""
 
-#: templates/_strings.html:53
+#: templates/_strings.html:55
 msgid "Bar"
 msgstr ""
 
-#: templates/_strings.html:54
+#: templates/_strings.html:56
 msgid "Polar"
 msgstr ""
 
-#: templates/_strings.html:55
+#: templates/_strings.html:57
 msgid "Ternary"
 msgstr ""
 
-#: templates/_strings.html:56
+#: templates/_strings.html:58
 msgid "Map"
 msgstr ""
 
-#: templates/_strings.html:57
+#: templates/_strings.html:59
 msgid "Project"
 msgstr ""
 
-#: templates/_strings.html:58
+#: templates/_strings.html:60
 msgid "Distance Measurements"
 msgstr ""
 
-#: templates/_strings.html:59
+#: templates/_strings.html:61
 msgid "Angle Measurements"
 msgstr ""
 
-#: templates/_strings.html:60
+#: templates/_strings.html:62
 msgid "Uncalibrated Dataset!"
 msgstr ""
 
-#: templates/_strings.html:61
+#: templates/_strings.html:63
 msgid "Assign an axes calibration to this dataset!"
 msgstr ""
 

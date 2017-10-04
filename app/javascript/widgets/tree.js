@@ -255,6 +255,8 @@ wpd.tree = (function() {
         const plotData = wpd.appData.getPlotData();
         const axIdx = plotData.getAxesNames().indexOf(axName);
         activeAxes = plotData.getAxesColl()[axIdx];
+        const $tweakButton = document.getElementById("tweak-axes-calibration-button");        
+        $tweakButton.disabled = activeAxes instanceof wpd.ImageAxes ? true : false;        
     }
 
     function onSelection(elem, path, suppressSecondaryActions) {

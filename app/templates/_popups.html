@@ -464,6 +464,17 @@
     </center>
     </div>
 
+    <!-- Rename axes -->
+    <div id="rename-axes-popup" class="popup" style="width:400px;">
+    <div class="popupheading">{{ _("Rename Axes") }}</div>
+    <center>
+    <br/>
+    <p>{{ _("Name") }}: <input type="text" id="rename-axes-name-input" value="Axes"/></p>
+    <br/>
+    <p><input type="button" value="{{ _("Rename") }}" onclick="wpd.alignAxes.renameAxes();"/> <input type="button" value="{{ _("Cancel") }}" onclick="wpd.popup.close('rename-axes-popup');"/></p>
+    </center>
+    </div>
+
     <!-- Unit testing -->
     {% if enableTesting == True %}
     <div id="tests-popup" class="popup" style="width:1000px;">
