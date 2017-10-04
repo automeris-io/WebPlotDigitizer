@@ -86,7 +86,7 @@ wpd.dataSeriesManagement = (function () {
         }
 
         const plotData = wpd.appData.getPlotData();
-        let ds = new wpd.DataSeries();
+        let ds = new wpd.Dataset();
         ds.name = $singleDatasetName.value.trim();
         plotData.addDataset(ds);        
         wpd.tree.refreshPreservingSelection();                
@@ -104,7 +104,7 @@ wpd.dataSeriesManagement = (function () {
             while(i < dsCount) {
                 let dsName = prefix + idx;
                 if(!datasetWithNameExists(dsName)) {
-                    let ds = new wpd.DataSeries();
+                    let ds = new wpd.Dataset();
                     ds.name = dsName;
                     plotData.addDataset(ds);
                     i++;
