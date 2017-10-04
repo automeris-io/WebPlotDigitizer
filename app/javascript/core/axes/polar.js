@@ -104,6 +104,10 @@ wpd.PolarAxes = (function () {
             return isClockwise;
         };
 
+        this.isRadialLog = function() {
+            return isLog;
+        };
+
         this.pixelToData = function(pxi, pyi) {
             var data = [],
                 rp,

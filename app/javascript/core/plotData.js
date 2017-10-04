@@ -268,16 +268,117 @@ wpd.PlotData = class {
     }
 
     _deserializeVersion4(data) {
+        // axes data
+        if(data.axesColl != null) {
+            for(let axIdx = 0; axIdx < data.axesColl.length; axIdx++) {
+                const axData = data.axesColl[axIdx];
+
+                // get calibration
+                let calibration = null;
+                if(axData.type !== "ImageAxes") {
+                    if(axData.type === "TernaryAxes") {
+                        calibration = new wpd.Calibration(3);
+                    } else {
+                        calibration = new wpd.Calibration(2);
+                    }
+                    for(let calIdx = 0; calIdx < axData.calibrationPoints.length; calIdx++) {
+                        calibration.addPoint(
+                            axData.calibrationPoints[calIdx].px,
+                            axData.calibrationPoints[calIdx].py,
+                            axData.calibrationPoints[calIdx].dx,
+                            axData.calibrationPoints[calIdx].dy,
+                            axData.calibrationPoints[calIdx].dz
+                        );
+                    }
+                }
+
+                // create axes
+                let axes = null;
+                if(axData.type === "XYAxes") {
+                    axes = new wpd.XYAxes();            
+                    axes.calibrate(calibration, axData.isLogX, axData.isLogY);
+                } else if(axData.type === "BarAxes") {
+                    axes = new wpd.BarAxes();
+                    axes.calibrate(calibration, axData.isLog);
+                } else if(axData.type === "PolarAxes") {
+                    axes = new wpd.PolarAxes();
+                    axes.calibrate(calibration, axData.isDegrees, axData.isClockwise, axData.isLog);
+                } else if(axData.type === "TernaryAxes") {
+                    axes = new wpd.TernaryAxes();
+                    axes.calibrate(calibration, axData.isRange100, axData.isNormalOrientation);
+                } else if(axData.type === "MapAxes") {
+                    axes = new wpd.MapAxes();
+                    axes.calibrate(calibration, axData.scaleLength, axData.unitString);
+                } else if(axData.type === "ImageAxes") {
+                    axes = new wpd.ImageAxes();            
+                }                
+
+                if(axes != null) {
+                    axes.name = axData.name;
+                    this._axesColl.push(axes);
+                }
+            }
+        }
+
+        // datasets
+        if(data.datasetColl != null) {
+            for(let dsIdx = 0; dsIdx < data.datasetColl.length; dsIdx++) {
+                const dsData = data.datasetColl[dsIdx];
+                let ds = new wpd.Dataset();
+                ds.name = dsData.name;
+                if(dsData.metadataKeys != null) {
+                    ds.setMetadataKeys(dsData.metadataKeys);
+                }
+                for(let pxIdx = 0; pxIdx < dsData.data.length; pxIdx++) {
+                    ds.addPixel(dsData.data[pxIdx].x, dsData.data[pxIdx].y, dsData.data[pxIdx].metadata);
+                }
+                this._datasetColl.push(ds);
+                
+                // set axes for this dataset
+                const axIdx = this.getAxesNames().indexOf(dsData.axesName);
+                if(axIdx >= 0) {
+                    this.setAxesForDataset(ds, this._axesColl[axIdx]);
+                }                
+            }
+        }
+
+        // measurements
+        if(data.measurementColl != null) {
+            for(let msIdx = 0; msIdx < data.measurementColl.length; msIdx++) {
+                const msData = data.measurementColl[msIdx];
+                let ms = null;
+                if(msData.type === "Distance") {
+                    ms = new wpd.DistanceMeasurement();
+                    this._measurementColl.push(ms);
+                    // set axes
+                    const axIdx = this.getAxesNames().indexOf(msData.axesName);
+                    if(axIdx >= 0) {
+                        this.setAxesForMeasurement(ms, this._axesColl[axIdx]);
+                    }  
+                } else if(msData.type === "Angle") {
+                    ms = new wpd.AngleMeasurement();
+                    this._measurementColl.push(ms);
+                }
+                // add connections
+                if(ms != null) {
+                    for(let cIdx = 0; cIdx < msData.data.length; cIdx++) {
+                        ms.addConnection(msData.data[i]);
+                    }
+                    
+                }
+            }
+        }
+
         return true;
     }
 
     deserialize(data) {
         this.reset();
-        try {
-            if(data.wpd.version[0] === 3) {
+        try {            
+            if(data.wpd != null && data.wpd.version[0] === 3) {
                 return this._deserializePreVersion4(data.wpd);
             }
-            if(data.version[0] === 4) {
+            if(data.version != null && data.version[0] === 4) {
                 return this._deserializeVersion4(data);
             }                                    
             return true;
@@ -293,8 +394,87 @@ wpd.PlotData = class {
         data.version = [4,0];        
         data.axesColl = [];
         data.datasetColl = [];
-        data.measurementColl = [];        
-        return JSON.stringify(data);
+        data.measurementColl = [];
+        
+        // axes data
+        for(let axIdx = 0; axIdx < this._axesColl.length; axIdx++) {
+            const axes = this._axesColl[axIdx];
+            let axData = {};
+            axData.name = axes.name;
+            if(axes instanceof wpd.XYAxes) {
+                axData.type = "XYAxes";                
+                axData.isLogX = axes.isLogX();
+                axData.isLogY = axes.isLogY();                
+            } else if(axes instanceof wpd.BarAxes) {
+                axData.type = "BarAxes";
+                axData.isLog = axes.isLog();
+            } else if(axes instanceof wpd.PolarAxes) {
+                axData.type = "PolarAxes";
+                axData.isDegrees = axes.isThetaDegrees();
+                axData.isClockwise = axes.isThetaClockwise();
+                axData.isLog = axes.isRadialLog();
+            } else if(axes instanceof wpd.TernaryAxes) {
+                axData.type = "TernaryAxes";
+                axData.isRange100 = axes.isRange100();
+                axData.isNormalOrientation = axes.isNormalOrientation;
+            } else if(axes instanceof wpd.MapAxes) {
+                axData.type = "MapAxes";
+                axData.scaleLength = axes.getScaleLength();
+                axData.unitString = axes.getUnits();
+            } else if(axes instanceof wpd.ImageAxes) {
+                axData.type = "ImageAxes";
+            }
+
+            // calibration points
+            if(!(axes instanceof wpd.ImageAxes)) {
+                axData.calibrationPoints = [];
+                for(let calIdx = 0; calIdx < axes.calibration.getCount(); calIdx++) {
+                    axData.calibrationPoints.push(axes.calibration.getPoint(calIdx));
+                }
+            }
+
+            data.axesColl.push(axData);
+        }
+
+        // datasets
+        for(let dsIdx = 0; dsIdx < this._datasetColl.length; dsIdx++) {
+            const ds = this._datasetColl[dsIdx];
+            const axes = this.getAxesForDataset(ds);
+            let dsData = {};
+            dsData.name = ds.name;
+            dsData.axesName = axes != null ? axes.name: "";
+            dsData.metadataKeys = ds.getMetadataKeys();
+            dsData.data = [];
+            for(let pxIdx = 0; pxIdx < ds.getCount(); pxIdx++) {
+                let px = ds.getPixel(pxIdx);
+                dsData.data[pxIdx] = px;
+                if(axes != null) {
+                    dsData.data[pxIdx].value = axes.pixelToData(px.x, px.y);
+                }
+            }
+            data.datasetColl.push(dsData);
+        }
+
+        // measurements
+        for(let msIdx = 0; msIdx < this._measurementColl.length; msIdx++) {
+            const ms = this._measurementColl[msIdx];
+            const axes = this.getAxesForMeasurement(ms);
+            let msData = {};
+            if(ms instanceof wpd.DistanceMeasurement) {
+                msData.type = "Distance";
+                msData.name = "Distance";
+                msData.axesName = axes != null ? axes.name : "";
+            } else if(ms instanceof wpd.AngleMeasurement) {
+                msData.type = "Angle";
+                msData.name = "Angle";                
+            }
+            msData.data = [];
+            for(let cIdx = 0; cIdx < ms.connectionCount(); cIdx++) {
+                msData.data.push(ms.getConnectionAt(cIdx));
+            }
+            data.measurementColl.push(msData);
+        }
+        return data;
     }
 };
 
