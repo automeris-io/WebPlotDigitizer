@@ -34,112 +34,9 @@ wpd.saveResume = (function () {
     }
 
     function resumeFromJSON(json_data) {
-       var plotData = wpd.appData.getPlotData(),
-           rdata = json_data.wpd,
-           calib,
-           i, j, ds;
-
-       plotData.reset();       
-        
-       if(rdata.axesType == null) {
-           return;
-       }
-
-       if(rdata.axesType !== 'ImageAxes' 
-           && (rdata.calibration == null || rdata.axesParameters == null)) {
-           return;
-       }
-
-       if(rdata.axesType !== 'ImageAxes') {
-           if(rdata.axesType === 'TernaryAxes') {
-               calib = new wpd.Calibration(3);
-           } else {
-               calib = new wpd.Calibration(2);
-           }
-           for(i = 0; i < rdata.calibration.length; i++) {
-               calib.addPoint(rdata.calibration[i].px,
-                              rdata.calibration[i].py,
-                              rdata.calibration[i].dx,
-                              rdata.calibration[i].dy,
-                              rdata.calibration[i].dz);
-
-           }           
-       }
-
-       let axes = null;
-       if(rdata.axesType === 'XYAxes') {
-           axes = new wpd.XYAxes();
-           if(!axes.calibrate(calib, 
-                              rdata.axesParameters.isLogX,
-                              rdata.axesParameters.isLogY)) {
-               return;
-           }
-       } else if (rdata.axesType === 'BarAxes') {
-           axes = new wpd.BarAxes();
-           if(!axes.calibrate(calib, rdata.axesParameters.isLog)) {
-               return;
-           }
-       } else if (rdata.axesType === 'PolarAxes') {
-           axes = new wpd.PolarAxes();
-           if(!axes.calibrate(calib,
-                              rdata.axesParameters.isDegrees,
-                              rdata.axesParameters.isClockwise)) {
-               return;
-           }
-       } else if(rdata.axesType === 'TernaryAxes') {
-           axes = new wpd.TernaryAxes();
-           if(!axes.calibrate(calib,
-                              rdata.axesParameters.isRange100,
-                              rdata.axesParameters.isNormalOrientation)) {
-               return;
-           }
-       } else if(rdata.axesType === 'MapAxes') {
-           axes = new wpd.MapAxes();
-           if(!axes.calibrate(calib,
-                              rdata.axesParameters.scaleLength,
-                              rdata.axesParameters.unitString)) {
-               return;
-           }
-       } else if(rdata.axesType === 'ImageAxes') {
-           axes = new wpd.ImageAxes();
-       }
-
-       if(axes != null) {
-           plotData.addAxes(axes);
-       }
-       
-       if(rdata.dataSeries == null) {
-           return;
-       }
-
-       for(i = 0; i < rdata.dataSeries.length; i++) {
-           ds = rdata.dataSeries[i];
-           let currDataset = new wpd.DataSeries();           
-           currDataset.name = ds.name;
-           if(ds.metadataKeys != null) {
-               currDataset.setMetadataKeys(ds.metadataKeys);
-           }
-           for(j = 0; j < ds.data.length; j++) {
-               currDataset.addPixel(ds.data[j].x, ds.data[j].y, ds.data[j].metadata);
-           }
-           plotData.addDataset(currDataset);
-       }
-
-       if(rdata.distanceMeasurementData != null) {
-           let dist = new wpd.ConnectedPoints(2);
-           for(i = 0; i < rdata.distanceMeasurementData.length; i++) {
-               dist.addConnection(rdata.distanceMeasurementData[i]);
-           }
-           plotData.addMeasurement(dist);
-       }
-
-       if(rdata.angleMeasurementData != null) {
-           let angle = new wpd.ConnectedPoints(3);
-           for(i = 0; i < rdata.angleMeasurementData.length; i++) {
-               angle.addConnection(rdata.angleMeasurementData[i]);
-           }
-           plotData.addMeasurement(angle);
-       }       
+        const plotData = wpd.appData.getPlotData();
+        plotData.deserialize(json_data);
+        wpd.tree.refresh();
     }
 
     function generateJSON() {
@@ -289,7 +186,7 @@ wpd.saveResume = (function () {
             wpd.tree.refresh();
             wpd.messagePopup.show(wpd.gettext('import-json'), wpd.gettext("json-data-loaded"));
         };
-        fileReader.readAsText(file);
+        fileReader.readAsText(jsonFile);
     }
 
     function readProjectFile(file) {
