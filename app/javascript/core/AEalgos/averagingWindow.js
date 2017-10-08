@@ -30,7 +30,7 @@ wpd.AveragingWindowAlgo = (function () {
 
         var xStep = 5, yStep = 5;
 
-        this.getParamList = function () {
+        this.getParamList = function(axes) {
             return [['ΔX', 'Px', 10], ['ΔY', 'Px', 10]];
         };
 
@@ -42,11 +42,8 @@ wpd.AveragingWindowAlgo = (function () {
             }
         };
 
-        this.run = function (plotData) {
-            var autoDetector = plotData.getAutoDetector(),
-                dataSeries = plotData.getActiveDataSeries(),
-                algoCore = new wpd.AveragingWindowCore(autoDetector.binaryData, autoDetector.imageHeight, autoDetector.imageWidth, xStep, yStep, dataSeries);
-
+        this.run = function (autoDetector, dataSeries, axes) {
+            var algoCore = new wpd.AveragingWindowCore(autoDetector.binaryData, autoDetector.imageHeight, autoDetector.imageWidth, xStep, yStep, dataSeries);
             algoCore.run();
         };
 

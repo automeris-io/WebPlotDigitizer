@@ -24,15 +24,11 @@
 var wpd = wpd || {};
 
 wpd.transformationEquations = (function () {
-    function show() {
-        if(wpd.appData.isAligned() === false) {
-            wpd.messagePopup.show(wpd.gettext('transformation-eqns'), wpd.gettext('transformation-eqns-text'));
-            return;
-        }
+    function show() {        
         wpd.popup.show('axes-transformation-equations-window');
         var $list = document.getElementById('axes-transformation-equation-list'),
             listHTML = '',
-            axes = wpd.appData.getPlotData().axes,
+            axes = wpd.tree.getActiveAxes(),
             eqns = axes.getTransformationEquations(),
             i,
             axesType;

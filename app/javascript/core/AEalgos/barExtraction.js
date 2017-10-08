@@ -57,10 +57,8 @@ wpd.BarExtractionAlgo = function() {
 
     var delX, delVal;
     
-    this.getParamList = function() {
-        var axes = wpd.appData.getPlotData().axes,
-            orientationAxes = axes.getOrientation().axes;
-
+    this.getParamList = function(axes) {
+        var orientationAxes = axes.getOrientation().axes;
         if(orientationAxes === 'Y') {
             return [['ΔX', 'Px', 30], ['ΔVal', 'Px', 10]];
         } else {
@@ -76,10 +74,8 @@ wpd.BarExtractionAlgo = function() {
         }
     };
 
-    this.run = function(plotData) {
-        var autoDetector = plotData.getAutoDetector(),
-            dataSeries = plotData.getActiveDataSeries(),
-            orientation = plotData.axes.getOrientation(),                
+    this.run = function(autoDetector, dataSeries, axes) {
+        var orientation = axes.getOrientation(),                
             barValueColl = [],
             valTop, valBot, valCount, val,
             px, py,
@@ -167,7 +163,7 @@ wpd.BarExtractionAlgo = function() {
             }
         }
         
-        if(plotData.axes.dataPointsHaveLabels) {
+        if(axes.dataPointsHaveLabels) {
             mkeys = dataSeries.getMetadataKeys();
             if(mkeys == null || mkeys[0] !== 'Label') {
                 dataSeries.setMetadataKeys(['Label']);
@@ -179,11 +175,11 @@ wpd.BarExtractionAlgo = function() {
             bv = barValueColl[barValuei];
             
             if(orientation.axes === 'Y') {
-                valTop = plotData.axes.pixelToData(bv.avgX, bv.avgValTop)[0];
-                valBot = plotData.axes.pixelToData(bv.avgX, bv.avgValBot)[0];
+                valTop = axes.pixelToData(bv.avgX, bv.avgValTop)[0];
+                valBot = axes.pixelToData(bv.avgX, bv.avgValBot)[0];
             } else {
-                valTop = plotData.axes.pixelToData(bv.avgValTop, bv.avgX)[0];
-                valBot = plotData.axes.pixelToData(bv.avgValBot, bv.avgX)[0];
+                valTop = axes.pixelToData(bv.avgValTop, bv.avgX)[0];
+                valBot = axes.pixelToData(bv.avgValBot, bv.avgX)[0];
             }
                 
             if(valTop + valBot < 0) {
@@ -192,7 +188,7 @@ wpd.BarExtractionAlgo = function() {
                 val = orientation.direction === 'increasing' ? bv.avgValTop : bv.avgValBot;
             }
 
-            if(plotData.axes.dataPointsHaveLabels) {
+            if(axes.dataPointsHaveLabels) {
                
                 if(orientation.axes === 'Y') {
                     dataSeries.addPixel(bv.avgX + 0.5, val + 0.5, ["Bar" + barValuei]);

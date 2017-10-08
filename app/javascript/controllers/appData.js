@@ -24,12 +24,13 @@
 var wpd = wpd || {};
 // maintain and manage current state of the application
 wpd.appData = (function () {
-    var isAligned = false,
-        plotData;
+    let plotData;
+    let backupImageData = null;
 
     function reset() {
         isAligned = false;
         plotData = null;
+        backupImageData = null;
     }
 
     function getPlotData() {
@@ -39,21 +40,19 @@ wpd.appData = (function () {
         return plotData;
     }
 
-    function isAlignedFn(is_aligned) {
-        if(is_aligned != null) {
-            isAligned = is_aligned;
-        }
-        return isAligned;
+    function isAligned() {
+        return getPlotData().getAxesCount() > 0;
     }
 
     function plotLoaded(imageData) {
-        getPlotData().topColors = wpd.colorAnalyzer.getTopColors(imageData);
+        getPlotData().getAutoDetector().topColors = wpd.colorAnalyzer.getTopColors(imageData);
     }
 
     return {
-        isAligned: isAlignedFn,
+        isAligned: isAligned,
         getPlotData: getPlotData,
         reset: reset,
-        plotLoaded: plotLoaded
+        plotLoaded: plotLoaded,
+        backupImageData: backupImageData       
     };
 })();

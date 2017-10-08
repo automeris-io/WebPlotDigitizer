@@ -84,11 +84,14 @@ wpd.PolarAxes = (function () {
                 return true;
             };
 
+        this.calibration = null;
+
         this.isCalibrated = function() {
             return isCalibrated;
         };
 
         this.calibrate = function (calib, is_degrees, is_clockwise, is_log_r) {
+            this.calibration = calib;
             isCalibrated = processCalibration(calib, is_degrees, is_clockwise, is_log_r);
             return isCalibrated;
         };
@@ -99,6 +102,10 @@ wpd.PolarAxes = (function () {
 
         this.isThetaClockwise = function () {
             return isClockwise;
+        };
+
+        this.isRadialLog = function() {
+            return isLog;
         };
 
         this.pixelToData = function(pxi, pyi) {
@@ -168,6 +175,8 @@ wpd.PolarAxes = (function () {
                 pixelToData: [rEqn, thetaEqn]
             };
         };
+
+        this.name = "Polar";
     };
 
     AxesObj.prototype.numCalibrationPointsRequired = function() {

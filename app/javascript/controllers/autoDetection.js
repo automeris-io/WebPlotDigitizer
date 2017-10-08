@@ -26,19 +26,10 @@ wpd.autoExtraction = (function () {
     function start() {
         wpd.colorPicker.init();
         wpd.algoManager.updateAlgoList();
-    }
+    }     
 
-    function changeDataset() {
-        var $datasetList = document.getElementById('automatic-sidebar-dataset-list'),
-            index = $datasetList.selectedIndex;
-        wpd.appData.getPlotData().setActiveDataSeriesIndex(index);
-        wpd.graphicsWidget.forceHandlerRepaint();
-        wpd.dataPointCounter.setCount();
-    }
-          
     return {
-        start: start,
-        changeDataset: changeDataset
+        start: start        
     };
 })();
 
@@ -46,19 +37,15 @@ wpd.autoExtraction = (function () {
 // Manage auto extract algorithms
 wpd.algoManager = (function() {
 
-    var axesPtr;
+    var axes, dataset;
 
     function updateAlgoList() {
         
-        var innerHTML = '',
-            axes = wpd.appData.getPlotData().axes,
-            $algoOptions = document.getElementById('auto-extract-algo-name');
+        dataset = wpd.tree.getActiveDataset();
+        axes = wpd.appData.getPlotData().getAxesForDataset(dataset);
 
-        if(axes === axesPtr) {
-            return; // don't re-render if already done for this axes object.
-        } else {
-            axesPtr = axes;
-        }
+        var innerHTML = '',
+            $algoOptions = document.getElementById('auto-extract-algo-name');
 
         // Averaging Window
         if(!(axes instanceof wpd.BarAxes)) {
@@ -115,7 +102,7 @@ wpd.algoManager = (function() {
 
     function renderParameters(algo) {
         var $paramContainer = document.getElementById('algo-parameter-container'),
-            algoParams = algo.getParamList(),
+            algoParams = algo.getParamList(axes),
             pi,
             tableString = "<table>";
 
@@ -133,34 +120,31 @@ wpd.algoManager = (function() {
 
     function run() {
         wpd.busyNote.show();
-        var fn = function () {
-            var autoDetector = wpd.appData.getPlotData().getAutoDetector(),
-                algo = autoDetector.algorithm,
-                repainter = new wpd.DataPointsRepainter(),
-                $paramFields = document.getElementsByClassName('algo-params'),
-                pi,
-                paramId, paramIndex,
-                ctx = wpd.graphicsWidget.getAllContexts(),
-                imageSize = wpd.graphicsWidget.getImageSize();
+        var autoDetector = wpd.appData.getPlotData().getAutoDetector(),
+            algo = autoDetector.algorithm,
+            repainter = new wpd.DataPointsRepainter(axes, dataset),
+            $paramFields = document.getElementsByClassName('algo-params'),
+            pi,
+            paramId, paramIndex,
+            ctx = wpd.graphicsWidget.getAllContexts(),
+            imageSize = wpd.graphicsWidget.getImageSize();
 
-            for(pi = 0; pi < $paramFields.length; pi++) {
-                paramId = $paramFields[pi].id;
-                paramIndex = parseInt(paramId.replace('algo-param-', ''), 10);
-                algo.setParam(paramIndex, parseFloat($paramFields[pi].value));
-            }
+        for(pi = 0; pi < $paramFields.length; pi++) {
+            paramId = $paramFields[pi].id;
+            paramIndex = parseInt(paramId.replace('algo-param-', ''), 10);
+            algo.setParam(paramIndex, parseFloat($paramFields[pi].value));
+        }
 
-            wpd.graphicsWidget.removeTool();
+        wpd.graphicsWidget.removeTool();
 
-            autoDetector.imageData = ctx.oriImageCtx.getImageData(0, 0, imageSize.width, imageSize.height);
-            autoDetector.generateBinaryData();
-            wpd.graphicsWidget.setRepainter(repainter);
-            algo.run(wpd.appData.getPlotData());
-            wpd.graphicsWidget.forceHandlerRepaint();
-            wpd.dataPointCounter.setCount();
-            wpd.busyNote.close();
-            return true;
-        };
-        setTimeout(fn, 10); // This is required for the busy note to work!
+        autoDetector.imageData = ctx.oriImageCtx.getImageData(0, 0, imageSize.width, imageSize.height);
+        autoDetector.generateBinaryData();
+        wpd.graphicsWidget.setRepainter(repainter);            
+        algo.run(autoDetector, dataset, axes);
+        wpd.graphicsWidget.forceHandlerRepaint();
+        wpd.dataPointCounter.setCount(dataset.getCount());
+        wpd.busyNote.close();
+        return true;    
     }
 
     return {
@@ -170,4 +154,56 @@ wpd.algoManager = (function() {
     };
 })();
 
+wpd.dataMask = (function () {
 
+    function grabMask() {
+        // Mask is just a list of pixels with the yellow color in the data layer
+        var ctx = wpd.graphicsWidget.getAllContexts(),
+            imageSize = wpd.graphicsWidget.getImageSize(),
+            maskDataPx = ctx.oriDataCtx.getImageData(0, 0, imageSize.width, imageSize.height),
+            maskData = [],
+            i,
+            mi = 0,
+            autoDetector = wpd.appData.getPlotData().getAutoDetector();
+        for(i = 0; i < maskDataPx.data.length; i+=4) {
+            if (maskDataPx.data[i] === 255 && maskDataPx.data[i+1] === 255 && maskDataPx.data[i+2] === 0) {
+                maskData[mi] = i/4; mi++;
+            }
+        }
+        autoDetector.mask = maskData;
+    }
+
+    function markBox() {
+        var tool = new wpd.BoxMaskTool();
+        wpd.graphicsWidget.setTool(tool);
+    }
+
+    function markPen() {
+        var tool = new wpd.PenMaskTool();
+        wpd.graphicsWidget.setTool(tool);
+    }
+
+    function eraseMarks() {
+        var tool = new wpd.EraseMaskTool();
+        wpd.graphicsWidget.setTool(tool);
+    }
+
+    function viewMask() {
+        var tool = new wpd.ViewMaskTool();
+        wpd.graphicsWidget.setTool(tool);
+    }
+
+    function clearMask() {
+        wpd.graphicsWidget.resetData();
+        grabMask();
+    }
+
+    return {
+        grabMask: grabMask,
+        markBox: markBox,
+        markPen: markPen,
+        eraseMarks: eraseMarks,
+        viewMask: viewMask,
+        clearMask: clearMask
+    };
+})();

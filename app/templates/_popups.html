@@ -266,7 +266,7 @@
 	<p align="center"><img src="images/xyaxes.png" /></p>
 	<p align="center">{{ _("Click four known points on the axes in the <font color=\"red\">order shown in red</font>. Two on the X axis (X1, X2) and two on the Y axis (Y1, Y2)") }}.</p>
 	<p>&nbsp;</p>
-	<p align="center"><input type="button" value="{{ _("Proceed") }}" onclick="wpd.xyCalibration.pickCorners();" /></p>
+	<p align="center"><input type="button" value="{{ _("Proceed") }}" onclick="wpd.alignAxes.pickCorners();" /></p>
 	</div>
 
     <!-- Bar Chart Axes Calibration Intructions -->
@@ -276,7 +276,7 @@
     <p align="center"><img src="images/barchart.png" /></p>
     <p align="center">{{ _("Click on two known points (P1, P2) on the continuous axes along the bars") }}</p>
     <p>&nbsp;</p>
-    <p align="center"><input type="button" value="{{ _("Proceed") }}" onclick="wpd.barCalibration.pickCorners();" /></p>
+    <p align="center"><input type="button" value="{{ _("Proceed") }}" onclick="wpd.alignAxes.pickCorners();" /></p>
     </div>
 
     <!-- Map Axes Calibration Instructions -->
@@ -286,7 +286,7 @@
 	<p align="center"><img src="images/map.png" /></p>
 	<p align="center">{{ _("Click on the two ends of the scale bar on the map.") }}</p>
 	<p>&nbsp;</p>
-	<p align="center"><input type="button" value="{{ _("Proceed") }}" onclick="wpd.mapCalibration.pickCorners();"></p>
+	<p align="center"><input type="button" value="{{ _("Proceed") }}" onclick="wpd.alignAxes.pickCorners();"></p>
 	</div>
 
     <!-- Polar Axes Calibration Instructions -->
@@ -296,7 +296,7 @@
 	<p align="center"><img src="images/polaraxes.png" /></p>
 	<p align="center">{{ _("Click on the center, followed by two known points.") }}</p>
 	<p>&nbsp;</p>
-	<p align="center"><input type="button" value="{{ _("Proceed") }}" onclick="wpd.polarCalibration.pickCorners();"></p>
+	<p align="center"><input type="button" value="{{ _("Proceed") }}" onclick="wpd.alignAxes.pickCorners();"></p>
 	</div>
 
     <!-- Ternary Axes Calibration Instructions -->
@@ -306,7 +306,7 @@
 	<p align="center"><img src="images/ternaryaxes.png" /></p>
 	<p align="center">{{ _("Click on the three corners in the order shown above.") }}</p>
 	<p>&nbsp;</p>
-	<p align="center"><input type="button" value="{{ _("Proceed") }}" onclick="wpd.ternaryCalibration.pickCorners();"></p>
+	<p align="center"><input type="button" value="{{ _("Proceed") }}" onclick="wpd.alignAxes.pickCorners();"></p>
 	</div>
 
     <!-- About WPD -->
@@ -444,7 +444,7 @@
     </div>
 
     <!-- Add dataset -->
-    <div id="add-dataset-popup" class="popup" style="width:400px;">
+    <div id="add-dataset-popup" class="popup" style="width:450px;">
     <div class="popupheading">{{ _("Add Dataset") }}</div>
     <p>{{ _("Name") }}: <input type="text" id="add-single-dataset-name-input" value="New Dataset"/> <input type="button" value="{{ _("Add Single Dataset") }}" onclick="wpd.dataSeriesManagement.addSingleDataset();"/></p>
     <br/>
@@ -461,6 +461,17 @@
     <p>{{ _("Name") }}: <input type="text" id="rename-dataset-name-input" value="Dataset"/></p>
     <br/>
     <p><input type="button" value="{{ _("Rename") }}" onclick="wpd.dataSeriesManagement.renameDataset();"/> <input type="button" value="{{ _("Cancel") }}" onclick="wpd.popup.close('rename-dataset-popup');"/></p>
+    </center>
+    </div>
+
+    <!-- Rename axes -->
+    <div id="rename-axes-popup" class="popup" style="width:400px;">
+    <div class="popupheading">{{ _("Rename Axes") }}</div>
+    <center>
+    <br/>
+    <p>{{ _("Name") }}: <input type="text" id="rename-axes-name-input" value="Axes"/></p>
+    <br/>
+    <p><input type="button" value="{{ _("Rename") }}" onclick="wpd.alignAxes.renameAxes();"/> <input type="button" value="{{ _("Cancel") }}" onclick="wpd.popup.close('rename-axes-popup');"/></p>
     </center>
     </div>
 
