@@ -54,61 +54,66 @@ wpd.dataExport = (function () {
         // generate file and trigger download
 
         // loop over all datasets
-        var plotData = wpd.appData.getPlotData(),
-            axes = plotData.getAxesColl()[0],
-            dsColl = plotData.getDatasets(),
-            i, j;
+        let plotData = wpd.appData.getPlotData();
+        let dsColl = plotData.getDatasets();
 
-        if(axes == null || dsColl == null || dsColl.length === 0) {
+        if(dsColl == null || dsColl.length === 0) {
             // axes is not aligned, show an error message?
             wpd.messagePopup.show(wpd.gettext('no-datasets-to-export-error'), wpd.gettext('no-datasets-to-export'));
             return;
         }
 
-        var axLab = axes.getAxesLabels(),
-            axdims = axLab.length,
-            numCols = dsColl.length*axdims,
-            maxDatapts = 0,
-            pts,
-            header = [],
-            varheader = [],
-            valData = [];
+        let maxDatapts = 0;        
+        let header = [];
+        let varheader = [];
+        let valData = [];
+        let numCols = 0;
         
-        for(i = 0; i < dsColl.length; i++) {
-            pts = dsColl[i].getCount();
+        for(let i = 0; i < dsColl.length; i++) {
+            let axes = plotData.getAxesForDataset(dsColl[i]);
+            if(axes == null) continue;
+            let axLab = axes.getAxesLabels();
+            let axdims = axLab.length;            
+            numCols += axdims;
+            let pts = dsColl[i].getCount();
             if(pts > maxDatapts) {
                 maxDatapts = pts;
             }
             header.push(dsColl[i].name);
-            for(j = 0; j < axdims; j++) {
+            for(let j = 0; j < axdims; j++) {
                 if(j !== 0) {
                     header.push('');
                 }
                 varheader.push(axLab[j]);
             }
         }
-        for(i = 0; i < maxDatapts; i++) {
+        for(let i = 0; i < maxDatapts; i++) {
             var valRow = [];
-            for(j = 0; j < numCols; j++) {
+            for(let j = 0; j < numCols; j++) {
                 valRow.push('');
             }
             valData.push(valRow);
         }
 
-        for(i = 0; i < dsColl.length; i++) {
-            pts = dsColl[i].getCount();
-            for(j = 0; j < pts; j++) {
-                var px = dsColl[i].getPixel(j);
-                var val = getValueAtPixel(j, axes, px);
-                var di;
-                for(di = 0; di < axdims; di++) {
-                    valData[j][i*axdims + di] = val[di];
+        let colIdx = 0;
+        for(let i = 0; i < dsColl.length; i++) {
+            let axes = plotData.getAxesForDataset(dsColl[i]);
+            if(axes == null) continue;
+            let axLab = axes.getAxesLabels();
+            let axdims = axLab.length;            
+            let pts = dsColl[i].getCount();
+            for(let j = 0; j < pts; j++) {
+                let px = dsColl[i].getPixel(j);
+                let val = getValueAtPixel(j, axes, px);                
+                for(let di = 0; di < axdims; di++) {
+                    valData[j][colIdx + di] = val[di];
                 }
             }
+            colIdx += axdims;
         }
 
-        var csvText = header.join(',') + '\n' + varheader.join(',') + '\n';
-        for(i = 0; i < maxDatapts; i++) {
+        let csvText = header.join(',') + '\n' + varheader.join(',') + '\n';
+        for(let i = 0; i < maxDatapts; i++) {
             csvText += valData[i].join(',') + '\n';
         }
         
@@ -120,8 +125,7 @@ wpd.dataExport = (function () {
         wpd.popup.close('export-all-data-popup');
 
         // loop over all datasets
-        var plotData = wpd.appData.getPlotData(),
-            axes = plotData.getAxesColl()[0],
+        var plotData = wpd.appData.getPlotData(),            
             dsColl = plotData.getDatasets(),
             i, coli, rowi,
             dataProvider = wpd.plotDataProvider,
@@ -129,14 +133,14 @@ wpd.dataExport = (function () {
             plotlyData = { "data": [] },
             colName;
 
-        if(axes == null || dsColl == null || dsColl.length === 0) {
+        if(dsColl == null || dsColl.length === 0) {
             // axes is not aligned, show an error message?
             wpd.messagePopup.show(wpd.gettext('no-datasets-to-export-error'), wpd.gettext('no-datasets-to-export'));
             return;
         }
 
         for(i = 0; i < dsColl.length; i++) {
-            dataProvider.setDataset(dsColl[i]);
+            dataProvider.setDataSource(dsColl[i]);
             pdata = dataProvider.getData();
             plotlyData.data[i] = {};
 

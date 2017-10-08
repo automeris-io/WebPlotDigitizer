@@ -104,7 +104,7 @@ wpd.colorSelectionWidget = (function () {
 
     function selectTopColor(colorIndex) {
         var gui_color = [],
-            topColors = wpd.appData.getPlotData().topColors;
+            topColors = wpd.appData.getPlotData().getAutoDetector().topColors;
 
         gui_color[0] = topColors[colorIndex].r;
         gui_color[1] = topColors[colorIndex].g;
