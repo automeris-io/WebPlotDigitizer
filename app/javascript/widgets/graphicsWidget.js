@@ -181,14 +181,7 @@ wpd.graphicsWidget = (function () {
         }
     }
 
-    function setRepainter(fhandle) {
-        
-        if(repaintHandler != null && repaintHandler.painterName != undefined && fhandle != null && fhandle.painterName != undefined) {
-            if(repaintHandler.painterName == fhandle.painterName) {
-                return;  // Avoid same handler to be attached repeatedly.
-            }
-        }
-
+    function setRepainter(fhandle) {               
         if(repaintHandler != null && repaintHandler.onRemove != undefined) {
             repaintHandler.onRemove();
         }

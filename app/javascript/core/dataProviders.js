@@ -25,44 +25,27 @@ var wpd = wpd || {};
 
 wpd.plotDataProvider = (function() {
 
-    let _dsIdx = 0;
+    let _ds = null;
 
-    function getDatasetNames() {
-        var plotData = wpd.appData.getPlotData(),
-            datasetNames = [],
-            di;
-        for(di = 0; di < plotData.dataSeriesColl.length; di++) {
-            datasetNames[di] = plotData.dataSeriesColl[di].name;
-        }
-        return datasetNames;
-    }
-
-    function getDatasetIndex() {
-        return _dsIdx;
-    }
-
-    function setDatasetIndex(index) {
-        _dsIdx = index;        
+    function setDataSource(ds) {
+        _ds = ds;
     }
 
     function getData() {
-        var axes = wpd.appData.getPlotData().axes;
+        var axes = wpd.appData.getPlotData().getAxesForDataset(_ds);
 
         if(axes instanceof wpd.BarAxes) {
-            return getBarAxesData();
+            return getBarAxesData(_ds, axes);
         } else {
-            return getGeneralAxesData();
+            return getGeneralAxesData(_ds, axes);
         }
     }
 
-    function getBarAxesData() {
+    function getBarAxesData(dataSeries, axes) {
         var fields = [],
             fieldDateFormat = [],
             rawData = [],
             isFieldSortable = [],
-            plotData = wpd.appData.getPlotData(),
-            dataSeries = plotData.dataSeriesColl[_dsIdx],
-            axes = plotData.axes,
             rowi, coli,
             dataPt,
             transformedDataPt,
@@ -96,17 +79,14 @@ wpd.plotDataProvider = (function() {
             rawData: rawData,
             allowConnectivity: false,
             connectivityFieldIndices: [],
-            isFieldSortable: isFieldSortable
+            isFieldSortable: isFieldSortable            
         };
     }
 
-    function getGeneralAxesData() {
+    function getGeneralAxesData(dataSeries, axes) {
         // 2D XY, Polar, Ternary, Image, Map
 
-        var plotData = wpd.appData.getPlotData(),
-            dataSeries = plotData.dataSeriesColl[_dsIdx],
-            axes = plotData.axes,
-            fields = [],
+        var fields = [],
             fieldDateFormat = [],
             connectivityFieldIndices = [],
             rawData = [],
@@ -170,35 +150,17 @@ wpd.plotDataProvider = (function() {
     }
 
     return {
-        getDatasetNames: getDatasetNames,
-        getDatasetIndex: getDatasetIndex,
-        setDatasetIndex: setDatasetIndex,
+        setDataSource: setDataSource,
         getData: getData
     };
 })();
 
 wpd.measurementDataProvider = (function() {
 
-    var dataSource = 'distance';
+    let _ms = null;
 
-    function setDataSource(source) {
-        dataSource = source;
-    }
-
-    function getDatasetNames() {
-        if(dataSource === 'angle') {
-            return ['Angle Measurements'];
-        } else if (dataSource === 'distance') {
-            return ['Distance Measurements'];
-        }
-    }
-
-    function getDatasetIndex() {
-        return 0;
-    }
-
-    function setDatasetIndex(index) {
-        // ignore
+    function setDataSource(ms) {
+        _ms = ms;
     }
 
     function getData() {
@@ -207,34 +169,30 @@ wpd.measurementDataProvider = (function() {
             rawData = [],
             isFieldSortable = [],
             plotData = wpd.appData.getPlotData(),
-            axes = plotData.axes,
-            isMap = wpd.appData.isAligned() && (axes instanceof wpd.MapAxes),
-            conni,
-            mData;
+            axes = plotData.getAxesForMeasurement(_ms),
+            isMap = axes != null && (axes instanceof wpd.MapAxes),
+            conni;
         
-        if (dataSource === 'distance') {
-
-            mData = plotData.distanceMeasurementData;
-            for(conni = 0; conni < mData.connectionCount(); conni++) {
+        if (_ms instanceof wpd.DistanceMeasurement) {
+            for(conni = 0; conni < _ms.connectionCount(); conni++) {
                 rawData[conni] = [];
                 rawData[conni][0] = 'Dist' + conni;
                 if(isMap) {
-                    rawData[conni][1] = axes.pixelToDataDistance(mData.getDistance(conni));
+                    rawData[conni][1] = axes.pixelToDataDistance(_ms.getDistance(conni));
                 } else {
-                    rawData[conni][1] = mData.getDistance(conni);
+                    rawData[conni][1] = _ms.getDistance(conni);
                 }
             }
             
             fields = ['Label', 'Distance'];
             isFieldSortable = [false, true];
 
-        } else if (dataSource === 'angle') {
-
-            mData = plotData.angleMeasurementData;
-            for(conni = 0; conni < mData.connectionCount(); conni++) {
+        } else if (_ms instanceof wpd.AngleMeasurement) {
+            
+            for(conni = 0; conni < _ms.connectionCount(); conni++) {
                 rawData[conni] = [];
                 rawData[conni][0] = 'Theta'+ conni;
-                rawData[conni][1] = mData.getAngle(conni);
+                rawData[conni][1] = _ms.getAngle(conni);
             }
 
             fields = ['Label', 'Angle'];
@@ -251,11 +209,8 @@ wpd.measurementDataProvider = (function() {
         };
     }
 
-    return {
-        getDatasetNames: getDatasetNames,
-        getDatasetIndex: getDatasetIndex,
-        setDatasetIndex: setDatasetIndex,
-        setDataSource: setDataSource,
-        getData: getData
+    return {        
+        getData: getData,
+        setDataSource: setDataSource
     };
 })();

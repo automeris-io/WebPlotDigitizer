@@ -38,7 +38,10 @@ wpd.BarAxes = (function () {
             return isCalibrated;
         };
 
+        this.calibration = null;
+
         this.calibrate = function(calibration, isLog, isRotated) {
+            this.calibration = calibration;            
             isCalibrated = false;
             var cp1 = calibration.getPoint(0),
                 cp2 = calibration.getPoint(1);
@@ -145,6 +148,8 @@ wpd.BarAxes = (function () {
         this.getOrientation = function() {
             return orientation;
         };
+
+        this.name = "Bar";
     };
 
     AxesObj.prototype.numCalibrationPointsRequired = function () {

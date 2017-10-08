@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-09-23 20:30-0500\n"
+"POT-Creation-Date: 2017-10-08 11:25-0500\n"
 "PO-Revision-Date: 2016-12-12 23:09-0600\n"
 "Last-Translator: \n"
 "Language: en_US\n"
@@ -41,7 +41,7 @@ msgid "Load new image"
 msgstr ""
 
 #: templates/_menubar.html:1 templates/_popups.html:88
-#: templates/_strings.html:50
+#: templates/_strings.html:54
 msgid "Image"
 msgstr ""
 
@@ -104,6 +104,7 @@ msgstr ""
 #: templates/_popups.html:402 templates/_popups.html:415
 #: templates/_popups.html:430 templates/_popups.html:442
 #: templates/_popups.html:453 templates/_popups.html:463
+#: templates/_popups.html:474
 msgid "Cancel"
 msgstr ""
 
@@ -299,8 +300,8 @@ msgstr ""
 msgid "Acquired Data"
 msgstr ""
 
-#: templates/_popups.html:216 templates/_strings.html:43
-#: templates/_tree.html:42
+#: templates/_popups.html:216 templates/_strings.html:47
+#: templates/_tree.html:44
 msgid "Dataset"
 msgstr ""
 
@@ -309,7 +310,7 @@ msgid "Variables"
 msgstr ""
 
 #: templates/_popups.html:220
-msgid "Select All"
+msgid "Copy to Clipboard"
 msgstr ""
 
 #: templates/_popups.html:221 templates/_popups.html:440
@@ -607,11 +608,12 @@ msgstr ""
 msgid "Export to Plotly"
 msgstr ""
 
-#: templates/_popups.html:448 templates/_tree.html:28
+#: templates/_popups.html:448 templates/_tree.html:30
 msgid "Add Dataset"
 msgstr ""
 
 #: templates/_popups.html:449 templates/_popups.html:461
+#: templates/_popups.html:472
 msgid "Name"
 msgstr ""
 
@@ -627,12 +629,17 @@ msgstr ""
 msgid "Add Multiple Datasets"
 msgstr ""
 
-#: templates/_popups.html:458 templates/_tree.html:44
+#: templates/_popups.html:458 templates/_tree.html:47
 msgid "Rename Dataset"
 msgstr ""
 
-#: templates/_popups.html:463
+#: templates/_popups.html:463 templates/_popups.html:474
+#: templates/_tree.html:20
 msgid "Rename"
+msgstr ""
+
+#: templates/_popups.html:469
+msgid "Rename Axes"
 msgstr ""
 
 #: templates/_sidebars.html:3
@@ -709,8 +716,8 @@ msgstr ""
 msgid "Click to change color"
 msgstr ""
 
-#: templates/_sidebars.html:24 templates/_strings.html:47
-#: templates/_tree.html:36 templates/_tree.html:53
+#: templates/_sidebars.html:24 templates/_strings.html:51
+#: templates/_tree.html:38 templates/_tree.html:56
 msgid "Distance"
 msgstr ""
 
@@ -926,7 +933,7 @@ msgstr ""
 msgid "Please calibrate the axes before managing datasets."
 msgstr ""
 
-#: templates/_strings.html:27 templates/_tree.html:45
+#: templates/_strings.html:27 templates/_tree.html:48
 msgid "Delete Dataset"
 msgstr ""
 
@@ -935,99 +942,132 @@ msgid "Are you sure you want to delete this dataset?"
 msgstr ""
 
 #: templates/_strings.html:29
-msgid "Averaging Window"
+msgid "Delete Axes"
 msgstr ""
 
 #: templates/_strings.html:30
-msgid "X Step w/ Interpolation"
+msgid "Are you sure you want to delete this axes?"
 msgstr ""
 
 #: templates/_strings.html:31
-msgid "X Step"
+msgid "Averaging Window"
 msgstr ""
 
 #: templates/_strings.html:32
-msgid "Blob Detector"
+msgid "X Step w/ Interpolation"
 msgstr ""
 
 #: templates/_strings.html:33
-msgid "Bar Extraction"
+msgid "X Step"
 msgstr ""
 
 #: templates/_strings.html:34
-msgid "Histogram"
+msgid "Blob Detector"
 msgstr ""
 
 #: templates/_strings.html:35
-msgid "Specify Plot (Foreground) Color"
+msgid "Bar Extraction"
 msgstr ""
 
 #: templates/_strings.html:36
-msgid "Specify Background Color"
+msgid "Histogram"
 msgstr ""
 
 #: templates/_strings.html:37
-msgid "Please add some data before exporting."
+msgid "Specify Plot (Foreground) Color"
 msgstr ""
 
 #: templates/_strings.html:38
-msgid "Error: No datasets to export!"
+msgid "Specify Background Color"
 msgstr ""
 
 #: templates/_strings.html:39
-msgid "Add Dataset Error!"
+msgid "Please add some data before exporting."
 msgstr ""
 
 #: templates/_strings.html:40
-msgid "Rename Dataset Error!"
+msgid "Error: No datasets to export!"
 msgstr ""
 
 #: templates/_strings.html:41
-msgid "Dataset with this name already exists. Please pick a different name."
+msgid "Add Dataset Error!"
 msgstr ""
 
 #: templates/_strings.html:42
+msgid "Rename Dataset Error!"
+msgstr ""
+
+#: templates/_strings.html:43
+msgid "Dataset with this name already exists. Please pick a different name."
+msgstr ""
+
+#: templates/_strings.html:44
+msgid "Rename Axes Error!"
+msgstr ""
+
+#: templates/_strings.html:45
+msgid "Axes with this name already exists. Please pick a different name."
+msgstr ""
+
+#: templates/_strings.html:46
 msgid "Specify a valid number of datasets to add!"
 msgstr ""
 
-#: templates/_strings.html:44 templates/_tree.html:26
+#: templates/_strings.html:48 templates/_tree.html:28
 msgid "Datasets"
 msgstr ""
 
-#: templates/_strings.html:45 templates/_tree.html:34
+#: templates/_strings.html:49 templates/_tree.html:36
 msgid "Measurements"
 msgstr ""
 
-#: templates/_strings.html:46 templates/_tree.html:8 templates/_tree.html:18
+#: templates/_strings.html:50 templates/_tree.html:8 templates/_tree.html:18
+#: templates/_tree.html:46 templates/_tree.html:58
 msgid "Axes"
 msgstr ""
 
-#: templates/_strings.html:48 templates/_tree.html:37 templates/_tree.html:61
+#: templates/_strings.html:52 templates/_tree.html:39 templates/_tree.html:65
 msgid "Angle"
 msgstr ""
 
-#: templates/_strings.html:49
+#: templates/_strings.html:53
 msgid "XY"
 msgstr ""
 
-#: templates/_strings.html:51
+#: templates/_strings.html:55
 msgid "Bar"
 msgstr ""
 
-#: templates/_strings.html:52
+#: templates/_strings.html:56
 msgid "Polar"
 msgstr ""
 
-#: templates/_strings.html:53
+#: templates/_strings.html:57
 msgid "Ternary"
 msgstr ""
 
-#: templates/_strings.html:54
+#: templates/_strings.html:58
 msgid "Map"
 msgstr ""
 
-#: templates/_strings.html:55
+#: templates/_strings.html:59
 msgid "Project"
+msgstr ""
+
+#: templates/_strings.html:60
+msgid "Distance Measurements"
+msgstr ""
+
+#: templates/_strings.html:61
+msgid "Angle Measurements"
+msgstr ""
+
+#: templates/_strings.html:62
+msgid "Uncalibrated Dataset!"
+msgstr ""
+
+#: templates/_strings.html:63
+msgid "Assign an axes calibration to this dataset!"
 msgstr ""
 
 #: templates/_toolbars.html:3
@@ -1043,7 +1083,7 @@ msgid "View Keyboard Shortcuts"
 msgstr ""
 
 #: templates/_tree.html:10
-msgid "Calibrate"
+msgid "Add Calibration"
 msgstr ""
 
 #: templates/_tree.html:11
@@ -1058,31 +1098,35 @@ msgstr ""
 msgid "Export Calibration"
 msgstr ""
 
-#: templates/_tree.html:20
-msgid "Edit"
+#: templates/_tree.html:21
+msgid "Tweak Calibration"
 msgstr ""
 
-#: templates/_tree.html:21
+#: templates/_tree.html:22
+msgid "Delete"
+msgstr ""
+
+#: templates/_tree.html:23
 msgid "View Equations"
 msgstr ""
 
-#: templates/_tree.html:29
+#: templates/_tree.html:31
 msgid "Export All Data"
 msgstr ""
 
-#: templates/_tree.html:46 templates/_tree.html:56 templates/_tree.html:64
+#: templates/_tree.html:49 templates/_tree.html:60 templates/_tree.html:68
 msgid "View Data"
 msgstr ""
 
-#: templates/_tree.html:47
+#: templates/_tree.html:50
 msgid "Clear Data"
 msgstr ""
 
-#: templates/_tree.html:48
+#: templates/_tree.html:51
 msgid "Data Points"
 msgstr ""
 
-#: templates/_tree.html:55 templates/_tree.html:63
+#: templates/_tree.html:59 templates/_tree.html:67
 msgid "Clear All"
 msgstr ""
 
@@ -1744,5 +1788,11 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Add Multiple Datasets"
+#~ msgstr ""
+
+#~ msgid "Calibrate"
+#~ msgstr ""
+
+#~ msgid "Edit"
 #~ msgstr ""
 

@@ -33,6 +33,8 @@ wpd.TreeWidget = class {
     }
 
     _renderFolder(data, basePath, isInnerFolder) {
+        if(data == null) return;
+
         let htmlStr = "";
         
         if(isInnerFolder) {
@@ -40,7 +42,7 @@ wpd.TreeWidget = class {
         } else {
             htmlStr = "<ul class=\"tree-list-root\">";
         }
-
+        
         for(let i = 0; i < data.length; i++) {
             let item = data[i];
             this.itemCount++;
@@ -103,6 +105,7 @@ wpd.TreeWidget = class {
             if(this.itemSelectionCallback != null) {
                 let itemId = parseInt(e.target.id.replace("tree-item-id-",""),10);
                 if(!isNaN(itemId)) {
+                    this.selectedPath = this.idmap[itemId];
                     this.itemSelectionCallback(e.target, this.idmap[itemId], false);
                 }
             }
@@ -121,6 +124,8 @@ wpd.TreeWidget = class {
 wpd.tree = (function() {
 
     let treeWidget = null;
+    let activeDataset = null;
+    let activeAxes = null;
 
     // polyfill for IE11/Microsoft Edge
     if (window.NodeList && !NodeList.prototype.forEach) {
@@ -132,24 +137,6 @@ wpd.tree = (function() {
         };
     }
 
-    function getAxesName(axes) {
-        if(axes instanceof wpd.XYAxes) {
-            return wpd.gettext("axes-name-xy");
-        } else if(axes instanceof wpd.ImageAxes) {
-            return wpd.gettext("axes-name-image");
-        } else if(axes instanceof wpd.BarAxes) {
-            return wpd.gettext("axes-name-bar");
-        } else if(axes instanceof wpd.PolarAxes) {
-            return wpd.gettext("axes-name-polar");
-        } else if(axes instanceof wpd.TernaryAxes) {
-            return wpd.gettext("axes-name-ternary");
-        } else if(axes instanceof wpd.MapAxes) {
-            return wpd.gettext("axes-name-map");
-        } else {
-            return "Unknown Axes";
-        }
-    }
-
     function buildTree() {
         if(treeWidget == null) {
             return;
@@ -157,26 +144,23 @@ wpd.tree = (function() {
         let treeData = [];
         
         const plotData = wpd.appData.getPlotData();
-        
-        const axes = plotData.axes;
+                
         let axesFolder = {};
-        if(axes == null) {
-            axesFolder[wpd.gettext("axes")] = [];
-        } else {
-            axesFolder[wpd.gettext("axes")] = [getAxesName(axes)];
-        }
+        axesFolder[wpd.gettext("axes")] = plotData.getAxesNames();        
         treeData.push(axesFolder);
 
-        const datasetNames = plotData.getDataSeriesNames();
+        const datasetNames = plotData.getDatasetNames();
         let datasetsFolder = {};
         datasetsFolder[wpd.gettext("datasets")] = datasetNames;
         treeData.push(datasetsFolder);
 
         let measurementItems = [];
-        if(plotData.angleMeasurementData != null) {
+        let distMeasures = plotData.getMeasurementsByType(wpd.DistanceMeasurement);
+        let angleMeasures = plotData.getMeasurementsByType(wpd.AngleMeasurement);
+        if(angleMeasures.length > 0) {
             measurementItems.push(wpd.gettext("angle"));
         }
-        if(plotData.distanceMeasurementData != null) {
+        if(distMeasures.length > 0) {
             measurementItems.push(wpd.gettext("distance"));
         }
         let measurementFolder = {};
@@ -206,47 +190,108 @@ wpd.tree = (function() {
     }
 
     function onDatasetSelection(elem, path, suppressSecondaryActions) {
-        if(!suppressSecondaryActions) {
-            // get dataset index
-            const plotData = wpd.appData.getPlotData();
-            const dsNamesColl = plotData.getDataSeriesNames();
-            const dsIdx = dsNamesColl.indexOf(path.replace("/"+ wpd.gettext("datasets") +"/",""));
-            // set active dataset 
-            plotData.setActiveDataSeriesIndex(dsIdx);
+        // get dataset index
+        const plotData = wpd.appData.getPlotData();
+        const dsNamesColl = plotData.getDatasetNames();
+        const dsIdx = dsNamesColl.indexOf(path.replace("/"+ wpd.gettext("datasets") +"/",""));
+        if(dsIdx >= 0) {
+            activeDataset = plotData.getDatasets()[dsIdx];            
             // refresh UI
-            wpd.acquireData.load();
-        }
+            if(!suppressSecondaryActions) {
+                resetGraphics();
+                wpd.acquireData.load();    
+            }            
+        }        
         showTreeItemWidget('dataset-item-tree-widget');
+        renderDatasetAxesSelection();
+    }
+
+    function renderDatasetAxesSelection() {
+        if(activeDataset == null) return;
+        const plotData = wpd.appData.getPlotData();
+        const axesNames = plotData.getAxesNames();
+        const dsaxes = plotData.getAxesForDataset(activeDataset);
+        const $selection = document.getElementById("dataset-item-axes-select");
+        let innerHTML = "<option value='-1'>None</option>";
+        for(let axIdx = 0; axIdx < axesNames.length; axIdx++) {
+            innerHTML += "<option value='" + axIdx + "'>" + axesNames[axIdx] + "</option>";
+        }
+        $selection.innerHTML = innerHTML;
+        if(dsaxes == null) {
+            $selection.value = "-1";
+        } else {
+            $selection.value = axesNames.indexOf(dsaxes.name);
+        }
+        activeAxes = dsaxes;
+    }
+
+    function renderDistanceAxesSelection() {
+        const plotData = wpd.appData.getPlotData();
+        const msColl = plotData.getMeasurementsByType(wpd.DistanceMeasurement);
+        if(msColl.length != 1) return; // only 1 distance object is supported right now
+        const ms = msColl[0];
+        const $selection = document.getElementById("distance-item-axes-select");
+        const axesColl = plotData.getAxesColl();
+        const axes = plotData.getAxesForMeasurement(ms);
+        let innerHTML = "<option value='-1'>None</option>";
+        for(let axIdx = 0; axIdx < axesColl.length; axIdx++) {
+            if(axesColl[axIdx] instanceof wpd.ImageAxes || axesColl[axIdx] instanceof wpd.MapAxes) {
+                innerHTML += "<option value='" + axIdx + "'>" + axesColl[axIdx].name + "</option>";
+            }            
+        }
+        $selection.innerHTML = innerHTML;
+        if(axes == null) {
+            $selection.value = "-1";    
+        } else {
+            $selection.value = axesColl.indexOf(axes);
+        }
+        activeAxes = axes;        
+    }
+
+    function onAxesSelection(elem, path, suppressSecondaryActions) {
+        resetGraphics();
+        showTreeItemWidget("axes-item-tree-widget");
+        const axName = path.replace("/"+wpd.gettext("axes")+"/", "");
+        const plotData = wpd.appData.getPlotData();
+        const axIdx = plotData.getAxesNames().indexOf(axName);
+        activeAxes = plotData.getAxesColl()[axIdx];
+        const $tweakButton = document.getElementById("tweak-axes-calibration-button");        
+        $tweakButton.disabled = activeAxes instanceof wpd.ImageAxes ? true : false;        
     }
 
     function onSelection(elem, path, suppressSecondaryActions) {
         if(path === "/" + wpd.gettext("datasets")) {
             resetGraphics();
             showTreeItemWidget("dataset-group-tree-widget");
+            activeAxes = null;
         } else if(path === "/" + wpd.gettext("axes")) {
             resetGraphics();
             showTreeItemWidget("axes-group-tree-widget");
+            activeAxes = null;
         } else if(path === "/" + wpd.gettext("measurements")) {
             resetGraphics();
             showTreeItemWidget("measurement-group-tree-widget");
+            activeAxes = null;
         } else if(path === '/'+wpd.gettext('measurements')+'/'+wpd.gettext('distance')) {
             if(!suppressSecondaryActions) {
                 wpd.measurement.start(wpd.measurementModes.distance);
             }
             showTreeItemWidget('distance-item-tree-widget');
+            renderDistanceAxesSelection();            
         } else if(path === '/'+wpd.gettext('measurements')+'/'+wpd.gettext('angle')) {
             if(!suppressSecondaryActions) {
                 wpd.measurement.start(wpd.measurementModes.angle);
             }
             showTreeItemWidget('angle-item-tree-widget');
+            activeAxes = null;
         } else if(path.startsWith("/"+ wpd.gettext("datasets") +"/")) {
             onDatasetSelection(elem, path, suppressSecondaryActions);
         } else if(path.startsWith("/" + wpd.gettext("axes") + "/")) {
-            resetGraphics();
-            showTreeItemWidget("axes-item-tree-widget");
+            onAxesSelection(elem, path, suppressSecondaryActions);            
         } else {
             resetGraphics();
             showTreeItemWidget(null);
+            activeAxes = null;
         }
     }
 
@@ -261,11 +306,11 @@ wpd.tree = (function() {
         buildTree();
     }
 
-    function refreshPreservingSelection() {
+    function refreshPreservingSelection(forceRefresh) {
         if(treeWidget != null) {
             const selectedPath = treeWidget.getSelectedPath();
             refresh();
-            treeWidget.selectPath(selectedPath, true);
+            treeWidget.selectPath(selectedPath, !forceRefresh);
         } else {
             refresh();
         }
@@ -285,12 +330,22 @@ wpd.tree = (function() {
         }
     }
 
+    function getActiveDataset() {
+        return activeDataset;
+    }
+
+    function getActiveAxes() {
+        return activeAxes;
+    }
+
     return {
         init: init,
         refresh: refresh,
         refreshPreservingSelection: refreshPreservingSelection,
         selectPath: selectPath,
-        addMeasurement: addMeasurement        
+        addMeasurement: addMeasurement,
+        getActiveDataset: getActiveDataset,
+        getActiveAxes: getActiveAxes        
     };
 })();
 

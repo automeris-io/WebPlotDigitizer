@@ -127,7 +127,10 @@ wpd.XYAxes = (function () {
             return isCalibrated;
         };
 
+        this.calibration = null;
+
         this.calibrate = function(calib, isLogX, isLogY) {
+            this.calibration = calib;
             isCalibrated = processCalibration(calib, isLogX, isLogY);
             return isCalibrated;
         };
@@ -263,6 +266,8 @@ wpd.XYAxes = (function () {
                 angle: 90
             };
         };
+
+        this.name = "XY";
     };
 
     AxesObj.prototype.numCalibrationPointsRequired = function() {

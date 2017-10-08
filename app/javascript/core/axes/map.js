@@ -29,7 +29,7 @@ wpd.MapAxes = (function () {
             scaleLength,
             scaleUnits,
             dist,
-            processCalibration = function(cal, scale_length, scale_units) {
+            processCalibration = function(cal, scale_length, scale_units) {                
                 var cp0 = cal.getPoint(0),
                     cp1 = cal.getPoint(1);
                 dist = Math.sqrt((cp0.px-cp1.px)*(cp0.px-cp1.px) + (cp0.py-cp1.py)*(cp0.py-cp1.py));
@@ -38,11 +38,14 @@ wpd.MapAxes = (function () {
                 return true;
             };
 
+        this.calibration = null;
+
         this.isCalibrated = function() {
             return isCalibrated;
         };
 
         this.calibrate = function (calib, scale_length, scale_units) {
+            this.calibration = calib;
             isCalibrated = processCalibration(calib, scale_length, scale_units);
             return isCalibrated;
         };
@@ -94,6 +97,8 @@ wpd.MapAxes = (function () {
                             ]
             };
         };
+
+        this.name = "Map";
     };
 
     AxesObj.prototype.numCalibrationPointsRequired = function() {
