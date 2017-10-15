@@ -23,6 +23,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -32,8 +33,8 @@ import (
 type ServerSettings struct {
 	Hostname string
 	HTTPPort string
-	Logging  bool
-	LogPath  string
+	LogUsage bool
+	LogDir   string
 }
 
 func main() {
@@ -54,10 +55,14 @@ func main() {
 		HandleDownload(w, r)
 	})
 
-	// logging
-	http.HandleFunc("/logging", func(w http.ResponseWriter, r *http.Request) {
-		// enabled?
-		// post data
+	// log
+	http.HandleFunc("/log", func(w http.ResponseWriter, r *http.Request) {
+		// collect posted json data
+		if r.Method == "POST" {
+			CollectLogDataFunc(w, r, settings)
+		} else if r.Method == "GET" {
+			fmt.Fprintf(w, "%t", settings.LogUsage)
+		}
 	})
 
 	// start the server

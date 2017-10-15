@@ -1,6 +1,6 @@
 {
     "Hostname":"",
     "HTTPPort":"8080",
-    "Logging": true,
-    "LogPath": "logs/"
+    "LogUsage": false,
+    "LogDir": "log/"
 }

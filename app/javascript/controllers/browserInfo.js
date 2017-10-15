@@ -33,8 +33,16 @@ wpd.browserInfo = (function () {
 
     let downloadAttributeSupported = ("download" in document.createElement("a"));
 
+    function isElectronBrowser() {
+        if(typeof process === 'undefined') { // there's probably a much better way to do this!
+            return false;
+        }
+        return true;
+    }
+
     return {
         checkBrowser : checkBrowser,
-        downloadAttributeSupported: downloadAttributeSupported
+        downloadAttributeSupported: downloadAttributeSupported,
+        isElectronBrowser: isElectronBrowser
     };
 })();
