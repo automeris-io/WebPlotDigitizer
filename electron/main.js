@@ -13,7 +13,7 @@ let mainWindow
 
 function createWindow () {
   // Create the browser window.
-  mainWindow = new BrowserWindow({width: 1200, height: 700})
+  mainWindow = new BrowserWindow({width: 1200, height: 700, icon: path.join(__dirname, '../app/images/icon/icon.png')})
 
   // and load the index.html of the app.
   mainWindow.loadURL(url.format({
@@ -23,7 +23,7 @@ function createWindow () {
   }))
 
   mainWindow.setMenu(null)
-  mainWindow.setIcon(path.join(__dirname, '../app/images/icon/icon.png'))
+  //mainWindow.setIcon(path.join(__dirname, '../app/images/icon/icon.png'))
 
   // Open the DevTools.
   // mainWindow.webContents.openDevTools()
