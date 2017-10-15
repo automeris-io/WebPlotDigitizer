@@ -28,6 +28,7 @@ wpd.initApp = function() {// This is run when the page loads.
     wpd.browserInfo.checkBrowser();
     wpd.layoutManager.initialLayout();
     wpd.imageManager.loadFromURL('start.png');
+    wpd.log();
     document.getElementById('loadingCurtain').style.display = 'none';
 
 };
