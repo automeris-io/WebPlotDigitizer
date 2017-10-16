@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-10-15 21:45-0500\n"
+"POT-Creation-Date: 2017-10-15 21:52-0500\n"
 "PO-Revision-Date: 2017-01-11 20:47-0600\n"
 "Last-Translator: \n"
 "Language: de_DE\n"
@@ -142,10 +142,14 @@ msgstr ""
 msgid "Run Script"
 msgstr "Skript ausführen"
 
-#: templates/_popups.html:44
+#: templates/_popups.html:43
 msgid ""
 "Load a Javascript file to further extend the capabilities of "
-"WebPlotDigitizer. For examples, visit the"
+"WebPlotDigitizer."
+msgstr ""
+
+#: templates/_popups.html:44
+msgid "For examples, visit the"
 msgstr ""
 
 #: templates/_popups.html:44
@@ -485,19 +489,19 @@ msgid "The following relationships are being used to convert image pixels to dat
 msgstr ""
 
 #: templates/_popups.html:350
-msgid "Export JSON/Project"
+msgid "Export JSON or Project File"
 msgstr ""
 
 #: templates/_popups.html:351
 msgid ""
-"This JSON file contains the axes calibration, digitized data and "
-"measurements. This file can be loaded to resume work at a later time. You"
-" can also download a combined 'project file' which includes this JSON and"
-" also the image in a single file."
+"Export a JSON file containing the axes calibrations, digitized data and "
+"measurements. This JSON file can be loaded to resume work at a later "
+"time. You can also download a combined 'project file' which includes this"
+" JSON and also the image in a single TAR file."
 msgstr ""
 
 #: templates/_popups.html:357
-msgid "Download Project (JSON+Image)"
+msgid "Download Project File (.tar)"
 msgstr ""
 
 #: templates/_popups.html:364 templates/_strings.html:4
@@ -505,11 +509,11 @@ msgid "Import JSON/Project"
 msgstr ""
 
 #: templates/_popups.html:365
-msgid "Specify a previously exported JSON/project file to load here."
+msgid "Load a previously exported JSON or project file (.tar)"
 msgstr ""
 
 #: templates/_popups.html:366
-msgid "NOTE: This will clear any unsaved data in the current plot."
+msgid "(Note: This will clear any unsaved data in the current plot.)"
 msgstr ""
 
 #: templates/_popups.html:368
@@ -1543,5 +1547,17 @@ msgstr "Alle löschen"
 #~ msgstr ""
 
 #~ msgid "Edit"
+#~ msgstr ""
+
+#~ msgid "Specify a previously exported JSON/project file to load here."
+#~ msgstr ""
+
+#~ msgid "NOTE: This will clear any unsaved data in the current plot."
+#~ msgstr ""
+
+#~ msgid "Export JSON/Project"
+#~ msgstr ""
+
+#~ msgid "Download Project (JSON+Image)"
 #~ msgstr ""
 
