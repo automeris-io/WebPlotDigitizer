@@ -311,8 +311,7 @@ wpd.dataTable = (function () {
             document.execCommand('copy');
         } catch(ex) {
             console.log('copyToClipboard', ex.message);
-        }
-        $digitizedDataTable.blur();
+        }        
     }
 
     function generateCSV() {
