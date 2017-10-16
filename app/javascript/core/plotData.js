@@ -362,7 +362,7 @@ wpd.PlotData = class {
                 // add connections
                 if(ms != null) {
                     for(let cIdx = 0; cIdx < msData.data.length; cIdx++) {
-                        ms.addConnection(msData.data[i]);
+                        ms.addConnection(msData.data[cIdx]);
                     }
                     
                 }
