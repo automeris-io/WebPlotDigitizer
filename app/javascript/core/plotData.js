@@ -247,7 +247,7 @@ wpd.PlotData = class {
         if(data.distanceMeasurementData != null) {
             let dist = new wpd.DistanceMeasurement();
             for(let cIdx = 0; cIdx < data.distanceMeasurementData.length; cIdx++) {
-                dist.addConnection(data.distanceMeasurementData[i]);
+                dist.addConnection(data.distanceMeasurementData[cIdx]);
             }
             this.addMeasurement(dist);
             if(axes instanceof wpd.MapAxes) {
@@ -259,7 +259,7 @@ wpd.PlotData = class {
         if(data.angleMeasurementData != null) {
             let ang = new wpd.AngleMeasurement();
             for(let cIdx = 0; cIdx < data.angleMeasurementData.length; cIdx++) {
-                ang.addConnection(data.angleMeasurementData[i]);
+                ang.addConnection(data.angleMeasurementData[cIdx]);
             }
             this.addMeasurement(ang);            
         }
