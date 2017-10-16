@@ -27,3 +27,7 @@ wpdtest.getImageAxes = function() {
 wpdtest.getPlotData = function() {
 
 };
+
+wpdtest.getJSONFile = function(filename) {
+    
+};
