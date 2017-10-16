@@ -22,6 +22,7 @@ The master branch in this repository is unstable and not recommended to be used 
 
 Development Dependencies
 ------------------------
+(You can also use the pre-configured Ubuntu based Dockerfile from the docker folder)
 
 UI:
 - See app/thirdparty folder and download the required third party libraries and dependencies.
@@ -78,7 +79,8 @@ To build MacOS, Windows or Linux apps, make sure "electron-packager" is availabl
 On a Linux development machine, you will also need "wine" to build the Windows app. To build the apps, run:
    
     cd electron
-    ./build-packages.sh
+    ./build-packages.sh # Windows and Linux
+    ./build-mac.sh      # MacOS only
 
 This will create apps for Mac, Windows and Linux.
 
