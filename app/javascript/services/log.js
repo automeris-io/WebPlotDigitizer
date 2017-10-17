@@ -31,7 +31,7 @@ wpd.log = function() {
     }
 
     // if server has disabled logging, then skip
-    fetch("/log").then(function(response) { 
+    fetch("log").then(function(response) { 
         return response.text();
     }).then(function(text) {
         if(text=="true") {
@@ -43,7 +43,7 @@ wpd.log = function() {
             data["platform"] = window.navigator.platform;
             data["userAgent"] = window.navigator.userAgent;
             data["language"] = window.navigator.language;
-            fetch("/log", {
+            fetch("log", {
                 method: 'post',
                 headers: {
                   'Accept': 'application/json, text/plain, */*',
