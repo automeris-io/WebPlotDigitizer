@@ -28,22 +28,56 @@ wpd.graphicsHelper = (function () {
     // imagePx - relative to original image
     // fillStyle - e.g. "rgb(200,0,0)"
     // label - e.g. "Bar 0"
-    function drawPoint(imagePx, fillStyle, label) {
+    // position - "N", "E", "S" (default), or "W"
+    function drawPoint(imagePx, fillStyle, label, position) {
         var screenPx = wpd.graphicsWidget.screenPx(imagePx.x, imagePx.y),
             ctx = wpd.graphicsWidget.getAllContexts(),
             labelWidth,
             imageHeight = wpd.graphicsWidget.getImageSize().height;
 
-        // Display Data Canvas Layer
         if(label != null) {
+            // Display Data Canvas Layer
             ctx.dataCtx.font = "15px sans-serif";
             labelWidth = ctx.dataCtx.measureText(label).width;
             ctx.dataCtx.fillStyle = "rgba(255, 255, 255, 0.7)";
-            ctx.dataCtx.fillRect(screenPx.x - 13, screenPx.y - 8, labelWidth + 5, 35);
-            ctx.dataCtx.fillStyle = fillStyle;
-            ctx.dataCtx.fillText(label, screenPx.x - 10, screenPx.y + 18);
+
+            // Original Image Data Canvas Layer
+            // No translucent background for text here.
+            ctx.oriDataCtx.font = "15px sans-serif";
+            ctx.oriDataCtx.fillStyle = fillStyle;
+
+            // Switch for both canvases
+            switch(position){
+                case "N":
+                case "n":
+                    ctx.dataCtx.fillRect(screenPx.x - 13, screenPx.y - 24, labelWidth + 5, 35);
+                    ctx.dataCtx.fillStyle = fillStyle;
+                    ctx.dataCtx.fillText(label, screenPx.x - 10, screenPx.y - 7);
+                    ctx.oriDataCtx.fillText(label, imagePx.x - 10, imagePx.y - 7);
+                    break;
+                case "E":
+                case "e":
+                    ctx.dataCtx.fillRect(screenPx.x - 7, screenPx.y - 16, labelWidth + 17, 26);
+                    ctx.dataCtx.fillStyle = fillStyle;
+                    ctx.dataCtx.fillText(label, screenPx.x + 7, screenPx.y + 5);
+                    ctx.oriDataCtx.fillText(label, imagePx.x + 7, imagePx.y + 5);
+                    break;
+                case "W":
+                case "w":
+                    ctx.dataCtx.fillRect(screenPx.x - labelWidth - 10, screenPx.y - 16, labelWidth + 17, 26);
+                    ctx.dataCtx.fillStyle = fillStyle;
+                    ctx.dataCtx.fillText(label, screenPx.x - labelWidth - 7, screenPx.y + 5);
+                    ctx.oriDataCtx.fillText(label, imagePx.x - labelWidth - 7, imagePx.y + 5);
+                    break;
+                default:
+                    ctx.dataCtx.fillRect(screenPx.x - 13, screenPx.y - 8, labelWidth + 5, 35);
+                    ctx.dataCtx.fillStyle = fillStyle;
+                    ctx.dataCtx.fillText(label, screenPx.x - 10, screenPx.y + 18);
+                    ctx.oriDataCtx.fillText(label, imagePx.x - 10, imagePx.y + 18);
+            }
         }
 
+        // Display Data Canvas Layer
         ctx.dataCtx.beginPath();
         ctx.dataCtx.fillStyle = fillStyle;
         ctx.dataCtx.strokeStyle = "rgb(255, 255, 255)";
@@ -52,13 +86,6 @@ wpd.graphicsHelper = (function () {
         ctx.dataCtx.stroke();
 
         // Original Image Data Canvas Layer
-        if(label != null) {
-            // No translucent background for text here.
-            ctx.oriDataCtx.font = "15px sans-serif";
-            ctx.oriDataCtx.fillStyle = fillStyle;
-            ctx.oriDataCtx.fillText(label, imagePx.x - 10, imagePx.y + 18);
-        }
-
         ctx.oriDataCtx.beginPath();
         ctx.oriDataCtx.fillStyle = fillStyle;
         ctx.oriDataCtx.strokeStyle = "rgb(255, 255, 255)";
