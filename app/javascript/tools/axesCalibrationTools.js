@@ -127,7 +127,7 @@ wpd.AlignmentCornersRepainter = (function () {
         		    fillStyle = "rgba(200,0,0,1)";
                 }
 
-                wpd.graphicsHelper.drawPoint(imagePx, fillStyle, _calibration.labels[i]);
+                wpd.graphicsHelper.drawPoint(imagePx, fillStyle, _calibration.labels[i], _calibration.labelPositions[i]);
             }
         };
     };

@@ -37,6 +37,7 @@ wpd.Calibration = (function () {
             selections = [];
 
         this.labels = [];
+        this.labelPositions = [];
         this.maxPointCount = 0;
 
         this.getCount = function () { return px.length; };
