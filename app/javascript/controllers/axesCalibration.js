@@ -246,26 +246,31 @@ wpd.alignAxes = (function () {
         if (xyEl.checked === true) {
             calibration = new wpd.Calibration(2);
             calibration.labels = ['X1', 'X2', 'Y2', 'Y2'];
+            calibration.labelPositions = ['N', 'N', 'E', 'E'];
             calibration.maxPointCount = 4;
             calibrator = new wpd.XYAxesCalibrator(calibration);
         } else if(barEl.checked === true) {
             calibration = new wpd.Calibration(2);
             calibration.labels = ['P1', 'P2'];
+            calibration.labelPositions = ['S', 'S'];
             calibration.maxPointCount = 2;
             calibrator = new wpd.BarAxesCalibrator(calibration);
         } else if(polarEl.checked === true) {
             calibration = new wpd.Calibration(2);
             calibration.labels = ['Origin', 'P1', 'P2'];
+            calibration.labelPositions = ['E', 'S', 'S'];
             calibration.maxPointCount = 3;
             calibrator = new wpd.PolarAxesCalibrator(calibration);
         } else if(ternaryEl.checked === true) {
             calibration = new wpd.Calibration(2);
             calibration.labels = ['A', 'B', 'C'];
+            calibration.labelPositions = ['S', 'S', 'E'];
             calibration.maxPointCount = 3;
             calibrator = new wpd.TernaryAxesCalibrator(calibration);
         } else if(mapEl.checked === true) {
             calibration = new wpd.Calibration(2);
             calibration.labels = ['P1', 'P2'];
+            calibration.labelPositions = ['S', 'S'];
             calibration.maxPointCount = 2;
             calibrator = new wpd.MapAxesCalibrator(calibration);
         } else if(imageEl.checked === true) {
