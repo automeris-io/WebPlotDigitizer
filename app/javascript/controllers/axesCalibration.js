@@ -226,7 +226,7 @@ wpd.MapAxesCalibrator = class extends wpd.AxesCalibrator {
             axes = this._isEditing ? wpd.tree.getActiveAxes() : new wpd.MapAxes();
 
         axes.calibrate(this._calibration, scaleLength, scaleUnits);
-        if(this._isEditing) {
+        if(!this._isEditing) {
             axes.name = wpd.alignAxes.makeAxesName(wpd.MapAxes);
             let plot = wpd.appData.getPlotData();
             plot.addAxes(axes);
