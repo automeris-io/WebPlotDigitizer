@@ -7,9 +7,15 @@
 cd ..
 echo "Packaging..."
 APPNAME=WebPlotDigitizer
-electron-packager ./electron $APPNAME --platform=linux --icon=app/images/icon/icon.png --arch=x64 --overwrite
-electron-packager ./electron $APPNAME --platform=win32 --icon=app/images/icon/icon.ico --arch=x64 --overwrite
 
-# Copy app/* to resources. There's probably a better way to do this:
+# linux
+electron-packager ./electron $APPNAME --platform=linux --icon=app/images/icon/icon.png --arch=x64 --overwrite
 cp -r ./app $APPNAME-linux-x64/resources/
+
+# windows
+electron-packager ./electron $APPNAME --platform=win32 --icon=app/images/icon/icon.ico --arch=x64 --overwrite
 cp -r ./app $APPNAME-win32-x64/resources/
+
+# mac
+electron-packager ./electron $APPNAME --platform=darwin --icon=app/images/icon/wpd.icns --arch=x64 --overwrite
+cp -r ./app $APPNAME-darwin-x64/$APPNAME.app/Contents/Resources/

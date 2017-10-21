@@ -70,7 +70,7 @@ wpd.acquireData = (function () {
         dataset.clearAll();
         wpd.graphicsWidget.removeTool();
         wpd.graphicsWidget.resetData();
-        wpd.dataPointCounter.setCount();
+        wpd.dataPointCounter.setCount(dataset.getCount());
         wpd.graphicsWidget.removeRepainter();
     }
 
@@ -85,13 +85,13 @@ wpd.acquireData = (function () {
         dataset.removeLastPixel();
         wpd.graphicsWidget.resetData();
         wpd.graphicsWidget.forceHandlerRepaint();
-        wpd.dataPointCounter.setCount();
+        wpd.dataPointCounter.setCount(dataset.getCount());
     }
  
     function showSidebar() {
         wpd.sidebar.show('acquireDataSidebar');
         updateControlVisibility();
-        wpd.dataPointCounter.setCount();
+        wpd.dataPointCounter.setCount(dataset.getCount());
     }
 
     function updateControlVisibility() {
