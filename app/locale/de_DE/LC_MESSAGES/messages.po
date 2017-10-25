@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-10-21 15:04-0500\n"
-"PO-Revision-Date: 2017-01-11 20:47-0600\n"
+"POT-Creation-Date: 2017-10-24 22:44-0500\n"
+"PO-Revision-Date: 2017-10-24 22:43-0500\n"
 "Last-Translator: \n"
 "Language: de_DE\n"
 "Language-Team: de_DE <LL@li.org>\n"
@@ -22,17 +22,19 @@ msgstr ""
 msgid "Web based tool to extract numerical data from plots and graph images."
 msgstr ""
 "Web-basiertes Werkzeug zum Extrahieren von numerischen Daten aus "
-"Parzellen und Grafik Bilder."
+"Aufzeichnungen und Bildern."
 
 #: templates/_base.html:47
 msgid "Loading application, please wait..."
-msgstr "Warten Sie Anwendung wird geladen, bitte..."
+msgstr "Bitte warten, Anwendung wird geladen..."
 
 #: templates/_base.html:50
 msgid ""
 "Problems loading? Make sure you have a recent version of Google Chrome, "
 "Firefox, Safari or Microsoft Edge installed."
 msgstr ""
+"Probleme beim Laden? Bitte stellen Sie sicher, dass eine akutelle Verion "
+"von Google Chrome, Firefox, Safari oder Microsoft Edge installiert ist."
 
 #: templates/_base.html:72
 msgid "Fit"
@@ -40,7 +42,7 @@ msgstr "passen"
 
 #: templates/_menubar.html:1
 msgid "Load new image"
-msgstr ""
+msgstr "Neues Bild laden"
 
 #: templates/_menubar.html:1 templates/_popups.html:88
 #: templates/_strings.html:54
@@ -49,19 +51,24 @@ msgstr "Bild"
 
 #: templates/_menubar.html:2
 msgid "Load JSON"
-msgstr ""
+msgstr "JSON laden"
+
+#: templates/_menubar.html:2 templates/_menubar.html:3
+#: templates/_strings.html:59
+msgid "Project"
+msgstr "Projekt"
 
 #: templates/_menubar.html:3 templates/_popups.html:356
 msgid "Download JSON"
-msgstr ""
+msgstr "JSON herunterladen"
 
 #: templates/_menubar.html:4
 msgid "Load a script"
-msgstr ""
+msgstr "Sript laden"
 
 #: templates/_menubar.html:4
 msgid "Script"
-msgstr ""
+msgstr "Skript"
 
 #: templates/_menubar.html:9
 msgid "Help"
@@ -73,15 +80,15 @@ msgstr "Über WebPlotDigitizer"
 
 #: templates/_menubar.html:13
 msgid "Tutorials"
-msgstr "Tutorien"
+msgstr "Tutorials"
 
 #: templates/_menubar.html:14
 msgid "User Manual"
-msgstr "Benutzer-Handbuch"
+msgstr "Benutzerhandbuch"
 
 #: templates/_menubar.html:15
 msgid "GitHub Page"
-msgstr "GitHub Seite"
+msgstr "GitHub-Seite"
 
 #: templates/_menubar.html:16
 msgid "Report Issues"
@@ -93,11 +100,11 @@ msgstr "Spenden (PayPal)"
 
 #: templates/_popups.html:7
 msgid "Load Image File"
-msgstr ""
+msgstr "Bilddatei laden"
 
 #: templates/_popups.html:12
 msgid "Load"
-msgstr ""
+msgstr "Laden"
 
 #: templates/_popups.html:13 templates/_popups.html:37
 #: templates/_popups.html:48 templates/_popups.html:56
@@ -108,35 +115,35 @@ msgstr ""
 #: templates/_popups.html:453 templates/_popups.html:463
 #: templates/_popups.html:474
 msgid "Cancel"
-msgstr ""
+msgstr "Abbrechen"
 
 #: templates/_popups.html:19
 msgid "Magnified View Settings"
-msgstr ""
+msgstr "Vergrößerungseinstllungen"
 
 #: templates/_popups.html:23
 msgid "Magnification"
-msgstr ""
+msgstr "Vergrößerung"
 
 #: templates/_popups.html:23
 msgid "Times"
-msgstr ""
+msgstr "Zeiten"
 
 #: templates/_popups.html:25
 msgid "Crosshair Color"
-msgstr ""
+msgstr "Fadenkreuz-Farben"
 
 #: templates/_popups.html:28
 msgid "Black"
-msgstr ""
+msgstr "Schwarz"
 
 #: templates/_popups.html:29
 msgid "Red"
-msgstr ""
+msgstr "Rot"
 
 #: templates/_popups.html:30
 msgid "Yellow"
-msgstr ""
+msgstr "Yellow"
 
 #: templates/_popups.html:42
 msgid "Run Script"
@@ -147,18 +154,20 @@ msgid ""
 "Load a Javascript file to further extend the capabilities of "
 "WebPlotDigitizer."
 msgstr ""
+"Lade eine Javascript-Datei um die Fährigkeiten von WebPlotDigitizer "
+"weiter zu ergänzen."
 
 #: templates/_popups.html:44
 msgid "For examples, visit the"
-msgstr ""
+msgstr "Zum Beispiel, besuche die"
 
 #: templates/_popups.html:44
 msgid "WebPlotDigitizer-Examples repository"
-msgstr ""
+msgstr "WebPlotDigitizer-Beispiel Repository"
 
 #: templates/_popups.html:48 templates/_sidebars.html:32
 msgid "Run"
-msgstr "Laufen"
+msgstr "Starten"
 
 #: templates/_popups.html:53 templates/_strings.html:14
 msgid "Webcam Capture"
@@ -166,7 +175,7 @@ msgstr "Webcam-Aufnahme"
 
 #: templates/_popups.html:56
 msgid "Capture"
-msgstr ""
+msgstr "Aufnahme"
 
 #: templates/_popups.html:65 templates/_popups.html:74
 #: templates/_popups.html:123 templates/_popups.html:147
@@ -174,64 +183,66 @@ msgstr ""
 #: templates/_popups.html:206 templates/_popups.html:401
 #: templates/_popups.html:414
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 #: templates/_popups.html:79
 msgid "Choose Plot Type"
-msgstr ""
+msgstr "Aufzeichnugstyp wählen"
 
 #: templates/_popups.html:83
 msgid "2D (X-Y) Plot"
-msgstr ""
+msgstr "2D (X-Y)-Aufzeichnung"
 
 #: templates/_popups.html:84
 msgid "2D Bar Plot"
-msgstr ""
+msgstr "2D Balkenaufzeichnung"
 
 #: templates/_popups.html:85
 msgid "Polar Diagram"
-msgstr ""
+msgstr "Polardiagramm"
 
 #: templates/_popups.html:86
 msgid "Ternary Diagram"
-msgstr ""
+msgstr "Dreiecksdiagramm"
 
 #: templates/_popups.html:87
 msgid "Map With Scale Bar"
-msgstr ""
+msgstr "Karte mit Größenlegende"
 
 #: templates/_popups.html:97
 msgid "X and Y Axes Calibration"
-msgstr ""
+msgstr "X- und Y-Achsenkalibration"
 
 #: templates/_popups.html:99
 msgid ""
 "Enter X-values of the two points clicked on X-axis and Y-values of the "
 "two points clicked on Y-axes"
 msgstr ""
+"X-Werte für die zwei gewählten Punkte auf der X-Achse und Y-Werte für die"
+" zwei gewählten Punkte auf der Y-Achse eingeben."
 
 #: templates/_popups.html:104 templates/_popups.html:134
 #: templates/_popups.html:166
 msgid "Point 1"
-msgstr ""
+msgstr "Punkt 1"
 
 #: templates/_popups.html:105 templates/_popups.html:135
 #: templates/_popups.html:167
 msgid "Point 2"
-msgstr ""
+msgstr "Punkt 2"
 
 #: templates/_popups.html:106 templates/_popups.html:136
 #: templates/_popups.html:168
 msgid "Log Scale"
-msgstr ""
+msgstr "Auflösung des Protokolls"
 
 #: templates/_popups.html:109
 msgid "X-Axis"
-msgstr ""
+msgstr "X-Achse"
 
 #: templates/_popups.html:115
 msgid "Y-Axis"
-msgstr ""
+msgstr "Y-Achse"
 
 #: templates/_popups.html:121
 msgid ""
@@ -239,72 +250,77 @@ msgid ""
 "(e.g. 2013/10/23 or 2013/10 or 2013/10/23 10:15 or just 10:15). For "
 "exponents, enter values as 1e-3 for 10^-3."
 msgstr ""
+"Für Daten folgende Schreibweise verwenden: JJJJ/MM/TT SS:MM:SS (z.B. "
+"2013/10/23 oder 2013/10 oder 2013/10/23 10:15 oder nur 10:15. Exponenten "
+"als 1e-3 für 10^-3 schreiben."
 
 #: templates/_popups.html:129
 msgid "Bar Chart Calibration"
-msgstr ""
+msgstr "Balkendiagramm-Kalibration"
 
 #: templates/_popups.html:130
 msgid ""
 "Enter the values at the two points selected on the continuous axes along "
 "the bars"
 msgstr ""
+"Gebe Werte für die zwei gewählten Punkte auf der Achse entlang der Balken"
+" an."
 
 #: templates/_popups.html:152
 msgid "Scale Size"
-msgstr ""
+msgstr "Skalengröße"
 
 #: templates/_popups.html:154
 msgid "Units"
-msgstr ""
+msgstr "Einheiten"
 
 #: templates/_popups.html:161 templates/_popups.html:294
 msgid "Align Polar Axes"
-msgstr ""
+msgstr "Polare Achsen ausrichten"
 
 #: templates/_popups.html:184
 msgid "Degrees"
-msgstr ""
+msgstr "Grad"
 
 #: templates/_popups.html:184
 msgid "Radians"
-msgstr ""
+msgstr "Radianten"
 
 #: templates/_popups.html:185
 msgid "Clockwise"
-msgstr ""
+msgstr "Im Uhrzeigersinn"
 
 #: templates/_popups.html:192
 msgid "Select Range of Variables"
-msgstr ""
+msgstr "Auswahl von Variablen"
 
 #: templates/_popups.html:194
 msgid "Axes Orientation"
-msgstr ""
+msgstr "Achsenorientierung"
 
 #: templates/_popups.html:198
 msgid "Normal"
-msgstr ""
+msgstr "Normal"
 
 #: templates/_popups.html:198
 msgid "Reverse"
-msgstr ""
+msgstr "Rückwärts"
 
 #: templates/_popups.html:201
 msgid "Range of Variables"
-msgstr ""
+msgstr "Variablen"
 
 #: templates/_popups.html:203
 msgid "0 to 1"
-msgstr ""
+msgstr "0 bis 1"
 
 #: templates/_popups.html:203
 msgid "0 to 100"
-msgstr ""
+msgstr "0 bis 100"
 
 #: templates/_popups.html:211
 msgid "Acquired Data"
-msgstr ""
+msgstr "Erlangte Daten"
 
 #: templates/_popups.html:216 templates/_strings.html:47
 #: templates/_tree.html:44
@@ -313,96 +329,100 @@ msgstr "Datensatz"
 
 #: templates/_popups.html:217
 msgid "Variables"
-msgstr ""
+msgstr "Variablen"
 
 #: templates/_popups.html:220
 msgid "Copy to Clipboard"
-msgstr ""
+msgstr "In Zwischenablage kopieren"
 
 #: templates/_popups.html:221 templates/_popups.html:440
 msgid "Download .CSV"
-msgstr ""
+msgstr ".CSV herunterladen"
 
 #: templates/_popups.html:222
 msgid "Graph in Plotly*"
-msgstr ""
+msgstr "Graph in Plotly*"
 
 #: templates/_popups.html:223 templates/_popups.html:321
 #: templates/_popups.html:345 templates/_popups.html:391
 msgid "Close"
-msgstr ""
+msgstr "Schließen"
 
 #: templates/_popups.html:225
 msgid ""
 "*Plotly is a secure data analysis and graphing site with data sharing and"
 " access controls."
 msgstr ""
+"*Plotly ist eine sichere Datenanalyse- und Grafik-Seite mit "
+"Zugangskontrolle."
 
 #: templates/_popups.html:226
 msgid ""
 "Visit <a href=\"http://plot.ly\" "
 "target=\"plotlyWebsite\">http://plot.ly</a> for details."
 msgstr ""
+"Besuche <a href=\"http://plot.ly\" "
+"target=\"plotlyWebsite\">http://plot.ly</a> für Details."
 
 #: templates/_popups.html:230
 msgid "Sort"
-msgstr ""
+msgstr "Sortieren"
 
 #: templates/_popups.html:231
 msgid "Sort by"
-msgstr ""
+msgstr "Sortieren nach"
 
 #: templates/_popups.html:232
 msgid "Order"
-msgstr ""
+msgstr "Reihenfolge"
 
 #: templates/_popups.html:234
 msgid "Ascending"
-msgstr ""
+msgstr "Steigend"
 
 #: templates/_popups.html:235
 msgid "Descending"
-msgstr ""
+msgstr "Abfallend"
 
 #: templates/_popups.html:239
 msgid "Format"
-msgstr ""
+msgstr "Format"
 
 #: templates/_popups.html:242
 msgid "Date Formatting"
-msgstr ""
+msgstr "Datenformatierung"
 
 #: templates/_popups.html:246
 msgid "Number Formatting"
-msgstr ""
+msgstr "Nummernformatierung"
 
 #: templates/_popups.html:247
 msgid "Digits"
-msgstr ""
+msgstr "Stellen"
 
 #: templates/_popups.html:249
 msgid "Ignore"
-msgstr ""
+msgstr "Ignorieren"
 
 #: templates/_popups.html:250
 msgid "Fixed"
-msgstr ""
+msgstr "Repariert"
 
 #: templates/_popups.html:251
 msgid "Precision"
-msgstr ""
+msgstr "Präzision"
 
 #: templates/_popups.html:252
 msgid "Exponential"
-msgstr ""
+msgstr "Exponentiell"
 
 #: templates/_popups.html:255
 msgid "Column Separator"
-msgstr ""
+msgstr "Spaltentrenner"
 
 #: templates/_popups.html:264
 msgid "Align X-Y Axes"
-msgstr ""
+msgstr "X-Y Achse ausrichten"
 
 #: templates/_popups.html:267
 msgid ""
@@ -410,48 +430,53 @@ msgid ""
 "shown in red</font>. Two on the X axis (X1, X2) and two on the Y axis "
 "(Y1, Y2)"
 msgstr ""
+"Klicke vier bekannte Punkte auf den Achsen in folgender <font "
+"color=\"red\">in rot angezeigter</font> Reihenfolge an: Zwei Punkte auf "
+"der X-Achse (X1, X2), zwei auf der Y-Achse (Y1, Y2)."
 
 #: templates/_popups.html:269 templates/_popups.html:279
 #: templates/_popups.html:289 templates/_popups.html:299
 #: templates/_popups.html:309
 msgid "Proceed"
-msgstr ""
+msgstr "Fortfahren"
 
 #: templates/_popups.html:274
 msgid "Align Bar Chart Axes"
-msgstr ""
+msgstr "Diagrammachsen ausrichten"
 
 #: templates/_popups.html:277
 msgid "Click on two known points (P1, P2) on the continuous axes along the bars"
 msgstr ""
+"Klicke zwei bekannte Punkte (P1, P2) auf den parallel zu den Balken "
+"verlaufenden Achsen an."
 
 #: templates/_popups.html:284
 msgid "Align Map To Scale Bar"
-msgstr ""
+msgstr "Karte zur Skala ausrichten"
 
 #: templates/_popups.html:287
 msgid "Click on the two ends of the scale bar on the map."
-msgstr ""
+msgstr "Klicke die Endpunkte der Skala auf der Karte an."
 
 #: templates/_popups.html:297
 msgid "Click on the center, followed by two known points."
-msgstr ""
+msgstr "Klicke in die Mitte, anschließend auf zwei bekannte Punkte."
 
 #: templates/_popups.html:304
 msgid "Align Ternary Axes"
-msgstr ""
+msgstr "Ternärachsen ausrichten"
 
 #: templates/_popups.html:307
 msgid "Click on the three corners in the order shown above."
-msgstr ""
+msgstr "Klicke die drei Achsen in der oben gezeigten Reihenfolge an."
 
 #: templates/_popups.html:314
 msgid "WebPlotDigitizer - Web Based Plot Digitizer"
-msgstr ""
+msgstr "WebPlotDigitizer - Webbasierter Plot Digitizer"
 
 #: templates/_popups.html:316
 msgid "Version"
-msgstr ""
+msgstr "Version"
 
 #: templates/_popups.html:317
 msgid ""
@@ -459,26 +484,30 @@ msgid ""
 "href=\"https://www.gnu.org/licenses/agpl-3.0-standalone.html\" "
 "target=\"_blank\">GNU Affero General Public License Version 3</a>."
 msgstr ""
+"Dieses Programm wird unter "
+"<a\"href=\"https://www.gnu.org/licenses/agpl-3.0-standalone.html\" "
+"\"target=\"_blank\">GNU Affero General Public License Version 3</a> "
+"verbreitet."
 
 #: templates/_popups.html:318
 msgid "Copyright"
-msgstr ""
+msgstr "Copyright"
 
 #: templates/_popups.html:326
 msgid "Specify Color"
-msgstr ""
+msgstr "Farbe auswählen"
 
 #: templates/_popups.html:332
 msgid "Color Picker"
-msgstr ""
+msgstr "Farbwähler"
 
 #: templates/_popups.html:334
 msgid "Dominant Colors"
-msgstr ""
+msgstr "Dominante Farben"
 
 #: templates/_popups.html:336
 msgid "Done"
-msgstr ""
+msgstr "Erledigt"
 
 #: templates/_popups.html:341 templates/_strings.html:16
 msgid "Transformation Equations"
@@ -487,10 +516,12 @@ msgstr "Transformationsgleichungen"
 #: templates/_popups.html:342
 msgid "The following relationships are being used to convert image pixels to data"
 msgstr ""
+"Die folgenden Beziehungen werden genutzt, um Bildpixel in Daten "
+"umzuwandeln."
 
 #: templates/_popups.html:350
 msgid "Export JSON or Project File"
-msgstr ""
+msgstr "JSON oder Projektdatei exportieren"
 
 #: templates/_popups.html:351
 msgid ""
@@ -499,167 +530,175 @@ msgid ""
 "time. You can also download a combined 'project file' which includes this"
 " JSON and also the image in a single TAR file."
 msgstr ""
+"JSON-Datei mit den Achsenkalibrationen, digitalisierten Daten und Maßen "
+"exportieren. Diese Datei kann geladen werden, um deine Arbeit zu einem "
+"späteren Punkt fortzusetzen. Du kannst auch eine Projektdatei (.tar) "
+"bestehend aus der JSON und dem Bild herunterladen. "
 
 #: templates/_popups.html:357
 msgid "Download Project File (.tar)"
-msgstr ""
+msgstr "Projektdatei herunterladen (.tar)"
 
 #: templates/_popups.html:364 templates/_strings.html:4
 msgid "Import JSON/Project"
-msgstr ""
+msgstr "JSON/Projekt importieren"
 
 #: templates/_popups.html:365
 msgid "Load a previously exported JSON or project file (.tar)"
-msgstr ""
+msgstr "Exportierte JSON/Projektdatei (.tar) laden"
 
 #: templates/_popups.html:366
 msgid "(Note: This will clear any unsaved data in the current plot.)"
-msgstr ""
+msgstr "(Notiz: Dies wird ungespeicherte Daten im aktuellen Projekt löschen.)"
 
 #: templates/_popups.html:368
 msgid "JSON/Project File"
-msgstr ""
+msgstr "JSON/Projektdatei"
 
 #: templates/_popups.html:371
 msgid "Import"
-msgstr ""
+msgstr "Importieren"
 
 #: templates/_popups.html:378
 msgid "Keyboard Shortcuts"
-msgstr ""
+msgstr "Tastatürkürzel"
 
 #: templates/_popups.html:379
 msgid ""
 "Click to select a data point. The following keys can then be used to the "
 "adjust the position"
 msgstr ""
+"Klicke um einen Datenpunkt zu wählen. Die folgenden Tasten können benutzt"
+" werden, um die Position zu ändern."
 
 #: templates/_popups.html:382
 msgid "Cursor (Arrows)"
-msgstr ""
+msgstr "Cursor (Pfeiltasten)"
 
 #: templates/_popups.html:382
 msgid "Move up/down/right/left"
-msgstr ""
+msgstr "Bewege hoch/runter/rechts/links"
 
 #: templates/_popups.html:383
 msgid "Shift + Cursor"
-msgstr ""
+msgstr "Shift + Cursor"
 
 #: templates/_popups.html:383
 msgid "Faster rate of movement"
-msgstr ""
+msgstr "Schnellere Bewegung"
 
 #: templates/_popups.html:384
 msgid "Select next point"
-msgstr ""
+msgstr "Nächsten Punkt wählen"
 
 #: templates/_popups.html:385
 msgid "Select previous point"
-msgstr ""
+msgstr "Vorherigen Punkt wählen"
 
 #: templates/_popups.html:386
 msgid "Del/Backspace"
-msgstr ""
+msgstr "Löschen/Zurücksetzen"
 
 #: templates/_popups.html:386
 msgid "Delete point"
-msgstr ""
+msgstr "Löschpunkt"
 
 #: templates/_popups.html:387
 msgid "Edit label (Bar Chart)"
-msgstr ""
+msgstr "Beschriftung bearbeiten (Balkendiagramm)"
 
 #: templates/_popups.html:396
 msgid "Edit Label"
-msgstr ""
+msgstr "Beschriftung bearbeiten"
 
 #: templates/_popups.html:398
 msgid "Label"
-msgstr ""
+msgstr "Beschriftung"
 
 #: templates/_popups.html:398
 msgid "Data Point"
-msgstr ""
+msgstr "Datenpunkt"
 
 #: templates/_popups.html:408
 msgid "Perspective Transformation"
-msgstr ""
+msgstr "Perspektivtransformation"
 
 #: templates/_popups.html:411
 msgid "Click on four corners of the region to be transformed as shown."
-msgstr ""
+msgstr "Klicke auf vier Ecken der Region um sie wie angezeigt zu transformieren."
 
 #: templates/_popups.html:421
 msgid "Edit Existing Calibration?"
-msgstr ""
+msgstr "Bestehende Kalibrierung bearbeiten?"
 
 #: templates/_popups.html:423
 msgid "Do you wish to tweak existing axes calibration or select a new axes type?"
 msgstr ""
+"Möchtest du eine bestehende Achsenkalibration bearbeiten oder einen neuen"
+" Achsentyp wählen?"
 
 #: templates/_popups.html:426
 msgid "Edit Calibration"
-msgstr ""
+msgstr "Kalibration bearbeiten"
 
 #: templates/_popups.html:428
 msgid "Change Axes Type"
-msgstr ""
+msgstr "Achsentyp ändern"
 
 #: templates/_popups.html:436
 msgid "Export All Datasets"
-msgstr ""
+msgstr "Alle Datensätze exportieren"
 
 #: templates/_popups.html:441
 msgid "Export to Plotly"
-msgstr ""
+msgstr "Zu Plotly exportieren"
 
 #: templates/_popups.html:448 templates/_tree.html:30
 msgid "Add Dataset"
-msgstr ""
+msgstr "Datensatz hinzufügen"
 
 #: templates/_popups.html:449 templates/_popups.html:461
 #: templates/_popups.html:472
 msgid "Name"
-msgstr ""
+msgstr "Name"
 
 #: templates/_popups.html:449
 msgid "Add Single Dataset"
-msgstr ""
+msgstr "Einzelnen Datensatz hinzufügen"
 
 #: templates/_popups.html:451
 msgid "Count"
-msgstr ""
+msgstr "Zähler"
 
 #: templates/_popups.html:451
 msgid "Add Multiple Datasets"
-msgstr ""
+msgstr "Mehrere Datensätze hinzufügen"
 
 #: templates/_popups.html:458 templates/_tree.html:47
 msgid "Rename Dataset"
-msgstr ""
+msgstr "Datensatz umbenennen"
 
 #: templates/_popups.html:463 templates/_popups.html:474
 #: templates/_tree.html:20
 msgid "Rename"
-msgstr ""
+msgstr "Umbenennen"
 
 #: templates/_popups.html:469
 msgid "Rename Axes"
-msgstr ""
+msgstr "Achsen umbenennen"
 
 #: templates/_sidebars.html:3
 msgid "Axes Calibration"
-msgstr "Achsen Kalibrierung"
+msgstr "Achsenkalibrierung"
 
 #: templates/_sidebars.html:4
 msgid ""
 "Click points to select and use cursor keys to adjust positions. Use "
 "Shift+Arrow for faster movement. Click complete when finished."
 msgstr ""
-"Klicken Sie auf Punkte auswählen und Cursor-Tasten verwenden, um "
-"Positionen anpassen. Verwenden Sie Shift + Pfeil für schnellere Bewegung."
-" Klicken Sie auf abgeschlossen, wenn Sie fertig sind."
+"Klicken Sie auf Punkte um sie auswählen und nutzen Sie die Cursor-Tasten "
+"um Positionen anpassen. Verwenden Sie Shift + Pfeil für schnellere "
+"Bewegung. Klicken Sie auf abgeschlossen, wenn Sie fertig sind."
 
 #: templates/_sidebars.html:5
 msgid "Complete!"
@@ -667,7 +706,7 @@ msgstr "Komplett!"
 
 #: templates/_sidebars.html:10
 msgid "Manual Extraction"
-msgstr ""
+msgstr "Manuelle Extraktion"
 
 #: templates/_sidebars.html:12
 msgid "Add Point"
@@ -675,7 +714,7 @@ msgstr "Punkt hinzufügen"
 
 #: templates/_sidebars.html:13
 msgid "Adjust Point"
-msgstr "Passen Sie Punkt"
+msgstr "Punkt anpassen"
 
 #: templates/_sidebars.html:16
 msgid "Delete Point"
@@ -683,11 +722,11 @@ msgstr "Punkt löschen"
 
 #: templates/_sidebars.html:17
 msgid "Edit Labels"
-msgstr "Bearbeiten von Etiketten"
+msgstr "Beschriftungen bearbeiten"
 
 #: templates/_sidebars.html:20
 msgid "Automatic Extraction"
-msgstr ""
+msgstr "Automatische Extraktion"
 
 #: templates/_sidebars.html:21 templates/_sidebars.html:85
 msgid "Mask"
@@ -707,7 +746,7 @@ msgstr "Löschen"
 
 #: templates/_sidebars.html:21 templates/_sidebars.html:88
 msgid "View"
-msgstr "Blick"
+msgstr "Ansicht"
 
 #: templates/_sidebars.html:23 templates/_sidebars.html:92
 msgid "Color"
@@ -723,7 +762,7 @@ msgstr "Hintergrundfarbe"
 
 #: templates/_sidebars.html:23
 msgid "Click to change color"
-msgstr "Klicken Sie auf Farbe ändern"
+msgstr "Klicken Sie um die Farbe ändern"
 
 #: templates/_sidebars.html:24 templates/_strings.html:51
 #: templates/_tree.html:38 templates/_tree.html:56
@@ -748,11 +787,11 @@ msgstr "Distanzen messen"
 
 #: templates/_sidebars.html:49
 msgid "Add Pair"
-msgstr "-Paar hinzufügen"
+msgstr "Paar hinzufügen"
 
 #: templates/_sidebars.html:50
 msgid "Delete Pair"
-msgstr "Paar zu löschen"
+msgstr "Paar löschen"
 
 #: templates/_sidebars.html:56
 msgid "Measure Angles"
@@ -760,11 +799,11 @@ msgstr "Winkel messen"
 
 #: templates/_sidebars.html:58
 msgid "Add Angle"
-msgstr "Fügen Sie Winkel"
+msgstr "Winkel hinzufügen"
 
 #: templates/_sidebars.html:59
 msgid "Delete Angle"
-msgstr "Winkel zu löschen"
+msgstr "Winkel löschen"
 
 #: templates/_sidebars.html:65
 msgid "Measure Path"
@@ -772,7 +811,7 @@ msgstr "Pfad ausmessen"
 
 #: templates/_sidebars.html:67 templates/_sidebars.html:76
 msgid "Add Path"
-msgstr "Fügen Sie Pfad"
+msgstr "Pfad hinzufügen"
 
 #: templates/_sidebars.html:68 templates/_sidebars.html:77
 msgid "Delete Path"
@@ -784,15 +823,15 @@ msgstr "Geschlossene Strecke messen"
 
 #: templates/_sidebars.html:83
 msgid "Detect Grid"
-msgstr "Raster zu erkennen"
+msgstr "Erkennungsraster"
 
 #: templates/_sidebars.html:87
 msgid "Clear"
-msgstr "Klar"
+msgstr "Löschen"
 
 #: templates/_sidebars.html:93
 msgid "Pick"
-msgstr "Wählen Sie"
+msgstr "Wählen"
 
 #: templates/_sidebars.html:95
 msgid "Test"
@@ -804,7 +843,7 @@ msgstr "Hintergrund-Modus"
 
 #: templates/_sidebars.html:100
 msgid "Horizontal"
-msgstr "Horizontale"
+msgstr "Horizontal"
 
 #: templates/_sidebars.html:101
 msgid "X%"
@@ -832,19 +871,19 @@ msgstr "Bild laden"
 
 #: templates/_sidebars.html:118
 msgid "Tutorial Video"
-msgstr ""
+msgstr "Tutorialvideo"
 
 #: templates/_sidebars.html:119
 msgid "Visit Website"
-msgstr ""
+msgstr "Website besuchen"
 
 #: templates/_sidebars.html:120
 msgid "Visit GitHub"
-msgstr ""
+msgstr "GitHub besuchen"
 
 #: templates/_strings.html:2
 msgid "Unstable version warning!"
-msgstr "Unstabile Version Achtung!"
+msgstr "Achtung, instabile Version!"
 
 #: templates/_strings.html:3
 msgid ""
@@ -852,11 +891,11 @@ msgid ""
 "issues with the software that are expected."
 msgstr ""
 "Sie verwenden eine Betaversion von WebPlotDigitizer. Möglicherweise gibt "
-"es einige Probleme mit der Software, die erwartet werden."
+"es einige Probleme mit der Software, die erwartet werden müssen."
 
 #: templates/_strings.html:5
 msgid "JSON/Project data has been loaded!"
-msgstr ""
+msgstr "JSON/Projektdatei wurde geladen!"
 
 #: templates/_strings.html:6
 msgid "Invalid Inputs"
@@ -864,19 +903,19 @@ msgstr "Ungültige Eingaben"
 
 #: templates/_strings.html:7
 msgid "Please enter valid values for calibration."
-msgstr "Bitte geben Sie gültige Werte für die Kalibrierung."
+msgstr "Bitte geben Sie gültige Werte für die Kalibrierung an."
 
 #: templates/_strings.html:8
 msgid "Invalid Log Scale Value"
-msgstr "Ungültige Log Skalenwert"
+msgstr "Ungültiger Log-Skalenwert"
 
 #: templates/_strings.html:9
 msgid ""
 "Values on a log scale axis can not be zero as log(0) is undefined. Please"
 " enter a non-zero value."
 msgstr ""
-"Werte auf eine Log-Skala-Achse können nicht Null sein, da log(0) nicht "
-"definiert ist. Bitte geben Sie einen Wert ungleich Null."
+"Werte auf einer Log-Skala-Achse können nicht Null sein, da log(0) nicht "
+"definiert ist. Bitte geben Sie einen Wert ungleich Null ein."
 
 #: templates/_strings.html:10
 msgid "Acquire Data"
@@ -884,11 +923,11 @@ msgstr "Erfassung von Daten"
 
 #: templates/_strings.html:11
 msgid "Please calibrate the axes before acquiring data."
-msgstr "Bitte kalibrieren Sie die Achsen vor dem Importieren von Daten."
+msgstr "Bitte kalibrieren Sie die Achsen vor dem Erfassen von Daten."
 
 #: templates/_strings.html:12
 msgid "Clear data points?"
-msgstr "Daten löschen Punkte?"
+msgstr "Datenpunkte löschen?"
 
 #: templates/_strings.html:13
 msgid "This will delete all data points from this dataset"
@@ -906,7 +945,9 @@ msgstr ""
 msgid ""
 "Transformation equations are available only after axes have been "
 "calibrated."
-msgstr "Transformationsgleichungen stehen erst nach Achsen kalibriert wurde."
+msgstr ""
+"Transformationsgleichungen stehen erst nach Achsenkalibration zur "
+"Verfügung."
 
 #: templates/_strings.html:18
 msgid "Unsupported Feature!"
@@ -917,8 +958,8 @@ msgid ""
 "This feature has not been implemented in the current version. This may be"
 " available in a future release."
 msgstr ""
-"Diese Funktion wurde in der aktuellen Version nicht implementiert worden."
-" Dies kann in einer zukünftigen Version verfügbar sein."
+"Diese Funktion wurde in der aktuellen Version nicht implementiert. Es "
+"kann in einer zukünftigen Version verfügbar sein."
 
 #: templates/_strings.html:20
 msgid "Processing"
@@ -933,13 +974,13 @@ msgid ""
 "Please load a valid image file. Common image formats such as JPG, PNG, "
 "BMP, GIF etc. should work. PDF or Word documents are not accepted."
 msgstr ""
-"Bitte laden Sie eine gültige Image-Datei. Gemeinsame Bildformate wie JPG,"
-" PNG, BMP, sollte GIF etc. funktionieren. PDF oder Word-Dokumente werden "
+"Bitte laden Sie eine gültige Bilddatei. Übliche Bildformate wie JPG, PNG,"
+" BMP, GIF etc. sollten funktionieren. PDF oder Word-Dokumente werden "
 "nicht akzeptiert."
 
 #: templates/_strings.html:23
 msgid "Raw"
-msgstr "Rohe"
+msgstr "Roh"
 
 #: templates/_strings.html:24
 msgid "Nearest Neighbor"
@@ -951,7 +992,7 @@ msgstr "Verwalten von Datensätzen"
 
 #: templates/_strings.html:26
 msgid "Please calibrate the axes before managing datasets."
-msgstr "Bitte kalibrieren Sie die Achsen, bevor Datasets verwalten."
+msgstr "Bitte kalibrieren Sie die Achsen, bevor Sie Datensätze verwalten."
 
 #: templates/_strings.html:27 templates/_tree.html:48
 msgid "Delete Dataset"
@@ -959,23 +1000,23 @@ msgstr "Datensatz löschen"
 
 #: templates/_strings.html:28
 msgid "Are you sure you want to delete this dataset?"
-msgstr ""
+msgstr "Sind Sie sicher, dass Sie diesen Datensatz löschen möchten?"
 
 #: templates/_strings.html:29
 msgid "Delete Axes"
-msgstr ""
+msgstr "Achsen löschen"
 
 #: templates/_strings.html:30
 msgid "Are you sure you want to delete this axes?"
-msgstr ""
+msgstr "Sind Sie sicher, dass Sie diese Achsen löschen möchten?"
 
 #: templates/_strings.html:31
 msgid "Averaging Window"
-msgstr "Fenster mit durchschnittlich"
+msgstr "Durchschnitts-Fenster"
 
 #: templates/_strings.html:32
 msgid "X Step w/ Interpolation"
-msgstr "X Schritt w / Interpolation"
+msgstr "X Schritt mit Interpolation"
 
 #: templates/_strings.html:33
 msgid "X Step"
@@ -983,11 +1024,11 @@ msgstr "X Schritt"
 
 #: templates/_strings.html:34
 msgid "Blob Detector"
-msgstr "BLOB-Detektor"
+msgstr "Blob-Detektor"
 
 #: templates/_strings.html:35
 msgid "Bar Extraction"
-msgstr "Bar-Extraktion"
+msgstr "Balken-Extraktion"
 
 #: templates/_strings.html:36
 msgid "Histogram"
@@ -995,7 +1036,7 @@ msgstr "Histogramm"
 
 #: templates/_strings.html:37
 msgid "Specify Plot (Foreground) Color"
-msgstr "Grundstück (im Vordergrund) Farbe angeben"
+msgstr "Aufzeichnungs(Vordergrund)-Farbe angeben"
 
 #: templates/_strings.html:38
 msgid "Specify Background Color"
@@ -1003,43 +1044,47 @@ msgstr "Hintergrundfarbe festlegen"
 
 #: templates/_strings.html:39
 msgid "Please add some data before exporting."
-msgstr ""
+msgstr "Bitte fügen Sie vor dem exportieren Daten hinzu."
 
 #: templates/_strings.html:40
 msgid "Error: No datasets to export!"
-msgstr ""
+msgstr "Fehler: Keine Datensätze zu exportieren!"
 
 #: templates/_strings.html:41
 msgid "Add Dataset Error!"
-msgstr ""
+msgstr "Fehler beim Hinzufügen des Datensatzes!"
 
 #: templates/_strings.html:42
 msgid "Rename Dataset Error!"
-msgstr ""
+msgstr "Fehler beim Umbenennen des Datensatzes!"
 
 #: templates/_strings.html:43
 msgid "Dataset with this name already exists. Please pick a different name."
 msgstr ""
+"Ein Datensatz mit diesem Namen existiert bereits. Bitte wählen Sie einen "
+"anderen Namen."
 
 #: templates/_strings.html:44
 msgid "Rename Axes Error!"
-msgstr ""
+msgstr "Fehler beim Umbenennen der Achsen."
 
 #: templates/_strings.html:45
 msgid "Axes with this name already exists. Please pick a different name."
 msgstr ""
+"Eine Achse mit diesem Namen existiert bereits. Bitte wählen Sie einen "
+"anderen Namen."
 
 #: templates/_strings.html:46
 msgid "Specify a valid number of datasets to add!"
-msgstr ""
+msgstr "Geben sie eine gültige Nummer hinzuzufügender Datensätze an!"
 
 #: templates/_strings.html:48 templates/_tree.html:28
 msgid "Datasets"
-msgstr ""
+msgstr "Datensätze"
 
 #: templates/_strings.html:49 templates/_tree.html:36
 msgid "Measurements"
-msgstr ""
+msgstr "Maße"
 
 #: templates/_strings.html:50 templates/_tree.html:8 templates/_tree.html:18
 #: templates/_tree.html:46 templates/_tree.html:58
@@ -1048,47 +1093,43 @@ msgstr "Achsen"
 
 #: templates/_strings.html:52 templates/_tree.html:39 templates/_tree.html:65
 msgid "Angle"
-msgstr ""
+msgstr "Winkel"
 
 #: templates/_strings.html:53
 msgid "XY"
-msgstr ""
+msgstr "XY"
 
 #: templates/_strings.html:55
 msgid "Bar"
-msgstr ""
+msgstr "Balken"
 
 #: templates/_strings.html:56
 msgid "Polar"
-msgstr ""
+msgstr "Polar"
 
 #: templates/_strings.html:57
 msgid "Ternary"
-msgstr ""
+msgstr "Ternär"
 
 #: templates/_strings.html:58
 msgid "Map"
-msgstr ""
-
-#: templates/_strings.html:59
-msgid "Project"
-msgstr ""
+msgstr "Karte"
 
 #: templates/_strings.html:60
 msgid "Distance Measurements"
-msgstr ""
+msgstr "Entfernungsmessungen"
 
 #: templates/_strings.html:61
 msgid "Angle Measurements"
-msgstr ""
+msgstr "Winkelmessungen"
 
 #: templates/_strings.html:62
 msgid "Uncalibrated Dataset!"
-msgstr ""
+msgstr "Unkalibrierter Datensatz"
 
 #: templates/_strings.html:63
 msgid "Assign an axes calibration to this dataset!"
-msgstr ""
+msgstr "Weisen Sie diesem Datensatz eine Achsenkalibration zu!"
 
 #: templates/_toolbars.html:3
 msgid "Erase All"
@@ -1104,35 +1145,35 @@ msgstr "Tastaturbefehle anzeigen"
 
 #: templates/_tree.html:10
 msgid "Add Calibration"
-msgstr ""
+msgstr "Kalibrierung hinzufügen"
 
 #: templates/_tree.html:11
 msgid "Remove Grid"
-msgstr "Gitter zu entfernen"
+msgstr "Gitter entfernen"
 
 #: templates/_tree.html:12
 msgid "Import Calibration"
-msgstr ""
+msgstr "Kalibrierung importieren"
 
 #: templates/_tree.html:13
 msgid "Export Calibration"
-msgstr ""
+msgstr "Kalibrierung exportieren"
 
 #: templates/_tree.html:21
 msgid "Tweak Calibration"
-msgstr ""
+msgstr "Kalibrierung bearbeiten"
 
 #: templates/_tree.html:22
 msgid "Delete"
-msgstr ""
+msgstr "Löschen"
 
 #: templates/_tree.html:23
 msgid "View Equations"
-msgstr ""
+msgstr "Gleichungen anzeigen"
 
 #: templates/_tree.html:31
 msgid "Export All Data"
-msgstr ""
+msgstr "Alle Daten exportieren"
 
 #: templates/_tree.html:49 templates/_tree.html:60 templates/_tree.html:68
 msgid "View Data"
@@ -1140,7 +1181,7 @@ msgstr "Daten anzeigen"
 
 #: templates/_tree.html:50
 msgid "Clear Data"
-msgstr ""
+msgstr "Daten löschen"
 
 #: templates/_tree.html:51
 msgid "Data Points"
@@ -1149,415 +1190,4 @@ msgstr "Datenpunkte"
 #: templates/_tree.html:59 templates/_tree.html:67
 msgid "Clear All"
 msgstr "Alle löschen"
-
-#~ msgid "Export Data"
-#~ msgstr "Daten zu exportieren"
-
-#~ msgid "No datasets to export!"
-#~ msgstr ""
-
-#~ msgid ""
-#~ msgstr ""
-
-#~ msgid "Manual Mode"
-#~ msgstr "Manuellen Modus"
-
-#~ msgid "Automatic Mode"
-#~ msgstr "Automatik-Modus"
-
-#~ msgid "Clear Points"
-#~ msgstr "Klare Punkte"
-
-#~ msgid "Rename"
-#~ msgstr ""
-
-#~ msgid "Selected Dataset"
-#~ msgstr "Ausgewählten Datensatz"
-
-#~ msgid "Default Dataset"
-#~ msgstr "Standard-Datensatz"
-
-#~ msgid "Dataset Name"
-#~ msgstr "Datensatzname"
-
-#~ msgid "Change"
-#~ msgstr "Änderung"
-
-#~ msgid "Add"
-#~ msgstr "Hinzufügen"
-
-#~ msgid "Delete"
-#~ msgstr "Löschen"
-
-#~ msgid "Can Not Delete!"
-#~ msgstr "Kann nicht gelöscht werden!"
-
-#~ msgid "You can not delete this dataset as at least one dataset is required."
-#~ msgstr ""
-
-#~ msgid "Manual"
-#~ msgstr ""
-
-#~ msgid "Start Here"
-#~ msgstr ""
-
-#~ msgid "Load an Image"
-#~ msgstr ""
-
-#~ msgid "Watch Tutorial"
-#~ msgstr ""
-
-#~ msgid "Upload JSON"
-#~ msgstr ""
-
-#~ msgid "Load Image File"
-#~ msgstr "Bilddatei laden"
-
-#~ msgid "Load"
-#~ msgstr "laden/last"
-
-#~ msgid "Cancel"
-#~ msgstr "Abbrechen"
-
-#~ msgid "Magnified View Settings"
-#~ msgstr "Vergrößerte Ansichtseinstellungen"
-
-#~ msgid "Magnification"
-#~ msgstr "Vergrößerung"
-
-#~ msgid "Times"
-#~ msgstr "Male"
-
-#~ msgid "Crosshair Color"
-#~ msgstr "Kreuz-Haarfarbe"
-
-#~ msgid "Black"
-#~ msgstr "Schwarz"
-
-#~ msgid "Red"
-#~ msgstr "Rot"
-
-#~ msgid "Yellow"
-#~ msgstr "Gelb"
-
-#~ msgid "WebPlotDigitizer-Examples repository"
-#~ msgstr "WebPlotDigitizer-Beispiele-repository"
-
-#~ msgid "Capture"
-#~ msgstr "Erfassen"
-
-#~ msgid "OK"
-#~ msgstr "Okay"
-
-#~ msgid "Choose Plot Type"
-#~ msgstr "Grundstück-Typ auswählen"
-
-#~ msgid "2D (X-Y) Plot"
-#~ msgstr "Plot-2D (X-Y)"
-
-#~ msgid "2D Bar Plot"
-#~ msgstr "2D-Balkendiagramm"
-
-#~ msgid "Polar Diagram"
-#~ msgstr "Polardiagramm"
-
-#~ msgid "Ternary Diagram"
-#~ msgstr "Ternäres Diagramm"
-
-#~ msgid "Map With Scale Bar"
-#~ msgstr "Karte mit Maßstabsleiste"
-
-#~ msgid "X and Y Axes Calibration"
-#~ msgstr "X und Y Achsen Kalibrierung"
-
-#~ msgid "Point 1"
-#~ msgstr "Punkt 1"
-
-#~ msgid "Point 2"
-#~ msgstr "Punkt 2"
-
-#~ msgid "Log Scale"
-#~ msgstr "Logarithmische Skalierung"
-
-#~ msgid "X-Axis"
-#~ msgstr "X-Achse"
-
-#~ msgid "Y-Axis"
-#~ msgstr "Y-Achse"
-
-#~ msgid "Bar Chart Calibration"
-#~ msgstr "Balkendiagramm Kalibrierung"
-
-#~ msgid "Scale Size"
-#~ msgstr "Skalierungsgröße"
-
-#~ msgid "Units"
-#~ msgstr "Einheiten"
-
-#~ msgid "Align Polar Axes"
-#~ msgstr "Polaren Achsen ausrichten"
-
-#~ msgid "Degrees"
-#~ msgstr "Grad"
-
-#~ msgid "Radians"
-#~ msgstr "Bogenmaß"
-
-#~ msgid "Clockwise"
-#~ msgstr "Im Uhrzeigersinn"
-
-#~ msgid "Select Range of Variables"
-#~ msgstr "Bereich der Variablen auswählen"
-
-#~ msgid "Axes Orientation"
-#~ msgstr "Ausrichtung der Achsen"
-
-#~ msgid "Normal"
-#~ msgstr "Normal"
-
-#~ msgid "Reverse"
-#~ msgstr "Rückgängig zu machen"
-
-#~ msgid "Range of Variables"
-#~ msgstr "Bereich der Variablen"
-
-#~ msgid "0 to 1"
-#~ msgstr "0 bis 1"
-
-#~ msgid "0 to 100"
-#~ msgstr "0 bis 100"
-
-#~ msgid "Acquired Data"
-#~ msgstr "Die erfassten Daten"
-
-#~ msgid "Variables"
-#~ msgstr "Variablen"
-
-#~ msgid "Select All"
-#~ msgstr ""
-
-#~ msgid "Download .CSV"
-#~ msgstr "Laden Sie herunter. CSV"
-
-#~ msgid "Graph in Plotly*"
-#~ msgstr "Grafik in Plotly *"
-
-#~ msgid "Close"
-#~ msgstr "In der Nähe"
-
-#~ msgid "Sort"
-#~ msgstr "Sortieren"
-
-#~ msgid "Sort by"
-#~ msgstr "Sortieren nach"
-
-#~ msgid "Order"
-#~ msgstr "Bestellung"
-
-#~ msgid "Ascending"
-#~ msgstr "Aufsteigend"
-
-#~ msgid "Descending"
-#~ msgstr "Absteigend"
-
-#~ msgid "Format"
-#~ msgstr "Format"
-
-#~ msgid "Date Formatting"
-#~ msgstr "Datumsformatierung"
-
-#~ msgid "Number Formatting"
-#~ msgstr "Formatierung"
-
-#~ msgid "Digits"
-#~ msgstr "Ziffern"
-
-#~ msgid "Ignore"
-#~ msgstr "Ignorieren"
-
-#~ msgid "Fixed"
-#~ msgstr "Behoben"
-
-#~ msgid "Precision"
-#~ msgstr "Präzision"
-
-#~ msgid "Exponential"
-#~ msgstr "Exponentielle"
-
-#~ msgid "Column Separator"
-#~ msgstr "Spaltentrennzeichen"
-
-#~ msgid "Align X-Y Axes"
-#~ msgstr "X-Y-Achsen ausrichten"
-
-#~ msgid "Proceed"
-#~ msgstr "Gehen Sie"
-
-#~ msgid "Align Bar Chart Axes"
-#~ msgstr "Balkendiagramm Achsen ausrichten"
-
-#~ msgid "Align Map To Scale Bar"
-#~ msgstr "Karte, Maßstabsleiste ausrichten"
-
-#~ msgid "Click on the two ends of the scale bar on the map."
-#~ msgstr "Klicken Sie auf die beiden Enden des Maßstabs auf der Karte."
-
-#~ msgid "Click on the center, followed by two known points."
-#~ msgstr "Klicken Sie auf die Mitte, gefolgt von zwei bekannten Punkten."
-
-#~ msgid "Align Ternary Axes"
-#~ msgstr "Ternäre Achsen ausrichten"
-
-#~ msgid "Click on the three corners in the order shown above."
-#~ msgstr "Klicken Sie auf die drei Ecken in der oben gezeigten Reihenfolge."
-
-#~ msgid "WebPlotDigitizer - Web Based Plot Digitizer"
-#~ msgstr "Web-Plot Digitizer - Web-basierte Plot Digitizer"
-
-#~ msgid "Version"
-#~ msgstr "Version"
-
-#~ msgid "Copyright"
-#~ msgstr "Direkt kopieren"
-
-#~ msgid "Specify Color"
-#~ msgstr "Geben Sie Farbe"
-
-#~ msgid "Color Picker"
-#~ msgstr "Farbwähler"
-
-#~ msgid "Dominant Colors"
-#~ msgstr "Dominierenden Farben"
-
-#~ msgid "Done"
-#~ msgstr "Fertig"
-
-#~ msgid "Download"
-#~ msgstr "Herunterladen"
-
-#~ msgid "JSON File"
-#~ msgstr ""
-
-#~ msgid "Import"
-#~ msgstr "Einführen"
-
-#~ msgid "Keyboard Shortcuts"
-#~ msgstr "Tastatürkürzel"
-
-#~ msgid "Cursor (Arrows)"
-#~ msgstr "Cursor (Pfeile)"
-
-#~ msgid "Move up/down/right/left"
-#~ msgstr "Oben/unten/rechts/links bewegen"
-
-#~ msgid "Shift + Cursor"
-#~ msgstr "Umschalt + Cursor"
-
-#~ msgid "Faster rate of movement"
-#~ msgstr "Schnellere Geschwindigkeit der Bewegung"
-
-#~ msgid "Select next point"
-#~ msgstr "Wählen Sie als nächsten Punkt"
-
-#~ msgid "Select previous point"
-#~ msgstr "Vorherigen Punkt auswählen"
-
-#~ msgid "Del/Backspace"
-#~ msgstr "Del / Rückschritt"
-
-#~ msgid "Delete point"
-#~ msgstr "Punkt löschen"
-
-#~ msgid "Edit label (Bar Chart)"
-#~ msgstr "Beschriftung (Balkendiagramm) bearbeiten"
-
-#~ msgid "Edit Label"
-#~ msgstr "Bearbeiten von Labels"
-
-#~ msgid "Label"
-#~ msgstr "Label"
-
-#~ msgid "Data Point"
-#~ msgstr "Datenpunkt"
-
-#~ msgid "Perspective Transformation"
-#~ msgstr "Perspektivische Transformation"
-
-#~ msgid "Click on four corners of the region to be transformed as shown."
-#~ msgstr ""
-
-#~ msgid "Edit Existing Calibration?"
-#~ msgstr "Bearbeiten Sie vorhandene Kalibrierung?"
-
-#~ msgid "Edit Calibration"
-#~ msgstr "Kalibrierung zu bearbeiten"
-
-#~ msgid "Change Axes Type"
-#~ msgstr "Achsen-Änderungstyp"
-
-#~ msgid "Export All Datasets"
-#~ msgstr ""
-
-#~ msgid "Export to Plotly"
-#~ msgstr ""
-
-#~ msgid "Name"
-#~ msgstr ""
-
-#~ msgid "Add Single Dataset"
-#~ msgstr ""
-
-#~ msgid "Count"
-#~ msgstr ""
-
-#~ msgid "Add Multiple Datasets"
-#~ msgstr ""
-
-#~ msgid "JSON data has been loaded!"
-#~ msgstr "JSON-Daten wurde geladen!"
-
-#~ msgid "File"
-#~ msgstr "Datei"
-
-#~ msgid "Save Image"
-#~ msgstr "Bild speichern"
-
-#~ msgid "Export JSON"
-#~ msgstr "JSON zu exportieren"
-
-#~ msgid "Import JSON"
-#~ msgstr "Importieren JSON"
-
-#~ msgid "Calibrate Axes"
-#~ msgstr "Achsen zu kalibrieren"
-
-#~ msgid "Data"
-#~ msgstr "Daten"
-
-#~ msgid "Measure"
-#~ msgstr "Maßnahme"
-
-#~ msgid "Distances"
-#~ msgstr "Entfernungen"
-
-#~ msgid "Angles"
-#~ msgstr "Winkel"
-
-#~ msgid "Calibrate"
-#~ msgstr ""
-
-#~ msgid "Edit"
-#~ msgstr ""
-
-#~ msgid "Specify a previously exported JSON/project file to load here."
-#~ msgstr ""
-
-#~ msgid "NOTE: This will clear any unsaved data in the current plot."
-#~ msgstr ""
-
-#~ msgid "Export JSON/Project"
-#~ msgstr ""
-
-#~ msgid "Download Project (JSON+Image)"
-#~ msgstr ""
 
