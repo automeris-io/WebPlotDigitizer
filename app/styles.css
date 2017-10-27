@@ -259,6 +259,6 @@ select {
 }
 
 .i18n-string {
-    display: hidden;
+    display: none;
 }
 
