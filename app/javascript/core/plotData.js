@@ -202,19 +202,34 @@ wpd.PlotData = class {
 
         let axes = null;
         if(data.axesType === "XYAxes") {
-            axes = new wpd.XYAxes();            
+            axes = new wpd.XYAxes();
+            calibration.labels = ['X1', 'X2', 'Y2', 'Y2'];
+            calibration.labelPositions = ['N', 'N', 'E', 'E'];
+            calibration.maxPointCount = 4; 
             axes.calibrate(calibration, data.axesParameters.isLogX, data.axesParameters.isLogY);
         } else if(data.axesType === "BarAxes") {
             axes = new wpd.BarAxes();
+            calibration.labels = ['P1', 'P2'];
+            calibration.labelPositions = ['S', 'S'];
+            calibration.maxPointCount = 2;
             axes.calibrate(calibration, data.axesParameters.isLog);
         } else if(data.axesType === "PolarAxes") {
             axes = new wpd.PolarAxes();
+            calibration.labels = ['Origin', 'P1', 'P2'];
+            calibration.labelPositions = ['E', 'S', 'S'];
+            calibration.maxPointCount = 3;
             axes.calibrate(calibration, data.axesParameters.isDegrees, data.axesParameters.isClockwise);
         } else if(data.axesType === "TernaryAxes") {
             axes = new wpd.TernaryAxes();
+            calibration.labels = ['A', 'B', 'C'];
+            calibration.labelPositions = ['S', 'S', 'E'];
+            calibration.maxPointCount = 3;
             axes.calibrate(calibration, data.axesParameters.isRange100, data.axesParameters.isNormalOrientation);
         } else if(data.axesType === "MapAxes") {
             axes = new wpd.MapAxes();
+            calibration.labels = ['P1', 'P2'];
+            calibration.labelPositions = ['S', 'S'];
+            calibration.maxPointCount = 2;
             axes.calibrate(calibration, data.axesParameters.scaleLength, data.axesParameters.unitString);
         } else if(data.axesType === "ImageAxes") {
             axes = new wpd.ImageAxes();            
@@ -295,19 +310,34 @@ wpd.PlotData = class {
                 // create axes
                 let axes = null;
                 if(axData.type === "XYAxes") {
-                    axes = new wpd.XYAxes();            
+                    axes = new wpd.XYAxes();
+                    calibration.labels = ['X1', 'X2', 'Y2', 'Y2'];
+                    calibration.labelPositions = ['N', 'N', 'E', 'E'];
+                    calibration.maxPointCount = 4;
                     axes.calibrate(calibration, axData.isLogX, axData.isLogY);
                 } else if(axData.type === "BarAxes") {
                     axes = new wpd.BarAxes();
+                    calibration.labels = ['P1', 'P2'];
+                    calibration.labelPositions = ['S', 'S'];
+                    calibration.maxPointCount = 2;
                     axes.calibrate(calibration, axData.isLog);
                 } else if(axData.type === "PolarAxes") {
                     axes = new wpd.PolarAxes();
+                    calibration.labels = ['Origin', 'P1', 'P2'];
+                    calibration.labelPositions = ['E', 'S', 'S'];
+                    calibration.maxPointCount = 3;
                     axes.calibrate(calibration, axData.isDegrees, axData.isClockwise, axData.isLog);
                 } else if(axData.type === "TernaryAxes") {
                     axes = new wpd.TernaryAxes();
+                    calibration.labels = ['A', 'B', 'C'];
+                    calibration.labelPositions = ['S', 'S', 'E'];
+                    calibration.maxPointCount = 3;
                     axes.calibrate(calibration, axData.isRange100, axData.isNormalOrientation);
                 } else if(axData.type === "MapAxes") {
                     axes = new wpd.MapAxes();
+                    calibration.labels = ['P1', 'P2'];
+                    calibration.labelPositions = ['S', 'S'];
+                    calibration.maxPointCount = 2;
                     axes.calibrate(calibration, axData.scaleLength, axData.unitString);
                 } else if(axData.type === "ImageAxes") {
                     axes = new wpd.ImageAxes();            
