@@ -2,7 +2,7 @@ RELEASE NOTES
 
 Version 4.0
 ===========
-Under development
+October 30, 2017
 
 New Features:
 
