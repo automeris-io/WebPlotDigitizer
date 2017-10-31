@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-10-29 23:49-0500\n"
+"POT-Creation-Date: 2017-10-30 19:09-0500\n"
 "PO-Revision-Date: 2016-12-12 23:09-0600\n"
 "Last-Translator: \n"
 "Language: en_US\n"
@@ -36,61 +36,51 @@ msgstr ""
 msgid "Fit"
 msgstr ""
 
-#: templates/_menubar.html:1
-msgid "Load new image"
-msgstr ""
-
-#: templates/_menubar.html:1 templates/_popups.html:88
-#: templates/_strings.html:54
-msgid "Image"
-msgstr ""
-
 #: templates/_menubar.html:2
-msgid "Load JSON"
+msgid "File"
 msgstr ""
 
-#: templates/_menubar.html:2 templates/_menubar.html:3
-#: templates/_strings.html:59
-msgid "Project"
+#: templates/_menubar.html:5 templates/_sidebars.html:117
+msgid "Load Image"
 msgstr ""
 
-#: templates/_menubar.html:3 templates/_popups.html:356
-msgid "Download JSON"
+#: templates/_menubar.html:6
+msgid "Load Project"
 msgstr ""
 
-#: templates/_menubar.html:4
-msgid "Load a script"
+#: templates/_menubar.html:7
+msgid "Save Project"
 msgstr ""
 
-#: templates/_menubar.html:4
-msgid "Script"
-msgstr ""
-
-#: templates/_menubar.html:9
-msgid "Help"
-msgstr ""
-
-#: templates/_menubar.html:12
-msgid "About WebPlotDigitizer"
-msgstr ""
-
-#: templates/_menubar.html:13
-msgid "Tutorials"
-msgstr ""
-
-#: templates/_menubar.html:14
-msgid "User Manual"
-msgstr ""
-
-#: templates/_menubar.html:15
-msgid "GitHub Page"
+#: templates/_menubar.html:8 templates/_popups.html:42
+msgid "Run Script"
 msgstr ""
 
 #: templates/_menubar.html:16
+msgid "Help"
+msgstr ""
+
+#: templates/_menubar.html:19
+msgid "About WebPlotDigitizer"
+msgstr ""
+
+#: templates/_menubar.html:20
+msgid "Tutorials"
+msgstr ""
+
+#: templates/_menubar.html:21
+msgid "User Manual"
+msgstr ""
+
+#: templates/_menubar.html:22
+msgid "GitHub Page"
+msgstr ""
+
+#: templates/_menubar.html:23
 msgid "Report Issues"
 msgstr ""
 
-#: templates/_menubar.html:17
+#: templates/_menubar.html:24
 msgid "Donate (PayPal)"
 msgstr ""
 
@@ -139,10 +129,6 @@ msgstr ""
 
 #: templates/_popups.html:30
 msgid "Yellow"
-msgstr ""
-
-#: templates/_popups.html:42
-msgid "Run Script"
 msgstr ""
 
 #: templates/_popups.html:43
@@ -201,6 +187,10 @@ msgstr ""
 
 #: templates/_popups.html:87
 msgid "Map With Scale Bar"
+msgstr ""
+
+#: templates/_popups.html:88 templates/_strings.html:54
+msgid "Image"
 msgstr ""
 
 #: templates/_popups.html:97
@@ -501,6 +491,10 @@ msgid ""
 "measurements. This JSON file can be loaded to resume work at a later "
 "time. You can also download a combined 'project file' which includes this"
 " JSON and also the image in a single TAR file."
+msgstr ""
+
+#: templates/_popups.html:356
+msgid "Download JSON"
 msgstr ""
 
 #: templates/_popups.html:357
@@ -826,10 +820,6 @@ msgstr ""
 msgid "Reset"
 msgstr ""
 
-#: templates/_sidebars.html:117
-msgid "Load Image"
-msgstr ""
-
 #: templates/_sidebars.html:118
 msgid "Tutorial Video"
 msgstr ""
@@ -1057,6 +1047,10 @@ msgstr ""
 
 #: templates/_strings.html:58
 msgid "Map"
+msgstr ""
+
+#: templates/_strings.html:59
+msgid "Project"
 msgstr ""
 
 #: templates/_strings.html:60
@@ -1811,5 +1805,17 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Download Project (JSON+Image)"
+#~ msgstr ""
+
+#~ msgid "Load new image"
+#~ msgstr ""
+
+#~ msgid "Load JSON"
+#~ msgstr ""
+
+#~ msgid "Load a script"
+#~ msgstr ""
+
+#~ msgid "Script"
 #~ msgstr ""
 
