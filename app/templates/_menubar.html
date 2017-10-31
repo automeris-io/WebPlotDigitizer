@@ -1,7 +1,14 @@
-<button onclick="wpd.popup.show('loadNewImage');" title="{{ _("Load new image") }}">&uarr; {{ _("Image") }}</button>
-<button onclick="wpd.saveResume.load();" title="{{ _("Load JSON") }}">&uarr; {{ _("Project") }}</button>
-<button onclick="wpd.saveResume.save();" title="{{ _("Download JSON") }}">&darr; {{ _("Project") }}</button>
-<button onclick="wpd.scriptInjector.start();" title="{{ _("Load a script") }}">&uarr; {{ _("Script") }}</button>
+<div class="wpd-menu">
+    <div class="wpd-menu-header">{{ _("File") }}</div>
+    <div class="wpd-menu-dropdown">
+        <ul>
+            <li onclick="wpd.popup.show('loadNewImage');">{{ _("Load Image") }}</li>
+            <li onclick="wpd.saveResume.load();">{{ _("Load Project") }}</li>
+            <li onclick="wpd.saveResume.save();">{{ _("Save Project") }}</li>
+            <li onclick="wpd.scriptInjector.start();">{{ _("Run Script") }}</li>
+        </ul>
+    </div>
+</div>
 {% if enableTesting == True %}
 <button onclick="wpdtests.runTests();">Run Tests</button>
 {% endif %}

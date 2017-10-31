@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-10-29 23:49-0500\n"
+"POT-Creation-Date: 2017-10-30 19:09-0500\n"
 "PO-Revision-Date: 2017-10-24 22:43-0500\n"
 "Last-Translator: \n"
 "Language: de_DE\n"
@@ -40,61 +40,51 @@ msgstr ""
 msgid "Fit"
 msgstr "passen"
 
-#: templates/_menubar.html:1
-msgid "Load new image"
-msgstr "Neues Bild laden"
-
-#: templates/_menubar.html:1 templates/_popups.html:88
-#: templates/_strings.html:54
-msgid "Image"
-msgstr "Bild"
-
 #: templates/_menubar.html:2
-msgid "Load JSON"
-msgstr "JSON laden"
+msgid "File"
+msgstr ""
 
-#: templates/_menubar.html:2 templates/_menubar.html:3
-#: templates/_strings.html:59
-msgid "Project"
-msgstr "Projekt"
+#: templates/_menubar.html:5 templates/_sidebars.html:117
+msgid "Load Image"
+msgstr "Bild laden"
 
-#: templates/_menubar.html:3 templates/_popups.html:356
-msgid "Download JSON"
-msgstr "JSON herunterladen"
+#: templates/_menubar.html:6
+msgid "Load Project"
+msgstr ""
 
-#: templates/_menubar.html:4
-msgid "Load a script"
-msgstr "Sript laden"
+#: templates/_menubar.html:7
+msgid "Save Project"
+msgstr ""
 
-#: templates/_menubar.html:4
-msgid "Script"
-msgstr "Skript"
+#: templates/_menubar.html:8 templates/_popups.html:42
+msgid "Run Script"
+msgstr "Skript ausführen"
 
-#: templates/_menubar.html:9
+#: templates/_menubar.html:16
 msgid "Help"
 msgstr "Hilfe"
 
-#: templates/_menubar.html:12
+#: templates/_menubar.html:19
 msgid "About WebPlotDigitizer"
 msgstr "Über WebPlotDigitizer"
 
-#: templates/_menubar.html:13
+#: templates/_menubar.html:20
 msgid "Tutorials"
 msgstr "Tutorials"
 
-#: templates/_menubar.html:14
+#: templates/_menubar.html:21
 msgid "User Manual"
 msgstr "Benutzerhandbuch"
 
-#: templates/_menubar.html:15
+#: templates/_menubar.html:22
 msgid "GitHub Page"
 msgstr "GitHub-Seite"
 
-#: templates/_menubar.html:16
+#: templates/_menubar.html:23
 msgid "Report Issues"
 msgstr "Probleme melden"
 
-#: templates/_menubar.html:17
+#: templates/_menubar.html:24
 msgid "Donate (PayPal)"
 msgstr "Spenden (PayPal)"
 
@@ -144,10 +134,6 @@ msgstr "Rot"
 #: templates/_popups.html:30
 msgid "Yellow"
 msgstr "Yellow"
-
-#: templates/_popups.html:42
-msgid "Run Script"
-msgstr "Skript ausführen"
 
 #: templates/_popups.html:43
 msgid ""
@@ -208,6 +194,10 @@ msgstr "Dreiecksdiagramm"
 #: templates/_popups.html:87
 msgid "Map With Scale Bar"
 msgstr "Karte mit Größenlegende"
+
+#: templates/_popups.html:88 templates/_strings.html:54
+msgid "Image"
+msgstr "Bild"
 
 #: templates/_popups.html:97
 msgid "X and Y Axes Calibration"
@@ -534,6 +524,10 @@ msgstr ""
 "exportieren. Diese Datei kann geladen werden, um deine Arbeit zu einem "
 "späteren Punkt fortzusetzen. Du kannst auch eine Projektdatei (.tar) "
 "bestehend aus der JSON und dem Bild herunterladen. "
+
+#: templates/_popups.html:356
+msgid "Download JSON"
+msgstr "JSON herunterladen"
 
 #: templates/_popups.html:357
 msgid "Download Project File (.tar)"
@@ -865,10 +859,6 @@ msgstr "Erkennen"
 msgid "Reset"
 msgstr "Zurücksetzen"
 
-#: templates/_sidebars.html:117
-msgid "Load Image"
-msgstr "Bild laden"
-
 #: templates/_sidebars.html:118
 msgid "Tutorial Video"
 msgstr "Tutorialvideo"
@@ -1115,6 +1105,10 @@ msgstr "Ternär"
 msgid "Map"
 msgstr "Karte"
 
+#: templates/_strings.html:59
+msgid "Project"
+msgstr "Projekt"
+
 #: templates/_strings.html:60
 msgid "Distance Measurements"
 msgstr "Entfernungsmessungen"
@@ -1190,4 +1184,16 @@ msgstr "Datenpunkte"
 #: templates/_tree.html:59 templates/_tree.html:67
 msgid "Clear All"
 msgstr "Alle löschen"
+
+#~ msgid "Load new image"
+#~ msgstr "Neues Bild laden"
+
+#~ msgid "Load JSON"
+#~ msgstr "JSON laden"
+
+#~ msgid "Load a script"
+#~ msgstr "Sript laden"
+
+#~ msgid "Script"
+#~ msgstr "Skript"
 
