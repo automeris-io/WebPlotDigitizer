@@ -2,14 +2,14 @@
   "manifest_version":2,
   "name": "WebPlotDigitizer",
   "short_name": "WebPlotDigitizer",
-  "description": "Extract numerical data out of plot pictures.",
-  "version": "3.9",
+  "description": "Extract numerical data from images of charts",
+  "version": "4.0",
   "app": {
-    "urls": ["http://arohatgi.info/WebPlotDigitizer/app"],
-    "launch": {"web_url": "http://arohatgi.info/WebPlotDigitizer/app"}
+    "urls": ["https://apps.automeris.io/wpd"],
+    "launch": {"web_url": "https://apps.automeris.io/wpd"}
   },
   "icons": {
     "128": "icon.png"
   },
-  "homepage_url": "http://arohatgi.info/WebPlotDigitizer"
+  "homepage_url": "https://automeris.io/WebPlotDigitizer"
 }
