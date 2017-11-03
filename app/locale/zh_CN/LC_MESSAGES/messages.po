@@ -5,19 +5,18 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: WebPlotDigitizer\n"
+"Project-Id-Version:  WebPlotDigitizer\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-11-02 21:20-0500\n"
+"POT-Creation-Date: 2017-11-02 21:57-0500\n"
 "PO-Revision-Date: 2017-11-02 21:20-0500\n"
 "Last-Translator: \n"
-"Language: zh_CN\n"
+"Language: zh_Hans_CN\n"
 "Language-Team: Dr. Hongxing Luo's team<1519782837@qq.com>\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
+"Plural-Forms: nplurals=1; plural=0\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.3.4\n"
-"X-Generator: Poedit 2.0.3\n"
 
 #: templates/_base.html:26
 msgid "Web based tool to extract numerical data from plots and graph images."
@@ -93,8 +92,9 @@ msgstr ""
 msgid "Load"
 msgstr ""
 
-#: templates/_popups.html:13 templates/_popups.html:37 templates/_popups.html:48
-#: templates/_popups.html:56 templates/_popups.html:74 templates/_popups.html:92
+#: templates/_popups.html:13 templates/_popups.html:37
+#: templates/_popups.html:48 templates/_popups.html:56
+#: templates/_popups.html:74 templates/_popups.html:92
 #: templates/_popups.html:358 templates/_popups.html:372
 #: templates/_popups.html:402 templates/_popups.html:415
 #: templates/_popups.html:430 templates/_popups.html:442
@@ -133,7 +133,8 @@ msgstr ""
 
 #: templates/_popups.html:43
 msgid ""
-"Load a Javascript file to further extend the capabilities of WebPlotDigitizer."
+"Load a Javascript file to further extend the capabilities of "
+"WebPlotDigitizer."
 msgstr ""
 
 #: templates/_popups.html:44
@@ -156,10 +157,11 @@ msgstr "拍照"
 msgid "Capture"
 msgstr ""
 
-#: templates/_popups.html:65 templates/_popups.html:74 templates/_popups.html:123
-#: templates/_popups.html:147 templates/_popups.html:156
-#: templates/_popups.html:187 templates/_popups.html:206
-#: templates/_popups.html:401 templates/_popups.html:414
+#: templates/_popups.html:65 templates/_popups.html:74
+#: templates/_popups.html:123 templates/_popups.html:147
+#: templates/_popups.html:156 templates/_popups.html:187
+#: templates/_popups.html:206 templates/_popups.html:401
+#: templates/_popups.html:414
 msgid "OK"
 msgstr ""
 
@@ -197,8 +199,8 @@ msgstr ""
 
 #: templates/_popups.html:99
 msgid ""
-"Enter X-values of the two points clicked on X-axis and Y-values of the two "
-"points clicked on Y-axes"
+"Enter X-values of the two points clicked on X-axis and Y-values of the "
+"two points clicked on Y-axes"
 msgstr ""
 
 #: templates/_popups.html:104 templates/_popups.html:134
@@ -226,9 +228,9 @@ msgstr ""
 
 #: templates/_popups.html:121
 msgid ""
-"*For dates, use yyyy/mm/dd hh:ii:ss format, where ii denotes minutes (e.g. "
-"2013/10/23 or 2013/10 or 2013/10/23 10:15 or just 10:15). For exponents, enter "
-"values as 1e-3 for 10^-3."
+"*For dates, use yyyy/mm/dd hh:ii:ss format, where ii denotes minutes "
+"(e.g. 2013/10/23 or 2013/10 or 2013/10/23 10:15 or just 10:15). For "
+"exponents, enter values as 1e-3 for 10^-3."
 msgstr ""
 
 #: templates/_popups.html:129
@@ -237,8 +239,8 @@ msgstr ""
 
 #: templates/_popups.html:130
 msgid ""
-"Enter the values at the two points selected on the continuous axes along the "
-"bars"
+"Enter the values at the two points selected on the continuous axes along "
+"the bars"
 msgstr ""
 
 #: templates/_popups.html:152
@@ -297,7 +299,8 @@ msgstr ""
 msgid "Acquired Data"
 msgstr ""
 
-#: templates/_popups.html:216 templates/_strings.html:47 templates/_tree.html:44
+#: templates/_popups.html:216 templates/_strings.html:47
+#: templates/_tree.html:44
 msgid "Dataset"
 msgstr "数据集"
 
@@ -324,14 +327,14 @@ msgstr ""
 
 #: templates/_popups.html:225
 msgid ""
-"*Plotly is a secure data analysis and graphing site with data sharing and "
-"access controls."
+"*Plotly is a secure data analysis and graphing site with data sharing and"
+" access controls."
 msgstr ""
 
 #: templates/_popups.html:226
 msgid ""
-"Visit <a href=\"http://plot.ly\" target=\"plotlyWebsite\">http://plot.ly</a> "
-"for details."
+"Visit <a href=\"http://plot.ly\" "
+"target=\"plotlyWebsite\">http://plot.ly</a> for details."
 msgstr ""
 
 #: templates/_popups.html:230
@@ -396,8 +399,9 @@ msgstr ""
 
 #: templates/_popups.html:267
 msgid ""
-"Click four known points on the axes in the <font color=\"red\">order shown in "
-"red</font>. Two on the X axis (X1, X2) and two on the Y axis (Y1, Y2)"
+"Click four known points on the axes in the <font color=\"red\">order "
+"shown in red</font>. Two on the X axis (X1, X2) and two on the Y axis "
+"(Y1, Y2)"
 msgstr ""
 
 #: templates/_popups.html:269 templates/_popups.html:279
@@ -444,9 +448,9 @@ msgstr ""
 
 #: templates/_popups.html:317
 msgid ""
-"This program is distributed under the <a href=\"https://www.gnu.org/licenses/"
-"agpl-3.0-standalone.html\" target=\"_blank\">GNU Affero General Public License "
-"Version 3</a>."
+"This program is distributed under the <a "
+"href=\"https://www.gnu.org/licenses/agpl-3.0-standalone.html\" "
+"target=\"_blank\">GNU Affero General Public License Version 3</a>."
 msgstr ""
 
 #: templates/_popups.html:318
@@ -484,9 +488,9 @@ msgstr ""
 #: templates/_popups.html:351
 msgid ""
 "Export a JSON file containing the axes calibrations, digitized data and "
-"measurements. This JSON file can be loaded to resume work at a later time. You "
-"can also download a combined 'project file' which includes this JSON and also "
-"the image in a single TAR file."
+"measurements. This JSON file can be loaded to resume work at a later "
+"time. You can also download a combined 'project file' which includes this"
+" JSON and also the image in a single TAR file."
 msgstr ""
 
 #: templates/_popups.html:356
@@ -523,8 +527,8 @@ msgstr ""
 
 #: templates/_popups.html:379
 msgid ""
-"Click to select a data point. The following keys can then be used to the adjust "
-"the position"
+"Click to select a data point. The following keys can then be used to the "
+"adjust the position"
 msgstr ""
 
 #: templates/_popups.html:382
@@ -632,7 +636,8 @@ msgstr ""
 msgid "Rename Dataset"
 msgstr ""
 
-#: templates/_popups.html:463 templates/_popups.html:474 templates/_tree.html:20
+#: templates/_popups.html:463 templates/_popups.html:474
+#: templates/_tree.html:20
 msgid "Rename"
 msgstr ""
 
@@ -646,11 +651,9 @@ msgstr "校准坐标轴"
 
 #: templates/_sidebars.html:4
 msgid ""
-"Click points to select and use cursor keys to adjust positions. Use Shift+Arrow "
-"for faster movement. Click complete when finished."
-msgstr ""
-"点击并选中数据点，然后使用光标键调整位置。使用Shift+箭头实现快速移动。调整完毕"
-"后，请点击“完成”。"
+"Click points to select and use cursor keys to adjust positions. Use "
+"Shift+Arrow for faster movement. Click complete when finished."
+msgstr "点击并选中数据点，然后使用光标键调整位置。使用Shift+箭头实现快速移动。调整完毕后，请点击“完成”。"
 
 #: templates/_sidebars.html:5
 msgid "Complete!"
@@ -716,8 +719,8 @@ msgstr "背景色"
 msgid "Click to change color"
 msgstr "单击选择颜色"
 
-#: templates/_sidebars.html:24 templates/_strings.html:51 templates/_tree.html:38
-#: templates/_tree.html:56
+#: templates/_sidebars.html:24 templates/_strings.html:51
+#: templates/_tree.html:38 templates/_tree.html:56
 msgid "Distance"
 msgstr "距离"
 
@@ -835,8 +838,8 @@ msgstr "此版本不稳定！"
 
 #: templates/_strings.html:3
 msgid ""
-"You are using a beta version of WebPlotDigitizer. There may be some issues with "
-"the software that are expected."
+"You are using a beta version of WebPlotDigitizer. There may be some "
+"issues with the software that are expected."
 msgstr "您正在使用WebPlotDigitizer测试版。该软件可能存在某些问题。"
 
 #: templates/_strings.html:5
@@ -857,8 +860,8 @@ msgstr "无效的对数值"
 
 #: templates/_strings.html:9
 msgid ""
-"Values on a log scale axis can not be zero as log(0) is undefined. Please enter "
-"a non-zero value."
+"Values on a log scale axis can not be zero as log(0) is undefined. Please"
+" enter a non-zero value."
 msgstr "对数值不能为0。请输入非0数值。"
 
 #: templates/_strings.html:10
@@ -879,13 +882,14 @@ msgstr "您将清除当前数据集的所有点"
 
 #: templates/_strings.html:15
 msgid ""
-"Your browser does not support webcam capture using HTML5 APIs. A recent version "
-"of Google Chrome is recommended."
+"Your browser does not support webcam capture using HTML5 APIs. A recent "
+"version of Google Chrome is recommended."
 msgstr "您的浏览器不支持HTML5 API，推荐使用Google Chrome。"
 
 #: templates/_strings.html:17
 msgid ""
-"Transformation equations are available only after axes have been calibrated."
+"Transformation equations are available only after axes have been "
+"calibrated."
 msgstr "请先校准坐标轴，再查看转换公式。"
 
 #: templates/_strings.html:18
@@ -894,8 +898,8 @@ msgstr "不支持该功能！"
 
 #: templates/_strings.html:19
 msgid ""
-"This feature has not been implemented in the current version. This may be "
-"available in a future release."
+"This feature has not been implemented in the current version. This may be"
+" available in a future release."
 msgstr "当前版本不支持该功能。我们会进行改进，谢谢!"
 
 #: templates/_strings.html:20
@@ -908,8 +912,8 @@ msgstr "错误：无效的文件类型！"
 
 #: templates/_strings.html:22
 msgid ""
-"Please load a valid image file. Common image formats such as JPG, PNG, BMP, GIF "
-"etc. should work. PDF or Word documents are not accepted."
+"Please load a valid image file. Common image formats such as JPG, PNG, "
+"BMP, GIF etc. should work. PDF or Word documents are not accepted."
 msgstr "请导入有效的图片，常用格式包括JPG、PNG、BMP、GIF等，不支持PDF或Word格式。"
 
 #: templates/_strings.html:23
@@ -1124,3 +1128,4 @@ msgstr "已抓取点"
 #: templates/_tree.html:59 templates/_tree.html:67
 msgid "Clear All"
 msgstr "清除所有"
+

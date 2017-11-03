@@ -47,8 +47,20 @@ wpd.XYAxesCalibrator = class extends wpd.AxesCalibrator {
         wpd.graphicsWidget.setTool(tool);
     }
 
-    getCornerValues() {
+    getCornerValues() {        
         wpd.popup.show('xyAlignment');
+        if(this._isEditing) {
+            let axes = wpd.tree.getActiveAxes();
+            let prevCal = axes.calibration;
+            if(prevCal.getCount() == 4) {
+                document.getElementById('xmin').value = prevCal.getPoint(0).dx;
+                document.getElementById('xmax').value = prevCal.getPoint(1).dx;
+                document.getElementById('ymin').value = prevCal.getPoint(2).dy;
+                document.getElementById('ymax').value = prevCal.getPoint(3).dy;
+                document.getElementById('xlog').checked = axes.isLogX();
+                document.getElementById('ylog').checked = axes.isLogY();
+            }
+        }
     }
 
     align() {
@@ -102,6 +114,16 @@ wpd.BarAxesCalibrator = class extends wpd.AxesCalibrator {
     }
     getCornerValues() {
         wpd.popup.show('barAlignment');
+        if(this._isEditing) {
+            let axes = wpd.tree.getActiveAxes();
+            let prevCal = axes.calibration;
+            if(prevCal.getCount() == 2) {
+                document.getElementById('bar-axes-p1').value = prevCal.getPoint(0).dy;
+                document.getElementById('bar-axes-p2').value = prevCal.getPoint(1).dy;
+                document.getElementById('bar-axes-log-scale').checked = axes.isLog();
+                document.getElementById('bar-axes-rotated').checked = axes.isRotated();
+            }
+        }
     }
     align() {
         var p1 = document.getElementById('bar-axes-p1').value,
@@ -141,16 +163,31 @@ wpd.PolarAxesCalibrator = class extends wpd.AxesCalibrator {
         var tool = new wpd.AxesCornersTool(this._calibration, false);
         wpd.graphicsWidget.setTool(tool);
     }
+
     getCornerValues() {
         wpd.popup.show('polarAlignment');
+        if(this._isEditing) {
+            let axes = wpd.tree.getActiveAxes();
+            let prevCal = axes.calibration;
+            if(prevCal.getCount() == 3) {
+                document.getElementById('polar-r1').value = prevCal.getPoint(1).dx;
+                document.getElementById('polar-theta1').value = prevCal.getPoint(1).dy;
+                document.getElementById('polar-r2').value = prevCal.getPoint(2).dx;
+                document.getElementById('polar-theta2').value = prevCal.getPoint(2).dy;
+                document.getElementById('polar-degrees').checked = axes.isThetaDegrees();
+                document.getElementById('polar-radians').checked = !axes.isThetaDegrees();
+                document.getElementById('polar-clockwise').checked = axes.isThetaClockwise();
+                document.getElementById('polar-log-scale').checked = axes.isRadialLog();
+            }
+        }
     }
+
     align() {
         var r1 = parseFloat(document.getElementById('polar-r1').value),
             theta1 = parseFloat(document.getElementById('polar-theta1').value),
             r2 = parseFloat(document.getElementById('polar-r2').value),
             theta2 = parseFloat(document.getElementById('polar-theta2').value),
-            degrees = document.getElementById('polar-degrees').checked,
-            radians = document.getElementById('polar-radians').checked,
+            degrees = document.getElementById('polar-degrees').checked,            
             orientation = document.getElementById('polar-clockwise').checked,
             rlog = document.getElementById('polar-log-scale').checked,
             axes = this._isEditing ? wpd.tree.getActiveAxes() : new wpd.PolarAxes(),            
@@ -174,21 +211,33 @@ wpd.TernaryAxesCalibrator = class extends wpd.AxesCalibrator {
     start() {        
         wpd.popup.show('ternaryAxesInfo');
     }
+
     reload() {
         var tool = new wpd.AxesCornersTool(this._calibration, true);
         wpd.graphicsWidget.setTool(tool);
     }
+
     pickCorners() {
         wpd.popup.close('ternaryAxesInfo');
         var tool = new wpd.AxesCornersTool(this._calibration, false);
         wpd.graphicsWidget.setTool(tool);
     }
+
     getCornerValues() {
         wpd.popup.show('ternaryAlignment');
+
+        if(this._isEditing) {
+            let axes = wpd.tree.getActiveAxes();            
+            if(prevCal.getCount() == 3) {
+                document.getElementById('range0to1').checked = !axes.isRange100();                
+                document.getElementById('range0to100').checked = axes.isRange100();
+                document.getElementById('ternarynormal').checked = axes.isNormalOrientation();
+            }
+        }
     }
+
     align() {
-        var range1 = document.getElementById('range0to1').checked,
-            range100 = document.getElementById('range0to100').checked,
+        var range100 = document.getElementById('range0to100').checked,
             ternaryNormal = document.getElementById('ternarynormal').checked,
             axes = this._isEditing ? wpd.tree.getActiveAxes() : new wpd.TernaryAxes();
 
@@ -219,6 +268,13 @@ wpd.MapAxesCalibrator = class extends wpd.AxesCalibrator {
     }
     getCornerValues() {
         wpd.popup.show('mapAlignment');
+        if(this._isEditing) {
+            let axes = wpd.tree.getActiveAxes();            
+            if(prevCal.getCount() == 2) {
+                document.getElementById('scaleLength').checked = axes.getScaleLength();
+                document.getElementById('scaleUnits').checked = axes.getUnits();
+            }
+        }
     }
     align() {
         var scaleLength = parseFloat(document.getElementById('scaleLength').value),

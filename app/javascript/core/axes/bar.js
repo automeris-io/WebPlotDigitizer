@@ -31,6 +31,7 @@ wpd.BarAxes = (function () {
         // is different.
         var isCalibrated = false,
             isLogScale = false,
+            isRotatedAxes = false,
             x1, y1, x2, y2, p1, p2,
             orientation;
 
@@ -62,6 +63,7 @@ wpd.BarAxes = (function () {
             }
 
             orientation = this.calculateOrientation();
+            isRotatedAxes = isRotated;
             
             if(!isRotated) {
                 // ignore rotation and assume axes is precisely vertical or horizontal
@@ -106,6 +108,10 @@ wpd.BarAxes = (function () {
         this.isLog = function () {
             return isLogScale;
         };
+
+        this.isRotated = function() {
+            return isRotatedAxes;
+        }
 
         this.getTransformationEquations = function () {
             return {

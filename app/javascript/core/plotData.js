@@ -320,7 +320,7 @@ wpd.PlotData = class {
                     calibration.labels = ['P1', 'P2'];
                     calibration.labelPositions = ['S', 'S'];
                     calibration.maxPointCount = 2;
-                    axes.calibrate(calibration, axData.isLog);
+                    axes.calibrate(calibration, axData.isLog, axData.isRotated == null ? false : axData.isRotated);
                 } else if(axData.type === "PolarAxes") {
                     axes = new wpd.PolarAxes();
                     calibration.labels = ['Origin', 'P1', 'P2'];
@@ -438,6 +438,7 @@ wpd.PlotData = class {
             } else if(axes instanceof wpd.BarAxes) {
                 axData.type = "BarAxes";
                 axData.isLog = axes.isLog();
+                axData.isRotated = axes.isRotated();
             } else if(axes instanceof wpd.PolarAxes) {
                 axData.type = "PolarAxes";
                 axData.isDegrees = axes.isThetaDegrees();
