@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-11-02 21:57-0500\n"
+"POT-Creation-Date: 2017-11-03 23:08-0500\n"
 "PO-Revision-Date: 2017-11-01 23:56-0500\n"
 "Last-Translator: \n"
 "Language: fr_FR\n"
@@ -1123,6 +1123,14 @@ msgstr "DataSet non calibré!"
 #: templates/_strings.html:63
 msgid "Assign an axes calibration to this dataset!"
 msgstr "Assignez un étalonnage d'axes à ce DataSet!"
+
+#: templates/_strings.html:64
+msgid "Invalid Project!"
+msgstr ""
+
+#: templates/_strings.html:65
+msgid "Not a valid project file format!"
+msgstr ""
 
 #: templates/_toolbars.html:3
 msgid "Erase All"

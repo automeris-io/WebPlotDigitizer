@@ -121,12 +121,22 @@ wpd.saveResume = (function () {
         wpd.popup.close('import-json-window');
         if($fileInput.files.length === 1) {
             let file = $fileInput.files[0];
-            
-            if(file.type == "application/json") {
+            let fileType = file.type;
+            if(fileType == "" || fileType == null) {
+                // Chrome on Windows
+                if(file.name.endsWith(".json")) {
+                    fileType = "application/json";
+                } else if(file.name.endsWith(".tar")) {
+                    fileType = "application/x-tar";
+                }
+            }
+            if(fileType == "application/json") {
                 readJSONFileOnly(file);
-            } else {
+            } else if(fileType == "application/x-tar") {
                 readProjectFile(file);
-            }            
+            } else {
+                wpd.messagePopup.show(wpd.gettext("invalid-project"), wpd.gettext("invalid-project-msg"));
+            }
         }
     }
 
