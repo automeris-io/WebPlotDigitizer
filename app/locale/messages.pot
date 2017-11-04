@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-11-02 21:57-0500\n"
+"POT-Creation-Date: 2017-11-03 23:08-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1066,6 +1066,14 @@ msgstr ""
 
 #: templates/_strings.html:63
 msgid "Assign an axes calibration to this dataset!"
+msgstr ""
+
+#: templates/_strings.html:64
+msgid "Invalid Project!"
+msgstr ""
+
+#: templates/_strings.html:65
+msgid "Not a valid project file format!"
 msgstr ""
 
 #: templates/_toolbars.html:3
