@@ -203,7 +203,7 @@ wpd.PlotData = class {
         let axes = null;
         if(data.axesType === "XYAxes") {
             axes = new wpd.XYAxes();
-            calibration.labels = ['X1', 'X2', 'Y2', 'Y2'];
+            calibration.labels = ['X1', 'X2', 'Y1', 'Y2'];
             calibration.labelPositions = ['N', 'N', 'E', 'E'];
             calibration.maxPointCount = 4; 
             axes.calibrate(calibration, data.axesParameters.isLogX, data.axesParameters.isLogY);
@@ -311,7 +311,7 @@ wpd.PlotData = class {
                 let axes = null;
                 if(axData.type === "XYAxes") {
                     axes = new wpd.XYAxes();
-                    calibration.labels = ['X1', 'X2', 'Y2', 'Y2'];
+                    calibration.labels = ['X1', 'X2', 'Y1', 'Y2'];
                     calibration.labelPositions = ['N', 'N', 'E', 'E'];
                     calibration.maxPointCount = 4;
                     axes.calibrate(calibration, axData.isLogX, axData.isLogY);
