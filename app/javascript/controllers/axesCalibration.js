@@ -308,7 +308,7 @@ wpd.alignAxes = (function () {
 
         if (xyEl.checked === true) {
             calibration = new wpd.Calibration(2);
-            calibration.labels = ['X1', 'X2', 'Y2', 'Y2'];
+            calibration.labels = ['X1', 'X2', 'Y1', 'Y2'];
             calibration.labelPositions = ['N', 'N', 'E', 'E'];
             calibration.maxPointCount = 4;
             calibrator = new wpd.XYAxesCalibrator(calibration);
