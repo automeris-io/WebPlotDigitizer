@@ -141,8 +141,8 @@ wpd.gridDetection = (function () {
             backgroundMode = document.getElementById('grid-background-mode').checked,
             plotData = wpd.appData.getPlotData();
         
-        if(plotData.backupImageData == null) {
-            plotData.backupImageData = ctx.oriImageCtx.getImageData(0, 0, imageSize.width, imageSize.height);
+        if(autoDetector.backupImageData == null) {
+            autoDetector.backupImageData = ctx.oriImageCtx.getImageData(0, 0, imageSize.width, imageSize.height);
         }
 
         autoDetector.imageData = ctx.oriImageCtx.getImageData(0, 0, imageSize.width, imageSize.height);
@@ -153,17 +153,17 @@ wpd.gridDetection = (function () {
 
         wpd.gridDetectionCore.setHorizontalParameters(horizEnable, $xperc.value);
         wpd.gridDetectionCore.setVerticalParameters(vertEnable, $yperc.value);
-        wpd.gridDetectionCore.run();
+        wpd.appData.getPlotData().getAutoDetector().gridData = wpd.gridDetectionCore.run(autoDetector);
 
         // edit image
         wpd.graphicsWidget.runImageOp(removeGridLinesOp);
 
         // cleanup memory
-        wpd.appData.getPlotData().gridData = null;
+        wpd.appData.getPlotData().getAutoDetector().gridData = null;
     }
 
     function resetImageOp(idata, width, height) {
-        var bkImg = wpd.appData.getPlotData().backupImageData,
+        var bkImg = wpd.appData.getPlotData().getAutoDetector().backupImageData,
             i;
 
         for(i = 0; i < bkImg.data.length; i++) {
@@ -180,20 +180,20 @@ wpd.gridDetection = (function () {
 
     function reset() {
         wpd.graphicsWidget.removeTool();
-        wpd.appData.getPlotData().gridData = null;
+        wpd.appData.getPlotData().getAutoDetector().gridData = null;
         wpd.graphicsWidget.removeRepainter();
         wpd.graphicsWidget.resetData();
 
         var plotData = wpd.appData.getPlotData();
-        if(plotData.backupImageData != null) {
+        if(plotData.getAutoDetector().backupImageData != null) {
             wpd.graphicsWidget.runImageOp(resetImageOp);
         }
     }
 
     function removeGridLinesOp(idata, width, height) {
         /* image op to remove grid lines */
-        var gridData = wpd.appData.getPlotData().gridData,
-            bgColor = wpd.appData.getPlotData().topColors[0],
+        var gridData = wpd.appData.getPlotData().getAutoDetector().gridData,
+            bgColor = wpd.appData.getPlotData().getAutoDetector().topColors[0],
             rowi,
             coli,
             pindex;
@@ -271,17 +271,4 @@ wpd.gridDetection = (function () {
         run: run,
         reset: reset
     };
-})();
-
-
-wpd.GridColorFilterRepainter = (function () {
-    var Painter = function () {
-        this.painterName = 'gridColorFilterRepainter';
-
-        this.onRedraw = function () {
-            var autoDetector = wpd.appData.getPlotData().getAutoDetector();
-            wpd.colorSelectionWidget.paintFilteredColor(autoDetector.gridBinaryData, autoDetector.gridMask.pixels);
-        };
-    }
-    return Painter;
 })();
