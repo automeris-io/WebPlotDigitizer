@@ -43,6 +43,7 @@ wpd.AutoDetector = (function () {
         this.imageHeight = 0;
         this.gridBackgroundMode = true;
         this.topColors = null;
+        this.backupImageData = null;
         
         this.reset = function () {
             this.mask = null;
