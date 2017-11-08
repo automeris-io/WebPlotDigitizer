@@ -1,5 +1,15 @@
 RELEASE NOTES
 
+Version 4.1
+===========
+In-progress
+
+Bug fixes:
+ - Fix grid removal
+ - Fix axes labels for 2D XY axes
+ - Fix loading project files in Chrome on Windows OS
+ - Fix transformation equations for polar axes
+
 Version 4.0
 ===========
 October 30, 2017
