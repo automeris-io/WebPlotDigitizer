@@ -301,11 +301,11 @@ wpd.EditLabelsTool = function(axes, dataset) {
 
     this.onRemove = function () {
         document.getElementById('edit-data-labels').classList.remove('pressed-button');
-        getActiveDataset().unselectAll();
+        dataset.unselectAll();
     };
 
     this.onMouseClick = function (ev, pos, imagePos) {
-        var dataSeries = getActiveDataset(),
+        var dataSeries = dataset,
             pixelIndex;
         dataSeries.unselectAll();
         pixelIndex = dataSeries.selectNearestPixel(imagePos.x, imagePos.y);
