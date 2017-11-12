@@ -9,6 +9,8 @@ Bug fixes:
  - Fix axes labels for 2D XY axes
  - Fix loading project files in Chrome on Windows OS
  - Fix transformation equations for polar axes
+ - Fix issue with editing bar chart labels
+ - Update Simplified Chinese and French translations
 
 Version 4.0
 ===========
