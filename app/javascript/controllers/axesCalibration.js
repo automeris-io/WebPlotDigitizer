@@ -459,6 +459,12 @@ wpd.alignAxes = (function () {
         wpd.tree.selectPath("/"+wpd.gettext("axes")+"/"+name, true);
     }
 
+    function renameKeypress(e) {
+        if(e.key === "Enter") {
+            renameAxes();
+        }
+    }
+
     function makeAxesName(axType) {
         const plotData = wpd.appData.getPlotData();
         let name = "";
@@ -499,7 +505,8 @@ wpd.alignAxes = (function () {
         deleteCalibration: deleteCalibration,
         showRenameAxes: showRenameAxes,
         makeAxesName: makeAxesName,
-        renameAxes: renameAxes 
+        renameAxes: renameAxes,
+        renameKeypress: renameKeypress 
     };
 
 })();

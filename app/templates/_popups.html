@@ -458,7 +458,7 @@
     <div class="popupheading">{{ _("Rename Dataset") }}</div>
     <center>
     <br/>
-    <p>{{ _("Name") }}: <input type="text" id="rename-dataset-name-input" value="Dataset"/></p>
+    <p>{{ _("Name") }}: <input type="text" id="rename-dataset-name-input" value="Dataset" onkeypress="wpd.dataSeriesManagement.renameKeypress(event);"/></p>
     <br/>
     <p><input type="button" value="{{ _("Rename") }}" onclick="wpd.dataSeriesManagement.renameDataset();"/> <input type="button" value="{{ _("Cancel") }}" onclick="wpd.popup.close('rename-dataset-popup');"/></p>
     </center>
@@ -469,7 +469,7 @@
     <div class="popupheading">{{ _("Rename Axes") }}</div>
     <center>
     <br/>
-    <p>{{ _("Name") }}: <input type="text" id="rename-axes-name-input" value="Axes"/></p>
+    <p>{{ _("Name") }}: <input type="text" id="rename-axes-name-input" value="Axes" onkeypress="wpd.alignAxes.renameKeypress(event);"/></p>
     <br/>
     <p><input type="button" value="{{ _("Rename") }}" onclick="wpd.alignAxes.renameAxes();"/> <input type="button" value="{{ _("Cancel") }}" onclick="wpd.popup.close('rename-axes-popup');"/></p>
     </center>

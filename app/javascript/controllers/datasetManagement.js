@@ -71,6 +71,12 @@ wpd.dataSeriesManagement = (function () {
         wpd.tree.refresh();
         wpd.tree.selectPath("/"+wpd.gettext("datasets")+"/" + ds.name, true);
     }
+
+    function renameKeypress(e) {        
+        if(e.key === "Enter") {
+            renameDataset();
+        }
+    }
     
     function addSingleDataset() {
         const $singleDatasetName = document.getElementById('add-single-dataset-name-input');
@@ -144,6 +150,7 @@ wpd.dataSeriesManagement = (function () {
         showAddDataset: showAddDataset,
         showRenameDataset: showRenameDataset,
         renameDataset: renameDataset,
+        renameKeypress: renameKeypress,
         addSingleDataset: addSingleDataset,
         addMultipleDatasets: addMultipleDatasets,
         deleteDataset: deleteDataset,

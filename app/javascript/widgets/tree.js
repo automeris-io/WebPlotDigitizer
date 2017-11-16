@@ -27,6 +27,8 @@ wpd.TreeWidget = class {
         this.$mainElem = $elem;
         this.treeData = null;
         this.$mainElem.addEventListener("click", e => this._onclick(e));
+        this.$mainElem.addEventListener("keydown", e => this._onkeydown(e));
+        this.$mainElem.addEventListener("dblclick", e => this._ondblclick(e));
         this.idmap = [];
         this.itemCount = 0;
         this.selectedPath = null;
@@ -112,8 +114,31 @@ wpd.TreeWidget = class {
         }
     }
 
+    _onkeydown(e) {        
+        // allow either F2 or Meta+R to trigger rename
+        if(e.key === "F2" || (e.key.toLowerCase() === "r" && e.metaKey))
+        {
+            if(this.itemRenameCallback) {                                
+                this.itemRenameCallback(e.target, this.selectedPath, false);
+                e.preventDefault();
+            }
+        }
+    }
+
+    _ondblclick(e) {        
+        if(this.itemRenameCallback) {
+            this.itemRenameCallback(e.target, this.selectedPath, false);
+            e.preventDefault();
+            e.stopPropagation();            
+        }                
+    }
+
     onItemSelection(callback) {
         this.itemSelectionCallback = callback;
+    }
+
+    onItemRename(callback) {
+        this.itemRenameCallback = callback;
     }
 
     getSelectedPath() {
@@ -295,10 +320,19 @@ wpd.tree = (function() {
         }
     }
 
+    function onRename(elem, path, suppressSecondaryActions) {
+        if(path.startsWith("/"+ wpd.gettext("datasets") +"/")) {
+            wpd.dataSeriesManagement.showRenameDataset();
+        } else if(path.startsWith("/" + wpd.gettext("axes") + "/")) {
+            wpd.alignAxes.showRenameAxes();
+        }
+    }
+
     function init() {
         const $treeElem = document.getElementById("tree-container");        
         treeWidget = new wpd.TreeWidget($treeElem);
         treeWidget.onItemSelection(onSelection)
+        treeWidget.onItemRename(onRename);
         buildTree();
     }
 
