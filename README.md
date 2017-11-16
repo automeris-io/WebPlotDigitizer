@@ -1,5 +1,5 @@
-WebPlotDigitizer 4.0
-====================
+WebPlotDigitizer
+================
 
 A web based tool to extract numerical data from plot images. Supports XY, Polar, Ternary diagrams and Maps. This is an opensource tool that is used by thousands and [cited in over 600 published articles](https://scholar.google.com/scholar?as_vis=1&q=WebPlotDigitizer&hl=en&as_sdt=0,44). Checkout https://automeris.io/WebPlotDigitizer for more details.
 
@@ -79,8 +79,8 @@ To build MacOS, Windows or Linux apps, make sure "electron-packager" is availabl
 On a Linux development machine, you will also need "wine" to build the Windows app. To build the apps, run:
    
     cd electron
-    ./build-packages.sh # Windows and Linux
-    ./build-mac.sh      # MacOS only
+    ./build-packages.sh # Windows, Mac and Linux
+    ./build-mac.sh      # Mac only
 
 This will create apps for Mac, Windows and Linux.
 

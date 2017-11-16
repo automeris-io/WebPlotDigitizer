@@ -11,6 +11,7 @@ Bug fixes:
  - Fix transformation equations for polar axes
  - Fix issue with editing bar chart labels
  - Update Simplified Chinese and French translations
+ - Add keyboard shortcuts (F2 or Mac+R) to rename axes and datasets. Double-click should also work.
 
 Version 4.0
 ===========
