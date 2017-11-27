@@ -37,6 +37,7 @@
         <center>
         <p><input type="button" value="{{ _("Distance") }}" style="width:150px;" onclick="wpd.tree.addMeasurement(wpd.measurementModes.distance);"/></p>
         <p><input type="button" value="{{ _("Angle") }}" style="width:150px;" onclick="wpd.tree.addMeasurement(wpd.measurementModes.angle);"/></p>
+        <p><input type="button" value="{{ _("Area/Perimeter") }}" style="width:150px;" onclick="wpd.tree.addMeasurement(wpd.measurementModes.area);"/></p>
         </center>
     </div>
 
@@ -69,5 +70,13 @@
         </center>
     </div>       
     
+    <div id="area-item-tree-widget" class="tree-widget" style="flex: 0 0 100px;">
+        <p class="sidebar-title">{{ _("Area/Perimeter") }}</p>
+        <center> 
+        <p>{{ _("Axes") }}: <select id="area-item-axes-select" style="min-width:100px; max-width:150px;" onchange="wpd.measurement.changeAxes(this.value);"></select></p> 
+        <p><input type="button" value="{{ _("Clear All") }}" style="width:150px;" onclick="wpd.measurement.clearAll();"/></p>
+        <p><input type="button" value="{{ _("View Data") }}" style="width:150px;" onclick="wpd.dataTable.showAreaData();"/></p>
+        </center>
+    </div>       
     
 </div>

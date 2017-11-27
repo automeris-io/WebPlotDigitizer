@@ -60,6 +60,14 @@
 </p>
 </div>
 
+<!-- distance measurement -->
+<div id="measure-area-sidebar" class="sidebar">
+    <p class="sidebar-title">{{ _("Measure Area/Perimeter") }}</p>
+    <p align="center"><input type="button" value="{{ _("Add Polygon") }} (A)" style="width: 145px;" id="add-polygon-button" onclick="wpd.measurement.addItem();"/></p>
+    <p align="center"><input type="button" value="{{ _("Delete Polygon") }} (D)" style="width: 145px;" id="delete-polygon-button" onclick="wpd.measurement.deleteItem();"/></p>
+</div>
+        
+
 <!-- open path measurement -->
 <div id="measure-open-path-sidebar" class="sidebar">
 <p class="sidebar-title">{{ _("Measure Path") }}</p>

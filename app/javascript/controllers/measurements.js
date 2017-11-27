@@ -89,6 +89,31 @@ wpd.measurementModes = {
             let angleMeasures = plotData.getMeasurementsByType(wpd.AngleMeasurement);
             return angleMeasures[0];
         }
+    },
+    area: {
+        name: 'area',
+        connectivity: -1,
+        addButtonId: 'add-polygon-button',
+        deleteButtonId: 'delete-polygon-button',
+        sidebarId: 'measure-area-sidebar',
+        init: function() {
+            let plotData = wpd.appData.getPlotData();
+            if(plotData.getMeasurementsByType(wpd.AreaMeasurement).length == 0) {
+                plotData.addMeasurement(new wpd.AreaMeasurement());
+            }
+        },
+        clear: function() {
+            let plotData = wpd.appData.getPlotData();
+            let areaMeasures = plotData.getMeasurementsByType(wpd.AreaMeasurement);
+            areaMeasures.forEach(m => {
+                m.clearAll();
+            });
+        },
+        getData: function() {
+            let plotData = wpd.appData.getPlotData();
+            let areaMeasures = plotData.getMeasurementsByType(wpd.AreaMeasurement);
+            return areaMeasures[0];
+        }
     }
 };
 

@@ -388,6 +388,14 @@ wpd.PlotData = class {
                 } else if(msData.type === "Angle") {
                     ms = new wpd.AngleMeasurement();
                     this._measurementColl.push(ms);
+                } else if(msData.type === "Area") {
+                    ms = new wpd.AreaMeasurement();
+                    this._measurementColl.push(ms);
+                    // set axes
+                    const axIdx = this.getAxesNames().indexOf(msData.axesName);
+                    if(axIdx >= 0) {
+                        this.setAxesForMeasurement(ms, this._axesColl[axIdx]);
+                    }  
                 }
                 // add connections
                 if(ms != null) {
@@ -498,6 +506,10 @@ wpd.PlotData = class {
             } else if(ms instanceof wpd.AngleMeasurement) {
                 msData.type = "Angle";
                 msData.name = "Angle";                
+            } else if(ms instanceof wpd.AreaMeasurement) {
+                msData.type = "Area";
+                msData.name = "Area";
+                msData.axesName = axes != null ? axes.name : "";
             }
             msData.data = [];
             for(let cIdx = 0; cIdx < ms.connectionCount(); cIdx++) {

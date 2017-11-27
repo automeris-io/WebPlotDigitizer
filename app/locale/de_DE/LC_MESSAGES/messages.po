@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-11-15 20:51-0600\n"
+"POT-Creation-Date: 2017-11-26 21:49-0600\n"
 "PO-Revision-Date: 2017-10-24 22:43-0500\n"
 "Last-Translator: \n"
 "Language: de_DE\n"
@@ -44,7 +44,7 @@ msgstr "passen"
 msgid "File"
 msgstr ""
 
-#: templates/_menubar.html:5 templates/_sidebars.html:117
+#: templates/_menubar.html:5 templates/_sidebars.html:125
 msgid "Load Image"
 msgstr "Bild laden"
 
@@ -195,7 +195,7 @@ msgstr "Dreiecksdiagramm"
 msgid "Map With Scale Bar"
 msgstr "Karte mit Größenlegende"
 
-#: templates/_popups.html:88 templates/_strings.html:54
+#: templates/_popups.html:88 templates/_strings.html:55
 msgid "Image"
 msgstr "Bild"
 
@@ -313,7 +313,7 @@ msgid "Acquired Data"
 msgstr "Erlangte Daten"
 
 #: templates/_popups.html:216 templates/_strings.html:47
-#: templates/_tree.html:44
+#: templates/_tree.html:45
 msgid "Dataset"
 msgstr "Datensatz"
 
@@ -668,7 +668,7 @@ msgstr "Zähler"
 msgid "Add Multiple Datasets"
 msgstr "Mehrere Datensätze hinzufügen"
 
-#: templates/_popups.html:458 templates/_tree.html:47
+#: templates/_popups.html:458 templates/_tree.html:48
 msgid "Rename Dataset"
 msgstr "Datensatz umbenennen"
 
@@ -722,11 +722,11 @@ msgstr "Beschriftungen bearbeiten"
 msgid "Automatic Extraction"
 msgstr "Automatische Extraktion"
 
-#: templates/_sidebars.html:21 templates/_sidebars.html:85
+#: templates/_sidebars.html:21 templates/_sidebars.html:93
 msgid "Mask"
 msgstr "Maske"
 
-#: templates/_sidebars.html:21 templates/_sidebars.html:86
+#: templates/_sidebars.html:21 templates/_sidebars.html:94
 msgid "Box"
 msgstr "Box"
 
@@ -738,11 +738,11 @@ msgstr "Stift"
 msgid "Erase"
 msgstr "Löschen"
 
-#: templates/_sidebars.html:21 templates/_sidebars.html:88
+#: templates/_sidebars.html:21 templates/_sidebars.html:96
 msgid "View"
 msgstr "Ansicht"
 
-#: templates/_sidebars.html:23 templates/_sidebars.html:92
+#: templates/_sidebars.html:23 templates/_sidebars.html:100
 msgid "Color"
 msgstr "Farbe"
 
@@ -759,7 +759,7 @@ msgid "Click to change color"
 msgstr "Klicken Sie um die Farbe ändern"
 
 #: templates/_sidebars.html:24 templates/_strings.html:51
-#: templates/_tree.html:38 templates/_tree.html:56
+#: templates/_tree.html:38 templates/_tree.html:57
 msgid "Distance"
 msgstr "Entfernung"
 
@@ -800,74 +800,86 @@ msgid "Delete Angle"
 msgstr "Winkel löschen"
 
 #: templates/_sidebars.html:65
+msgid "Measure Area/Perimeter"
+msgstr ""
+
+#: templates/_sidebars.html:66
+msgid "Add Polygon"
+msgstr ""
+
+#: templates/_sidebars.html:67
+msgid "Delete Polygon"
+msgstr ""
+
+#: templates/_sidebars.html:73
 msgid "Measure Path"
 msgstr "Pfad ausmessen"
 
-#: templates/_sidebars.html:67 templates/_sidebars.html:76
+#: templates/_sidebars.html:75 templates/_sidebars.html:84
 msgid "Add Path"
 msgstr "Pfad hinzufügen"
 
-#: templates/_sidebars.html:68 templates/_sidebars.html:77
+#: templates/_sidebars.html:76 templates/_sidebars.html:85
 msgid "Delete Path"
 msgstr "Pfad löschen"
 
-#: templates/_sidebars.html:74
+#: templates/_sidebars.html:82
 msgid "Measure Closed Path"
 msgstr "Geschlossene Strecke messen"
 
-#: templates/_sidebars.html:83
+#: templates/_sidebars.html:91
 msgid "Detect Grid"
 msgstr "Erkennungsraster"
 
-#: templates/_sidebars.html:87
+#: templates/_sidebars.html:95
 msgid "Clear"
 msgstr "Löschen"
 
-#: templates/_sidebars.html:93
+#: templates/_sidebars.html:101
 msgid "Pick"
 msgstr "Wählen"
 
-#: templates/_sidebars.html:95
+#: templates/_sidebars.html:103
 msgid "Test"
 msgstr "Test"
 
-#: templates/_sidebars.html:97
+#: templates/_sidebars.html:105
 msgid "Background Mode"
 msgstr "Hintergrund-Modus"
 
-#: templates/_sidebars.html:100
+#: templates/_sidebars.html:108
 msgid "Horizontal"
 msgstr "Horizontal"
 
-#: templates/_sidebars.html:101
+#: templates/_sidebars.html:109
 msgid "X%"
 msgstr "X%"
 
-#: templates/_sidebars.html:102
+#: templates/_sidebars.html:110
 msgid "Vertical"
 msgstr "Vertikal"
 
-#: templates/_sidebars.html:103
+#: templates/_sidebars.html:111
 msgid "Y%"
 msgstr "Y%"
 
-#: templates/_sidebars.html:107
+#: templates/_sidebars.html:115
 msgid "Detect"
 msgstr "Erkennen"
 
-#: templates/_sidebars.html:109
+#: templates/_sidebars.html:117
 msgid "Reset"
 msgstr "Zurücksetzen"
 
-#: templates/_sidebars.html:118
+#: templates/_sidebars.html:126
 msgid "Tutorial Video"
 msgstr "Tutorialvideo"
 
-#: templates/_sidebars.html:119
+#: templates/_sidebars.html:127
 msgid "Visit Website"
 msgstr "Website besuchen"
 
-#: templates/_sidebars.html:120
+#: templates/_sidebars.html:128
 msgid "Visit GitHub"
 msgstr "GitHub besuchen"
 
@@ -984,7 +996,7 @@ msgstr "Verwalten von Datensätzen"
 msgid "Please calibrate the axes before managing datasets."
 msgstr "Bitte kalibrieren Sie die Achsen, bevor Sie Datensätze verwalten."
 
-#: templates/_strings.html:27 templates/_tree.html:48
+#: templates/_strings.html:27 templates/_tree.html:49
 msgid "Delete Dataset"
 msgstr "Datensatz löschen"
 
@@ -1077,59 +1089,67 @@ msgid "Measurements"
 msgstr "Maße"
 
 #: templates/_strings.html:50 templates/_tree.html:8 templates/_tree.html:18
-#: templates/_tree.html:46 templates/_tree.html:58
+#: templates/_tree.html:47 templates/_tree.html:59 templates/_tree.html:76
 msgid "Axes"
 msgstr "Achsen"
 
-#: templates/_strings.html:52 templates/_tree.html:39 templates/_tree.html:65
+#: templates/_strings.html:52 templates/_tree.html:39 templates/_tree.html:66
 msgid "Angle"
 msgstr "Winkel"
 
-#: templates/_strings.html:53
+#: templates/_strings.html:53 templates/_tree.html:40 templates/_tree.html:74
+msgid "Area/Perimeter"
+msgstr ""
+
+#: templates/_strings.html:54
 msgid "XY"
 msgstr "XY"
 
-#: templates/_strings.html:55
+#: templates/_strings.html:56
 msgid "Bar"
 msgstr "Balken"
 
-#: templates/_strings.html:56
+#: templates/_strings.html:57
 msgid "Polar"
 msgstr "Polar"
 
-#: templates/_strings.html:57
+#: templates/_strings.html:58
 msgid "Ternary"
 msgstr "Ternär"
 
-#: templates/_strings.html:58
+#: templates/_strings.html:59
 msgid "Map"
 msgstr "Karte"
 
-#: templates/_strings.html:59
+#: templates/_strings.html:60
 msgid "Project"
 msgstr "Projekt"
 
-#: templates/_strings.html:60
+#: templates/_strings.html:61
 msgid "Distance Measurements"
 msgstr "Entfernungsmessungen"
 
-#: templates/_strings.html:61
+#: templates/_strings.html:62
 msgid "Angle Measurements"
 msgstr "Winkelmessungen"
 
-#: templates/_strings.html:62
+#: templates/_strings.html:63
+msgid "Area Measurements"
+msgstr ""
+
+#: templates/_strings.html:64
 msgid "Uncalibrated Dataset!"
 msgstr "Unkalibrierter Datensatz"
 
-#: templates/_strings.html:63
+#: templates/_strings.html:65
 msgid "Assign an axes calibration to this dataset!"
 msgstr "Weisen Sie diesem Datensatz eine Achsenkalibration zu!"
 
-#: templates/_strings.html:64
+#: templates/_strings.html:66
 msgid "Invalid Project!"
 msgstr ""
 
-#: templates/_strings.html:65
+#: templates/_strings.html:67
 msgid "Not a valid project file format!"
 msgstr ""
 
@@ -1177,19 +1197,20 @@ msgstr "Gleichungen anzeigen"
 msgid "Export All Data"
 msgstr "Alle Daten exportieren"
 
-#: templates/_tree.html:49 templates/_tree.html:60 templates/_tree.html:68
+#: templates/_tree.html:50 templates/_tree.html:61 templates/_tree.html:69
+#: templates/_tree.html:78
 msgid "View Data"
 msgstr "Daten anzeigen"
 
-#: templates/_tree.html:50
+#: templates/_tree.html:51
 msgid "Clear Data"
 msgstr "Daten löschen"
 
-#: templates/_tree.html:51
+#: templates/_tree.html:52
 msgid "Data Points"
 msgstr "Datenpunkte"
 
-#: templates/_tree.html:59 templates/_tree.html:67
+#: templates/_tree.html:60 templates/_tree.html:68 templates/_tree.html:77
 msgid "Clear All"
 msgstr "Alle löschen"
 
