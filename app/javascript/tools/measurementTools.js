@@ -371,6 +371,7 @@ wpd.MeasurementRepainter = (function () {
                 let connCount = connData.connectionCount();
                 for(let connIdx = 0; connIdx < connCount; connIdx++) {
                     let conn = connData.getConnectionAt(connIdx);
+                    let labelx = 0.0, labely = 0.0;
 
                     let px_prev = 0, py_prev = 0, spx_prev = {x:0, y:0};
                     for(let pi = 0; pi < conn.length; pi += 2) {
@@ -400,7 +401,14 @@ wpd.MeasurementRepainter = (function () {
                         let spx = wpd.graphicsWidget.screenPx(px, py);
                         let isSelected = connData.isPointSelected(connIdx, pi/2);
                         drawPoint(spx.x, spx.y, px, py, isSelected);
+                        labelx += px;
+                        labely += py;
                     }
+                    labelx /= conn.length/2;
+                    labely /= conn.length/2;
+                    let labelspx = wpd.graphicsWidget.screenPx(labelx, labely);
+                    let label = "Area: " + connData.getArea(connIdx).toFixed(2) + ", Perimeter: " + connData.getPerimeter(connIdx).toFixed(2);
+                    drawLabel(labelspx.x, labelspx.y, labelx, labely, label);
                 }
             };
 
