@@ -68,7 +68,7 @@ wpd.ConnectedPoints = class {
             ci, pi;
 
         for (ci = 0; ci < this._connections.length; ci++) {
-            for (pi = 0; pi < this._connectivity*2; pi+=2) {
+            for (pi = 0; pi < this._connections[ci].length; pi+=2) {
                 dist = (this._connections[ci][pi] - x)*(this._connections[ci][pi] - x) + (this._connections[ci][pi+1] - y)*(this._connections[ci][pi+1] - y);
                 if (minPointIndex === -1 || dist < minDist) {
                     minConnIndex = ci;
@@ -160,6 +160,58 @@ wpd.AngleMeasurement = class extends wpd.ConnectedPoints {
             ang = 180.0*ang/Math.PI;
             ang = ang < 0 ? ang + 360 : ang;
             return ang;
+        }
+    }
+};
+
+wpd.AreaMeasurement = class extends wpd.ConnectedPoints {
+    constructor() {
+        super(-1); // connectivity can vary here depending on number of points in the polygon
+    }
+
+    getArea(index) {
+        // return pixel area of polygons
+        if(index < this._connections.length) {
+            if(this._connections[index] >= 4) {
+                let totalArea = 0.0;
+                for(let pi = 0; pi < this._connections[index].length; pi += 2) {
+
+                    let px1 = this._connections[index][pi];
+                    let py1 = this._connections[index][pi+1];
+    
+                    let px2 = 0.0;
+                    let py2 = 0.0;
+                    if(pi <= this._connections[index].length-4) {
+                        px2 = this._connections[index][pi+2];
+                        py2 = this._connections[index][pi+3];
+                    } else {
+                        px2 = this._connections[index][0];
+                        py2 = this._connections[index][1];
+                    }
+                    totalArea += (px1*py2 - px2*py1);
+                }
+                totalArea /= 2.0;
+                return totalArea;
+            }
+        }
+        return 0;
+    }
+
+    getPerimeter(index) {
+        if(index < this._connections.length) {
+            let totalDist = 0.0;
+            let px_prev = 0.0;
+            let py_prev = 0.0;
+            for(let pi = 0; pi < this._connections[index].length; pi += 2) {
+                let px = this._connections[index][pi];
+                let py = this._connections[index][pi+1];
+                if(pi >= 2) {
+                    totalDist += Math.sqrt((px-px_prev)*(px-px_prev) + (py-py_prev)*(py-py_prev));
+                }
+                px_prev = px;
+                py_prev = py;
+            }
+            return totalDist;
         }
     }
 };

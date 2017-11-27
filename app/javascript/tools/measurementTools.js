@@ -364,6 +364,10 @@ wpd.MeasurementRepainter = (function () {
                     drawLabel(spx1.x + 10, spx1.y + 15, x1 + 10, y1 + 15, theta);
                     
                 }
+            },
+            
+            drawPolygons = function() {
+                
             };
 
         this.painterName = 'measurementRepainter-'+mode.name;
@@ -376,6 +380,8 @@ wpd.MeasurementRepainter = (function () {
                 drawDistances();
             } else if(mode.name === wpd.measurementModes.angle.name) {
                 drawAngles();
+            } else if(mode.name === wpd.measurementModes.area.name) {
+                drawPolygons();
             }
         };
 
