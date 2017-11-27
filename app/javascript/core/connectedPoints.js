@@ -172,7 +172,7 @@ wpd.AreaMeasurement = class extends wpd.ConnectedPoints {
     getArea(index) {
         // return pixel area of polygons
         if(index < this._connections.length) {
-            if(this._connections[index] >= 4) {
+            if(this._connections[index].length >= 4) {
                 let totalArea = 0.0;
                 for(let pi = 0; pi < this._connections[index].length; pi += 2) {
 
