@@ -367,7 +367,41 @@ wpd.MeasurementRepainter = (function () {
             },
             
             drawPolygons = function() {
-                
+                let connData = mode.getData();
+                let connCount = connData.connectionCount();
+                for(let connIdx = 0; connIdx < connCount; connIdx++) {
+                    let conn = connData.getConnectionAt(connIdx);
+
+                    let px_prev = 0, py_prev = 0, spx_prev = {x:0, y:0};
+                    for(let pi = 0; pi < conn.length; pi += 2) {
+                        let px = conn[pi];
+                        let py = conn[pi+1];
+                        let spx = wpd.graphicsWidget.screenPx(px, py);
+                        
+                        if(pi >= 2) {
+                            drawLine(spx_prev.x, spx_prev.y, spx.x, spx.y, px_prev, py_prev, px, py);
+                        } 
+                        
+                        if(pi == conn.length-2) {
+                            let px0 = conn[0];
+                            let py0 = conn[1];
+                            let spx0 = wpd.graphicsWidget.screenPx(px0, py0);
+                            drawLine(spx0.x, spx0.y, spx.x, spx.y, px0, py0, px, py);
+                        }
+                        
+                        px_prev = px;
+                        py_prev = py;
+                        spx_prev = spx;
+                    }
+
+                    for(let pi = 0; pi < conn.length; pi += 2) {
+                        let px = conn[pi];
+                        let py = conn[pi+1];
+                        let spx = wpd.graphicsWidget.screenPx(px, py);
+                        let isSelected = connData.isPointSelected(connIdx, pi/2);
+                        drawPoint(spx.x, spx.y, px, py, isSelected);
+                    }
+                }
             };
 
         this.painterName = 'measurementRepainter-'+mode.name;
