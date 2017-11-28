@@ -197,6 +197,23 @@ wpd.measurementDataProvider = (function() {
 
             fields = ['Label', 'Angle'];
             isFieldSortable = [false, true];
+
+        } else if (_ms instanceof wpd.AreaMeasurement) {
+            
+            for(conni = 0; conni < _ms.connectionCount(); conni++) {
+                rawData[conni] = [];
+                rawData[conni][0] = 'Poly'+ conni;
+                if(isMap) {
+                    rawData[conni][1] = axes.pixelToDataArea(_ms.getArea(conni));
+                    rawData[conni][2] = axes.pixelToDataDistance(_ms.getPerimeter(conni));    
+                } else {
+                    rawData[conni][1] = _ms.getArea(conni);
+                    rawData[conni][2] = _ms.getPerimeter(conni);
+                }                
+            }
+
+            fields = ['Label', 'Area', 'Perimeter'];
+            isFieldSortable = [false, true, true];
         }
 
         return {

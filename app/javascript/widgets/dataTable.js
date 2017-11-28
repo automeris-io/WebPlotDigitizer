@@ -58,6 +58,14 @@ wpd.dataTable = (function () {
         show();
     }
 
+    function showAreaData() {
+        dataProvider = wpd.measurementDataProvider;
+        selectedMeasurement = wpd.appData.getPlotData().getMeasurementsByType(wpd.AreaMeasurement)[0];
+        selectedDataset = null;
+        dataProvider.setDataSource(selectedMeasurement);        
+        show();
+    }
+
     function show() {
         wpd.graphicsWidget.removeTool();
         wpd.popup.show('csvWindow');
@@ -103,6 +111,9 @@ wpd.dataTable = (function () {
             $datasetList.innerHTML = datasetHTML;
             $datasetList.value = selectedDataset.name;
         } else if(showMeasurements) {
+            if(wpd.appData.getPlotData().getMeasurementsByType(wpd.AreaMeasurement).length > 0) {
+                datasetHTML += "<option value=\"area\">" + wpd.gettext("area-measurements") + "</option>";
+            }
             if(wpd.appData.getPlotData().getMeasurementsByType(wpd.AngleMeasurement).length > 0) {
                 datasetHTML += "<option value=\"angle\">" + wpd.gettext("angle-measurements") + "</option>";
             }
@@ -114,6 +125,8 @@ wpd.dataTable = (function () {
                 $datasetList.value = "angle";
             } else if(selectedMeasurement instanceof wpd.DistanceMeasurement) {
                 $datasetList.value = "distance";
+            } else if(selectedMeasurement instanceof wpd.AreaMeasurement) {
+                $datasetList.value = "area";
             }
         }
 
@@ -159,6 +172,8 @@ wpd.dataTable = (function () {
                 selectedMeasurement = wpd.appData.getPlotData().getMeasurementsByType(wpd.AngleMeasurement)[0];
             } else if($datasetList.value === "distance") {
                 selectedMeasurement = wpd.appData.getPlotData().getMeasurementsByType(wpd.DistanceMeasurement)[0];
+            } else if($datasetList.value === "area") {
+                selectedMeasurement = wpd.appData.getPlotData().getMeasurementsByType(wpd.AreaMeasurement)[0];
             }
             dataProvider.setDataSource(selectedMeasurement);
         }        
@@ -357,6 +372,7 @@ wpd.dataTable = (function () {
     return {
         showTable: showPlotData,
         showAngleData: showAngleData,
+        showAreaData: showAreaData,
         showDistanceData: showDistanceData,
         updateSortingControls: updateSortingControls,
         reSort: reSort,

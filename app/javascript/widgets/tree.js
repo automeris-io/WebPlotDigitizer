@@ -182,6 +182,10 @@ wpd.tree = (function() {
         let measurementItems = [];
         let distMeasures = plotData.getMeasurementsByType(wpd.DistanceMeasurement);
         let angleMeasures = plotData.getMeasurementsByType(wpd.AngleMeasurement);
+        let areaMeasures = plotData.getMeasurementsByType(wpd.AreaMeasurement);
+        if(areaMeasures.length > 0) {
+            measurementItems.push(wpd.gettext("area"));
+        }
         if(angleMeasures.length > 0) {
             measurementItems.push(wpd.gettext("angle"));
         }
@@ -250,12 +254,23 @@ wpd.tree = (function() {
         activeAxes = dsaxes;
     }
 
+    function renderAreaAxesSelection() {
+        renderAxesSelectionForMeasurement(wpd.measurementModes.area);
+    }
+
     function renderDistanceAxesSelection() {
+        renderAxesSelectionForMeasurement(wpd.measurementModes.distance);
+    }
+    
+    function renderAxesSelectionForMeasurement(mode) {
+        const isDist = mode == wpd.measurementModes.distance;
         const plotData = wpd.appData.getPlotData();
-        const msColl = plotData.getMeasurementsByType(wpd.DistanceMeasurement);
-        if(msColl.length != 1) return; // only 1 distance object is supported right now
+        const msColl = isDist ? plotData.getMeasurementsByType(wpd.DistanceMeasurement) : 
+                                plotData.getMeasurementsByType(wpd.AreaMeasurement);
+        if(msColl.length != 1) return; // only 1 distance or area object is supported right now
         const ms = msColl[0];
-        const $selection = document.getElementById("distance-item-axes-select");
+        const $selection = isDist ? document.getElementById("distance-item-axes-select") :
+                                    document.getElementById("area-item-axes-select");;
         const axesColl = plotData.getAxesColl();
         const axes = plotData.getAxesForMeasurement(ms);
         let innerHTML = "<option value='-1'>None</option>";
@@ -309,6 +324,12 @@ wpd.tree = (function() {
             }
             showTreeItemWidget('angle-item-tree-widget');
             activeAxes = null;
+        } else if(path === '/'+wpd.gettext('measurements')+'/'+wpd.gettext('area')) {
+            if(!suppressSecondaryActions) {
+                wpd.measurement.start(wpd.measurementModes.area);
+            }
+            showTreeItemWidget('area-item-tree-widget');
+            renderAreaAxesSelection();
         } else if(path.startsWith("/"+ wpd.gettext("datasets") +"/")) {
             onDatasetSelection(elem, path, suppressSecondaryActions);
         } else if(path.startsWith("/" + wpd.gettext("axes") + "/")) {
@@ -361,6 +382,8 @@ wpd.tree = (function() {
             wpd.tree.selectPath("/"+wpd.gettext("measurements")+"/"+wpd.gettext("distance"), true);
         } else if(mode === wpd.measurementModes.angle) {
             wpd.tree.selectPath("/"+wpd.gettext("measurements")+"/"+wpd.gettext("angle"), true);
+        } else if(mode === wpd.measurementModes.area) {
+            wpd.tree.selectPath("/"+wpd.gettext("measurements")+"/"+wpd.gettext("area"), true);
         }
     }
 
