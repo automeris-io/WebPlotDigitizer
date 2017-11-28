@@ -52,6 +52,7 @@ wpd.AddMeasurementTool = (function () {
                         && isCapturing === true && mode.connectivity < 0) {
                 isCapturing = false;
                 mode.getData().addConnection(plist);
+                wpd.graphicsWidget.resetHover();
                 wpd.graphicsWidget.forceHandlerRepaint();
                 wpd.graphicsWidget.setTool(new wpd.AdjustMeasurementTool(mode));
                 return;
@@ -71,6 +72,7 @@ wpd.AddMeasurementTool = (function () {
                 if(pointsCaptured === mode.connectivity) {
                     isCapturing = false;
                     mode.getData().addConnection(plist);
+                    wpd.graphicsWidget.resetHover();
                     wpd.graphicsWidget.forceHandlerRepaint();
                     wpd.graphicsWidget.setTool(new wpd.AdjustMeasurementTool(mode));
                     return;
@@ -407,7 +409,16 @@ wpd.MeasurementRepainter = (function () {
                     labelx /= conn.length/2;
                     labely /= conn.length/2;
                     let labelspx = wpd.graphicsWidget.screenPx(labelx, labely);
-                    let label = "Area: " + connData.getArea(connIdx).toFixed(2) + ", Perimeter: " + connData.getPerimeter(connIdx).toFixed(2);
+                    let areaStr = "";
+                    let periStr = "";
+                    if(wpd.appData.isAligned() === true && axes instanceof wpd.MapAxes) {
+                        areaStr = "Area" + connIdx + ": " + axes.pixelToDataArea(connData.getArea(connIdx)).toFixed(2) + ' ' + axes.getUnits() + '^2';
+                        periStr = "Perimeter" + connIdx + ": " + axes.pixelToDataDistance(connData.getPerimeter(connIdx)).toFixed(2) + ' ' + axes.getUnits();
+                    } else {
+                        areaStr = "Area" + connIdx + ": " + connData.getArea(connIdx).toFixed(2) + ' px^2';
+                        periStr = "Perimeter" + connIdx + ": " + connData.getPerimeter(connIdx).toFixed(2) + ' px';
+                    }
+                    let label = areaStr + ", " + periStr;
                     drawLabel(labelspx.x, labelspx.y, labelx, labely, label);
                 }
             };
