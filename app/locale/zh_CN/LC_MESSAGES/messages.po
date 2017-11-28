@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  WebPlotDigitizer\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-11-15 20:51-0600\n"
+"POT-Creation-Date: 2017-11-27 20:59-0600\n"
 "PO-Revision-Date: 2017-11-12 08:12-0600\n"
 "Last-Translator: RGXGR <rgxgr@outlook.com>\n"
 "Language: zh_Hans_CN\n"
@@ -40,7 +40,7 @@ msgstr "还原"
 msgid "File"
 msgstr "文件"
 
-#: templates/_menubar.html:5 templates/_sidebars.html:117
+#: templates/_menubar.html:5 templates/_sidebars.html:125
 msgid "Load Image"
 msgstr "导入图片"
 
@@ -189,7 +189,7 @@ msgstr "三元相图"
 msgid "Map With Scale Bar"
 msgstr "地图（含比例尺）"
 
-#: templates/_popups.html:88 templates/_strings.html:54
+#: templates/_popups.html:88 templates/_strings.html:55
 msgid "Image"
 msgstr "像素图"
 
@@ -302,7 +302,7 @@ msgid "Acquired Data"
 msgstr "采集的数据"
 
 #: templates/_popups.html:216 templates/_strings.html:47
-#: templates/_tree.html:44
+#: templates/_tree.html:45
 msgid "Dataset"
 msgstr "数据集"
 
@@ -642,7 +642,7 @@ msgstr "数量"
 msgid "Add Multiple Datasets"
 msgstr "添加多个数据集"
 
-#: templates/_popups.html:458 templates/_tree.html:47
+#: templates/_popups.html:458 templates/_tree.html:48
 msgid "Rename Dataset"
 msgstr "重命名数据集"
 
@@ -693,11 +693,11 @@ msgstr "编辑标签"
 msgid "Automatic Extraction"
 msgstr "自动提取"
 
-#: templates/_sidebars.html:21 templates/_sidebars.html:85
+#: templates/_sidebars.html:21 templates/_sidebars.html:93
 msgid "Mask"
 msgstr "蒙板"
 
-#: templates/_sidebars.html:21 templates/_sidebars.html:86
+#: templates/_sidebars.html:21 templates/_sidebars.html:94
 msgid "Box"
 msgstr "方块"
 
@@ -709,11 +709,11 @@ msgstr "画笔"
 msgid "Erase"
 msgstr "擦除"
 
-#: templates/_sidebars.html:21 templates/_sidebars.html:88
+#: templates/_sidebars.html:21 templates/_sidebars.html:96
 msgid "View"
 msgstr "显示"
 
-#: templates/_sidebars.html:23 templates/_sidebars.html:92
+#: templates/_sidebars.html:23 templates/_sidebars.html:100
 msgid "Color"
 msgstr "颜色"
 
@@ -730,7 +730,7 @@ msgid "Click to change color"
 msgstr "单击选择颜色"
 
 #: templates/_sidebars.html:24 templates/_strings.html:51
-#: templates/_tree.html:38 templates/_tree.html:56
+#: templates/_tree.html:38 templates/_tree.html:57
 msgid "Distance"
 msgstr "距离"
 
@@ -771,74 +771,86 @@ msgid "Delete Angle"
 msgstr "删除测量"
 
 #: templates/_sidebars.html:65
+msgid "Measure Area/Perimeter"
+msgstr ""
+
+#: templates/_sidebars.html:66
+msgid "Add Polygon"
+msgstr ""
+
+#: templates/_sidebars.html:67
+msgid "Delete Polygon"
+msgstr ""
+
+#: templates/_sidebars.html:73
 msgid "Measure Path"
 msgstr "测量路径"
 
-#: templates/_sidebars.html:67 templates/_sidebars.html:76
+#: templates/_sidebars.html:75 templates/_sidebars.html:84
 msgid "Add Path"
 msgstr "新增测量"
 
-#: templates/_sidebars.html:68 templates/_sidebars.html:77
+#: templates/_sidebars.html:76 templates/_sidebars.html:85
 msgid "Delete Path"
 msgstr "删除测量"
 
-#: templates/_sidebars.html:74
+#: templates/_sidebars.html:82
 msgid "Measure Closed Path"
 msgstr "测量闭环"
 
-#: templates/_sidebars.html:83
+#: templates/_sidebars.html:91
 msgid "Detect Grid"
 msgstr "检测网格"
 
-#: templates/_sidebars.html:87
+#: templates/_sidebars.html:95
 msgid "Clear"
 msgstr "清除"
 
-#: templates/_sidebars.html:93
+#: templates/_sidebars.html:101
 msgid "Pick"
 msgstr "拾取"
 
-#: templates/_sidebars.html:95
+#: templates/_sidebars.html:103
 msgid "Test"
 msgstr "测试"
 
-#: templates/_sidebars.html:97
+#: templates/_sidebars.html:105
 msgid "Background Mode"
 msgstr "背景模式"
 
-#: templates/_sidebars.html:100
+#: templates/_sidebars.html:108
 msgid "Horizontal"
 msgstr "横轴"
 
-#: templates/_sidebars.html:101
+#: templates/_sidebars.html:109
 msgid "X%"
 msgstr "X%"
 
-#: templates/_sidebars.html:102
+#: templates/_sidebars.html:110
 msgid "Vertical"
 msgstr "纵轴"
 
-#: templates/_sidebars.html:103
+#: templates/_sidebars.html:111
 msgid "Y%"
 msgstr "Y%"
 
-#: templates/_sidebars.html:107
+#: templates/_sidebars.html:115
 msgid "Detect"
 msgstr "检测"
 
-#: templates/_sidebars.html:109
+#: templates/_sidebars.html:117
 msgid "Reset"
 msgstr "重置"
 
-#: templates/_sidebars.html:118
+#: templates/_sidebars.html:126
 msgid "Tutorial Video"
 msgstr "视频教程"
 
-#: templates/_sidebars.html:119
+#: templates/_sidebars.html:127
 msgid "Visit Website"
 msgstr "访问网站"
 
-#: templates/_sidebars.html:120
+#: templates/_sidebars.html:128
 msgid "Visit GitHub"
 msgstr "访问 GitHub"
 
@@ -942,7 +954,7 @@ msgstr "管理数据集"
 msgid "Please calibrate the axes before managing datasets."
 msgstr "请先标定坐标轴，再开始整理数据集。"
 
-#: templates/_strings.html:27 templates/_tree.html:48
+#: templates/_strings.html:27 templates/_tree.html:49
 msgid "Delete Dataset"
 msgstr "删除数据集"
 
@@ -1031,59 +1043,67 @@ msgid "Measurements"
 msgstr "测量"
 
 #: templates/_strings.html:50 templates/_tree.html:8 templates/_tree.html:18
-#: templates/_tree.html:46 templates/_tree.html:58
+#: templates/_tree.html:47 templates/_tree.html:59 templates/_tree.html:76
 msgid "Axes"
 msgstr "坐标轴"
 
-#: templates/_strings.html:52 templates/_tree.html:39 templates/_tree.html:65
+#: templates/_strings.html:52 templates/_tree.html:39 templates/_tree.html:66
 msgid "Angle"
 msgstr "角度"
 
-#: templates/_strings.html:53
+#: templates/_strings.html:53 templates/_tree.html:40 templates/_tree.html:74
+msgid "Area/Perimeter"
+msgstr ""
+
+#: templates/_strings.html:54
 msgid "XY"
 msgstr "XY"
 
-#: templates/_strings.html:55
+#: templates/_strings.html:56
 msgid "Bar"
 msgstr "条形图"
 
-#: templates/_strings.html:56
+#: templates/_strings.html:57
 msgid "Polar"
 msgstr "极坐标图"
 
-#: templates/_strings.html:57
+#: templates/_strings.html:58
 msgid "Ternary"
 msgstr "三元图"
 
-#: templates/_strings.html:58
+#: templates/_strings.html:59
 msgid "Map"
 msgstr "地图"
 
-#: templates/_strings.html:59
+#: templates/_strings.html:60
 msgid "Project"
 msgstr "项目"
 
-#: templates/_strings.html:60
+#: templates/_strings.html:61
 msgid "Distance Measurements"
 msgstr "距离测量"
 
-#: templates/_strings.html:61
+#: templates/_strings.html:62
 msgid "Angle Measurements"
 msgstr "角度测量"
 
-#: templates/_strings.html:62
+#: templates/_strings.html:63
+msgid "Area Measurements"
+msgstr ""
+
+#: templates/_strings.html:64
 msgid "Uncalibrated Dataset!"
 msgstr "未经标定的数据集！"
 
-#: templates/_strings.html:63
+#: templates/_strings.html:65
 msgid "Assign an axes calibration to this dataset!"
 msgstr "为该数据集指定一个坐标轴标定！"
 
-#: templates/_strings.html:64
+#: templates/_strings.html:66
 msgid "Invalid Project!"
 msgstr "无效的项目！"
 
-#: templates/_strings.html:65
+#: templates/_strings.html:67
 msgid "Not a valid project file format!"
 msgstr "不是有效的项目文件格式！"
 
@@ -1131,19 +1151,20 @@ msgstr "查看方程"
 msgid "Export All Data"
 msgstr "导出所有数据"
 
-#: templates/_tree.html:49 templates/_tree.html:60 templates/_tree.html:68
+#: templates/_tree.html:50 templates/_tree.html:61 templates/_tree.html:69
+#: templates/_tree.html:78
 msgid "View Data"
 msgstr "查看数据"
 
-#: templates/_tree.html:50
+#: templates/_tree.html:51
 msgid "Clear Data"
 msgstr "清除数据"
 
-#: templates/_tree.html:51
+#: templates/_tree.html:52
 msgid "Data Points"
 msgstr "数据点数"
 
-#: templates/_tree.html:59 templates/_tree.html:67
+#: templates/_tree.html:60 templates/_tree.html:68 templates/_tree.html:77
 msgid "Clear All"
 msgstr "清除所有"
 
