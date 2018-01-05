@@ -35,9 +35,7 @@ wpd.PlotData = class {
         this._objectAxesMap = new Map();
     }
 
-    reset() {
-        this._autoDetector = null;
-        this._topColors = null;
+    reset() {        
         this._axesColl = [];        
         this._datasetColl = [];
         this._measurementColl = [];        
