@@ -48,6 +48,44 @@ function createWindow () {
          e.preventDefault();
        }
   })
+
+  // Add Edit menu for Mac to allow copy-paste:
+  if (process.platform === 'darwin') {
+    const template = [
+        {
+          label: app.getName(),
+          submenu: [
+            {role: 'about'},
+            {type: 'separator'},
+            {role: 'services', submenu: []},
+            {type: 'separator'},
+            {role: 'hide'},
+            {role: 'hideothers'},
+            {role: 'unhide'},
+            {type: 'separator'},
+            {role: 'quit'}
+          ]
+        },
+        {
+          label: 'Edit',
+          submenu: [
+            {role: 'undo'},
+            {role: 'redo'},
+            {type: 'separator'},
+            {role: 'cut'},
+            {role: 'copy'},
+            {role: 'paste'},
+            {role: 'pasteandmatchstyle'},
+            {role: 'delete'},
+            {role: 'selectall'}
+          ]
+        }
+      ]
+
+      const Menu = electron.Menu
+      const menu = Menu.buildFromTemplate(template)
+      Menu.setApplicationMenu(menu)
+  }
 }
 
 // This method will be called when Electron has finished
