@@ -31,11 +31,17 @@ wpd.AddMeasurementTool = (function () {
             plist = [];
 
         this.onAttach = function () {
-            document.getElementById(mode.addButtonId).classList.add('pressed-button');            
+            document.getElementById(mode.addButtonId).classList.add('pressed-button');
+            if(mode.connectivity < 0) { // area/perimeter
+                document.getElementById("add-polygon-info").style.display = "block";
+            }            
         };
 
         this.onRemove = function () {
             document.getElementById(mode.addButtonId).classList.remove('pressed-button');
+            if(mode.connectivity < 0) { // area/perimeter
+                document.getElementById("add-polygon-info").style.display = "none";
+            }
         };
 
         this.onKeyDown = function (ev) {
