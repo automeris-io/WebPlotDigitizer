@@ -208,6 +208,12 @@ wpd.AreaMeasurement = class extends wpd.ConnectedPoints {
                 if(pi >= 2) {
                     totalDist += Math.sqrt((px-px_prev)*(px-px_prev) + (py-py_prev)*(py-py_prev));
                 }
+                // include the connection between the last and first point in the set (only when >= 2 sides in the polygon):
+                if(pi == this._connections[index].length - 2 && pi >= 4) {
+                    let px0 = this._connections[index][0];
+                    let py0 = this._connections[index][1];
+                    totalDist += Math.sqrt((px-px0)*(px-px0) + (py-py0)*(py-py0));
+                }
                 px_prev = px;
                 py_prev = py;
             }

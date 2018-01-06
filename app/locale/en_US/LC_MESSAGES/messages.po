@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2018-01-04 21:10-0600\n"
+"POT-Creation-Date: 2018-01-06 10:46-0600\n"
 "PO-Revision-Date: 2016-12-12 23:09-0600\n"
 "Last-Translator: \n"
 "Language: en_US\n"
@@ -40,7 +40,7 @@ msgstr ""
 msgid "File"
 msgstr ""
 
-#: templates/_menubar.html:5 templates/_sidebars.html:125
+#: templates/_menubar.html:5 templates/_sidebars.html:127
 msgid "Load Image"
 msgstr ""
 
@@ -683,11 +683,11 @@ msgstr ""
 msgid "Automatic Extraction"
 msgstr ""
 
-#: templates/_sidebars.html:21 templates/_sidebars.html:93
+#: templates/_sidebars.html:21 templates/_sidebars.html:95
 msgid "Mask"
 msgstr ""
 
-#: templates/_sidebars.html:21 templates/_sidebars.html:94
+#: templates/_sidebars.html:21 templates/_sidebars.html:96
 msgid "Box"
 msgstr ""
 
@@ -699,11 +699,11 @@ msgstr ""
 msgid "Erase"
 msgstr ""
 
-#: templates/_sidebars.html:21 templates/_sidebars.html:96
+#: templates/_sidebars.html:21 templates/_sidebars.html:98
 msgid "View"
 msgstr ""
 
-#: templates/_sidebars.html:23 templates/_sidebars.html:100
+#: templates/_sidebars.html:23 templates/_sidebars.html:102
 msgid "Color"
 msgstr ""
 
@@ -772,75 +772,79 @@ msgstr ""
 msgid "Delete Polygon"
 msgstr ""
 
-#: templates/_sidebars.html:73
+#: templates/_sidebars.html:69
+msgid "Press Enter or Esc key to complete the polygon"
+msgstr ""
+
+#: templates/_sidebars.html:75
 msgid "Measure Path"
 msgstr ""
 
-#: templates/_sidebars.html:75 templates/_sidebars.html:84
+#: templates/_sidebars.html:77 templates/_sidebars.html:86
 msgid "Add Path"
 msgstr ""
 
-#: templates/_sidebars.html:76 templates/_sidebars.html:85
+#: templates/_sidebars.html:78 templates/_sidebars.html:87
 msgid "Delete Path"
 msgstr ""
 
-#: templates/_sidebars.html:82
+#: templates/_sidebars.html:84
 msgid "Measure Closed Path"
 msgstr ""
 
-#: templates/_sidebars.html:91
+#: templates/_sidebars.html:93
 msgid "Detect Grid"
 msgstr ""
 
-#: templates/_sidebars.html:95
+#: templates/_sidebars.html:97
 msgid "Clear"
 msgstr ""
 
-#: templates/_sidebars.html:101
+#: templates/_sidebars.html:103
 msgid "Pick"
 msgstr ""
 
-#: templates/_sidebars.html:103
+#: templates/_sidebars.html:105
 msgid "Test"
 msgstr ""
 
-#: templates/_sidebars.html:105
+#: templates/_sidebars.html:107
 msgid "Background Mode"
 msgstr ""
 
-#: templates/_sidebars.html:108
+#: templates/_sidebars.html:110
 msgid "Horizontal"
 msgstr ""
 
-#: templates/_sidebars.html:109
+#: templates/_sidebars.html:111
 msgid "X%"
 msgstr ""
 
-#: templates/_sidebars.html:110
+#: templates/_sidebars.html:112
 msgid "Vertical"
 msgstr ""
 
-#: templates/_sidebars.html:111
+#: templates/_sidebars.html:113
 msgid "Y%"
 msgstr ""
 
-#: templates/_sidebars.html:115
+#: templates/_sidebars.html:117
 msgid "Detect"
 msgstr ""
 
-#: templates/_sidebars.html:117
+#: templates/_sidebars.html:119
 msgid "Reset"
 msgstr ""
 
-#: templates/_sidebars.html:126
+#: templates/_sidebars.html:128
 msgid "Tutorial Video"
 msgstr ""
 
-#: templates/_sidebars.html:127
+#: templates/_sidebars.html:129
 msgid "Visit Website"
 msgstr ""
 
-#: templates/_sidebars.html:128
+#: templates/_sidebars.html:130
 msgid "Visit GitHub"
 msgstr ""
 
@@ -1846,5 +1850,8 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Script"
+#~ msgstr ""
+
+#~ msgid "Press Enter key to complete the polygon"
 #~ msgstr ""
 
