@@ -377,6 +377,7 @@ wpd.MeasurementRepainter = (function () {
             drawPolygons = function() {
                 let connData = mode.getData();
                 let connCount = connData.connectionCount();
+                let axes = mode.getAxes();
                 for(let connIdx = 0; connIdx < connCount; connIdx++) {
                     let conn = connData.getConnectionAt(connIdx);
                     let labelx = 0.0, labely = 0.0;
