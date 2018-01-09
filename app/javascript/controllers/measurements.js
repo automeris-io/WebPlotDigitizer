@@ -113,6 +113,22 @@ wpd.measurementModes = {
             let plotData = wpd.appData.getPlotData();
             let areaMeasures = plotData.getMeasurementsByType(wpd.AreaMeasurement);
             return areaMeasures[0];
+        },
+        getAxes: function() {
+            let plotData = wpd.appData.getPlotData();
+            let areaMeasures = plotData.getMeasurementsByType(wpd.AreaMeasurement);
+            return plotData.getAxesForMeasurement(areaMeasures[0]);
+        },
+        changeAxes: function(axIdx) {
+            let plotData = wpd.appData.getPlotData();
+            let ms = plotData.getMeasurementsByType(wpd.AreaMeasurement)[0];
+            let axesColl = plotData.getAxesColl();
+            if(axIdx == -1) {
+                plotData.setAxesForMeasurement(ms, null);
+            } else {
+                plotData.setAxesForMeasurement(ms, axesColl[axIdx]);
+            }
+            wpd.tree.refreshPreservingSelection(true);
         }
     }
 };
