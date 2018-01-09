@@ -2,7 +2,10 @@ RELEASE NOTES
 
 Version 4.1
 ===========
-In-progress
+January 8, 2018
+
+New Feature:
+ - Ability to measure area and perimeter of polygons
 
 Bug fixes:
  - Fix grid removal
@@ -12,6 +15,8 @@ Bug fixes:
  - Fix issue with editing bar chart labels
  - Update Simplified Chinese and French translations
  - Add keyboard shortcuts (F2 or Mac+R) to rename axes and datasets. Double-click should also work.
+ - Fix copy/paste in MacOS desktop app
+ - Fix color selection after reloading projects
 
 Version 4.0
 ===========
