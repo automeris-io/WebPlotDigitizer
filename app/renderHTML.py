@@ -1,14 +1,13 @@
 # Render HTML pages for WebPlotDigitizer
+# NOTE: This requires Python 3
 
-# this is bad practice, but I don't know of a better way right now. This is needed for zh_CN:
 import sys
-reload(sys)
-sys.setdefaultencoding('utf-8')
 
 from jinja2 import Environment, FileSystemLoader, Template
 import gettext
 import os
 import codecs
+from pathlib import Path
 
 
 class WPDTranslation:
@@ -33,19 +32,19 @@ def renderPage(filename):
     print("Rendering " + filename)
     pageTemplate = env.get_template(filename)
     for lang in languages:
-        print("\tLanguage " + lang)
+        print(("\tLanguage " + lang))
         translation = WPDTranslation(lang)
         env.install_gettext_translations(translation)
         page = pageTemplate.render()
+        
+        filename=Path(filename)
         if lang == "en_US":
             outfile = filename
         else:
-            outfile = os.path.splitext(os.path.basename(filename))[0] + "." + lang + ".html"
-        pageFile = codecs.open(outfile, 'w', 'utf-8')
-        pageFile.write(page.encode('utf-8'))
-        pageFile.close()
+            outfile = filename.parent / (filename.stem + "." + lang + ".html")
+        with outfile.open('wt', encoding='utf-8') as pageFile:
+            pageFile.write(page)
 
 renderPage("dev.html")
 renderPage("index.html")
 renderPage("offline.html")
-

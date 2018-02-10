@@ -24,6 +24,6 @@ pybabel update -l ja -d ./locale/ -i ./locale/messages.pot
 pybabel update -l ru -d ./locale/ -i ./locale/messages.pot
 
 echo "Rendering HTML Pages..."
-python renderHtml.py
+python3 renderHTML.py
 
 echo "Done!"
