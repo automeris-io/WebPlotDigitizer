@@ -80,33 +80,54 @@ wpd.XStepWithInterpolationAlgo = (function () {
                 xinterp,
                 yinterp,
                 param_width = Math.abs(param_delx*(param_smoothing/100.0)),
-                cs;
+                cs,
+                isLogX = axes.isLogX(),
+                isLogY = axes.isLogY(),
+                isDateX = axes.isDate(0),
+                isDateY = axes.isDate(1),
+                scaled_param_xmin = param_xmin,
+                scaled_param_xmax = param_xmax,
+                scaled_param_ymin = param_ymin,
+                scaled_param_ymax = param_ymax,
+                scaled_param_width = param_width,
+                scaled_param_delx = param_delx;
 
             dataSeries.clearAll();
+
+            if(isLogX) {
+                scaled_param_xmax = Math.log10(scaled_param_xmax);
+                scaled_param_xmin = Math.log10(scaled_param_xmin);
+                scaled_param_width = Math.abs(Math.log10(param_delx)*param_smoothing/100.0);
+                scaled_param_delx = Math.log10(scaled_param_delx);
+            }
+            if(isLogY) {
+                scaled_param_ymin = Math.log10(scaled_param_ymin);
+                scaled_param_ymax = Math.log10(scaled_param_ymax);
+            }
 
             // Calculate pixel distance between y_min and y_max:
             pdata0 = axes.dataToPixel(param_xmin, param_ymin);
             pdata1 = axes.dataToPixel(param_xmin, param_ymax);
             dist_y_px = Math.sqrt((pdata0.x - pdata1.x)*(pdata0.x - pdata1.x) + (pdata0.y - pdata1.y)*(pdata0.y - pdata1.y));
-            dely = (param_ymax - param_ymin)/dist_y_px;
+            dely = (scaled_param_ymax - scaled_param_ymin)/dist_y_px;
 
             // Calculate pixel distance between x_min and x_max:
             pdata1 = axes.dataToPixel(param_xmax, param_ymin);
             dist_x_px = Math.sqrt((pdata0.x - pdata1.x)*(pdata0.x - pdata1.x) + (pdata0.y - pdata1.y)*(pdata0.y - pdata1.y));
-            delx = (param_xmax - param_xmin)/dist_x_px;
+            delx = (scaled_param_xmax - scaled_param_xmin)/dist_x_px;
 
-            if(Math.abs(param_width/delx) > 0 && Math.abs(param_width/delx) < 1) {
-                param_width = delx;
+            if(Math.abs(scaled_param_width/delx) > 0 && Math.abs(scaled_param_width/delx) < 1) {
+                scaled_param_width = delx;
             }
 
-            xi = param_xmin;
-            while( ( delx > 0 && xi <= param_xmax ) || ( delx < 0 && xi >= param_xmax ) ) {
+            xi = delx > 0 ? scaled_param_xmin - 2*delx : scaled_param_xmin + 2*delx;
+            while( ( delx > 0 && xi <= scaled_param_xmax + 2*delx ) || ( delx < 0 && xi >= scaled_param_xmax - 2*delx ) ) {
 
                 mean_yi = 0; y_count = 0;
-                yi = param_ymin;
-                while ( ( dely > 0 && yi <= param_ymax ) || ( dely < 0 && yi >= param_ymax ) ) {
-                    pdata = axes.dataToPixel(xi, yi);
-                    if (pdata.x > 0 && pdata.y > 0 && pdata.x < dw && pdata.y < dh) {
+                yi = scaled_param_ymin;
+                while ( ( dely > 0 && yi <= scaled_param_ymax ) || ( dely < 0 && yi >= scaled_param_ymax ) ) {
+                    pdata = axes.dataToPixel(isLogX ? Math.pow(10, xi) : xi, isLogY ? Math.pow(10, yi) : yi);
+                    if (pdata.x >= 0 && pdata.y >= 0 && pdata.x < dw && pdata.y < dh) {
                         if (autoDetector.binaryData[parseInt(pdata.y, 10)*dw + parseInt(pdata.x, 10)] === true) {
                             mean_yi = (mean_yi*y_count + yi)/(parseFloat(y_count+1));
                             y_count++;
@@ -128,7 +149,7 @@ wpd.XStepWithInterpolationAlgo = (function () {
                 return; // kill if nothing was detected so far.
             }
 
-            if (param_width > 0) {
+            if (scaled_param_width > 0) {
                 xpoints_mean = [];
                 ypoints_mean = [];
 
@@ -138,7 +159,7 @@ wpd.XStepWithInterpolationAlgo = (function () {
                     mean_y = 0;
                     y_count = 0;
                     for (ii = 0; ii < xpoints.length; ii++) {
-                        if (xpoints[ii] <= xi + param_width && xpoints[ii] >= xi - param_width) {
+                        if (xpoints[ii] <= xi + scaled_param_width && xpoints[ii] >= xi - scaled_param_width) {
                             mean_x = (mean_x*y_count + xpoints[ii])/parseFloat(y_count + 1);
                             mean_y = (mean_y*y_count + ypoints[ii])/parseFloat(y_count + 1);
                             y_count++;
@@ -168,16 +189,16 @@ wpd.XStepWithInterpolationAlgo = (function () {
 
             xinterp = [];
             ii = 0;
-            xi = param_xmin;
+            xi = scaled_param_xmin;
 
             if (( delx < 0 && param_delx > 0) || (delx > 0 && param_delx < 0)) {
                 return;
             }
             
-            while ( (delx > 0 && xi <= param_xmax) || (delx < 0 && xi >= param_xmax) ) {
+            while ( (delx > 0 && xi <= scaled_param_xmax) || (delx < 0 && xi >= scaled_param_xmax) ) {
                 xinterp[ii] = xi;
                 ii++;
-                xi = xi + param_delx;
+                xi = xi + scaled_param_delx;
             }
 
             if(delx < 0) {
@@ -193,7 +214,10 @@ wpd.XStepWithInterpolationAlgo = (function () {
                     if(!isNaN(xinterp[ii])) {
                         yinterp[ii] = wpd.cspline_interp(cs, xinterp[ii]);
                         if(yinterp[ii] !== null) {
-                            pdata = axes.dataToPixel(xinterp[ii], yinterp[ii]);
+                            pdata = axes.dataToPixel(
+                                isLogX ? Math.pow(10, xinterp[ii]) : xinterp[ii], 
+                                isLogY ? Math.pow(10, yinterp[ii]) : yinterp[ii]
+                            );
                             dataSeries.addPixel(pdata.x, pdata.y);
                         }
                     }            
