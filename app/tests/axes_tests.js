@@ -13,8 +13,13 @@ QUnit.test("Linear XY axes", function (assert) {
     xyaxes.calibrate(calib, false, false);
 
     let px = xyaxes.dataToPixel(50,5);
-    assert.ok(Math.abs(px.x - 99/2) < 1e-13, "X calibration");
-    assert.ok(Math.abs(px.y - 99/2) < 1e-13, "Y calibration");
+    assert.ok(Math.abs(px.x - 99/2) < 1e-13, "dataToPixel, X");
+    assert.ok(Math.abs(px.y - 99/2) < 1e-13, "dataToPixel, Y");
+
+    let data = xyaxes.pixelToData(99/2, 99/2);
+    assert.ok(Math.abs(data[0] - 50) < 1e-13, "pixelToData, X");
+    assert.ok(Math.abs(data[1] - 5) < 1e-13, "pixelToData, Y");
+
 });
 
 QUnit.test("Log XY axes", function (assert) {
@@ -47,7 +52,11 @@ QUnit.test("Log base 2 axes", function (assert) {
     xyaxes.calibrate(calib, true, true);
 
     let px = xyaxes.dataToPixel(Math.pow(2,6), Math.pow(2,-3));
-    assert.ok(Math.abs(px.x - 99*(6+5)/(12+5)) < 1e-13, "X calibration");
-    assert.ok(Math.abs(px.y - 99*(1 - (-3+20)/(0+20))) < 1e-13, "Y calibration");
+    assert.ok(Math.abs(px.x - 99*(6+5)/(12+5)) < 1e-13, "dataToPixel, X");
+    assert.ok(Math.abs(px.y - 99*(1 - (-3+20)/(0+20))) < 1e-13, "dataToPixel, Y");
+
+    let data = xyaxes.pixelToData(99*(6+5)/(12+5), 99*(1 - (-3+20)/(0+20)));
+    assert.ok(Math.abs(data[0] - Math.pow(2,6)) < 1e-13, "pixelToData, X");
+    assert.ok(Math.abs(data[1] - Math.pow(2,-3)) < 1e-13, "pixelToData, Y");
 });
 
