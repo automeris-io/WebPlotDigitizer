@@ -224,7 +224,57 @@ QUnit.test("Log scale in Y direction", function (assert) {
 
 });
 
-// dates
-// log scale 
+QUnit.test("Log scale in Y direction, base 2", function (assert) {
+    // Given linearly aligned axes
+    let calib = new wpd.Calibration(2);    
+    calib.addPoint(0, 99, "0", "0");     // X1 = 0 at (0, 99)px
+    calib.addPoint(99, 99, "100", "0"); // X2 = 100 at (99, 99)px
+    calib.addPoint(0, 99, "0", Math.pow(2, -5).toString());     // Y1 = 2^-5 at (0, 99)px
+    calib.addPoint(0, 0, "0", Math.pow(2, 3).toString());     // Y2 = 2^3 at (0, 0)px
 
-// dates
+    let xyaxes = new wpd.XYAxes();
+    xyaxes.calibrate(calib, false, true);
+
+    // Given autodetection object with some pre-defined data using a function
+    let dataFn = function(x) {
+        return Math.pow(2, 2*Math.sin(x));
+    };
+
+    let autodetection = new wpd.AutoDetector();
+    autodetection.imageHeight = 100;
+    autodetection.imageWidth = 100;
+    autodetection.binaryData = [];
+    
+    for(let x = 0; x <= 100; x+=1) { // jump pixels as this algo can interpolate
+        let y = dataFn(x);
+        let pix = xyaxes.dataToPixel(x, y);
+        let img_index = parseInt(pix.y,10)*100 + parseInt(pix.x,10);
+        autodetection.binaryData[img_index] = true;
+    }
+
+    // X step w/ Interpolation
+    let algo = new wpd.XStepWithInterpolationAlgo();
+    algo.setParam(0, 0); // xmin
+    algo.setParam(1, 1); // delx
+    algo.setParam(2, 100); // xmax
+    algo.setParam(3, Math.pow(2,-5)); // ymin
+    algo.setParam(4, Math.pow(2, 3)); // ymax
+    algo.setParam(5, 0); // smoothing
+
+    let ds = new wpd.Dataset();
+
+    algo.run(autodetection, ds, xyaxes);
+    assert.equal(ds.getCount(), 101, "Simple log scale in Y direction");
+
+    let totError = 0;
+    for(let pi = 0; pi < ds.getCount(); pi++) {
+        let px = ds.getPixel(pi);
+        let data = xyaxes.pixelToData(px.x, px.y);
+        totError += Math.abs(dataFn(data[0]) - data[1]);
+        console.log(dataFn(data[0]) + ", " + data[1]);
+    }
+    totError /= ds.getCount();
+    assert.ok(totError < 1, "total error less than 1")
+
+});
+
