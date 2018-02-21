@@ -772,19 +772,19 @@ msgstr "删除测量"
 
 #: templates/_sidebars.html:65
 msgid "Measure Area/Perimeter"
-msgstr ""
+msgstr "测量面积/周长"
 
 #: templates/_sidebars.html:66
 msgid "Add Polygon"
-msgstr ""
+msgstr "添加多边形"
 
 #: templates/_sidebars.html:67
 msgid "Delete Polygon"
-msgstr ""
+msgstr "删除多边形"
 
 #: templates/_sidebars.html:69
 msgid "Press Enter or Esc key to complete the polygon"
-msgstr ""
+msgstr "按Enter或Esc键完成多边形"
 
 #: templates/_sidebars.html:75
 msgid "Measure Path"
@@ -1057,7 +1057,7 @@ msgstr "角度"
 
 #: templates/_strings.html:53 templates/_tree.html:40 templates/_tree.html:74
 msgid "Area/Perimeter"
-msgstr ""
+msgstr "面积/周长"
 
 #: templates/_strings.html:54
 msgid "XY"
@@ -1093,7 +1093,7 @@ msgstr "角度测量"
 
 #: templates/_strings.html:63
 msgid "Area Measurements"
-msgstr ""
+msgstr "面积测量"
 
 #: templates/_strings.html:64
 msgid "Uncalibrated Dataset!"
@@ -1173,5 +1173,5 @@ msgid "Clear All"
 msgstr "清除所有"
 
 #~ msgid "Press Enter key to complete the polygon"
-#~ msgstr ""
+#~ msgstr "按Enter键完成多边形"
 
