@@ -205,7 +205,7 @@ select {
     overflow: auto;
 }
 
-.sidebar p { padding: 1px; 0px; 1px; 1px; margin: 2px 1px 2px 1px; font-size:13px;}
+.sidebar p { padding: 1px 0px 1px 1px; margin: 2px 1px 2px 1px; font-size:13px; }
 
 .footnote {font-size: 10px;}
 
