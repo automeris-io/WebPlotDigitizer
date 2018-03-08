@@ -1,5 +1,12 @@
 RELEASE NOTES
 
+Version 4.2
+===========
+Coming soon
+
+Bug fixes:
+ - Improve X Step with Interpolation algorithm for log-scale charts
+
 Version 4.1
 ===========
 January 8, 2018
