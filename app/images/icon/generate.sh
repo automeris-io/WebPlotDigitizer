@@ -13,7 +13,11 @@ inkscape -z -e icon_16x16@2x.png -w 32 -h 32 icon.svg
 inkscape -z -e icon_16x16.png -w 16 -h 16 icon.svg
 
 # generate Windows ICO file
-convert -density 384 icon.svg -define icon:auto-resize icon.ico
+convert -background transparent -density 384 icon.svg -define icon:auto-resize icon.ico
+
+# generate favicon.ico
+convert -background transparent -density 384 icon.svg -define icon:auto-resize=16,32 favicon.ico
 
 # default icon png
 cp icon_128x128.png icon.png
+
