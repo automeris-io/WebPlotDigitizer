@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2018-03-25 00:35-0500\n"
+"POT-Creation-Date: 2018-03-25 17:17-0500\n"
 "PO-Revision-Date: 2017-10-24 22:43-0500\n"
 "Last-Translator: \n"
 "Language: de_DE\n"
@@ -198,6 +198,10 @@ msgstr "Karte mit Größenlegende"
 #: templates/_popups.html:88 templates/_strings.html:55
 msgid "Image"
 msgstr "Bild"
+
+#: templates/_popups.html:92
+msgid "Align Axes"
+msgstr ""
 
 #: templates/_popups.html:97
 msgid "X and Y Axes Calibration"
@@ -642,6 +646,10 @@ msgstr "Achsentyp ändern"
 #: templates/_popups.html:436
 msgid "Export All Datasets"
 msgstr "Alle Datensätze exportieren"
+
+#: templates/_popups.html:437
+msgid "Export data from all datasets"
+msgstr ""
 
 #: templates/_popups.html:441
 msgid "Export to Plotly"

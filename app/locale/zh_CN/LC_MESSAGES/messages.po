@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  WebPlotDigitizer\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2018-03-25 00:35-0500\n"
+"POT-Creation-Date: 2018-03-25 17:17-0500\n"
 "PO-Revision-Date: 2018-02-21 00:47-0600\n"
 "Last-Translator: RGXGR <rgxgr@outlook.com>\n"
 "Language: zh_Hans_CN\n"
@@ -192,6 +192,10 @@ msgstr "地图（含比例尺）"
 #: templates/_popups.html:88 templates/_strings.html:55
 msgid "Image"
 msgstr "像素图"
+
+#: templates/_popups.html:92
+msgid "Align Axes"
+msgstr ""
 
 #: templates/_popups.html:97
 msgid "X and Y Axes Calibration"
@@ -616,6 +620,10 @@ msgstr "更改坐标轴类型"
 #: templates/_popups.html:436
 msgid "Export All Datasets"
 msgstr "导出所有数据集"
+
+#: templates/_popups.html:437
+msgid "Export data from all datasets"
+msgstr ""
 
 #: templates/_popups.html:441
 msgid "Export to Plotly"
