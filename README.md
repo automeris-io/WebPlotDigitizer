@@ -27,7 +27,7 @@ Development Dependencies
 UI:
 - See app/thirdparty folder and download the required third party libraries and dependencies.
 - A recent Java to run the javascript compiler (Google Closure Compiler).
-- Python 2.7 with jinja2 package and pybabel to compile the HTML templates.
+- Python 3 with jinja2 package and pybabel to compile the HTML templates.
 
 Web Server:
 - A recent Go compiler
