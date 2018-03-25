@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2018-03-25 00:35-0500\n"
+"POT-Creation-Date: 2018-03-25 17:17-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -190,6 +190,10 @@ msgstr ""
 
 #: templates/_popups.html:88 templates/_strings.html:55
 msgid "Image"
+msgstr ""
+
+#: templates/_popups.html:92
+msgid "Align Axes"
 msgstr ""
 
 #: templates/_popups.html:97
@@ -604,6 +608,10 @@ msgstr ""
 
 #: templates/_popups.html:436
 msgid "Export All Datasets"
+msgstr ""
+
+#: templates/_popups.html:437
+msgid "Export data from all datasets"
 msgstr ""
 
 #: templates/_popups.html:441

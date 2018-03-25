@@ -89,7 +89,7 @@
 	</table>
 	</center>
 	<p>&nbsp;</p>
-	<p align="center"><input type="button" value="Align Axes" onclick="wpd.alignAxes.start();">&nbsp;<input type="button" value="{{ _("Cancel") }}" onClick="wpd.popup.close('axesList');"></p>
+	<p align="center"><input type="button" value="{{ _("Align Axes") }}" onclick="wpd.alignAxes.start();">&nbsp;<input type="button" value="{{ _("Cancel") }}" onClick="wpd.popup.close('axesList');"></p>
 	</div>
 
     <!-- XY Alignment -->
@@ -434,7 +434,7 @@
     <!-- Export all data dialog -->
     <div id="export-all-data-popup" class="popup" style="width:400px;">
     <div class="popupheading">{{ _("Export All Datasets") }}</div>
-    <p>Export data from all datasets</p>
+    <p>{{ _("Export data from all datasets") }}</p>
     <br/>
     <p align="center">
         <input type="button" value="{{ _("Download .CSV") }}" onclick="wpd.dataExport.generateCSV();"/>
