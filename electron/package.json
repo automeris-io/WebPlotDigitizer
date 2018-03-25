@@ -1,6 +1,6 @@
 {
   "name": "WebPlotDigitizer",
-  "version": "4.0.0",
+  "version": "4.2.0",
   "description": "Extract data from images of charts",
   "main": "main.js",
   "scripts": {
@@ -13,6 +13,6 @@
   "author": "Ankit Rohatgi",
   "license": "AGPL-3.0",
   "devDependencies": {
-    "electron": "~1.7.6"
+    "electron": "~1.8.4"
   }
 }
