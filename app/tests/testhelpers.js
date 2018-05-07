@@ -1,33 +1,17 @@
 var wpdtest = {};
 
-wpdtest.getBarAxes = function() {
-
+wpdtest.fetchBlob = function(filename) {
+    return new Promise((resolve, reject) => {
+        fetch(filename).then(resp => resp.blob()).then((blob) => {
+            resolve(blob);
+        });
+    });
 };
 
-wpdtest.getXYAxes = function() {
-
-};
-
-wpdtest.getPolarAxes = function() {
-
-};
-
-wpdtest.getTernaryAxes = function() {
-
-};
-
-wpdtest.getMapAxes = function() {
-
-};
-
-wpdtest.getImageAxes = function() {
-
-};
-
-wpdtest.getPlotData = function() {
-
-};
-
-wpdtest.getJSONFile = function(filename) {
-    
+wpdtest.fetchJSON = function(filename) {
+    return new Promise((resolve, reject) => {
+        fetch(filename).then(resp => resp.json()).then(data => {
+            resolve(data);
+        });
+    });
 };

@@ -270,8 +270,7 @@ QUnit.test("Log scale in Y direction, base 2", function (assert) {
     for(let pi = 0; pi < ds.getCount(); pi++) {
         let px = ds.getPixel(pi);
         let data = xyaxes.pixelToData(px.x, px.y);
-        totError += Math.abs(dataFn(data[0]) - data[1]);
-        console.log(dataFn(data[0]) + ", " + data[1]);
+        totError += Math.abs(dataFn(data[0]) - data[1]);        
     }
     totError /= ds.getCount();
     assert.ok(totError < 1, "total error less than 1")
