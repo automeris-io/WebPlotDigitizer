@@ -1,5 +1,5 @@
 /*
-	WebPlotDigitizer - http://arohatgi.info/WebPlotdigitizer
+	WebPlotDigitizer - https://automeris.io/WebPlotDigitizer
 
 	Copyright 2010-2018 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
