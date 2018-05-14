@@ -24,30 +24,33 @@
 
 var wpd = wpd || {};
 
-wpd.AveragingWindowAlgo = (function () {
+wpd.AveragingWindowAlgo = class {
 
-    var Algo = function () {
+    constructor() {
+        this._xStep = 5;
+        this._yStep = 5;
+    }
 
-        var xStep = 5, yStep = 5;
+    getParamList(axes) {
+        return [['ΔX', 'Px', 10], ['ΔY', 'Px', 10]];
+    }
 
-        this.getParamList = function(axes) {
-            return [['ΔX', 'Px', 10], ['ΔY', 'Px', 10]];
-        };
+    setParam(index, val) {
+        if(index === 0) {
+            this._xStep = val;
+        } else if(index === 1) {
+            this._yStep = val;
+        }
+    }
 
-        this.setParam = function (index, val) {
-            if(index === 0) {
-                xStep = val;
-            } else if(index === 1) {
-                yStep = val;
-            }
-        };
-
-        this.run = function (autoDetector, dataSeries, axes) {
-            var algoCore = new wpd.AveragingWindowCore(autoDetector.binaryData, autoDetector.imageHeight, autoDetector.imageWidth, xStep, yStep, dataSeries);
-            algoCore.run();
-        };
-
-    };
-    return Algo;
-})();
+    run(autoDetector, dataSeries, axes) {
+        var algoCore = new wpd.AveragingWindowCore(autoDetector.binaryData,
+                                                   autoDetector.imageHeight,
+                                                   autoDetector.imageWidth,
+                                                   this._xStep,
+                                                   this._yStep,
+                                                   dataSeries);
+        algoCore.run();
+    }   
+};
 
