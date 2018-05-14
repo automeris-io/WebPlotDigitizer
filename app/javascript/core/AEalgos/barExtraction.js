@@ -23,58 +23,59 @@
 
 var wpd = wpd || {};
 
-wpd.BarValue = function () {
-    this.npoints = 0;
+wpd.BarValue = class {
 
-    this.avgValTop = 0;
+    constructor() {
+        this._npoints = 0;
+        this._avgValTop = 0;
+        this._avgValBot = 0;
+        this._avgX = 0;
+    }
 
-    this.avgValBot = 0;
+    append(x, valTop, valBot) {
+        this._avgX = (this._npoints*this._avgX + x)/(this._npoints + 1.0);
+        this._avgValTop = (this._npoints*this._avgValTop + valTop)/(this._npoints + 1.0);
+        this._avgValBot = (this._npoints*this._avgValBot + valBot)/(this._npoints + 1.0);
+        this._npoints++;
+    }
 
-    this.avgX = 0;
-
-    this.append = function(x, valTop, valBot) {
-        this.avgX = (this.npoints*this.avgX + x)/(this.npoints + 1.0);
-        this.avgValTop = (this.npoints*this.avgValTop + valTop)/(this.npoints + 1.0);
-        this.avgValBot = (this.npoints*this.avgValBot + valBot)/(this.npoints + 1.0);
-        this.npoints++;
-    };
-
-    this.isPointInGroup = function(x, valTop, valBot, del_x, del_val) {
-        if(this.npoints === 0) {
+    isPointInGroup(x, valTop, valBot, del_x, del_val) {
+        if(this._npoints === 0) {
             return true;
         }
-
-        if(Math.abs(this.avgX - x) <= del_x && Math.abs(this.avgValTop - valTop) <= del_val && Math.abs(this.avgValBot - valBot) <= del_val) {
+        if(Math.abs(this._avgX - x) <= del_x && Math.abs(this._avgValTop - valTop) <= del_val && Math.abs(this._avgValBot - valBot) <= del_val) {
             return true;
         }
-
         return false;
-    };
+    }
 };
 
 
-wpd.BarExtractionAlgo = function() {
+wpd.BarExtractionAlgo = class {
 
-    var delX, delVal;
+    constructor() {
+        this._delX = 0;
+        this._delVal = 0;
+    }
     
-    this.getParamList = function(axes) {
+    getParamList(axes) {
         var orientationAxes = axes.getOrientation().axes;
         if(orientationAxes === 'Y') {
             return [['ΔX', 'Px', 30], ['ΔVal', 'Px', 10]];
         } else {
             return [['ΔY', 'Px', 30], ['ΔVal', 'Px', 10]];
         }
-    };
+    }
 
-    this.setParam = function (index, val) {
+    setParam(index, val) {
         if (index === 0) {
-            delX = parseFloat(val);
+            this._delX = parseFloat(val);
         } else if (index === 1) {
-            delVal = parseFloat(val);
+            this._delVal = parseFloat(val);
         }
-    };
+    }
 
-    this.run = function(autoDetector, dataSeries, axes) {
+    run(autoDetector, dataSeries, axes) {
         var orientation = axes.getOrientation(),                
             barValueColl = [],
             valTop, valBot, valCount, val,
@@ -95,7 +96,7 @@ wpd.BarExtractionAlgo = function() {
                 for(barValuei = 0; barValuei < barValueColl.length; barValuei++) {
                     bv = barValueColl[barValuei];
 
-                    if(bv.isPointInGroup(x, valTop, valBot, delX, delVal)) {
+                    if(bv.isPointInGroup(x, valTop, valBot, this._delX, this._delVal)) {
                         bv.append(x, valTop, valBot);
                         pixelAdded = true;
                         break;
@@ -206,5 +207,5 @@ wpd.BarExtractionAlgo = function() {
 
             }            
         }
-    };
+    }
 };
