@@ -14,5 +14,8 @@
   "license": "AGPL-3.0",
   "devDependencies": {
     "electron": "~1.8.4"
+  },
+  "dependencies": {
+    "electron-packager": "^12.1.0"
   }
 }
