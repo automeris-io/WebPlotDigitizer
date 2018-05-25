@@ -113,9 +113,9 @@ wpd.Calibration = class {
     }
 
     selectNearestPoint(x, y, threshold) {
-        let minIndex = findNearestPoint(x, y, threshold);
+        let minIndex = this.findNearestPoint(x, y, threshold);
         if (minIndex >= 0) {
-            selectPoint(minIndex);
+            this.selectPoint(minIndex);
         }
     }
 
