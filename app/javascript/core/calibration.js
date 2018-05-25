@@ -24,108 +24,116 @@
 var wpd = wpd || {};
 
 // calibration info
-wpd.Calibration = (function () {
+wpd.Calibration = class {
 
-    var Calib = function(dim) {
-        // Pixel information
-        var px = [],
-            py = [],
+    constructor(dim) {
+        this._dim = dim;
+        this._px = [];
+        this._py = [];
+        this._dimensions = dim == null ? 2 : dim;
+        this._dp = [];
+        this._selections = [];
 
-            // Data information
-            dimensions = dim == null ? 2 : dim,
-            dp = [],
-            selections = [];
-
+        // public:
         this.labels = [];
         this.labelPositions = [];
         this.maxPointCount = 0;
+    }
 
-        this.getCount = function () { return px.length; };
-        this.getDimensions = function() { return dimensions; };
-        this.addPoint = function(pxi, pyi, dxi, dyi, dzi) {
-            var plen = px.length, dlen = dp.length;
-            px[plen] = pxi;
-            py[plen] = pyi;
-            dp[dlen] = dxi; dp[dlen+1] = dyi;
-            if(dimensions === 3) {
-                dp[dlen+2] = dzi;
+    
+    getCount() { 
+        return this._px.length; 
+    }
+
+    getDimensions() { 
+        return this._dimensions; 
+    }
+    
+    addPoint(pxi, pyi, dxi, dyi, dzi) {
+        let plen = this._px.length;
+        let dlen = this._dp.length;
+        this._px[plen] = pxi;
+        this._py[plen] = pyi;
+        this._dp[dlen] = dxi; 
+        this._dp[dlen+1] = dyi;
+        if(this._dimensions === 3) {
+            this._dp[dlen+2] = dzi;
+        }
+    }
+
+    getPoint(index) {
+        if(index < 0 || index >= this._px.length) return null;
+
+        return {
+            px: this._px[index],
+            py: this._py[index],
+            dx: this._dp[this._dimensions*index],
+            dy: this._dp[this._dimensions*index+1],
+            dz: this._dimensions === 2 ? null : this._dp[this._dimensions*index + 2]
+        };
+    }
+
+    changePointPx(index, npx, npy) {
+        if(index < 0 || index >= this._px.length) {
+            return;
+        }
+        this._px[index] = npx;
+        this._py[index] = npy;
+    }
+
+    setDataAt(index, dxi, dyi, dzi) {
+        if(index < 0 || index >= this._px.length) return;
+        this._dp[this._dimensions*index] = dxi;
+        this._dp[this._dimensions*index + 1] = dyi;
+        if(this._dimensions === 3) {
+            this._dp[this._dimensions*index + 2] = dzi;
+        }
+    }
+
+    findNearestPoint(x, y, threshold) {
+        threshold = (threshold == null) ? 50 : parseFloat(threshold);
+        let minDist = 0;
+        let minIndex = -1;
+
+        for(let i = 0; i < this._px.length; i++) {
+            let dist = Math.sqrt((x - this._px[i])*(x - this._px[i]) + (y - this._py[i])*(y - this._py[i]));
+            if((minIndex < 0 && dist <= threshold) || (minIndex >= 0 && dist < minDist)) {
+                minIndex = i;
+                minDist = dist;
             }
-        };
-
-        this.getPoint = function(index) {
-            if(index < 0 || index >= px.length) return null;
-
-            return {
-                px: px[index],
-                py: py[index],
-                dx: dp[dimensions*index],
-                dy: dp[dimensions*index+1],
-                dz: dimensions === 2 ? null : dp[dimensions*index + 2]
-            };
-        };
-
-        this.changePointPx = function(index, npx, npy) {
-            if(index < 0 || index >= px.length) {
-                return;
-            }
-            px[index] = npx;
-            py[index] = npy;
-        };
-
-        this.setDataAt = function(index, dxi, dyi, dzi) {
-            if(index < 0 || index >= px.length) return;
-            dp[dimensions*index] = dxi;
-            dp[dimensions*index + 1] = dyi;
-            if(dimensions === 3) {
-                dp[dimensions*index + 2] = dzi;
-            }
-        };
-
-        this.findNearestPoint = function(x, y, threshold) {
-            threshold = (threshold == null) ? 50 : parseFloat(threshold);
-            var minDist, minIndex = -1, 
-                i, dist;
-            for(i = 0; i < px.length; i++) {
-                dist = Math.sqrt((x - px[i])*(x - px[i]) + (y - py[i])*(y - py[i]));
-                if((minIndex < 0 && dist <= threshold) || (minIndex >= 0 && dist < minDist)) {
-                    minIndex = i;
-                    minDist = dist;
-                }
-            }
-            return minIndex;
-        };
+        }
+        return minIndex;
+    }
 
 
-        this.selectPoint = function(index) {
-            if(selections.indexOf(index) < 0) {
-                selections[selections.length] = index;
-            }
-        };
+    selectPoint(index) {
+        if(this._selections.indexOf(index) < 0) {
+            this._selections.push(index);
+        }
+    }
 
-        this.selectNearestPoint = function (x, y, threshold) {
-            var minIndex = this.findNearestPoint(x, y, threshold);
-            if (minIndex >= 0) {
-                this.selectPoint(minIndex);
-            }
-        };
+    selectNearestPoint(x, y, threshold) {
+        let minIndex = findNearestPoint(x, y, threshold);
+        if (minIndex >= 0) {
+            selectPoint(minIndex);
+        }
+    }
 
-        this.getSelectedPoints = function () {
-            return selections;
-        };
+    getSelectedPoints() {
+        return this._selections;
+    }
 
-        this.unselectAll = function() {
-            selections = [];
-        };
+    unselectAll() {
+        this._selections = [];
+    }
 
-        this.isPointSelected = function(index) {
-            return selections.indexOf(index) >= 0;
-        };
+    isPointSelected(index) {
+        return this._selections.indexOf(index) >= 0;
+    }
 
-        this.dump = function() {
-            console.log(px);
-            console.log(py);
-            console.log(dp);
-        };
-    };
-    return Calib;
-})();
+    dump() {
+        console.log(this._px);
+        console.log(this._py);
+        console.log(this._dp);
+    }
+};

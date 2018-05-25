@@ -24,142 +24,142 @@
 var wpd = wpd || {};
 
 // Data from a series
-wpd.Dataset = (function () {
-    return function (dim) {
-        var dataPoints = [],
-            connections = [],
-            selections = [],
-            hasMetadata = false,
-            mkeys = [];
+wpd.Dataset = class {
+    constructor(dim) {
+        this._dim = dim;
+        this._dataPoints = [];
+        this._connections = [];
+        this._selections = [];
+        this._hasMetadata = false;
+        this._mkeys = [];
 
-        this.name = "Default Dataset";
-
+        // public:
+        this.name = "Defaut Dataset";
         this.variableNames = ['x', 'y'];
+    }
 
-        this.hasMetadata = function () {
-            return hasMetadata;
-        };
+    
+    hasMetadata() {
+        return this._hasMetadata;
+    }
 
-        this.setMetadataKeys = function (metakeys) {
-            mkeys = metakeys;
-        };
+    setMetadataKeys(metakeys) {
+        this._mkeys = metakeys;
+    }
 
-        this.getMetadataKeys = function () {
-            return mkeys;
-        };
+    getMetadataKeys() {
+        return this._mkeys;
+    }
 
-        this.addPixel = function(pxi, pyi, mdata) {
-            var dlen = dataPoints.length;
-            dataPoints[dlen] = {x: pxi, y: pyi, metadata: mdata};
-            if (mdata != null) {
-                hasMetadata = true;
+    addPixel(pxi, pyi, mdata) {
+        let dlen = this._dataPoints.length;
+        this._dataPoints[dlen] = {x: pxi, y: pyi, metadata: mdata};
+        if (mdata != null) {
+            this._hasMetadata = true;
+        }
+    }
+
+    getPixel(index) {
+        return this._dataPoints[index];
+    }
+
+    setPixelAt(index, pxi, pyi) {
+        if(index < this._dataPoints.length) {
+            this._dataPoints[index].x = pxi;
+            this._dataPoints[index].y = pyi;
+        }
+    }
+
+    setMetadataAt(index, mdata) {
+        if (index < this._dataPoints.length) {
+            this._dataPoints[index].metadata = mdata;
+        }
+    }
+
+    insertPixel(index, pxi, pyi, mdata) {
+        this._dataPoints.splice(index, 0, {x: pxi, y: pyi, metadata: mdata});
+    }
+
+    removePixelAtIndex(index) {
+        if(index < this._dataPoints.length) {
+            this._dataPoints.splice(index, 1);
+        }
+    }
+
+    removeLastPixel() {
+        let pIndex = this._dataPoints.length - 1;
+        removePixelAtIndex(pIndex);
+    }
+
+    findNearestPixel(x, y, threshold) {
+        threshold = (threshold == null) ? 50 : parseFloat(threshold);
+        let minDist = 0, minIndex = -1;
+        for(let i = 0; i < this._dataPoints.length; i++) {
+            let dist = Math.sqrt((x - this._dataPoints[i].x)*(x - this._dataPoints[i].x) + (y - this._dataPoints[i].y)*(y - this._dataPoints[i].y));
+            if((minIndex < 0 && dist <= threshold) || (minIndex >= 0 && dist < minDist)) {
+                minIndex = i;
+                minDist = dist;
             }
-        };
+        }
+        return minIndex;
+    }
 
-        this.getPixel = function(index) {
-            return dataPoints[index];
-        };
+    removeNearestPixel(x, y, threshold) {
+        let minIndex = findNearestPixel(x, y, threshold);
+        if(minIndex >= 0) {
+            removePixelAtIndex(minIndex);
+        }
+    }
 
-        this.setPixelAt = function (index, pxi, pyi) {
-            if(index < dataPoints.length) {
-                dataPoints[index].x = pxi;
-                dataPoints[index].y = pyi;
+    clearAll() { 
+        this._dataPoints = []; 
+        this._hasMetadata = false; 
+        this._mkeys = []; 
+    }
+
+    getCount() { 
+        return this._dataPoints.length; 
+    }
+
+    selectPixel(index) {
+        if(this._selections.indexOf(index) >= 0) {
+            return;
+        }
+        this._selections.push(index);
+    }
+
+    unselectAll() {
+        this._selections = [];
+    }
+
+    selectNearestPixel(x, y, threshold) {
+        let minIndex = findNearestPixel(x, y, threshold);
+        if(minIndex >= 0) {
+            selectPixel(minIndex);
+        }
+        return minIndex;
+    }
+
+    selectNextPixel() {
+        for(let i = 0; i < this._selections.length; i++) {
+            this._selections[i] = (this._selections[i] + 1) % this._dataPoints.length;
+        }
+    }
+
+    selectPreviousPixel() {
+        for(let i = 0; i < this._selections.length; i++) {
+            let newIndex = this._selections[i];
+            if(newIndex === 0) {
+                newIndex = this._dataPoints.length - 1;
+            } else {
+                newIndex = newIndex - 1;
             }
-        };
+            this._selections[i] = newIndex;
+        }
+    }
 
-        this.setMetadataAt = function (index, mdata) {
-            if (index < dataPoints.length) {
-                dataPoints[index].metadata = mdata;
-            }
-        };
-
-        this.insertPixel = function(index, pxi, pyi, mdata) {
-            dataPoints.splice(index, 0, {x: pxi, y: pyi, metadata: mdata});
-        };
-
-        this.removePixelAtIndex = function(index) {
-            if(index < dataPoints.length) {
-                dataPoints.splice(index, 1);
-            }
-        };
-
-        this.removeLastPixel = function() {
-            var pIndex = dataPoints.length - 1;
-            this.removePixelAtIndex(pIndex);
-        };
-
-        this.findNearestPixel = function(x, y, threshold) {
-            threshold = (threshold == null) ? 50 : parseFloat(threshold);
-            var minDist, minIndex = -1, 
-                i, dist;
-            for(i = 0; i < dataPoints.length; i++) {
-                dist = Math.sqrt((x - dataPoints[i].x)*(x - dataPoints[i].x) + (y - dataPoints[i].y)*(y - dataPoints[i].y));
-                if((minIndex < 0 && dist <= threshold) || (minIndex >= 0 && dist < minDist)) {
-                    minIndex = i;
-                    minDist = dist;
-                }
-            }
-            return minIndex;
-        };
-
-        this.removeNearestPixel = function(x, y, threshold) {
-            var minIndex = this.findNearestPixel(x, y, threshold);
-            if(minIndex >= 0) {
-                this.removePixelAtIndex(minIndex);
-            }
-        };
-
-        this.clearAll = function() { 
-            dataPoints = []; 
-            hasMetadata = false; 
-            mkeys = []; 
-        };
-
-        this.getCount = function() { return dataPoints.length; };
- 
-        this.selectPixel = function(index) {
-            if(selections.indexOf(index) >= 0) {
-                return;
-            }
-            selections[selections.length] = index;
-        };
-
-        this.unselectAll = function () {
-            selections = [];
-        };
-
-        this.selectNearestPixel = function(x, y, threshold) {
-            var minIndex = this.findNearestPixel(x, y, threshold);
-            if(minIndex >= 0) {
-                this.selectPixel(minIndex);
-            }
-            return minIndex;
-        };
-
-        this.selectNextPixel = function() {
-            for(var i = 0; i < selections.length; i++) {
-                selections[i] = (selections[i] + 1) % dataPoints.length;
-            }
-        };
-
-        this.selectPreviousPixel = function() {
-            var i, newIndex;
-            for(i = 0; i < selections.length; i++) {
-                newIndex = selections[i];
-                if(newIndex === 0) {
-                    newIndex = dataPoints.length - 1;
-                } else {
-                    newIndex = newIndex - 1;
-                }
-                selections[i] = newIndex;
-            }
-        };
-
-        this.getSelectedPixels = function () {
-            return selections;
-        };
-
-    };
-})();
-
+    getSelectedPixels() {
+        return this._selections;
+    }
+};
 
