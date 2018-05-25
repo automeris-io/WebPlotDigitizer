@@ -24,48 +24,46 @@
 /* Parse user provided expressions, dates etc. */
 var wpd = wpd || {};
 
-wpd.InputParser = (function () {
-    var Parser = function () {
-        this.parse = function (input) {
-            this.isValid = false;
-            this.isDate = false;
-            this.formatting = null;
+wpd.InputParser = class {
+    constructor() {
+        // public:
+        this.isValid = false;
+        this.isDate = false;
+        this.formatting = null;
+    }
+    
+    parse(input) {
+        this.isValid = false;
+        this.isDate = false;
+        this.formatting = null;
 
-            if(input == null) {
+        if(input == null) {
+            return null;
+        }
+
+        if(typeof input === "string") {
+            input = input.trim();
+
+            if(input.indexOf('^') >= 0) {
                 return null;
             }
+        }
 
-            if(typeof input === "string") {
-                input = input.trim();
+        let parsedDate = wpd.dateConverter.parse(input);
+        if(parsedDate != null) {
+            this.isValid = true;
+            this.isDate = true;
+            this.formatting = wpd.dateConverter.getFormatString(input);
+            return parsedDate;
+        }
 
-                if(input.indexOf('^') >= 0) {
-                    return null;
-                }
-            }
+        let parsedFloat = parseFloat(input);
+        if(!isNaN(parsedFloat)) {
+            this.isValid = true;
+            return parsedFloat;
+        }
 
-            var parsedDate = wpd.dateConverter.parse(input);
-            if(parsedDate != null) {
-                this.isValid = true;
-                this.isDate = true;
-                this.formatting = wpd.dateConverter.getFormatString(input);
-                return parsedDate;
-            }
-
-            var parsedFloat = parseFloat(input);
-            if(!isNaN(parsedFloat)) {
-                this.isValid = true;
-                return parsedFloat;
-            }
-
-            return null;
-        };
-
-        this.isValid = false;
-
-        this.isDate = false;
-
-        this.formatting = null;
-    };
-    return Parser;
-})();
+        return null;
+    }
+};
 
