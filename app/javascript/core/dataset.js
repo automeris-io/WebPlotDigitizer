@@ -105,9 +105,9 @@ wpd.Dataset = class {
     }
 
     removeNearestPixel(x, y, threshold) {
-        let minIndex = findNearestPixel(x, y, threshold);
+        let minIndex = this.findNearestPixel(x, y, threshold);
         if(minIndex >= 0) {
-            removePixelAtIndex(minIndex);
+            this.removePixelAtIndex(minIndex);
         }
     }
 
@@ -133,9 +133,9 @@ wpd.Dataset = class {
     }
 
     selectNearestPixel(x, y, threshold) {
-        let minIndex = findNearestPixel(x, y, threshold);
+        let minIndex = this.findNearestPixel(x, y, threshold);
         if(minIndex >= 0) {
-            selectPixel(minIndex);
+            this.selectPixel(minIndex);
         }
         return minIndex;
     }
