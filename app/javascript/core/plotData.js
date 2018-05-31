@@ -27,8 +27,6 @@ var wpd = wpd || {};
 
 wpd.PlotData = class {
     constructor() {
-        this._autoDetector = null;
-        this._autoDetectionDataColl = [];
         this._topColors = null;
         this._axesColl = [];        
         this._datasetColl = [];
@@ -42,8 +40,15 @@ wpd.PlotData = class {
         this._datasetColl = [];
         this._measurementColl = [];        
         this._objectAxesMap = new Map();
-        this._autoDetectionDataColl = [];
         this._datasetAutoDetectionDataMap = new Map();  
+    }
+
+    setTopColors(topColors) {
+        this._topColors = topColors;
+    }
+
+    getTopColors(topColors) {
+        return this._topColors;
     }
 
     addAxes(ax) {
@@ -152,7 +157,7 @@ wpd.PlotData = class {
     }
 
     setAutoDetectionDataForDataset(ds, autoDetectionData) {
-        this._autoDetectionDataColl.set(ds, autoDetectionData);
+        this._datasetAutoDetectionDataMap.set(ds, autoDetectionData);
     }
 
     getAxesForDataset(ds) {
@@ -164,7 +169,12 @@ wpd.PlotData = class {
     }
 
     getAutoDetectionDataForDataset(ds) {
-        return this._datasetAutoDetectionDataMap.get(ds);
+        let ad = this._datasetAutoDetectionDataMap.get(ds);
+        if (ad == null) { // create one if no autodetection data is present!
+            ad = new wpd.AutoDetectionData();
+            this.setAutoDetectionDataForDataset(ds, ad);
+        }
+        return ad;
     }
 
     deleteDataset(ds) {
@@ -175,14 +185,7 @@ wpd.PlotData = class {
             this._datasetAutoDetectionDataMap.delete(ds);
         }
     }
-        
-    getAutoDetector() {
-        if(this._autoDetector == null) {
-            this._autoDetector = new wpd.AutoDetector();
-        }
-        return this._autoDetector;
-    }
-
+    
     _deserializePreVersion4(data) {
         // read axes info
         if(data.axesType == null) {
