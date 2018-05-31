@@ -116,9 +116,9 @@ wpd.AutoDetectionData = class {
 
     generateBinaryData(imageData) {
         if (this.mask == null || this.mask.size == 0) {
-            this.generateBinaryDataUsingFullImage();
+            this.generateBinaryDataUsingFullImage(imageData);
         } else {
-            this.generateBinaryDataFromMask();
+            this.generateBinaryDataFromMask(imageData);
         }
     }
 
