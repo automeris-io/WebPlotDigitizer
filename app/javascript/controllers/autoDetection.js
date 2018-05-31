@@ -78,10 +78,15 @@ wpd.algoManager = (function() {
         applyAlgoSelection();
     }
 
+    function getAutoDetectionData() {
+        let ds = wpd.tree.getActiveDataset();
+        return wpd.appData.getPlotData().getAutoDetectionDataForDataset(ds);
+    }
+
     function applyAlgoSelection() {
         var $algoOptions = document.getElementById('auto-extract-algo-name'),
             selectedValue = $algoOptions.value,
-            autoDetector = wpd.appData.getPlotData().getAutoDetector();
+            autoDetector = getAutoDetectionData();
 
         if (selectedValue === 'averagingWindow') {
             autoDetector.algorithm = new wpd.AveragingWindowAlgo();
@@ -120,7 +125,7 @@ wpd.algoManager = (function() {
 
     function run() {
         wpd.busyNote.show();
-        var autoDetector = wpd.appData.getPlotData().getAutoDetector(),
+        var autoDetector = getAutoDetectionData(),
             algo = autoDetector.algorithm,
             repainter = new wpd.DataPointsRepainter(axes, dataset),
             $paramFields = document.getElementsByClassName('algo-params'),
@@ -156,6 +161,11 @@ wpd.algoManager = (function() {
 
 wpd.dataMask = (function () {
 
+    function getAutoDetectionData() {
+        let ds = wpd.tree.getActiveDataset();
+        return wpd.appData.getPlotData().getAutoDetectionDataForDataset(ds);
+    }
+
     function grabMask() {
         // Mask is just a list of pixels with the yellow color in the data layer
         var ctx = wpd.graphicsWidget.getAllContexts(),
@@ -164,7 +174,7 @@ wpd.dataMask = (function () {
             maskData = [],
             i,
             mi = 0,
-            autoDetector = wpd.appData.getPlotData().getAutoDetector();
+            autoDetector = getAutoDetectionData();
         for(i = 0; i < maskDataPx.data.length; i+=4) {
             if (maskDataPx.data[i] === 255 && maskDataPx.data[i+1] === 255 && maskDataPx.data[i+2] === 0) {
                 maskData[mi] = i/4; mi++;
