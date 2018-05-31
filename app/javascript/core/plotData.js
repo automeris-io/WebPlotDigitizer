@@ -28,18 +28,22 @@ var wpd = wpd || {};
 wpd.PlotData = class {
     constructor() {
         this._autoDetector = null;
+        this._autoDetectionDataColl = [];
         this._topColors = null;
         this._axesColl = [];        
         this._datasetColl = [];
         this._measurementColl = [];        
         this._objectAxesMap = new Map();
+        this._datasetAutoDetectionDataMap = new Map();
     }
 
     reset() {        
         this._axesColl = [];        
         this._datasetColl = [];
         this._measurementColl = [];        
-        this._objectAxesMap = new Map();  
+        this._objectAxesMap = new Map();
+        this._autoDetectionDataColl = [];
+        this._datasetAutoDetectionDataMap = new Map();  
     }
 
     addAxes(ax) {
@@ -147,6 +151,10 @@ wpd.PlotData = class {
         this._objectAxesMap.set(ms, ax);
     }
 
+    setAutoDetectionDataForDataset(ds, autoDetectionData) {
+        this._autoDetectionDataColl.set(ds, autoDetectionData);
+    }
+
     getAxesForDataset(ds) {
         return this._objectAxesMap.get(ds);
     }
@@ -155,11 +163,16 @@ wpd.PlotData = class {
         return this._objectAxesMap.get(ms);
     }
 
+    getAutoDetectionDataForDataset(ds) {
+        return this._datasetAutoDetectionDataMap.get(ds);
+    }
+
     deleteDataset(ds) {
         var dsIdx = this._datasetColl.indexOf(ds);
         if(dsIdx >= 0) {
             this._datasetColl.splice(dsIdx, 1);
             this._objectAxesMap.delete(ds);
+            this._datasetAutoDetectionDataMap.delete(ds);
         }
     }
         
