@@ -23,6 +23,121 @@
 
 var wpd = wpd || {};
 
+wpd._AutoDetectionDataCounter = 0;
+
+wpd.AutoDetectionData = class {
+    constructor() {
+        this._binaryData = new Set();
+
+        // public
+        this.fgColor = [0, 0, 0];
+        this.bgColor = [255, 255, 255];
+        this.mask = new Set();
+        this.colorDetectionMode = 'fg';
+        this.colorDistance = 120;
+        this.algorithm = null;
+        this.name = wpd._AutoDetectionDataCounter++;
+    }
+
+    serialize() {
+        let jsonObj = {
+            fgColor: this.fgColor,
+            bgColor: this.bgColor,
+            mask: this.mask,
+            colorDetectionMode: this.colorDetectionMode,
+            colorDistance: this.colorDistance,
+            algorithm: this.algorithm == null ? null : this.algorithm.serialize(),
+            name: this.name
+        };
+    }
+
+    deserialize(jsonObj) {
+        this.fgColor = jsonObj.fgColor;
+        this.bgColor = jsonObj.bgColor;
+        this.mask = jsonObj.mask;
+        this.colorDetectionMode = jsonObj.colorDetectionMode;
+        this.colorDistance = jsonObj.colorDistance;
+        this.algorithm = null; // TODO: deserialize the appropriate algorithm!
+        this.name = jsonObj.name;
+    }
+
+    reset() {
+    }
+
+    generateBinaryDataFromMask(imageData) {
+        this._binaryData = new Set();
+        let refColor = this.colorDetectionMode === 'fg' ? this.fgColor : this.bgColor;
+        for(let imageIdx of this.mask) {
+            let ir = imageData.data[imageIdx*4];
+            let ig = imageData.data[imageIdx*4 + 1];
+            let ib = imageData.data[imageIdx*4 + 2];
+            let ia = imageData.data[imageIdx*4 + 3];
+            if (ia === 0) {
+                // for completely transparent part of the image, assume white
+                ir = 255; ig = 255; ib = 255;
+            }
+            let dist = wpd.dist3d(ir, ig, ib, refColor[0], refColor[1], refColor[2]);
+            if (this.colorDetectionMode === 'fg') {
+                if (dist <= this.colorDistance) {
+                    this._binaryData.add(imageIdx);
+                }
+            } else {
+                if (dist >= this.colorDistance) {
+                    this._binaryData.add(imageIdx);
+                }
+            }
+        }
+    }
+
+    generateBinaryDataUsingFullImage(imageData) {
+        this._binaryData = new Set();
+        let refColor = this.colorDetectionMode === 'fg' ? this.fgColor : this.bgColor;
+        for(let imageIdx = 0; imageIdx < imageData.data.length; imageIdx++) {
+            let ir = imageData.data[imageIdx*4];
+            let ig = imageData.data[imageIdx*4 + 1];
+            let ib = imageData.data[imageIdx*4 + 2];
+            let ia = imageData.data[imageIdx*4 + 3];
+            if (ia === 0) {
+                // for completely transparent part of the image, assume white
+                ir = 255; ig = 255; ib = 255;
+            }
+            let dist = wpd.dist3d(ir, ig, ib, refColor[0], refColor[1], refColor[2]);
+            if (this.colorDetectionMode === 'fg') {
+                if (dist <= this.colorDistance) {
+                    this._binaryData.add(imageIdx);
+                }
+            } else {
+                if (dist >= this.colorDistance) {
+                    this._binaryData.add(imageIdx);
+                }
+            }
+        }
+    }
+
+    generateBinaryData(imageData) {
+        if (this.mask == null || this.mask.size == 0) {
+            this.generateBinaryDataUsingFullImage();
+        } else {
+            this.generateBinaryDataFromMask();
+        }
+    }
+
+    getBinaryData() {
+        return this._binaryData;
+    }
+};
+
+wpd.gridRemovalData = class {
+    constructor() {
+        this.mask = { xmin: null, xmax: null, ymin: null, ymax: null, pixels: [] };
+        this.lineColor = [255, 255, 255];
+        this.colorDistance = 10;
+        this.gridData = null;
+        this._binaryData = new Set();
+    }
+};
+
+/*
 wpd.AutoDetector = (function () {
     var obj = function () {
 
@@ -212,3 +327,4 @@ wpd.AutoDetector = (function () {
     return obj;
 })();
 
+*/
