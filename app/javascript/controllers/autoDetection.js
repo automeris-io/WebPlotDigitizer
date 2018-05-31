@@ -142,8 +142,8 @@ wpd.algoManager = (function() {
 
         wpd.graphicsWidget.removeTool();
 
-        autoDetector.imageData = ctx.oriImageCtx.getImageData(0, 0, imageSize.width, imageSize.height);
-        autoDetector.generateBinaryData();
+        let imageData = ctx.oriImageCtx.getImageData(0, 0, imageSize.width, imageSize.height);
+        autoDetector.generateBinaryData(imageData);
         wpd.graphicsWidget.setRepainter(repainter);            
         algo.run(autoDetector, dataset, axes);
         wpd.graphicsWidget.forceHandlerRepaint();
@@ -171,13 +171,13 @@ wpd.dataMask = (function () {
         var ctx = wpd.graphicsWidget.getAllContexts(),
             imageSize = wpd.graphicsWidget.getImageSize(),
             maskDataPx = ctx.oriDataCtx.getImageData(0, 0, imageSize.width, imageSize.height),
-            maskData = [],
+            maskData = new Set(),
             i,
             mi = 0,
             autoDetector = getAutoDetectionData();
         for(i = 0; i < maskDataPx.data.length; i+=4) {
             if (maskDataPx.data[i] === 255 && maskDataPx.data[i+1] === 255 && maskDataPx.data[i+2] === 0) {
-                maskData[mi] = i/4; mi++;
+                maskData.add(i/4);
             }
         }
         autoDetector.mask = maskData;
