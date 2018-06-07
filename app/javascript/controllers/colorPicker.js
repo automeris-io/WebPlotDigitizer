@@ -198,7 +198,7 @@ wpd.colorPicker = (function () {
         } else {
             color = autoDetector.bgColor;
         }
-        color_distance = autoDetector.colorDistance;
+        var color_distance = autoDetector.colorDistance;
 
         $colorBtn.style.backgroundColor = 'rgb('+color[0]+','+color[1]+','+color[2]+')';
         $colorDistance.value = color_distance;
