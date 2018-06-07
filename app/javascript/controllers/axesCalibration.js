@@ -297,12 +297,12 @@ wpd.alignAxes = (function () {
     var calibration, calibrator;
     
     function initiatePlotAlignment() {
-        xyEl = document.getElementById('r_xy');
-        polarEl = document.getElementById('r_polar');
-        ternaryEl = document.getElementById('r_ternary');
-        mapEl = document.getElementById('r_map');
-        imageEl = document.getElementById('r_image');
-        barEl = document.getElementById('r_bar');
+        var xyEl = document.getElementById('r_xy');
+        var polarEl = document.getElementById('r_polar');
+        var ternaryEl = document.getElementById('r_ternary');
+        var mapEl = document.getElementById('r_map');
+        var imageEl = document.getElementById('r_image');
+        var barEl = document.getElementById('r_bar');
 
         wpd.popup.close('axesList');
 
