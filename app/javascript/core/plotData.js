@@ -382,7 +382,14 @@ wpd.PlotData = class {
                 const axIdx = this.getAxesNames().indexOf(dsData.axesName);
                 if(axIdx >= 0) {
                     this.setAxesForDataset(ds, this._axesColl[axIdx]);
-                }                
+                }
+                
+                // autodetector
+                if (dsData.autoDetectionData != null) {
+                    let autoDetectionData = new wpd.AutoDetectionData();
+                    autoDetectionData.deserialize(dsData.autoDetectionData);
+                    this.setAutoDetectionDataForDataset(ds, autoDetectionData);
+                }
             }
         }
 
@@ -443,7 +450,7 @@ wpd.PlotData = class {
 
     serialize() {
         let data = {};
-        data.version = [4,0];        
+        data.version = [4,2];        
         data.axesColl = [];
         data.datasetColl = [];
         data.measurementColl = [];
@@ -493,6 +500,7 @@ wpd.PlotData = class {
         for(let dsIdx = 0; dsIdx < this._datasetColl.length; dsIdx++) {
             const ds = this._datasetColl[dsIdx];
             const axes = this.getAxesForDataset(ds);
+            const autoDetectionData = this.getAutoDetectionDataForDataset(ds);
             let dsData = {};
             dsData.name = ds.name;
             dsData.axesName = axes != null ? axes.name: "";
@@ -505,6 +513,7 @@ wpd.PlotData = class {
                     dsData.data[pxIdx].value = axes.pixelToData(px.x, px.y);
                 }
             }
+            dsData.autoDetectionData = autoDetectionData != null ? autoDetectionData.serialize() : null;
             data.datasetColl.push(dsData);
         }
 
