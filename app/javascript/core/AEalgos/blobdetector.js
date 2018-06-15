@@ -45,6 +45,10 @@ wpd.BlobDetectorAlgo = class {
         }
     }
 
+    getParam(index) {
+        return index === 0 ? this._minDia : this._maxDia;
+    }
+
     run(autoDetector, dataSeries, axes) {
         var dw = autoDetector.imageWidth,
             dh = autoDetector.imageHeight,
@@ -60,7 +64,7 @@ wpd.BlobDetectorAlgo = class {
             dia;
 
         if (dw <= 0 || dh <= 0 || autoDetector.binaryData == null
-            || autoDetector.binaryData.length === 0) {
+            || autoDetector.binaryData.size === 0) {
             return;
         }
 
@@ -69,7 +73,7 @@ wpd.BlobDetectorAlgo = class {
 
         for (xi = 0; xi < dw; xi++) {
             for (yi = 0; yi < dh; yi++) {
-                if (autoDetector.binaryData[yi*dw + xi] === true && !(pixelVisited[yi*dw + xi] === true)) {
+                if (autoDetector.binaryData.has(yi*dw + xi) && !(pixelVisited[yi*dw + xi] === true)) {
 
                     pixelVisited[yi*dw + xi] = true;
 
@@ -90,7 +94,7 @@ wpd.BlobDetectorAlgo = class {
                         for (nxi = bxi - 1; nxi <= bxi + 1; nxi++) {
                             for(nyi = byi - 1; nyi <= byi + 1; nyi++) {
                                 if (nxi >= 0 && nyi >= 0 && nxi < dw && nyi < dh) {
-                                    if (!(pixelVisited[nyi*dw + nxi] === true) && autoDetector.binaryData[nyi*dw + nxi] === true) {
+                                    if (!(pixelVisited[nyi*dw + nxi] === true) && autoDetector.binaryData.has(nyi*dw + nxi)) {
 
                                         pixelVisited[nyi*dw + nxi] = true;
 

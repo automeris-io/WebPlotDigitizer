@@ -57,6 +57,18 @@ wpd.AveragingWindowWithStepSizeAlgo = class {
         }
     }
 
+    getParam(index) {
+        switch(index) {
+            case 0: return this._xmin;
+            case 1: return this._delx;
+            case 2: return this._xmax;
+            case 3: return this._ymin;
+            case 4: return this._ymax;
+            case 5: return this._lineWidth;
+            default: return null;
+        }
+    }
+
     run(autoDetector, dataSeries, axes) {
         var pointsPicked = 0,
             dw = autoDetector.imageWidth,
@@ -101,7 +113,7 @@ wpd.AveragingWindowWithStepSizeAlgo = class {
                 yi_pix = pdata.y;
 
                 if(xi_pix >= 0 && xi_pix < dw && yi_pix >=0 && yi_pix < dh)	{
-                    if (autoDetector.binaryData[parseInt(yi_pix, 10)*dw + parseInt(xi_pix, 10)] === true) {
+                    if (autoDetector.binaryData.has(parseInt(yi_pix, 10)*dw + parseInt(xi_pix, 10))) {
                         if(blobActive === false) {
                             blobEntry = ii;
                             blobExit = blobEntry;

@@ -143,13 +143,15 @@ wpd.algoManager = (function() {
         wpd.graphicsWidget.removeTool();
 
         let imageData = ctx.oriImageCtx.getImageData(0, 0, imageSize.width, imageSize.height);
+        autoDetector.imageWidth = imageSize.width;
+        autoDetector.imageHeight = imageSize.height;
         autoDetector.generateBinaryData(imageData);
         wpd.graphicsWidget.setRepainter(repainter);            
         algo.run(autoDetector, dataset, axes);
         wpd.graphicsWidget.forceHandlerRepaint();
         wpd.dataPointCounter.setCount(dataset.getCount());
         wpd.busyNote.close();
-        return true;    
+        return true;
     }
 
     return {
@@ -181,6 +183,7 @@ wpd.dataMask = (function () {
         }
 
         autoDetector.mask = maskData;
+
     }
 
     function markBox() {

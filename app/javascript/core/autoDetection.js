@@ -27,12 +27,13 @@ wpd._AutoDetectionDataCounter = 0;
 
 wpd.AutoDetectionData = class {
     constructor() {
-        this._binaryData = new Set();
-
         // public
+        this.imageWidth = 0;
+        this.imageHeight = 0;
         this.fgColor = [0, 0, 255];
         this.bgColor = [255, 255, 255];
         this.mask = new Set();
+        this.binaryData = new Set();
         this.colorDetectionMode = 'fg';
         this.colorDistance = 120;
         this.algorithm = null;
@@ -65,7 +66,7 @@ wpd.AutoDetectionData = class {
     }
 
     generateBinaryDataFromMask(imageData) {
-        this._binaryData = new Set();
+        this.binaryData = new Set();
         let refColor = this.colorDetectionMode === 'fg' ? this.fgColor : this.bgColor;
         for(let imageIdx of this.mask) {
             let ir = imageData.data[imageIdx*4];
@@ -79,18 +80,18 @@ wpd.AutoDetectionData = class {
             let dist = wpd.dist3d(ir, ig, ib, refColor[0], refColor[1], refColor[2]);
             if (this.colorDetectionMode === 'fg') {
                 if (dist <= this.colorDistance) {
-                    this._binaryData.add(imageIdx);
+                    this.binaryData.add(imageIdx);
                 }
             } else {
                 if (dist >= this.colorDistance) {
-                    this._binaryData.add(imageIdx);
+                    this.binaryData.add(imageIdx);
                 }
             }
         }
     }
 
     generateBinaryDataUsingFullImage(imageData) {
-        this._binaryData = new Set();
+        this.binaryData = new Set();
         let refColor = this.colorDetectionMode === 'fg' ? this.fgColor : this.bgColor;
         for(let imageIdx = 0; imageIdx < imageData.data.length; imageIdx++) {
             let ir = imageData.data[imageIdx*4];
@@ -104,11 +105,11 @@ wpd.AutoDetectionData = class {
             let dist = wpd.dist3d(ir, ig, ib, refColor[0], refColor[1], refColor[2]);
             if (this.colorDetectionMode === 'fg') {
                 if (dist <= this.colorDistance) {
-                    this._binaryData.add(imageIdx);
+                    this.binaryData.add(imageIdx);
                 }
             } else {
                 if (dist >= this.colorDistance) {
-                    this._binaryData.add(imageIdx);
+                    this.binaryData.add(imageIdx);
                 }
             }
         }
@@ -121,10 +122,6 @@ wpd.AutoDetectionData = class {
             this.generateBinaryDataFromMask(imageData);
         }
     }
-
-    getBinaryData() {
-        return this._binaryData;
-    }
 };
 
 wpd.gridRemovalData = class {
@@ -133,7 +130,7 @@ wpd.gridRemovalData = class {
         this.lineColor = [255, 255, 255];
         this.colorDistance = 10;
         this.gridData = null;
-        this._binaryData = new Set();
+        this.binaryData = new Set();
     }
 };
 
