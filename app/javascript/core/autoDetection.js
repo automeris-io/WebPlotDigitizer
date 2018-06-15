@@ -41,13 +41,22 @@ wpd.AutoDetectionData = class {
     }
 
     serialize() {
+        // if there's no algo, or if the algo was never run (no algoData), then just return null
+        if (this.algorithm == null) {
+            return null;
+        }
+        let algoData = this.algorithm.serialize();
+        if (algoData == null) {
+            return null;
+        }
+
         let jsonObj = {
             fgColor: this.fgColor,
             bgColor: this.bgColor,
             mask: this.mask,
             colorDetectionMode: this.colorDetectionMode,
             colorDistance: this.colorDistance,
-            algorithm: this.algorithm == null ? null : this.algorithm.serialize(),
+            algorithm: algoData,
             name: this.name
         };
     }
@@ -58,7 +67,23 @@ wpd.AutoDetectionData = class {
         this.mask = jsonObj.mask;
         this.colorDetectionMode = jsonObj.colorDetectionMode;
         this.colorDistance = jsonObj.colorDistance;
-        this.algorithm = null; // TODO: deserialize the appropriate algorithm!
+
+        if (jsonObj.algorithm != null) {
+            let algoType = jsonObj.algorithm.algoType;
+            if (algoType === "AveragingWindowAlgo") {
+                this.algorithm = new wpd.AveragingWindowAlgo();
+            } else if (algoType === "AveragingWindowWithStepSizeAlgo") {
+                this.algorithm = new wpd.AveragingWindowWithStepSizeAlgo();
+            } else if (algoType === "BarExtractionAlgo") {
+                this.algorithm = new wpd.BarExtractionAlgo();
+            } else if (algoType === "BlobDetectorAlgo") {
+                this.algorithm = new wpd.BlobDetectorAlgo();
+            } else if (algoType === "XStepWithInterpolationAlgo") {
+                this.algorithm = new wpd.XStepWithInterpolationAlgo();
+            }
+            this.algorithm.deserialize(jsonObj.algorithm);
+        }
+        
         this.name = jsonObj.name;
     }
 
