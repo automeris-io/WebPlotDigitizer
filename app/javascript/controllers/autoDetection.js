@@ -168,18 +168,18 @@ wpd.dataMask = (function () {
 
     function grabMask() {
         // Mask is just a list of pixels with the yellow color in the data layer
-        var ctx = wpd.graphicsWidget.getAllContexts(),
-            imageSize = wpd.graphicsWidget.getImageSize(),
-            maskDataPx = ctx.oriDataCtx.getImageData(0, 0, imageSize.width, imageSize.height),
-            maskData = new Set(),
-            i,
-            mi = 0,
-            autoDetector = getAutoDetectionData();
-        for(i = 0; i < maskDataPx.data.length; i+=4) {
+        let ctx = wpd.graphicsWidget.getAllContexts();
+        let imageSize = wpd.graphicsWidget.getImageSize();
+        let maskDataPx = ctx.oriDataCtx.getImageData(0, 0, imageSize.width, imageSize.height);
+        let maskData = new Set();
+        let autoDetector = getAutoDetectionData();
+
+        for(let i = 0; i < maskDataPx.data.length; i+=4) {
             if (maskDataPx.data[i] === 255 && maskDataPx.data[i+1] === 255 && maskDataPx.data[i+2] === 0) {
                 maskData.add(i/4);
             }
         }
+
         autoDetector.mask = maskData;
     }
 
