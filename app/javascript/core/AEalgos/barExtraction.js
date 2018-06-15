@@ -54,16 +54,17 @@ wpd.BarValue = class {
 wpd.BarExtractionAlgo = class {
 
     constructor() {
-        this._delX = 0;
-        this._delVal = 0;
+        this._delX = 30;
+        this._delVal = 10;
+        this._wasRun = false;
     }
     
     getParamList(axes) {
         var orientationAxes = axes.getOrientation().axes;
         if(orientationAxes === 'Y') {
-            return [['ΔX', 'Px', 30], ['ΔVal', 'Px', 10]];
+            return [['ΔX', 'Px', this._delX], ['ΔVal', 'Px', this._delVal]];
         } else {
-            return [['ΔY', 'Px', 30], ['ΔVal', 'Px', 10]];
+            return [['ΔY', 'Px', this._delX], ['ΔVal', 'Px', this._delVal]];
         }
     }
 
@@ -79,7 +80,21 @@ wpd.BarExtractionAlgo = class {
         return index === 0 ? this._delX : this._delVal;
     }
 
+    serialize() {
+        return this._wasRun ? {
+            algoType : "BarExtractionAlgo",
+            delX: this._delX,
+            delVal: this._delVal
+        } : null;
+    }
+
+    deserialize(obj) {
+        this._delX = obj.delX;
+        this._delVal = obj.delVal;
+    }
+
     run(autoDetector, dataSeries, axes) {
+        this._wasRun = true;
         var orientation = axes.getOrientation(),                
             barValueColl = [],
             valTop, valBot, valCount, val,

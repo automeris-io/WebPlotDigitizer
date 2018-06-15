@@ -31,6 +31,7 @@ wpd.AveragingWindowWithStepSizeAlgo = class {
         this._lineWidth = 0;
         this._ymin = 0;
         this._ymax = 0;
+        this._wasRun = false;
     }
 
     getParamList(axes) {
@@ -69,7 +70,29 @@ wpd.AveragingWindowWithStepSizeAlgo = class {
         }
     }
 
+    serialize() {
+        return this._wasRun ? {
+            algoType: "AveragingWindowWithStepSizeAlgo",
+            xmin: this._xmin,
+            delx: this._delx,
+            xmax: this._xmax,
+            ymin: this._ymin,
+            ymax: this._ymax,
+            lineWidth: this._lineWidth
+        } : null;
+    }
+
+    deserialize(obj) {
+        this._xmin = obj.xmin;
+        this._delx = obj.delx;
+        this._xmax = obj.xmax;
+        this._ymin = obj.ymin;
+        this._ymax = obj.ymax;
+        this._lineWidth = obj.lineWidth;
+    }
+
     run(autoDetector, dataSeries, axes) {
+        this._wasRun = true;
         var pointsPicked = 0,
             dw = autoDetector.imageWidth,
             dh = autoDetector.imageHeight,

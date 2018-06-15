@@ -24,7 +24,7 @@
 var wpd = wpd || {};
 
 wpd.gettext = function(stringId) {
-    var $str = document.getElementById('i18n-string-' + stringId);
+    let $str = document.getElementById('i18n-string-' + stringId);
     if($str) {
         return $str.innerHTML;
     }

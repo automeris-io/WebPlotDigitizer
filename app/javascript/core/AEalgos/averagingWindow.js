@@ -29,6 +29,7 @@ wpd.AveragingWindowAlgo = class {
     constructor() {
         this._xStep = 5;
         this._yStep = 5;
+        this._wasRun = false;
     }
 
     getParamList(axes) {
@@ -47,7 +48,21 @@ wpd.AveragingWindowAlgo = class {
         return index === 0 ? this._xStep : this._yStep;
     }
 
+    serialize() {
+        return this._wasRun ? {
+            algoType: "AveragingWindowAlgo",
+            xStep: this._xStep,
+            yStep: this._yStep
+        } : null;
+    }
+
+    deserialize(obj) {
+        this._xStep = obj.xStep;
+        this._yStep = obj.yStep;
+    }
+
     run(autoDetector, dataSeries, axes) {
+        this._wasRun = true;
         var algoCore = new wpd.AveragingWindowCore(autoDetector.binaryData,
                                                    autoDetector.imageHeight,
                                                    autoDetector.imageWidth,
