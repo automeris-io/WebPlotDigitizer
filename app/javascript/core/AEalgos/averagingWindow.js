@@ -43,6 +43,10 @@ wpd.AveragingWindowAlgo = class {
         }
     }
 
+    getParam(index) {
+        return index === 0 ? this._xStep : this._yStep;
+    }
+
     run(autoDetector, dataSeries, axes) {
         var algoCore = new wpd.AveragingWindowCore(autoDetector.binaryData,
                                                    autoDetector.imageHeight,

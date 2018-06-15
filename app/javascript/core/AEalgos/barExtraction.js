@@ -75,6 +75,10 @@ wpd.BarExtractionAlgo = class {
         }
     }
 
+    getParam(index) {
+        return index === 0 ? this._delX : this._delVal;
+    }
+
     run(autoDetector, dataSeries, axes) {
         var orientation = axes.getOrientation(),                
             barValueColl = [],
@@ -121,14 +125,14 @@ wpd.BarExtractionAlgo = class {
                 valCount = 0;
 
                 for(py = 0; py < height; py++) {
-                    if(autoDetector.binaryData[py*width + px]) {
+                    if(autoDetector.binaryData.has(py*width + px)) {
                         valTop = py;
                         valCount++;
                         break;
                     }
                 }
                 for(py = height-1; py >= 0; py--) {
-                    if(autoDetector.binaryData[py*width + px]) {
+                    if(autoDetector.binaryData.has(py*width + px)) {
                         valBot = py;
                         valCount++;
                         break;
@@ -145,14 +149,14 @@ wpd.BarExtractionAlgo = class {
                 valCount = 0;
 
                 for(px = width-1; px >= 0; px--) {
-                    if(autoDetector.binaryData[py*width + px]) {
+                    if(autoDetector.binaryData.has(py*width + px)) {
                         valTop = px;
                         valCount++;
                         break;
                     }
                 }
                 for(px = 0; px < width; px++) {
-                    if(autoDetector.binaryData[py*width + px]) {
+                    if(autoDetector.binaryData.has(py*width + px)) {
                         valBot = px;
                         valCount++;
                         break;

@@ -133,7 +133,7 @@ wpd.XStepWithInterpolationAlgo = class {
             while ( ( dely > 0 && yi <= scaled_param_ymax ) || ( dely < 0 && yi >= scaled_param_ymax ) ) {
                 pdata = axes.dataToPixel(isLogX ? Math.pow(10, xi) : xi, isLogY ? Math.pow(10, yi) : yi);
                 if (pdata.x >= 0 && pdata.y >= 0 && pdata.x < dw && pdata.y < dh) {
-                    if (autoDetector.binaryData[parseInt(pdata.y, 10)*dw + parseInt(pdata.x, 10)] === true) {
+                    if (autoDetector.binaryData.has(parseInt(pdata.y, 10)*dw + parseInt(pdata.x, 10))) {
                         mean_yi = (mean_yi*y_count + yi)/(parseFloat(y_count+1));
                         y_count++;
                     }
