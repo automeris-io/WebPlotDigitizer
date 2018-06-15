@@ -27,14 +27,15 @@ wpd.BlobDetectorAlgo = class {
 
     constructor() {
         this._minDia = 0;
-        this._maxDia = 0;
+        this._maxDia = 5000;
+        this._wasRun = false;
     }
 
     getParamList(axes) {
         if (axes != null && axes instanceof wpd.MapAxes) {
-            return [['Min Diameter', 'Units', 0], ['Max Diameter', 'Units', 5000]];
+            return [['Min Diameter', 'Units', this._minDia], ['Max Diameter', 'Units', this._maxDia]];
         }
-        return [['Min Diameter', 'Px', 0], ['Max Diameter', 'Px', 5000]];
+        return [['Min Diameter', 'Px', this._minDia], ['Max Diameter', 'Px', this._maxDia]];
     }
 
     setParam(index, val) {
@@ -45,11 +46,25 @@ wpd.BlobDetectorAlgo = class {
         }
     }
 
+    serialize() {
+        return this._wasRun ? {
+            algoType: "BlobDetectorAlgo",
+            minDia: this._minDia,
+            maxDia: this._maxDia
+        } : null;
+    }
+
+    deserialize(obj) {
+        this._minDia = obj.minDia;
+        this._maxDia = obj.maxDia;
+    }
+
     getParam(index) {
         return index === 0 ? this._minDia : this._maxDia;
     }
 
     run(autoDetector, dataSeries, axes) {
+        this._wasRun = true;
         var dw = autoDetector.imageWidth,
             dh = autoDetector.imageHeight,
             pixelVisited = [],

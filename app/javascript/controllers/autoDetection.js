@@ -187,22 +187,22 @@ wpd.dataMask = (function () {
     }
 
     function markBox() {
-        var tool = new wpd.BoxMaskTool();
+        let tool = new wpd.BoxMaskTool();
         wpd.graphicsWidget.setTool(tool);
     }
 
     function markPen() {
-        var tool = new wpd.PenMaskTool();
+        let tool = new wpd.PenMaskTool();
         wpd.graphicsWidget.setTool(tool);
     }
 
     function eraseMarks() {
-        var tool = new wpd.EraseMaskTool();
+        let tool = new wpd.EraseMaskTool();
         wpd.graphicsWidget.setTool(tool);
     }
 
     function viewMask() {
-        var tool = new wpd.ViewMaskTool();
+        let tool = new wpd.ViewMaskTool();
         wpd.graphicsWidget.setTool(tool);
     }
 
