@@ -35,7 +35,7 @@ wpd.BoxMaskTool = (function () {
             mouseMoveHandler = function() {
                 wpd.graphicsWidget.resetHover();
                 ctx.hoverCtx.strokeStyle = "rgb(0,0,0)";
-    		ctx.hoverCtx.strokeRect(topScreenCorner.x, topScreenCorner.y, screen_pos.x - topScreenCorner.x, screen_pos.y - topScreenCorner.y);
+    		    ctx.hoverCtx.strokeRect(topScreenCorner.x, topScreenCorner.y, screen_pos.x - topScreenCorner.x, screen_pos.y - topScreenCorner.y);
             },
             
             mouseUpHandler = function (ev, pos, imagePos) {
@@ -114,11 +114,11 @@ wpd.PenMaskTool = (function () {
             screen_pos, image_pos,
             mouseMoveHandler = function() {
                 ctx.dataCtx.strokeStyle = "rgba(255,255,0,1)";
-        	ctx.dataCtx.lineTo(screen_pos.x,screen_pos.y);
+                ctx.dataCtx.lineTo(screen_pos.x,screen_pos.y);
                 ctx.dataCtx.stroke();
 
                 ctx.oriDataCtx.strokeStyle = "rgba(255,255,0,1)";
-        	ctx.oriDataCtx.lineTo(image_pos.x,image_pos.y);
+                ctx.oriDataCtx.lineTo(image_pos.x,image_pos.y);
                 ctx.oriDataCtx.stroke();
             };
 
@@ -135,12 +135,12 @@ wpd.PenMaskTool = (function () {
             isDrawing = true;
             ctx.dataCtx.strokeStyle = "rgba(255,255,0,1)";
             ctx.dataCtx.lineWidth = lwidth*wpd.graphicsWidget.getZoomRatio();
-	    ctx.dataCtx.beginPath();
+	        ctx.dataCtx.beginPath();
             ctx.dataCtx.moveTo(pos.x,pos.y);
 
             ctx.oriDataCtx.strokeStyle = "rgba(255,255,0,1)";
             ctx.oriDataCtx.lineWidth = lwidth;
-	    ctx.oriDataCtx.beginPath();
+	        ctx.oriDataCtx.beginPath();
             ctx.oriDataCtx.moveTo(imagePos.x,imagePos.y);
         };
 
@@ -279,18 +279,18 @@ wpd.ViewMaskTool = (function() {
 wpd.MaskPainter = (function() {
     var Painter = function () {
 
-        var ctx = wpd.graphicsWidget.getAllContexts(),
-            autoDetector = wpd.appData.getPlotData().getAutoDetector(),
-            painter = function () {
-                if(autoDetector.mask == null || autoDetector.mask.length === 0) {
+        let ctx = wpd.graphicsWidget.getAllContexts();
+        let ds = wpd.tree.getActiveDataset();
+        let autoDetector = wpd.appData.getPlotData().getAutoDetectionDataForDataset(ds);
+
+        let painter = function () {
+                if(autoDetector.mask == null || autoDetector.mask.size === 0) {
                     return;
                 }
-                var maski, img_index,
-                    imageSize = wpd.graphicsWidget.getImageSize();
-                    imgData = ctx.oriDataCtx.getImageData(0, 0, imageSize.width, imageSize.height);
+                let imageSize = wpd.graphicsWidget.getImageSize();
+                let imgData = ctx.oriDataCtx.getImageData(0, 0, imageSize.width, imageSize.height);
 
-                for(maski = 0; maski < autoDetector.mask.length; maski++) {
-                    img_index = autoDetector.mask[maski];
+                for(let img_index of autoDetector.mask) {
                     imgData.data[img_index*4] = 255;
                     imgData.data[img_index*4+1] = 255;
                     imgData.data[img_index*4+2] = 0;
