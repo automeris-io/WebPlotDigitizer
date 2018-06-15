@@ -27,19 +27,32 @@ wpd.AveragingWindowWithStepSizeAlgo = class {
     constructor() {
         this._xmin = 0;
         this._xmax = 0;
-        this._delx = 0;
-        this._lineWidth = 0;
+        this._delx = 0.1;
+        this._lineWidth = 30;
         this._ymin = 0;
         this._ymax = 0;
         this._wasRun = false;
     }
 
     getParamList(axes) {
-        if(axes != null && axes instanceof wpd.XYAxes) {
-            var bounds = axes.getBounds();
-            return [["X_min","Units", bounds.x1],["ΔX Step","Units", 0.1],["X_max","Units", bounds.x2],["Y_min","Units", bounds.y3],["Y_max","Units", bounds.y4],["Line width","Px",30]];
+        if(!this._wasRun) {
+            if(axes != null && axes instanceof wpd.XYAxes) {
+                let bounds = axes.getBounds();
+                this._xmin = bounds.x1;
+                this._xmax = bounds.x2;
+                this._ymin = bounds.y3;
+                this._ymax = bounds.y4;
+            }
         }
-        return [["X_min","Units", 0],["ΔX Step","Units", 0.1],["X_max","Units", 0],["Y_min","Units", 0],["Y_max","Units", 0],["Line width","Px",30]];
+        
+        return [
+            ["X_min","Units", this._xmin],
+            ["ΔX Step","Units", this._delx],
+            ["X_max","Units", this._xmax],
+            ["Y_min","Units", this._ymin],
+            ["Y_max","Units", this._ymax],
+            ["Line width","Px", this._lineWidth]
+        ];
     }
 
     setParam(index, val) {
