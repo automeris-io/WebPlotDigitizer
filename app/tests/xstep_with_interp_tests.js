@@ -14,16 +14,16 @@ QUnit.test("Linear XY axes", function (assert) {
     let dataFn = function(x) {
         return Math.sin(x) + 2; 
     };
-    let autodetection = new wpd.AutoDetector();
+    let autodetection = new wpd.AutoDetectionData();
     autodetection.imageHeight = 100;
     autodetection.imageWidth = 100;
-    autodetection.binaryData = [];
+    autodetection.binaryData = new Set();
     
     for(let x = 0; x <= 100; x+=1) { // jump pixels as this algo can interpolate
         let y = dataFn(x);
         let pix = xyaxes.dataToPixel(x, y);
         let img_index = parseInt(pix.y,10)*100 + parseInt(pix.x,10);
-        autodetection.binaryData[img_index] = true;
+        autodetection.binaryData.add(img_index);
     }
 
     // X step w/ Interpolation
@@ -50,12 +50,12 @@ QUnit.test("Linear XY axes", function (assert) {
     assert.equal(ds.getCount(), 16, "Simple Linear XY - Bounded with step size");
     
     // discontinuous sin(x) in a window with custom step size
-    autodetection.binaryData = [];    
+    autodetection.binaryData = new Set();    
     for(let x = 9; x <= 41; x+=2) { // jump pixels as this algo can interpolate, also make sure end point have data
         let y = dataFn(x);
         let pix = xyaxes.dataToPixel(x, y);
         let img_index = parseInt(pix.y,10)*100 + parseInt(pix.x,10);
-        autodetection.binaryData[img_index] = true;
+        autodetection.binaryData.add(img_index);
     }   
     
     algo.setParam(0, 10); // xmin
@@ -82,16 +82,16 @@ QUnit.test("Linear negative XY axes", function (assert) {
     let dataFn = function(x) {
         return Math.sin(x) - 3; 
     };
-    let autodetection = new wpd.AutoDetector();
+    let autodetection = new wpd.AutoDetectionData();
     autodetection.imageHeight = 100;
     autodetection.imageWidth = 100;
-    autodetection.binaryData = [];
+    autodetection.binaryData = new Set();
     
     for(let x = -100; x <= 0; x+=1) { // jump pixels as this algo can interpolate
         let y = dataFn(x);
         let pix = xyaxes.dataToPixel(x, y);
         let img_index = parseInt(pix.y,10)*100 + parseInt(pix.x,10);
-        autodetection.binaryData[img_index] = true;
+        autodetection.binaryData.add(img_index);
     }
 
     // X step w/ Interpolation
@@ -118,12 +118,12 @@ QUnit.test("Linear negative XY axes", function (assert) {
     assert.equal(ds.getCount(), 16, "Simple Linear XY - Bounded with step size");
     
     // discontinuous sin(x) in a window with custom step size
-    autodetection.binaryData = [];    
+    autodetection.binaryData = new Set();    
     for(let x = -41; x <= -9; x+=2) { // jump pixels as this algo can interpolate, also make sure end point have data
         let y = dataFn(x);
         let pix = xyaxes.dataToPixel(x, y);
         let img_index = parseInt(pix.y,10)*100 + parseInt(pix.x,10);
-        autodetection.binaryData[img_index] = true;
+        autodetection.binaryData.add(img_index);
     }   
     
     algo.setParam(0, -40); // xmin
@@ -152,16 +152,16 @@ QUnit.test("Log scale in X direction", function (assert) {
         return 5;
     };
 
-    let autodetection = new wpd.AutoDetector();
+    let autodetection = new wpd.AutoDetectionData();
     autodetection.imageHeight = 100;
     autodetection.imageWidth = 100;
-    autodetection.binaryData = [];
+    autodetection.binaryData = new Set();
     
     for(let x = 1e-5; x <= 10; x*=10) { // jump pixels as this algo can interpolate
         let y = dataFn(x);
         let pix = xyaxes.dataToPixel(x, y);
         let img_index = parseInt(pix.y,10)*100 + parseInt(pix.x,10);
-        autodetection.binaryData[img_index] = true;
+        autodetection.binaryData.add(img_index);
     }
 
     // X step w/ Interpolation
@@ -196,16 +196,16 @@ QUnit.test("Log scale in Y direction", function (assert) {
         return Math.pow(10, 2*Math.sin(x));
     };
 
-    let autodetection = new wpd.AutoDetector();
+    let autodetection = new wpd.AutoDetectionData();
     autodetection.imageHeight = 100;
     autodetection.imageWidth = 100;
-    autodetection.binaryData = [];
+    autodetection.binaryData = new Set();
     
     for(let x = 0; x <= 100; x+=1) { // jump pixels as this algo can interpolate
         let y = dataFn(x);
         let pix = xyaxes.dataToPixel(x, y);
         let img_index = parseInt(pix.y,10)*100 + parseInt(pix.x,10);
-        autodetection.binaryData[img_index] = true;
+        autodetection.binaryData.add(img_index);
     }
 
     // X step w/ Interpolation
@@ -240,16 +240,16 @@ QUnit.test("Log scale in Y direction, base 2", function (assert) {
         return Math.pow(2, 2*Math.sin(x));
     };
 
-    let autodetection = new wpd.AutoDetector();
+    let autodetection = new wpd.AutoDetectionData();
     autodetection.imageHeight = 100;
     autodetection.imageWidth = 100;
-    autodetection.binaryData = [];
+    autodetection.binaryData = new Set();
     
     for(let x = 0; x <= 100; x+=1) { // jump pixels as this algo can interpolate
         let y = dataFn(x);
         let pix = xyaxes.dataToPixel(x, y);
         let img_index = parseInt(pix.y,10)*100 + parseInt(pix.x,10);
-        autodetection.binaryData[img_index] = true;
+        autodetection.binaryData.add(img_index);
     }
 
     // X step w/ Interpolation
