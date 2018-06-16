@@ -23,192 +23,215 @@
 
 var wpd = wpd || {};
 
-wpd.AutoDetector = (function () {
-    var obj = function () {
+wpd._AutoDetectionDataCounter = 0;
 
-        this.fgColor = [0, 0, 200];
+wpd.AutoDetectionData = class {
+    constructor() {
+        // public
+        this.imageWidth = 0;
+        this.imageHeight = 0;
+        this.fgColor = [0, 0, 255];
         this.bgColor = [255, 255, 255];
-        this.mask = null;
-        this.gridMask = { xmin: null, xmax: null, ymin: null, ymax: null, pixels: [] };
-        this.gridLineColor = [255, 255, 255];
-        this.gridColorDistance = 10;
-        this.gridData = null;
+        this.mask = new Set();
+        this.binaryData = new Set();
         this.colorDetectionMode = 'fg';
         this.colorDistance = 120;
         this.algorithm = null;
-        this.binaryData = null;
-        this.gridBinaryData = null;
-        this.imageData = null;
+        this.name = wpd._AutoDetectionDataCounter++;
+    }
+
+    serialize() {
+        // if there's no algo, or if the algo was never run (no algoData), then just return null
+        if (this.algorithm == null) {
+            return null;
+        }
+        let algoData = this.algorithm.serialize();
+        if (algoData == null) {
+            return null;
+        }
+
+        let jsonObj = {
+            fgColor: this.fgColor,
+            bgColor: this.bgColor,
+            mask: this.mask,
+            colorDetectionMode: this.colorDetectionMode,
+            colorDistance: this.colorDistance,
+            algorithm: algoData,
+            name: this.name
+        };
+    }
+
+    deserialize(jsonObj) {
+        this.fgColor = jsonObj.fgColor;
+        this.bgColor = jsonObj.bgColor;
+        this.mask = jsonObj.mask;
+        this.colorDetectionMode = jsonObj.colorDetectionMode;
+        this.colorDistance = jsonObj.colorDistance;
+
+        if (jsonObj.algorithm != null) {
+            let algoType = jsonObj.algorithm.algoType;
+            if (algoType === "AveragingWindowAlgo") {
+                this.algorithm = new wpd.AveragingWindowAlgo();
+            } else if (algoType === "AveragingWindowWithStepSizeAlgo") {
+                this.algorithm = new wpd.AveragingWindowWithStepSizeAlgo();
+            } else if (algoType === "BarExtractionAlgo") {
+                this.algorithm = new wpd.BarExtractionAlgo();
+            } else if (algoType === "BlobDetectorAlgo") {
+                this.algorithm = new wpd.BlobDetectorAlgo();
+            } else if (algoType === "XStepWithInterpolationAlgo") {
+                this.algorithm = new wpd.XStepWithInterpolationAlgo();
+            }
+            this.algorithm.deserialize(jsonObj.algorithm);
+        }
+        
+        this.name = jsonObj.name;
+    }
+
+    reset() {
+    }
+
+    generateBinaryDataFromMask(imageData) {
+        this.binaryData = new Set();
+        let refColor = this.colorDetectionMode === 'fg' ? this.fgColor : this.bgColor;
+        for(let imageIdx of this.mask) {
+            let ir = imageData.data[imageIdx*4];
+            let ig = imageData.data[imageIdx*4 + 1];
+            let ib = imageData.data[imageIdx*4 + 2];
+            let ia = imageData.data[imageIdx*4 + 3];
+            if (ia === 0) {
+                // for completely transparent part of the image, assume white
+                ir = 255; ig = 255; ib = 255;
+            }
+            let dist = wpd.dist3d(ir, ig, ib, refColor[0], refColor[1], refColor[2]);
+            if (this.colorDetectionMode === 'fg') {
+                if (dist <= this.colorDistance) {
+                    this.binaryData.add(imageIdx);
+                }
+            } else {
+                if (dist >= this.colorDistance) {
+                    this.binaryData.add(imageIdx);
+                }
+            }
+        }
+    }
+
+    generateBinaryDataUsingFullImage(imageData) {
+        this.binaryData = new Set();
+        let refColor = this.colorDetectionMode === 'fg' ? this.fgColor : this.bgColor;
+        for(let imageIdx = 0; imageIdx < imageData.data.length; imageIdx++) {
+            let ir = imageData.data[imageIdx*4];
+            let ig = imageData.data[imageIdx*4 + 1];
+            let ib = imageData.data[imageIdx*4 + 2];
+            let ia = imageData.data[imageIdx*4 + 3];
+            if (ia === 0) {
+                // for completely transparent part of the image, assume white
+                ir = 255; ig = 255; ib = 255;
+            }
+            let dist = wpd.dist3d(ir, ig, ib, refColor[0], refColor[1], refColor[2]);
+            if (this.colorDetectionMode === 'fg') {
+                if (dist <= this.colorDistance) {
+                    this.binaryData.add(imageIdx);
+                }
+            } else {
+                if (dist >= this.colorDistance) {
+                    this.binaryData.add(imageIdx);
+                }
+            }
+        }
+    }
+
+    generateBinaryData(imageData) {
+        if (this.mask == null || this.mask.size == 0) {
+            this.generateBinaryDataUsingFullImage(imageData);
+        } else {
+            this.generateBinaryDataFromMask(imageData);
+        }
+    }
+};
+
+wpd.gridRemovalData = class {
+    constructor() {
+        this.mask = { xmin: null, xmax: null, ymin: null, ymax: null, pixels: [] };
+        this.lineColor = [255, 255, 255];
+        this.colorDistance = 10;
+        this.gridData = null;
+        this.gridMask = {
+            xmin: null,
+            xmax: null,
+            ymin: null,
+            ymax: null,
+            pixels: new Set()
+        };
+        this.binaryData = new Set();
         this.imageWidth = 0;
         this.imageHeight = 0;
-        this.gridBackgroundMode = true;
-        this.topColors = null;
-        this.backupImageData = null;
-        
-        this.reset = function () {
-            this.mask = null;
-            this.binaryData = null;
-            this.imageData = null;
-            this.gridData = null;
-            this.gridMask = { xmin: null, xmax: null, ymin: null, ymax: null, pixels: [] };
-        };
+    }
 
-        this.generateBinaryDataFromMask = function () {
+    reset() {
 
-            var maski, img_index, dist, ir, ig, ib, ia,
-                ref_color = this.colorDetectionMode === 'fg' ? this.fgColor : this.bgColor;
+    }
 
-            for(maski = 0; maski < this.mask.length; maski++) {
-                img_index = this.mask[maski];
-                ir = this.imageData.data[img_index*4];
-                ig = this.imageData.data[img_index*4+1];
-                ib = this.imageData.data[img_index*4+2];
-                ia = this.imageData.data[img_index*4+3];
-                if(ia === 0) { // for transparent images, assume white RGB
-                    ir = 255; ig = 255; ib = 255;
-                }
+    generateBinaryData(imageData) {
+        this.binaryData = new Set();
+        this.imageWidth = imageData.width;
+        this.imageHeight = imageData.height;
 
-                dist = wpd.dist3d(ir, ig, ib, ref_color[0], ref_color[1], ref_color[2]);
-
-                if(this.colorDetectionMode === 'fg') {
-                    if(dist <= this.colorDistance) {
-                        this.binaryData[img_index] = true;
-                    }
-                } else {
-                    if(dist >= this.colorDistance) {
-                        this.binaryData[img_index] = true;
-                    }
-                }
-            }
-        };
-
-        this.generateBinaryDataUsingFullImage = function () {
+        // use the full image if no grid mask is present
+        if (this.gridMask.pixels == null || this.gridMask.pixels.size === 0) {
+            this.gridMask.pixels = new Set();
             
-            var dist, img_index,
-                ref_color = this.colorDetectionMode === 'fg' ? this.fgColor : this.bgColor,
-                ir,ig,ib,ia; 
+            for (let yi = 0; yi < this.imageHeight; yi++) {
+                for (let xi = 0; xi < this.imageWidth; xi++) {
+                    let img_index = yi*this.imageWidth + xi;
+                    let ir = imageData.data[img_index*4];
+                    let ig = imageData.data[img_index*4+1];
+                    let ib = imageData.data[img_index*4+2];
+                    let ia = imageData.data[img_index*4+3];
 
-            for(img_index = 0; img_index < this.imageData.data.length/4; img_index++) {
-                ir = this.imageData.data[img_index*4];
-                ig = this.imageData.data[img_index*4+1];
-                ib = this.imageData.data[img_index*4+2];
-                ia = this.imageData.data[img_index*4+3];
-
-                // If image is transparent, then assume white background.
-                if(ia === 0) {
-                    ir = 255; ig = 255; ib = 255;
-                }
-                
-                dist = wpd.dist3d(ir, ig, ib, ref_color[0], ref_color[1], ref_color[2]);           
-
-                if(this.colorDetectionMode === 'fg') {
-                    if(dist <= this.colorDistance) {
-                        this.binaryData[img_index] = true;
+                    if (ia === 0) {
+                        // assume white color when image is transparent
+                        ir = 255; ig = 255; ib = 255;
                     }
-                } else {
-                    if(dist >= this.colorDistance) {
-                        this.binaryData[img_index] = true;
-                    }
-                }
-            }
-        };
 
-        this.generateBinaryData = function () {
-
-            this.binaryData = [];
-
-            if(this.imageData == null) {
-                this.imageHeight = 0;
-                this.imageWidth = 0;
-                return;
-            }
-
-            this.imageHeight = this.imageData.height;
-            this.imageWidth = this.imageData.width;
-
-            if (this.mask == null || this.mask.length === 0) {
-                this.generateBinaryDataUsingFullImage();
-            } else {
-                this.generateBinaryDataFromMask();
-            }
-        };
-
-        this.generateGridBinaryData = function () {
-            this.gridBinaryData = [];
-
-            if (this.imageData == null) {
-                this.imageWidth = 0;
-                this.imageHeight = 0;
-                return;
-            }
-            
-            this.imageWidth = this.imageData.width;
-            this.imageHeight = this.imageData.height;
-
-            var xi, yi, dist, img_index, maski, ir, ig, ib, ia;
-
-            if (this.gridMask.pixels == null || this.gridMask.pixels.length === 0) {
-                // Use full image if no mask is present
-                maski = 0;
-                this.gridMask.pixels = [];
-                for(yi = 0; yi < this.imageHeight; yi++) {
-                    for(xi = 0; xi < this.imageWidth; xi++) {
-                        img_index = yi*this.imageWidth + xi;
-                        ir = this.imageData.data[img_index*4];
-                        ig = this.imageData.data[img_index*4+1];
-                        ib = this.imageData.data[img_index*4+2];
-                        ia = this.imageData.data[img_index*4+3];
-
-                        if(ia === 0) { // assume white color when image is transparent
-                            ir = 255; ig = 255; ib = 255;
-                        }
-
-                        dist = wpd.dist3d(this.gridLineColor[0], this.gridLineColor[1], this.gridLineColor[2], ir, ig, ib);
+                    let dist = wpd.dist3d(this.gridLineColor[0], this.gridLineColor[1], this.gridLineColor[2], ir, ig, ib);
                         
-                        if(this.gridBackgroundMode) {
-                            if (dist > this.gridColorDistance) {
-                                this.gridBinaryData[img_index] = true;
-                                this.gridMask.pixels[maski] = img_index;
-                                maski++;
-                            }
-                        } else {
-                            if (dist < this.gridColorDistance) {
-                                this.gridBinaryData[img_index] = true;
-                                this.gridMask.pixels[maski] = img_index;
-                                maski++;
-                            }
+                    if(this.gridBackgroundMode) {
+                        if (dist > this.gridColorDistance) {
+                            this.gridBinaryData.add(img_index);
+                            this.gridMask.pixels.add(img_index);
+                        }
+                    } else {
+                        if (dist < this.gridColorDistance) {
+                            this.gridBinaryData.add(img_index);
+                            this.gridMask.pixels.add(img_index);
                         }
                     }
                 }
-                this.gridMask.xmin = 0;
-                this.gridMask.xmax = this.imageWidth;
-                this.gridMask.ymin = 0;
-                this.gridMask.ymax = this.imageHeight;
-                return;
             }
+            this.gridMask.xmin = 0;
+            this.gridMask.xmax = this.imageWidth;
+            this.gridMask.ymin = 0;
+            this.gridMask.ymax = this.imageHeight;
+            return;
+        }
 
-            for (maski = 0; maski < this.gridMask.pixels.length; maski++) {
-                img_index = this.gridMask.pixels[maski];
-                ir = this.imageData.data[img_index*4];
-                ig = this.imageData.data[img_index*4+1];
-                ib = this.imageData.data[img_index*4+2];
-                ia = this.imageData.data[img_index*4+3];
+        for (let img_index of this.gridMask.pixels) {
+            let ir = imageData.data[img_index*4];
+            let ig = imageData.data[img_index*4+1];
+            let ib = imageData.data[img_index*4+2];
+            let ia = imageData.data[img_index*4+3];
 
-                dist = wpd.dist3d(this.gridLineColor[0], this.gridLineColor[1], this.gridLineColor[2], ir, ig, ib);
+            let dist = wpd.dist3d(this.gridLineColor[0], this.gridLineColor[1], this.gridLineColor[2], ir, ig, ib);
 
-                if(this.gridBackgroundMode) {
-                    if (dist > this.gridColorDistance) {
-                        this.gridBinaryData[img_index] = true;
-                    }
-                } else {
-                    if (dist < this.gridColorDistance) {
-                        this.gridBinaryData[img_index] = true;
-                    }
+            if(this.gridBackgroundMode) {
+                if (dist > this.gridColorDistance) {
+                    this.gridBinaryData.add(img_index);
+                }
+            } else {
+                if (dist < this.gridColorDistance) {
+                    this.gridBinaryData.add(img_index);
                 }
             }
-        };
-
-    };
-    return obj;
-})();
-
+        }
+    }
+};

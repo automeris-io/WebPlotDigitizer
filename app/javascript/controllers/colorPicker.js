@@ -63,7 +63,7 @@ wpd.colorSelectionWidget = (function () {
 
     function renderColorOptions() {
         var $container = document.getElementById('color-selection-options'),
-            topColors = wpd.appData.getPlotData().getAutoDetector().topColors,
+            topColors = wpd.appData.getPlotData().getTopColors(),
             colorCount = topColors.length > 10 ? 10 : topColors.length,
             colori,
             containerHtml = "",
@@ -104,7 +104,7 @@ wpd.colorSelectionWidget = (function () {
 
     function selectTopColor(colorIndex) {
         var gui_color = [],
-            topColors = wpd.appData.getPlotData().getAutoDetector().topColors;
+            topColors = wpd.appData.getPlotData().getTopColors();
 
         gui_color[0] = topColors[colorIndex].r;
         gui_color[1] = topColors[colorIndex].g;
@@ -117,7 +117,6 @@ wpd.colorSelectionWidget = (function () {
 
     function paintFilteredColor(binaryData, maskPixels) {
          var ctx = wpd.graphicsWidget.getAllContexts(),
-            autoDetector = wpd.appData.getPlotData().getAutoDetector(),
             imageSize = wpd.graphicsWidget.getImageSize(),
             maski,
             img_index,
@@ -164,24 +163,31 @@ wpd.colorSelectionWidget = (function () {
 
 wpd.colorPicker = (function () {
 
+    function getAutoDetectionData() {
+        let ds = wpd.tree.getActiveDataset();
+        return wpd.appData.getPlotData().getAutoDetectionDataForDataset(ds);
+    }
+
     function getFGPickerParams() {
+        let ad = getAutoDetectionData();
         return {
-            color: wpd.appData.getPlotData().getAutoDetector().fgColor,
+            color: ad.fgColor,
             triggerElementId: 'color-button',
             title: wpd.gettext('specify-foreground-color'),
             setColorDelegate: function(col) {
-                wpd.appData.getPlotData().getAutoDetector().fgColor = col;
+                ad.fgColor = col;
             }
         };
     }
 
     function getBGPickerParams() {
+        let ad = getAutoDetectionData();
         return {
-            color: wpd.appData.getPlotData().getAutoDetector().bgColor,
+            color: ad.bgColor,
             triggerElementId: 'color-button',
             title: wpd.gettext('specify-background-color'),
             setColorDelegate: function(col) {
-                wpd.appData.getPlotData().getAutoDetector().bgColor = col;
+                ad.bgColor = col;
             }
         };
     }
@@ -189,7 +195,7 @@ wpd.colorPicker = (function () {
     function init() {
         var $colorBtn = document.getElementById('color-button'),
             $colorDistance = document.getElementById('color-distance-value'),
-            autoDetector = wpd.appData.getPlotData().getAutoDetector(),
+            autoDetector = getAutoDetectionData(),
             $modeSelector = document.getElementById('color-detection-mode-select'),
             color;
         
@@ -207,7 +213,7 @@ wpd.colorPicker = (function () {
 
     function changeColorDistance() {
         var color_distance = parseFloat(document.getElementById('color-distance-value').value);
-        wpd.appData.getPlotData().getAutoDetector().colorDistance = color_distance;
+        getAutoDetectionData().colorDistance = color_distance;
     }
 
     function testColorDetection() {
@@ -216,7 +222,7 @@ wpd.colorPicker = (function () {
         wpd.graphicsWidget.setRepainter(new wpd.ColorFilterRepainter());
 
         var ctx = wpd.graphicsWidget.getAllContexts(),
-            autoDetector = wpd.appData.getPlotData().getAutoDetector(),
+            autoDetector = getAutoDetectionData(),
             imageSize = wpd.graphicsWidget.getImageSize();
 
         autoDetector.imageData = ctx.oriImageCtx.getImageData(0, 0, imageSize.width, imageSize.height);
@@ -228,7 +234,7 @@ wpd.colorPicker = (function () {
         wpd.graphicsWidget.removeTool();
         wpd.graphicsWidget.removeRepainter();
         wpd.graphicsWidget.resetData();
-        if(wpd.appData.getPlotData().getAutoDetector().colorDetectionMode === 'fg') {
+        if(getAutoDetectionData().colorDetectionMode === 'fg') {
             wpd.colorSelectionWidget.setParams(getFGPickerParams());
         } else {
             wpd.colorSelectionWidget.setParams(getBGPickerParams());
@@ -238,7 +244,7 @@ wpd.colorPicker = (function () {
 
     function changeDetectionMode() {
         var $modeSelector = document.getElementById('color-detection-mode-select');
-        wpd.appData.getPlotData().getAutoDetector().colorDetectionMode = $modeSelector.value;
+        getAutoDetectionData().colorDetectionMode = $modeSelector.value;
         init();
     }
 

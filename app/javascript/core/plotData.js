@@ -27,19 +27,28 @@ var wpd = wpd || {};
 
 wpd.PlotData = class {
     constructor() {
-        this._autoDetector = null;
         this._topColors = null;
         this._axesColl = [];        
         this._datasetColl = [];
         this._measurementColl = [];        
         this._objectAxesMap = new Map();
+        this._datasetAutoDetectionDataMap = new Map();
     }
 
     reset() {        
         this._axesColl = [];        
         this._datasetColl = [];
         this._measurementColl = [];        
-        this._objectAxesMap = new Map();  
+        this._objectAxesMap = new Map();
+        this._datasetAutoDetectionDataMap = new Map();  
+    }
+
+    setTopColors(topColors) {
+        this._topColors = topColors;
+    }
+
+    getTopColors(topColors) {
+        return this._topColors;
     }
 
     addAxes(ax) {
@@ -147,6 +156,10 @@ wpd.PlotData = class {
         this._objectAxesMap.set(ms, ax);
     }
 
+    setAutoDetectionDataForDataset(ds, autoDetectionData) {
+        this._datasetAutoDetectionDataMap.set(ds, autoDetectionData);
+    }
+
     getAxesForDataset(ds) {
         return this._objectAxesMap.get(ds);
     }
@@ -155,21 +168,24 @@ wpd.PlotData = class {
         return this._objectAxesMap.get(ms);
     }
 
+    getAutoDetectionDataForDataset(ds) {
+        let ad = this._datasetAutoDetectionDataMap.get(ds);
+        if (ad == null) { // create one if no autodetection data is present!
+            ad = new wpd.AutoDetectionData();
+            this.setAutoDetectionDataForDataset(ds, ad);
+        }
+        return ad;
+    }
+
     deleteDataset(ds) {
         var dsIdx = this._datasetColl.indexOf(ds);
         if(dsIdx >= 0) {
             this._datasetColl.splice(dsIdx, 1);
             this._objectAxesMap.delete(ds);
+            this._datasetAutoDetectionDataMap.delete(ds);
         }
     }
-        
-    getAutoDetector() {
-        if(this._autoDetector == null) {
-            this._autoDetector = new wpd.AutoDetector();
-        }
-        return this._autoDetector;
-    }
-
+    
     _deserializePreVersion4(data) {
         // read axes info
         if(data.axesType == null) {
@@ -366,7 +382,14 @@ wpd.PlotData = class {
                 const axIdx = this.getAxesNames().indexOf(dsData.axesName);
                 if(axIdx >= 0) {
                     this.setAxesForDataset(ds, this._axesColl[axIdx]);
-                }                
+                }
+                
+                // autodetector
+                if (dsData.autoDetectionData != null) {
+                    let autoDetectionData = new wpd.AutoDetectionData();
+                    autoDetectionData.deserialize(dsData.autoDetectionData);
+                    this.setAutoDetectionDataForDataset(ds, autoDetectionData);
+                }
             }
         }
 
@@ -427,7 +450,7 @@ wpd.PlotData = class {
 
     serialize() {
         let data = {};
-        data.version = [4,0];        
+        data.version = [4,2];        
         data.axesColl = [];
         data.datasetColl = [];
         data.measurementColl = [];
@@ -477,6 +500,7 @@ wpd.PlotData = class {
         for(let dsIdx = 0; dsIdx < this._datasetColl.length; dsIdx++) {
             const ds = this._datasetColl[dsIdx];
             const axes = this.getAxesForDataset(ds);
+            const autoDetectionData = this.getAutoDetectionDataForDataset(ds);
             let dsData = {};
             dsData.name = ds.name;
             dsData.axesName = axes != null ? axes.name: "";
@@ -489,6 +513,7 @@ wpd.PlotData = class {
                     dsData.data[pxIdx].value = axes.pixelToData(px.x, px.y);
                 }
             }
+            dsData.autoDetectionData = autoDetectionData != null ? autoDetectionData.serialize() : null;
             data.datasetColl.push(dsData);
         }
 
