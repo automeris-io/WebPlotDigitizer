@@ -27,13 +27,13 @@ var wpd = wpd || {};
 wpd.AveragingWindowAlgo = class {
 
     constructor() {
-        this._xStep = 5;
-        this._yStep = 5;
+        this._xStep = 10;
+        this._yStep = 10;
         this._wasRun = false;
     }
 
     getParamList(axes) {
-        return [['ΔX', 'Px', 10], ['ΔY', 'Px', 10]];
+        return [['ΔX', 'Px', this._xStep], ['ΔY', 'Px', this._yStep]];
     }
 
     setParam(index, val) {
