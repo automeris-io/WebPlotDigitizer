@@ -41,7 +41,8 @@ wpd.AutoDetectionData = class {
     }
 
     serialize() {
-        // if there's no algo, or if the algo was never run (no algoData), then just return null
+        // if there's no algo, or if the algo was never run (no algoData), 
+        // then just return null as there's no reason to save this data.
         if (this.algorithm == null) {
             return null;
         }
@@ -50,7 +51,7 @@ wpd.AutoDetectionData = class {
             return null;
         }
 
-        let jsonObj = {
+        return {
             fgColor: this.fgColor,
             bgColor: this.bgColor,
             mask: this.mask,
@@ -149,7 +150,7 @@ wpd.AutoDetectionData = class {
     }
 };
 
-wpd.gridRemovalData = class {
+wpd.GridDetectionData = class {
     constructor() {
         this.mask = { xmin: null, xmax: null, ymin: null, ymax: null, pixels: [] };
         this.lineColor = [255, 255, 255];
@@ -165,6 +166,7 @@ wpd.gridRemovalData = class {
         this.binaryData = new Set();
         this.imageWidth = 0;
         this.imageHeight = 0;
+        this.backupImageData = null;
     }
 
     reset() {

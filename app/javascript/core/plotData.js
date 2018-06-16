@@ -33,6 +33,7 @@ wpd.PlotData = class {
         this._measurementColl = [];        
         this._objectAxesMap = new Map();
         this._datasetAutoDetectionDataMap = new Map();
+        this._gridDetectionData = null;
     }
 
     reset() {        
@@ -40,7 +41,8 @@ wpd.PlotData = class {
         this._datasetColl = [];
         this._measurementColl = [];        
         this._objectAxesMap = new Map();
-        this._datasetAutoDetectionDataMap = new Map();  
+        this._datasetAutoDetectionDataMap = new Map();
+        this._gridDetectionData = null;  
     }
 
     setTopColors(topColors) {
@@ -175,6 +177,13 @@ wpd.PlotData = class {
             this.setAutoDetectionDataForDataset(ds, ad);
         }
         return ad;
+    }
+
+    getGridDetectionData() {
+        if (this._gridDetectionData == null) {
+            this._gridDetectionData = new wpd.GridDetectionData();
+        }
+        return this._gridDetectionData;
     }
 
     deleteDataset(ds) {
