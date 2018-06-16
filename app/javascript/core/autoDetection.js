@@ -195,16 +195,16 @@ wpd.GridDetectionData = class {
                         ir = 255; ig = 255; ib = 255;
                     }
 
-                    let dist = wpd.dist3d(this.gridLineColor[0], this.gridLineColor[1], this.gridLineColor[2], ir, ig, ib);
+                    let dist = wpd.dist3d(this.lineColor[0], this.lineColor[1], this.lineColor[2], ir, ig, ib);
                         
                     if(this.gridBackgroundMode) {
-                        if (dist > this.gridColorDistance) {
-                            this.gridBinaryData.add(img_index);
+                        if (dist > this.colorDistance) {
+                            this.binaryData.add(img_index);
                             this.gridMask.pixels.add(img_index);
                         }
                     } else {
-                        if (dist < this.gridColorDistance) {
-                            this.gridBinaryData.add(img_index);
+                        if (dist < this.colorDistance) {
+                            this.binaryData.add(img_index);
                             this.gridMask.pixels.add(img_index);
                         }
                     }
@@ -223,15 +223,15 @@ wpd.GridDetectionData = class {
             let ib = imageData.data[img_index*4+2];
             let ia = imageData.data[img_index*4+3];
 
-            let dist = wpd.dist3d(this.gridLineColor[0], this.gridLineColor[1], this.gridLineColor[2], ir, ig, ib);
+            let dist = wpd.dist3d(this.lineColor[0], this.lineColor[1], this.lineColor[2], ir, ig, ib);
 
             if(this.gridBackgroundMode) {
-                if (dist > this.gridColorDistance) {
-                    this.gridBinaryData.add(img_index);
+                if (dist > this.colorDistance) {
+                    this.binaryData.add(img_index);
                 }
             } else {
-                if (dist < this.gridColorDistance) {
-                    this.gridBinaryData.add(img_index);
+                if (dist < this.colorDistance) {
+                    this.binaryData.add(img_index);
                 }
             }
         }
