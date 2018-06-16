@@ -28,7 +28,7 @@ wpd.gridDetectionCore = (function () {
     var hasHorizontal, hasVertical, xFrac = 0.1, yFrac = 0.1;
 
     function run(autoDetector) {
-        var gridData = [],
+        var gridData = new Set(),
             xi,
             yi,            
             xmin = autoDetector.gridMask.xmin,
@@ -44,13 +44,13 @@ wpd.gridDetectionCore = (function () {
             for(xi = xmin; xi <= xmax; xi++) {
                 linePixCount = 0;
                 for(yi = ymin; yi < ymax; yi++) {
-                    if(autoDetector.gridBinaryData[yi*dw + xi] === true) {
+                    if(autoDetector.gridBinaryData.has(yi*dw + xi)) {
                         linePixCount++;
                     }
                 }
                 if(linePixCount > yFrac*(ymax-ymin)) {
                     for(yi = ymin; yi < ymax; yi++) {
-                        gridData[yi*dw + xi] = true;
+                        gridData.add(yi*dw + xi);
                     }
                 }
             }
@@ -61,13 +61,13 @@ wpd.gridDetectionCore = (function () {
             for(yi = ymin; yi <= ymax; yi++) {
                 linePixCount = 0;
                 for(xi = xmin; xi <= xmax; xi++) {
-                    if(autoDetector.gridBinaryData[yi*dw + xi] === true) {
+                    if(autoDetector.gridBinaryData.has(yi*dw + xi)) {
                         linePixCount++;
                     }
                 }
                 if(linePixCount > xFrac*(xmax-xmin)) {
                     for(xi = xmin; xi <= xmax; xi++) {
-                        gridData[yi*dw + xi] = true;
+                        gridData.add(yi*dw + xi);
                     }
                 }
             }
