@@ -224,10 +224,15 @@ wpd.tree = (function() {
         const dsNamesColl = plotData.getDatasetNames();
         const dsIdx = dsNamesColl.indexOf(path.replace("/"+ wpd.gettext("datasets") +"/",""));
         if(dsIdx >= 0) {
-            activeDataset = plotData.getDatasets()[dsIdx];            
-            // refresh UI
             if(!suppressSecondaryActions) {
+                // clean up existing UI
                 resetGraphics();
+            }
+
+            activeDataset = plotData.getDatasets()[dsIdx];
+
+            if(!suppressSecondaryActions) {
+                // set up UI for the new dataset
                 wpd.acquireData.load();    
             }            
         }        

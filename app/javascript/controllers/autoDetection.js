@@ -75,7 +75,28 @@ wpd.algoManager = (function() {
 
         $algoOptions.innerHTML = innerHTML;
 
-        applyAlgoSelection();
+        let autoDetector = getAutoDetectionData();
+        if (autoDetector.algorithm != null) {
+            if (autoDetector.algorithm instanceof wpd.AveragingWindowAlgo) {
+                $algoOptions.value = "averagingWindow";
+            } else if (autoDetector.algorithm instanceof wpd.XStepWithInterpolationAlgo) {
+                $algoOptions.value = "XStepWithInterpolation";
+            } else if (autoDetector.algorithm instanceof wpd.AveragingWindowWithStepSizeAlgo) {
+                $algoOptions.value = "XStep";
+            } else if (autoDetector.algorithm instanceof wpd.BlobDetectorAlgo) {
+                $algoOptions.value = "blobDetector";
+            } else if (autoDetector.algorithm instanceof wpd.BarExtractionAlgo) {
+                if(axes instanceof wpd.XYAxes) {
+                    $algoOptions.value = "histogram";
+                } else {
+                    $algoOptions.value = "barExtraction";
+                }
+            }
+            renderParameters(autoDetector.algorithm);
+        } else {
+            applyAlgoSelection();
+        }
+        
     }
 
     function getAutoDetectionData() {
@@ -84,9 +105,9 @@ wpd.algoManager = (function() {
     }
 
     function applyAlgoSelection() {
-        var $algoOptions = document.getElementById('auto-extract-algo-name'),
-            selectedValue = $algoOptions.value,
-            autoDetector = getAutoDetectionData();
+        let $algoOptions = document.getElementById('auto-extract-algo-name');
+        let selectedValue = $algoOptions.value;
+        let autoDetector = getAutoDetectionData();
 
         if (selectedValue === 'averagingWindow') {
             autoDetector.algorithm = new wpd.AveragingWindowAlgo();
