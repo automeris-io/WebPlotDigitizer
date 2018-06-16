@@ -116,24 +116,17 @@ wpd.colorSelectionWidget = (function () {
     }
 
     function paintFilteredColor(binaryData, maskPixels) {
-         var ctx = wpd.graphicsWidget.getAllContexts(),
-            imageSize = wpd.graphicsWidget.getImageSize(),
-            maski,
-            img_index,
-            imgx, imgy,
-            dataLayer;
+        let ctx = wpd.graphicsWidget.getAllContexts();
+        const imageSize = wpd.graphicsWidget.getImageSize();
+        let dataLayer = ctx.oriDataCtx.getImageData(0, 0, imageSize.width, imageSize.height);
 
-        dataLayer = ctx.oriDataCtx.getImageData(0, 0, imageSize.width, imageSize.height);
-
-        if(maskPixels == null || maskPixels.length === 0) {
+        if(maskPixels == null || maskPixels.size === 0) {
             return;
         }
 
-        for(maski = 0; maski < maskPixels.length; maski++) {
-            img_index = maskPixels[maski];
-            if(binaryData[img_index] === true) {
-                imgx = img_index % imageSize.width;
-                imgy = parseInt(img_index/imageSize.width, 10);
+        for(let img_index of maskPixels) {
+            
+            if(binaryData.has(img_index)) {
                 dataLayer.data[img_index*4] = 255;
                 dataLayer.data[img_index*4+1] = 255;
                 dataLayer.data[img_index*4+2] = 0;

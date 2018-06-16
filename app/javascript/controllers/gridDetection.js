@@ -238,9 +238,13 @@ wpd.gridDetection = (function () {
         var autoDetector = wpd.appData.getPlotData().getGridDetectionData();
 
         changeColorDistance();
-        autoDetector.generateGridBinaryData();
 
-        wpd.colorSelectionWidget.paintFilteredColor(autoDetector.gridBinaryData, autoDetector.gridMask.pixels);
+        let ctx = wpd.graphicsWidget.getAllContexts();
+        let imageSize = wpd.graphicsWidget.getImageSize();
+        let imageData = ctx.oriImageCtx.getImageData(0, 0, imageSize.width, imageSize.height);
+        autoDetector.generateBinaryData(imageData);
+
+        wpd.colorSelectionWidget.paintFilteredColor(autoDetector.binaryData, autoDetector.gridMask.pixels);
     }
 
     function changeColorDistance() {

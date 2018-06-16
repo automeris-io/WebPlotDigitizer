@@ -28,8 +28,8 @@ wpd.GridColorFilterRepainter = (function () {
         this.painterName = 'gridColorFilterRepainter';
 
         this.onRedraw = function () {
-            var autoDetector = wpd.appData.getPlotData().getAutoDetector();
-            wpd.colorSelectionWidget.paintFilteredColor(autoDetector.gridBinaryData, autoDetector.gridMask.pixels);
+            var autoDetector = wpd.appData.getPlotData().getGridDetectionData();
+            wpd.colorSelectionWidget.paintFilteredColor(autoDetector.binaryData, autoDetector.gridMask.pixels);
         };
     }
     return Painter;
@@ -142,17 +142,16 @@ wpd.GridMaskPainter = (function () {
     var Painter = function () {
 
         var ctx = wpd.graphicsWidget.getAllContexts(),
-            autoDetector = wpd.appData.getPlotData().getAutoDetector(),
+            autoDetector = wpd.appData.getPlotData().getGridDetectionData(),
             painter = function () {
-                if(autoDetector.gridMask.pixels == null || autoDetector.gridMask.pixels.length === 0) {
+                if(autoDetector.gridMask.pixels == null || autoDetector.gridMask.pixels.size === 0) {
                     return;
                 }
-                var maski, img_index,
-                    imageSize = wpd.graphicsWidget.getImageSize();
-                    imgData = ctx.oriDataCtx.getImageData(0, 0, imageSize.width, imageSize.height);
+                
+                let imageSize = wpd.graphicsWidget.getImageSize();
+                let imgData = ctx.oriDataCtx.getImageData(0, 0, imageSize.width, imageSize.height);
 
-                for(maski = 0; maski < autoDetector.gridMask.pixels.length; maski++) {
-                    img_index = autoDetector.gridMask.pixels[maski];
+                for(let img_index of autoDetector.gridMask.pixels) {
                     imgData.data[img_index*4] = 255;
                     imgData.data[img_index*4+1] = 255;
                     imgData.data[img_index*4+2] = 0;
