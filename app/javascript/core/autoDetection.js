@@ -58,15 +58,20 @@ wpd.AutoDetectionData = class {
             colorDetectionMode: this.colorDetectionMode,
             colorDistance: this.colorDistance,
             algorithm: algoData,
-            name: this.name
+            name: this.name,
+            imageWidth: this.imageWidth,
+            imageHeight: this.imageHeight
         };
     }
 
     deserialize(jsonObj) {
         this.fgColor = jsonObj.fgColor;
         this.bgColor = jsonObj.bgColor;
+        this.imageWidth = jsonObj.imageWidth;
+        this.imageHeight = jsonObj.imageHeight;
+
         this.mask = new Set();
-        for(let i in jsonObj.mask) {
+        for(let i of jsonObj.mask) {
             this.mask.add(i);
         }
         this.colorDetectionMode = jsonObj.colorDetectionMode;
