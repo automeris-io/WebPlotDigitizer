@@ -91,9 +91,6 @@ wpd.AutoDetectionData = class {
         this.name = jsonObj.name;
     }
 
-    reset() {
-    }
-
     generateBinaryDataFromMask(imageData) {
         this.binaryData = new Set();
         let refColor = this.colorDetectionMode === 'fg' ? this.fgColor : this.bgColor;
@@ -170,10 +167,7 @@ wpd.GridDetectionData = class {
         this.imageWidth = 0;
         this.imageHeight = 0;
         this.backupImageData = null;
-    }
-
-    reset() {
-
+        this.gridBackgroundMode = true;
     }
 
     generateBinaryData(imageData) {

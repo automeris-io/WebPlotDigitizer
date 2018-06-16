@@ -154,7 +154,7 @@ wpd.gridDetection = (function () {
         wpd.graphicsWidget.runImageOp(removeGridLinesOp);
 
         // cleanup memory
-        wpd.appData.getPlotData().getAutoDetector().gridData = null;
+        wpd.appData.getPlotData().getGridDetectionData().gridData = null;
     }
 
     function resetImageOp(idata, width, height) {
@@ -201,7 +201,7 @@ wpd.gridDetection = (function () {
             for(rowi = 0; rowi < height; rowi++) {
                 for(coli = 0; coli < width; coli++) {
                     pindex = 4*(rowi*width + coli);
-                    if(gridData[pindex/4] === true) {
+                    if(gridData.has(pindex/4)) {
                         idata.data[pindex] = bgColor.r;
                         idata.data[pindex + 1] = bgColor.g;
                         idata.data[pindex + 2] = bgColor.b;

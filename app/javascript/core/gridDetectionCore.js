@@ -44,7 +44,7 @@ wpd.gridDetectionCore = (function () {
             for(xi = xmin; xi <= xmax; xi++) {
                 linePixCount = 0;
                 for(yi = ymin; yi < ymax; yi++) {
-                    if(autoDetector.gridBinaryData.has(yi*dw + xi)) {
+                    if(autoDetector.binaryData.has(yi*dw + xi)) {
                         linePixCount++;
                     }
                 }
@@ -61,7 +61,7 @@ wpd.gridDetectionCore = (function () {
             for(yi = ymin; yi <= ymax; yi++) {
                 linePixCount = 0;
                 for(xi = xmin; xi <= xmax; xi++) {
-                    if(autoDetector.gridBinaryData.has(yi*dw + xi)) {
+                    if(autoDetector.binaryData.has(yi*dw + xi)) {
                         linePixCount++;
                     }
                 }
