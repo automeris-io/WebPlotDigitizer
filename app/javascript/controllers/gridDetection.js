@@ -37,7 +37,7 @@ wpd.gridDetection = (function () {
         var $colorPickerBtn = document.getElementById('grid-color-picker-button'),
             $backgroundMode = document.getElementById('grid-background-mode'),
             autodetector = wpd.appData.getPlotData().getGridDetectionData(),
-            color = autodetector.gridLineColor,
+            color = autodetector.lineColor,
             backgroundMode = autodetector.gridBackgroundMode;
 
         if(color != null) {
@@ -220,11 +220,11 @@ wpd.gridDetection = (function () {
 
     function startColorPicker() {
         wpd.colorSelectionWidget.setParams({
-            color: wpd.appData.getPlotData().getGridDetectionData().gridLineColor,
+            color: wpd.appData.getPlotData().getGridDetectionData().lineColor,
             triggerElementId: 'grid-color-picker-button',
             title: 'Specify Grid Line Color',
             setColorDelegate: function(col) {
-                wpd.appData.getPlotData().getGridDetectionData().gridLineColor = col;
+                wpd.appData.getPlotData().getGridDetectionData().lineColor = col;
             }
         });
         wpd.colorSelectionWidget.startPicker();
@@ -245,7 +245,7 @@ wpd.gridDetection = (function () {
 
     function changeColorDistance() {
         var color_distance = parseFloat(document.getElementById('grid-color-distance').value);
-        wpd.appData.getPlotData().getGridDetectionData().gridColorDistance = color_distance;
+        wpd.appData.getPlotData().getGridDetectionData().colorDistance = color_distance;
     }
 
     function changeBackgroundMode() {
