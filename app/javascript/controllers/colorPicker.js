@@ -214,12 +214,12 @@ wpd.colorPicker = (function () {
         wpd.graphicsWidget.resetData();
         wpd.graphicsWidget.setRepainter(new wpd.ColorFilterRepainter());
 
-        var ctx = wpd.graphicsWidget.getAllContexts(),
-            autoDetector = getAutoDetectionData(),
-            imageSize = wpd.graphicsWidget.getImageSize();
+        let ctx = wpd.graphicsWidget.getAllContexts();
+        let autoDetector = getAutoDetectionData();
+        let imageSize = wpd.graphicsWidget.getImageSize();
 
-        autoDetector.imageData = ctx.oriImageCtx.getImageData(0, 0, imageSize.width, imageSize.height);
-        autoDetector.generateBinaryData();
+        let imageData = ctx.oriImageCtx.getImageData(0, 0, imageSize.width, imageSize.height);
+        autoDetector.generateBinaryData(imageData);
         wpd.colorSelectionWidget.paintFilteredColor(autoDetector.binaryData, autoDetector.mask); 
     }
     
