@@ -75,13 +75,39 @@ wpd.algoManager = (function() {
 
         $algoOptions.innerHTML = innerHTML;
 
-        applyAlgoSelection();
+        let autoDetector = getAutoDetectionData();
+        if (autoDetector.algorithm != null) {
+            if (autoDetector.algorithm instanceof wpd.AveragingWindowAlgo) {
+                $algoOptions.value = "averagingWindow";
+            } else if (autoDetector.algorithm instanceof wpd.XStepWithInterpolationAlgo) {
+                $algoOptions.value = "XStepWithInterpolation";
+            } else if (autoDetector.algorithm instanceof wpd.AveragingWindowWithStepSizeAlgo) {
+                $algoOptions.value = "XStep";
+            } else if (autoDetector.algorithm instanceof wpd.BlobDetectorAlgo) {
+                $algoOptions.value = "blobDetector";
+            } else if (autoDetector.algorithm instanceof wpd.BarExtractionAlgo) {
+                if(axes instanceof wpd.XYAxes) {
+                    $algoOptions.value = "histogram";
+                } else {
+                    $algoOptions.value = "barExtraction";
+                }
+            }
+            renderParameters(autoDetector.algorithm);
+        } else {
+            applyAlgoSelection();
+        }
+        
+    }
+
+    function getAutoDetectionData() {
+        let ds = wpd.tree.getActiveDataset();
+        return wpd.appData.getPlotData().getAutoDetectionDataForDataset(ds);
     }
 
     function applyAlgoSelection() {
-        var $algoOptions = document.getElementById('auto-extract-algo-name'),
-            selectedValue = $algoOptions.value,
-            autoDetector = wpd.appData.getPlotData().getAutoDetector();
+        let $algoOptions = document.getElementById('auto-extract-algo-name');
+        let selectedValue = $algoOptions.value;
+        let autoDetector = getAutoDetectionData();
 
         if (selectedValue === 'averagingWindow') {
             autoDetector.algorithm = new wpd.AveragingWindowAlgo();
@@ -120,7 +146,7 @@ wpd.algoManager = (function() {
 
     function run() {
         wpd.busyNote.show();
-        var autoDetector = wpd.appData.getPlotData().getAutoDetector(),
+        var autoDetector = getAutoDetectionData(),
             algo = autoDetector.algorithm,
             repainter = new wpd.DataPointsRepainter(axes, dataset),
             $paramFields = document.getElementsByClassName('algo-params'),
@@ -137,14 +163,16 @@ wpd.algoManager = (function() {
 
         wpd.graphicsWidget.removeTool();
 
-        autoDetector.imageData = ctx.oriImageCtx.getImageData(0, 0, imageSize.width, imageSize.height);
-        autoDetector.generateBinaryData();
+        let imageData = ctx.oriImageCtx.getImageData(0, 0, imageSize.width, imageSize.height);
+        autoDetector.imageWidth = imageSize.width;
+        autoDetector.imageHeight = imageSize.height;
+        autoDetector.generateBinaryData(imageData);
         wpd.graphicsWidget.setRepainter(repainter);            
         algo.run(autoDetector, dataset, axes);
         wpd.graphicsWidget.forceHandlerRepaint();
         wpd.dataPointCounter.setCount(dataset.getCount());
         wpd.busyNote.close();
-        return true;    
+        return true;
     }
 
     return {
@@ -156,40 +184,46 @@ wpd.algoManager = (function() {
 
 wpd.dataMask = (function () {
 
+    function getAutoDetectionData() {
+        let ds = wpd.tree.getActiveDataset();
+        return wpd.appData.getPlotData().getAutoDetectionDataForDataset(ds);
+    }
+
     function grabMask() {
         // Mask is just a list of pixels with the yellow color in the data layer
-        var ctx = wpd.graphicsWidget.getAllContexts(),
-            imageSize = wpd.graphicsWidget.getImageSize(),
-            maskDataPx = ctx.oriDataCtx.getImageData(0, 0, imageSize.width, imageSize.height),
-            maskData = [],
-            i,
-            mi = 0,
-            autoDetector = wpd.appData.getPlotData().getAutoDetector();
-        for(i = 0; i < maskDataPx.data.length; i+=4) {
+        let ctx = wpd.graphicsWidget.getAllContexts();
+        let imageSize = wpd.graphicsWidget.getImageSize();
+        let maskDataPx = ctx.oriDataCtx.getImageData(0, 0, imageSize.width, imageSize.height);
+        let maskData = new Set();
+        let autoDetector = getAutoDetectionData();
+
+        for(let i = 0; i < maskDataPx.data.length; i+=4) {
             if (maskDataPx.data[i] === 255 && maskDataPx.data[i+1] === 255 && maskDataPx.data[i+2] === 0) {
-                maskData[mi] = i/4; mi++;
+                maskData.add(i/4);
             }
         }
+
         autoDetector.mask = maskData;
+
     }
 
     function markBox() {
-        var tool = new wpd.BoxMaskTool();
+        let tool = new wpd.BoxMaskTool();
         wpd.graphicsWidget.setTool(tool);
     }
 
     function markPen() {
-        var tool = new wpd.PenMaskTool();
+        let tool = new wpd.PenMaskTool();
         wpd.graphicsWidget.setTool(tool);
     }
 
     function eraseMarks() {
-        var tool = new wpd.EraseMaskTool();
+        let tool = new wpd.EraseMaskTool();
         wpd.graphicsWidget.setTool(tool);
     }
 
     function viewMask() {
-        var tool = new wpd.ViewMaskTool();
+        let tool = new wpd.ViewMaskTool();
         wpd.graphicsWidget.setTool(tool);
     }
 

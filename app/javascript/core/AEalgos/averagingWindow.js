@@ -27,12 +27,13 @@ var wpd = wpd || {};
 wpd.AveragingWindowAlgo = class {
 
     constructor() {
-        this._xStep = 5;
-        this._yStep = 5;
+        this._xStep = 10;
+        this._yStep = 10;
+        this._wasRun = false;
     }
 
     getParamList(axes) {
-        return [['ΔX', 'Px', 10], ['ΔY', 'Px', 10]];
+        return [['ΔX', 'Px', this._xStep], ['ΔY', 'Px', this._yStep]];
     }
 
     setParam(index, val) {
@@ -43,7 +44,25 @@ wpd.AveragingWindowAlgo = class {
         }
     }
 
+    getParam(index) {
+        return index === 0 ? this._xStep : this._yStep;
+    }
+
+    serialize() {
+        return this._wasRun ? {
+            algoType: "AveragingWindowAlgo",
+            xStep: this._xStep,
+            yStep: this._yStep
+        } : null;
+    }
+
+    deserialize(obj) {
+        this._xStep = obj.xStep;
+        this._yStep = obj.yStep;
+    }
+
     run(autoDetector, dataSeries, axes) {
+        this._wasRun = true;
         var algoCore = new wpd.AveragingWindowCore(autoDetector.binaryData,
                                                    autoDetector.imageHeight,
                                                    autoDetector.imageWidth,

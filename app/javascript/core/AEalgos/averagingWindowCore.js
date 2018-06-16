@@ -60,7 +60,7 @@ wpd.AveragingWindowCore = class {
             // Scan vertically for blobs:
 
             for (rowi = 0; rowi < dh; rowi++) {
-                if(this._binaryData[rowi*dw + coli] === true) {
+                if(this._binaryData.has(rowi*dw + coli)) {
                     if (rowi > firstbloby + yStep) {
                         blobs = blobs + 1;
                         bi = 1;

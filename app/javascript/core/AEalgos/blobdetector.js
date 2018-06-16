@@ -27,14 +27,15 @@ wpd.BlobDetectorAlgo = class {
 
     constructor() {
         this._minDia = 0;
-        this._maxDia = 0;
+        this._maxDia = 5000;
+        this._wasRun = false;
     }
 
     getParamList(axes) {
         if (axes != null && axes instanceof wpd.MapAxes) {
-            return [['Min Diameter', 'Units', 0], ['Max Diameter', 'Units', 5000]];
+            return [['Min Diameter', 'Units', this._minDia], ['Max Diameter', 'Units', this._maxDia]];
         }
-        return [['Min Diameter', 'Px', 0], ['Max Diameter', 'Px', 5000]];
+        return [['Min Diameter', 'Px', this._minDia], ['Max Diameter', 'Px', this._maxDia]];
     }
 
     setParam(index, val) {
@@ -45,7 +46,25 @@ wpd.BlobDetectorAlgo = class {
         }
     }
 
+    serialize() {
+        return this._wasRun ? {
+            algoType: "BlobDetectorAlgo",
+            minDia: this._minDia,
+            maxDia: this._maxDia
+        } : null;
+    }
+
+    deserialize(obj) {
+        this._minDia = obj.minDia;
+        this._maxDia = obj.maxDia;
+    }
+
+    getParam(index) {
+        return index === 0 ? this._minDia : this._maxDia;
+    }
+
     run(autoDetector, dataSeries, axes) {
+        this._wasRun = true;
         var dw = autoDetector.imageWidth,
             dh = autoDetector.imageHeight,
             pixelVisited = [],
@@ -60,7 +79,7 @@ wpd.BlobDetectorAlgo = class {
             dia;
 
         if (dw <= 0 || dh <= 0 || autoDetector.binaryData == null
-            || autoDetector.binaryData.length === 0) {
+            || autoDetector.binaryData.size === 0) {
             return;
         }
 
@@ -69,7 +88,7 @@ wpd.BlobDetectorAlgo = class {
 
         for (xi = 0; xi < dw; xi++) {
             for (yi = 0; yi < dh; yi++) {
-                if (autoDetector.binaryData[yi*dw + xi] === true && !(pixelVisited[yi*dw + xi] === true)) {
+                if (autoDetector.binaryData.has(yi*dw + xi) && !(pixelVisited[yi*dw + xi] === true)) {
 
                     pixelVisited[yi*dw + xi] = true;
 
@@ -90,7 +109,7 @@ wpd.BlobDetectorAlgo = class {
                         for (nxi = bxi - 1; nxi <= bxi + 1; nxi++) {
                             for(nyi = byi - 1; nyi <= byi + 1; nyi++) {
                                 if (nxi >= 0 && nyi >= 0 && nxi < dw && nyi < dh) {
-                                    if (!(pixelVisited[nyi*dw + nxi] === true) && autoDetector.binaryData[nyi*dw + nxi] === true) {
+                                    if (!(pixelVisited[nyi*dw + nxi] === true) && autoDetector.binaryData.has(nyi*dw + nxi)) {
 
                                         pixelVisited[nyi*dw + nxi] = true;
 

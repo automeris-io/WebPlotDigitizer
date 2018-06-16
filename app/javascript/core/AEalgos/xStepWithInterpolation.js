@@ -26,23 +26,29 @@ var wpd = wpd || {};
 wpd.XStepWithInterpolationAlgo = class {
     constructor() {
         this._xmin = 0;
-        this._xmax = 0;
+        this._xmax = 1;
+        this._delx = 0.1
         this._smoothing = 0;
         this._ymin = 0;
         this._ymax = 0;
+        this._wasRun = false;
     }
 
-    getParamList() {
-        if(axes != null && axes instanceof wpd.XYAxes) {
-            var bounds = axes.getBounds();
-            return [["X_min","Units", bounds.x1],["ΔX Step","Units", (bounds.x2 - bounds.x1)/50.0], 
-                    ["X_max","Units", bounds.x2],["Y_min","Units", bounds.y3],
-                    ["Y_max","Units", bounds.y4],["Smoothing","% of ΔX", 0]];
-
+    getParamList(axes) {
+        if (!this._wasRun) {
+            if(axes != null && axes instanceof wpd.XYAxes) {
+                let bounds = axes.getBounds();
+                this._xmin = bounds.x1;
+                this._xmax = bounds.x2;
+                this._delx = (bounds.x2 - bounds.x1)/50.0;
+                this._ymin = bounds.y3;
+                this._ymax = bounds.y4;
+                this._smoothing = 0;
+            }
         }
-        return [["X_min","Units", 0],["ΔX Step","Units", 0.1],
-                ["X_max","Units", 0],["Y_min","Units", 0],
-                ["Y_max","Units", 0],["Smoothing","% of ΔX", 0]];
+        return [["X_min","Units", this._xmin],["ΔX Step","Units", this._delx],
+                ["X_max","Units", this._xmax],["Y_min","Units", this._ymin],
+                ["Y_max","Units", this._ymax],["Smoothing","% of ΔX", this._smoothing]];
     }
 
         
@@ -62,7 +68,41 @@ wpd.XStepWithInterpolationAlgo = class {
         }
     }
 
+    getParam(index) {
+        switch(index) {
+            case 0: return this._xmin;
+            case 1: return this._delx;
+            case 2: return this._xmax;
+            case 3: return this._ymin;
+            case 4: return this._ymax;
+            case 5: return this._smoothing;
+            default: return null;
+        }
+    }
+
+    serialize() {
+        return this._wasRun ? {
+            algoType: "XStepWithInterpolationAlgo",
+            xmin: this._xmin,
+            delx: this._delx,
+            xmax: this._xmax,
+            ymin: this._ymin,
+            ymax: this._ymax,
+            smoothing: this._smoothing
+        } : null;
+    }
+
+    deserialize(obj) {
+        this._xmin = obj.xmin;
+        this._delx = obj.delx;
+        this._xmax = obj.xmax;
+        this._ymin = obj.ymin;
+        this._ymax = obj.ymax;
+        this._smoothing = obj.smoothing;
+    }
+
     run(autoDetector, dataSeries, axes) {
+        this._wasRun = true;
         var pointsPicked = 0,
             dw = autoDetector.imageWidth,
             dh = autoDetector.imageHeight,
@@ -133,7 +173,7 @@ wpd.XStepWithInterpolationAlgo = class {
             while ( ( dely > 0 && yi <= scaled_param_ymax ) || ( dely < 0 && yi >= scaled_param_ymax ) ) {
                 pdata = axes.dataToPixel(isLogX ? Math.pow(10, xi) : xi, isLogY ? Math.pow(10, yi) : yi);
                 if (pdata.x >= 0 && pdata.y >= 0 && pdata.x < dw && pdata.y < dh) {
-                    if (autoDetector.binaryData[parseInt(pdata.y, 10)*dw + parseInt(pdata.x, 10)] === true) {
+                    if (autoDetector.binaryData.has(parseInt(pdata.y, 10)*dw + parseInt(pdata.x, 10))) {
                         mean_yi = (mean_yi*y_count + yi)/(parseFloat(y_count+1));
                         y_count++;
                     }
