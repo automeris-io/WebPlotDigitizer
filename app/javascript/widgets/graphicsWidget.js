@@ -68,7 +68,7 @@ wpd.graphicsWidget = (function () {
         
 
     function posn(ev) { // get screen pixel from event
-        var mainCanvasPosition = $mainCanvas.getBoundingClientRect();
+        let mainCanvasPosition = $mainCanvas.getBoundingClientRect();
         return {
             x: parseInt(ev.pageX - (mainCanvasPosition.left + window.pageXOffset), 10),
             y: parseInt(ev.pageY - (mainCanvasPosition.top + window.pageYOffset), 10)
@@ -215,8 +215,8 @@ wpd.graphicsWidget = (function () {
     }
 
     function zoomFit() {
-        var viewportSize = wpd.layoutManager.getGraphicsViewportSize(),
-            newAspectRatio = viewportSize.width/(viewportSize.height*1.0);
+        let viewportSize = wpd.layoutManager.getGraphicsViewportSize();
+        let newAspectRatio = viewportSize.width/(viewportSize.height*1.0);
         
         if(newAspectRatio > aspectRatio) {
             zoomRatio = viewportSize.height/(originalHeight*1.0);
@@ -258,7 +258,7 @@ wpd.graphicsWidget = (function () {
 
     function toggleExtendedCrosshairBtn() { // called directly when toolbar button is hit
         extendedCrosshair = !(extendedCrosshair);
-        var $crosshairBtn = document.getElementById('extended-crosshair-btn');
+        let $crosshairBtn = document.getElementById('extended-crosshair-btn');
         if(extendedCrosshair) {
             $crosshairBtn.classList.add('pressed-button');
         } else {
@@ -268,10 +268,10 @@ wpd.graphicsWidget = (function () {
     }
 
     function hoverOverCanvas(ev) {
-        var pos = posn(ev),
-            xpos = pos.x,
-            ypos = pos.y,
-            imagePos = imagePx(xpos, ypos);
+        let pos = posn(ev);
+        let xpos = pos.x;
+        let ypos = pos.y;
+        let imagePos = imagePx(xpos, ypos);
 
         if(extendedCrosshair) {
             $hoverCanvas.width = $hoverCanvas.width;
@@ -292,7 +292,6 @@ wpd.graphicsWidget = (function () {
         var zsize = wpd.zoomView.getSize(),
             zratio = wpd.zoomView.getZoomRatio(),
             ix0, iy0,
-            zw, zh,
             iw, ih,
             idata, ddata,
             ixmin, iymin, ixmax, iymax,
@@ -374,7 +373,7 @@ wpd.graphicsWidget = (function () {
 
     function dropHandler(ev) {
         wpd.busyNote.show();
-        var allDrop = ev.dataTransfer.files;
+        let allDrop = ev.dataTransfer.files;
         if (allDrop.length === 1) {
             wpd.imageManager.loadFromFile(allDrop[0]);
         }
@@ -382,7 +381,7 @@ wpd.graphicsWidget = (function () {
 
     function pasteHandler(ev) {
         if(ev.clipboardData !== undefined) {
-            var items = ev.clipboardData.items;
+            let items = ev.clipboardData.items;
             if(items !== undefined) {
                 for(var i = 0; i < items.length; i++) {
                     if(items[i].type.indexOf("image") !== -1) {
@@ -529,7 +528,7 @@ wpd.graphicsWidget = (function () {
 
     // run an external operation on the image data. this would normally mean a reset.
     function runImageOp(operFn) {
-       var opResult = operFn(originalImageData, originalWidth, originalHeight);
+       let opResult = operFn(originalImageData, originalWidth, originalHeight);
        loadImageFromData(opResult.imageData, opResult.width, opResult.height, opResult.keepZoom);
     }
 

@@ -26,12 +26,11 @@ var wpd = wpd || {};
 wpd.transformationEquations = (function () {
     function show() {        
         wpd.popup.show('axes-transformation-equations-window');
-        var $list = document.getElementById('axes-transformation-equation-list'),
-            listHTML = '',
-            axes = wpd.tree.getActiveAxes(),
-            eqns = axes.getTransformationEquations(),
-            i,
-            axesType;
+        
+        let $list = document.getElementById('axes-transformation-equation-list');
+        let listHTML = '';
+        let axes = wpd.tree.getActiveAxes();
+        let eqns = axes.getTransformationEquations();
 
         listHTML += '<p><b>Axes Type</b>: ';
         if(axes instanceof wpd.XYAxes) {
@@ -48,7 +47,7 @@ wpd.transformationEquations = (function () {
 
         if(eqns.pixelToData != null) {
             listHTML += '<p><b>Pixel to Data</b></p><ol>';
-            for(i = 0; i < eqns.pixelToData.length; i++) {
+            for(let i = 0; i < eqns.pixelToData.length; i++) {
                 listHTML += '<li><p class="footnote">'+eqns.pixelToData[i]+"</p></li>";
             }
             listHTML += '</ol>';

@@ -89,22 +89,19 @@ wpd.dataTable = (function () {
 
     function setupControls() {
 
-        var $datasetControl = document.getElementById('data-table-dataset-control'),
-            $datasetList = document.getElementById('data-table-dataset-list'),            
-            $sortingVariables = document.getElementById('data-sort-variables'),
-            $variableNames = document.getElementById('dataVariables'),
-            $dateFormattingContainer = document.getElementById('data-date-formatting-container'),
-            $dateFormatting = document.getElementById('data-date-formatting'),
-            i,
-            datasetHTML = '',
-            sortingHTML = '',
-            dateFormattingHTML = '',
-            isAnyVariableDate = false,
-            showDatasets = selectedDataset != null,
-            showMeasurements = selectedMeasurement != null;
+        let $datasetList = document.getElementById('data-table-dataset-list');      
+        let $sortingVariables = document.getElementById('data-sort-variables');
+        let $variableNames = document.getElementById('dataVariables');
+        let $dateFormattingContainer = document.getElementById('data-date-formatting-container');
+        let $dateFormatting = document.getElementById('data-date-formatting');
+        let datasetHTML = '';
+        let sortingHTML = '';
+        let dateFormattingHTML = '';
+        let isAnyVariableDate = false;
+        let showDatasets = selectedDataset != null;
+        let showMeasurements = selectedMeasurement != null;
 
         // gather names
-        let selIdx = 0;
         if(showDatasets) {
             let datasetNames = wpd.appData.getPlotData().getDatasetNames();            
             datasetNames.forEach((name) => { datasetHTML += "<option value=\""+name+"\">"+name+"</option>"; });
@@ -135,7 +132,7 @@ wpd.dataTable = (function () {
 
         $dateFormattingContainer.style.display = 'none';
         sortingHTML += '<option value="raw">' + wpd.gettext('raw') + '</option>';
-        for(i = 0; i < dataCache.fields.length; i++) {
+        for(let i = 0; i < dataCache.fields.length; i++) {
 
             // Sorting
             if(dataCache.isFieldSortable[i]) {
