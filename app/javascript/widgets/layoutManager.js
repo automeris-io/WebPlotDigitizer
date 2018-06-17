@@ -33,8 +33,8 @@ wpd.layoutManager = (function () {
 
     // Redo layout when window is resized
     function adjustLayout() {
-        var windowWidth = parseInt(document.body.offsetWidth,10),
-            windowHeight = parseInt(document.body.offsetHeight,10);
+        let windowWidth = parseInt(document.body.offsetWidth,10);
+        let windowHeight = parseInt(document.body.offsetHeight,10);
 
         $sidebarContainer.style.height = windowHeight + 'px';
         $sidebarControlsContainer.style.height = windowHeight - 280 + 'px';

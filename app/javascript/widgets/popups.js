@@ -25,30 +25,30 @@
 var wpd = wpd || {};
 wpd.popup = (function () {
 
-    var dragInfo = null,
-        $activeWindow = null;
+    let dragInfo = null;
+    let $activeWindow = null;
 
     function show(popupid) {
 
         // Dim lights to make it obvious that these are modal dialog boxes.
-        var shadowDiv = document.getElementById('shadow');
+        let shadowDiv = document.getElementById('shadow');
         shadowDiv.style.visibility = "visible";
         
         // Display the popup
-        var pWindow = document.getElementById(popupid);
-        var screenWidth = parseInt(window.innerWidth, 10);
-        var screenHeight = parseInt(window.innerHeight, 10);
-        var pWidth = parseInt(pWindow.offsetWidth, 10);
-        var pHeight = parseInt(pWindow.offsetHeight, 10);
-        var xPos = (screenWidth - pWidth)/2;
-        var yPos = (screenHeight - pHeight)/2;
+        let pWindow = document.getElementById(popupid);
+        let screenWidth = parseInt(window.innerWidth, 10);
+        let screenHeight = parseInt(window.innerHeight, 10);
+        let pWidth = parseInt(pWindow.offsetWidth, 10);
+        let pHeight = parseInt(pWindow.offsetHeight, 10);
+        let xPos = (screenWidth - pWidth)/2;
+        let yPos = (screenHeight - pHeight)/2;
         yPos = yPos > 60 ? 60 : yPos;
         pWindow.style.left = xPos + 'px';
         pWindow.style.top = yPos + 'px';
         pWindow.style.visibility = "visible";
 
         // Attach drag events to the header
-        for(var i = 0; i < pWindow.childNodes.length; i++) {
+        for(let i = 0; i < pWindow.childNodes.length; i++) {
             if(pWindow.childNodes[i].className === 'popupheading') {
                 pWindow.childNodes[i].addEventListener("mousedown", startDragging, false);
                 break;
@@ -60,10 +60,10 @@ wpd.popup = (function () {
 
     function close(popupid) {
 
-        var shadowDiv = document.getElementById('shadow');
+        let shadowDiv = document.getElementById('shadow');
         shadowDiv.style.visibility = "hidden";
 
-        var pWindow = document.getElementById(popupid);
+        let pWindow = document.getElementById(popupid);
         pWindow.style.visibility = "hidden";
 
         removeDragMask();
@@ -72,7 +72,7 @@ wpd.popup = (function () {
 
     function startDragging(ev) {
         // Create a drag mask that will react to mouse action after this point
-        var $dragMask = document.createElement('div');
+        let $dragMask = document.createElement('div');
         $dragMask.className = 'popup-drag-mask';
         $dragMask.style.display = 'inline-block';
         $dragMask.addEventListener('mousemove', dragMouseMove, false);
@@ -106,12 +106,12 @@ wpd.popup = (function () {
     }
 
     function moveWindow(ev) {
-        var newWindowX = (dragInfo.initialWindowX + ev.pageX - dragInfo.initialMouseX),
-            newWindowY = (dragInfo.initialWindowY + ev.pageY - dragInfo.initialMouseY),
-            appWidth =  parseInt(document.body.offsetWidth, 10),
-            appHeight =  parseInt(document.body.offsetHeight, 10),
-            windowWidth = parseInt($activeWindow.offsetWidth, 10),
-            windowHeight = parseInt($activeWindow.offsetHeight, 10);
+        let newWindowX = (dragInfo.initialWindowX + ev.pageX - dragInfo.initialMouseX);
+        let newWindowY = (dragInfo.initialWindowY + ev.pageY - dragInfo.initialMouseY);
+        let appWidth =  parseInt(document.body.offsetWidth, 10);
+        let appHeight =  parseInt(document.body.offsetHeight, 10);
+        let windowWidth = parseInt($activeWindow.offsetWidth, 10);
+        let windowHeight = parseInt($activeWindow.offsetHeight, 10);
 
         // move only up to a reasonable bound:
         if(newWindowX + 0.7*windowWidth < appWidth && newWindowX > 0 && newWindowY > 0

@@ -26,26 +26,24 @@ wpd.sidebar = (function () {
 
     function show(sbid) { // Shows a specific sidebar
         clear();
-        var sb = document.getElementById(sbid);
+        let sb = document.getElementById(sbid);
         sb.style.display = "inline-block";
         sb.style.height = parseInt(document.body.offsetHeight,10) - 280 + 'px';
     }
 
     function clear() { // Clears all open sidebars
-        var sidebarList = document.getElementsByClassName('sidebar'),
-            ii;
 
-        for (ii = 0; ii < sidebarList.length; ii++) {
+        const sidebarList = document.getElementsByClassName('sidebar');
+        for (let ii = 0; ii < sidebarList.length; ii++) {
             sidebarList[ii].style.display="none";
 
         }
     }
 
     function resize() {
-        var sidebarList = document.getElementsByClassName('sidebar'),
-            ii;
-
-        for (ii = 0; ii < sidebarList.length; ii++) {
+        
+        let sidebarList = document.getElementsByClassName('sidebar');
+        for (let ii = 0; ii < sidebarList.length; ii++) {
             if (sidebarList[ii].style.display === "inline-block") {
                 sidebarList[ii].style.height = parseInt(document.body.offsetHeight,10) - 280 + 'px';
             }

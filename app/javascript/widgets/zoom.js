@@ -30,9 +30,7 @@ wpd.zoomView = (function() {
         zWindowWidth = 250,
         zWindowHeight = 250,
         $mPosn,
-        extendedCrosshair = false,
         pix = [],
-        zoomTimeout,
         zoomRatio,
         crosshairColorText = 'black';
 
