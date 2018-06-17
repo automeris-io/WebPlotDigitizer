@@ -26,6 +26,14 @@ var wpd = wpd || {};
 wpd.initApp = function() {// This is run when the page loads.
 
     wpd.browserInfo.checkBrowser();
+    
+    /*
+    if (wpd.browserInfo.isElectronBrowser()) {
+        const {webFrame} = require('electron')
+        webFrame.setZoomFactor(1.2)
+    }
+    */
+   
     wpd.layoutManager.initialLayout();
     wpd.imageManager.loadFromURL('start.png');
     wpd.log();
