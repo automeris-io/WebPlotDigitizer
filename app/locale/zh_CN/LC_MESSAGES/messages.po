@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  WebPlotDigitizer\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2018-06-16 14:31-0500\n"
+"POT-Creation-Date: 2018-06-17 12:14-0500\n"
 "PO-Revision-Date: 2018-02-21 00:47-0600\n"
 "Last-Translator: RGXGR <rgxgr@outlook.com>\n"
 "Language: zh_Hans_CN\n"
@@ -190,6 +190,7 @@ msgid "Map With Scale Bar"
 msgstr "地图（含比例尺）"
 
 #: templates/_popups.html:88 templates/_strings.html:55
+#: templates/_strings.html:68 templates/_tree.html:8
 msgid "Image"
 msgstr "像素图"
 
@@ -306,7 +307,7 @@ msgid "Acquired Data"
 msgstr "采集的数据"
 
 #: templates/_popups.html:216 templates/_strings.html:47
-#: templates/_tree.html:45
+#: templates/_tree.html:55
 msgid "Dataset"
 msgstr "数据集"
 
@@ -629,7 +630,7 @@ msgstr ""
 msgid "Export to Plotly"
 msgstr "导出到 Plotly"
 
-#: templates/_popups.html:448 templates/_tree.html:30
+#: templates/_popups.html:448 templates/_tree.html:40
 msgid "Add Dataset"
 msgstr "添加数据集"
 
@@ -650,12 +651,12 @@ msgstr "数量"
 msgid "Add Multiple Datasets"
 msgstr "添加多个数据集"
 
-#: templates/_popups.html:458 templates/_tree.html:48
+#: templates/_popups.html:458 templates/_tree.html:58
 msgid "Rename Dataset"
 msgstr "重命名数据集"
 
 #: templates/_popups.html:463 templates/_popups.html:474
-#: templates/_tree.html:20
+#: templates/_tree.html:30
 msgid "Rename"
 msgstr "重命名"
 
@@ -738,7 +739,7 @@ msgid "Click to change color"
 msgstr "单击选择颜色"
 
 #: templates/_sidebars.html:24 templates/_strings.html:51
-#: templates/_tree.html:38 templates/_tree.html:57
+#: templates/_tree.html:48 templates/_tree.html:67
 msgid "Distance"
 msgstr "距离"
 
@@ -966,7 +967,7 @@ msgstr "管理数据集"
 msgid "Please calibrate the axes before managing datasets."
 msgstr "请先标定坐标轴，再开始整理数据集。"
 
-#: templates/_strings.html:27 templates/_tree.html:49
+#: templates/_strings.html:27 templates/_tree.html:59
 msgid "Delete Dataset"
 msgstr "删除数据集"
 
@@ -1046,24 +1047,24 @@ msgstr "已存在相同名称的坐标轴，请选择一个不同的名称。"
 msgid "Specify a valid number of datasets to add!"
 msgstr "指定要添加的数据集个数的有效值！"
 
-#: templates/_strings.html:48 templates/_tree.html:28
+#: templates/_strings.html:48 templates/_tree.html:38
 msgid "Datasets"
 msgstr "数据集"
 
-#: templates/_strings.html:49 templates/_tree.html:36
+#: templates/_strings.html:49 templates/_tree.html:46
 msgid "Measurements"
 msgstr "测量"
 
-#: templates/_strings.html:50 templates/_tree.html:8 templates/_tree.html:18
-#: templates/_tree.html:47 templates/_tree.html:59 templates/_tree.html:76
+#: templates/_strings.html:50 templates/_tree.html:18 templates/_tree.html:28
+#: templates/_tree.html:57 templates/_tree.html:69 templates/_tree.html:86
 msgid "Axes"
 msgstr "坐标轴"
 
-#: templates/_strings.html:52 templates/_tree.html:39 templates/_tree.html:66
+#: templates/_strings.html:52 templates/_tree.html:49 templates/_tree.html:76
 msgid "Angle"
 msgstr "角度"
 
-#: templates/_strings.html:53 templates/_tree.html:40 templates/_tree.html:74
+#: templates/_strings.html:53 templates/_tree.html:50 templates/_tree.html:84
 msgid "Area/Perimeter"
 msgstr "面积/周长"
 
@@ -1132,51 +1133,67 @@ msgid "View Keyboard Shortcuts"
 msgstr "查看键盘快捷键"
 
 #: templates/_tree.html:10
+msgid "Image Info"
+msgstr ""
+
+#: templates/_tree.html:11
+msgid "Crop"
+msgstr ""
+
+#: templates/_tree.html:12
+msgid "Undo"
+msgstr ""
+
+#: templates/_tree.html:13
+msgid "Redo"
+msgstr ""
+
+#: templates/_tree.html:20
 msgid "Add Calibration"
 msgstr "添加标定"
 
-#: templates/_tree.html:11
+#: templates/_tree.html:21
 msgid "Remove Grid"
 msgstr "清除网格"
 
-#: templates/_tree.html:12
+#: templates/_tree.html:22
 msgid "Import Calibration"
 msgstr "导入标定"
 
-#: templates/_tree.html:13
+#: templates/_tree.html:23
 msgid "Export Calibration"
 msgstr "导出标定"
 
-#: templates/_tree.html:21
+#: templates/_tree.html:31
 msgid "Tweak Calibration"
 msgstr "调整标定"
 
-#: templates/_tree.html:22
+#: templates/_tree.html:32
 msgid "Delete"
 msgstr "删除"
 
-#: templates/_tree.html:23
+#: templates/_tree.html:33
 msgid "View Equations"
 msgstr "查看方程"
 
-#: templates/_tree.html:31
+#: templates/_tree.html:41
 msgid "Export All Data"
 msgstr "导出所有数据"
 
-#: templates/_tree.html:50 templates/_tree.html:61 templates/_tree.html:69
-#: templates/_tree.html:78
+#: templates/_tree.html:60 templates/_tree.html:71 templates/_tree.html:79
+#: templates/_tree.html:88
 msgid "View Data"
 msgstr "查看数据"
 
-#: templates/_tree.html:51
+#: templates/_tree.html:61
 msgid "Clear Data"
 msgstr "清除数据"
 
-#: templates/_tree.html:52
+#: templates/_tree.html:62
 msgid "Data Points"
 msgstr "数据点数"
 
-#: templates/_tree.html:60 templates/_tree.html:68 templates/_tree.html:77
+#: templates/_tree.html:70 templates/_tree.html:78 templates/_tree.html:87
 msgid "Clear All"
 msgstr "清除所有"
 

@@ -63,7 +63,7 @@ wpd.AveragingWindowAlgo = class {
 
     run(autoDetector, dataSeries, axes) {
         this._wasRun = true;
-        var algoCore = new wpd.AveragingWindowCore(autoDetector.binaryData,
+        let algoCore = new wpd.AveragingWindowCore(autoDetector.binaryData,
                                                    autoDetector.imageHeight,
                                                    autoDetector.imageWidth,
                                                    this._xStep,

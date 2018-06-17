@@ -173,7 +173,15 @@ select {
     background: #FFD8C7;
 }
 
-.tree-selected, .tree-item:active, .tree-folder:active, .tree-selected:hover, .tree-item::selection {
+.tree-selected {
+	background: #FF9466;
+}
+
+.tree-selected:hover {
+	background: #FF9466;
+}
+
+.tree-item:active, .tree-folder:active, .tree-item::selection {
     background: #FF9466;
 }
 

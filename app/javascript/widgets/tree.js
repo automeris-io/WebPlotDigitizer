@@ -169,16 +169,22 @@ wpd.tree = (function() {
         let treeData = [];
         
         const plotData = wpd.appData.getPlotData();
+
+        // Image item
+        treeData.push(wpd.gettext("image"));
                 
+        // Axes folder
         let axesFolder = {};
         axesFolder[wpd.gettext("axes")] = plotData.getAxesNames();        
         treeData.push(axesFolder);
 
+        // Datasets folder
         const datasetNames = plotData.getDatasetNames();
         let datasetsFolder = {};
         datasetsFolder[wpd.gettext("datasets")] = datasetNames;
         treeData.push(datasetsFolder);
 
+        // Measurements folder
         let measurementItems = [];
         let distMeasures = plotData.getMeasurementsByType(wpd.DistanceMeasurement);
         let angleMeasures = plotData.getMeasurementsByType(wpd.AngleMeasurement);
@@ -305,7 +311,12 @@ wpd.tree = (function() {
     }
 
     function onSelection(elem, path, suppressSecondaryActions) {
-        if(path === "/" + wpd.gettext("datasets")) {
+        if (path === "/" + wpd.gettext("image")) {
+            resetGraphics();
+            activeAxes = null;
+            showTreeItemWidget("image-item-tree-widget");
+            // TODO: load image editing sidebar
+        } else if(path === "/" + wpd.gettext("datasets")) {
             resetGraphics();
             showTreeItemWidget("dataset-group-tree-widget");
             activeAxes = null;
