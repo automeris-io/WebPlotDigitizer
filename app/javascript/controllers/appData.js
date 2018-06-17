@@ -25,12 +25,11 @@ var wpd = wpd || {};
 // maintain and manage current state of the application
 wpd.appData = (function () {
     let plotData;
-    let backupImageData = null;
+    let undoManager;
 
     function reset() {
         isAligned = false;
         plotData = null;
-        backupImageData = null;
     }
 
     function getPlotData() {
@@ -38,6 +37,13 @@ wpd.appData = (function () {
             plotData = new wpd.PlotData();
         }
         return plotData;
+    }
+
+    function getUndoManager() {
+        if (undoManager == null) {
+            undoManager = new wpd.UndoManager();
+        }
+        return undoManager;
     }
 
     function isAligned() {
@@ -51,8 +57,8 @@ wpd.appData = (function () {
     return {
         isAligned: isAligned,
         getPlotData: getPlotData,
+        getUndoManager: getUndoManager,
         reset: reset,
-        plotLoaded: plotLoaded,
-        backupImageData: backupImageData       
+        plotLoaded: plotLoaded
     };
 })();
