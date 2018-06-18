@@ -27,11 +27,9 @@ var wpd = wpd || {};
 wpd.appData = (function () {
 
     let _plotData = null;
-    let _undoManager = null;
-    let _isAligned = false;
+    let _undoManager = null;    
 
-    function reset() {
-        _isAligned = false;
+    function reset() {        
         _plotData = null;
         _undoManager = null;
     }
