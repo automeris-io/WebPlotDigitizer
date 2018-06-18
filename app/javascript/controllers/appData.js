@@ -22,28 +22,32 @@
 */
 
 var wpd = wpd || {};
+
 // maintain and manage current state of the application
 wpd.appData = (function () {
-    let plotData;
-    let undoManager;
+
+    let _plotData = null;
+    let _undoManager = null;
+    let _isAligned = false;
 
     function reset() {
-        isAligned = false;
-        plotData = null;
+        _isAligned = false;
+        _plotData = null;
+        _undoManager = null;
     }
 
     function getPlotData() {
-        if(plotData == null) {
-            plotData = new wpd.PlotData();
+        if(_plotData == null) {
+            _plotData = new wpd.PlotData();
         }
-        return plotData;
+        return _plotData;
     }
 
     function getUndoManager() {
-        if (undoManager == null) {
-            undoManager = new wpd.UndoManager();
+        if (_undoManager == null) {
+            _undoManager = new wpd.UndoManager();
         }
-        return undoManager;
+        return _undoManager;
     }
 
     function isAligned() {
