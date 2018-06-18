@@ -35,7 +35,7 @@ wpd.imageManager = (function () {
     function load() {
         let $input = document.getElementById('fileLoadBox');
         if($input.files.length == 1) {
-            var imageFile = $input.files[0];
+            let imageFile = $input.files[0];
             loadFromFile(imageFile);
         }
         wpd.popup.close('loadNewImage');

@@ -44,8 +44,8 @@ wpd.algoManager = (function() {
         dataset = wpd.tree.getActiveDataset();
         axes = wpd.appData.getPlotData().getAxesForDataset(dataset);
 
-        var innerHTML = '',
-            $algoOptions = document.getElementById('auto-extract-algo-name');
+        let innerHTML = '';
+        let $algoOptions = document.getElementById('auto-extract-algo-name');
 
         // Averaging Window
         if(!(axes instanceof wpd.BarAxes)) {
@@ -127,13 +127,11 @@ wpd.algoManager = (function() {
     }
 
     function renderParameters(algo) {
-        var $paramContainer = document.getElementById('algo-parameter-container'),
-            algoParams = algo.getParamList(axes),
-            pi,
-            tableString = "<table>";
-
+        let $paramContainer = document.getElementById('algo-parameter-container');
+        let algoParams = algo.getParamList(axes);            
+        let tableString = "<table>";
         
-        for(pi = 0; pi < algoParams.length; pi++) {
+        for(let pi = 0; pi < algoParams.length; pi++) {
             tableString += '<tr><td>' + algoParams[pi][0] + 
                 '</td><td><input type="text" size=3 id="algo-param-' + pi + 
                 '" class="algo-params" value="'+ algoParams[pi][2] + '"/></td><td>' 
@@ -146,18 +144,16 @@ wpd.algoManager = (function() {
 
     function run() {
         wpd.busyNote.show();
-        var autoDetector = getAutoDetectionData(),
-            algo = autoDetector.algorithm,
-            repainter = new wpd.DataPointsRepainter(axes, dataset),
-            $paramFields = document.getElementsByClassName('algo-params'),
-            pi,
-            paramId, paramIndex,
-            ctx = wpd.graphicsWidget.getAllContexts(),
-            imageSize = wpd.graphicsWidget.getImageSize();
+        let autoDetector = getAutoDetectionData();
+        let algo = autoDetector.algorithm;
+        let repainter = new wpd.DataPointsRepainter(axes, dataset);
+        let $paramFields = document.getElementsByClassName('algo-params');
+        let ctx = wpd.graphicsWidget.getAllContexts();
+        let imageSize = wpd.graphicsWidget.getImageSize();
 
-        for(pi = 0; pi < $paramFields.length; pi++) {
-            paramId = $paramFields[pi].id;
-            paramIndex = parseInt(paramId.replace('algo-param-', ''), 10);
+        for(let pi = 0; pi < $paramFields.length; pi++) {
+            let paramId = $paramFields[pi].id;
+            let paramIndex = parseInt(paramId.replace('algo-param-', ''), 10);
             algo.setParam(paramIndex, parseFloat($paramFields[pi].value));
         }
 
