@@ -34,11 +34,11 @@ wpd.gridDetection = (function () {
     }
 
     function sidebarInit() {
-        var $colorPickerBtn = document.getElementById('grid-color-picker-button'),
-            $backgroundMode = document.getElementById('grid-background-mode'),
-            autodetector = wpd.appData.getPlotData().getGridDetectionData(),
-            color = autodetector.lineColor,
-            backgroundMode = autodetector.gridBackgroundMode;
+        let $colorPickerBtn = document.getElementById('grid-color-picker-button');
+        let $backgroundMode = document.getElementById('grid-background-mode');
+        let autodetector = wpd.appData.getPlotData().getGridDetectionData();
+        let color = autodetector.lineColor;
+        let backgroundMode = autodetector.gridBackgroundMode;
 
         if(color != null) {
             $colorPickerBtn.style.backgroundColor = 'rgb('+color[0]+','+color[1]+','+color[2]+')';
@@ -53,12 +53,12 @@ wpd.gridDetection = (function () {
     }
 
     function markBox() {
-        var tool = new wpd.GridBoxTool();
+        let tool = new wpd.GridBoxTool();
         wpd.graphicsWidget.setTool(tool);
     }
 
     function viewMask() {
-        var tool = new wpd.GridViewMaskTool();
+        let tool = new wpd.GridViewMaskTool();
         wpd.graphicsWidget.setTool(tool);
     }
 
@@ -77,21 +77,20 @@ wpd.gridDetection = (function () {
 
     function grabMask() {
         // Mask is just a list of pixels with the yellow color in the data layer
-        var ctx = wpd.graphicsWidget.getAllContexts(),
-            imageSize = wpd.graphicsWidget.getImageSize(),
-            maskDataPx = ctx.oriDataCtx.getImageData(0, 0, imageSize.width, imageSize.height),
-            maskData = new Set(),
-            i,
-            mi = 0,
-            autoDetector = wpd.appData.getPlotData().getGridDetectionData(),
-            x, y;
-        for(i = 0; i < maskDataPx.data.length; i+=4) {
+        let ctx = wpd.graphicsWidget.getAllContexts();
+        let imageSize = wpd.graphicsWidget.getImageSize();
+        let maskDataPx = ctx.oriDataCtx.getImageData(0, 0, imageSize.width, imageSize.height);
+        let maskData = new Set();
+        let mi = 0;
+        let autoDetector = wpd.appData.getPlotData().getGridDetectionData();
+            
+        for(let i = 0; i < maskDataPx.data.length; i+=4) {
             if (maskDataPx.data[i] === 255 && maskDataPx.data[i+1] === 255 && maskDataPx.data[i+2] === 0) {
                 
                 maskData.add(i/4); mi++;
 
-                x = parseInt((i/4)%imageSize.width, 10);
-                y = parseInt((i/4)/imageSize.width, 10);
+                let x = parseInt((i/4)%imageSize.width, 10);
+                let y = parseInt((i/4)/imageSize.width, 10);
 
                 if (mi === 1) {
                     autoDetector.gridMask.xmin = x;
@@ -126,15 +125,15 @@ wpd.gridDetection = (function () {
         // For now, just reset before detecting, otherwise users will get confused:
         reset();
 
-        var autoDetector = wpd.appData.getPlotData().getGridDetectionData(),
-            ctx = wpd.graphicsWidget.getAllContexts(),
-            imageSize = wpd.graphicsWidget.getImageSize(),
-            $xperc = document.getElementById('grid-horiz-perc'),
-            $yperc = document.getElementById('grid-vert-perc'),
-            horizEnable = document.getElementById('grid-horiz-enable').checked,
-            vertEnable = document.getElementById('grid-vert-enable').checked,
-            backgroundMode = document.getElementById('grid-background-mode').checked,
-            plotData = wpd.appData.getPlotData();
+        let autoDetector = wpd.appData.getPlotData().getGridDetectionData();
+        let ctx = wpd.graphicsWidget.getAllContexts();
+        let imageSize = wpd.graphicsWidget.getImageSize();
+        let $xperc = document.getElementById('grid-horiz-perc');
+        let $yperc = document.getElementById('grid-vert-perc');
+        let horizEnable = document.getElementById('grid-horiz-enable').checked;
+        let vertEnable = document.getElementById('grid-vert-enable').checked;
+        let backgroundMode = document.getElementById('grid-background-mode').checked;
+        let plotData = wpd.appData.getPlotData();
         
         if(autoDetector.backupImageData == null) {
             autoDetector.backupImageData = ctx.oriImageCtx.getImageData(0, 0, imageSize.width, imageSize.height);
@@ -158,10 +157,9 @@ wpd.gridDetection = (function () {
     }
 
     function resetImageOp(idata, width, height) {
-        var bkImg = wpd.appData.getPlotData().getGridDetectionData().backupImageData,
-            i;
+        let bkImg = wpd.appData.getPlotData().getGridDetectionData().backupImageData;
 
-        for(i = 0; i < bkImg.data.length; i++) {
+        for(let i = 0; i < bkImg.data.length; i++) {
             idata.data[i] = bkImg.data[i];
         }
 
@@ -179,7 +177,7 @@ wpd.gridDetection = (function () {
         wpd.graphicsWidget.removeRepainter();
         wpd.graphicsWidget.resetData();
 
-        var plotData = wpd.appData.getPlotData();
+        let plotData = wpd.appData.getPlotData();
         if(plotData.getGridDetectionData().backupImageData != null) {
             wpd.graphicsWidget.runImageOp(resetImageOp);
         }
@@ -187,20 +185,17 @@ wpd.gridDetection = (function () {
 
     function removeGridLinesOp(idata, width, height) {
         /* image op to remove grid lines */
-        var gridData = wpd.appData.getPlotData().getGridDetectionData().gridData,
-            bgColor = wpd.appData.getPlotData().getTopColors()[0],
-            rowi,
-            coli,
-            pindex;
+        let gridData = wpd.appData.getPlotData().getGridDetectionData().gridData;
+        let bgColor = wpd.appData.getPlotData().getTopColors()[0];
 
         if(bgColor == null) { 
             bgColor = { r: 255, g: 0, b: 0 }; 
         }
         
         if(gridData != null) {
-            for(rowi = 0; rowi < height; rowi++) {
-                for(coli = 0; coli < width; coli++) {
-                    pindex = 4*(rowi*width + coli);
+            for(let rowi = 0; rowi < height; rowi++) {
+                for(let coli = 0; coli < width; coli++) {
+                    let pindex = 4*(rowi*width + coli);
                     if(gridData.has(pindex/4)) {
                         idata.data[pindex] = bgColor.r;
                         idata.data[pindex + 1] = bgColor.g;
@@ -235,7 +230,7 @@ wpd.gridDetection = (function () {
         wpd.graphicsWidget.resetData();
         wpd.graphicsWidget.setRepainter(new wpd.GridColorFilterRepainter());
 
-        var autoDetector = wpd.appData.getPlotData().getGridDetectionData();
+        let autoDetector = wpd.appData.getPlotData().getGridDetectionData();
 
         changeColorDistance();
 
@@ -248,12 +243,12 @@ wpd.gridDetection = (function () {
     }
 
     function changeColorDistance() {
-        var color_distance = parseFloat(document.getElementById('grid-color-distance').value);
+        let color_distance = parseFloat(document.getElementById('grid-color-distance').value);
         wpd.appData.getPlotData().getGridDetectionData().colorDistance = color_distance;
     }
 
     function changeBackgroundMode() {
-        var backgroundMode = document.getElementById('grid-background-mode').checked;
+        let backgroundMode = document.getElementById('grid-background-mode').checked;
         wpd.appData.getPlotData().getGridDetectionData().gridBackgroundMode = backgroundMode;
     }
      
