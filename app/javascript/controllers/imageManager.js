@@ -26,6 +26,7 @@ var wpd = wpd || {};
 wpd.imageManager = (function () {
 
     let _firstLoad = true;
+    let _imageInfo = {width: 0, height: 0};
 
     function saveImage() {
         wpd.graphicsWidget.saveImage();
@@ -108,12 +109,18 @@ wpd.imageManager = (function () {
             wpd.popup.show('axesList');
         }
         _firstLoad = false;
+        _imageInfo = {width: imageData.width, height: imageData.height};
+    }
+
+    function getImageInfo() {
+        return _imageInfo;
     }
 
     return {
         saveImage: saveImage,
         loadFromURL: loadFromURL,
         loadFromFile: loadFromFile,
-        load: load
+        load: load,
+        getImageInfo: getImageInfo
     };
 })();

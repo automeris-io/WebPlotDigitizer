@@ -23,8 +23,10 @@
 var wpd = wpd || {};
 
 wpd.imageEditing = {
-    showImageInfo: function() {
-        // TODO: set image width, height etc.
+    showImageInfo: function() {        
+        let $imageDimensions = document.getElementById("image-info-dimensions");
+        let imageInfo = wpd.imageManager.getImageInfo();
+        $imageDimensions.innerHTML = "(" + imageInfo.width + "x" + imageInfo.height + ")";
         wpd.popup.show('image-info-popup');
     }
 };
