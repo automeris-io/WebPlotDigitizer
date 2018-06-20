@@ -28,6 +28,10 @@ wpd.imageEditing = {
         let imageInfo = wpd.imageManager.getImageInfo();
         $imageDimensions.innerHTML = "(" + imageInfo.width + "x" + imageInfo.height + ")";
         wpd.popup.show('image-info-popup');
+    },
+
+    startImageCrop: function() {
+        wpd.graphicsWidget.setTool(new wpd.CropTool());
     }
 };
 
