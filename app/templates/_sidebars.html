@@ -137,6 +137,14 @@
 <p class="sidebar-title">{{ _("Image Editing") }}</p>
 <br/>
 <center>
-    <p>Coming soon!</p>
+    <p align="center">
+        <input type="button" value="{{ _("Undo") }}" style="width: 100px;" onclick="" id="image-editing-undo"/>
+        <input type="button" value="{{ _("Redo") }}" style="width: 100px;" onclick="" id="image-editing-redo"/>
+    </p>
+    <br/>
+    <p align="center">
+        <input type="button" value="{{ _("Crop") }}" style="width: 100px;" onclick="wpd.imageEditing.startImageCrop();" id="image-editing-crop"/>
+        <input type="button" value="{{ _("Rotate") }}" style="width: 100px;" onclick="" id="image-editing-rotate"/>
+    </p>
 </center>
 </div>
