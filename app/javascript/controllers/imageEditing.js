@@ -32,6 +32,14 @@ wpd.imageEditing = {
 
     startImageCrop: function() {
         wpd.graphicsWidget.setTool(new wpd.CropTool());
+    },
+
+    undo: function() {
+        wpd.appData.getUndoManager().undo();
+    },
+
+    redo: function() {
+        wpd.appData.getUndoManager().redo();
     }
 };
 
@@ -45,20 +53,23 @@ wpd.ReversibleAction = class {
 };
 
 wpd.CropImageAction = class extends wpd.ReversibleAction {
-    constructor(x, y, width, height) {
+    constructor(x0, y0, x1, y1) {
         super();
-        this._x = x;
-        this._y = y;
-        this._width = width;
-        this._height = height;
+        this._x0 = x0;
+        this._y0 = y0;
+        this._x1 = x1;
+        this._y1 = y1;
     }
 
     execute() {
         // store current image for undo
 
+        // crop image
+
         // replace current image with cropped image
 
-        // call all dependent UI elements
+        // call all dependent UI actions
+        console.log("crop action called!");
     }
 
     undo() {
