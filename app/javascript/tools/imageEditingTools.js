@@ -62,16 +62,39 @@ wpd.CropTool = class {
             this._imagePos = imagePos;
             clearTimeout(this._moveTimer);
             this._moveTimer = setTimeout(() => {
-                wpd.graphicsWidget.resetHover();
-                this._ctx.hoverCtx.strokeStyle = "rgb(0,0,0)";
-                this._ctx.hoverCtx.strokeRect(
-                    this._topScreenCorner.x, 
-                    this._topScreenCorner.y,
-                    this._screenPos.x - this._topScreenCorner.x,
-                    this._screenPos.y - this._topScreenCorner.y);                
+                this._drawCropBox();               
             }, 2);
         } else if (this._hasCropBox) {
             // reposition selected point (and others to match)
+        }
+    }
+
+    _drawCropBox() {
+        wpd.graphicsWidget.resetHover();
+        let ctx = this._ctx.hoverCtx;
+
+        ctx.strokeStyle = "rgb(0,0,0)";
+        ctx.strokeRect(
+            this._topScreenCorner.x, 
+            this._topScreenCorner.y,
+            this._screenPos.x - this._topScreenCorner.x,
+            this._screenPos.y - this._topScreenCorner.y
+        );
+
+        let pointCoords = [
+            {x: this._topScreenCorner.x, y: this._topScreenCorner.y},
+            {x: this._screenPos.x, y: this._topScreenCorner.y},
+            {x: this._screenPos.x, y: this._screenPos.y},
+            {x: this._topScreenCorner.x, y: this._screenPos.y}
+        ];
+
+        ctx.fillStyle = "rgb(255,0,0)";
+        ctx.strokeStyle = "rgb(255,255,255)";
+        for (let pt of pointCoords) {
+            ctx.beginPath();
+            ctx.arc(pt.x, pt.y, 4, 0, 2*Math.PI, true);
+            ctx.fill();
+            ctx.stroke();
         }
     }
 
@@ -85,13 +108,7 @@ wpd.CropTool = class {
 
         this._isDrawing = false;
         this._hasCropBox = true;
-        wpd.graphicsWidget.resetHover();
-        this._ctx.hoverCtx.strokeStyle = "rgb(0,0,0)";
-        this._ctx.hoverCtx.strokeRect(
-            this._topScreenCorner.x, 
-            this._topScreenCorner.y,
-            this._screenPos.x - this._topScreenCorner.x,
-            this._screenPos.y - this._topScreenCorner.y);
+        this._drawCropBox();
     }
 
     onMouseOut() {
@@ -122,8 +139,8 @@ wpd.CropTool = class {
                 this._imagePos.x,
                 this._imagePos.y
             );
-            cropAction.execute();
             wpd.appData.getUndoManager().insertAction(cropAction);
+            cropAction.execute();
         }
 
         e.preventDefault();
@@ -131,8 +148,10 @@ wpd.CropTool = class {
 
     onRedraw() {
         if(this._hasCropBox) {
-            // recalculate screen coordinates and redraw crop-box if necessary
-            console.log("redraw!");
+            // recalculate screen coordinates and redraw crop-box
+            this._topScreenCorner = wpd.graphicsWidget.screenPx(this._topImageCorner.x, this._topImageCorner.y);
+            this._screenPos = wpd.graphicsWidget.screenPx(this._imagePos.x, this._imagePos.y);
+            this._drawCropBox();
         }
     }
 };
