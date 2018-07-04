@@ -41,6 +41,7 @@ wpd.UndoManager = class {
         this._actionIndex--;
         let action = this._actions[this._actionIndex];
         action.undo();
+        this.updateUI();
     }
 
     canRedo() {
@@ -54,23 +55,44 @@ wpd.UndoManager = class {
         let action = this._actions[this._actionIndex];
         action.execute();
         this._actionIndex++;
+        this.updateUI();
     }
 
     insertAction(action) {
-        if (!(actions instanceof wpd.ReversibleAction)) {
+        if (!(action instanceof wpd.ReversibleAction)) {
             console.error("action must be a wpd.ReversibleAction!");
             return;
         }
-        if (canRedo()) {
+        if (this.canRedo()) {
             // drop all possible future actions
             this._actions.length = this._actionIndex;
         }
         this._actions.push(action);
         this._actionIndex++;
+        this.updateUI();
     }
 
     clear() {
         this._actions = [];
         this._actionIndex = 0;
+        this.updateUI();
+    }
+
+    updateUI() {
+        // enable/disable undo and redo buttons
+        const $undo = document.getElementById("image-editing-undo");
+        const $redo = document.getElementById("image-editing-redo");
+
+        if (this.canUndo()) {
+            $undo.disabled = false;
+        } else {
+            $undo.disabled = true;
+        }
+
+        if(this.canRedo()) {
+            $redo.disabled = false;
+        } else {
+            $redo.disabled = true;
+        }
     }
 };

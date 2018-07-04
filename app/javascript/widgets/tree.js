@@ -316,6 +316,7 @@ wpd.tree = (function() {
             activeAxes = null;
             showTreeItemWidget("image-item-tree-widget");
             wpd.sidebar.show("image-editing-sidebar");
+            wpd.appData.getUndoManager().updateUI();
         } else if(path === "/" + wpd.gettext("datasets")) {
             resetGraphics();
             showTreeItemWidget("dataset-group-tree-widget");
