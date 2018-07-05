@@ -264,7 +264,7 @@ wpd.graphicsWidget = (function () {
         } else {
             $crosshairBtn.classList.remove('pressed-button');
         }
-        $hoverCanvas.width = $hoverCanvas.width;
+        $topCanvas.width = $topCanvas.width;
     }
 
     function hoverOverCanvas(ev) {
@@ -274,14 +274,14 @@ wpd.graphicsWidget = (function () {
         let imagePos = imagePx(xpos, ypos);
 
         if(extendedCrosshair) {
-            $hoverCanvas.width = $hoverCanvas.width;
-            hoverCtx.strokeStyle = "rgba(0,0,0, 0.5)";
-            hoverCtx.beginPath();
-            hoverCtx.moveTo(xpos, 0);
-            hoverCtx.lineTo(xpos, height);
-            hoverCtx.moveTo(0, ypos);
-            hoverCtx.lineTo(width, ypos);
-            hoverCtx.stroke();
+            $topCanvas.width = $topCanvas.width;
+            topCtx.strokeStyle = "rgba(0,0,0, 0.5)";
+            topCtx.beginPath();
+            topCtx.moveTo(xpos, 0);
+            topCtx.lineTo(xpos, height);
+            topCtx.moveTo(0, ypos);
+            topCtx.lineTo(width, ypos);
+            topCtx.stroke();
         }
 
         setZoomImage(imagePos.x, imagePos.y);
