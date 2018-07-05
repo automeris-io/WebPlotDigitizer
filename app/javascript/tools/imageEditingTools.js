@@ -33,6 +33,7 @@ wpd.CropTool = class {
         this._moveTimer = null;
         this._screenPos = null;
         this._imagePos = null;
+        this._hotspotCoords = null;
         this._ctx = wpd.graphicsWidget.getAllContexts();
     }
 
@@ -50,9 +51,11 @@ wpd.CropTool = class {
             this._topImageCorner = imagePos;
             this._topScreenCorner = pos;
         } else {
-            // find the nearest point and highlight it
-
-            // change mouse cursor
+            let hotspot = this._getHotspot(pos);
+            if (hotspot != null) {
+                // initiate resize/move action
+                console.log(hotspot);
+            }
         }
     }
 
@@ -66,6 +69,28 @@ wpd.CropTool = class {
             }, 2);
         } else if (this._hasCropBox) {
             // reposition selected point (and others to match)
+            let hotspot = this._getHotspot(pos);
+
+            // set the appropriate cursor on hover or resize
+            if (hotspot != null) {
+                let cursor = "crosshair";
+                if(hotspot === "n" || hotspot === "s") {
+                    cursor = "ns-resize";
+                } else if (hotspot == "e" || hotspot == "w") {
+                    cursor = "ew-resize";
+                } else if (hotspot == "nw" || hotspot == "se") {
+                    cursor = "nwse-resize";
+                } else if (hotspot == "ne" || hotspot == "sw") {
+                    cursor = "nesw-resize";
+                } else if (hotspot == "c") {
+                    cursor = "move";
+                }
+                e.target.style.cursor = cursor;
+            } else {
+                e.target.style.cursor = "crosshair";
+            }
+
+            // resize or move based on hotspot
         }
     }
 
@@ -81,23 +106,11 @@ wpd.CropTool = class {
             this._screenPos.y - this._topScreenCorner.y
         );
 
-        let pointCoords = [
-            {x: this._topScreenCorner.x, y: this._topScreenCorner.y}, // corner points
-            {x: this._screenPos.x, y: this._topScreenCorner.y},
-            {x: this._screenPos.x, y: this._screenPos.y},
-            {x: this._topScreenCorner.x, y: this._screenPos.y},
-            
-            {x: (this._topScreenCorner.x + this._screenPos.x)/2, y: this._topScreenCorner.y}, // mid points
-            {x: this._screenPos.x, y: (this._topScreenCorner.y + this._screenPos.y)/2},
-            {x: (this._topScreenCorner.x + this._screenPos.x)/2, y: this._screenPos.y},
-            {x: this._topScreenCorner.x, y: (this._topScreenCorner.y + this._screenPos.y)/2},
-
-            {x: (this._topScreenCorner.x + this._screenPos.x)/2, y: (this._topScreenCorner.y + this._screenPos.y)/2} // center point
-        ];
+        this._hotspotCoords = this._getHotspotCoords();
 
         ctx.fillStyle = "rgb(255,0,0)";
         ctx.strokeStyle = "rgb(255,255,255)";
-        for (let pt of pointCoords) {
+        for (let pt of this._hotspotCoords) {
             ctx.beginPath();
             ctx.arc(pt.x, pt.y, 4, 0, 2*Math.PI, true);
             ctx.fill();
@@ -116,6 +129,35 @@ wpd.CropTool = class {
         this._isDrawing = false;
         this._hasCropBox = true;
         this._drawCropBox();
+    }
+
+    _getHotspotCoords() {
+        return [
+            {x: this._topScreenCorner.x, y: this._topScreenCorner.y}, // nw
+            {x: this._screenPos.x, y: this._topScreenCorner.y}, // ne
+            {x: this._screenPos.x, y: this._screenPos.y}, // se
+            {x: this._topScreenCorner.x, y: this._screenPos.y}, // sw            
+            {x: (this._topScreenCorner.x + this._screenPos.x)/2, y: this._topScreenCorner.y}, // n
+            {x: this._screenPos.x, y: (this._topScreenCorner.y + this._screenPos.y)/2}, // e
+            {x: (this._topScreenCorner.x + this._screenPos.x)/2, y: this._screenPos.y}, // s
+            {x: this._topScreenCorner.x, y: (this._topScreenCorner.y + this._screenPos.y)/2}, // w
+            {x: (this._topScreenCorner.x + this._screenPos.x)/2, y: (this._topScreenCorner.y + this._screenPos.y)/2} // c
+        ];        
+    }
+
+    // is the screenPos on an active hotspot? if yes, then return the type
+    _getHotspot(screenPos) {        
+        let hotspots = ['nw','ne','se','sw','n','e','s','w','c'];
+        let radius = 8; // distance from the center
+        let pointCoords = this._hotspotCoords;
+        for (let ptIdx = 0; ptIdx < pointCoords.length; ptIdx++) {
+            let pt = pointCoords[ptIdx];
+            let dist2 = (pt.x - screenPos.x)*(pt.x - screenPos.x) + (pt.y - screenPos.y)*(pt.y - screenPos.y);
+            if (dist2 < radius*radius) {
+                return hotspots[ptIdx];
+            }
+        }
+        return null; // not on a hotspot
     }
 
     onMouseOut() {
