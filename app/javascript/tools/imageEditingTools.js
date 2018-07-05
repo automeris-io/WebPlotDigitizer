@@ -42,6 +42,7 @@ wpd.CropTool = class {
     }
 
     onRemove() {
+        wpd.graphicsWidget.resetHover();
         document.getElementById('image-editing-crop').classList.remove('pressed-button');
     }
 
