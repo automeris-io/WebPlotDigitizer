@@ -82,10 +82,17 @@ wpd.CropTool = class {
         );
 
         let pointCoords = [
-            {x: this._topScreenCorner.x, y: this._topScreenCorner.y},
+            {x: this._topScreenCorner.x, y: this._topScreenCorner.y}, // corner points
             {x: this._screenPos.x, y: this._topScreenCorner.y},
             {x: this._screenPos.x, y: this._screenPos.y},
-            {x: this._topScreenCorner.x, y: this._screenPos.y}
+            {x: this._topScreenCorner.x, y: this._screenPos.y},
+            
+            {x: (this._topScreenCorner.x + this._screenPos.x)/2, y: this._topScreenCorner.y}, // mid points
+            {x: this._screenPos.x, y: (this._topScreenCorner.y + this._screenPos.y)/2},
+            {x: (this._topScreenCorner.x + this._screenPos.x)/2, y: this._screenPos.y},
+            {x: this._topScreenCorner.x, y: (this._topScreenCorner.y + this._screenPos.y)/2},
+
+            {x: (this._topScreenCorner.x + this._screenPos.x)/2, y: (this._topScreenCorner.y + this._screenPos.y)/2} // center point
         ];
 
         ctx.fillStyle = "rgb(255,0,0)";
