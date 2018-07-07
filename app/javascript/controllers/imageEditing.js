@@ -34,6 +34,14 @@ wpd.imageEditing = {
         wpd.graphicsWidget.setTool(new wpd.CropTool());
     },
 
+    startPerspective: function() {
+        wpd.popup.show('perspective-info');
+    },
+
+    startPerspectiveConfirmed: function() {
+        
+    },
+
     undo: function() {
         wpd.appData.getUndoManager().undo();
     },

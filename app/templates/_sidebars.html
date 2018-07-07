@@ -138,13 +138,17 @@
 <br/>
 <center>
     <p align="center">
-        <input type="button" value="{{ _("Undo") }}" style="width: 100px;" onclick="wpd.imageEditing.undo()" id="image-editing-undo"/>
-        <input type="button" value="{{ _("Redo") }}" style="width: 100px;" onclick="wpd.imageEditing.redo()" id="image-editing-redo"/>
+        <input type="button" value="{{ _("Undo") }}" style="width: 120px;" onclick="wpd.imageEditing.undo()" id="image-editing-undo"/>
+        <input type="button" value="{{ _("Redo") }}" style="width: 120px;" onclick="wpd.imageEditing.redo()" id="image-editing-redo"/>
     </p>
     <br/>
     <p align="center">
-        <input type="button" value="{{ _("Crop") }}" style="width: 100px;" onclick="wpd.imageEditing.startImageCrop();" id="image-editing-crop"/>
-        <input type="button" value="{{ _("Rotate") }}" style="width: 100px;" onclick="" id="image-editing-rotate"/>
+        <input type="button" value="{{ _("Crop") }}" style="width: 120px;" onclick="wpd.imageEditing.startImageCrop()" id="image-editing-crop"/>
+        <input type="button" value="{{ _("Fix Perspective") }}" style="width: 120px;" onclick="wpd.imageEditing.startPerspective()" id="image-editing-perspective"/>
+    </p>
+    <p align="center">
+        <input type="button" value="{{ _("Rotate") }}" style="width: 120px;" onclick="" id="image-editing-rotate"/>
+        <input type="button" value="{{ _("?") }}" style="width: 120px;" onclick="" id="image-editing-misc"/>
     </p>
 </center>
 </div>

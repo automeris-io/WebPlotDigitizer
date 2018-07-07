@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  WebPlotDigitizer\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2018-07-04 23:00-0500\n"
+"POT-Creation-Date: 2018-07-06 21:30-0500\n"
 "PO-Revision-Date: 2018-02-21 00:47-0600\n"
 "Last-Translator: RGXGR <rgxgr@outlook.com>\n"
 "Language: zh_Hans_CN\n"
@@ -16,7 +16,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.3.4\n"
+"Generated-By: Babel 2.5.3\n"
 
 #: templates/_base.html:26
 msgid "Web based tool to extract numerical data from plots and graph images."
@@ -888,7 +888,15 @@ msgid "Crop"
 msgstr ""
 
 #: templates/_sidebars.html:147
+msgid "Fix Perspective"
+msgstr ""
+
+#: templates/_sidebars.html:150
 msgid "Rotate"
+msgstr ""
+
+#: templates/_sidebars.html:151
+msgid "?"
 msgstr ""
 
 #: templates/_strings.html:2
@@ -1215,5 +1223,8 @@ msgstr "清除所有"
 #~ msgstr ""
 
 #~ msgid "Redo"
+#~ msgstr ""
+
+#~ msgid "Rotate"
 #~ msgstr ""
 
