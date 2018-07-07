@@ -208,12 +208,16 @@ wpd.okCancelPopup = (function () {
 
     function ok() {
         wpd.popup.close('okCancelPopup');
-        okCallback();
+        if (okCallback != null) {
+            okCallback();
+        }
     }
 
     function cancel() {
         wpd.popup.close('okCancelPopup');
-        cancelCallback();
+        if (cancelCallback != null) {
+            cancelCallback();
+        }
     }
 
     return {
