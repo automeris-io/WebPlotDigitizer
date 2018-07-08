@@ -147,3 +147,29 @@ wpd.cspline_interp = function(cs, x) {
     return a + b*t + c*t*t + d*t*t*t;
 }
 
+// Perform a Singular Value Decomposition (SVD) of a mxn matrix:
+// mat = [[...], [...], ...] (2D array, row-by-row)
+wpd.svd = function(mat) {
+    // ref: https://en.wikipedia.org/wiki/Singular-value_decomposition#Numerical_approach
+
+    let rows = mat.length;
+    let cols = mat[0].length;
+
+    // Step 1: Reduce to a bidiagonal matrix using Householder reflections
+
+    // Step 2: QR algorithm for computation of eigenvalues
+
+    return {
+        U: null,
+        D: null,
+        V: null
+    };
+};
+
+
+// Homography matrix for perspective transformations based on pixel coordinates of corner points.
+wpd.calculateHomographyMatrix = function(orignalCorners, finalCorners) {
+    return {
+        H: null // homography matrix
+    };
+};
