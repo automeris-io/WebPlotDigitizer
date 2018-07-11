@@ -15,3 +15,6 @@ Use the ./getThirdparty.sh script, or follow the following steps manually:
     - Download: https://github.com/ankitrohatgi/tarballjs/archive/master.zip
     - Extract to tarballjs folder
 
+4) NumericJS:
+    - Download: http://www.numericjs.com/lib/numeric-1.2.6.min.js
+    - Extract to numericjs folder
