@@ -15,3 +15,9 @@ unzip pdfjs-1.8.188-dist.zip -d pdfjs
 # tarballjs
 wget https://github.com/ankitrohatgi/tarballjs/archive/master.zip
 unzip master.zip -d tarballjs
+
+# numericjs
+mkdir -p numericjs
+cd numericjs
+wget http://www.numericjs.com/lib/numeric-1.2.6.min.js
+cd ..

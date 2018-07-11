@@ -150,19 +150,13 @@ wpd.cspline_interp = function(cs, x) {
 // Perform a Singular Value Decomposition (SVD) of a mxn matrix:
 // mat = [[...], [...], ...] (2D array, row-by-row)
 wpd.svd = function(mat) {
-    // ref: https://en.wikipedia.org/wiki/Singular-value_decomposition#Numerical_approach
 
-    let rows = mat.length;
-    let cols = mat[0].length;
-
-    // Step 1: Reduce to a bidiagonal matrix using Householder reflections
-
-    // Step 2: QR algorithm for computation of eigenvalues
+    let result = numeric.svd(mat);
 
     return {
-        U: null,
-        D: null,
-        V: null
+        U: result.U,
+        D: result.S,
+        V: result.V
     };
 };
 
