@@ -1,5 +1,15 @@
-let wpd = require("../app/wpd_node.js").wpd
+// 
+// Need to install npm package called "jimp" first:
+// npm install jimp (you may need to install other dependent libs)
+//
+const jimp = require("jimp")
+const wpd = require("../app/wpd_node.js").wpd
 
-let plotData = new wpd.PlotData();
+jimp.read('../app/start.png').then(img => {
+	console.log(img.bitmap.height);
+	console.log(img.bitmap.width);
 
-console.log(plotData.serialize());
+	let plotData = new wpd.PlotData();
+	console.log(plotData.serialize());
+});
+
