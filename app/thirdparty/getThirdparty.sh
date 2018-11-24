@@ -17,7 +17,7 @@ wget https://github.com/ankitrohatgi/tarballjs/archive/master.zip
 unzip master.zip -d tarballjs
 
 # numericjs
-mkdir -p numericjs
-cd numericjs
-wget http://www.numericjs.com/lib/numeric-1.2.6.min.js
-cd ..
+wget https://github.com/sloisel/numeric/archive/v1.2.6.zip
+unzip v1.2.6.zip -d numericjs
+ln -s numericjs/numeric-1.2.6/src/numeric.js numericjs/numeric-1.2.6.min.js
+
