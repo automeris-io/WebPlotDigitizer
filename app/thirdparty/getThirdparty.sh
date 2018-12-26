@@ -24,4 +24,6 @@ ln -s numeric-1.2.6/src/numeric.js numeric_core.js
 ln -s numeric-1.2.6/src/svd.js numeric_svd.js
 cd ..
 
+# clean up downloaded packages
+rm *.zip
 
