@@ -20,7 +20,8 @@ unzip master.zip -d tarballjs
 wget https://github.com/sloisel/numeric/archive/v1.2.6.zip
 unzip v1.2.6.zip -d numericjs
 cd numericjs
-ln -s numeric-1.2.6/src/numeric.js numeric-1.2.6.min.js
+ln -s numeric-1.2.6/src/numeric.js numeric_core.js
+ln -s numeric-1.2.6/src/svd.js numeric_svd.js
 cd ..
 
 
