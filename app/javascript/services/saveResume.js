@@ -1,9 +1,9 @@
 /*
-	WebPlotDigitizer - https://automeris.io/WebPlotDigitizer
+        WebPlotDigitizer - https://automeris.io/WebPlotDigitizer
 
-	Copyright 2010-2019 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+        Copyright 2010-2019 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
-	This file is part of WebPlotDigitizer.
+        This file is part of WebPlotDigitizer.
 
     WebPlotDigitizer is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as published by
@@ -23,15 +23,10 @@
 
 var wpd = wpd || {};
 
-wpd.saveResume = (function () {
+wpd.saveResume = (function() {
+    function save() { wpd.popup.show('export-json-window'); }
 
-    function save() {
-        wpd.popup.show('export-json-window');
-    }
-
-    function load() {
-        wpd.popup.show('import-json-window');
-    }
+    function load() { wpd.popup.show('import-json-window'); }
 
     function resumeFromJSON(json_data) {
         const plotData = wpd.appData.getPlotData();
@@ -45,20 +40,22 @@ wpd.saveResume = (function () {
     }
 
     function stripIllegalCharacters(filename) {
-        return filename.replace(/[^a-zA-Z\d+\.\-_\s]/g,"_");
+        return filename.replace(/[^a-zA-Z\d+\.\-_\s]/g, "_");
     }
 
     function downloadJSON() {
         // get project name
-        let projectName = stripIllegalCharacters(document.getElementById("project-name-input").value) + ".json";
+        let projectName =
+            stripIllegalCharacters(document.getElementById("project-name-input").value) + ".json";
 
-        wpd.download.json(generateJSON(), projectName); 
+        wpd.download.json(generateJSON(), projectName);
         wpd.popup.close('export-json-window');
     }
 
-    function downloadProject() {        
+    function downloadProject() {
         // get project name
-        let projectName = stripIllegalCharacters(document.getElementById("project-name-input").value);
+        let projectName =
+            stripIllegalCharacters(document.getElementById("project-name-input").value);
 
         // get JSON
         let json = generateJSON();
@@ -67,7 +64,8 @@ wpd.saveResume = (function () {
         let imageFile = wpd.graphicsWidget.getImagePNG();
 
         // projectInfo
-        let projectInfo = JSON.stringify({"version": [4,0], "json": "wpd.json", "image": "image.png"});
+        let projectInfo =
+            JSON.stringify({"version" : [ 4, 0 ], "json" : "wpd.json", "image" : "image.png"});
 
         // generate project file
         let tarWriter = new tarball.TarWriter();
@@ -81,13 +79,13 @@ wpd.saveResume = (function () {
 
     function readJSONFileOnly(jsonFile) {
         var fileReader = new FileReader();
-        fileReader.onload = function () {
+        fileReader.onload = function() {
             var json_data = JSON.parse(fileReader.result);
-            resumeFromJSON(json_data); 
-            
+            resumeFromJSON(json_data);
+
             wpd.graphicsWidget.resetData();
             wpd.graphicsWidget.removeTool();
-            wpd.graphicsWidget.removeRepainter();            
+            wpd.graphicsWidget.removeRepainter();
             wpd.tree.refresh();
             wpd.messagePopup.show(wpd.gettext('import-json'), wpd.gettext("json-data-loaded"));
         };
@@ -97,54 +95,56 @@ wpd.saveResume = (function () {
     function readProjectFile(file) {
         wpd.busyNote.show();
         var tarReader = new tarball.TarReader();
-        tarReader.readFile(file).then(function(fileInfo) {
-            wpd.busyNote.close();
-            let infoIndex = fileInfo.findIndex(info => info.name.endsWith("/info.json"));
-            if(infoIndex >= 0) {
-                let projectName = fileInfo[infoIndex].name.replace("/info.json","");
-                let wpdimage = tarReader.getFileBlob(projectName + "/image.png", "image/png");
-                wpdimage.name = "image.png";                
-                let wpdjson = JSON.parse(tarReader.getTextFile(projectName + "/wpd.json"));
-                wpd.imageManager.loadFromFile(wpdimage, true).then(() => {
-                    resumeFromJSON(wpdjson);
-                    wpd.tree.refresh();
-                    wpd.messagePopup.show(wpd.gettext('import-json'), wpd.gettext("json-data-loaded"));
-                });
-            }
-        }, function(err) {
-            console.log(err);
-        });
-    }   
+        tarReader.readFile(file).then(
+            function(fileInfo) {
+                wpd.busyNote.close();
+                let infoIndex = fileInfo.findIndex(info => info.name.endsWith("/info.json"));
+                if (infoIndex >= 0) {
+                    let projectName = fileInfo[infoIndex].name.replace("/info.json", "");
+                    let wpdimage = tarReader.getFileBlob(projectName + "/image.png", "image/png");
+                    wpdimage.name = "image.png";
+                    let wpdjson = JSON.parse(tarReader.getTextFile(projectName + "/wpd.json"));
+                    wpd.imageManager.loadFromFile(wpdimage, true).then(() => {
+                        resumeFromJSON(wpdjson);
+                        wpd.tree.refresh();
+                        wpd.messagePopup.show(wpd.gettext('import-json'),
+                                              wpd.gettext("json-data-loaded"));
+                    });
+                }
+            },
+            function(err) { console.log(err); });
+    }
 
     function read() {
         const $fileInput = document.getElementById('import-json-file');
         wpd.popup.close('import-json-window');
-        if($fileInput.files.length === 1) {
+        if ($fileInput.files.length === 1) {
             let file = $fileInput.files[0];
             let fileType = file.type;
-            if(fileType == "" || fileType == null) {
+            if (fileType == "" || fileType == null) {
                 // Chrome on Windows
-                if(file.name.endsWith(".json")) {
+                if (file.name.endsWith(".json")) {
                     fileType = "application/json";
-                } else if(file.name.endsWith(".tar")) {
+                } else if (file.name.endsWith(".tar")) {
                     fileType = "application/x-tar";
                 }
             }
-            if(fileType == "application/json") {
+            if (fileType == "application/json") {
                 readJSONFileOnly(file);
-            } else if(fileType == "application/x-tar") {
+            } else if (fileType == "application/x-tar") {
                 readProjectFile(file);
             } else {
-                wpd.messagePopup.show(wpd.gettext("invalid-project"), wpd.gettext("invalid-project-msg"));
+                wpd.messagePopup.show(wpd.gettext("invalid-project"),
+                                      wpd.gettext("invalid-project-msg"));
             }
         }
     }
 
     return {
-        save: save,
-        load: load,
-        downloadJSON: downloadJSON,
-        downloadProject: downloadProject,
-        read: read
+        save : save,
+        load : load,
+        downloadJSON : downloadJSON,
+        downloadProject : downloadProject,
+        read : read
     };
 })();

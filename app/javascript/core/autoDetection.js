@@ -1,9 +1,9 @@
 /*
-	WebPlotDigitizer - https://automeris.io/WebPlotDigitizer
+        WebPlotDigitizer - https://automeris.io/WebPlotDigitizer
 
-	Copyright 2010-2019 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+        Copyright 2010-2019 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
-	This file is part of WebPlotDigitizer.
+        This file is part of WebPlotDigitizer.
 
     WebPlotDigitizer is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as published by
@@ -30,8 +30,8 @@ wpd.AutoDetectionData = class {
         // public
         this.imageWidth = 0;
         this.imageHeight = 0;
-        this.fgColor = [0, 0, 255];
-        this.bgColor = [255, 255, 255];
+        this.fgColor = [ 0, 0, 255 ];
+        this.bgColor = [ 255, 255, 255 ];
         this.mask = new Set();
         this.binaryData = new Set();
         this.colorDetectionMode = 'fg';
@@ -41,7 +41,7 @@ wpd.AutoDetectionData = class {
     }
 
     serialize() {
-        // if there's no algo, or if the algo was never run (no algoData), 
+        // if there's no algo, or if the algo was never run (no algoData),
         // then just return null as there's no reason to save this data.
         if (this.algorithm == null) {
             return null;
@@ -52,15 +52,15 @@ wpd.AutoDetectionData = class {
         }
 
         return {
-            fgColor: this.fgColor,
-            bgColor: this.bgColor,
-            mask: Array.from(this.mask.values()),
-            colorDetectionMode: this.colorDetectionMode,
-            colorDistance: this.colorDistance,
-            algorithm: algoData,
-            name: this.name,
-            imageWidth: this.imageWidth,
-            imageHeight: this.imageHeight
+            fgColor : this.fgColor,
+            bgColor : this.bgColor,
+            mask : Array.from(this.mask.values()),
+            colorDetectionMode : this.colorDetectionMode,
+            colorDistance : this.colorDistance,
+            algorithm : algoData,
+            name : this.name,
+            imageWidth : this.imageWidth,
+            imageHeight : this.imageHeight
         };
     }
 
@@ -71,7 +71,7 @@ wpd.AutoDetectionData = class {
         this.imageHeight = jsonObj.imageHeight;
 
         this.mask = new Set();
-        for(let i of jsonObj.mask) {
+        for (let i of jsonObj.mask) {
             this.mask.add(i);
         }
         this.colorDetectionMode = jsonObj.colorDetectionMode;
@@ -92,21 +92,23 @@ wpd.AutoDetectionData = class {
             }
             this.algorithm.deserialize(jsonObj.algorithm);
         }
-        
+
         this.name = jsonObj.name;
     }
 
     generateBinaryDataFromMask(imageData) {
         this.binaryData = new Set();
         let refColor = this.colorDetectionMode === 'fg' ? this.fgColor : this.bgColor;
-        for(let imageIdx of this.mask) {
-            let ir = imageData.data[imageIdx*4];
-            let ig = imageData.data[imageIdx*4 + 1];
-            let ib = imageData.data[imageIdx*4 + 2];
-            let ia = imageData.data[imageIdx*4 + 3];
+        for (let imageIdx of this.mask) {
+            let ir = imageData.data[imageIdx * 4];
+            let ig = imageData.data[imageIdx * 4 + 1];
+            let ib = imageData.data[imageIdx * 4 + 2];
+            let ia = imageData.data[imageIdx * 4 + 3];
             if (ia === 0) {
                 // for completely transparent part of the image, assume white
-                ir = 255; ig = 255; ib = 255;
+                ir = 255;
+                ig = 255;
+                ib = 255;
             }
             let dist = wpd.dist3d(ir, ig, ib, refColor[0], refColor[1], refColor[2]);
             if (this.colorDetectionMode === 'fg') {
@@ -124,14 +126,16 @@ wpd.AutoDetectionData = class {
     generateBinaryDataUsingFullImage(imageData) {
         this.binaryData = new Set();
         let refColor = this.colorDetectionMode === 'fg' ? this.fgColor : this.bgColor;
-        for(let imageIdx = 0; imageIdx < imageData.data.length; imageIdx++) {
-            let ir = imageData.data[imageIdx*4];
-            let ig = imageData.data[imageIdx*4 + 1];
-            let ib = imageData.data[imageIdx*4 + 2];
-            let ia = imageData.data[imageIdx*4 + 3];
+        for (let imageIdx = 0; imageIdx < imageData.data.length; imageIdx++) {
+            let ir = imageData.data[imageIdx * 4];
+            let ig = imageData.data[imageIdx * 4 + 1];
+            let ib = imageData.data[imageIdx * 4 + 2];
+            let ia = imageData.data[imageIdx * 4 + 3];
             if (ia === 0) {
                 // for completely transparent part of the image, assume white
-                ir = 255; ig = 255; ib = 255;
+                ir = 255;
+                ig = 255;
+                ib = 255;
             }
             let dist = wpd.dist3d(ir, ig, ib, refColor[0], refColor[1], refColor[2]);
             if (this.colorDetectionMode === 'fg') {
@@ -157,17 +161,11 @@ wpd.AutoDetectionData = class {
 
 wpd.GridDetectionData = class {
     constructor() {
-        this.mask = { xmin: null, xmax: null, ymin: null, ymax: null, pixels: [] };
-        this.lineColor = [255, 255, 255];
+        this.mask = {xmin : null, xmax : null, ymin : null, ymax : null, pixels : []};
+        this.lineColor = [ 255, 255, 255 ];
         this.colorDistance = 10;
         this.gridData = null;
-        this.gridMask = {
-            xmin: null,
-            xmax: null,
-            ymin: null,
-            ymax: null,
-            pixels: new Set()
-        };
+        this.gridMask = {xmin : null, xmax : null, ymin : null, ymax : null, pixels : new Set()};
         this.binaryData = new Set();
         this.imageWidth = 0;
         this.imageHeight = 0;
@@ -183,23 +181,26 @@ wpd.GridDetectionData = class {
         // use the full image if no grid mask is present
         if (this.gridMask.pixels == null || this.gridMask.pixels.size === 0) {
             this.gridMask.pixels = new Set();
-            
+
             for (let yi = 0; yi < this.imageHeight; yi++) {
                 for (let xi = 0; xi < this.imageWidth; xi++) {
-                    let img_index = yi*this.imageWidth + xi;
-                    let ir = imageData.data[img_index*4];
-                    let ig = imageData.data[img_index*4+1];
-                    let ib = imageData.data[img_index*4+2];
-                    let ia = imageData.data[img_index*4+3];
+                    let img_index = yi * this.imageWidth + xi;
+                    let ir = imageData.data[img_index * 4];
+                    let ig = imageData.data[img_index * 4 + 1];
+                    let ib = imageData.data[img_index * 4 + 2];
+                    let ia = imageData.data[img_index * 4 + 3];
 
                     if (ia === 0) {
                         // assume white color when image is transparent
-                        ir = 255; ig = 255; ib = 255;
+                        ir = 255;
+                        ig = 255;
+                        ib = 255;
                     }
 
-                    let dist = wpd.dist3d(this.lineColor[0], this.lineColor[1], this.lineColor[2], ir, ig, ib);
-                        
-                    if(this.gridBackgroundMode) {
+                    let dist = wpd.dist3d(this.lineColor[0], this.lineColor[1], this.lineColor[2],
+                                          ir, ig, ib);
+
+                    if (this.gridBackgroundMode) {
                         if (dist > this.colorDistance) {
                             this.binaryData.add(img_index);
                             this.gridMask.pixels.add(img_index);
@@ -220,14 +221,15 @@ wpd.GridDetectionData = class {
         }
 
         for (let img_index of this.gridMask.pixels) {
-            let ir = imageData.data[img_index*4];
-            let ig = imageData.data[img_index*4+1];
-            let ib = imageData.data[img_index*4+2];
-            let ia = imageData.data[img_index*4+3];
+            let ir = imageData.data[img_index * 4];
+            let ig = imageData.data[img_index * 4 + 1];
+            let ib = imageData.data[img_index * 4 + 2];
+            let ia = imageData.data[img_index * 4 + 3];
 
-            let dist = wpd.dist3d(this.lineColor[0], this.lineColor[1], this.lineColor[2], ir, ig, ib);
+            let dist =
+                wpd.dist3d(this.lineColor[0], this.lineColor[1], this.lineColor[2], ir, ig, ib);
 
-            if(this.gridBackgroundMode) {
+            if (this.gridBackgroundMode) {
                 if (dist > this.colorDistance) {
                     this.binaryData.add(img_index);
                 }

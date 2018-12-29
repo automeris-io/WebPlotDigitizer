@@ -1,9 +1,9 @@
 /*
-	WebPlotDigitizer - https://automeris.io/WebPlotDigitizer
+        WebPlotDigitizer - https://automeris.io/WebPlotDigitizer
 
-	Copyright 2010-2019 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+        Copyright 2010-2019 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
-	This file is part of WebPlotDigitizer.
+        This file is part of WebPlotDigitizer.
 
     WebPlotDigitizer is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as published by
@@ -21,7 +21,6 @@
 
 */
 
-
 var wpd = wpd || {};
 
 wpd.UndoManager = class {
@@ -30,9 +29,7 @@ wpd.UndoManager = class {
         this._actionIndex = 0;
     }
 
-    canUndo() {
-        return this._actionIndex > 0 && this._actions.length >= this._actionIndex;
-    }
+    canUndo() { return this._actionIndex > 0 && this._actions.length >= this._actionIndex; }
 
     undo() {
         if (!this.canUndo()) {
@@ -44,9 +41,7 @@ wpd.UndoManager = class {
         this.updateUI();
     }
 
-    canRedo() {
-        return this._actions.length > this._actionIndex;
-    }
+    canRedo() { return this._actions.length > this._actionIndex; }
 
     redo() {
         if (!this.canRedo()) {
@@ -89,7 +84,7 @@ wpd.UndoManager = class {
             $undo.disabled = true;
         }
 
-        if(this.canRedo()) {
+        if (this.canRedo()) {
             $redo.disabled = false;
         } else {
             $redo.disabled = true;

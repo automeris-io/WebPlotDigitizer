@@ -1,9 +1,9 @@
 /*
-	WebPlotDigitizer - https://automeris.io/WebPlotDigitizer
+        WebPlotDigitizer - https://automeris.io/WebPlotDigitizer
 
-	Copyright 2010-2019 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+        Copyright 2010-2019 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
-	This file is part of WebPlotDigitizer.
+        This file is part of WebPlotDigitizer.
 
     WebPlotDigitizer is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as published by
@@ -32,9 +32,7 @@ wpd.AxesCalibrator = class {
 
 wpd.XYAxesCalibrator = class extends wpd.AxesCalibrator {
 
-    start() {        
-        wpd.popup.show('xyAxesInfo');
-    }
+    start() { wpd.popup.show('xyAxesInfo'); }
 
     reload() {
         let tool = new wpd.AxesCornersTool(this._calibration, true);
@@ -47,12 +45,12 @@ wpd.XYAxesCalibrator = class extends wpd.AxesCalibrator {
         wpd.graphicsWidget.setTool(tool);
     }
 
-    getCornerValues() {        
+    getCornerValues() {
         wpd.popup.show('xyAlignment');
-        if(this._isEditing) {
+        if (this._isEditing) {
             let axes = wpd.tree.getActiveAxes();
             let prevCal = axes.calibration;
-            if(prevCal.getCount() == 4) {
+            if (prevCal.getCount() == 4) {
                 document.getElementById('xmin').value = prevCal.getPoint(0).dx;
                 document.getElementById('xmax').value = prevCal.getPoint(1).dx;
                 document.getElementById('ymin').value = prevCal.getPoint(2).dy;
@@ -65,44 +63,47 @@ wpd.XYAxesCalibrator = class extends wpd.AxesCalibrator {
 
     align() {
         let xmin = document.getElementById('xmin').value;
-	    let xmax = document.getElementById('xmax').value;
-	    let ymin = document.getElementById('ymin').value;
-	    let ymax = document.getElementById('ymax').value;
-	    let xlog = document.getElementById('xlog').checked;
-        let ylog = document.getElementById('ylog').checked;            
+        let xmax = document.getElementById('xmax').value;
+        let ymin = document.getElementById('ymin').value;
+        let ymax = document.getElementById('ymax').value;
+        let xlog = document.getElementById('xlog').checked;
+        let ylog = document.getElementById('ylog').checked;
         let axes = this._isEditing ? wpd.tree.getActiveAxes() : new wpd.XYAxes();
-                
+
         // validate log scale values
-        if((xlog && (parseFloat(xmin) == 0 || parseFloat(xmax) == 0)) || (ylog && (parseFloat(ymin) == 0 || parseFloat(ymax) == 0))) {
+        if ((xlog && (parseFloat(xmin) == 0 || parseFloat(xmax) == 0)) ||
+            (ylog && (parseFloat(ymin) == 0 || parseFloat(ymax) == 0))) {
             wpd.popup.close('xyAlignment');
-            wpd.messagePopup.show(wpd.gettext('calibration-invalid-log-inputs'), wpd.gettext('calibration-enter-valid-log'), wpd.alignAxes.getCornerValues);
-            return false;            
+            wpd.messagePopup.show(wpd.gettext('calibration-invalid-log-inputs'),
+                                  wpd.gettext('calibration-enter-valid-log'),
+                                  wpd.alignAxes.getCornerValues);
+            return false;
         }
 
         this._calibration.setDataAt(0, xmin, ymin);
         this._calibration.setDataAt(1, xmax, ymin);
         this._calibration.setDataAt(2, xmin, ymin);
         this._calibration.setDataAt(3, xmax, ymax);
-        if(!axes.calibrate(this._calibration, xlog, ylog)) {
+        if (!axes.calibrate(this._calibration, xlog, ylog)) {
             wpd.popup.close('xyAlignment');
-            wpd.messagePopup.show(wpd.gettext('calibration-invalid-inputs'), wpd.gettext('calibration-enter-valid'), wpd.alignAxes.getCornerValues);
+            wpd.messagePopup.show(wpd.gettext('calibration-invalid-inputs'),
+                                  wpd.gettext('calibration-enter-valid'),
+                                  wpd.alignAxes.getCornerValues);
             return false;
         }
 
-        if(!this._isEditing) {
+        if (!this._isEditing) {
             axes.name = wpd.alignAxes.makeAxesName(wpd.XYAxes);
             let plot = wpd.appData.getPlotData();
             plot.addAxes(axes);
-        }                
+        }
         wpd.popup.close('xyAlignment');
         return true;
     }
 };
 
 wpd.BarAxesCalibrator = class extends wpd.AxesCalibrator {
-    start() {        
-        wpd.popup.show('barAxesInfo');
-    }
+    start() { wpd.popup.show('barAxesInfo'); }
     reload() {
         let tool = new wpd.AxesCornersTool(this._calibration, true);
         wpd.graphicsWidget.setTool(tool);
@@ -114,10 +115,10 @@ wpd.BarAxesCalibrator = class extends wpd.AxesCalibrator {
     }
     getCornerValues() {
         wpd.popup.show('barAlignment');
-        if(this._isEditing) {
+        if (this._isEditing) {
             let axes = wpd.tree.getActiveAxes();
             let prevCal = axes.calibration;
-            if(prevCal.getCount() == 2) {
+            if (prevCal.getCount() == 2) {
                 document.getElementById('bar-axes-p1').value = prevCal.getPoint(0).dy;
                 document.getElementById('bar-axes-p2').value = prevCal.getPoint(1).dy;
                 document.getElementById('bar-axes-log-scale').checked = axes.isLog();
@@ -134,26 +135,26 @@ wpd.BarAxesCalibrator = class extends wpd.AxesCalibrator {
 
         this._calibration.setDataAt(0, 0, p1);
         this._calibration.setDataAt(1, 0, p2);
-        if(!axes.calibrate(this._calibration, isLogScale, isRotated)) {
+        if (!axes.calibrate(this._calibration, isLogScale, isRotated)) {
             wpd.popup.close('barAlignment');
-            wpd.messagePopup.show(wpd.gettext('calibration-invalid-inputs'), wpd.gettext('calibration-enter-valid'), wpd.alignAxes.getCornerValues);
+            wpd.messagePopup.show(wpd.gettext('calibration-invalid-inputs'),
+                                  wpd.gettext('calibration-enter-valid'),
+                                  wpd.alignAxes.getCornerValues);
             return false;
         }
-        if(!this._isEditing) {
+        if (!this._isEditing) {
             axes.name = wpd.alignAxes.makeAxesName(wpd.BarAxes);
             let plot = wpd.appData.getPlotData();
-            plot.addAxes(axes);   
-        }     
+            plot.addAxes(axes);
+        }
         wpd.popup.close('barAlignment');
         return true;
     }
 };
 
 wpd.PolarAxesCalibrator = class extends wpd.AxesCalibrator {
-    
-    start() {        
-        wpd.popup.show('polarAxesInfo');
-    }
+
+    start() { wpd.popup.show('polarAxesInfo'); }
     reload() {
         let tool = new wpd.AxesCornersTool(this._calibration, true);
         wpd.graphicsWidget.setTool(tool);
@@ -166,10 +167,10 @@ wpd.PolarAxesCalibrator = class extends wpd.AxesCalibrator {
 
     getCornerValues() {
         wpd.popup.show('polarAlignment');
-        if(this._isEditing) {
+        if (this._isEditing) {
             let axes = wpd.tree.getActiveAxes();
             let prevCal = axes.calibration;
-            if(prevCal.getCount() == 3) {
+            if (prevCal.getCount() == 3) {
                 document.getElementById('polar-r1').value = prevCal.getPoint(1).dx;
                 document.getElementById('polar-theta1').value = prevCal.getPoint(1).dy;
                 document.getElementById('polar-r2').value = prevCal.getPoint(2).dx;
@@ -187,7 +188,7 @@ wpd.PolarAxesCalibrator = class extends wpd.AxesCalibrator {
         let theta1 = parseFloat(document.getElementById('polar-theta1').value);
         let r2 = parseFloat(document.getElementById('polar-r2').value);
         let theta2 = parseFloat(document.getElementById('polar-theta2').value);
-        let degrees = document.getElementById('polar-degrees').checked;    
+        let degrees = document.getElementById('polar-degrees').checked;
         let orientation = document.getElementById('polar-clockwise').checked;
         let rlog = document.getElementById('polar-log-scale').checked;
         let axes = this._isEditing ? wpd.tree.getActiveAxes() : new wpd.PolarAxes();
@@ -196,21 +197,19 @@ wpd.PolarAxesCalibrator = class extends wpd.AxesCalibrator {
         this._calibration.setDataAt(1, r1, theta1);
         this._calibration.setDataAt(2, r2, theta2);
         axes.calibrate(this._calibration, isDegrees, orientation, rlog);
-        if(!this._isEditing) {
+        if (!this._isEditing) {
             axes.name = wpd.alignAxes.makeAxesName(wpd.PolarAxes);
             let plot = wpd.appData.getPlotData();
-            plot.addAxes(axes);   
-        }     
+            plot.addAxes(axes);
+        }
         wpd.popup.close('polarAlignment');
         return true;
     }
 };
-        
+
 wpd.TernaryAxesCalibrator = class extends wpd.AxesCalibrator {
 
-    start() {        
-        wpd.popup.show('ternaryAxesInfo');
-    }
+    start() { wpd.popup.show('ternaryAxesInfo'); }
 
     reload() {
         let tool = new wpd.AxesCornersTool(this._calibration, true);
@@ -226,10 +225,10 @@ wpd.TernaryAxesCalibrator = class extends wpd.AxesCalibrator {
     getCornerValues() {
         wpd.popup.show('ternaryAlignment');
 
-        if(this._isEditing) {
-            let axes = wpd.tree.getActiveAxes();            
-            if(prevCal.getCount() == 3) {
-                document.getElementById('range0to1').checked = !axes.isRange100();                
+        if (this._isEditing) {
+            let axes = wpd.tree.getActiveAxes();
+            if (prevCal.getCount() == 3) {
+                document.getElementById('range0to1').checked = !axes.isRange100();
                 document.getElementById('range0to100').checked = axes.isRange100();
                 document.getElementById('ternarynormal').checked = axes.isNormalOrientation();
             }
@@ -242,7 +241,7 @@ wpd.TernaryAxesCalibrator = class extends wpd.AxesCalibrator {
         let axes = this._isEditing ? wpd.tree.getActiveAxes() : new wpd.TernaryAxes();
 
         axes.calibrate(this._calibration, range100, ternaryNormal);
-        if(!this._isEditing) {
+        if (!this._isEditing) {
             axes.name = wpd.alignAxes.makeAxesName(wpd.TernaryAxes);
             let plot = wpd.appData.getPlotData();
             plot.addAxes(axes);
@@ -251,12 +250,10 @@ wpd.TernaryAxesCalibrator = class extends wpd.AxesCalibrator {
         return true;
     }
 };
-        
+
 wpd.MapAxesCalibrator = class extends wpd.AxesCalibrator {
 
-    start() {        
-        wpd.popup.show('mapAxesInfo');
-    }
+    start() { wpd.popup.show('mapAxesInfo'); }
     reload() {
         let tool = new wpd.AxesCornersTool(this._calibration, true);
         wpd.graphicsWidget.setTool(tool);
@@ -268,9 +265,9 @@ wpd.MapAxesCalibrator = class extends wpd.AxesCalibrator {
     }
     getCornerValues() {
         wpd.popup.show('mapAlignment');
-        if(this._isEditing) {
-            let axes = wpd.tree.getActiveAxes();            
-            if(prevCal.getCount() == 2) {
+        if (this._isEditing) {
+            let axes = wpd.tree.getActiveAxes();
+            if (prevCal.getCount() == 2) {
                 document.getElementById('scaleLength').checked = axes.getScaleLength();
                 document.getElementById('scaleUnits').checked = axes.getUnits();
             }
@@ -282,21 +279,20 @@ wpd.MapAxesCalibrator = class extends wpd.AxesCalibrator {
         let axes = this._isEditing ? wpd.tree.getActiveAxes() : new wpd.MapAxes();
 
         axes.calibrate(this._calibration, scaleLength, scaleUnits);
-        if(!this._isEditing) {
+        if (!this._isEditing) {
             axes.name = wpd.alignAxes.makeAxesName(wpd.MapAxes);
             let plot = wpd.appData.getPlotData();
             plot.addAxes(axes);
-        }      
+        }
         wpd.popup.close('mapAlignment');
         return true;
     }
 };
 
-wpd.alignAxes = (function () {
-    
+wpd.alignAxes = (function() {
     let calibration = null;
     let calibrator = null;
-    
+
     function initiatePlotAlignment() {
         let xyEl = document.getElementById('r_xy');
         let polarEl = document.getElementById('r_polar');
@@ -309,118 +305,111 @@ wpd.alignAxes = (function () {
 
         if (xyEl.checked === true) {
             calibration = new wpd.Calibration(2);
-            calibration.labels = ['X1', 'X2', 'Y1', 'Y2'];
-            calibration.labelPositions = ['N', 'N', 'E', 'E'];
+            calibration.labels = [ 'X1', 'X2', 'Y1', 'Y2' ];
+            calibration.labelPositions = [ 'N', 'N', 'E', 'E' ];
             calibration.maxPointCount = 4;
             calibrator = new wpd.XYAxesCalibrator(calibration);
-        } else if(barEl.checked === true) {
+        } else if (barEl.checked === true) {
             calibration = new wpd.Calibration(2);
-            calibration.labels = ['P1', 'P2'];
-            calibration.labelPositions = ['S', 'S'];
+            calibration.labels = [ 'P1', 'P2' ];
+            calibration.labelPositions = [ 'S', 'S' ];
             calibration.maxPointCount = 2;
             calibrator = new wpd.BarAxesCalibrator(calibration);
-        } else if(polarEl.checked === true) {
+        } else if (polarEl.checked === true) {
             calibration = new wpd.Calibration(2);
-            calibration.labels = ['Origin', 'P1', 'P2'];
-            calibration.labelPositions = ['E', 'S', 'S'];
+            calibration.labels = [ 'Origin', 'P1', 'P2' ];
+            calibration.labelPositions = [ 'E', 'S', 'S' ];
             calibration.maxPointCount = 3;
             calibrator = new wpd.PolarAxesCalibrator(calibration);
-        } else if(ternaryEl.checked === true) {
+        } else if (ternaryEl.checked === true) {
             calibration = new wpd.Calibration(2);
-            calibration.labels = ['A', 'B', 'C'];
-            calibration.labelPositions = ['S', 'S', 'E'];
+            calibration.labels = [ 'A', 'B', 'C' ];
+            calibration.labelPositions = [ 'S', 'S', 'E' ];
             calibration.maxPointCount = 3;
             calibrator = new wpd.TernaryAxesCalibrator(calibration);
-        } else if(mapEl.checked === true) {
+        } else if (mapEl.checked === true) {
             calibration = new wpd.Calibration(2);
-            calibration.labels = ['P1', 'P2'];
-            calibration.labelPositions = ['S', 'S'];
+            calibration.labels = [ 'P1', 'P2' ];
+            calibration.labelPositions = [ 'S', 'S' ];
             calibration.maxPointCount = 2;
             calibrator = new wpd.MapAxesCalibrator(calibration);
-        } else if(imageEl.checked === true) {
+        } else if (imageEl.checked === true) {
             calibration = null;
             calibrator = null;
-            var imageAxes = new wpd.ImageAxes();            
+            var imageAxes = new wpd.ImageAxes();
             imageAxes.name = wpd.alignAxes.makeAxesName(wpd.ImageAxes);
             imageAxes.calibrate();
             wpd.appData.getPlotData().addAxes(imageAxes);
             wpd.tree.refresh();
             let dsNameColl = wpd.appData.getPlotData().getDatasetNames();
-            if(dsNameColl.length > 0) {
+            if (dsNameColl.length > 0) {
                 let dsName = dsNameColl[0];
-                wpd.tree.selectPath("/"+ wpd.gettext("datasets") +"/" + dsName, true);
+                wpd.tree.selectPath("/" + wpd.gettext("datasets") + "/" + dsName, true);
             }
             wpd.acquireData.load();
         }
 
-        if(calibrator != null) {
+        if (calibrator != null) {
             calibrator.start();
             wpd.graphicsWidget.setRepainter(new wpd.AlignmentCornersRepainter(calibration));
         }
     }
 
-    function calibrationCompleted() {
-        wpd.sidebar.show('axes-calibration-sidebar');
-    }
+    function calibrationCompleted() { wpd.sidebar.show('axes-calibration-sidebar'); }
 
-    function zoomCalPoint(i){
+    function zoomCalPoint(i) {
         var point = calibration.getPoint(i);
         wpd.graphicsWidget.updateZoomToImagePosn(point.px, point.py);
     }
 
-    function getCornerValues() {
-        calibrator.getCornerValues();
-    }
+    function getCornerValues() { calibrator.getCornerValues(); }
 
-    function pickCorners() {
-        calibrator.pickCorners();
-    }
+    function pickCorners() { calibrator.pickCorners(); }
 
     function align() {
         wpd.graphicsWidget.removeTool();
         wpd.graphicsWidget.removeRepainter();
         wpd.graphicsWidget.resetData();
-        if(!calibrator.align()) {
+        if (!calibrator.align()) {
             return;
-        }        
+        }
         wpd.tree.refresh();
         let dsNameColl = wpd.appData.getPlotData().getDatasetNames();
-        if(dsNameColl.length > 0) {
+        if (dsNameColl.length > 0) {
             let dsName = dsNameColl[0];
-            wpd.tree.selectPath("/"+wpd.gettext("datasets")+"/"+dsName);
-        }        
+            wpd.tree.selectPath("/" + wpd.gettext("datasets") + "/" + dsName);
+        }
     }
 
     function editAlignment() {
         let hasAlignment = wpd.appData.isAligned() && calibrator != null;
-        if(hasAlignment) {
+        if (hasAlignment) {
             wpd.popup.show('edit-or-reset-calibration-popup');
         } else {
             wpd.popup.show('axesList');
         }
     }
 
-    function addCalibration() {
-        wpd.popup.show("axesList");
-    }
+    function addCalibration() { wpd.popup.show("axesList"); }
 
     function reloadCalibrationForEditing() {
         wpd.popup.close('edit-or-reset-calibration-popup');
         calibrator = null;
         const axes = wpd.tree.getActiveAxes();
         calibration = axes.calibration;
-        if(axes instanceof wpd.XYAxes) {
+        if (axes instanceof wpd.XYAxes) {
             calibrator = new wpd.XYAxesCalibrator(calibration, true);
-        } else if(axes instanceof wpd.BarAxes) {
+        } else if (axes instanceof wpd.BarAxes) {
             calibrator = new wpd.BarAxesCalibrator(calibration, true);
-        } else if(axes instanceof wpd.PolarAxes) {
+        } else if (axes instanceof wpd.PolarAxes) {
             calibrator = new wpd.PolarAxesCalibrator(calibration, true);
-        } else if(axes instanceof wpd.TernaryAxes) {
+        } else if (axes instanceof wpd.TernaryAxes) {
             calibrator = new wpd.TernaryAxesCalibrator(calibration, true);
-        } else if(axes instanceof wpd.MapAxes) {
+        } else if (axes instanceof wpd.MapAxes) {
             calibrator = new wpd.MapAxesCalibrator(calibration, true);
         }
-        if(calibrator == null) return;        
+        if (calibrator == null)
+            return;
         calibrator.reload();
         wpd.graphicsWidget.setRepainter(new wpd.AlignmentCornersRepainter(calibration));
         wpd.graphicsWidget.forceHandlerRepaint();
@@ -428,40 +417,42 @@ wpd.alignAxes = (function () {
     }
 
     function deleteCalibration() {
-        wpd.okCancelPopup.show(wpd.gettext("delete-axes"), wpd.gettext("delete-axes-text"), function() {
-            const plotData = wpd.appData.getPlotData();
-            const axes = wpd.tree.getActiveAxes();
-            plotData.deleteAxes(axes);
-            wpd.tree.refresh();
-            wpd.tree.selectPath("/"+wpd.gettext("axes"));
-        });
+        wpd.okCancelPopup.show(wpd.gettext("delete-axes"), wpd.gettext("delete-axes-text"),
+                               function() {
+                                   const plotData = wpd.appData.getPlotData();
+                                   const axes = wpd.tree.getActiveAxes();
+                                   plotData.deleteAxes(axes);
+                                   wpd.tree.refresh();
+                                   wpd.tree.selectPath("/" + wpd.gettext("axes"));
+                               });
     }
 
     function showRenameAxes() {
-        const axes = wpd.tree.getActiveAxes();        
+        const axes = wpd.tree.getActiveAxes();
         const $axName = document.getElementById("rename-axes-name-input");
         $axName.value = axes.name;
         wpd.popup.show('rename-axes-popup');
     }
 
-    function renameAxes() {        
+    function renameAxes() {
         const $axName = document.getElementById("rename-axes-name-input");
-        wpd.popup.close('rename-axes-popup');        
+        wpd.popup.close('rename-axes-popup');
         // check if this name already exists
         const name = $axName.value.trim();
-        const plotData = wpd.appData.getPlotData();        
-        if(plotData.getAxesNames().indexOf(name) >= 0 || name.length === 0) {
-            wpd.messagePopup.show(wpd.gettext("rename-axes-error"), wpd.gettext("axes-exists-error"), showRenameAxes);
+        const plotData = wpd.appData.getPlotData();
+        if (plotData.getAxesNames().indexOf(name) >= 0 || name.length === 0) {
+            wpd.messagePopup.show(wpd.gettext("rename-axes-error"),
+                                  wpd.gettext("axes-exists-error"), showRenameAxes);
             return;
-        }        
+        }
         const axes = wpd.tree.getActiveAxes();
         axes.name = name;
         wpd.tree.refresh();
-        wpd.tree.selectPath("/"+wpd.gettext("axes")+"/"+name, true);
+        wpd.tree.selectPath("/" + wpd.gettext("axes") + "/" + name, true);
     }
 
     function renameKeypress(e) {
-        if(e.key === "Enter") {
+        if (e.key === "Enter") {
             renameAxes();
         }
     }
@@ -470,23 +461,23 @@ wpd.alignAxes = (function () {
         const plotData = wpd.appData.getPlotData();
         let name = "";
         const existingAxesNames = plotData.getAxesNames();
-        if(axType === wpd.XYAxes) {
+        if (axType === wpd.XYAxes) {
             name = wpd.gettext("axes-name-xy");
-        } else if(axType === wpd.PolarAxes) {
+        } else if (axType === wpd.PolarAxes) {
             name = wpd.gettext("axes-name-polar");
-        } else if(axType === wpd.MapAxes) {
+        } else if (axType === wpd.MapAxes) {
             name = wpd.gettext("axes-name-map");
-        } else if(axType === wpd.TernaryAxes) {
+        } else if (axType === wpd.TernaryAxes) {
             name = wpd.gettext("axes-name-ternary");
-        } else if(axType === wpd.BarAxes) {
+        } else if (axType === wpd.BarAxes) {
             name = wpd.gettext("axes-name-bar");
-        } else if(axType === wpd.ImageAxes) {
+        } else if (axType === wpd.ImageAxes) {
             name = wpd.gettext("axes-name-image");
         }
         // avoid conflict with an existing name
         let idx = 2;
         let fullName = name;
-        while(existingAxesNames.indexOf(fullName) >= 0) {
+        while (existingAxesNames.indexOf(fullName) >= 0) {
             fullName = name + " " + idx;
             idx++;
         }
@@ -494,20 +485,19 @@ wpd.alignAxes = (function () {
     }
 
     return {
-        start: initiatePlotAlignment,
-        calibrationCompleted: calibrationCompleted,
-        zoomCalPoint: zoomCalPoint,
-        getCornerValues: getCornerValues,
-        pickCorners: pickCorners,
-        align: align,        
-        editAlignment: editAlignment,
-        reloadCalibrationForEditing: reloadCalibrationForEditing,
-        addCalibration: addCalibration,
-        deleteCalibration: deleteCalibration,
-        showRenameAxes: showRenameAxes,
-        makeAxesName: makeAxesName,
-        renameAxes: renameAxes,
-        renameKeypress: renameKeypress 
+        start : initiatePlotAlignment,
+        calibrationCompleted : calibrationCompleted,
+        zoomCalPoint : zoomCalPoint,
+        getCornerValues : getCornerValues,
+        pickCorners : pickCorners,
+        align : align,
+        editAlignment : editAlignment,
+        reloadCalibrationForEditing : reloadCalibrationForEditing,
+        addCalibration : addCalibration,
+        deleteCalibration : deleteCalibration,
+        showRenameAxes : showRenameAxes,
+        makeAxesName : makeAxesName,
+        renameAxes : renameAxes,
+        renameKeypress : renameKeypress
     };
-
 })();

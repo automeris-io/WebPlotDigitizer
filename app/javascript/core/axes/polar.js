@@ -1,9 +1,9 @@
 /*
-	WebPlotDigitizer - https://automeris.io/WebPlotDigitizer
+        WebPlotDigitizer - https://automeris.io/WebPlotDigitizer
 
-	Copyright 2010-2019 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+        Copyright 2010-2019 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
-	This file is part of WebPlotDigitizer.
+        This file is part of WebPlotDigitizer.
 
     WebPlotDIgitizer is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as published by
@@ -23,116 +23,102 @@
 
 var wpd = wpd || {};
 
-wpd.PolarAxes = (function () {
-    var AxesObj = function () {
-        var isCalibrated = false,
-            isDegrees = false,
-            isClockwise = false,
-            isLog = false,
+wpd.PolarAxes = (function() {
+    var AxesObj = function() {
+        var isCalibrated = false, isDegrees = false, isClockwise = false, isLog = false,
 
-            x0, y0, x1, y1, x2, y2, r1, theta1, r2, theta2,
-            dist10, dist20, dist12, phi0, alpha0;
+            x0, y0, x1, y1, x2, y2, r1, theta1, r2, theta2, dist10, dist20, dist12, phi0, alpha0;
 
-            processCalibration = function(cal, is_degrees, is_clockwise, is_log_r) {  
-                var cp0 = cal.getPoint(0),
-                    cp1 = cal.getPoint(1),
-                    cp2 = cal.getPoint(2);
-                x0 = cp0.px;
-                y0 = cp0.py;
-                x1 = cp1.px;
-                y1 = cp1.py;
-                x2 = cp2.px;
-                y2 = cp2.py;
+        processCalibration = function(cal, is_degrees, is_clockwise, is_log_r) {
+            var cp0 = cal.getPoint(0), cp1 = cal.getPoint(1), cp2 = cal.getPoint(2);
+            x0 = cp0.px;
+            y0 = cp0.py;
+            x1 = cp1.px;
+            y1 = cp1.py;
+            x2 = cp2.px;
+            y2 = cp2.py;
 
-                r1 = cp1.dx;
-                theta1 = cp1.dy;
-                
-                r2 = cp2.dx;
-                theta2 = cp2.dy;
+            r1 = cp1.dx;
+            theta1 = cp1.dy;
 
-                isDegrees = is_degrees;
-                isClockwise = is_clockwise;
-                
-                if (isDegrees === true) {// if degrees
-    		        theta1 = (Math.PI/180.0)*theta1;
-        			theta2 = (Math.PI/180.0)*theta2;
-		        }
-		    	
-                if(is_log_r) {
-                    isLog = true;
-                    r1 = Math.log(r1)/Math.log(10);
-                    r2 = Math.log(r2)/Math.log(10);
-                }
-                		    
-		        // Distance between 1 and 0.
-		        dist10 = Math.sqrt((x1-x0)*(x1-x0) + (y1-y0)*(y1-y0)); 
-		    
-		        // Distance between 2 and 0
-		        dist20 = Math.sqrt((x2-x0)*(x2-x0) + (y2-y0)*(y2-y0)); 
-		    
-		        // Radial Distance between 1 and 2.
-		        dist12 = dist20 - dist10;
-		    
-		        phi0 = wpd.taninverse(-(y1-y0),x1-x0);
-                
-                if(isClockwise) {
-                    alpha0 = phi0 + theta1;
-                } else {
-		            alpha0 = phi0 - theta1;
-                }
+            r2 = cp2.dx;
+            theta2 = cp2.dy;
 
-                return true;
-            };
+            isDegrees = is_degrees;
+            isClockwise = is_clockwise;
+
+            if (isDegrees === true) { // if degrees
+                theta1 = (Math.PI / 180.0) * theta1;
+                theta2 = (Math.PI / 180.0) * theta2;
+            }
+
+            if (is_log_r) {
+                isLog = true;
+                r1 = Math.log(r1) / Math.log(10);
+                r2 = Math.log(r2) / Math.log(10);
+            }
+
+            // Distance between 1 and 0.
+            dist10 = Math.sqrt((x1 - x0) * (x1 - x0) + (y1 - y0) * (y1 - y0));
+
+            // Distance between 2 and 0
+            dist20 = Math.sqrt((x2 - x0) * (x2 - x0) + (y2 - y0) * (y2 - y0));
+
+            // Radial Distance between 1 and 2.
+            dist12 = dist20 - dist10;
+
+            phi0 = wpd.taninverse(-(y1 - y0), x1 - x0);
+
+            if (isClockwise) {
+                alpha0 = phi0 + theta1;
+            } else {
+                alpha0 = phi0 - theta1;
+            }
+
+            return true;
+        };
 
         this.calibration = null;
 
-        this.isCalibrated = function() {
-            return isCalibrated;
-        };
+        this.isCalibrated = function() { return isCalibrated; };
 
-        this.calibrate = function (calib, is_degrees, is_clockwise, is_log_r) {
+        this.calibrate = function(calib, is_degrees, is_clockwise, is_log_r) {
             this.calibration = calib;
             isCalibrated = processCalibration(calib, is_degrees, is_clockwise, is_log_r);
             return isCalibrated;
         };
 
-        this.isThetaDegrees = function () {
-            return isDegrees;
-        };
+        this.isThetaDegrees = function() { return isDegrees; };
 
-        this.isThetaClockwise = function () {
-            return isClockwise;
-        };
+        this.isThetaClockwise = function() { return isClockwise; };
 
-        this.isRadialLog = function() {
-            return isLog;
-        };
+        this.isRadialLog = function() { return isLog; };
 
         this.pixelToData = function(pxi, pyi) {
-            var data = [],
-                rp,
-                thetap;
+            var data = [], rp, thetap;
 
             xp = parseFloat(pxi);
             yp = parseFloat(pyi);
 
-            rp = ((r2-r1)/dist12)*(Math.sqrt((xp-x0)*(xp-x0)+(yp-y0)*(yp-y0))-dist10) + r1;
-			
-            if(isClockwise) {
-                thetap = alpha0 - wpd.taninverse(-(yp-y0), xp-x0);
+            rp = ((r2 - r1) / dist12) *
+                     (Math.sqrt((xp - x0) * (xp - x0) + (yp - y0) * (yp - y0)) - dist10) +
+                 r1;
+
+            if (isClockwise) {
+                thetap = alpha0 - wpd.taninverse(-(yp - y0), xp - x0);
             } else {
-                thetap = wpd.taninverse(-(yp-y0),xp-x0) - alpha0;
+                thetap = wpd.taninverse(-(yp - y0), xp - x0) - alpha0;
             }
 
-            if(thetap < 0) {
-                thetap = thetap + 2*Math.PI;
-            }
-			
-		    if(isDegrees === true) {
-		        thetap = 180.0*thetap/Math.PI;
+            if (thetap < 0) {
+                thetap = thetap + 2 * Math.PI;
             }
 
-            if(isLog) {
+            if (isDegrees === true) {
+                thetap = 180.0 * thetap / Math.PI;
+            }
+
+            if (isLog) {
                 rp = Math.pow(10, rp);
             }
 
@@ -142,54 +128,43 @@ wpd.PolarAxes = (function () {
             return data;
         };
 
-        this.dataToPixel = function(r, theta) {
-            return {
-                x: 0,
-                y: 0
-            };
-        };
+        this.dataToPixel = function(r, theta) { return {x : 0, y : 0}; };
 
-        this.pixelToLiveString = function (pxi, pyi) {
+        this.pixelToLiveString = function(pxi, pyi) {
             var dataVal = this.pixelToData(pxi, pyi);
             return dataVal[0].toExponential(4) + ', ' + dataVal[1].toExponential(4);
         };
 
-        this.getTransformationEquations = function () {
-            var rEqn = 'r = (' + (r2 - r1)/dist12 + ')*sqrt((x_pixel - ' + x0 + ')^2 + (y_pixel - ' + y0 + ')^2) + ('
-                        + (r1-dist10*(r2-r1)/dist12) + ')',
+        this.getTransformationEquations = function() {
+            var rEqn = 'r = (' + (r2 - r1) / dist12 + ')*sqrt((x_pixel - ' + x0 +
+                       ')^2 + (y_pixel - ' + y0 + ')^2) + (' + (r1 - dist10 * (r2 - r1) / dist12) +
+                       ')',
                 thetaEqn;
 
-            if(isClockwise) {
+            if (isClockwise) {
                 thetaEqn = alpha0 + '- atan2((' + y0 + ' - y_pixel), (x_pixel - ' + x0 + '))';
             } else {
-                thetaEqn = 'atan2((' + y0 + ' - y_pixel), (x_pixel - ' + x0 + ')) - (' + alpha0 + ')';
+                thetaEqn =
+                    'atan2((' + y0 + ' - y_pixel), (x_pixel - ' + x0 + ')) - (' + alpha0 + ')';
             }
 
-            if(isDegrees) {
+            if (isDegrees) {
                 thetaEqn = 'theta = (180/PI)*(' + thetaEqn + '), theta = theta + 360 if theta < 0';
             } else {
                 thetaEqn = 'theta = ' + thetaEqn + ' theta = theta + 2*PI if theta < 0';
             }
 
-            return {
-                pixelToData: [rEqn, thetaEqn]
-            };
+            return {pixelToData : [ rEqn, thetaEqn ]};
         };
 
         this.name = "Polar";
     };
 
-    AxesObj.prototype.numCalibrationPointsRequired = function() {
-        return 3;
-    };
+    AxesObj.prototype.numCalibrationPointsRequired = function() { return 3; };
 
-    AxesObj.prototype.getDimensions = function() {
-        return 2;
-    };    
-    
-    AxesObj.prototype.getAxesLabels = function() {
-        return ['r', 'θ'];
-    };
+    AxesObj.prototype.getDimensions = function() { return 2; };
+
+    AxesObj.prototype.getAxesLabels = function() { return [ 'r', 'θ' ]; };
 
     return AxesObj;
 })();

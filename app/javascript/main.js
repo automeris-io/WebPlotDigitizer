@@ -1,9 +1,9 @@
 /*
-	WebPlotDigitizer - https://automeris.io/WebPlotDigitizer
+        WebPlotDigitizer - https://automeris.io/WebPlotDigitizer
 
-	Copyright 2010-2019 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+        Copyright 2010-2019 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
-	This file is part of WebPlotDigitizer.
+        This file is part of WebPlotDigitizer.
 
     WebPlotDIgitizer is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as published by
@@ -23,17 +23,16 @@
 
 var wpd = wpd || {};
 
-wpd.initApp = function() {// This is run when the page loads.
-
+wpd.initApp = function() { // This is run when the page loads.
     wpd.browserInfo.checkBrowser();
-    
+
     /*
     if (wpd.browserInfo.isElectronBrowser()) {
         const {webFrame} = require('electron')
         webFrame.setZoomFactor(1.2)
     }
     */
-   
+
     wpd.layoutManager.initialLayout();
     wpd.imageManager.loadFromURL('start.png');
     wpd.log();
@@ -42,4 +41,3 @@ wpd.initApp = function() {// This is run when the page loads.
 };
 
 document.addEventListener("DOMContentLoaded", wpd.initApp, true);
-

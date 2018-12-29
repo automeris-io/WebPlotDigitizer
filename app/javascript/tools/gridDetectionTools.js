@@ -1,9 +1,9 @@
 /*
-	WebPlotDigitizer - https://automeris.io/WebPlotDigitizer
+        WebPlotDigitizer - https://automeris.io/WebPlotDigitizer
 
-	Copyright 2010-2019 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+        Copyright 2010-2019 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
-	This file is part of WebPlotDigitizer.
+        This file is part of WebPlotDigitizer.
 
     WebPlotDigitizer is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as published by
@@ -23,80 +23,83 @@
 
 var wpd = wpd || {};
 
-wpd.GridColorFilterRepainter = (function () {
-    var Painter = function () {
+wpd.GridColorFilterRepainter = (function() {
+    var Painter = function() {
         this.painterName = 'gridColorFilterRepainter';
 
-        this.onRedraw = function () {
+        this.onRedraw = function() {
             var autoDetector = wpd.appData.getPlotData().getGridDetectionData();
-            wpd.colorSelectionWidget.paintFilteredColor(autoDetector.binaryData, autoDetector.gridMask.pixels);
+            wpd.colorSelectionWidget.paintFilteredColor(autoDetector.binaryData,
+                                                        autoDetector.gridMask.pixels);
         };
-    }
-    return Painter;
+    } return Painter;
 })();
 
-
 // TODO: Think of reusing mask.js code here
-wpd.GridBoxTool = (function () {
-    var Tool = function () {
-        var isDrawing = false,
-            topImageCorner,
-            topScreenCorner,
-            ctx = wpd.graphicsWidget.getAllContexts(),
-            moveTimer,
-            screen_pos,
+wpd.GridBoxTool = (function() {
+    var Tool = function() {
+        var isDrawing = false, topImageCorner, topScreenCorner,
+            ctx = wpd.graphicsWidget.getAllContexts(), moveTimer, screen_pos,
 
-            mouseMoveHandler = function () {
+            mouseMoveHandler =
+                function() {
                 wpd.graphicsWidget.resetHover();
                 ctx.hoverCtx.strokeStyle = "rgb(0,0,0)";
-    		    ctx.hoverCtx.strokeRect(topScreenCorner.x, topScreenCorner.y, screen_pos.x - topScreenCorner.x, screen_pos.y - topScreenCorner.y);
+                ctx.hoverCtx.strokeRect(topScreenCorner.x, topScreenCorner.y,
+                                        screen_pos.x - topScreenCorner.x,
+                                        screen_pos.y - topScreenCorner.y);
             },
 
-            mouseUpHandler = function (ev, pos, imagePos) {
-                if(isDrawing === false) {
+            mouseUpHandler =
+                function(ev, pos, imagePos) {
+                if (isDrawing === false) {
                     return;
                 }
                 clearTimeout(moveTimer);
                 isDrawing = false;
                 wpd.graphicsWidget.resetHover();
                 ctx.dataCtx.fillStyle = "rgba(255,255,0,0.8)";
-                ctx.dataCtx.fillRect(topScreenCorner.x, topScreenCorner.y, pos.x-topScreenCorner.x, pos.y-topScreenCorner.y);
+                ctx.dataCtx.fillRect(topScreenCorner.x, topScreenCorner.y,
+                                     pos.x - topScreenCorner.x, pos.y - topScreenCorner.y);
                 ctx.oriDataCtx.fillStyle = "rgba(255,255,0,0.8)";
-                ctx.oriDataCtx.fillRect(topImageCorner.x, topImageCorner.y, imagePos.x - topImageCorner.x, imagePos.y - topImageCorner.y);
+                ctx.oriDataCtx.fillRect(topImageCorner.x, topImageCorner.y,
+                                        imagePos.x - topImageCorner.x,
+                                        imagePos.y - topImageCorner.y);
             },
 
-            mouseOutPos = null,
-            mouseOutImagePos = null;
+            mouseOutPos = null, mouseOutImagePos = null;
 
-        this.onAttach = function () {
+        this.onAttach = function() {
             wpd.graphicsWidget.setRepainter(new wpd.GridMaskPainter());
             document.getElementById('grid-mask-box').classList.add('pressed-button');
             document.getElementById('grid-mask-view').classList.add('pressed-button');
         };
 
-        this.onMouseDown = function (ev, pos, imagePos) {
-            if(isDrawing === true) return;
+        this.onMouseDown = function(ev, pos, imagePos) {
+            if (isDrawing === true)
+                return;
             isDrawing = true;
             topImageCorner = imagePos;
             topScreenCorner = pos;
         };
 
-        this.onMouseMove = function (ev, pos, imagePos) {
-            if(isDrawing === false) return;
+        this.onMouseMove = function(ev, pos, imagePos) {
+            if (isDrawing === false)
+                return;
             screen_pos = pos;
             clearTimeout(moveTimer);
             moveTimer = setTimeout(mouseMoveHandler, 2);
         };
 
-        this.onMouseOut = function (ev, pos, imagePos) {
-            if(isDrawing === true) {
+        this.onMouseOut = function(ev, pos, imagePos) {
+            if (isDrawing === true) {
                 clearTimeout(moveTimer);
                 mouseOutPos = pos;
                 mouseOutImagePos = imagePos;
             }
         };
 
-        this.onDocumentMouseUp = function (ev, pos, imagePos) {
+        this.onDocumentMouseUp = function(ev, pos, imagePos) {
             if (mouseOutPos != null && mouseOutImagePos != null) {
                 mouseUpHandler(ev, mouseOutPos, mouseOutImagePos);
             } else {
@@ -106,11 +109,9 @@ wpd.GridBoxTool = (function () {
             mouseOutImagePos = null;
         };
 
-        this.onMouseUp = function (ev, pos, imagePos) {
-            mouseUpHandler(ev, pos, imagePos);
-        };
+        this.onMouseUp = function(ev, pos, imagePos) { mouseUpHandler(ev, pos, imagePos); };
 
-        this.onRemove = function () {
+        this.onRemove = function() {
             document.getElementById('grid-mask-box').classList.remove('pressed-button');
             document.getElementById('grid-mask-view').classList.remove('pressed-button');
             wpd.gridDetection.grabMask();
@@ -119,16 +120,14 @@ wpd.GridBoxTool = (function () {
     return Tool;
 })();
 
-
-wpd.GridViewMaskTool = (function () {
+wpd.GridViewMaskTool = (function() {
     var Tool = function() {
-
-        this.onAttach = function () {
+        this.onAttach = function() {
             wpd.graphicsWidget.setRepainter(new wpd.GridMaskPainter());
             document.getElementById('grid-mask-view').classList.add('pressed-button');
         };
 
-        this.onRemove = function () {
+        this.onRemove = function() {
             document.getElementById('grid-mask-view').classList.remove('pressed-button');
             wpd.gridDetection.grabMask();
         };
@@ -137,25 +136,23 @@ wpd.GridViewMaskTool = (function () {
     return Tool;
 })();
 
-
-wpd.GridMaskPainter = (function () {
-    var Painter = function () {
-
+wpd.GridMaskPainter = (function() {
+    var Painter = function() {
         var ctx = wpd.graphicsWidget.getAllContexts(),
-            autoDetector = wpd.appData.getPlotData().getGridDetectionData(),
-            painter = function () {
-                if(autoDetector.gridMask.pixels == null || autoDetector.gridMask.pixels.size === 0) {
+            autoDetector = wpd.appData.getPlotData().getGridDetectionData(), painter = function() {
+                if (autoDetector.gridMask.pixels == null ||
+                    autoDetector.gridMask.pixels.size === 0) {
                     return;
                 }
-                
+
                 let imageSize = wpd.graphicsWidget.getImageSize();
                 let imgData = ctx.oriDataCtx.getImageData(0, 0, imageSize.width, imageSize.height);
 
-                for(let img_index of autoDetector.gridMask.pixels) {
-                    imgData.data[img_index*4] = 255;
-                    imgData.data[img_index*4+1] = 255;
-                    imgData.data[img_index*4+2] = 0;
-                    imgData.data[img_index*4+3] = 200;
+                for (let img_index of autoDetector.gridMask.pixels) {
+                    imgData.data[img_index * 4] = 255;
+                    imgData.data[img_index * 4 + 1] = 255;
+                    imgData.data[img_index * 4 + 2] = 0;
+                    imgData.data[img_index * 4 + 3] = 200;
                 }
 
                 ctx.oriDataCtx.putImageData(imgData, 0, 0);
@@ -164,12 +161,12 @@ wpd.GridMaskPainter = (function () {
 
         this.painterName = 'gridMaskPainter';
 
-        this.onRedraw = function () {
+        this.onRedraw = function() {
             wpd.gridDetection.grabMask();
             painter();
         };
 
-        this.onAttach = function () {
+        this.onAttach = function() {
             wpd.graphicsWidget.resetData();
             painter();
         };

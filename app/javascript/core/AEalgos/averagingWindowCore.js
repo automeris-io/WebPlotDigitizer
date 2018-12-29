@@ -24,7 +24,7 @@
 var wpd = wpd || {};
 
 wpd.AveragingWindowCore = class {
-    
+
     constructor(binaryData, imageHeight, imageWidth, dx, dy, dataSeries) {
         this._binaryData = binaryData;
         this._imageHeight = imageHeight;
@@ -35,18 +35,9 @@ wpd.AveragingWindowCore = class {
     }
 
     run() {
-        var xPoints = [],
-            xPointsPicked = 0,
-            pointsPicked = 0,
-            dw = this._imageWidth,
-            dh = this._imageHeight,
-            blobAvg = [],
-            coli, rowi,
-            firstbloby,
-            bi, blobs, blbi, xi, yi,
-            pi, inRange, xxi, oldX, oldY, avgX, avgY, newX, newY,
-            matches,
-            xStep = this._dx,
+        var xPoints = [], xPointsPicked = 0, pointsPicked = 0, dw = this._imageWidth,
+            dh = this._imageHeight, blobAvg = [], coli, rowi, firstbloby, bi, blobs, blbi, xi, yi,
+            pi, inRange, xxi, oldX, oldY, avgX, avgY, newX, newY, matches, xStep = this._dx,
             yStep = this._dy;
 
         this._dataSeries.clearAll();
@@ -54,13 +45,13 @@ wpd.AveragingWindowCore = class {
         for (coli = 0; coli < dw; coli++) {
 
             blobs = -1;
-            firstbloby = -2.0*yStep;
+            firstbloby = -2.0 * yStep;
             bi = 0;
 
             // Scan vertically for blobs:
 
             for (rowi = 0; rowi < dh; rowi++) {
-                if(this._binaryData.has(rowi*dw + coli)) {
+                if (this._binaryData.has(rowi * dw + coli)) {
                     if (rowi > firstbloby + yStep) {
                         blobs = blobs + 1;
                         bi = 1;
@@ -68,7 +59,8 @@ wpd.AveragingWindowCore = class {
                         firstbloby = rowi;
                     } else {
                         bi = bi + 1;
-                        blobAvg[blobs] = parseFloat((blobAvg[blobs]*(bi-1.0) + rowi)/parseFloat(bi));
+                        blobAvg[blobs] =
+                            parseFloat((blobAvg[blobs] * (bi - 1.0) + rowi) / parseFloat(bi));
                     }
                 }
             }
@@ -76,26 +68,27 @@ wpd.AveragingWindowCore = class {
             if (blobs >= 0) {
                 xi = coli + 0.5;
                 for (blbi = 0; blbi <= blobs; blbi++) {
-                    yi = blobAvg[blbi] + 0.5; // add 0.5 to shift to the middle of the pixels instead of the starting edge.
+                    yi = blobAvg[blbi] + 0.5; // add 0.5 to shift to the middle of the pixels
+                                              // instead of the starting edge.
 
                     xPoints[xPointsPicked] = [];
                     xPoints[xPointsPicked][0] = parseFloat(xi);
                     xPoints[xPointsPicked][1] = parseFloat(yi);
-                    xPoints[xPointsPicked][2] = true; // true if not filtered, false if processed already
+                    xPoints[xPointsPicked][2] =
+                        true; // true if not filtered, false if processed already
                     xPointsPicked = xPointsPicked + 1;
                 }
             }
-
         }
 
         if (xPointsPicked === 0) {
             return;
         }
 
-        for(pi = 0; pi < xPointsPicked; pi++) {
-            if(xPoints[pi][2] === true) {// if still available
+        for (pi = 0; pi < xPointsPicked; pi++) {
+            if (xPoints[pi][2] === true) { // if still available
                 inRange = true;
-                xxi = pi+1;
+                xxi = pi + 1;
 
                 oldX = xPoints[pi][0];
                 oldY = xPoints[pi][1];
@@ -105,31 +98,30 @@ wpd.AveragingWindowCore = class {
 
                 matches = 1;
 
-                while((inRange === true) && (xxi < xPointsPicked)) {
-                newX = xPoints[xxi][0];
-                newY = xPoints[xxi][1];
+                while ((inRange === true) && (xxi < xPointsPicked)) {
+                    newX = xPoints[xxi][0];
+                    newY = xPoints[xxi][1];
 
-                if( (Math.abs(newX-oldX) <= xStep) && (Math.abs(newY-oldY) <= yStep) && (xPoints[xxi][2] === true)) {
-                    avgX = (avgX*matches + newX)/(matches+1.0);
-                    avgY = (avgY*matches + newY)/(matches+1.0);
-                    matches = matches + 1;
-                    xPoints[xxi][2] = false;
-                }
+                    if ((Math.abs(newX - oldX) <= xStep) && (Math.abs(newY - oldY) <= yStep) &&
+                        (xPoints[xxi][2] === true)) {
+                        avgX = (avgX * matches + newX) / (matches + 1.0);
+                        avgY = (avgY * matches + newY) / (matches + 1.0);
+                        matches = matches + 1;
+                        xPoints[xxi][2] = false;
+                    }
 
-                if (newX > oldX + 2*xStep) {
-                    inRange = false;
-                }
+                    if (newX > oldX + 2 * xStep) {
+                        inRange = false;
+                    }
 
-                xxi = xxi + 1;
+                    xxi = xxi + 1;
                 }
 
                 xPoints[pi][2] = false;
 
                 pointsPicked = pointsPicked + 1;
                 this._dataSeries.addPixel(parseFloat(avgX), parseFloat(avgY));
-
             }
-
         }
         xPoints = [];
         return this._dataSeries;

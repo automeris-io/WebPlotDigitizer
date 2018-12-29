@@ -1,9 +1,9 @@
 /*
-	WebPlotDigitizer - https://automeris.io/WebPlotDigitizer
+        WebPlotDigitizer - https://automeris.io/WebPlotDigitizer
 
-	Copyright 2010-2019 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+        Copyright 2010-2019 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
-	This file is part of WebPlotDigitizer.
+        This file is part of WebPlotDigitizer.
 
     WebPlotDIgitizer is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as published by
@@ -23,34 +23,27 @@
 
 var wpd = wpd || {};
 
-wpd.gridDetectionCore = (function () {
-
+wpd.gridDetectionCore = (function() {
     var hasHorizontal, hasVertical, xFrac = 0.1, yFrac = 0.1;
 
     function run(autoDetector) {
-        var gridData = new Set(),
-            xi,
-            yi,            
-            xmin = autoDetector.gridMask.xmin,
-            xmax = autoDetector.gridMask.xmax,
-            ymin = autoDetector.gridMask.ymin,
-            ymax = autoDetector.gridMask.ymax,
-            dw = autoDetector.imageWidth,
-            dh = autoDetector.imageHeight,
-            linePixCount;
-        
+        var gridData = new Set(), xi, yi, xmin = autoDetector.gridMask.xmin,
+            xmax = autoDetector.gridMask.xmax, ymin = autoDetector.gridMask.ymin,
+            ymax = autoDetector.gridMask.ymax, dw = autoDetector.imageWidth,
+            dh = autoDetector.imageHeight, linePixCount;
+
         if (hasVertical) {
 
-            for(xi = xmin; xi <= xmax; xi++) {
+            for (xi = xmin; xi <= xmax; xi++) {
                 linePixCount = 0;
-                for(yi = ymin; yi < ymax; yi++) {
-                    if(autoDetector.binaryData.has(yi*dw + xi)) {
+                for (yi = ymin; yi < ymax; yi++) {
+                    if (autoDetector.binaryData.has(yi * dw + xi)) {
                         linePixCount++;
                     }
                 }
-                if(linePixCount > yFrac*(ymax-ymin)) {
-                    for(yi = ymin; yi < ymax; yi++) {
-                        gridData.add(yi*dw + xi);
+                if (linePixCount > yFrac * (ymax - ymin)) {
+                    for (yi = ymin; yi < ymax; yi++) {
+                        gridData.add(yi * dw + xi);
                     }
                 }
             }
@@ -58,20 +51,19 @@ wpd.gridDetectionCore = (function () {
 
         if (hasHorizontal) {
 
-            for(yi = ymin; yi <= ymax; yi++) {
+            for (yi = ymin; yi <= ymax; yi++) {
                 linePixCount = 0;
-                for(xi = xmin; xi <= xmax; xi++) {
-                    if(autoDetector.binaryData.has(yi*dw + xi)) {
+                for (xi = xmin; xi <= xmax; xi++) {
+                    if (autoDetector.binaryData.has(yi * dw + xi)) {
                         linePixCount++;
                     }
                 }
-                if(linePixCount > xFrac*(xmax-xmin)) {
-                    for(xi = xmin; xi <= xmax; xi++) {
-                        gridData.add(yi*dw + xi);
+                if (linePixCount > xFrac * (xmax - xmin)) {
+                    for (xi = xmin; xi <= xmax; xi++) {
+                        gridData.add(yi * dw + xi);
                     }
                 }
             }
-             
         }
 
         return gridData;
@@ -79,17 +71,17 @@ wpd.gridDetectionCore = (function () {
 
     function setHorizontalParameters(has_horizontal, y_perc) {
         hasHorizontal = has_horizontal;
-        yFrac = Math.abs(parseFloat(y_perc)/100.0);
+        yFrac = Math.abs(parseFloat(y_perc) / 100.0);
     }
 
     function setVerticalParameters(has_vertical, x_perc) {
         hasVertical = has_vertical;
-        xFrac = Math.abs(parseFloat(x_perc)/100.0);
+        xFrac = Math.abs(parseFloat(x_perc) / 100.0);
     }
 
     return {
-        run: run,
-        setHorizontalParameters: setHorizontalParameters,
-        setVerticalParameters: setVerticalParameters
+        run : run,
+        setHorizontalParameters : setHorizontalParameters,
+        setVerticalParameters : setVerticalParameters
     };
 })();

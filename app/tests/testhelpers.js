@@ -2,22 +2,18 @@ var wpdtest = {};
 
 wpdtest.fetchBlob = function(filename) {
     return new Promise((resolve, reject) => {
-        fetch(filename).then(resp => resp.blob()).then((blob) => {
-            resolve(blob);
-        });
+        fetch(filename).then(resp => resp.blob()).then((blob) => { resolve(blob); });
     });
 };
 
 wpdtest.fetchJSON = function(filename) {
     return new Promise((resolve, reject) => {
-        fetch(filename).then(resp => resp.json()).then(data => {
-            resolve(data);
-        });
+        fetch(filename).then(resp => resp.json()).then(data => { resolve(data); });
     });
 };
 
 wpdtest.matCompare = function(mat1, mat2, eps) {
-    if(mat1 == null || mat2 == null) {
+    if (mat1 == null || mat2 == null) {
         return false;
     }
     if (mat1.length != mat2.length) {
@@ -26,7 +22,7 @@ wpdtest.matCompare = function(mat1, mat2, eps) {
     let rows = mat1.length;
     let cols = mat2.length;
     for (let rowIdx = 0; rowIdx < rows; rowIdx++) {
-        
+
         if (mat1[rowIdx].length != mat2[rowIdx].length) {
             return false;
         }
@@ -34,7 +30,7 @@ wpdtest.matCompare = function(mat1, mat2, eps) {
         for (let colIdx = 0; colIdx < cols; colIdx++) {
             if (Math.abs(mat1[rowIdx][colIdx] - mat2[rowIdx][colIdx]) > eps) {
                 return false;
-            }                
+            }
         }
     }
     return true;

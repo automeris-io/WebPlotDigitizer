@@ -1,9 +1,9 @@
 /*
-	WebPlotDigitizer - https://automeris.io/WebPlotDigitizer
+        WebPlotDigitizer - https://automeris.io/WebPlotDigitizer
 
-	Copyright 2010-2019 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+        Copyright 2010-2019 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
-	This file is part of WebPlotDigitizer.
+        This file is part of WebPlotDigitizer.
 
     WebPlotDIgitizer is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as published by
@@ -23,18 +23,15 @@
 
 var wpd = wpd || {};
 
-wpd.imageManager = (function () {
-
+wpd.imageManager = (function() {
     let _firstLoad = true;
-    let _imageInfo = {width: 0, height: 0};
+    let _imageInfo = {width : 0, height : 0};
 
-    function saveImage() {
-        wpd.graphicsWidget.saveImage();
-    }
+    function saveImage() { wpd.graphicsWidget.saveImage(); }
 
     function load() {
         let $input = document.getElementById('fileLoadBox');
-        if($input.files.length == 1) {
+        if ($input.files.length == 1) {
             let imageFile = $input.files[0];
             loadFromFile(imageFile);
         }
@@ -43,7 +40,7 @@ wpd.imageManager = (function () {
 
     function loadFromFile(imageFile, resumedProject) {
         return new Promise((resolve, reject) => {
-            if(imageFile.type.match("image.*")) {
+            if (imageFile.type.match("image.*")) {
                 wpd.busyNote.show();
                 let reader = new FileReader();
                 reader.onload = function() {
@@ -51,37 +48,41 @@ wpd.imageManager = (function () {
                     loadFromURL(url, resumedProject).then(resolve);
                 };
                 reader.readAsDataURL(imageFile);
-            } else if(imageFile.type == "application/pdf") {
+            } else if (imageFile.type == "application/pdf") {
                 wpd.busyNote.show();
                 let reader = new FileReader();
                 reader.onload = function() {
                     let pdfurl = reader.result;
-                    //PDFJS.disableWorker = true;
+                    // PDFJS.disableWorker = true;
                     PDFJS.getDocument(pdfurl).then(function(pdf) {
-                        pdf.getPage(1).then(function (page) {                        
+                        pdf.getPage(1).then(function(page) {
                             let scale = 3;
                             let viewport = page.getViewport(scale);
                             let $canvas = document.createElement('canvas');
                             let ctx = $canvas.getContext('2d');
                             $canvas.width = viewport.width;
                             $canvas.height = viewport.height;
-                            page.render({ canvasContext: ctx, viewport: viewport }).promise.then(function() {
-                                let url = $canvas.toDataURL();
-                                loadFromURL(url, resumedProject).then(resolve);
-                            }, function(err) {
-                                console.log(err);
-                                wpd.busyNote.close();
-                                reject(err);
-                            });
+                            page.render({canvasContext : ctx, viewport : viewport})
+                                .promise.then(
+                                    function() {
+                                        let url = $canvas.toDataURL();
+                                        loadFromURL(url, resumedProject).then(resolve);
+                                    },
+                                    function(err) {
+                                        console.log(err);
+                                        wpd.busyNote.close();
+                                        reject(err);
+                                    });
                         });
                     });
                 };
                 reader.readAsDataURL(imageFile);
             } else {
                 console.log(imageFile.type);
-                wpd.messagePopup.show(wpd.gettext('invalid-file'), wpd.gettext('invalid-file-text'));            
+                wpd.messagePopup.show(wpd.gettext('invalid-file'),
+                                      wpd.gettext('invalid-file-text'));
             }
-        });        
+        });
     }
 
     function loadFromURL(url, resumedProject) {
@@ -105,22 +106,20 @@ wpd.imageManager = (function () {
 
         if (_firstLoad) {
             wpd.sidebar.show('start-sidebar');
-        } else if(!resumedProject) {
+        } else if (!resumedProject) {
             wpd.popup.show('axesList');
         }
         _firstLoad = false;
-        _imageInfo = {width: imageData.width, height: imageData.height};
+        _imageInfo = {width : imageData.width, height : imageData.height};
     }
 
-    function getImageInfo() {
-        return _imageInfo;
-    }
+    function getImageInfo() { return _imageInfo; }
 
     return {
-        saveImage: saveImage,
-        loadFromURL: loadFromURL,
-        loadFromFile: loadFromFile,
-        load: load,
-        getImageInfo: getImageInfo
+        saveImage : saveImage,
+        loadFromURL : loadFromURL,
+        loadFromFile : loadFromFile,
+        load : load,
+        getImageInfo : getImageInfo
     };
 })();

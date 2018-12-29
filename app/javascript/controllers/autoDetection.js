@@ -1,9 +1,9 @@
 /*
-	WebPlotDigitizer - https://automeris.io/WebPlotDigitizer
+        WebPlotDigitizer - https://automeris.io/WebPlotDigitizer
 
-	Copyright 2010-2019 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+        Copyright 2010-2019 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
-	This file is part of WebPlotDigitizer.
+        This file is part of WebPlotDigitizer.
 
     WebPlotDigitizer is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as published by
@@ -21,26 +21,21 @@
 
 */
 var wpd = wpd || {};
-wpd.autoExtraction = (function () {
-
+wpd.autoExtraction = (function() {
     function start() {
         wpd.colorPicker.init();
         wpd.algoManager.updateAlgoList();
-    }     
+    }
 
-    return {
-        start: start        
-    };
+    return {start : start};
 })();
-
 
 // Manage auto extract algorithms
 wpd.algoManager = (function() {
-
     var axes, dataset;
 
     function updateAlgoList() {
-        
+
         dataset = wpd.tree.getActiveDataset();
         axes = wpd.appData.getPlotData().getAxesForDataset(dataset);
 
@@ -48,28 +43,32 @@ wpd.algoManager = (function() {
         let $algoOptions = document.getElementById('auto-extract-algo-name');
 
         // Averaging Window
-        if(!(axes instanceof wpd.BarAxes)) {
-            innerHTML += '<option value="averagingWindow">' + wpd.gettext('averaging-window') + '</option>';
+        if (!(axes instanceof wpd.BarAxes)) {
+            innerHTML +=
+                '<option value="averagingWindow">' + wpd.gettext('averaging-window') + '</option>';
         }
 
         // X Step w/ Interpolation and X Step
-        if(axes instanceof wpd.XYAxes) {
-            innerHTML += '<option value="XStepWithInterpolation">' + wpd.gettext('x-step-with-interpolation') + '</option>';
+        if (axes instanceof wpd.XYAxes) {
+            innerHTML += '<option value="XStepWithInterpolation">' +
+                         wpd.gettext('x-step-with-interpolation') + '</option>';
             innerHTML += '<option value="XStep">' + wpd.gettext('x-step') + '</option>';
         }
 
         // Blob Detector
-        if(!(axes instanceof wpd.BarAxes)) {
-            innerHTML += '<option value="blobDetector">' + wpd.gettext('blob-detector') + '</option>';
+        if (!(axes instanceof wpd.BarAxes)) {
+            innerHTML +=
+                '<option value="blobDetector">' + wpd.gettext('blob-detector') + '</option>';
         }
 
         // Bar Extraction
-        if(axes instanceof wpd.BarAxes) {
-            innerHTML += '<option value="barExtraction">' + wpd.gettext('bar-extraction') + '</option>';
+        if (axes instanceof wpd.BarAxes) {
+            innerHTML +=
+                '<option value="barExtraction">' + wpd.gettext('bar-extraction') + '</option>';
         }
 
         // Histogram
-        if(axes instanceof wpd.XYAxes) {
+        if (axes instanceof wpd.XYAxes) {
             innerHTML += '<option value="histogram">' + wpd.gettext('histogram') + '</option>';
         }
 
@@ -86,7 +85,7 @@ wpd.algoManager = (function() {
             } else if (autoDetector.algorithm instanceof wpd.BlobDetectorAlgo) {
                 $algoOptions.value = "blobDetector";
             } else if (autoDetector.algorithm instanceof wpd.BarExtractionAlgo) {
-                if(axes instanceof wpd.XYAxes) {
+                if (axes instanceof wpd.XYAxes) {
                     $algoOptions.value = "histogram";
                 } else {
                     $algoOptions.value = "barExtraction";
@@ -96,7 +95,6 @@ wpd.algoManager = (function() {
         } else {
             applyAlgoSelection();
         }
-        
     }
 
     function getAutoDetectionData() {
@@ -128,14 +126,14 @@ wpd.algoManager = (function() {
 
     function renderParameters(algo) {
         let $paramContainer = document.getElementById('algo-parameter-container');
-        let algoParams = algo.getParamList(axes);            
+        let algoParams = algo.getParamList(axes);
         let tableString = "<table>";
-        
-        for(let pi = 0; pi < algoParams.length; pi++) {
-            tableString += '<tr><td>' + algoParams[pi][0] + 
-                '</td><td><input type="text" size=3 id="algo-param-' + pi + 
-                '" class="algo-params" value="'+ algoParams[pi][2] + '"/></td><td>' 
-                + algoParams[pi][1] + '</td></tr>';
+
+        for (let pi = 0; pi < algoParams.length; pi++) {
+            tableString += '<tr><td>' + algoParams[pi][0] +
+                           '</td><td><input type="text" size=3 id="algo-param-' + pi +
+                           '" class="algo-params" value="' + algoParams[pi][2] + '"/></td><td>' +
+                           algoParams[pi][1] + '</td></tr>';
         }
 
         tableString += "</table>";
@@ -151,7 +149,7 @@ wpd.algoManager = (function() {
         let ctx = wpd.graphicsWidget.getAllContexts();
         let imageSize = wpd.graphicsWidget.getImageSize();
 
-        for(let pi = 0; pi < $paramFields.length; pi++) {
+        for (let pi = 0; pi < $paramFields.length; pi++) {
             let paramId = $paramFields[pi].id;
             let paramIndex = parseInt(paramId.replace('algo-param-', ''), 10);
             algo.setParam(paramIndex, parseFloat($paramFields[pi].value));
@@ -163,7 +161,7 @@ wpd.algoManager = (function() {
         autoDetector.imageWidth = imageSize.width;
         autoDetector.imageHeight = imageSize.height;
         autoDetector.generateBinaryData(imageData);
-        wpd.graphicsWidget.setRepainter(repainter);            
+        wpd.graphicsWidget.setRepainter(repainter);
         algo.run(autoDetector, dataset, axes);
         wpd.graphicsWidget.forceHandlerRepaint();
         wpd.dataPointCounter.setCount(dataset.getCount());
@@ -171,15 +169,10 @@ wpd.algoManager = (function() {
         return true;
     }
 
-    return {
-        updateAlgoList: updateAlgoList,
-        applyAlgoSelection: applyAlgoSelection,
-        run: run
-    };
+    return {updateAlgoList : updateAlgoList, applyAlgoSelection : applyAlgoSelection, run : run};
 })();
 
-wpd.dataMask = (function () {
-
+wpd.dataMask = (function() {
     function getAutoDetectionData() {
         let ds = wpd.tree.getActiveDataset();
         return wpd.appData.getPlotData().getAutoDetectionDataForDataset(ds);
@@ -193,14 +186,14 @@ wpd.dataMask = (function () {
         let maskData = new Set();
         let autoDetector = getAutoDetectionData();
 
-        for(let i = 0; i < maskDataPx.data.length; i+=4) {
-            if (maskDataPx.data[i] === 255 && maskDataPx.data[i+1] === 255 && maskDataPx.data[i+2] === 0) {
-                maskData.add(i/4);
+        for (let i = 0; i < maskDataPx.data.length; i += 4) {
+            if (maskDataPx.data[i] === 255 && maskDataPx.data[i + 1] === 255 &&
+                maskDataPx.data[i + 2] === 0) {
+                maskData.add(i / 4);
             }
         }
 
         autoDetector.mask = maskData;
-
     }
 
     function markBox() {
@@ -229,11 +222,11 @@ wpd.dataMask = (function () {
     }
 
     return {
-        grabMask: grabMask,
-        markBox: markBox,
-        markPen: markPen,
-        eraseMarks: eraseMarks,
-        viewMask: viewMask,
-        clearMask: clearMask
+        grabMask : grabMask,
+        markBox : markBox,
+        markPen : markPen,
+        eraseMarks : eraseMarks,
+        viewMask : viewMask,
+        clearMask : clearMask
     };
 })();

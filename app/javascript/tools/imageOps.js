@@ -1,9 +1,9 @@
 /*
-	WebPlotDigitizer - https://automeris.io/WebPlotDigitizer
+        WebPlotDigitizer - https://automeris.io/WebPlotDigitizer
 
-	Copyright 2010-2019 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+        Copyright 2010-2019 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
-	This file is part of WebPlotDigitizer.
+        This file is part of WebPlotDigitizer.
 
     WebPlotDigitizer is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as published by
@@ -23,59 +23,42 @@
 
 var wpd = wpd || {};
 
-wpd.imageOps = (function () {
-
+wpd.imageOps = (function() {
     function hflipOp(idata, iwidth, iheight) {
         var rowi, coli, index, mindex, tval, p;
-        for(rowi = 0; rowi < iheight; rowi++) {
-            for(coli = 0; coli < iwidth/2; coli++) {
-                index = 4*(rowi*iwidth + coli);
-                mindex = 4*((rowi+1)*iwidth - (coli+1));
-                for(p = 0; p < 4; p++) {
+        for (rowi = 0; rowi < iheight; rowi++) {
+            for (coli = 0; coli < iwidth / 2; coli++) {
+                index = 4 * (rowi * iwidth + coli);
+                mindex = 4 * ((rowi + 1) * iwidth - (coli + 1));
+                for (p = 0; p < 4; p++) {
                     tval = idata.data[index + p];
                     idata.data[index + p] = idata.data[mindex + p];
                     idata.data[mindex + p] = tval;
                 }
             }
         }
-        return {
-            imageData: idata,
-            width: iwidth,
-            height: iheight
-        };
+        return {imageData : idata, width : iwidth, height : iheight};
     }
 
     function vflipOp(idata, iwidth, iheight) {
         var rowi, coli, index, mindex, tval, p;
-        for(rowi = 0; rowi < iheight/2; rowi++) {
-            for(coli = 0; coli < iwidth; coli++) {
-                index = 4*(rowi*iwidth + coli);
-                mindex = 4*((iheight - (rowi+2))*iwidth + coli);
-                for(p = 0; p < 4; p++) {
+        for (rowi = 0; rowi < iheight / 2; rowi++) {
+            for (coli = 0; coli < iwidth; coli++) {
+                index = 4 * (rowi * iwidth + coli);
+                mindex = 4 * ((iheight - (rowi + 2)) * iwidth + coli);
+                for (p = 0; p < 4; p++) {
                     tval = idata.data[index + p];
                     idata.data[index + p] = idata.data[mindex + p];
                     idata.data[mindex + p] = tval;
                 }
             }
         }
-        return {
-            imageData: idata,
-            width: iwidth,
-            height: iheight
-        };
+        return {imageData : idata, width : iwidth, height : iheight};
     }
 
-    function hflip() {
-        wpd.graphicsWidget.runImageOp(hflipOp);
-    }
+    function hflip() { wpd.graphicsWidget.runImageOp(hflipOp); }
 
-    function vflip() {
-        wpd.graphicsWidget.runImageOp(vflipOp);
-    }
+    function vflip() { wpd.graphicsWidget.runImageOp(vflipOp); }
 
-    return {
-        hflip: hflip,
-        vflip: vflip
-    };
+    return {hflip : hflip, vflip : vflip};
 })();
-

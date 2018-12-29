@@ -1,9 +1,9 @@
 /*
-	WebPlotDigitizer - https://automeris.io/WebPlotDigitizer
+        WebPlotDigitizer - https://automeris.io/WebPlotDigitizer
 
-	Copyright 2010-2019 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+        Copyright 2010-2019 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
-	This file is part of WebPlotDigitizer.
+        This file is part of WebPlotDigitizer.
 
     WebPlotDigitizer is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as published by
@@ -23,41 +23,40 @@
 
 var wpd = wpd || {};
 
-wpd.webcamCapture = (function () {
-
+wpd.webcamCapture = (function() {
     var cameraStream;
 
-    function isSupported() {
-        return !(getUserMedia() == null);
-    }
+    function isSupported() { return !(getUserMedia() == null); }
 
     function unsupportedBrowser() {
         wpd.messagePopup.show(wpd.gettext('webcam-capture'), wpd.gettext('webcam-capture-text'));
     }
 
     function getUserMedia() {
-        return navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
+        return navigator.getUserMedia || navigator.webkitGetUserMedia ||
+               navigator.mozGetUserMedia || navigator.msGetUserMedia;
     }
 
     function start() {
-        if(!isSupported()) {
+        if (!isSupported()) {
             unsupportedBrowser();
             return;
         }
-        wpd.popup.show('webcamCapture'); 
+        wpd.popup.show('webcamCapture');
         var $camVideo = document.getElementById('webcamVideo');
         navigator.getUserMedia = getUserMedia();
-        navigator.getUserMedia({video: true}, function(stream) {
-            cameraStream = stream;
-            $camVideo.src = window.URL.createObjectURL(stream);
-  		}, function() {}); 
+        navigator.getUserMedia({video : true},
+                               function(stream) {
+                                   cameraStream = stream;
+                                   $camVideo.src = window.URL.createObjectURL(stream);
+                               },
+                               function() {});
     }
 
     function capture() {
         var $webcamCanvas = document.createElement('canvas'),
             $camVideo = document.getElementById('webcamVideo'),
-            webcamCtx = $webcamCanvas.getContext('2d'),
-            imageData;
+            webcamCtx = $webcamCanvas.getContext('2d'), imageData;
         $webcamCanvas.width = $camVideo.videoWidth;
         $webcamCanvas.height = $camVideo.videoHeight;
         webcamCtx.drawImage($camVideo, 0, 0);
@@ -65,28 +64,21 @@ wpd.webcamCapture = (function () {
         cameraOff();
         wpd.graphicsWidget.runImageOp(function() {
             return {
-                imageData: imageData,
-                width: $webcamCanvas.width,
-                height: $webcamCanvas.height
+                imageData : imageData,
+                width : $webcamCanvas.width,
+                height : $webcamCanvas.height
             };
         });
     }
 
     function cameraOff() {
-        if(cameraStream != undefined) {
+        if (cameraStream != undefined) {
             cameraStream.stop();
         }
-        wpd.popup.close('webcamCapture'); 
+        wpd.popup.close('webcamCapture');
     }
 
-    function cancel() {
-        cameraOff();
-    }
+    function cancel() { cameraOff(); }
 
-    return {
-        start: start,
-        cancel: cancel,
-        capture: capture
-    };
-
+    return {start : start, cancel : cancel, capture : capture};
 })();

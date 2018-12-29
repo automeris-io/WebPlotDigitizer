@@ -1,9 +1,9 @@
 /*
-	WebPlotDigitizer - https://automeris.io/WebPlotDigitizer
+        WebPlotDigitizer - https://automeris.io/WebPlotDigitizer
 
-	Copyright 2010-2019 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+        Copyright 2010-2019 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
-	This file is part of WebPlotDigitizer.
+        This file is part of WebPlotDigitizer.
 
     WebPlotDigitizer is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as published by
@@ -24,9 +24,8 @@
 var wpd = wpd || {};
 
 wpd.download = (function() {
-    
     function textFile(data, filename) {
-        if(wpd.browserInfo.downloadAttributeSupported) {
+        if (wpd.browserInfo.downloadAttributeSupported) {
             textFileLocal(data, filename);
         } else {
             textFileServer(data, filename);
@@ -35,7 +34,7 @@ wpd.download = (function() {
 
     function textFileLocal(data, filename) {
         let $downloadElem = document.createElement('a');
-        $downloadElem.href = URL.createObjectURL(new Blob([data]), {type:"text/plain"});
+        $downloadElem.href = URL.createObjectURL(new Blob([ data ]), {type : "text/plain"});
         $downloadElem.download = stripIllegalCharacters(filename);
         $downloadElem.style.display = "none";
         document.body.appendChild($downloadElem);
@@ -44,12 +43,8 @@ wpd.download = (function() {
     }
 
     function textFileServer(data, filename) {
-        var formContainer,
-            formElement,
-            formData,
-            formFilename,
-            jsonData = data;
-        
+        var formContainer, formElement, formData, formFilename, jsonData = data;
+
         // Create a hidden form and submit
         formContainer = document.createElement('div');
         formElement = document.createElement('form');
@@ -78,25 +73,22 @@ wpd.download = (function() {
     }
 
     function json(jsonData, filename) {
-        if(filename == null) {
+        if (filename == null) {
             filename = 'wpd_plot_data.json';
         }
         textFile(jsonData, filename);
     }
 
     function csv(csvData, filename) {
-        if(filename == null) {
+        if (filename == null) {
             filename = 'data.csv';
         }
         textFile(csvData, filename);
     }
 
     function stripIllegalCharacters(filename) {
-        return filename.replace(/[^a-zA-Z\d+\.\-_\s]/g,"_");
+        return filename.replace(/[^a-zA-Z\d+\.\-_\s]/g, "_");
     }
 
-    return {
-        json: json,
-        csv: csv
-    };
+    return {json : json, csv : csv};
 })();

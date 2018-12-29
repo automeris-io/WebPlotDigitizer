@@ -1,9 +1,9 @@
 /*
-	WebPlotDigitizer - https://automeris.io/WebPlotDigitizer
+        WebPlotDigitizer - https://automeris.io/WebPlotDigitizer
 
-	Copyright 2010-2019 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+        Copyright 2010-2019 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
-	This file is part of WebPlotDigitizer.
+        This file is part of WebPlotDigitizer.
 
     WebPlotDigitizer is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as published by
@@ -24,13 +24,16 @@
 /* Parse dates and convert back and forth to Julian days */
 var wpd = wpd || {};
 
-wpd.dateConverter = (function () {
-
+wpd.dateConverter = (function() {
     function parse(input) {
-        if(input == null) { return null; }
+        if (input == null) {
+            return null;
+        }
 
-        if(typeof input === "string") {
-            if(input.indexOf('/') < 0 && input.indexOf(':') < 0) { return null; }
+        if (typeof input === "string") {
+            if (input.indexOf('/') < 0 && input.indexOf(':') < 0) {
+                return null;
+            }
         }
 
         return toJD(input);
@@ -38,24 +41,14 @@ wpd.dateConverter = (function () {
 
     function toJD(dateString) {
         dateString = dateString.toString();
-	    var dateParts = dateString.split(/[/ :]/),
-            hasDatePart = dateString.indexOf('/') >= 0,
-			year,
-			month,
-			date,
-            hour,
-            min,
-            sec,
-            timeIdxOffset,
-            today,
-			tempDate,
-			rtnValue;
+        var dateParts = dateString.split(/[/ :]/), hasDatePart = dateString.indexOf('/') >= 0, year,
+            month, date, hour, min, sec, timeIdxOffset, today, tempDate, rtnValue;
 
-        if(dateParts.length <= 0 || dateParts.length > 6) {
+        if (dateParts.length <= 0 || dateParts.length > 6) {
             return null;
         }
 
-        if(hasDatePart){
+        if (hasDatePart) {
             year = parseInt(dateParts[0], 10);
             month = parseInt(dateParts[1] === undefined ? 0 : dateParts[1], 10);
             date = parseInt(dateParts[2] === undefined ? 1 : dateParts[2], 10);
@@ -68,42 +61,43 @@ wpd.dateConverter = (function () {
             timeIdxOffset = 0;
         }
         hour = parseInt(dateParts[timeIdxOffset] === undefined ? 0 : dateParts[timeIdxOffset], 10);
-        min = parseInt(dateParts[timeIdxOffset+1] === undefined ? 0 : dateParts[timeIdxOffset+1], 10);
-        sec = parseInt(dateParts[timeIdxOffset+2] === undefined ? 0 : dateParts[timeIdxOffset+2], 10);
+        min = parseInt(
+            dateParts[timeIdxOffset + 1] === undefined ? 0 : dateParts[timeIdxOffset + 1], 10);
+        sec = parseInt(
+            dateParts[timeIdxOffset + 2] === undefined ? 0 : dateParts[timeIdxOffset + 2], 10);
 
-        if(isNaN(year) || isNaN(month) || isNaN(date) || isNaN(hour) || isNaN(min) || isNaN(sec)) {
+        if (isNaN(year) || isNaN(month) || isNaN(date) || isNaN(hour) || isNaN(min) || isNaN(sec)) {
             return null;
         }
 
-        if(month > 12 || month < 1) {
+        if (month > 12 || month < 1) {
             return null;
         }
 
-        if(date > 31 || date < 1) {
+        if (date > 31 || date < 1) {
             return null;
         }
 
-        if(hour > 23 || hour < 0) {
+        if (hour > 23 || hour < 0) {
             return null;
         }
 
-        if(min > 59 || min < 0) {
+        if (min > 59 || min < 0) {
             return null;
         }
 
-        if(sec > 59 || sec < 0) {
+        if (sec > 59 || sec < 0) {
             return null;
         }
-
 
         // Temporary till I figure out julian dates:
         tempDate = new Date();
         tempDate.setUTCFullYear(year);
-        tempDate.setUTCMonth(month-1);
+        tempDate.setUTCMonth(month - 1);
         tempDate.setUTCDate(date);
         tempDate.setUTCHours(hour, min, sec);
         rtnValue = parseFloat(Date.parse(tempDate));
-        if(!isNaN(rtnValue)) {
+        if (!isNaN(rtnValue)) {
             return rtnValue;
         }
         return null;
@@ -113,32 +107,31 @@ wpd.dateConverter = (function () {
         // round to smallest time unit
         var coeff = 1;
 
-        if(formatString.indexOf('s') >= 0)
+        if (formatString.indexOf('s') >= 0)
             coeff = 1000;
-        else if(formatString.indexOf('i') >= 0)
+        else if (formatString.indexOf('i') >= 0)
             coeff = 1000 * 60;
-        else if(formatString.indexOf('h') >= 0)
+        else if (formatString.indexOf('h') >= 0)
             coeff = 1000 * 60 * 60;
-        else if(formatString.indexOf('d') >= 0)
+        else if (formatString.indexOf('d') >= 0)
             coeff = 1000 * 60 * 60 * 24;
-        else if(formatString.indexOf('m') >= 0)
+        else if (formatString.indexOf('m') >= 0)
             coeff = 1000 * 60 * 60 * 24 * 365.2425 / 12;
-        else if(formatString.indexOf('y') >= 0)
+        else if (formatString.indexOf('y') >= 0)
             coeff = 1000 * 60 * 60 * 24 * 365.2425;
 
-        return formatDate(new Date(Math.round(new Date(dateNumber).getTime() / coeff) * coeff), formatString); 
+        return formatDate(new Date(Math.round(new Date(dateNumber).getTime() / coeff) * coeff),
+                          formatString);
     }
 
     function formatDate(dateObject, formatString) {
 
-        var longMonths = [],
-            shortMonths = [],
-            tmpDate = new Date();
+        var longMonths = [], shortMonths = [], tmpDate = new Date();
 
-        for(var i = 0; i < 12; i++) {
+        for (var i = 0; i < 12; i++) {
             tmpDate.setUTCMonth(i);
-            longMonths.push(tmpDate.toLocaleString(undefined, {month:"long"}));
-            shortMonths.push(tmpDate.toLocaleString(undefined, {month:"short"}));
+            longMonths.push(tmpDate.toLocaleString(undefined, {month : "long"}));
+            shortMonths.push(tmpDate.toLocaleString(undefined, {month : "short"}));
         }
 
         var outputString = formatString;
@@ -155,59 +148,53 @@ wpd.dateConverter = (function () {
 
         outputString = outputString.replace("yyyy", dateObject.getUTCFullYear());
 
-        var twoDigitYear = dateObject.getUTCFullYear()%100;
+        var twoDigitYear = dateObject.getUTCFullYear() % 100;
         twoDigitYear = twoDigitYear < 10 ? '0' + twoDigitYear : twoDigitYear;
 
         outputString = outputString.replace("yy", twoDigitYear);
 
         outputString = outputString.replace("mmmm", longMonths[dateObject.getUTCMonth()]);
         outputString = outputString.replace("mmm", shortMonths[dateObject.getUTCMonth()]);
-        outputString = outputString.replace("mm", ("0" + (dateObject.getUTCMonth()+1)).slice(-2));
+        outputString = outputString.replace("mm", ("0" + (dateObject.getUTCMonth() + 1)).slice(-2));
         outputString = outputString.replace("dd", ("0" + dateObject.getUTCDate()).slice(-2));
 
         outputString = outputString.replace("hh", ("0" + dateObject.getUTCHours()).slice(-2));
         outputString = outputString.replace("ii", ("0" + dateObject.getUTCMinutes()).slice(-2));
         outputString = outputString.replace("ss", ("0" + dateObject.getUTCSeconds()).slice(-2));
-				
-		return outputString;
+
+        return outputString;
     }
 
     function getFormatString(dateString) {
-    	var dateParts = dateString.split(/[/ :]/),
-            hasDatePart = dateString.indexOf('/') >= 0,
+        var dateParts = dateString.split(/[/ :]/), hasDatePart = dateString.indexOf('/') >= 0,
             formatString = 'yyyy/mm/dd hh:ii:ss';
-        
-        if(dateParts.length >= 1) {
+
+        if (dateParts.length >= 1) {
             formatString = hasDatePart ? 'yyyy' : 'hh';
         }
 
-        if(dateParts.length >= 2) {
+        if (dateParts.length >= 2) {
             formatString += hasDatePart ? '/mm' : ':ii';
         }
 
-        if(dateParts.length >= 3) {
+        if (dateParts.length >= 3) {
             formatString += hasDatePart ? '/dd' : ':ss';
         }
 
-        if(dateParts.length >= 4) {
+        if (dateParts.length >= 4) {
             formatString += ' hh';
         }
 
-        if(dateParts.length >= 5) {
+        if (dateParts.length >= 5) {
             formatString += ':ii';
         }
 
-        if(dateParts.length === 6) {
+        if (dateParts.length === 6) {
             formatString += ':ss';
         }
 
         return formatString;
     }
 
-    return {
-        parse: parse,
-        getFormatString: getFormatString,
-        formatDateNumber: formatDateNumber
-    };
+    return {parse : parse, getFormatString : getFormatString, formatDateNumber : formatDateNumber};
 })();
-

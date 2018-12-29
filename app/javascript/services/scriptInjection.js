@@ -1,9 +1,9 @@
 /*
-	WebPlotDigitizer - https://automeris.io/WebPlotDigitizer
+        WebPlotDigitizer - https://automeris.io/WebPlotDigitizer
 
-	Copyright 2010-2019 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+        Copyright 2010-2019 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
-	This file is part of WebPlotDigitizer.
+        This file is part of WebPlotDigitizer.
 
     WebPlotDigitizer is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as published by
@@ -23,27 +23,22 @@
 
 var wpd = wpd || {};
 
-wpd.scriptInjector = (function () {
-    
-    function start() {
-        wpd.popup.show('runScriptPopup');
-    }
+wpd.scriptInjector = (function() {
+    function start() { wpd.popup.show('runScriptPopup'); }
 
-    function cancel() {
-        wpd.popup.close('runScriptPopup');
-    }
+    function cancel() { wpd.popup.close('runScriptPopup'); }
 
     function load() {
         var $scriptFileInput = document.getElementById('runScriptFileInput');
         wpd.popup.close('runScriptPopup');
-        if($scriptFileInput.files.length == 1) {
+        if ($scriptFileInput.files.length == 1) {
             var fileReader = new FileReader();
             fileReader.onload = function() {
-                if(typeof wpdscript !== "undefined") {
+                if (typeof wpdscript !== "undefined") {
                     wpdscript = null;
                 }
                 eval(fileReader.result);
-                if(typeof wpdscript !== "wpdscript") {
+                if (typeof wpdscript !== "wpdscript") {
                     window["wpdscript"] = wpdscript;
                     wpdscript.run();
                 }
@@ -52,15 +47,9 @@ wpd.scriptInjector = (function () {
         }
     }
 
-    function injectHTML() {
-    }
+    function injectHTML() {}
 
-    function injectCSS() {
-    }
+    function injectCSS() {}
 
-    return {
-        start: start,
-        cancel: cancel,
-        load: load
-    };
+    return {start : start, cancel : cancel, load : load};
 })();
