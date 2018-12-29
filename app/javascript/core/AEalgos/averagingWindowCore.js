@@ -35,8 +35,13 @@ wpd.AveragingWindowCore = class {
     }
 
     run() {
-        var xPoints = [], xPointsPicked = 0, pointsPicked = 0, dw = this._imageWidth,
-            dh = this._imageHeight, blobAvg = [], coli, rowi, firstbloby, bi, blobs, blbi, xi, yi,
+        var xPoints = [],
+            xPointsPicked = 0,
+            pointsPicked = 0,
+            dw = this._imageWidth,
+            dh = this._imageHeight,
+            blobAvg = [],
+            coli, rowi, firstbloby, bi, blobs, blbi, xi, yi,
             pi, inRange, xxi, oldX, oldY, avgX, avgY, newX, newY, matches, xStep = this._dx,
             yStep = this._dy;
 
@@ -69,7 +74,7 @@ wpd.AveragingWindowCore = class {
                 xi = coli + 0.5;
                 for (blbi = 0; blbi <= blobs; blbi++) {
                     yi = blobAvg[blbi] + 0.5; // add 0.5 to shift to the middle of the pixels
-                                              // instead of the starting edge.
+                    // instead of the starting edge.
 
                     xPoints[xPointsPicked] = [];
                     xPoints[xPointsPicked][0] = parseFloat(xi);

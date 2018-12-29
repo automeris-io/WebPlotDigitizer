@@ -41,8 +41,8 @@ wpd.browserInfo = (function() {
     }
 
     return {
-        checkBrowser : checkBrowser,
-        downloadAttributeSupported : downloadAttributeSupported,
-        isElectronBrowser : isElectronBrowser
+        checkBrowser: checkBrowser,
+        downloadAttributeSupported: downloadAttributeSupported,
+        isElectronBrowser: isElectronBrowser
     };
 })();

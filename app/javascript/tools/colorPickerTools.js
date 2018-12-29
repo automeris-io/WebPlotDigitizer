@@ -40,7 +40,7 @@ wpd.ColorPickerTool = (function() {
                 ig = 255;
                 ib = 255;
             }
-            this.onComplete([ ir, ig, ib ]);
+            this.onComplete([ir, ig, ib]);
         };
 
         this.onComplete = function(col) {};

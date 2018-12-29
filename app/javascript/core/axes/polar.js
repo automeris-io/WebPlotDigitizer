@@ -25,12 +25,17 @@ var wpd = wpd || {};
 
 wpd.PolarAxes = (function() {
     var AxesObj = function() {
-        var isCalibrated = false, isDegrees = false, isClockwise = false, isLog = false,
+        var isCalibrated = false,
+            isDegrees = false,
+            isClockwise = false,
+            isLog = false,
 
             x0, y0, x1, y1, x2, y2, r1, theta1, r2, theta2, dist10, dist20, dist12, phi0, alpha0;
 
         processCalibration = function(cal, is_degrees, is_clockwise, is_log_r) {
-            var cp0 = cal.getPoint(0), cp1 = cal.getPoint(1), cp2 = cal.getPoint(2);
+            var cp0 = cal.getPoint(0),
+                cp1 = cal.getPoint(1),
+                cp2 = cal.getPoint(2);
             x0 = cp0.px;
             y0 = cp0.py;
             x1 = cp1.px;
@@ -80,7 +85,9 @@ wpd.PolarAxes = (function() {
 
         this.calibration = null;
 
-        this.isCalibrated = function() { return isCalibrated; };
+        this.isCalibrated = function() {
+            return isCalibrated;
+        };
 
         this.calibrate = function(calib, is_degrees, is_clockwise, is_log_r) {
             this.calibration = calib;
@@ -88,21 +95,28 @@ wpd.PolarAxes = (function() {
             return isCalibrated;
         };
 
-        this.isThetaDegrees = function() { return isDegrees; };
+        this.isThetaDegrees = function() {
+            return isDegrees;
+        };
 
-        this.isThetaClockwise = function() { return isClockwise; };
+        this.isThetaClockwise = function() {
+            return isClockwise;
+        };
 
-        this.isRadialLog = function() { return isLog; };
+        this.isRadialLog = function() {
+            return isLog;
+        };
 
         this.pixelToData = function(pxi, pyi) {
-            var data = [], rp, thetap;
+            var data = [],
+                rp, thetap;
 
             xp = parseFloat(pxi);
             yp = parseFloat(pyi);
 
             rp = ((r2 - r1) / dist12) *
-                     (Math.sqrt((xp - x0) * (xp - x0) + (yp - y0) * (yp - y0)) - dist10) +
-                 r1;
+                (Math.sqrt((xp - x0) * (xp - x0) + (yp - y0) * (yp - y0)) - dist10) +
+                r1;
 
             if (isClockwise) {
                 thetap = alpha0 - wpd.taninverse(-(yp - y0), xp - x0);
@@ -128,7 +142,12 @@ wpd.PolarAxes = (function() {
             return data;
         };
 
-        this.dataToPixel = function(r, theta) { return {x : 0, y : 0}; };
+        this.dataToPixel = function(r, theta) {
+            return {
+                x: 0,
+                y: 0
+            };
+        };
 
         this.pixelToLiveString = function(pxi, pyi) {
             var dataVal = this.pixelToData(pxi, pyi);
@@ -137,8 +156,8 @@ wpd.PolarAxes = (function() {
 
         this.getTransformationEquations = function() {
             var rEqn = 'r = (' + (r2 - r1) / dist12 + ')*sqrt((x_pixel - ' + x0 +
-                       ')^2 + (y_pixel - ' + y0 + ')^2) + (' + (r1 - dist10 * (r2 - r1) / dist12) +
-                       ')',
+                ')^2 + (y_pixel - ' + y0 + ')^2) + (' + (r1 - dist10 * (r2 - r1) / dist12) +
+                ')',
                 thetaEqn;
 
             if (isClockwise) {
@@ -154,17 +173,25 @@ wpd.PolarAxes = (function() {
                 thetaEqn = 'theta = ' + thetaEqn + ' theta = theta + 2*PI if theta < 0';
             }
 
-            return {pixelToData : [ rEqn, thetaEqn ]};
+            return {
+                pixelToData: [rEqn, thetaEqn]
+            };
         };
 
         this.name = "Polar";
     };
 
-    AxesObj.prototype.numCalibrationPointsRequired = function() { return 3; };
+    AxesObj.prototype.numCalibrationPointsRequired = function() {
+        return 3;
+    };
 
-    AxesObj.prototype.getDimensions = function() { return 2; };
+    AxesObj.prototype.getDimensions = function() {
+        return 2;
+    };
 
-    AxesObj.prototype.getAxesLabels = function() { return [ 'r', 'θ' ]; };
+    AxesObj.prototype.getAxesLabels = function() {
+        return ['r', 'θ'];
+    };
 
     return AxesObj;
 })();

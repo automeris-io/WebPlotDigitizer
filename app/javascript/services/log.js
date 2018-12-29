@@ -31,7 +31,9 @@ wpd.log = function() {
     }
 
     // if server has disabled logging, then skip
-    fetch("log").then(function(response) { return response.text(); }).then(function(text) {
+    fetch("log").then(function(response) {
+        return response.text();
+    }).then(function(text) {
         if (text == "true") {
             // logging is enabled
             let data = {};
@@ -42,12 +44,12 @@ wpd.log = function() {
             data["userAgent"] = window.navigator.userAgent;
             data["language"] = window.navigator.language;
             fetch("log", {
-                method : 'post',
-                headers : {
-                    'Accept' : 'application/json, text/plain, */*',
-                    'Content-Type' : 'application/json'
+                method: 'post',
+                headers: {
+                    'Accept': 'application/json, text/plain, */*',
+                    'Content-Type': 'application/json'
                 },
-                body : JSON.stringify(data)
+                body: JSON.stringify(data)
             });
         }
     });

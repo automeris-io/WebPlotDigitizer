@@ -24,13 +24,18 @@
 var wpd = wpd || {};
 
 wpd.gridDetectionCore = (function() {
-    var hasHorizontal, hasVertical, xFrac = 0.1, yFrac = 0.1;
+    var hasHorizontal, hasVertical, xFrac = 0.1,
+        yFrac = 0.1;
 
     function run(autoDetector) {
-        var gridData = new Set(), xi, yi, xmin = autoDetector.gridMask.xmin,
-            xmax = autoDetector.gridMask.xmax, ymin = autoDetector.gridMask.ymin,
-            ymax = autoDetector.gridMask.ymax, dw = autoDetector.imageWidth,
-            dh = autoDetector.imageHeight, linePixCount;
+        var gridData = new Set(),
+            xi, yi, xmin = autoDetector.gridMask.xmin,
+            xmax = autoDetector.gridMask.xmax,
+            ymin = autoDetector.gridMask.ymin,
+            ymax = autoDetector.gridMask.ymax,
+            dw = autoDetector.imageWidth,
+            dh = autoDetector.imageHeight,
+            linePixCount;
 
         if (hasVertical) {
 
@@ -80,8 +85,8 @@ wpd.gridDetectionCore = (function() {
     }
 
     return {
-        run : run,
-        setHorizontalParameters : setHorizontalParameters,
-        setVerticalParameters : setVerticalParameters
+        run: run,
+        setHorizontalParameters: setHorizontalParameters,
+        setVerticalParameters: setVerticalParameters
     };
 })();

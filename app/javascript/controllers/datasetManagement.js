@@ -63,7 +63,7 @@ wpd.dataSeriesManagement = (function() {
 
         if (datasetWithNameExists($dsName.value.trim())) {
             wpd.messagePopup.show(wpd.gettext("rename-dataset-error"),
-                                  wpd.gettext("dataset-exists-error"), showRenameDataset);
+                wpd.gettext("dataset-exists-error"), showRenameDataset);
             return;
         }
         const ds = wpd.tree.getActiveDataset();
@@ -86,8 +86,10 @@ wpd.dataSeriesManagement = (function() {
         // do not add if this name already exists
         if (datasetWithNameExists($singleDatasetName.value.trim())) {
             wpd.messagePopup.show(wpd.gettext("add-dataset-error"),
-                                  wpd.gettext("dataset-exists-error"),
-                                  function() { wpd.popup.show('add-dataset-popup'); });
+                wpd.gettext("dataset-exists-error"),
+                function() {
+                    wpd.popup.show('add-dataset-popup');
+                });
             return;
         }
 
@@ -120,20 +122,22 @@ wpd.dataSeriesManagement = (function() {
             wpd.tree.refreshPreservingSelection();
         } else {
             wpd.messagePopup(wpd.gettext("add-dataset-error"),
-                             wpd.gettext("add-dataset-count-error"),
-                             function() { wpd.popup.show('add-dataset-popup'); });
+                wpd.gettext("add-dataset-count-error"),
+                function() {
+                    wpd.popup.show('add-dataset-popup');
+                });
         }
     }
 
     function deleteDataset() {
         wpd.okCancelPopup.show(wpd.gettext("delete-dataset"), wpd.gettext("delete-dataset-text"),
-                               function() {
-                                   const plotData = wpd.appData.getPlotData();
-                                   const ds = wpd.tree.getActiveDataset();
-                                   plotData.deleteDataset(ds);
-                                   wpd.tree.refresh();
-                                   wpd.tree.selectPath("/" + wpd.gettext("datasets"));
-                               });
+            function() {
+                const plotData = wpd.appData.getPlotData();
+                const ds = wpd.tree.getActiveDataset();
+                plotData.deleteDataset(ds);
+                wpd.tree.refresh();
+                wpd.tree.selectPath("/" + wpd.gettext("datasets"));
+            });
     }
 
     function changeAxes(axIdx) {
@@ -150,13 +154,13 @@ wpd.dataSeriesManagement = (function() {
     }
 
     return {
-        showAddDataset : showAddDataset,
-        showRenameDataset : showRenameDataset,
-        renameDataset : renameDataset,
-        renameKeypress : renameKeypress,
-        addSingleDataset : addSingleDataset,
-        addMultipleDatasets : addMultipleDatasets,
-        deleteDataset : deleteDataset,
-        changeAxes : changeAxes
+        showAddDataset: showAddDataset,
+        showRenameDataset: showRenameDataset,
+        renameDataset: renameDataset,
+        renameKeypress: renameKeypress,
+        addSingleDataset: addSingleDataset,
+        addMultipleDatasets: addMultipleDatasets,
+        deleteDataset: deleteDataset,
+        changeAxes: changeAxes
     };
 })();

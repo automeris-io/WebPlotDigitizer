@@ -31,9 +31,13 @@ wpd.ConnectedPoints = class {
         this._connectivity = connectivity;
     }
 
-    addConnection(plist) { this._connections.push(plist); }
+    addConnection(plist) {
+        this._connections.push(plist);
+    }
 
-    clearAll() { this._connections = []; }
+    clearAll() {
+        this._connections = [];
+    }
 
     getConnectionAt(index) {
         if (index < this._connections.length) {
@@ -53,15 +57,19 @@ wpd.ConnectedPoints = class {
         }
     }
 
-    connectionCount() { return this._connections.length; }
+    connectionCount() {
+        return this._connections.length;
+    }
 
     findNearestPointAndConnection(x, y) {
-        var minConnIndex = -1, minPointIndex = -1, minDist, dist, ci, pi;
+        var minConnIndex = -1,
+            minPointIndex = -1,
+            minDist, dist, ci, pi;
 
         for (ci = 0; ci < this._connections.length; ci++) {
             for (pi = 0; pi < this._connections[ci].length; pi += 2) {
                 dist = (this._connections[ci][pi] - x) * (this._connections[ci][pi] - x) +
-                       (this._connections[ci][pi + 1] - y) * (this._connections[ci][pi + 1] - y);
+                    (this._connections[ci][pi + 1] - y) * (this._connections[ci][pi + 1] - y);
                 if (minPointIndex === -1 || dist < minDist) {
                     minConnIndex = ci;
                     minPointIndex = pi / 2;
@@ -70,7 +78,10 @@ wpd.ConnectedPoints = class {
             }
         }
 
-        return {connectionIndex : minConnIndex, pointIndex : minPointIndex};
+        return {
+            connectionIndex: minConnIndex,
+            pointIndex: minPointIndex
+        };
     }
 
     selectNearestPoint(x, y) {
@@ -98,8 +109,8 @@ wpd.ConnectedPoints = class {
 
     getSelectedConnectionAndPoint() {
         return {
-            connectionIndex : this._selectedConnectionIndex,
-            pointIndex : this._selectedPointIndex
+            connectionIndex: this._selectedConnectionIndex,
+            pointIndex: this._selectedPointIndex
         };
     }
 
@@ -115,36 +126,40 @@ wpd.ConnectedPoints = class {
 
     getPointAt(connectionIndex, pointIndex) {
         return {
-            x : this._connections[connectionIndex][pointIndex * 2],
-            y : this._connections[connectionIndex][pointIndex * 2 + 1]
+            x: this._connections[connectionIndex][pointIndex * 2],
+            y: this._connections[connectionIndex][pointIndex * 2 + 1]
         };
     }
 };
 
 wpd.DistanceMeasurement = class extends wpd.ConnectedPoints {
-    constructor() { super(2); }
+    constructor() {
+        super(2);
+    }
 
     getDistance(index) {
         if (index < this._connections.length && this._connectivity === 2) {
             var dist = Math.sqrt((this._connections[index][0] - this._connections[index][2]) *
-                                     (this._connections[index][0] - this._connections[index][2]) +
-                                 (this._connections[index][1] - this._connections[index][3]) *
-                                     (this._connections[index][1] - this._connections[index][3]));
+                (this._connections[index][0] - this._connections[index][2]) +
+                (this._connections[index][1] - this._connections[index][3]) *
+                (this._connections[index][1] - this._connections[index][3]));
             return dist; // this is in pixels!
         }
     }
 };
 
 wpd.AngleMeasurement = class extends wpd.ConnectedPoints {
-    constructor() { super(3); }
+    constructor() {
+        super(3);
+    }
 
     getAngle(index) {
         if (index < this._connections.length && this._connectivity === 3) {
 
             var ang1 = wpd.taninverse(-(this._connections[index][5] - this._connections[index][3]),
-                                      this._connections[index][4] - this._connections[index][2]),
+                    this._connections[index][4] - this._connections[index][2]),
                 ang2 = wpd.taninverse(-(this._connections[index][1] - this._connections[index][3]),
-                                      this._connections[index][0] - this._connections[index][2]),
+                    this._connections[index][0] - this._connections[index][2]),
                 ang = ang1 - ang2;
 
             ang = 180.0 * ang / Math.PI;
@@ -197,7 +212,7 @@ wpd.AreaMeasurement = class extends wpd.ConnectedPoints {
                 let py = this._connections[index][pi + 1];
                 if (pi >= 2) {
                     totalDist += Math.sqrt((px - px_prev) * (px - px_prev) +
-                                           (py - py_prev) * (py - py_prev));
+                        (py - py_prev) * (py - py_prev));
                 }
                 // include the connection between the last and first point in the set (only when >=
                 // 2 sides in the polygon):

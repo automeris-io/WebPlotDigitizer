@@ -28,17 +28,23 @@ wpd.BarAxes = (function() {
         // Throughout this code, it is assumed that "y" is the continuous axes and "x" is
         // the discrete axes. In practice, this shouldn't matter even if the orientation
         // is different.
-        var isCalibrated = false, isLogScale = false, isRotatedAxes = false, x1, y1, x2, y2, p1, p2,
+        var isCalibrated = false,
+            isLogScale = false,
+            isRotatedAxes = false,
+            x1, y1, x2, y2, p1, p2,
             orientation;
 
-        this.isCalibrated = function() { return isCalibrated; };
+        this.isCalibrated = function() {
+            return isCalibrated;
+        };
 
         this.calibration = null;
 
         this.calibrate = function(calibration, isLog, isRotated) {
             this.calibration = calibration;
             isCalibrated = false;
-            var cp1 = calibration.getPoint(0), cp2 = calibration.getPoint(1);
+            var cp1 = calibration.getPoint(0),
+                cp2 = calibration.getPoint(1);
 
             x1 = cp1.px;
             y1 = cp1.py;
@@ -74,8 +80,9 @@ wpd.BarAxes = (function() {
         };
 
         this.pixelToData = function(pxi, pyi) {
-            var data = [], c_c2 = ((pyi - y1) * (y2 - y1) + (x2 - x1) * (pxi - x1)) /
-                                  ((y2 - y1) * (y2 - y1) + (x2 - x1) * (x2 - x1));
+            var data = [],
+                c_c2 = ((pyi - y1) * (y2 - y1) + (x2 - x1) * (pxi - x1)) /
+                ((y2 - y1) * (y2 - y1) + (x2 - x1) * (x2 - x1));
             // We could return X pixel value (or Y, depending on orientation) but that's not very
             // useful. For now, just return the bar value. That's it.
             data[0] = (p2 - p1) * c_c2 + p1;
@@ -87,7 +94,10 @@ wpd.BarAxes = (function() {
 
         this.dataToPixel = function(x, y) {
             // not implemented yet
-            return {x : 0, y : 0};
+            return {
+                x: 0,
+                y: 0
+            };
         };
 
         this.pixelToLiveString = function(pxi, pyi) {
@@ -95,12 +105,18 @@ wpd.BarAxes = (function() {
             return dataVal[0].toExponential(4);
         };
 
-        this.isLog = function() { return isLogScale; };
+        this.isLog = function() {
+            return isLogScale;
+        };
 
-        this.isRotated = function() { return isRotatedAxes; }
+        this.isRotated = function() {
+            return isRotatedAxes;
+        }
 
-                         this.getTransformationEquations = function() {
-            return {pixelToData : [ 'This will be available in a future release.' ]};
+        this.getTransformationEquations = function() {
+            return {
+                pixelToData: ['This will be available in a future release.']
+            };
         };
 
         this.dataPointsHaveLabels = true;
@@ -109,7 +125,11 @@ wpd.BarAxes = (function() {
 
         this.calculateOrientation = function() { // Used by auto-extract algo to switch orientation.
             var orientationAngle = wpd.taninverse(-(y2 - y1), x2 - x1) * 180 / Math.PI,
-                orientation = {axes : 'Y', direction : 'increasing', angle : orientationAngle},
+                orientation = {
+                    axes: 'Y',
+                    direction: 'increasing',
+                    angle: orientationAngle
+                },
                 tol = 30; // degrees.
 
             if (Math.abs(orientationAngle - 90) < tol) {
@@ -119,7 +139,7 @@ wpd.BarAxes = (function() {
                 orientation.axes = 'Y';
                 orientation.direction = 'decreasing';
             } else if (Math.abs(orientationAngle - 0) < tol ||
-                       Math.abs(orientationAngle - 360) < tol) {
+                Math.abs(orientationAngle - 360) < tol) {
                 orientation.axes = 'X';
                 orientation.direction = 'increasing';
             } else if (Math.abs(orientationAngle - 180) < tol) {
@@ -131,16 +151,24 @@ wpd.BarAxes = (function() {
 
         };
 
-        this.getOrientation = function() { return orientation; };
+        this.getOrientation = function() {
+            return orientation;
+        };
 
         this.name = "Bar";
     };
 
-    AxesObj.prototype.numCalibrationPointsRequired = function() { return 2; };
+    AxesObj.prototype.numCalibrationPointsRequired = function() {
+        return 2;
+    };
 
-    AxesObj.prototype.getDimensions = function() { return 2; };
+    AxesObj.prototype.getDimensions = function() {
+        return 2;
+    };
 
-    AxesObj.prototype.getAxesLabels = function() { return [ 'Label', 'Y' ]; };
+    AxesObj.prototype.getAxesLabels = function() {
+        return ['Label', 'Y'];
+    };
 
     return AxesObj;
 })();

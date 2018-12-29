@@ -27,7 +27,9 @@ wpd.autoExtraction = (function() {
         wpd.algoManager.updateAlgoList();
     }
 
-    return {start : start};
+    return {
+        start: start
+    };
 })();
 
 // Manage auto extract algorithms
@@ -51,7 +53,7 @@ wpd.algoManager = (function() {
         // X Step w/ Interpolation and X Step
         if (axes instanceof wpd.XYAxes) {
             innerHTML += '<option value="XStepWithInterpolation">' +
-                         wpd.gettext('x-step-with-interpolation') + '</option>';
+                wpd.gettext('x-step-with-interpolation') + '</option>';
             innerHTML += '<option value="XStep">' + wpd.gettext('x-step') + '</option>';
         }
 
@@ -131,9 +133,9 @@ wpd.algoManager = (function() {
 
         for (let pi = 0; pi < algoParams.length; pi++) {
             tableString += '<tr><td>' + algoParams[pi][0] +
-                           '</td><td><input type="text" size=3 id="algo-param-' + pi +
-                           '" class="algo-params" value="' + algoParams[pi][2] + '"/></td><td>' +
-                           algoParams[pi][1] + '</td></tr>';
+                '</td><td><input type="text" size=3 id="algo-param-' + pi +
+                '" class="algo-params" value="' + algoParams[pi][2] + '"/></td><td>' +
+                algoParams[pi][1] + '</td></tr>';
         }
 
         tableString += "</table>";
@@ -169,7 +171,11 @@ wpd.algoManager = (function() {
         return true;
     }
 
-    return {updateAlgoList : updateAlgoList, applyAlgoSelection : applyAlgoSelection, run : run};
+    return {
+        updateAlgoList: updateAlgoList,
+        applyAlgoSelection: applyAlgoSelection,
+        run: run
+    };
 })();
 
 wpd.dataMask = (function() {
@@ -222,11 +228,11 @@ wpd.dataMask = (function() {
     }
 
     return {
-        grabMask : grabMask,
-        markBox : markBox,
-        markPen : markPen,
-        eraseMarks : eraseMarks,
-        viewMask : viewMask,
-        clearMask : clearMask
+        grabMask: grabMask,
+        markBox: markBox,
+        markPen: markPen,
+        eraseMarks: eraseMarks,
+        viewMask: viewMask,
+        clearMask: clearMask
     };
 })();

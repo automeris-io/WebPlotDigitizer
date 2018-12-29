@@ -49,5 +49,9 @@ wpd.sidebar = (function() {
         }
     }
 
-    return {show : show, clear : clear, resize : resize};
+    return {
+        show: show,
+        clear: clear,
+        resize: resize
+    };
 })();

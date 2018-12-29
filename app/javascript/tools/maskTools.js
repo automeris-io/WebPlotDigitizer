@@ -25,20 +25,22 @@ var wpd = wpd || {};
 
 wpd.BoxMaskTool = (function() {
     var Tool = function() {
-        var isDrawing = false, topImageCorner, topScreenCorner,
-            ctx = wpd.graphicsWidget.getAllContexts(), moveTimer, screen_pos,
+        var isDrawing = false,
+            topImageCorner, topScreenCorner,
+            ctx = wpd.graphicsWidget.getAllContexts(),
+            moveTimer, screen_pos,
 
             mouseMoveHandler =
-                function() {
+            function() {
                 wpd.graphicsWidget.resetHover();
                 ctx.hoverCtx.strokeStyle = "rgb(0,0,0)";
                 ctx.hoverCtx.strokeRect(topScreenCorner.x, topScreenCorner.y,
-                                        screen_pos.x - topScreenCorner.x,
-                                        screen_pos.y - topScreenCorner.y);
+                    screen_pos.x - topScreenCorner.x,
+                    screen_pos.y - topScreenCorner.y);
             },
 
             mouseUpHandler =
-                function(ev, pos, imagePos) {
+            function(ev, pos, imagePos) {
                 if (isDrawing === false) {
                     return;
                 }
@@ -47,14 +49,15 @@ wpd.BoxMaskTool = (function() {
                 wpd.graphicsWidget.resetHover();
                 ctx.dataCtx.fillStyle = "rgba(255,255,0,1)";
                 ctx.dataCtx.fillRect(topScreenCorner.x, topScreenCorner.y,
-                                     pos.x - topScreenCorner.x, pos.y - topScreenCorner.y);
+                    pos.x - topScreenCorner.x, pos.y - topScreenCorner.y);
                 ctx.oriDataCtx.fillStyle = "rgba(255,255,0,1)";
                 ctx.oriDataCtx.fillRect(topImageCorner.x, topImageCorner.y,
-                                        imagePos.x - topImageCorner.x,
-                                        imagePos.y - topImageCorner.y);
+                    imagePos.x - topImageCorner.x,
+                    imagePos.y - topImageCorner.y);
             },
 
-            mouseOutPos = null, mouseOutImagePos = null;
+            mouseOutPos = null,
+            mouseOutImagePos = null;
 
         this.onAttach = function() {
             wpd.graphicsWidget.setRepainter(new wpd.MaskPainter());
@@ -96,7 +99,9 @@ wpd.BoxMaskTool = (function() {
             mouseOutImagePos = null;
         };
 
-        this.onMouseUp = function(ev, pos, imagePos) { mouseUpHandler(ev, pos, imagePos); };
+        this.onMouseUp = function(ev, pos, imagePos) {
+            mouseUpHandler(ev, pos, imagePos);
+        };
 
         this.onRemove = function() {
             document.getElementById('box-mask').classList.remove('pressed-button');
@@ -109,16 +114,18 @@ wpd.BoxMaskTool = (function() {
 
 wpd.PenMaskTool = (function() {
     var Tool = function() {
-        var strokeWidth, ctx = wpd.graphicsWidget.getAllContexts(), isDrawing = false, moveTimer,
-                         screen_pos, image_pos, mouseMoveHandler = function() {
-                             ctx.dataCtx.strokeStyle = "rgba(255,255,0,1)";
-                             ctx.dataCtx.lineTo(screen_pos.x, screen_pos.y);
-                             ctx.dataCtx.stroke();
+        var strokeWidth, ctx = wpd.graphicsWidget.getAllContexts(),
+            isDrawing = false,
+            moveTimer,
+            screen_pos, image_pos, mouseMoveHandler = function() {
+                ctx.dataCtx.strokeStyle = "rgba(255,255,0,1)";
+                ctx.dataCtx.lineTo(screen_pos.x, screen_pos.y);
+                ctx.dataCtx.stroke();
 
-                             ctx.oriDataCtx.strokeStyle = "rgba(255,255,0,1)";
-                             ctx.oriDataCtx.lineTo(image_pos.x, image_pos.y);
-                             ctx.oriDataCtx.stroke();
-                         };
+                ctx.oriDataCtx.strokeStyle = "rgba(255,255,0,1)";
+                ctx.oriDataCtx.lineTo(image_pos.x, image_pos.y);
+                ctx.oriDataCtx.stroke();
+            };
 
         this.onAttach = function() {
             wpd.graphicsWidget.setRepainter(new wpd.MaskPainter());
@@ -161,7 +168,9 @@ wpd.PenMaskTool = (function() {
             isDrawing = false;
         };
 
-        this.onMouseOut = function(ev, pos, imagePos) { this.onMouseUp(ev, pos, imagePos); };
+        this.onMouseOut = function(ev, pos, imagePos) {
+            this.onMouseUp(ev, pos, imagePos);
+        };
 
         this.onRemove = function() {
             document.getElementById('pen-mask').classList.remove('pressed-button');
@@ -175,19 +184,21 @@ wpd.PenMaskTool = (function() {
 
 wpd.EraseMaskTool = (function() {
     var Tool = function() {
-        var strokeWidth, ctx = wpd.graphicsWidget.getAllContexts(), isDrawing = false, moveTimer,
-                         screen_pos, image_pos, mouseMoveHandler = function() {
-                             ctx.dataCtx.globalCompositeOperation = "destination-out";
-                             ctx.oriDataCtx.globalCompositeOperation = "destination-out";
+        var strokeWidth, ctx = wpd.graphicsWidget.getAllContexts(),
+            isDrawing = false,
+            moveTimer,
+            screen_pos, image_pos, mouseMoveHandler = function() {
+                ctx.dataCtx.globalCompositeOperation = "destination-out";
+                ctx.oriDataCtx.globalCompositeOperation = "destination-out";
 
-                             ctx.dataCtx.strokeStyle = "rgba(255,255,0,1)";
-                             ctx.dataCtx.lineTo(screen_pos.x, screen_pos.y);
-                             ctx.dataCtx.stroke();
+                ctx.dataCtx.strokeStyle = "rgba(255,255,0,1)";
+                ctx.dataCtx.lineTo(screen_pos.x, screen_pos.y);
+                ctx.dataCtx.stroke();
 
-                             ctx.oriDataCtx.strokeStyle = "rgba(255,255,0,1)";
-                             ctx.oriDataCtx.lineTo(image_pos.x, image_pos.y);
-                             ctx.oriDataCtx.stroke();
-                         };
+                ctx.oriDataCtx.strokeStyle = "rgba(255,255,0,1)";
+                ctx.oriDataCtx.lineTo(image_pos.x, image_pos.y);
+                ctx.oriDataCtx.stroke();
+            };
 
         this.onAttach = function() {
             wpd.graphicsWidget.setRepainter(new wpd.MaskPainter());
@@ -224,7 +235,9 @@ wpd.EraseMaskTool = (function() {
             moveTimer = setTimeout(mouseMoveHandler, 2);
         };
 
-        this.onMouseOut = function(ev, pos, imagePos) { this.onMouseUp(ev, pos, imagePos); };
+        this.onMouseOut = function(ev, pos, imagePos) {
+            this.onMouseUp(ev, pos, imagePos);
+        };
 
         this.onMouseUp = function(ev, pos, imagePos) {
             clearTimeout(moveTimer);

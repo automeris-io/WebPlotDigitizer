@@ -38,7 +38,7 @@ wpd.dataExport = (function() {
                 }
             }
         } else if (axes instanceof wpd.BarAxes) {
-            val = [ '', val[0] ];
+            val = ['', val[0]];
             if (pixel.metadata == null) {
                 val[0] = "Bar" + ptIndex;
             } else {
@@ -59,7 +59,7 @@ wpd.dataExport = (function() {
         if (dsColl == null || dsColl.length === 0) {
             // axes is not aligned, show an error message?
             wpd.messagePopup.show(wpd.gettext('no-datasets-to-export-error'),
-                                  wpd.gettext('no-datasets-to-export'));
+                wpd.gettext('no-datasets-to-export'));
             return;
         }
 
@@ -127,13 +127,19 @@ wpd.dataExport = (function() {
         wpd.popup.close('export-all-data-popup');
 
         // loop over all datasets
-        var plotData = wpd.appData.getPlotData(), dsColl = plotData.getDatasets(), i, coli, rowi,
-            dataProvider = wpd.plotDataProvider, pdata, plotlyData = {"data" : []}, colName;
+        var plotData = wpd.appData.getPlotData(),
+            dsColl = plotData.getDatasets(),
+            i, coli, rowi,
+            dataProvider = wpd.plotDataProvider,
+            pdata, plotlyData = {
+                "data": []
+            },
+            colName;
 
         if (dsColl == null || dsColl.length === 0) {
             // axes is not aligned, show an error message?
             wpd.messagePopup.show(wpd.gettext('no-datasets-to-export-error'),
-                                  wpd.gettext('no-datasets-to-export'));
+                wpd.gettext('no-datasets-to-export'));
             return;
         }
 
@@ -160,5 +166,9 @@ wpd.dataExport = (function() {
         wpd.plotly.send(plotlyData);
     }
 
-    return {show : show, generateCSV : generateCSV, exportToPlotly : exportToPlotly};
+    return {
+        show: show,
+        generateCSV: generateCSV,
+        exportToPlotly: exportToPlotly
+    };
 })();

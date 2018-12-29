@@ -35,24 +35,36 @@ wpd.Dataset = class {
 
         // public:
         this.name = "Defaut Dataset";
-        this.variableNames = [ 'x', 'y' ];
+        this.variableNames = ['x', 'y'];
     }
 
-    hasMetadata() { return this._hasMetadata; }
+    hasMetadata() {
+        return this._hasMetadata;
+    }
 
-    setMetadataKeys(metakeys) { this._mkeys = metakeys; }
+    setMetadataKeys(metakeys) {
+        this._mkeys = metakeys;
+    }
 
-    getMetadataKeys() { return this._mkeys; }
+    getMetadataKeys() {
+        return this._mkeys;
+    }
 
     addPixel(pxi, pyi, mdata) {
         let dlen = this._dataPoints.length;
-        this._dataPoints[dlen] = {x : pxi, y : pyi, metadata : mdata};
+        this._dataPoints[dlen] = {
+            x: pxi,
+            y: pyi,
+            metadata: mdata
+        };
         if (mdata != null) {
             this._hasMetadata = true;
         }
     }
 
-    getPixel(index) { return this._dataPoints[index]; }
+    getPixel(index) {
+        return this._dataPoints[index];
+    }
 
     setPixelAt(index, pxi, pyi) {
         if (index < this._dataPoints.length) {
@@ -68,7 +80,11 @@ wpd.Dataset = class {
     }
 
     insertPixel(index, pxi, pyi, mdata) {
-        this._dataPoints.splice(index, 0, {x : pxi, y : pyi, metadata : mdata});
+        this._dataPoints.splice(index, 0, {
+            x: pxi,
+            y: pyi,
+            metadata: mdata
+        });
     }
 
     removePixelAtIndex(index) {
@@ -84,10 +100,11 @@ wpd.Dataset = class {
 
     findNearestPixel(x, y, threshold) {
         threshold = (threshold == null) ? 50 : parseFloat(threshold);
-        let minDist = 0, minIndex = -1;
+        let minDist = 0,
+            minIndex = -1;
         for (let i = 0; i < this._dataPoints.length; i++) {
             let dist = Math.sqrt((x - this._dataPoints[i].x) * (x - this._dataPoints[i].x) +
-                                 (y - this._dataPoints[i].y) * (y - this._dataPoints[i].y));
+                (y - this._dataPoints[i].y) * (y - this._dataPoints[i].y));
             if ((minIndex < 0 && dist <= threshold) || (minIndex >= 0 && dist < minDist)) {
                 minIndex = i;
                 minDist = dist;
@@ -109,7 +126,9 @@ wpd.Dataset = class {
         this._mkeys = [];
     }
 
-    getCount() { return this._dataPoints.length; }
+    getCount() {
+        return this._dataPoints.length;
+    }
 
     selectPixel(index) {
         if (this._selections.indexOf(index) >= 0) {
@@ -118,7 +137,9 @@ wpd.Dataset = class {
         this._selections.push(index);
     }
 
-    unselectAll() { this._selections = []; }
+    unselectAll() {
+        this._selections = [];
+    }
 
     selectNearestPixel(x, y, threshold) {
         let minIndex = this.findNearestPixel(x, y, threshold);
@@ -146,5 +167,7 @@ wpd.Dataset = class {
         }
     }
 
-    getSelectedPixels() { return this._selections; }
+    getSelectedPixels() {
+        return this._selections;
+    }
 };

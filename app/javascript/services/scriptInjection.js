@@ -24,9 +24,13 @@
 var wpd = wpd || {};
 
 wpd.scriptInjector = (function() {
-    function start() { wpd.popup.show('runScriptPopup'); }
+    function start() {
+        wpd.popup.show('runScriptPopup');
+    }
 
-    function cancel() { wpd.popup.close('runScriptPopup'); }
+    function cancel() {
+        wpd.popup.close('runScriptPopup');
+    }
 
     function load() {
         var $scriptFileInput = document.getElementById('runScriptFileInput');
@@ -51,5 +55,9 @@ wpd.scriptInjector = (function() {
 
     function injectCSS() {}
 
-    return {start : start, cancel : cancel, load : load};
+    return {
+        start: start,
+        cancel: cancel,
+        load: load
+    };
 })();

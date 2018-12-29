@@ -24,9 +24,13 @@
 var wpd = wpd || {};
 
 wpd.saveResume = (function() {
-    function save() { wpd.popup.show('export-json-window'); }
+    function save() {
+        wpd.popup.show('export-json-window');
+    }
 
-    function load() { wpd.popup.show('import-json-window'); }
+    function load() {
+        wpd.popup.show('import-json-window');
+    }
 
     function resumeFromJSON(json_data) {
         const plotData = wpd.appData.getPlotData();
@@ -65,7 +69,11 @@ wpd.saveResume = (function() {
 
         // projectInfo
         let projectInfo =
-            JSON.stringify({"version" : [ 4, 0 ], "json" : "wpd.json", "image" : "image.png"});
+            JSON.stringify({
+                "version": [4, 0],
+                "json": "wpd.json",
+                "image": "image.png"
+            });
 
         // generate project file
         let tarWriter = new tarball.TarWriter();
@@ -108,11 +116,13 @@ wpd.saveResume = (function() {
                         resumeFromJSON(wpdjson);
                         wpd.tree.refresh();
                         wpd.messagePopup.show(wpd.gettext('import-json'),
-                                              wpd.gettext("json-data-loaded"));
+                            wpd.gettext("json-data-loaded"));
                     });
                 }
             },
-            function(err) { console.log(err); });
+            function(err) {
+                console.log(err);
+            });
     }
 
     function read() {
@@ -135,16 +145,16 @@ wpd.saveResume = (function() {
                 readProjectFile(file);
             } else {
                 wpd.messagePopup.show(wpd.gettext("invalid-project"),
-                                      wpd.gettext("invalid-project-msg"));
+                    wpd.gettext("invalid-project-msg"));
             }
         }
     }
 
     return {
-        save : save,
-        load : load,
-        downloadJSON : downloadJSON,
-        downloadProject : downloadProject,
-        read : read
+        save: save,
+        load: load,
+        downloadJSON: downloadJSON,
+        downloadProject: downloadProject,
+        read: read
     };
 })();

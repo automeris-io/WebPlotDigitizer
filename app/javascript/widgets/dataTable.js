@@ -119,7 +119,7 @@ wpd.dataTable = (function() {
             if (wpd.appData.getPlotData().getMeasurementsByType(wpd.DistanceMeasurement).length >
                 0) {
                 datasetHTML += "<option value=\"distance\">" +
-                               wpd.gettext("distance-measurements") + "</option>";
+                    wpd.gettext("distance-measurements") + "</option>";
             }
             $datasetList.innerHTML = datasetHTML;
             if (selectedMeasurement instanceof wpd.AngleMeasurement) {
@@ -141,7 +141,7 @@ wpd.dataTable = (function() {
             // Sorting
             if (dataCache.isFieldSortable[i]) {
                 sortingHTML += '<option value="' + dataCache.fields[i] + '">' +
-                               dataCache.fields[i] + '</option>';
+                    dataCache.fields[i] + '</option>';
             }
 
             // Date formatting
@@ -191,7 +191,8 @@ wpd.dataTable = (function() {
     function updateSortingControls() {
         var sortingKey = document.getElementById('data-sort-variables').value,
             $sortingOrder = document.getElementById('data-sort-order'),
-            isConnectivity = sortingKey === 'NearestNeighbor', isRaw = sortingKey === 'raw';
+            isConnectivity = sortingKey === 'NearestNeighbor',
+            isRaw = sortingKey === 'raw';
 
         if (isConnectivity || isRaw) {
             $sortingOrder.setAttribute('disabled', true);
@@ -215,8 +216,10 @@ wpd.dataTable = (function() {
         sortedData = dataCache.rawData.slice(0);
         var sortingKey = document.getElementById('data-sort-variables').value,
             sortingOrder = document.getElementById('data-sort-order').value,
-            isAscending = sortingOrder === 'ascending', isRaw = sortingKey === 'raw',
-            isConnectivity = sortingKey === 'NearestNeighbor', dataIndex,
+            isAscending = sortingOrder === 'ascending',
+            isRaw = sortingKey === 'raw',
+            isConnectivity = sortingKey === 'NearestNeighbor',
+            dataIndex,
             fieldCount = dataCache.fields.length;
 
         if (isRaw) {
@@ -241,7 +244,8 @@ wpd.dataTable = (function() {
 
         if (isConnectivity) {
             var mindist, compdist, minindex, rowi, rowcompi,
-                rowCount = sortedData.length, connFieldIndices = dataCache.connectivityFieldIndices,
+                rowCount = sortedData.length,
+                connFieldIndices = dataCache.connectivityFieldIndices,
                 fi, cfi, swp;
 
             for (rowi = 0; rowi < rowCount - 1; rowi++) {
@@ -253,7 +257,7 @@ wpd.dataTable = (function() {
                     for (fi = 0; fi < connFieldIndices.length; fi++) {
                         cfi = connFieldIndices[fi];
                         compdist += (sortedData[rowi][cfi] - sortedData[rowcompi][cfi]) *
-                                    (sortedData[rowi][cfi] - sortedData[rowcompi][cfi]);
+                            (sortedData[rowi][cfi] - sortedData[rowcompi][cfi]);
                     }
 
                     if ((compdist < mindist) || (minindex === -1)) {
@@ -279,9 +283,10 @@ wpd.dataTable = (function() {
 
         var $digitizedDataTable = document.getElementById('digitizedDataTable'),
             numFormattingDigits =
-                parseInt(document.getElementById('data-number-format-digits').value, 10),
+            parseInt(document.getElementById('data-number-format-digits').value, 10),
             numFormattingStyle = document.getElementById('data-number-format-style').value,
-            colSeparator = document.getElementById('data-number-format-separator').value, rowi,
+            colSeparator = document.getElementById('data-number-format-separator').value,
+            rowi,
             coli, rowValues, dateFormattingStrings = [];
 
         // "\t" in the column separator should translate to a tab:
@@ -308,7 +313,7 @@ wpd.dataTable = (function() {
                             rowValues[coli] =
                                 sortedData[rowi][coli].toPrecision(numFormattingDigits);
                         } else if (numFormattingStyle === 'exponential' &&
-                                   numFormattingDigits >= 0) {
+                            numFormattingDigits >= 0) {
                             rowValues[coli] =
                                 sortedData[rowi][coli].toExponential(numFormattingDigits);
                         } else {
@@ -337,9 +342,9 @@ wpd.dataTable = (function() {
 
     function generateCSV() {
         var datasetName =
-            selectedDataset != null
-                ? selectedDataset.name
-                : ((selectedMeasurement instanceof wpd.AngleMeasurement) ? "angles" : "distances");
+            selectedDataset != null ?
+            selectedDataset.name :
+            ((selectedMeasurement instanceof wpd.AngleMeasurement) ? "angles" : "distances");
         wpd.download.csv(tableText, datasetName + ".csv");
     }
 
@@ -347,7 +352,10 @@ wpd.dataTable = (function() {
         if (sortedData == null) {
             return;
         }
-        var plotlyData = {"data" : []}, rowi, coli, fieldName;
+        var plotlyData = {
+                "data": []
+            },
+            rowi, coli, fieldName;
 
         plotlyData.data[0] = {};
 
@@ -379,15 +387,15 @@ wpd.dataTable = (function() {
     }
 
     return {
-        showTable : showPlotData,
-        showAngleData : showAngleData,
-        showAreaData : showAreaData,
-        showDistanceData : showDistanceData,
-        updateSortingControls : updateSortingControls,
-        reSort : reSort,
-        copyToClipboard : copyToClipboard,
-        generateCSV : generateCSV,
-        exportToPlotly : exportToPlotly,
-        changeDataset : changeDataset
+        showTable: showPlotData,
+        showAngleData: showAngleData,
+        showAreaData: showAreaData,
+        showDistanceData: showDistanceData,
+        updateSortingControls: updateSortingControls,
+        reSort: reSort,
+        copyToClipboard: copyToClipboard,
+        generateCSV: generateCSV,
+        exportToPlotly: exportToPlotly,
+        changeDataset: changeDataset
     };
 })();

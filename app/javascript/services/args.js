@@ -31,7 +31,8 @@ wpd.args = (function() {
     // and getValue('nonexistent') should return null
     function getValue(arg) {
 
-        var searchString = window.location.search.substring(1), i, val,
+        var searchString = window.location.search.substring(1),
+            i, val,
             params = searchString.split("&");
 
         for (i = 0; i < params.length; i++) {
@@ -43,5 +44,7 @@ wpd.args = (function() {
         return null;
     }
 
-    return {getValue : getValue};
+    return {
+        getValue: getValue
+    };
 })();

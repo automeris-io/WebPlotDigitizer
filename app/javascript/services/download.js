@@ -34,7 +34,9 @@ wpd.download = (function() {
 
     function textFileLocal(data, filename) {
         let $downloadElem = document.createElement('a');
-        $downloadElem.href = URL.createObjectURL(new Blob([ data ]), {type : "text/plain"});
+        $downloadElem.href = URL.createObjectURL(new Blob([data]), {
+            type: "text/plain"
+        });
         $downloadElem.download = stripIllegalCharacters(filename);
         $downloadElem.style.display = "none";
         document.body.appendChild($downloadElem);
@@ -90,5 +92,8 @@ wpd.download = (function() {
         return filename.replace(/[^a-zA-Z\d+\.\-_\s]/g, "_");
     }
 
-    return {json : json, csv : csv};
+    return {
+        json: json,
+        csv: csv
+    };
 })();

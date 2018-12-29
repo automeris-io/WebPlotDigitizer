@@ -2,5 +2,14 @@
 # Use clang-format to autoformat javascript files
 
 echo "Fomatting..."
-find javascript tests -name "*.js" -exec clang-format -i {} \;
+
+echo " - Javascript files"
+find javascript tests -name "*.js" -exec js-beautify -r {} \;
+
+echo " - HTML templates"
+find templates -name "*.html" -exec js-beautify -r {} \;
+
+echo " - CSS styles"
+find . -name "*.css" -exec js-beautify -r {} \;
+
 echo "Done!"

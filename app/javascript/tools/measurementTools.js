@@ -25,7 +25,9 @@ var wpd = wpd || {};
 
 wpd.AddMeasurementTool = (function() {
     var Tool = function(mode) {
-        var ctx = wpd.graphicsWidget.getAllContexts(), pointsCaptured = 0, isCapturing = true,
+        var ctx = wpd.graphicsWidget.getAllContexts(),
+            pointsCaptured = 0,
+            isCapturing = true,
             plist = [];
 
         this.onAttach = function() {
@@ -53,7 +55,7 @@ wpd.AddMeasurementTool = (function() {
                 wpd.graphicsWidget.setTool(new wpd.DeleteMeasurementTool(mode));
                 return;
             } else if ((wpd.keyCodes.isEnter(ev.keyCode) || wpd.keyCodes.isEsc(ev.keyCode)) &&
-                       isCapturing === true && mode.connectivity < 0) {
+                isCapturing === true && mode.connectivity < 0) {
                 isCapturing = false;
                 mode.getData().addConnection(plist);
                 wpd.graphicsWidget.resetHover();
@@ -94,7 +96,7 @@ wpd.AddMeasurementTool = (function() {
                     ctx.oriDataCtx.beginPath();
                     ctx.oriDataCtx.strokeStyle = "rgb(0,0,10)";
                     ctx.oriDataCtx.moveTo(plist[(pointsCaptured - 2) * 2],
-                                          plist[(pointsCaptured - 2) * 2 + 1]);
+                        plist[(pointsCaptured - 2) * 2 + 1]);
                     ctx.oriDataCtx.lineTo(imagePos.x, imagePos.y);
                     ctx.oriDataCtx.stroke();
                 }
@@ -117,7 +119,7 @@ wpd.AddMeasurementTool = (function() {
             if (isCapturing && pointsCaptured >= 1) {
                 wpd.graphicsWidget.resetHover();
                 var prevScreenPx = wpd.graphicsWidget.screenPx(plist[(pointsCaptured - 1) * 2],
-                                                               plist[(pointsCaptured - 1) * 2 + 1]);
+                    plist[(pointsCaptured - 1) * 2 + 1]);
 
                 ctx.hoverCtx.beginPath();
                 ctx.hoverCtx.strokeStyle = "rgb(0,0,0)";
@@ -190,10 +192,10 @@ wpd.AdjustMeasurementTool = (function() {
 
             if (selectedPt.connectionIndex >= 0 && selectedPt.pointIndex >= 0) {
 
-                var stepSize = ev.shiftKey === true ? 5 / wpd.graphicsWidget.getZoomRatio()
-                                                    : 0.5 / wpd.graphicsWidget.getZoomRatio(),
+                var stepSize = ev.shiftKey === true ? 5 / wpd.graphicsWidget.getZoomRatio() :
+                    0.5 / wpd.graphicsWidget.getZoomRatio(),
                     pointPx = measurementData.getPointAt(selectedPt.connectionIndex,
-                                                         selectedPt.pointIndex);
+                        selectedPt.pointIndex);
 
                 if (wpd.keyCodes.isUp(ev.keyCode)) {
                     pointPx.y = pointPx.y - stepSize;
@@ -208,7 +210,7 @@ wpd.AdjustMeasurementTool = (function() {
                 }
 
                 measurementData.setPointAt(selectedPt.connectionIndex, selectedPt.pointIndex,
-                                           pointPx.x, pointPx.y);
+                    pointPx.x, pointPx.y);
                 wpd.graphicsWidget.forceHandlerRepaint();
                 wpd.graphicsWidget.updateZoomToImagePosn(pointPx.x, pointPx.y);
                 ev.preventDefault();
@@ -224,7 +226,7 @@ wpd.MeasurementRepainter = (function() {
         var ctx = wpd.graphicsWidget.getAllContexts(),
 
             drawLine =
-                function(sx0, sy0, sx1, sy1, ix0, iy0, ix1, iy1) {
+            function(sx0, sy0, sx1, sy1, ix0, iy0, ix1, iy1) {
                 ctx.dataCtx.beginPath();
                 ctx.dataCtx.strokeStyle = "rgb(0,0,10)";
                 ctx.dataCtx.moveTo(sx0, sy0);
@@ -239,7 +241,7 @@ wpd.MeasurementRepainter = (function() {
             },
 
             drawPoint =
-                function(sx, sy, ix, iy, isSelected) {
+            function(sx, sy, ix, iy, isSelected) {
                 ctx.dataCtx.beginPath();
                 if (isSelected) {
                     ctx.dataCtx.fillStyle = "rgb(0, 200, 0)";
@@ -260,7 +262,7 @@ wpd.MeasurementRepainter = (function() {
             },
 
             drawArc =
-                function(sx, sy, ix, iy, theta1, theta2) {
+            function(sx, sy, ix, iy, theta1, theta2) {
                 ctx.dataCtx.beginPath();
                 ctx.dataCtx.strokeStyle = "rgb(0,0,10)";
                 ctx.dataCtx.arc(sx, sy, 15, theta1, theta2, true);
@@ -273,7 +275,7 @@ wpd.MeasurementRepainter = (function() {
             },
 
             drawLabel =
-                function(sx, sy, ix, iy, lab) {
+            function(sx, sy, ix, iy, lab) {
                 var labelWidth;
 
                 sx = parseInt(sx, 10);
@@ -297,8 +299,10 @@ wpd.MeasurementRepainter = (function() {
             },
 
             drawDistances =
-                function() {
-                var distData = mode.getData(), conn_count = distData.connectionCount(), conni,
+            function() {
+                var distData = mode.getData(),
+                    conn_count = distData.connectionCount(),
+                    conni,
                     plist, x0, y0, x1, y1, spx0, spx1, dist, isSelected0, isSelected1,
                     axes = mode.getAxes();
 
@@ -312,11 +316,11 @@ wpd.MeasurementRepainter = (function() {
                     isSelected1 = distData.isPointSelected(conni, 1);
                     if (wpd.appData.isAligned() === true && axes instanceof wpd.MapAxes) {
                         dist = 'Dist' + conni.toString() + ': ' +
-                               axes.pixelToDataDistance(distData.getDistance(conni)).toFixed(2) +
-                               ' ' + axes.getUnits();
+                            axes.pixelToDataDistance(distData.getDistance(conni)).toFixed(2) +
+                            ' ' + axes.getUnits();
                     } else {
                         dist = 'Dist' + conni.toString() + ': ' +
-                               distData.getDistance(conni).toFixed(2) + ' px';
+                            distData.getDistance(conni).toFixed(2) + ' px';
                     }
                     spx0 = wpd.graphicsWidget.screenPx(x0, y0);
                     spx1 = wpd.graphicsWidget.screenPx(x1, y1);
@@ -330,13 +334,15 @@ wpd.MeasurementRepainter = (function() {
 
                     // distance label
                     drawLabel(0.5 * (spx0.x + spx1.x), 0.5 * (spx0.y + spx1.y), 0.5 * (x0 + x1),
-                              0.5 * (y0 + y1), dist);
+                        0.5 * (y0 + y1), dist);
                 }
             },
 
             drawAngles =
-                function() {
-                var angleData = mode.getData(), conn_count = angleData.connectionCount(), conni,
+            function() {
+                var angleData = mode.getData(),
+                    conn_count = angleData.connectionCount(),
+                    conni,
                     plist, x0, y0, x1, y1, x2, y2, spx0, spx1, spx2, theta1, theta2, theta,
                     isSelected0, isSelected1, isSelected2;
                 for (conni = 0; conni < conn_count; conni++) {
@@ -351,7 +357,7 @@ wpd.MeasurementRepainter = (function() {
                     isSelected1 = angleData.isPointSelected(conni, 1);
                     isSelected2 = angleData.isPointSelected(conni, 2);
                     theta = 'Theta' + conni.toString() + ': ' +
-                            angleData.getAngle(conni).toFixed(2) + '°';
+                        angleData.getAngle(conni).toFixed(2) + '°';
                     theta1 = Math.atan2((y0 - y1), x0 - x1);
                     theta2 = Math.atan2((y2 - y1), x2 - x1);
                     spx0 = wpd.graphicsWidget.screenPx(x0, y0);
@@ -381,9 +387,15 @@ wpd.MeasurementRepainter = (function() {
                 let axes = mode.getAxes();
                 for (let connIdx = 0; connIdx < connCount; connIdx++) {
                     let conn = connData.getConnectionAt(connIdx);
-                    let labelx = 0.0, labely = 0.0;
+                    let labelx = 0.0,
+                        labely = 0.0;
 
-                    let px_prev = 0, py_prev = 0, spx_prev = {x : 0, y : 0};
+                    let px_prev = 0,
+                        py_prev = 0,
+                        spx_prev = {
+                            x: 0,
+                            y: 0
+                        };
                     for (let pi = 0; pi < conn.length; pi += 2) {
                         let px = conn[pi];
                         let py = conn[pi + 1];
@@ -391,7 +403,7 @@ wpd.MeasurementRepainter = (function() {
 
                         if (pi >= 2) {
                             drawLine(spx_prev.x, spx_prev.y, spx.x, spx.y, px_prev, py_prev, px,
-                                     py);
+                                py);
                         }
 
                         if (pi == conn.length - 2) {
@@ -422,17 +434,17 @@ wpd.MeasurementRepainter = (function() {
                     let periStr = "";
                     if (wpd.appData.isAligned() === true && axes instanceof wpd.MapAxes) {
                         areaStr = "Area" + connIdx + ": " +
-                                  axes.pixelToDataArea(connData.getArea(connIdx)).toFixed(2) + ' ' +
-                                  axes.getUnits() + '^2';
+                            axes.pixelToDataArea(connData.getArea(connIdx)).toFixed(2) + ' ' +
+                            axes.getUnits() + '^2';
                         periStr =
                             "Perimeter" + connIdx + ": " +
                             axes.pixelToDataDistance(connData.getPerimeter(connIdx)).toFixed(2) +
                             ' ' + axes.getUnits();
                     } else {
                         areaStr = "Area" + connIdx + ": " + connData.getArea(connIdx).toFixed(2) +
-                                  ' px^2';
+                            ' px^2';
                         periStr = "Perimeter" + connIdx + ": " +
-                                  connData.getPerimeter(connIdx).toFixed(2) + ' px';
+                            connData.getPerimeter(connIdx).toFixed(2) + ' px';
                     }
                     let label = areaStr + ", " + periStr;
                     drawLabel(labelspx.x, labelspx.y, labelx, labely, label);

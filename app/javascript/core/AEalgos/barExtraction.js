@@ -62,9 +62,15 @@ wpd.BarExtractionAlgo = class {
     getParamList(axes) {
         var orientationAxes = axes.getOrientation().axes;
         if (orientationAxes === 'Y') {
-            return [ [ 'ΔX', 'Px', this._delX ], [ 'ΔVal', 'Px', this._delVal ] ];
+            return [
+                ['ΔX', 'Px', this._delX],
+                ['ΔVal', 'Px', this._delVal]
+            ];
         } else {
-            return [ [ 'ΔY', 'Px', this._delX ], [ 'ΔVal', 'Px', this._delVal ] ];
+            return [
+                ['ΔY', 'Px', this._delX],
+                ['ΔVal', 'Px', this._delVal]
+            ];
         }
     }
 
@@ -76,12 +82,18 @@ wpd.BarExtractionAlgo = class {
         }
     }
 
-    getParam(index) { return index === 0 ? this._delX : this._delVal; }
+    getParam(index) {
+        return index === 0 ? this._delX : this._delVal;
+    }
 
     serialize() {
-        return this._wasRun
-                   ? {algoType : "BarExtractionAlgo", delX : this._delX, delVal : this._delVal}
-                   : null;
+        return this._wasRun ?
+            {
+                algoType: "BarExtractionAlgo",
+                delX: this._delX,
+                delVal: this._delVal
+            } :
+            null;
     }
 
     deserialize(obj) {
@@ -91,8 +103,12 @@ wpd.BarExtractionAlgo = class {
 
     run(autoDetector, dataSeries, axes) {
         this._wasRun = true;
-        var orientation = axes.getOrientation(), barValueColl = [], valTop, valBot, valCount, val,
-            px, py, width = autoDetector.imageWidth, height = autoDetector.imageHeight, pixelAdded,
+        var orientation = axes.getOrientation(),
+            barValueColl = [],
+            valTop, valBot, valCount, val,
+            px, py, width = autoDetector.imageWidth,
+            height = autoDetector.imageHeight,
+            pixelAdded,
             barValuei, bv, dataVal, pxVal, mkeys, topVal, botVal,
 
             appendData = function(x, valTop, valBot) {
@@ -172,7 +188,7 @@ wpd.BarExtractionAlgo = class {
         if (axes.dataPointsHaveLabels) {
             mkeys = dataSeries.getMetadataKeys();
             if (mkeys == null || mkeys[0] !== 'Label') {
-                dataSeries.setMetadataKeys([ 'Label' ]);
+                dataSeries.setMetadataKeys(['Label']);
             }
         }
 
@@ -197,9 +213,9 @@ wpd.BarExtractionAlgo = class {
             if (axes.dataPointsHaveLabels) {
 
                 if (orientation.axes === 'Y') {
-                    dataSeries.addPixel(bv.avgX + 0.5, val + 0.5, [ "Bar" + barValuei ]);
+                    dataSeries.addPixel(bv.avgX + 0.5, val + 0.5, ["Bar" + barValuei]);
                 } else {
-                    dataSeries.addPixel(val + 0.5, bv.avgX + 0.5, [ "Bar" + barValuei ]);
+                    dataSeries.addPixel(val + 0.5, bv.avgX + 0.5, ["Bar" + barValuei]);
                 }
 
             } else {

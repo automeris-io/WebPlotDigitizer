@@ -37,7 +37,11 @@ wpd.imageOps = (function() {
                 }
             }
         }
-        return {imageData : idata, width : iwidth, height : iheight};
+        return {
+            imageData: idata,
+            width: iwidth,
+            height: iheight
+        };
     }
 
     function vflipOp(idata, iwidth, iheight) {
@@ -53,12 +57,23 @@ wpd.imageOps = (function() {
                 }
             }
         }
-        return {imageData : idata, width : iwidth, height : iheight};
+        return {
+            imageData: idata,
+            width: iwidth,
+            height: iheight
+        };
     }
 
-    function hflip() { wpd.graphicsWidget.runImageOp(hflipOp); }
+    function hflip() {
+        wpd.graphicsWidget.runImageOp(hflipOp);
+    }
 
-    function vflip() { wpd.graphicsWidget.runImageOp(vflipOp); }
+    function vflip() {
+        wpd.graphicsWidget.runImageOp(vflipOp);
+    }
 
-    return {hflip : hflip, vflip : vflip};
+    return {
+        hflip: hflip,
+        vflip: vflip
+    };
 })();

@@ -47,17 +47,19 @@ wpd.appData = (function() {
         return _undoManager;
     }
 
-    function isAligned() { return getPlotData().getAxesCount() > 0; }
+    function isAligned() {
+        return getPlotData().getAxesCount() > 0;
+    }
 
     function plotLoaded(imageData) {
         getPlotData().setTopColors(wpd.colorAnalyzer.getTopColors(imageData));
     }
 
     return {
-        isAligned : isAligned,
-        getPlotData : getPlotData,
-        getUndoManager : getUndoManager,
-        reset : reset,
-        plotLoaded : plotLoaded
+        isAligned: isAligned,
+        getPlotData: getPlotData,
+        getUndoManager: getUndoManager,
+        reset: reset,
+        plotLoaded: plotLoaded
     };
 })();

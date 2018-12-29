@@ -23,24 +23,32 @@
 var wpd = wpd || {};
 
 wpd.imageEditing = {
-    showImageInfo : function() {
+    showImageInfo: function() {
         let $imageDimensions = document.getElementById("image-info-dimensions");
         let imageInfo = wpd.imageManager.getImageInfo();
         $imageDimensions.innerHTML = "(" + imageInfo.width + "x" + imageInfo.height + ")";
         wpd.popup.show('image-info-popup');
     },
 
-    startImageCrop : function() { wpd.graphicsWidget.setTool(new wpd.CropTool()); },
+    startImageCrop: function() {
+        wpd.graphicsWidget.setTool(new wpd.CropTool());
+    },
 
-    startPerspective : function() { wpd.popup.show('perspective-info'); },
+    startPerspective: function() {
+        wpd.popup.show('perspective-info');
+    },
 
-    startPerspectiveConfirmed : function() {
+    startPerspectiveConfirmed: function() {
 
     },
 
-    undo : function() { wpd.appData.getUndoManager().undo(); },
+    undo: function() {
+        wpd.appData.getUndoManager().undo();
+    },
 
-    redo : function() { wpd.appData.getUndoManager().redo(); }
+    redo: function() {
+        wpd.appData.getUndoManager().redo();
+    }
 };
 
 wpd.ReversibleAction = class {

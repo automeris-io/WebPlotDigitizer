@@ -26,7 +26,9 @@ var wpd = wpd || {};
 wpd.webcamCapture = (function() {
     var cameraStream;
 
-    function isSupported() { return !(getUserMedia() == null); }
+    function isSupported() {
+        return !(getUserMedia() == null);
+    }
 
     function unsupportedBrowser() {
         wpd.messagePopup.show(wpd.gettext('webcam-capture'), wpd.gettext('webcam-capture-text'));
@@ -34,7 +36,7 @@ wpd.webcamCapture = (function() {
 
     function getUserMedia() {
         return navigator.getUserMedia || navigator.webkitGetUserMedia ||
-               navigator.mozGetUserMedia || navigator.msGetUserMedia;
+            navigator.mozGetUserMedia || navigator.msGetUserMedia;
     }
 
     function start() {
@@ -45,18 +47,21 @@ wpd.webcamCapture = (function() {
         wpd.popup.show('webcamCapture');
         var $camVideo = document.getElementById('webcamVideo');
         navigator.getUserMedia = getUserMedia();
-        navigator.getUserMedia({video : true},
-                               function(stream) {
-                                   cameraStream = stream;
-                                   $camVideo.src = window.URL.createObjectURL(stream);
-                               },
-                               function() {});
+        navigator.getUserMedia({
+                video: true
+            },
+            function(stream) {
+                cameraStream = stream;
+                $camVideo.src = window.URL.createObjectURL(stream);
+            },
+            function() {});
     }
 
     function capture() {
         var $webcamCanvas = document.createElement('canvas'),
             $camVideo = document.getElementById('webcamVideo'),
-            webcamCtx = $webcamCanvas.getContext('2d'), imageData;
+            webcamCtx = $webcamCanvas.getContext('2d'),
+            imageData;
         $webcamCanvas.width = $camVideo.videoWidth;
         $webcamCanvas.height = $camVideo.videoHeight;
         webcamCtx.drawImage($camVideo, 0, 0);
@@ -64,9 +69,9 @@ wpd.webcamCapture = (function() {
         cameraOff();
         wpd.graphicsWidget.runImageOp(function() {
             return {
-                imageData : imageData,
-                width : $webcamCanvas.width,
-                height : $webcamCanvas.height
+                imageData: imageData,
+                width: $webcamCanvas.width,
+                height: $webcamCanvas.height
             };
         });
     }
@@ -78,7 +83,13 @@ wpd.webcamCapture = (function() {
         wpd.popup.close('webcamCapture');
     }
 
-    function cancel() { cameraOff(); }
+    function cancel() {
+        cameraOff();
+    }
 
-    return {start : start, cancel : cancel, capture : capture};
+    return {
+        start: start,
+        cancel: cancel,
+        capture: capture
+    };
 })();

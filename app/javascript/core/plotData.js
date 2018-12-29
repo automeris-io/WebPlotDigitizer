@@ -45,9 +45,13 @@ wpd.PlotData = class {
         this._gridDetectionData = null;
     }
 
-    setTopColors(topColors) { this._topColors = topColors; }
+    setTopColors(topColors) {
+        this._topColors = topColors;
+    }
 
-    getTopColors(topColors) { return this._topColors; }
+    getTopColors(topColors) {
+        return this._topColors;
+    }
 
     addAxes(ax) {
         this._axesColl.push(ax);
@@ -58,11 +62,15 @@ wpd.PlotData = class {
         }
     }
 
-    getAxesColl() { return this._axesColl; }
+    getAxesColl() {
+        return this._axesColl;
+    }
 
     getAxesNames() {
         let names = [];
-        this._axesColl.forEach((ax) => { names.push(ax.name); });
+        this._axesColl.forEach((ax) => {
+            names.push(ax.name);
+        });
         return names;
     }
 
@@ -80,7 +88,9 @@ wpd.PlotData = class {
         }
     }
 
-    getAxesCount() { return this._axesColl.length; }
+    getAxesCount() {
+        return this._axesColl.length;
+    }
 
     addDataset(ds) {
         this._datasetColl.push(ds);
@@ -92,15 +102,21 @@ wpd.PlotData = class {
         }
     }
 
-    getDatasets() { return this._datasetColl; }
+    getDatasets() {
+        return this._datasetColl;
+    }
 
     getDatasetNames() {
         let names = [];
-        this._datasetColl.forEach((ds) => { names.push(ds.name); });
+        this._datasetColl.forEach((ds) => {
+            names.push(ds.name);
+        });
         return names;
     }
 
-    getDatasetCount() { return this._datasetColl.length; }
+    getDatasetCount() {
+        return this._datasetColl.length;
+    }
 
     addMeasurement(ms) {
         this._measurementColl.push(ms);
@@ -108,8 +124,7 @@ wpd.PlotData = class {
         // if this is a distance measurement, then attach to fist existing image or map axes:
         if (ms instanceof wpd.DistanceMeasurement && this._axesColl.length > 0) {
             for (let aIdx = 0; aIdx < this._axesColl.length; aIdx++) {
-                if (this._axesColl[aIdx] instanceof wpd.MapAxes || this._axesColl[aIdx] instanceof
-                                                                       wpd.ImageAxes) {
+                if (this._axesColl[aIdx] instanceof wpd.MapAxes || this._axesColl[aIdx] instanceof wpd.ImageAxes) {
                     this.setAxesForMeasurement(ms, this._axesColl[aIdx]);
                     break;
                 }
@@ -135,17 +150,25 @@ wpd.PlotData = class {
         }
     }
 
-    setAxesForDataset(ds, ax) { this._objectAxesMap.set(ds, ax); }
+    setAxesForDataset(ds, ax) {
+        this._objectAxesMap.set(ds, ax);
+    }
 
-    setAxesForMeasurement(ms, ax) { this._objectAxesMap.set(ms, ax); }
+    setAxesForMeasurement(ms, ax) {
+        this._objectAxesMap.set(ms, ax);
+    }
 
     setAutoDetectionDataForDataset(ds, autoDetectionData) {
         this._datasetAutoDetectionDataMap.set(ds, autoDetectionData);
     }
 
-    getAxesForDataset(ds) { return this._objectAxesMap.get(ds); }
+    getAxesForDataset(ds) {
+        return this._objectAxesMap.get(ds);
+    }
 
-    getAxesForMeasurement(ms) { return this._objectAxesMap.get(ms); }
+    getAxesForMeasurement(ms) {
+        return this._objectAxesMap.get(ms);
+    }
 
     getAutoDetectionDataForDataset(ds) {
         let ad = this._datasetAutoDetectionDataMap.get(ds);
@@ -192,45 +215,45 @@ wpd.PlotData = class {
             }
             for (let calIdx = 0; calIdx < data.calibration.length; calIdx++) {
                 calibration.addPoint(data.calibration[calIdx].px, data.calibration[calIdx].py,
-                                     data.calibration[calIdx].dx, data.calibration[calIdx].dy,
-                                     data.calibration[calIdx].dz);
+                    data.calibration[calIdx].dx, data.calibration[calIdx].dy,
+                    data.calibration[calIdx].dz);
             }
         }
 
         let axes = null;
         if (data.axesType === "XYAxes") {
             axes = new wpd.XYAxes();
-            calibration.labels = [ 'X1', 'X2', 'Y1', 'Y2' ];
-            calibration.labelPositions = [ 'N', 'N', 'E', 'E' ];
+            calibration.labels = ['X1', 'X2', 'Y1', 'Y2'];
+            calibration.labelPositions = ['N', 'N', 'E', 'E'];
             calibration.maxPointCount = 4;
             axes.calibrate(calibration, data.axesParameters.isLogX, data.axesParameters.isLogY);
         } else if (data.axesType === "BarAxes") {
             axes = new wpd.BarAxes();
-            calibration.labels = [ 'P1', 'P2' ];
-            calibration.labelPositions = [ 'S', 'S' ];
+            calibration.labels = ['P1', 'P2'];
+            calibration.labelPositions = ['S', 'S'];
             calibration.maxPointCount = 2;
             axes.calibrate(calibration, data.axesParameters.isLog);
         } else if (data.axesType === "PolarAxes") {
             axes = new wpd.PolarAxes();
-            calibration.labels = [ 'Origin', 'P1', 'P2' ];
-            calibration.labelPositions = [ 'E', 'S', 'S' ];
+            calibration.labels = ['Origin', 'P1', 'P2'];
+            calibration.labelPositions = ['E', 'S', 'S'];
             calibration.maxPointCount = 3;
             axes.calibrate(calibration, data.axesParameters.isDegrees,
-                           data.axesParameters.isClockwise);
+                data.axesParameters.isClockwise);
         } else if (data.axesType === "TernaryAxes") {
             axes = new wpd.TernaryAxes();
-            calibration.labels = [ 'A', 'B', 'C' ];
-            calibration.labelPositions = [ 'S', 'S', 'E' ];
+            calibration.labels = ['A', 'B', 'C'];
+            calibration.labelPositions = ['S', 'S', 'E'];
             calibration.maxPointCount = 3;
             axes.calibrate(calibration, data.axesParameters.isRange100,
-                           data.axesParameters.isNormalOrientation);
+                data.axesParameters.isNormalOrientation);
         } else if (data.axesType === "MapAxes") {
             axes = new wpd.MapAxes();
-            calibration.labels = [ 'P1', 'P2' ];
-            calibration.labelPositions = [ 'S', 'S' ];
+            calibration.labels = ['P1', 'P2'];
+            calibration.labelPositions = ['S', 'S'];
             calibration.maxPointCount = 2;
             axes.calibrate(calibration, data.axesParameters.scaleLength,
-                           data.axesParameters.unitString);
+                data.axesParameters.unitString);
         } else if (data.axesType === "ImageAxes") {
             axes = new wpd.ImageAxes();
         }
@@ -250,7 +273,7 @@ wpd.PlotData = class {
                 }
                 for (let pxIdx = 0; pxIdx < dsData.data.length; pxIdx++) {
                     ds.addPixel(dsData.data[pxIdx].x, dsData.data[pxIdx].y,
-                                dsData.data[pxIdx].metadata);
+                        dsData.data[pxIdx].metadata);
                 }
                 this.addDataset(ds);
                 this.setAxesForDataset(ds, axes);
@@ -299,10 +322,10 @@ wpd.PlotData = class {
                     }
                     for (let calIdx = 0; calIdx < axData.calibrationPoints.length; calIdx++) {
                         calibration.addPoint(axData.calibrationPoints[calIdx].px,
-                                             axData.calibrationPoints[calIdx].py,
-                                             axData.calibrationPoints[calIdx].dx,
-                                             axData.calibrationPoints[calIdx].dy,
-                                             axData.calibrationPoints[calIdx].dz);
+                            axData.calibrationPoints[calIdx].py,
+                            axData.calibrationPoints[calIdx].dx,
+                            axData.calibrationPoints[calIdx].dy,
+                            axData.calibrationPoints[calIdx].dz);
                     }
                 }
 
@@ -310,33 +333,33 @@ wpd.PlotData = class {
                 let axes = null;
                 if (axData.type === "XYAxes") {
                     axes = new wpd.XYAxes();
-                    calibration.labels = [ 'X1', 'X2', 'Y1', 'Y2' ];
-                    calibration.labelPositions = [ 'N', 'N', 'E', 'E' ];
+                    calibration.labels = ['X1', 'X2', 'Y1', 'Y2'];
+                    calibration.labelPositions = ['N', 'N', 'E', 'E'];
                     calibration.maxPointCount = 4;
                     axes.calibrate(calibration, axData.isLogX, axData.isLogY);
                 } else if (axData.type === "BarAxes") {
                     axes = new wpd.BarAxes();
-                    calibration.labels = [ 'P1', 'P2' ];
-                    calibration.labelPositions = [ 'S', 'S' ];
+                    calibration.labels = ['P1', 'P2'];
+                    calibration.labelPositions = ['S', 'S'];
                     calibration.maxPointCount = 2;
                     axes.calibrate(calibration, axData.isLog,
-                                   axData.isRotated == null ? false : axData.isRotated);
+                        axData.isRotated == null ? false : axData.isRotated);
                 } else if (axData.type === "PolarAxes") {
                     axes = new wpd.PolarAxes();
-                    calibration.labels = [ 'Origin', 'P1', 'P2' ];
-                    calibration.labelPositions = [ 'E', 'S', 'S' ];
+                    calibration.labels = ['Origin', 'P1', 'P2'];
+                    calibration.labelPositions = ['E', 'S', 'S'];
                     calibration.maxPointCount = 3;
                     axes.calibrate(calibration, axData.isDegrees, axData.isClockwise, axData.isLog);
                 } else if (axData.type === "TernaryAxes") {
                     axes = new wpd.TernaryAxes();
-                    calibration.labels = [ 'A', 'B', 'C' ];
-                    calibration.labelPositions = [ 'S', 'S', 'E' ];
+                    calibration.labels = ['A', 'B', 'C'];
+                    calibration.labelPositions = ['S', 'S', 'E'];
                     calibration.maxPointCount = 3;
                     axes.calibrate(calibration, axData.isRange100, axData.isNormalOrientation);
                 } else if (axData.type === "MapAxes") {
                     axes = new wpd.MapAxes();
-                    calibration.labels = [ 'P1', 'P2' ];
-                    calibration.labelPositions = [ 'S', 'S' ];
+                    calibration.labels = ['P1', 'P2'];
+                    calibration.labelPositions = ['S', 'S'];
                     calibration.maxPointCount = 2;
                     axes.calibrate(calibration, axData.scaleLength, axData.unitString);
                 } else if (axData.type === "ImageAxes") {
@@ -361,7 +384,7 @@ wpd.PlotData = class {
                 }
                 for (let pxIdx = 0; pxIdx < dsData.data.length; pxIdx++) {
                     ds.addPixel(dsData.data[pxIdx].x, dsData.data[pxIdx].y,
-                                dsData.data[pxIdx].metadata);
+                        dsData.data[pxIdx].metadata);
                 }
                 this._datasetColl.push(ds);
 
@@ -435,7 +458,7 @@ wpd.PlotData = class {
 
     serialize() {
         let data = {};
-        data.version = [ 4, 2 ];
+        data.version = [4, 2];
         data.axesColl = [];
         data.datasetColl = [];
         data.measurementColl = [];

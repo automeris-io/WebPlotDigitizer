@@ -30,8 +30,8 @@ wpd.AutoDetectionData = class {
         // public
         this.imageWidth = 0;
         this.imageHeight = 0;
-        this.fgColor = [ 0, 0, 255 ];
-        this.bgColor = [ 255, 255, 255 ];
+        this.fgColor = [0, 0, 255];
+        this.bgColor = [255, 255, 255];
         this.mask = new Set();
         this.binaryData = new Set();
         this.colorDetectionMode = 'fg';
@@ -52,15 +52,15 @@ wpd.AutoDetectionData = class {
         }
 
         return {
-            fgColor : this.fgColor,
-            bgColor : this.bgColor,
-            mask : Array.from(this.mask.values()),
-            colorDetectionMode : this.colorDetectionMode,
-            colorDistance : this.colorDistance,
-            algorithm : algoData,
-            name : this.name,
-            imageWidth : this.imageWidth,
-            imageHeight : this.imageHeight
+            fgColor: this.fgColor,
+            bgColor: this.bgColor,
+            mask: Array.from(this.mask.values()),
+            colorDetectionMode: this.colorDetectionMode,
+            colorDistance: this.colorDistance,
+            algorithm: algoData,
+            name: this.name,
+            imageWidth: this.imageWidth,
+            imageHeight: this.imageHeight
         };
     }
 
@@ -161,11 +161,23 @@ wpd.AutoDetectionData = class {
 
 wpd.GridDetectionData = class {
     constructor() {
-        this.mask = {xmin : null, xmax : null, ymin : null, ymax : null, pixels : []};
-        this.lineColor = [ 255, 255, 255 ];
+        this.mask = {
+            xmin: null,
+            xmax: null,
+            ymin: null,
+            ymax: null,
+            pixels: []
+        };
+        this.lineColor = [255, 255, 255];
         this.colorDistance = 10;
         this.gridData = null;
-        this.gridMask = {xmin : null, xmax : null, ymin : null, ymax : null, pixels : new Set()};
+        this.gridMask = {
+            xmin: null,
+            xmax: null,
+            ymin: null,
+            ymax: null,
+            pixels: new Set()
+        };
         this.binaryData = new Set();
         this.imageWidth = 0;
         this.imageHeight = 0;
@@ -198,7 +210,7 @@ wpd.GridDetectionData = class {
                     }
 
                     let dist = wpd.dist3d(this.lineColor[0], this.lineColor[1], this.lineColor[2],
-                                          ir, ig, ib);
+                        ir, ig, ib);
 
                     if (this.gridBackgroundMode) {
                         if (dist > this.colorDistance) {

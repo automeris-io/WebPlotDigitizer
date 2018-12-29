@@ -26,115 +26,126 @@
 
 .wpd-menu {
     font-size: 14px;
-	display: inline-block;
-	position: relative;
-	cursor: default;
+    display: inline-block;
+    position: relative;
+    cursor: default;
 }
 
-.wpd-menu:hover > .wpd-menu-dropdown {
-	visibility: visible;
-	z-index: 50;
+.wpd-menu:hover>.wpd-menu-dropdown {
+    visibility: visible;
+    z-index: 50;
 }
 
-.wpd-menu:hover > .wpd-menu-header, .wpd-menu-dropdown > ul > li:hover {
-	background: #FFD8C7;
+.wpd-menu:hover>.wpd-menu-header,
+.wpd-menu-dropdown>ul>li:hover {
+    background: #FFD8C7;
 }
-.wpd-menu-dropdown > ul > li:active {
-	background-color: #FF9466;
+
+.wpd-menu-dropdown>ul>li:active {
+    background-color: #FF9466;
 }
 
 .wpd-menu-header {
-	position: relative;
-	padding: 5px;
-	height: 18px;
+    position: relative;
+    padding: 5px;
+    height: 18px;
 }
 
 .wpd-menu-dropdown {
-	visibility: hidden;
-	display: inline-block;
-	position: absolute;
-	background: white;
-	padding: 0px;
+    visibility: hidden;
+    display: inline-block;
+    position: absolute;
+    background: white;
+    padding: 0px;
 }
 
-.wpd-menu-dropdown > ul {
-	list-style: none;
-	list-style-type: none;
+.wpd-menu-dropdown>ul {
+    list-style: none;
+    list-style-type: none;
     padding: 1px;
-	margin: 0px;
-	white-space: nowrap;
-	border: thin #ccc solid;
+    margin: 0px;
+    white-space: nowrap;
+    border: thin #ccc solid;
 }
 
-.wpd-menu-dropdown > ul > li {
-	padding: 3px 8px 3px 8px;
+.wpd-menu-dropdown>ul>li {
+    padding: 3px 8px 3px 8px;
 }
 
 .wpd-disabled-menu-item {
-	color: grey;
+    color: grey;
 }
 
 
-textarea { resize: none; }
+textarea {
+    resize: none;
+}
 
-input[type="button"], button {
-	font-family: Verdana,sans-serif;
-    padding: 2px 3px 2px 3px;	
-	font-size: 13px;
-	font-weight:500;
-	color:black;
-	background-color: #f1f1f1;
-	border: thin #bbbbbb solid;
-	height:22px;
+input[type="button"],
+button {
+    font-family: Verdana, sans-serif;
+    padding: 2px 3px 2px 3px;
+    font-size: 13px;
+    font-weight: 500;
+    color: black;
+    background-color: #f1f1f1;
+    border: thin #bbbbbb solid;
+    height: 22px;
     margin: 0px;
 }
 
-input[type="button"]:hover, button:hover {
+input[type="button"]:hover,
+button:hover {
     background-color: #FFD8C7;
-	border: thin black solid;
+    border: thin black solid;
 }
 
-input[type="button"]:active, button:active {
-	background-color: #FF9466;
+input[type="button"]:active,
+button:active {
+    background-color: #FF9466;
 }
 
-input[type="button"].pressed-button, button.pressed-button {
-	background-color: #FF9466;
+input[type="button"].pressed-button,
+button.pressed-button {
+    background-color: #FF9466;
 }
 
-input[type="button"]:focus, button:focus {
+input[type="button"]:focus,
+button:focus {
     outline-width: 0;
 }
+
 input[type="button"]:disabled {
-	color: grey;
+    color: grey;
 }
+
 /* Sort of a hack to make button look right in Firefox */
 input[type="button"]::-moz-focus-inner {
-	margin-top: -1px;
+    margin-top: -1px;
 }
 
 input[type="checkbox"] {
-	height:20px;
-	width:20px;
-	border: thin black solid;
-	background: white;
+    height: 20px;
+    width: 20px;
+    border: thin black solid;
+    background: white;
 }
 
 input[type="text"] {
-	font-family: Verdana, Sans Serif;
-	font-size: 13px;
-	background: white;
-	border: thin #aaaaaa solid;
-	height:17px;
+    font-family: Verdana, Sans Serif;
+    font-size: 13px;
+    background: white;
+    border: thin #aaaaaa solid;
+    height: 17px;
 }
 
 input[type="range"] {
-	height: 17px;
-	background: white;
+    height: 17px;
+    background: white;
 }
 
 input[type="file"] {
-    font-size:14px;
+    font-size: 14px;
 }
 
 hr {
@@ -152,36 +163,43 @@ select {
     padding: 2px;
     margin-bottom: 20px;
 }
+
 .tree-folder {
     cursor: pointer;
     padding: 2px;
 }
+
 .tree-list {
     list-style: none;
     padding-left: 15px;
     font-family: sans-serif;
     font-size: 11pt;
 }
+
 .tree-list-root {
     list-style: none;
     padding-left: 1px;
     font-family: sans-serif;
     font-size: 11pt;
-    margin-top:10px;
+    margin-top: 10px;
 }
-.tree-item:hover, .tree-folder:hover {
+
+.tree-item:hover,
+.tree-folder:hover {
     background: #FFD8C7;
 }
 
 .tree-selected {
-	background: #FF9466;
+    background: #FF9466;
 }
 
 .tree-selected:hover {
-	background: #FF9466;
+    background: #FF9466;
 }
 
-.tree-item:active, .tree-folder:active, .tree-item::selection {
+.tree-item:active,
+.tree-folder:active,
+.tree-item::selection {
     background: #FF9466;
 }
 
@@ -193,4 +211,3 @@ select {
 .tree-widget p {
     margin: 5px 0px 5px 0px;
 }
-

@@ -49,16 +49,16 @@ wpd.TreeWidget = class {
         for (let i = 0; i < data.length; i++) {
             let item = data[i];
             this.itemCount++;
-            if (typeof (item) === "string") {
+            if (typeof(item) === "string") {
                 htmlStr += "<li title=\"" + item + "\">";
                 htmlStr += "<span class=\"tree-item\" id=\"tree-item-id-" + this.itemCount + "\">" +
-                           item + "</span>";
+                    item + "</span>";
                 this.idmap[this.itemCount] = basePath + "/" + item;
-            } else if (typeof (item) === "object") {
+            } else if (typeof(item) === "object") {
                 htmlStr += "<li>";
                 let labelKey = Object.keys(item)[0];
                 htmlStr += "<span class=\"tree-folder\" id=\"tree-item-id-" + this.itemCount +
-                           "\">" + labelKey + "</span>";
+                    "\">" + labelKey + "</span>";
                 this.idmap[this.itemCount] = basePath + "/" + labelKey;
                 htmlStr += this._renderFolder(item[labelKey], basePath + "/" + labelKey, true);
             }
@@ -79,8 +79,12 @@ wpd.TreeWidget = class {
     _unselectAll() {
         const $folders = this.$mainElem.querySelectorAll(".tree-folder");
         const $items = this.$mainElem.querySelectorAll(".tree-item");
-        $folders.forEach(function($e) { $e.classList.remove("tree-selected"); });
-        $items.forEach(function($e) { $e.classList.remove("tree-selected"); });
+        $folders.forEach(function($e) {
+            $e.classList.remove("tree-selected");
+        });
+        $items.forEach(function($e) {
+            $e.classList.remove("tree-selected");
+        });
         this.selectedPath = null;
     }
 
@@ -131,11 +135,17 @@ wpd.TreeWidget = class {
         }
     }
 
-    onItemSelection(callback) { this.itemSelectionCallback = callback; }
+    onItemSelection(callback) {
+        this.itemSelectionCallback = callback;
+    }
 
-    onItemRename(callback) { this.itemRenameCallback = callback; }
+    onItemRename(callback) {
+        this.itemRenameCallback = callback;
+    }
 
-    getSelectedPath() { return this.selectedPath; }
+    getSelectedPath() {
+        return this.selectedPath;
+    }
 };
 
 wpd.tree = (function() {
@@ -268,20 +278,18 @@ wpd.tree = (function() {
     function renderAxesSelectionForMeasurement(mode) {
         const isDist = mode == wpd.measurementModes.distance;
         const plotData = wpd.appData.getPlotData();
-        const msColl = isDist ? plotData.getMeasurementsByType(wpd.DistanceMeasurement)
-                              : plotData.getMeasurementsByType(wpd.AreaMeasurement);
+        const msColl = isDist ? plotData.getMeasurementsByType(wpd.DistanceMeasurement) :
+            plotData.getMeasurementsByType(wpd.AreaMeasurement);
         if (msColl.length != 1)
             return; // only 1 distance or area object is supported right now
         const ms = msColl[0];
-        const $selection = isDist ? document.getElementById("distance-item-axes-select")
-                                  : document.getElementById("area-item-axes-select");
-        ;
+        const $selection = isDist ? document.getElementById("distance-item-axes-select") :
+            document.getElementById("area-item-axes-select");;
         const axesColl = plotData.getAxesColl();
         const axes = plotData.getAxesForMeasurement(ms);
         let innerHTML = "<option value='-1'>None</option>";
         for (let axIdx = 0; axIdx < axesColl.length; axIdx++) {
-            if (axesColl[axIdx] instanceof wpd.ImageAxes || axesColl[axIdx] instanceof
-                                                                wpd.MapAxes) {
+            if (axesColl[axIdx] instanceof wpd.ImageAxes || axesColl[axIdx] instanceof wpd.MapAxes) {
                 innerHTML += "<option value='" + axIdx + "'>" + axesColl[axIdx].name + "</option>";
             }
         }
@@ -369,7 +377,9 @@ wpd.tree = (function() {
         buildTree();
     }
 
-    function refresh() { buildTree(); }
+    function refresh() {
+        buildTree();
+    }
 
     function refreshPreservingSelection(forceRefresh) {
         if (treeWidget != null) {
@@ -390,27 +400,31 @@ wpd.tree = (function() {
         refresh();
         if (mode === wpd.measurementModes.distance) {
             wpd.tree.selectPath("/" + wpd.gettext("measurements") + "/" + wpd.gettext("distance"),
-                                true);
+                true);
         } else if (mode === wpd.measurementModes.angle) {
             wpd.tree.selectPath("/" + wpd.gettext("measurements") + "/" + wpd.gettext("angle"),
-                                true);
+                true);
         } else if (mode === wpd.measurementModes.area) {
             wpd.tree.selectPath("/" + wpd.gettext("measurements") + "/" + wpd.gettext("area"),
-                                true);
+                true);
         }
     }
 
-    function getActiveDataset() { return activeDataset; }
+    function getActiveDataset() {
+        return activeDataset;
+    }
 
-    function getActiveAxes() { return activeAxes; }
+    function getActiveAxes() {
+        return activeAxes;
+    }
 
     return {
-        init : init,
-        refresh : refresh,
-        refreshPreservingSelection : refreshPreservingSelection,
-        selectPath : selectPath,
-        addMeasurement : addMeasurement,
-        getActiveDataset : getActiveDataset,
-        getActiveAxes : getActiveAxes
+        init: init,
+        refresh: refresh,
+        refreshPreservingSelection: refreshPreservingSelection,
+        selectPath: selectPath,
+        addMeasurement: addMeasurement,
+        getActiveDataset: getActiveDataset,
+        getActiveAxes: getActiveAxes
     };
 })();

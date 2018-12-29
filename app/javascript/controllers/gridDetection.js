@@ -65,8 +65,13 @@ wpd.gridDetection = (function() {
     function clearMask() {
         wpd.graphicsWidget.removeTool();
         wpd.graphicsWidget.removeRepainter();
-        wpd.appData.getPlotData().getGridDetectionData().gridMask =
-            {xmin : null, xmax : null, ymin : null, ymax : null, pixels : new Set()};
+        wpd.appData.getPlotData().getGridDetectionData().gridMask = {
+            xmin: null,
+            xmax: null,
+            ymin: null,
+            ymax: null,
+            pixels: new Set()
+        };
         wpd.graphicsWidget.resetData();
     }
 
@@ -161,7 +166,12 @@ wpd.gridDetection = (function() {
             idata.data[i] = bkImg.data[i];
         }
 
-        return {imageData : idata, width : width, height : height, keepZoom : true};
+        return {
+            imageData: idata,
+            width: width,
+            height: height,
+            keepZoom: true
+        };
     }
 
     function reset() {
@@ -182,7 +192,11 @@ wpd.gridDetection = (function() {
         let bgColor = wpd.appData.getPlotData().getTopColors()[0];
 
         if (bgColor == null) {
-            bgColor = {r : 255, g : 0, b : 0};
+            bgColor = {
+                r: 255,
+                g: 0,
+                b: 0
+            };
         }
 
         if (gridData != null) {
@@ -199,16 +213,22 @@ wpd.gridDetection = (function() {
             }
         }
 
-        return {imageData : idata, width : width, height : height};
+        return {
+            imageData: idata,
+            width: width,
+            height: height
+        };
     }
 
     function startColorPicker() {
         wpd.colorSelectionWidget.setParams({
-            color : wpd.appData.getPlotData().getGridDetectionData().lineColor,
-            triggerElementId : 'grid-color-picker-button',
-            title : 'Specify Grid Line Color',
-            setColorDelegate : function(
-                col) { wpd.appData.getPlotData().getGridDetectionData().lineColor = col; }
+            color: wpd.appData.getPlotData().getGridDetectionData().lineColor,
+            triggerElementId: 'grid-color-picker-button',
+            title: 'Specify Grid Line Color',
+            setColorDelegate: function(
+                col) {
+                wpd.appData.getPlotData().getGridDetectionData().lineColor = col;
+            }
         });
         wpd.colorSelectionWidget.startPicker();
     }
@@ -228,7 +248,7 @@ wpd.gridDetection = (function() {
         autoDetector.generateBinaryData(imageData);
 
         wpd.colorSelectionWidget.paintFilteredColor(autoDetector.binaryData,
-                                                    autoDetector.gridMask.pixels);
+            autoDetector.gridMask.pixels);
     }
 
     function changeColorDistance() {
@@ -242,16 +262,16 @@ wpd.gridDetection = (function() {
     }
 
     return {
-        start : start,
-        markBox : markBox,
-        clearMask : clearMask,
-        viewMask : viewMask,
-        grabMask : grabMask,
-        startColorPicker : startColorPicker,
-        changeColorDistance : changeColorDistance,
-        changeBackgroundMode : changeBackgroundMode,
-        testColor : testColor,
-        run : run,
-        reset : reset
+        start: start,
+        markBox: markBox,
+        clearMask: clearMask,
+        viewMask: viewMask,
+        grabMask: grabMask,
+        startColorPicker: startColorPicker,
+        changeColorDistance: changeColorDistance,
+        changeBackgroundMode: changeBackgroundMode,
+        testColor: testColor,
+        run: run,
+        reset: reset
     };
 })();

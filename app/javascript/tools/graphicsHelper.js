@@ -30,7 +30,8 @@ wpd.graphicsHelper = (function() {
     // position - "N", "E", "S" (default), or "W"
     function drawPoint(imagePx, fillStyle, label, position) {
         var screenPx = wpd.graphicsWidget.screenPx(imagePx.x, imagePx.y),
-            ctx = wpd.graphicsWidget.getAllContexts(), labelWidth,
+            ctx = wpd.graphicsWidget.getAllContexts(),
+            labelWidth,
             imageHeight = wpd.graphicsWidget.getImageSize().height;
 
         if (label != null) {
@@ -46,33 +47,33 @@ wpd.graphicsHelper = (function() {
 
             // Switch for both canvases
             switch (position) {
-            case "N":
-            case "n":
-                ctx.dataCtx.fillRect(screenPx.x - 13, screenPx.y - 24, labelWidth + 5, 35);
-                ctx.dataCtx.fillStyle = fillStyle;
-                ctx.dataCtx.fillText(label, screenPx.x - 10, screenPx.y - 7);
-                ctx.oriDataCtx.fillText(label, imagePx.x - 10, imagePx.y - 7);
-                break;
-            case "E":
-            case "e":
-                ctx.dataCtx.fillRect(screenPx.x - 7, screenPx.y - 16, labelWidth + 17, 26);
-                ctx.dataCtx.fillStyle = fillStyle;
-                ctx.dataCtx.fillText(label, screenPx.x + 7, screenPx.y + 5);
-                ctx.oriDataCtx.fillText(label, imagePx.x + 7, imagePx.y + 5);
-                break;
-            case "W":
-            case "w":
-                ctx.dataCtx.fillRect(screenPx.x - labelWidth - 10, screenPx.y - 16, labelWidth + 17,
-                                     26);
-                ctx.dataCtx.fillStyle = fillStyle;
-                ctx.dataCtx.fillText(label, screenPx.x - labelWidth - 7, screenPx.y + 5);
-                ctx.oriDataCtx.fillText(label, imagePx.x - labelWidth - 7, imagePx.y + 5);
-                break;
-            default:
-                ctx.dataCtx.fillRect(screenPx.x - 13, screenPx.y - 8, labelWidth + 5, 35);
-                ctx.dataCtx.fillStyle = fillStyle;
-                ctx.dataCtx.fillText(label, screenPx.x - 10, screenPx.y + 18);
-                ctx.oriDataCtx.fillText(label, imagePx.x - 10, imagePx.y + 18);
+                case "N":
+                case "n":
+                    ctx.dataCtx.fillRect(screenPx.x - 13, screenPx.y - 24, labelWidth + 5, 35);
+                    ctx.dataCtx.fillStyle = fillStyle;
+                    ctx.dataCtx.fillText(label, screenPx.x - 10, screenPx.y - 7);
+                    ctx.oriDataCtx.fillText(label, imagePx.x - 10, imagePx.y - 7);
+                    break;
+                case "E":
+                case "e":
+                    ctx.dataCtx.fillRect(screenPx.x - 7, screenPx.y - 16, labelWidth + 17, 26);
+                    ctx.dataCtx.fillStyle = fillStyle;
+                    ctx.dataCtx.fillText(label, screenPx.x + 7, screenPx.y + 5);
+                    ctx.oriDataCtx.fillText(label, imagePx.x + 7, imagePx.y + 5);
+                    break;
+                case "W":
+                case "w":
+                    ctx.dataCtx.fillRect(screenPx.x - labelWidth - 10, screenPx.y - 16, labelWidth + 17,
+                        26);
+                    ctx.dataCtx.fillStyle = fillStyle;
+                    ctx.dataCtx.fillText(label, screenPx.x - labelWidth - 7, screenPx.y + 5);
+                    ctx.oriDataCtx.fillText(label, imagePx.x - labelWidth - 7, imagePx.y + 5);
+                    break;
+                default:
+                    ctx.dataCtx.fillRect(screenPx.x - 13, screenPx.y - 8, labelWidth + 5, 35);
+                    ctx.dataCtx.fillStyle = fillStyle;
+                    ctx.dataCtx.fillText(label, screenPx.x - 10, screenPx.y + 18);
+                    ctx.oriDataCtx.fillText(label, imagePx.x - 10, imagePx.y + 18);
             }
         }
 
@@ -89,10 +90,12 @@ wpd.graphicsHelper = (function() {
         ctx.oriDataCtx.fillStyle = fillStyle;
         ctx.oriDataCtx.strokeStyle = "rgb(255, 255, 255)";
         ctx.oriDataCtx.arc(imagePx.x, imagePx.y, imageHeight > 1500 ? 4 : 2, 0, 2.0 * Math.PI,
-                           true);
+            true);
         ctx.oriDataCtx.fill();
         ctx.oriDataCtx.stroke();
     }
 
-    return {drawPoint : drawPoint};
+    return {
+        drawPoint: drawPoint
+    };
 })();

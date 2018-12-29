@@ -31,7 +31,12 @@ wpd.AveragingWindowAlgo = class {
         this._wasRun = false;
     }
 
-    getParamList(axes) { return [ [ 'ΔX', 'Px', this._xStep ], [ 'ΔY', 'Px', this._yStep ] ]; }
+    getParamList(axes) {
+        return [
+            ['ΔX', 'Px', this._xStep],
+            ['ΔY', 'Px', this._yStep]
+        ];
+    }
 
     setParam(index, val) {
         if (index === 0) {
@@ -41,12 +46,18 @@ wpd.AveragingWindowAlgo = class {
         }
     }
 
-    getParam(index) { return index === 0 ? this._xStep : this._yStep; }
+    getParam(index) {
+        return index === 0 ? this._xStep : this._yStep;
+    }
 
     serialize() {
-        return this._wasRun
-                   ? {algoType : "AveragingWindowAlgo", xStep : this._xStep, yStep : this._yStep}
-                   : null;
+        return this._wasRun ?
+            {
+                algoType: "AveragingWindowAlgo",
+                xStep: this._xStep,
+                yStep: this._yStep
+            } :
+            null;
     }
 
     deserialize(obj) {

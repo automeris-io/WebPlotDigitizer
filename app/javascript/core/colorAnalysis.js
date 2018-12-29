@@ -25,13 +25,22 @@ var wpd = wpd || {};
 
 wpd.ColorGroup = (function() {
     var CGroup = function(tolerance) {
-        var totalPixelCount = 0, averageColor = {r : 0, g : 0, b : 0};
+        var totalPixelCount = 0,
+            averageColor = {
+                r: 0,
+                g: 0,
+                b: 0
+            };
 
         tolerance = tolerance == null ? 100 : tolerance;
 
-        this.getPixelCount = function() { return totalPixelCount; };
+        this.getPixelCount = function() {
+            return totalPixelCount;
+        };
 
-        this.getAverageColor = function() { return averageColor; };
+        this.getAverageColor = function() {
+            return averageColor;
+        };
 
         this.isColorInGroup = function(r, g, b) {
             if (totalPixelCount === 0) {
@@ -39,8 +48,8 @@ wpd.ColorGroup = (function() {
             }
 
             var dist = (averageColor.r - r) * (averageColor.r - r) +
-                       (averageColor.g - g) * (averageColor.g - g) +
-                       (averageColor.b - b) * (averageColor.b - b);
+                (averageColor.g - g) * (averageColor.g - g) +
+                (averageColor.b - b) * (averageColor.b - b);
 
             return (dist <= tolerance * tolerance);
         };
@@ -59,7 +68,8 @@ wpd.colorAnalyzer = (function() {
     function getTopColors(imageData) {
 
         var colorGroupColl = [], // collection of color groups
-            pixi, r, g, b, a, groupi, groupMatched, rtnVal = [], avColor, tolerance = 120;
+            pixi, r, g, b, a, groupi, groupMatched, rtnVal = [],
+            avColor, tolerance = 120;
 
         colorGroupColl[0] = new wpd.ColorGroup(tolerance); // initial group
 
@@ -105,17 +115,18 @@ wpd.colorAnalyzer = (function() {
             avColor = colorGroupColl[groupi].getAverageColor();
 
             rtnVal[groupi] = {
-                r : parseInt(avColor.r, 10),
-                g : parseInt(avColor.g, 10),
-                b : parseInt(avColor.b, 10),
-                pixels : colorGroupColl[groupi].getPixelCount(),
-                percentage :
-                    100.0 * colorGroupColl[groupi].getPixelCount() / (0.25 * imageData.data.length)
+                r: parseInt(avColor.r, 10),
+                g: parseInt(avColor.g, 10),
+                b: parseInt(avColor.b, 10),
+                pixels: colorGroupColl[groupi].getPixelCount(),
+                percentage: 100.0 * colorGroupColl[groupi].getPixelCount() / (0.25 * imageData.data.length)
             };
         }
 
         return rtnVal;
     }
 
-    return {getTopColors : getTopColors};
+    return {
+        getTopColors: getTopColors
+    };
 })();
