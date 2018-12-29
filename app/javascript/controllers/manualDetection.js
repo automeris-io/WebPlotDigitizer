@@ -1,9 +1,9 @@
 /*
-	WebPlotDigitizer - https://automeris.io/WebPlotDigitizer
+        WebPlotDigitizer - https://automeris.io/WebPlotDigitizer
 
-	Copyright 2010-2019 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+        Copyright 2010-2019 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
-	This file is part of WebPlotDigitizer.
+        This file is part of WebPlotDigitizer.
 
     WebPlotDigitizer is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as published by
@@ -22,17 +22,17 @@
 */
 
 var wpd = wpd || {};
-wpd.acquireData = (function () {
-
+wpd.acquireData = (function() {
     var dataset, axes;
 
     function load() {
         dataset = getActiveDataset();
         axes = getAxes();
 
-        if(axes == null) {
-            wpd.messagePopup.show(wpd.gettext('dataset-no-calibration'), wpd.gettext('calibrate-dataset'));
-        } else {            
+        if (axes == null) {
+            wpd.messagePopup.show(wpd.gettext('dataset-no-calibration'),
+                                  wpd.gettext('calibrate-dataset'));
+        } else {
             wpd.graphicsWidget.removeTool();
             wpd.graphicsWidget.resetData();
             showSidebar();
@@ -42,19 +42,15 @@ wpd.acquireData = (function () {
             wpd.graphicsWidget.setRepainter(new wpd.DataPointsRepainter(axes, dataset));
 
             manualSelection();
-            
+
             wpd.graphicsWidget.forceHandlerRepaint();
             wpd.dataPointCounter.setCount(dataset.getCount());
         }
     }
 
-    function getActiveDataset() {
-        return wpd.tree.getActiveDataset();
-    }
+    function getActiveDataset() { return wpd.tree.getActiveDataset(); }
 
-    function getAxes() {
-        return wpd.appData.getPlotData().getAxesForDataset(getActiveDataset());
-    }
+    function getAxes() { return wpd.appData.getPlotData().getAxesForDataset(getActiveDataset()); }
 
     function manualSelection() {
         var tool = new wpd.ManualSelectionTool(axes, dataset);
@@ -75,10 +71,12 @@ wpd.acquireData = (function () {
     }
 
     function clearAll() {
-        if(dataset.getCount() <= 0) {
+        if (dataset.getCount() <= 0) {
             return;
         }
-        wpd.okCancelPopup.show(wpd.gettext('clear-data-points'), wpd.gettext('clear-data-points-text'), confirmedClearAll, function() {});
+        wpd.okCancelPopup.show(wpd.gettext('clear-data-points'),
+                               wpd.gettext('clear-data-points-text'), confirmedClearAll,
+                               function() {});
     }
 
     function undo() {
@@ -87,7 +85,7 @@ wpd.acquireData = (function () {
         wpd.graphicsWidget.forceHandlerRepaint();
         wpd.dataPointCounter.setCount(dataset.getCount());
     }
- 
+
     function showSidebar() {
         wpd.sidebar.show('acquireDataSidebar');
         updateControlVisibility();
@@ -96,7 +94,7 @@ wpd.acquireData = (function () {
 
     function updateControlVisibility() {
         var $editLabelsBtn = document.getElementById('edit-data-labels');
-        if(axes instanceof wpd.BarAxes) {
+        if (axes instanceof wpd.BarAxes) {
             $editLabelsBtn.style.display = 'inline-block';
         } else {
             $editLabelsBtn.style.display = 'none';
@@ -107,62 +105,55 @@ wpd.acquireData = (function () {
         wpd.graphicsWidget.setTool(new wpd.AdjustDataPointTool(axes, dataset));
     }
 
-    function editLabels() {
-        wpd.graphicsWidget.setTool(new wpd.EditLabelsTool(axes, dataset));
-    }
+    function editLabels() { wpd.graphicsWidget.setTool(new wpd.EditLabelsTool(axes, dataset)); }
 
     function switchToolOnKeyPress(alphaKey) {
-        switch(alphaKey) {
-            case 'd': 
-                deletePoint();
-                break;
-            case 'a': 
-                manualSelection();
-                break;
-            case 's': 
-                adjustPoints();
-                break;
-            case 'e':
-                editLabels();
-                break;
-            default: 
-                break;
+        switch (alphaKey) {
+        case 'd':
+            deletePoint();
+            break;
+        case 'a':
+            manualSelection();
+            break;
+        case 's':
+            adjustPoints();
+            break;
+        case 'e':
+            editLabels();
+            break;
+        default:
+            break;
         }
     }
 
     function isToolSwitchKey(keyCode) {
-        if(wpd.keyCodes.isAlphabet(keyCode, 'a')
-            || wpd.keyCodes.isAlphabet(keyCode, 's')
-            || wpd.keyCodes.isAlphabet(keyCode, 'd')
-            || wpd.keyCodes.isAlphabet(keyCode, 'e')) {
+        if (wpd.keyCodes.isAlphabet(keyCode, 'a') || wpd.keyCodes.isAlphabet(keyCode, 's') ||
+            wpd.keyCodes.isAlphabet(keyCode, 'd') || wpd.keyCodes.isAlphabet(keyCode, 'e')) {
             return true;
         }
         return false;
     }
 
     return {
-        load: load,
-        manualSelection: manualSelection,
-        adjustPoints: adjustPoints,
-        deletePoint: deletePoint,
-        clearAll: clearAll,
-        undo: undo,
-        showSidebar: showSidebar,
-        switchToolOnKeyPress: switchToolOnKeyPress,
-        isToolSwitchKey: isToolSwitchKey,        
-        editLabels: editLabels
+        load : load,
+        manualSelection : manualSelection,
+        adjustPoints : adjustPoints,
+        deletePoint : deletePoint,
+        clearAll : clearAll,
+        undo : undo,
+        showSidebar : showSidebar,
+        switchToolOnKeyPress : switchToolOnKeyPress,
+        isToolSwitchKey : isToolSwitchKey,
+        editLabels : editLabels
     };
 })();
 
 wpd.dataPointLabelEditor = (function() {
-
     var ds, ptIndex, tool;
-    
+
     function show(dataset, pointIndex, initTool) {
-        var pixel = dataset.getPixel(pointIndex),
-            originalLabel = pixel.metadata[0],
-            $labelField;
-        
+        var pixel = dataset.getPixel(pointIndex), originalLabel = pixel.metadata[0], $labelField;
+
         ds = dataset;
         ptIndex = pointIndex;
         tool = initTool;
@@ -179,9 +170,9 @@ wpd.dataPointLabelEditor = (function() {
     function ok() {
         var newLabel = document.getElementById('data-point-label-field').value;
 
-        if(newLabel != null && newLabel.length > 0) {
-            // set label 
-            ds.setMetadataAt(ptIndex, [newLabel]);
+        if (newLabel != null && newLabel.length > 0) {
+            // set label
+            ds.setMetadataAt(ptIndex, [ newLabel ]);
             // refresh graphics
             wpd.graphicsWidget.resetData();
             wpd.graphicsWidget.forceHandlerRepaint();
@@ -198,18 +189,13 @@ wpd.dataPointLabelEditor = (function() {
     }
 
     function keydown(ev) {
-        if(wpd.keyCodes.isEnter(ev.keyCode)) {
+        if (wpd.keyCodes.isEnter(ev.keyCode)) {
             ok();
-        } else if(wpd.keyCodes.isEsc(ev.keyCode)) {
+        } else if (wpd.keyCodes.isEsc(ev.keyCode)) {
             cancel();
         }
         ev.stopPropagation();
     }
 
-    return {
-        show: show,
-        ok: ok,
-        cancel: cancel,
-        keydown: keydown
-    };
+    return {show : show, ok : ok, cancel : cancel, keydown : keydown};
 })();

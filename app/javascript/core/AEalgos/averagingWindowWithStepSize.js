@@ -1,9 +1,9 @@
 /*
-	WebPlotDigitizer - https://automeris.io/WebPlotDigitizer
+        WebPlotDigitizer - https://automeris.io/WebPlotDigitizer
 
-	Copyright 2010-2019 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+        Copyright 2010-2019 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
-	This file is part of WebPlotDigitizer.
+        This file is part of WebPlotDigitizer.
 
     WebPlotDigitizer is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as published by
@@ -35,8 +35,8 @@ wpd.AveragingWindowWithStepSizeAlgo = class {
     }
 
     getParamList(axes) {
-        if(!this._wasRun) {
-            if(axes != null && axes instanceof wpd.XYAxes) {
+        if (!this._wasRun) {
+            if (axes != null && axes instanceof wpd.XYAxes) {
                 let bounds = axes.getBounds();
                 this._xmin = bounds.x1;
                 this._xmax = bounds.x2;
@@ -44,14 +44,11 @@ wpd.AveragingWindowWithStepSizeAlgo = class {
                 this._ymax = bounds.y4;
             }
         }
-        
+
         return [
-            ["X_min","Units", this._xmin],
-            ["ΔX Step","Units", this._delx],
-            ["X_max","Units", this._xmax],
-            ["Y_min","Units", this._ymin],
-            ["Y_max","Units", this._ymax],
-            ["Line width","Px", this._lineWidth]
+            [ "X_min", "Units", this._xmin ], [ "ΔX Step", "Units", this._delx ],
+            [ "X_max", "Units", this._xmax ], [ "Y_min", "Units", this._ymin ],
+            [ "Y_max", "Units", this._ymax ], [ "Line width", "Px", this._lineWidth ]
         ];
     }
 
@@ -72,27 +69,35 @@ wpd.AveragingWindowWithStepSizeAlgo = class {
     }
 
     getParam(index) {
-        switch(index) {
-            case 0: return this._xmin;
-            case 1: return this._delx;
-            case 2: return this._xmax;
-            case 3: return this._ymin;
-            case 4: return this._ymax;
-            case 5: return this._lineWidth;
-            default: return null;
+        switch (index) {
+        case 0:
+            return this._xmin;
+        case 1:
+            return this._delx;
+        case 2:
+            return this._xmax;
+        case 3:
+            return this._ymin;
+        case 4:
+            return this._ymax;
+        case 5:
+            return this._lineWidth;
+        default:
+            return null;
         }
     }
 
     serialize() {
         return this._wasRun ? {
-            algoType: "AveragingWindowWithStepSizeAlgo",
-            xmin: this._xmin,
-            delx: this._delx,
-            xmax: this._xmax,
-            ymin: this._ymin,
-            ymax: this._ymax,
-            lineWidth: this._lineWidth
-        } : null;
+            algoType : "AveragingWindowWithStepSizeAlgo",
+            xmin : this._xmin,
+            delx : this._delx,
+            xmax : this._xmax,
+            ymin : this._ymin,
+            ymax : this._ymax,
+            lineWidth : this._lineWidth
+        }
+                            : null;
     }
 
     deserialize(obj) {
@@ -106,22 +111,14 @@ wpd.AveragingWindowWithStepSizeAlgo = class {
 
     run(autoDetector, dataSeries, axes) {
         this._wasRun = true;
-        var pointsPicked = 0,
-            dw = autoDetector.imageWidth,
-            dh = autoDetector.imageHeight,
-            blobx = [],
-            bloby = [],
-            xi, xmin_pix, xmax_pix, ymin_pix, ymax_pix, dpix, r_unit_per_pix, step_pix,
-            blobActive, blobEntry, blobExit,
-            blobExitLocked,
-            ii, yi,
-            mean_ii,
-            mean_yi,
-            pdata;
+        var pointsPicked = 0, dw = autoDetector.imageWidth, dh = autoDetector.imageHeight,
+            blobx = [], bloby = [], xi, xmin_pix, xmax_pix, ymin_pix, ymax_pix, dpix,
+            r_unit_per_pix, step_pix, blobActive, blobEntry, blobExit, blobExitLocked, ii, yi,
+            mean_ii, mean_yi, pdata;
 
         dataSeries.clearAll();
 
-        for (xi = this._xmin; xi <= this._xmax; xi+= this._delx) {
+        for (xi = this._xmin; xi <= this._xmax; xi += this._delx) {
             step_pix = 1;
 
             pdata = axes.dataToPixel(xi, this._ymin);
@@ -132,8 +129,9 @@ wpd.AveragingWindowWithStepSizeAlgo = class {
             xmax_pix = pdata.x;
             ymax_pix = pdata.y;
 
-            dpix = Math.sqrt((ymax_pix-ymin_pix)*(ymax_pix-ymin_pix) + (xmax_pix-xmin_pix)*(xmax_pix-xmin_pix));
-            r_unit_per_pix = (this._ymax-this._ymin)/dpix;
+            dpix = Math.sqrt((ymax_pix - ymin_pix) * (ymax_pix - ymin_pix) +
+                             (xmax_pix - xmin_pix) * (xmax_pix - xmin_pix));
+            r_unit_per_pix = (this._ymax - this._ymin) / dpix;
 
             blobActive = false;
             blobEntry = 0;
@@ -143,45 +141,46 @@ wpd.AveragingWindowWithStepSizeAlgo = class {
             blobExitLocked = false;
 
             for (ii = 0; ii <= dpix; ii++) {
-                yi = -ii*step_pix*r_unit_per_pix + this._ymax;
+                yi = -ii * step_pix * r_unit_per_pix + this._ymax;
                 pdata = axes.dataToPixel(xi, yi);
                 xi_pix = pdata.x;
                 yi_pix = pdata.y;
 
-                if(xi_pix >= 0 && xi_pix < dw && yi_pix >=0 && yi_pix < dh)	{
-                    if (autoDetector.binaryData.has(parseInt(yi_pix, 10)*dw + parseInt(xi_pix, 10))) {
-                        if(blobActive === false) {
+                if (xi_pix >= 0 && xi_pix < dw && yi_pix >= 0 && yi_pix < dh) {
+                    if (autoDetector.binaryData.has(parseInt(yi_pix, 10) * dw +
+                                                    parseInt(xi_pix, 10))) {
+                        if (blobActive === false) {
                             blobEntry = ii;
                             blobExit = blobEntry;
                             blobActive = true;
                             blobExitLocked = false;
                         }
                         // Resume collection, it was just noise
-                        if(blobExitLocked === true) {
+                        if (blobExitLocked === true) {
                             blobExit = ii;
                             blobExitLocked = false;
                         }
-                    } else	{
+                    } else {
 
                         // collection ended before line thickness was hit. It could just be noise
                         // or it could be the actual end.
-                        if(blobExitLocked === false) {
+                        if (blobExitLocked === false) {
                             blobExit = ii;
                             blobExitLocked = true;
-                        }					
+                        }
                     }
 
-                    if(blobActive === true)	{
+                    if (blobActive === true) {
 
-                        if((ii > blobEntry + this._lineWidth) || (ii == dpix-1)) {
+                        if ((ii > blobEntry + this._lineWidth) || (ii == dpix - 1)) {
                             blobActive = false;
 
-                            if(blobEntry > blobExit) {
-                                blobExit = ii;							
+                            if (blobEntry > blobExit) {
+                                blobExit = ii;
                             }
 
-                            mean_ii = (blobEntry + blobExit)/2.0;
-                            mean_yi = -mean_ii*step_pix*r_unit_per_pix + this._ymax;
+                            mean_ii = (blobEntry + blobExit) / 2.0;
+                            mean_yi = -mean_ii * step_pix * r_unit_per_pix + this._ymax;
 
                             pdata = axes.dataToPixel(xi, mean_yi);
                             dataSeries.addPixel(parseFloat(pdata.x), parseFloat(pdata.y));
@@ -191,7 +190,5 @@ wpd.AveragingWindowWithStepSizeAlgo = class {
                 }
             }
         }
-
-    }    
+    }
 }
-

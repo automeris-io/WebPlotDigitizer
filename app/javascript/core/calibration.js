@@ -1,9 +1,9 @@
 /*
-	WebPlotDigitizer - https://automeris.io/WebPlotDigitizer
+        WebPlotDigitizer - https://automeris.io/WebPlotDigitizer
 
-	Copyright 2010-2019 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+        Copyright 2010-2019 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
-	This file is part of WebPlotDigitizer.
+        This file is part of WebPlotDigitizer.
 
     WebPlotDIgitizer is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as published by
@@ -40,41 +40,37 @@ wpd.Calibration = class {
         this.maxPointCount = 0;
     }
 
-    
-    getCount() { 
-        return this._px.length; 
-    }
+    getCount() { return this._px.length; }
 
-    getDimensions() { 
-        return this._dimensions; 
-    }
-    
+    getDimensions() { return this._dimensions; }
+
     addPoint(pxi, pyi, dxi, dyi, dzi) {
         let plen = this._px.length;
         let dlen = this._dp.length;
         this._px[plen] = pxi;
         this._py[plen] = pyi;
-        this._dp[dlen] = dxi; 
-        this._dp[dlen+1] = dyi;
-        if(this._dimensions === 3) {
-            this._dp[dlen+2] = dzi;
+        this._dp[dlen] = dxi;
+        this._dp[dlen + 1] = dyi;
+        if (this._dimensions === 3) {
+            this._dp[dlen + 2] = dzi;
         }
     }
 
     getPoint(index) {
-        if(index < 0 || index >= this._px.length) return null;
+        if (index < 0 || index >= this._px.length)
+            return null;
 
         return {
-            px: this._px[index],
-            py: this._py[index],
-            dx: this._dp[this._dimensions*index],
-            dy: this._dp[this._dimensions*index+1],
-            dz: this._dimensions === 2 ? null : this._dp[this._dimensions*index + 2]
+            px : this._px[index],
+            py : this._py[index],
+            dx : this._dp[this._dimensions * index],
+            dy : this._dp[this._dimensions * index + 1],
+            dz : this._dimensions === 2 ? null : this._dp[this._dimensions * index + 2]
         };
     }
 
     changePointPx(index, npx, npy) {
-        if(index < 0 || index >= this._px.length) {
+        if (index < 0 || index >= this._px.length) {
             return;
         }
         this._px[index] = npx;
@@ -82,11 +78,12 @@ wpd.Calibration = class {
     }
 
     setDataAt(index, dxi, dyi, dzi) {
-        if(index < 0 || index >= this._px.length) return;
-        this._dp[this._dimensions*index] = dxi;
-        this._dp[this._dimensions*index + 1] = dyi;
-        if(this._dimensions === 3) {
-            this._dp[this._dimensions*index + 2] = dzi;
+        if (index < 0 || index >= this._px.length)
+            return;
+        this._dp[this._dimensions * index] = dxi;
+        this._dp[this._dimensions * index + 1] = dyi;
+        if (this._dimensions === 3) {
+            this._dp[this._dimensions * index + 2] = dzi;
         }
     }
 
@@ -95,9 +92,10 @@ wpd.Calibration = class {
         let minDist = 0;
         let minIndex = -1;
 
-        for(let i = 0; i < this._px.length; i++) {
-            let dist = Math.sqrt((x - this._px[i])*(x - this._px[i]) + (y - this._py[i])*(y - this._py[i]));
-            if((minIndex < 0 && dist <= threshold) || (minIndex >= 0 && dist < minDist)) {
+        for (let i = 0; i < this._px.length; i++) {
+            let dist = Math.sqrt((x - this._px[i]) * (x - this._px[i]) +
+                                 (y - this._py[i]) * (y - this._py[i]));
+            if ((minIndex < 0 && dist <= threshold) || (minIndex >= 0 && dist < minDist)) {
                 minIndex = i;
                 minDist = dist;
             }
@@ -105,9 +103,8 @@ wpd.Calibration = class {
         return minIndex;
     }
 
-
     selectPoint(index) {
-        if(this._selections.indexOf(index) < 0) {
+        if (this._selections.indexOf(index) < 0) {
             this._selections.push(index);
         }
     }
@@ -119,17 +116,11 @@ wpd.Calibration = class {
         }
     }
 
-    getSelectedPoints() {
-        return this._selections;
-    }
+    getSelectedPoints() { return this._selections; }
 
-    unselectAll() {
-        this._selections = [];
-    }
+    unselectAll() { this._selections = []; }
 
-    isPointSelected(index) {
-        return this._selections.indexOf(index) >= 0;
-    }
+    isPointSelected(index) { return this._selections.indexOf(index) >= 0; }
 
     dump() {
         console.log(this._px);

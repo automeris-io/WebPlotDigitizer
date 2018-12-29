@@ -1,9 +1,9 @@
 /*
-	WebPlotDigitizer - https://automeris.io/WebPlotDigitizer
+        WebPlotDigitizer - https://automeris.io/WebPlotDigitizer
 
-	Copyright 2010-2019 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+        Copyright 2010-2019 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
-	This file is part of WebPlotDigitizer.
+        This file is part of WebPlotDigitizer.
 
     WebPlotDigitizer is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as published by
@@ -22,40 +22,32 @@
 */
 
 var wpd = wpd || {};
-wpd.sidebar = (function () {
-
+wpd.sidebar = (function() {
     function show(sbid) { // Shows a specific sidebar
         clear();
         let sb = document.getElementById(sbid);
         sb.style.display = "inline-block";
-        sb.style.height = parseInt(document.body.offsetHeight,10) - 280 + 'px';
+        sb.style.height = parseInt(document.body.offsetHeight, 10) - 280 + 'px';
     }
 
     function clear() { // Clears all open sidebars
 
         const sidebarList = document.getElementsByClassName('sidebar');
         for (let ii = 0; ii < sidebarList.length; ii++) {
-            sidebarList[ii].style.display="none";
-
+            sidebarList[ii].style.display = "none";
         }
     }
 
     function resize() {
-        
+
         let sidebarList = document.getElementsByClassName('sidebar');
         for (let ii = 0; ii < sidebarList.length; ii++) {
             if (sidebarList[ii].style.display === "inline-block") {
-                sidebarList[ii].style.height = parseInt(document.body.offsetHeight,10) - 280 + 'px';
+                sidebarList[ii].style.height =
+                    parseInt(document.body.offsetHeight, 10) - 280 + 'px';
             }
         }
     }
 
-    return {
-        show: show,
-        clear: clear,
-        resize: resize
-    };
-
+    return {show : show, clear : clear, resize : resize};
 })();
-
-

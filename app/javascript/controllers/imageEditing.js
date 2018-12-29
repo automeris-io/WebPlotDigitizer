@@ -1,9 +1,9 @@
 /*
-	WebPlotDigitizer - https://automeris.io/WebPlotDigitizer
+        WebPlotDigitizer - https://automeris.io/WebPlotDigitizer
 
-	Copyright 2010-2019 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+        Copyright 2010-2019 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
-	This file is part of WebPlotDigitizer.
+        This file is part of WebPlotDigitizer.
 
     WebPlotDIgitizer is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as published by
@@ -23,41 +23,30 @@
 var wpd = wpd || {};
 
 wpd.imageEditing = {
-    showImageInfo: function() {        
+    showImageInfo : function() {
         let $imageDimensions = document.getElementById("image-info-dimensions");
         let imageInfo = wpd.imageManager.getImageInfo();
         $imageDimensions.innerHTML = "(" + imageInfo.width + "x" + imageInfo.height + ")";
         wpd.popup.show('image-info-popup');
     },
 
-    startImageCrop: function() {
-        wpd.graphicsWidget.setTool(new wpd.CropTool());
+    startImageCrop : function() { wpd.graphicsWidget.setTool(new wpd.CropTool()); },
+
+    startPerspective : function() { wpd.popup.show('perspective-info'); },
+
+    startPerspectiveConfirmed : function() {
+
     },
 
-    startPerspective: function() {
-        wpd.popup.show('perspective-info');
-    },
+    undo : function() { wpd.appData.getUndoManager().undo(); },
 
-    startPerspectiveConfirmed: function() {
-        
-    },
-
-    undo: function() {
-        wpd.appData.getUndoManager().undo();
-    },
-
-    redo: function() {
-        wpd.appData.getUndoManager().redo();
-    }
+    redo : function() { wpd.appData.getUndoManager().redo(); }
 };
 
 wpd.ReversibleAction = class {
-    constructor() {
-    }
-    execute() {
-    }
-    undo() {
-    }
+    constructor() {}
+    execute() {}
+    undo() {}
 };
 
 wpd.CropImageAction = class extends wpd.ReversibleAction {

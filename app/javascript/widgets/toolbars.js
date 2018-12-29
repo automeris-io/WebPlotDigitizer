@@ -1,9 +1,9 @@
 /*
-	WebPlotDigitizer - https://automeris.io/WebPlotDigitizer
+        WebPlotDigitizer - https://automeris.io/WebPlotDigitizer
 
-	Copyright 2010-2019 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+        Copyright 2010-2019 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
-	This file is part of WebPlotDigitizer.
+        This file is part of WebPlotDigitizer.
 
     WebPlotDigitizer is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as published by
@@ -21,8 +21,7 @@
 
 */
 var wpd = wpd || {};
-wpd.toolbar = (function () {
-
+wpd.toolbar = (function() {
     function show(tbid) { // Shows a specific toolbar
         clear();
         let tb = document.getElementById(tbid);
@@ -33,13 +32,9 @@ wpd.toolbar = (function () {
 
         const toolbarList = document.getElementsByClassName('toolbar');
         for (let ii = 0; ii < toolbarList.length; ii++) {
-             toolbarList[ii].style.visibility="hidden";
-        }        
+            toolbarList[ii].style.visibility = "hidden";
+        }
     }
 
-    return {
-        show: show,
-        clear: clear
-    };
+    return {show : show, clear : clear};
 })();
-

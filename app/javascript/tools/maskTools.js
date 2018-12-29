@@ -1,9 +1,9 @@
 /*
-	WebPlotDigitizer - https://automeris.io/WebPlotDigitizer
+        WebPlotDigitizer - https://automeris.io/WebPlotDigitizer
 
-	Copyright 2010-2019 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+        Copyright 2010-2019 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
-	This file is part of WebPlotDigitizer.
+        This file is part of WebPlotDigitizer.
 
     WebPlotDigitizer is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as published by
@@ -23,59 +23,63 @@
 
 var wpd = wpd || {};
 
-wpd.BoxMaskTool = (function () {
-    var Tool = function () {
-        var isDrawing = false,
-            topImageCorner,
-            topScreenCorner,
-            ctx = wpd.graphicsWidget.getAllContexts(),
-            moveTimer,
-            screen_pos,
+wpd.BoxMaskTool = (function() {
+    var Tool = function() {
+        var isDrawing = false, topImageCorner, topScreenCorner,
+            ctx = wpd.graphicsWidget.getAllContexts(), moveTimer, screen_pos,
 
-            mouseMoveHandler = function() {
+            mouseMoveHandler =
+                function() {
                 wpd.graphicsWidget.resetHover();
                 ctx.hoverCtx.strokeStyle = "rgb(0,0,0)";
-    		    ctx.hoverCtx.strokeRect(topScreenCorner.x, topScreenCorner.y, screen_pos.x - topScreenCorner.x, screen_pos.y - topScreenCorner.y);
+                ctx.hoverCtx.strokeRect(topScreenCorner.x, topScreenCorner.y,
+                                        screen_pos.x - topScreenCorner.x,
+                                        screen_pos.y - topScreenCorner.y);
             },
-            
-            mouseUpHandler = function (ev, pos, imagePos) {
-                if(isDrawing === false) {
+
+            mouseUpHandler =
+                function(ev, pos, imagePos) {
+                if (isDrawing === false) {
                     return;
                 }
                 clearTimeout(moveTimer);
                 isDrawing = false;
                 wpd.graphicsWidget.resetHover();
                 ctx.dataCtx.fillStyle = "rgba(255,255,0,1)";
-                ctx.dataCtx.fillRect(topScreenCorner.x, topScreenCorner.y, pos.x-topScreenCorner.x, pos.y-topScreenCorner.y);
+                ctx.dataCtx.fillRect(topScreenCorner.x, topScreenCorner.y,
+                                     pos.x - topScreenCorner.x, pos.y - topScreenCorner.y);
                 ctx.oriDataCtx.fillStyle = "rgba(255,255,0,1)";
-                ctx.oriDataCtx.fillRect(topImageCorner.x, topImageCorner.y, imagePos.x - topImageCorner.x, imagePos.y - topImageCorner.y);
+                ctx.oriDataCtx.fillRect(topImageCorner.x, topImageCorner.y,
+                                        imagePos.x - topImageCorner.x,
+                                        imagePos.y - topImageCorner.y);
             },
-            
-            mouseOutPos = null,
-            mouseOutImagePos = null;
 
-        this.onAttach = function () {
+            mouseOutPos = null, mouseOutImagePos = null;
+
+        this.onAttach = function() {
             wpd.graphicsWidget.setRepainter(new wpd.MaskPainter());
             document.getElementById('box-mask').classList.add('pressed-button');
             document.getElementById('view-mask').classList.add('pressed-button');
         };
 
         this.onMouseDown = function(ev, pos, imagePos) {
-            if(isDrawing === true) return;
+            if (isDrawing === true)
+                return;
             isDrawing = true;
             topImageCorner = imagePos;
             topScreenCorner = pos;
         };
 
         this.onMouseMove = function(ev, pos, imagePos) {
-            if(isDrawing === false) return;
+            if (isDrawing === false)
+                return;
             screen_pos = pos;
             clearTimeout(moveTimer);
             moveTimer = setTimeout(mouseMoveHandler, 2);
         };
 
-        this.onMouseOut = function (ev, pos, imagePos) {
-            if(isDrawing === true) {
+        this.onMouseOut = function(ev, pos, imagePos) {
+            if (isDrawing === true) {
                 clearTimeout(moveTimer);
                 mouseOutPos = pos;
                 mouseOutImagePos = imagePos;
@@ -92,11 +96,9 @@ wpd.BoxMaskTool = (function () {
             mouseOutImagePos = null;
         };
 
-        this.onMouseUp = function(ev, pos, imagePos) {
-            mouseUpHandler(ev, pos, imagePos);
-        };
+        this.onMouseUp = function(ev, pos, imagePos) { mouseUpHandler(ev, pos, imagePos); };
 
-        this.onRemove = function () {
+        this.onRemove = function() {
             document.getElementById('box-mask').classList.remove('pressed-button');
             document.getElementById('view-mask').classList.remove('pressed-button');
             wpd.dataMask.grabMask();
@@ -105,24 +107,20 @@ wpd.BoxMaskTool = (function () {
     return Tool;
 })();
 
-wpd.PenMaskTool = (function () {
-    var Tool = function () {
-        var strokeWidth,
-            ctx = wpd.graphicsWidget.getAllContexts(),
-            isDrawing = false,
-            moveTimer,
-            screen_pos, image_pos,
-            mouseMoveHandler = function() {
-                ctx.dataCtx.strokeStyle = "rgba(255,255,0,1)";
-                ctx.dataCtx.lineTo(screen_pos.x,screen_pos.y);
-                ctx.dataCtx.stroke();
+wpd.PenMaskTool = (function() {
+    var Tool = function() {
+        var strokeWidth, ctx = wpd.graphicsWidget.getAllContexts(), isDrawing = false, moveTimer,
+                         screen_pos, image_pos, mouseMoveHandler = function() {
+                             ctx.dataCtx.strokeStyle = "rgba(255,255,0,1)";
+                             ctx.dataCtx.lineTo(screen_pos.x, screen_pos.y);
+                             ctx.dataCtx.stroke();
 
-                ctx.oriDataCtx.strokeStyle = "rgba(255,255,0,1)";
-                ctx.oriDataCtx.lineTo(image_pos.x,image_pos.y);
-                ctx.oriDataCtx.stroke();
-            };
+                             ctx.oriDataCtx.strokeStyle = "rgba(255,255,0,1)";
+                             ctx.oriDataCtx.lineTo(image_pos.x, image_pos.y);
+                             ctx.oriDataCtx.stroke();
+                         };
 
-        this.onAttach = function () {
+        this.onAttach = function() {
             wpd.graphicsWidget.setRepainter(new wpd.MaskPainter());
             document.getElementById('pen-mask').classList.add('pressed-button');
             document.getElementById('view-mask').classList.add('pressed-button');
@@ -130,22 +128,24 @@ wpd.PenMaskTool = (function () {
         };
 
         this.onMouseDown = function(ev, pos, imagePos) {
-            if(isDrawing === true) return;
+            if (isDrawing === true)
+                return;
             var lwidth = parseInt(document.getElementById('paintThickness').value, 10);
             isDrawing = true;
             ctx.dataCtx.strokeStyle = "rgba(255,255,0,1)";
-            ctx.dataCtx.lineWidth = lwidth*wpd.graphicsWidget.getZoomRatio();
-	        ctx.dataCtx.beginPath();
-            ctx.dataCtx.moveTo(pos.x,pos.y);
+            ctx.dataCtx.lineWidth = lwidth * wpd.graphicsWidget.getZoomRatio();
+            ctx.dataCtx.beginPath();
+            ctx.dataCtx.moveTo(pos.x, pos.y);
 
             ctx.oriDataCtx.strokeStyle = "rgba(255,255,0,1)";
             ctx.oriDataCtx.lineWidth = lwidth;
-	        ctx.oriDataCtx.beginPath();
-            ctx.oriDataCtx.moveTo(imagePos.x,imagePos.y);
+            ctx.oriDataCtx.beginPath();
+            ctx.oriDataCtx.moveTo(imagePos.x, imagePos.y);
         };
 
         this.onMouseMove = function(ev, pos, imagePos) {
-            if(isDrawing === false) return;
+            if (isDrawing === false)
+                return;
             screen_pos = pos;
             image_pos = imagePos;
             clearTimeout(moveTimer);
@@ -160,10 +160,8 @@ wpd.PenMaskTool = (function () {
             ctx.oriDataCtx.lineWidth = 1;
             isDrawing = false;
         };
-        
-        this.onMouseOut = function(ev, pos, imagePos) {
-            this.onMouseUp(ev, pos, imagePos);
-        };
+
+        this.onMouseOut = function(ev, pos, imagePos) { this.onMouseUp(ev, pos, imagePos); };
 
         this.onRemove = function() {
             document.getElementById('pen-mask').classList.remove('pressed-button');
@@ -171,68 +169,62 @@ wpd.PenMaskTool = (function () {
             wpd.dataMask.grabMask();
             wpd.toolbar.clear();
         };
-
     };
     return Tool;
 })();
 
-wpd.EraseMaskTool = (function () {
+wpd.EraseMaskTool = (function() {
     var Tool = function() {
-        var strokeWidth,
-            ctx = wpd.graphicsWidget.getAllContexts(),
-            isDrawing = false,
-            moveTimer,
-            screen_pos, image_pos,
-            mouseMoveHandler = function() {
+        var strokeWidth, ctx = wpd.graphicsWidget.getAllContexts(), isDrawing = false, moveTimer,
+                         screen_pos, image_pos, mouseMoveHandler = function() {
+                             ctx.dataCtx.globalCompositeOperation = "destination-out";
+                             ctx.oriDataCtx.globalCompositeOperation = "destination-out";
 
-                ctx.dataCtx.globalCompositeOperation = "destination-out";
-                ctx.oriDataCtx.globalCompositeOperation = "destination-out";
-                
-                ctx.dataCtx.strokeStyle = "rgba(255,255,0,1)";
-                ctx.dataCtx.lineTo(screen_pos.x,screen_pos.y);
-                ctx.dataCtx.stroke();
-                
-                ctx.oriDataCtx.strokeStyle = "rgba(255,255,0,1)";
-                ctx.oriDataCtx.lineTo(image_pos.x,image_pos.y);
-                ctx.oriDataCtx.stroke();
-            };
+                             ctx.dataCtx.strokeStyle = "rgba(255,255,0,1)";
+                             ctx.dataCtx.lineTo(screen_pos.x, screen_pos.y);
+                             ctx.dataCtx.stroke();
+
+                             ctx.oriDataCtx.strokeStyle = "rgba(255,255,0,1)";
+                             ctx.oriDataCtx.lineTo(image_pos.x, image_pos.y);
+                             ctx.oriDataCtx.stroke();
+                         };
 
         this.onAttach = function() {
-             wpd.graphicsWidget.setRepainter(new wpd.MaskPainter());
-             document.getElementById('erase-mask').classList.add('pressed-button');
-             document.getElementById('view-mask').classList.add('pressed-button');
-             wpd.toolbar.show('eraseToolbar');
+            wpd.graphicsWidget.setRepainter(new wpd.MaskPainter());
+            document.getElementById('erase-mask').classList.add('pressed-button');
+            document.getElementById('view-mask').classList.add('pressed-button');
+            wpd.toolbar.show('eraseToolbar');
         };
 
         this.onMouseDown = function(ev, pos, imagePos) {
-            if(isDrawing === true) return;
+            if (isDrawing === true)
+                return;
             var lwidth = parseInt(document.getElementById('eraseThickness').value, 10);
             isDrawing = true;
             ctx.dataCtx.globalCompositeOperation = "destination-out";
             ctx.oriDataCtx.globalCompositeOperation = "destination-out";
 
             ctx.dataCtx.strokeStyle = "rgba(0,0,0,1)";
-            ctx.dataCtx.lineWidth = lwidth*wpd.graphicsWidget.getZoomRatio();
+            ctx.dataCtx.lineWidth = lwidth * wpd.graphicsWidget.getZoomRatio();
             ctx.dataCtx.beginPath();
-            ctx.dataCtx.moveTo(pos.x,pos.y);
+            ctx.dataCtx.moveTo(pos.x, pos.y);
 
             ctx.oriDataCtx.strokeStyle = "rgba(0,0,0,1)";
             ctx.oriDataCtx.lineWidth = lwidth;
             ctx.oriDataCtx.beginPath();
-            ctx.oriDataCtx.moveTo(imagePos.x,imagePos.y);
+            ctx.oriDataCtx.moveTo(imagePos.x, imagePos.y);
         };
 
         this.onMouseMove = function(ev, pos, imagePos) {
-            if(isDrawing === false) return;
+            if (isDrawing === false)
+                return;
             screen_pos = pos;
             image_pos = imagePos;
             clearTimeout(moveTimer);
             moveTimer = setTimeout(mouseMoveHandler, 2);
         };
 
-        this.onMouseOut = function(ev, pos, imagePos) {
-            this.onMouseUp(ev, pos, imagePos);
-        };
+        this.onMouseOut = function(ev, pos, imagePos) { this.onMouseUp(ev, pos, imagePos); };
 
         this.onMouseUp = function(ev, pos, imagePos) {
             clearTimeout(moveTimer);
@@ -253,21 +245,18 @@ wpd.EraseMaskTool = (function () {
             wpd.dataMask.grabMask();
             wpd.toolbar.clear();
         };
-       
     };
     return Tool;
 })();
 
 wpd.ViewMaskTool = (function() {
-
     var Tool = function() {
-
-        this.onAttach = function () {
+        this.onAttach = function() {
             wpd.graphicsWidget.setRepainter(new wpd.MaskPainter());
             document.getElementById('view-mask').classList.add('pressed-button');
         };
 
-        this.onRemove = function () {
+        this.onRemove = function() {
             document.getElementById('view-mask').classList.remove('pressed-button');
             wpd.dataMask.grabMask();
         };
@@ -277,38 +266,37 @@ wpd.ViewMaskTool = (function() {
 })();
 
 wpd.MaskPainter = (function() {
-    var Painter = function () {
-
+    var Painter = function() {
         let ctx = wpd.graphicsWidget.getAllContexts();
         let ds = wpd.tree.getActiveDataset();
         let autoDetector = wpd.appData.getPlotData().getAutoDetectionDataForDataset(ds);
 
-        let painter = function () {
-                if(autoDetector.mask == null || autoDetector.mask.size === 0) {
-                    return;
-                }
-                let imageSize = wpd.graphicsWidget.getImageSize();
-                let imgData = ctx.oriDataCtx.getImageData(0, 0, imageSize.width, imageSize.height);
+        let painter = function() {
+            if (autoDetector.mask == null || autoDetector.mask.size === 0) {
+                return;
+            }
+            let imageSize = wpd.graphicsWidget.getImageSize();
+            let imgData = ctx.oriDataCtx.getImageData(0, 0, imageSize.width, imageSize.height);
 
-                for(let img_index of autoDetector.mask) {
-                    imgData.data[img_index*4] = 255;
-                    imgData.data[img_index*4+1] = 255;
-                    imgData.data[img_index*4+2] = 0;
-                    imgData.data[img_index*4+3] = 255;
-                }
+            for (let img_index of autoDetector.mask) {
+                imgData.data[img_index * 4] = 255;
+                imgData.data[img_index * 4 + 1] = 255;
+                imgData.data[img_index * 4 + 2] = 0;
+                imgData.data[img_index * 4 + 3] = 255;
+            }
 
-                ctx.oriDataCtx.putImageData(imgData, 0, 0);
-                wpd.graphicsWidget.copyImageDataLayerToScreen();
-            };
+            ctx.oriDataCtx.putImageData(imgData, 0, 0);
+            wpd.graphicsWidget.copyImageDataLayerToScreen();
+        };
 
         this.painterName = 'dataMaskPainter';
 
-        this.onRedraw = function () {
+        this.onRedraw = function() {
             wpd.dataMask.grabMask();
             painter();
         };
 
-        this.onAttach = function () {
+        this.onAttach = function() {
             wpd.graphicsWidget.resetData();
             painter();
         };
