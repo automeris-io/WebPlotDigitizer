@@ -27,7 +27,8 @@ wpd.XStepWithInterpolationAlgo = class {
     constructor() {
         this._xmin = 0;
         this._xmax = 1;
-        this._delx = 0.1 this._smoothing = 0;
+        this._delx = 0.1;
+        this._smoothing = 0;
         this._ymin = 0;
         this._ymax = 0;
         this._wasRun = false;
