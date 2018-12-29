@@ -42,7 +42,10 @@ wpd.layoutManager = (function() {
     }
 
     function getGraphicsViewportSize() {
-        return {width : $graphicsContainer.offsetWidth, height : $graphicsContainer.offsetHeight};
+        return {
+            width: $graphicsContainer.offsetWidth,
+            height: $graphicsContainer.offsetHeight
+        };
     }
 
     // event handler
@@ -66,5 +69,8 @@ wpd.layoutManager = (function() {
         wpd.tree.init();
     }
 
-    return {initialLayout : initialLayout, getGraphicsViewportSize : getGraphicsViewportSize};
+    return {
+        initialLayout: initialLayout,
+        getGraphicsViewportSize: getGraphicsViewportSize
+    };
 })();

@@ -41,7 +41,9 @@ wpd.dateConverter = (function() {
 
     function toJD(dateString) {
         dateString = dateString.toString();
-        var dateParts = dateString.split(/[/ :]/), hasDatePart = dateString.indexOf('/') >= 0, year,
+        var dateParts = dateString.split(/[/ :]/),
+            hasDatePart = dateString.indexOf('/') >= 0,
+            year,
             month, date, hour, min, sec, timeIdxOffset, today, tempDate, rtnValue;
 
         if (dateParts.length <= 0 || dateParts.length > 6) {
@@ -121,17 +123,23 @@ wpd.dateConverter = (function() {
             coeff = 1000 * 60 * 60 * 24 * 365.2425;
 
         return formatDate(new Date(Math.round(new Date(dateNumber).getTime() / coeff) * coeff),
-                          formatString);
+            formatString);
     }
 
     function formatDate(dateObject, formatString) {
 
-        var longMonths = [], shortMonths = [], tmpDate = new Date();
+        var longMonths = [],
+            shortMonths = [],
+            tmpDate = new Date();
 
         for (var i = 0; i < 12; i++) {
             tmpDate.setUTCMonth(i);
-            longMonths.push(tmpDate.toLocaleString(undefined, {month : "long"}));
-            shortMonths.push(tmpDate.toLocaleString(undefined, {month : "short"}));
+            longMonths.push(tmpDate.toLocaleString(undefined, {
+                month: "long"
+            }));
+            shortMonths.push(tmpDate.toLocaleString(undefined, {
+                month: "short"
+            }));
         }
 
         var outputString = formatString;
@@ -166,7 +174,8 @@ wpd.dateConverter = (function() {
     }
 
     function getFormatString(dateString) {
-        var dateParts = dateString.split(/[/ :]/), hasDatePart = dateString.indexOf('/') >= 0,
+        var dateParts = dateString.split(/[/ :]/),
+            hasDatePart = dateString.indexOf('/') >= 0,
             formatString = 'yyyy/mm/dd hh:ii:ss';
 
         if (dateParts.length >= 1) {
@@ -196,5 +205,9 @@ wpd.dateConverter = (function() {
         return formatString;
     }
 
-    return {parse : parse, getFormatString : getFormatString, formatDateNumber : formatDateNumber};
+    return {
+        parse: parse,
+        getFormatString: getFormatString,
+        formatDateNumber: formatDateNumber
+    };
 })();

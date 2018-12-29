@@ -24,7 +24,9 @@ var wpd = wpd || {};
 
 wpd.AxesCornersTool = (function() {
     var Tool = function(calibration, reloadTool) {
-        var pointCount = 0, _calibration = calibration, isCapturingCorners = true;
+        var pointCount = 0,
+            _calibration = calibration,
+            isCapturingCorners = true;
 
         if (reloadTool) {
             pointCount = _calibration.maxPointCount;
@@ -66,9 +68,10 @@ wpd.AxesCornersTool = (function() {
             }
 
             var selPoint = _calibration.getPoint(_calibration.getSelectedPoints()[0]),
-                pointPx = selPoint.px, pointPy = selPoint.py,
-                stepSize = ev.shiftKey === true ? 5 / wpd.graphicsWidget.getZoomRatio()
-                                                : 0.5 / wpd.graphicsWidget.getZoomRatio();
+                pointPx = selPoint.px,
+                pointPy = selPoint.py,
+                stepSize = ev.shiftKey === true ? 5 / wpd.graphicsWidget.getZoomRatio() :
+                0.5 / wpd.graphicsWidget.getZoomRatio();
 
             if (wpd.keyCodes.isUp(ev.keyCode)) {
                 pointPy = pointPy - stepSize;
@@ -113,7 +116,10 @@ wpd.AlignmentCornersRepainter = (function() {
 
             for (i = 0; i < _calibration.getCount(); i++) {
                 imagePos = _calibration.getPoint(i);
-                imagePx = {x : imagePos.px, y : imagePos.py};
+                imagePx = {
+                    x: imagePos.px,
+                    y: imagePos.py
+                };
 
                 if (_calibration.isPointSelected(i)) {
                     fillStyle = "rgba(0,200,0,1)";
@@ -122,7 +128,7 @@ wpd.AlignmentCornersRepainter = (function() {
                 }
 
                 wpd.graphicsHelper.drawPoint(imagePx, fillStyle, _calibration.labels[i],
-                                             _calibration.labelPositions[i]);
+                    _calibration.labelPositions[i]);
             }
         };
     };

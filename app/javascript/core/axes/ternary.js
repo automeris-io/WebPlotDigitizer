@@ -30,7 +30,9 @@ wpd.TernaryAxes = (function() {
             x0, y0, x1, y1, x2, y2, L, phi0, root3, isRange0to100, isOrientationNormal,
 
             processCalibration = function(cal, range100, is_normal) {
-                var cp0 = cal.getPoint(0), cp1 = cal.getPoint(1), cp2 = cal.getPoint(2);
+                var cp0 = cal.getPoint(0),
+                    cp1 = cal.getPoint(1),
+                    cp2 = cal.getPoint(2);
 
                 x0 = cp0.px;
                 y0 = cp0.py;
@@ -52,7 +54,9 @@ wpd.TernaryAxes = (function() {
                 return true;
             };
 
-        this.isCalibrated = function() { return isCalibrated; };
+        this.isCalibrated = function() {
+            return isCalibrated;
+        };
 
         this.calibration = null;
 
@@ -62,12 +66,17 @@ wpd.TernaryAxes = (function() {
             return isCalibrated;
         };
 
-        this.isRange100 = function() { return isRange0to100; };
+        this.isRange100 = function() {
+            return isRange0to100;
+        };
 
-        this.isNormalOrientation = function() { return isOrientationNormal; };
+        this.isNormalOrientation = function() {
+            return isOrientationNormal;
+        };
 
         this.pixelToData = function(pxi, pyi) {
-            var data = [], rp, thetap, xx, yy, ap, bp, cp, bpt;
+            var data = [],
+                rp, thetap, xx, yy, ap, bp, cp, bpt;
 
             xp = parseFloat(pxi);
             yp = parseFloat(pyi);
@@ -103,22 +112,28 @@ wpd.TernaryAxes = (function() {
             return data;
         };
 
-        this.dataToPixel = function(a, b, c) { return {x : 0, y : 0}; };
+        this.dataToPixel = function(a, b, c) {
+            return {
+                x: 0,
+                y: 0
+            };
+        };
 
         this.pixelToLiveString = function(pxi, pyi) {
             var dataVal = this.pixelToData(pxi, pyi);
             return dataVal[0].toExponential(4) + ', ' + dataVal[1].toExponential(4) + ', ' +
-                   dataVal[2].toExponential(4);
+                dataVal[2].toExponential(4);
         };
 
         this.getTransformationEquations = function() {
             var rpEqn =
-                    'rp = sqrt((x_pixel - ' + x0 + ')^2 + (y_pixel - ' + y0 + ')^2)/(' + L + ')',
+                'rp = sqrt((x_pixel - ' + x0 + ')^2 + (y_pixel - ' + y0 + ')^2)/(' + L + ')',
                 thetapEqn = 'thetap = atan2((' + y0 + ' -  y_pixel), (x_pixel - ' + x0 + ')) - (' +
-                            Math.atan2(-(y1 - y0), x1 - x0) + ')',
+                Math.atan2(-(y1 - y0), x1 - x0) + ')',
                 apEqn = '1 - rp*(cos(thetap) - sin(thetap)/sqrt(3))',
                 bpEqn = 'rp*(cos(thetap) - sin(thetap)/sqrt(3))',
-                cpEqn = '2*rp*sin(thetap)/sqrt(3)', bpEqnt;
+                cpEqn = '2*rp*sin(thetap)/sqrt(3)',
+                bpEqnt;
 
             if (isRange0to100) {
                 apEqn = '100*(' + apEqn + ')';
@@ -137,17 +152,25 @@ wpd.TernaryAxes = (function() {
                 cpEqn = bpEqnt;
             }
 
-            return {pixelToData : [ rpEqn, thetapEqn, apEqn, bpEqn, cpEqn ]};
+            return {
+                pixelToData: [rpEqn, thetapEqn, apEqn, bpEqn, cpEqn]
+            };
         };
 
         this.name = "Ternary";
     };
 
-    AxesObj.prototype.numCalibrationPointsRequired = function() { return 3; };
+    AxesObj.prototype.numCalibrationPointsRequired = function() {
+        return 3;
+    };
 
-    AxesObj.prototype.getDimensions = function() { return 3; };
+    AxesObj.prototype.getDimensions = function() {
+        return 3;
+    };
 
-    AxesObj.prototype.getAxesLabels = function() { return [ 'a', 'b', 'c' ]; };
+    AxesObj.prototype.getAxesLabels = function() {
+        return ['a', 'b', 'c'];
+    };
 
     return AxesObj;
 })();

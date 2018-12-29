@@ -21,107 +21,109 @@
     along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
 -->
 {% set wpdVersion = '4.2' %}
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/> 
-<meta name="Description" content="WebPlotDigitizer v{{ wpdVersion }} - {{ _("Web based tool to extract numerical data from plots and graph images.") }}"/>
-<meta name="Keywords" content="Plot, Digitizer, WebPlotDigitizer, Ankit Rohatgi, Extract Data, Convert Plots, XY, Polar, Ternary, Map, HTML5"/>
-<meta name="Author" content="Ankit Rohatgi"/>
-<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
-<meta http-equiv="Pragma" content="no-cache"/>
-<meta http-equiv="Expires" content="0"/>
-<title>WebPlotDigitizer - Copyright 2010-2019 Ankit Rohatgi</title>
-<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-<link rel="stylesheet" href="styles.css" type="text/css" media="screen" />
-<link rel="stylesheet" href="widgets.css" type="text/css" media="screen" />
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-{% block scripts %}{% endblock %}
 
-<!-- thirdparty -->
-<script src="thirdparty/pdfjs/build/pdf.js"></script>
-<script src="thirdparty/tarballjs/tarballjs-master/tarball.js"></script>
-<script src="thirdparty/numericjs/numeric_core.js"></script>
-<script src="thirdparty/numericjs/numeric_svd.js"></script>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="Description" content="WebPlotDigitizer v{{ wpdVersion }} - {{ _("Web based tool to extract numerical data from plots and graph images.") }}" />
+    <meta name="Keywords" content="Plot, Digitizer, WebPlotDigitizer, Ankit Rohatgi, Extract Data, Convert Plots, XY, Polar, Ternary, Map, HTML5" />
+    <meta name="Author" content="Ankit Rohatgi" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <title>WebPlotDigitizer - Copyright 2010-2019 Ankit Rohatgi</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="widgets.css" type="text/css" media="screen" />
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    {% block scripts %}{% endblock %}
+
+    <!-- thirdparty -->
+    <script src="thirdparty/pdfjs/build/pdf.js"></script>
+    <script src="thirdparty/tarballjs/tarballjs-master/tarball.js"></script>
+    <script src="thirdparty/numericjs/numeric_core.js"></script>
+    <script src="thirdparty/numericjs/numeric_svd.js"></script>
 </head>
 
 <body>
 
-<div id="loadingCurtain" style="position: absolute; top: 0px; left: 0px; z-index: 100; width: 100%; height: 100%; background-color: white;">
-{{ _("Loading application, please wait...") }}
-<br/>
-<br/>
-{{ _("Problems loading? Make sure you have a recent version of Google Chrome, Firefox, Safari or Microsoft Edge installed.") }}
-</div>
+    <div id="loadingCurtain" style="position: absolute; top: 0px; left: 0px; z-index: 100; width: 100%; height: 100%; background-color: white;">
+        {{ _("Loading application, please wait...") }}
+        <br />
+        <br />
+        {{ _("Problems loading? Make sure you have a recent version of Google Chrome, Firefox, Safari or Microsoft Edge installed.") }}
+    </div>
 
-<div id="allContainer">
-    <!-- toolbar + graphics -->
-    <div id="mainContainer">
-        <div id="topContainer">
-            <div id="menuButtonsContainer">{% include "_menubar.html" %}</div>
+    <div id="allContainer">
+        <!-- toolbar + graphics -->
+        <div id="mainContainer">
+            <div id="topContainer">
+                <div id="menuButtonsContainer">{% include "_menubar.html" %}</div>
 
-           
-            <div id="topToolbarContainer">
-                <!-- controls that show on top -->
-                <div style="position:relative;"> 
-                    <!-- Extra toolbars go here -->
-                    {% include "_toolbars.html" %} 
+
+                <div id="topToolbarContainer">
+                    <!-- controls that show on top -->
+                    <div style="position:relative;">
+                        <!-- Extra toolbars go here -->
+                        {% include "_toolbars.html" %}
+                    </div>
+                </div>
+
+                <div style="display:inline-block; position: absolute; top: 5px; right: 290px;">
+                    <button type="button" title="Zoom in" onclick="wpd.graphicsWidget.zoomIn();" style="border:none; width:20px;">+</button>
+                    <button type="button" title="Zoom out" onclick="wpd.graphicsWidget.zoomOut();" style="border:none; width:20px;">-</button>
+                    <button type="button" title="View actual size" onclick="wpd.graphicsWidget.zoom100perc();" style="border:none;">100%</button>
+                    <button type="button" title="Fit to graphics area" onclick="wpd.graphicsWidget.zoomFit();" style="border:none;">{{ _("Fit") }}</button>
+                    <button title="Toggle extended crosshair" onclick="wpd.graphicsWidget.toggleExtendedCrosshairBtn();" style="border:none; width:20px; background-image: url('images/crosshair.png'); background-repeat: no-repeat; background-position: center;" id="extended-crosshair-btn">&nbsp;</button>
+                </div>
+
+            </div>
+
+            <div style="display: flex;">
+                <div id="left-side-container" style="width:200px; flex: 0 0 169px;">
+                    <!-- tree control -->
+                    {% include "_tree.html" %}
+                </div>
+
+                <div id="graphicsContainer" style="flex: 1;">
+                    <!-- the main canvas goes here -->
+                    <div id="canvasDiv" style="position:relative;">
+                        <canvas id="mainCanvas" class="canvasLayers" style="z-index:1;"></canvas>
+                        <canvas id="dataCanvas" class="canvasLayers" style="z-index:2;"></canvas>
+                        <canvas id="drawCanvas" class="canvasLayers" style="z-index:3;"></canvas>
+                        <canvas id="hoverCanvas" class="canvasLayers" style="z-index:4;"></canvas>
+                        <canvas id="topCanvas" class="canvasLayers" style="z-index:5;"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- sidebar + zoom -->
+        <div id="sidebarContainer">
+            <!-- zoom window goes here -->
+            <div style="position:relative;" id="zoomDiv">
+                <canvas id="zoomCanvas" class="zoomLayers" width=250 height=250 style="position:relative; top: 0px; left: 0px; z-index:1;"></canvas>
+                <canvas id="zoomCrossHair" class="zoomLayers" width=250 height=250 style="position:absolute; top: 0px; left: 0px; z-index:2; background:transparent;"></canvas>
+                <div id="cursorPosition" style="position:relative;">
+                    [<span id="mousePosition"></span>]
                 </div>
             </div>
 
-             <div style="display:inline-block; position: absolute; top: 5px; right: 290px;" >
-                <button type="button" title="Zoom in" onclick="wpd.graphicsWidget.zoomIn();" style="border:none; width:20px;">+</button>
-                <button type="button" title="Zoom out" onclick="wpd.graphicsWidget.zoomOut();" style="border:none; width:20px;">-</button>
-                <button type="button" title="View actual size" onclick="wpd.graphicsWidget.zoom100perc();" style="border:none;">100%</button>
-                <button type="button" title="Fit to graphics area" onclick="wpd.graphicsWidget.zoomFit();" style="border:none;">{{ _("Fit") }}</button>
-                <button title="Toggle extended crosshair" onclick="wpd.graphicsWidget.toggleExtendedCrosshairBtn();" style="border:none; width:20px; background-image: url('images/crosshair.png'); background-repeat: no-repeat; background-position: center;" id="extended-crosshair-btn">&nbsp;</button>
+            <div id="zoom-settings-container"><input type="button" id="zoom-settings-button" title="Change zoom settings" value="&#9881;" onclick="wpd.zoomView.showSettingsWindow();" /></div>
+
+            <div style="position:relative;" id="sidebarControlsContainer">
+                <!-- side bars go here -->
+                {% include "_sidebars.html" %}
             </div>
 
-        </div>
-
-        <div style="display: flex;">
-            <div id="left-side-container" style="width:200px; flex: 0 0 169px;">
-                <!-- tree control -->
-                {% include "_tree.html" %}                
-            </div>
-
-            <div id="graphicsContainer" style="flex: 1;">
-                <!-- the main canvas goes here -->
-                <div id="canvasDiv" style="position:relative;">
-                    <canvas id="mainCanvas" class="canvasLayers" style="z-index:1;"></canvas>
-                    <canvas id="dataCanvas" class="canvasLayers" style="z-index:2;"></canvas>
-                    <canvas id="drawCanvas" class="canvasLayers" style="z-index:3;"></canvas>
-                    <canvas id="hoverCanvas" class="canvasLayers" style="z-index:4;"></canvas>
-                    <canvas id="topCanvas" class="canvasLayers" style="z-index:5;"></canvas>
-                </div>
-            </div>
         </div>
     </div>
 
-    <!-- sidebar + zoom -->
-    <div id="sidebarContainer">
-        <!-- zoom window goes here -->
-        <div style="position:relative;" id="zoomDiv">
-            <canvas id="zoomCanvas" class="zoomLayers" width=250 height=250 style="position:relative; top: 0px; left: 0px; z-index:1;"></canvas>
-            <canvas id="zoomCrossHair" class="zoomLayers" width=250 height=250 style="position:absolute; top: 0px; left: 0px; z-index:2; background:transparent;"></canvas>
-            <div id="cursorPosition" style="position:relative;">
-            [<span id="mousePosition"></span>]
-            </div>
-        </div>
+    <!-- popup windows go here -->
+    {% include "_popups.html" %}
 
-        <div id="zoom-settings-container"><input type="button" id="zoom-settings-button" title="Change zoom settings" value="&#9881;" onclick="wpd.zoomView.showSettingsWindow();"/></div>
-        
-        <div style="position:relative;" id="sidebarControlsContainer">
-            <!-- side bars go here -->
-            {% include "_sidebars.html" %}
-        </div>
-
-    </div>
-</div>
-
-<!-- popup windows go here -->
-{% include "_popups.html" %}
-
-<!-- strings for translation -->
-{% include "_strings.html" %}
+    <!-- strings for translation -->
+    {% include "_strings.html" %}
 
 </body>
+
 </html>

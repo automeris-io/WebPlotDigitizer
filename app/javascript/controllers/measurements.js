@@ -24,34 +24,36 @@
 var wpd = wpd || {};
 
 wpd.measurementModes = {
-    distance : {
-        name : 'distance',
-        connectivity : 2,
-        addButtonId : 'add-pair-button',
-        deleteButtonId : 'delete-pair-button',
-        sidebarId : 'measure-distances-sidebar',
-        init : function() {
+    distance: {
+        name: 'distance',
+        connectivity: 2,
+        addButtonId: 'add-pair-button',
+        deleteButtonId: 'delete-pair-button',
+        sidebarId: 'measure-distances-sidebar',
+        init: function() {
             let plotData = wpd.appData.getPlotData();
             if (plotData.getMeasurementsByType(wpd.DistanceMeasurement).length == 0) {
                 plotData.addMeasurement(new wpd.DistanceMeasurement());
             }
         },
-        clear : function() {
+        clear: function() {
             let plotData = wpd.appData.getPlotData();
             let distMeasures = plotData.getMeasurementsByType(wpd.DistanceMeasurement);
-            distMeasures.forEach(m => { m.clearAll(); });
+            distMeasures.forEach(m => {
+                m.clearAll();
+            });
         },
-        getData : function() {
+        getData: function() {
             let plotData = wpd.appData.getPlotData();
             let distMeasures = plotData.getMeasurementsByType(wpd.DistanceMeasurement);
             return distMeasures[0];
         },
-        getAxes : function() {
+        getAxes: function() {
             let plotData = wpd.appData.getPlotData();
             let distMeasures = plotData.getMeasurementsByType(wpd.DistanceMeasurement);
             return plotData.getAxesForMeasurement(distMeasures[0]);
         },
-        changeAxes : function(axIdx) {
+        changeAxes: function(axIdx) {
             let plotData = wpd.appData.getPlotData();
             let ms = plotData.getMeasurementsByType(wpd.DistanceMeasurement)[0];
             let axesColl = plotData.getAxesColl();
@@ -63,57 +65,61 @@ wpd.measurementModes = {
             wpd.tree.refreshPreservingSelection(true);
         }
     },
-    angle : {
-        name : 'angle',
-        connectivity : 3,
-        addButtonId : 'add-angle-button',
-        deleteButtonId : 'delete-angle-button',
-        sidebarId : 'measure-angles-sidebar',
-        init : function() {
+    angle: {
+        name: 'angle',
+        connectivity: 3,
+        addButtonId: 'add-angle-button',
+        deleteButtonId: 'delete-angle-button',
+        sidebarId: 'measure-angles-sidebar',
+        init: function() {
             let plotData = wpd.appData.getPlotData();
             if (plotData.getMeasurementsByType(wpd.AngleMeasurement).length == 0) {
                 plotData.addMeasurement(new wpd.AngleMeasurement());
             }
         },
-        clear : function() {
+        clear: function() {
             let plotData = wpd.appData.getPlotData();
             let angleMeasures = plotData.getMeasurementsByType(wpd.AngleMeasurement);
-            angleMeasures.forEach(m => { m.clearAll(); });
+            angleMeasures.forEach(m => {
+                m.clearAll();
+            });
         },
-        getData : function() {
+        getData: function() {
             let plotData = wpd.appData.getPlotData();
             let angleMeasures = plotData.getMeasurementsByType(wpd.AngleMeasurement);
             return angleMeasures[0];
         }
     },
-    area : {
-        name : 'area',
-        connectivity : -1,
-        addButtonId : 'add-polygon-button',
-        deleteButtonId : 'delete-polygon-button',
-        sidebarId : 'measure-area-sidebar',
-        init : function() {
+    area: {
+        name: 'area',
+        connectivity: -1,
+        addButtonId: 'add-polygon-button',
+        deleteButtonId: 'delete-polygon-button',
+        sidebarId: 'measure-area-sidebar',
+        init: function() {
             let plotData = wpd.appData.getPlotData();
             if (plotData.getMeasurementsByType(wpd.AreaMeasurement).length == 0) {
                 plotData.addMeasurement(new wpd.AreaMeasurement());
             }
         },
-        clear : function() {
+        clear: function() {
             let plotData = wpd.appData.getPlotData();
             let areaMeasures = plotData.getMeasurementsByType(wpd.AreaMeasurement);
-            areaMeasures.forEach(m => { m.clearAll(); });
+            areaMeasures.forEach(m => {
+                m.clearAll();
+            });
         },
-        getData : function() {
+        getData: function() {
             let plotData = wpd.appData.getPlotData();
             let areaMeasures = plotData.getMeasurementsByType(wpd.AreaMeasurement);
             return areaMeasures[0];
         },
-        getAxes : function() {
+        getAxes: function() {
             let plotData = wpd.appData.getPlotData();
             let areaMeasures = plotData.getMeasurementsByType(wpd.AreaMeasurement);
             return plotData.getAxesForMeasurement(areaMeasures[0]);
         },
-        changeAxes : function(axIdx) {
+        changeAxes: function(axIdx) {
             let plotData = wpd.appData.getPlotData();
             let ms = plotData.getMeasurementsByType(wpd.AreaMeasurement)[0];
             let axesColl = plotData.getAxesColl();
@@ -157,13 +163,15 @@ wpd.measurement = (function() {
         activeMode.clear();
     }
 
-    function changeAxes(axIdx) { activeMode.changeAxes(parseInt(axIdx, 10)); }
+    function changeAxes(axIdx) {
+        activeMode.changeAxes(parseInt(axIdx, 10));
+    }
 
     return {
-        start : start,
-        addItem : addItem,
-        deleteItem : deleteItem,
-        clearAll : clearAll,
-        changeAxes : changeAxes
+        start: start,
+        addItem: addItem,
+        deleteItem: deleteItem,
+        clearAll: clearAll,
+        changeAxes: changeAxes
     };
 })();

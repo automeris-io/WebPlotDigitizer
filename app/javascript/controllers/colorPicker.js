@@ -67,12 +67,12 @@ wpd.colorSelectionWidget = (function() {
 
         for (let colori = 0; colori < colorCount; colori++) {
             let colorString = 'rgb(' + topColors[colori].r + ',' + topColors[colori].g + ',' +
-                              topColors[colori].b + ');';
+                topColors[colori].b + ');';
             let perc = topColors[colori].percentage.toFixed(3) + "%";
             containerHtml += '<div class="colorOptionBox" style="background-color: ' + colorString +
-                             '\" title=\"' + perc +
-                             '" onclick="wpd.colorSelectionWidget.selectTopColor(' + colori +
-                             ');"></div>';
+                '\" title=\"' + perc +
+                '" onclick="wpd.colorSelectionWidget.selectTopColor(' + colori +
+                ');"></div>';
         }
 
         $container.innerHTML = containerHtml;
@@ -143,12 +143,12 @@ wpd.colorSelectionWidget = (function() {
     }
 
     return {
-        setParams : setParams,
-        startPicker : startPicker,
-        pickColor : pickColor,
-        setColor : setColor,
-        selectTopColor : selectTopColor,
-        paintFilteredColor : paintFilteredColor
+        setParams: setParams,
+        startPicker: startPicker,
+        pickColor: pickColor,
+        setColor: setColor,
+        selectTopColor: selectTopColor,
+        paintFilteredColor: paintFilteredColor
     };
 })();
 
@@ -161,20 +161,24 @@ wpd.colorPicker = (function() {
     function getFGPickerParams() {
         let ad = getAutoDetectionData();
         return {
-            color : ad.fgColor,
-            triggerElementId : 'color-button',
-            title : wpd.gettext('specify-foreground-color'),
-            setColorDelegate : function(col) { ad.fgColor = col; }
+            color: ad.fgColor,
+            triggerElementId: 'color-button',
+            title: wpd.gettext('specify-foreground-color'),
+            setColorDelegate: function(col) {
+                ad.fgColor = col;
+            }
         };
     }
 
     function getBGPickerParams() {
         let ad = getAutoDetectionData();
         return {
-            color : ad.bgColor,
-            triggerElementId : 'color-button',
-            title : wpd.gettext('specify-background-color'),
-            setColorDelegate : function(col) { ad.bgColor = col; }
+            color: ad.bgColor,
+            triggerElementId: 'color-button',
+            title: wpd.gettext('specify-background-color'),
+            setColorDelegate: function(col) {
+                ad.bgColor = col;
+            }
         };
     }
 
@@ -235,10 +239,10 @@ wpd.colorPicker = (function() {
     }
 
     return {
-        startPicker : startPicker,
-        changeDetectionMode : changeDetectionMode,
-        changeColorDistance : changeColorDistance,
-        init : init,
-        testColorDetection : testColorDetection
+        startPicker: startPicker,
+        changeDetectionMode: changeDetectionMode,
+        changeColorDistance: changeColorDistance,
+        init: init,
+        testColorDetection: testColorDetection
     };
 })();

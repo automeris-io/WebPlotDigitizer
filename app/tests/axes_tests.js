@@ -3,10 +3,10 @@ QUnit.module("Axes tests: XY");
 QUnit.test("Linear XY axes", function(assert) {
     // Given linearly aligned axes
     let calib = new wpd.Calibration(2);
-    calib.addPoint(0, 99, "0", "0");    // X1 = 0 at (0, 99)px
+    calib.addPoint(0, 99, "0", "0"); // X1 = 0 at (0, 99)px
     calib.addPoint(99, 99, "100", "0"); // X2 = 100 at (99, 99)px
-    calib.addPoint(0, 99, "0", "0");    // Y1 = 0 at (0, 99)px
-    calib.addPoint(0, 0, "0", "10");    // Y2 = 10 at (0, 0)px
+    calib.addPoint(0, 99, "0", "0"); // Y1 = 0 at (0, 99)px
+    calib.addPoint(0, 0, "0", "10"); // Y2 = 10 at (0, 0)px
 
     let xyaxes = new wpd.XYAxes();
     xyaxes.calibrate(calib, false, false);
@@ -23,10 +23,10 @@ QUnit.test("Linear XY axes", function(assert) {
 QUnit.test("Log XY axes", function(assert) {
     // Given linearly aligned axes
     let calib = new wpd.Calibration(2);
-    calib.addPoint(0, 99, "1e-5", "0");     // X1 = 10^-5 at (0, 99)px
-    calib.addPoint(99, 99, "1e12", "0");    // X2 = 1e12 at (99, 99)px
+    calib.addPoint(0, 99, "1e-5", "0"); // X1 = 10^-5 at (0, 99)px
+    calib.addPoint(99, 99, "1e12", "0"); // X2 = 1e12 at (99, 99)px
     calib.addPoint(0, 99, "1e-5", "1e-20"); // Y1 = 1e-20 at (0, 99)px
-    calib.addPoint(0, 0, "1e-5", "1");      // Y2 = 1 at (0, 0)px
+    calib.addPoint(0, 0, "1e-5", "1"); // Y2 = 1 at (0, 0)px
 
     let xyaxes = new wpd.XYAxes();
     xyaxes.calibrate(calib, true, true);
@@ -40,11 +40,11 @@ QUnit.test("Log base 2 axes", function(assert) {
     // Given linearly aligned axes
     let calib = new wpd.Calibration(2);
     calib.addPoint(0, 99, Math.pow(2, -5).toString(),
-                   Math.pow(2, -20).toString()); // X1 = 2^-5 at (0, 99)px
+        Math.pow(2, -20).toString()); // X1 = 2^-5 at (0, 99)px
     calib.addPoint(99, 99, Math.pow(2, 12).toString(),
-                   Math.pow(2, -20).toString()); // X2 = 2^12 at (99, 99)px
+        Math.pow(2, -20).toString()); // X2 = 2^12 at (99, 99)px
     calib.addPoint(0, 99, Math.pow(2, -5).toString(),
-                   Math.pow(2, -20).toString());           // Y1 = 2^-20 at (0, 99)px
+        Math.pow(2, -20).toString()); // Y1 = 2^-20 at (0, 99)px
     calib.addPoint(0, 0, Math.pow(2, -5).toString(), "1"); // Y2 = 1 at (0, 0)px
 
     let xyaxes = new wpd.XYAxes();

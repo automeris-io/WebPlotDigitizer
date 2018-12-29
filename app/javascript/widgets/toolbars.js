@@ -36,5 +36,8 @@ wpd.toolbar = (function() {
         }
     }
 
-    return {show : show, clear : clear};
+    return {
+        show: show,
+        clear: clear
+    };
 })();

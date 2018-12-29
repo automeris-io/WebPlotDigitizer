@@ -23,8 +23,10 @@
 /* Zoomed-in view */
 var wpd = wpd || {};
 wpd.zoomView = (function() {
-    var zCanvas, zctx, tempCanvas, tctx, zWindowWidth = 250, zWindowHeight = 250, $mPosn, pix = [],
-                                         zoomRatio, crosshairColorText = 'black';
+    var zCanvas, zctx, tempCanvas, tctx, zWindowWidth = 250,
+        zWindowHeight = 250,
+        $mPosn, pix = [],
+        zoomRatio, crosshairColorText = 'black';
 
     pix[0] = [];
 
@@ -66,11 +68,20 @@ wpd.zoomView = (function() {
         zchCtx.stroke();
     }
 
-    function setZoomRatio(zratio) { zoomRatio = zratio; }
+    function setZoomRatio(zratio) {
+        zoomRatio = zratio;
+    }
 
-    function getZoomRatio() { return zoomRatio; }
+    function getZoomRatio() {
+        return zoomRatio;
+    }
 
-    function getSize() { return {width : zWindowWidth, height : zWindowHeight}; }
+    function getSize() {
+        return {
+            width: zWindowWidth,
+            height: zWindowHeight
+        };
+    }
 
     function setZoomImage(imgData, x0, y0, zwidth, zheight) {
         tempCanvas.width = zwidth / zoomRatio;
@@ -103,13 +114,13 @@ wpd.zoomView = (function() {
     }
 
     return {
-        initZoom : init,
-        setZoomImage : setZoomImage,
-        setCoords : setCoords,
-        setZoomRatio : setZoomRatio,
-        getZoomRatio : getZoomRatio,
-        getSize : getSize,
-        showSettingsWindow : showSettingsWindow,
-        applySettings : applySettings
+        initZoom: init,
+        setZoomImage: setZoomImage,
+        setCoords: setCoords,
+        setZoomRatio: setZoomRatio,
+        getZoomRatio: getZoomRatio,
+        getSize: getSize,
+        showSettingsWindow: showSettingsWindow,
+        applySettings: applySettings
     };
 })();

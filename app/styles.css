@@ -20,26 +20,27 @@
 */
 
 html {
-	height:100%;
-	width:100%;
-	padding:0;
-	margin:0;
+    height: 100%;
+    width: 100%;
+    padding: 0;
+    margin: 0;
 }
 
 body {
-	margin: 0;
-	padding: 0;
-	width: 100%;
-	height:100%;
-	font: 14px Verdana, sans-serif;
-    line-height: 150%; 
-	background: white;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    font: 14px Verdana, sans-serif;
+    line-height: 150%;
+    background: white;
     overflow: hidden;
 }
 
-tr,td {
-	margin:0;
-	padding:0;
+tr,
+td {
+    margin: 0;
+    padding: 0;
 }
 
 #allContainer {
@@ -81,23 +82,25 @@ tr,td {
 }
 
 #canvasDiv {
-	height:400px; /* temporary */
-    width:600px; /* temporary */
-	background: white;
-	padding:0;
-	margin:0;
+    height: 400px;
+    /* temporary */
+    width: 600px;
+    /* temporary */
+    background: white;
+    padding: 0;
+    margin: 0;
 }
 
 #mainCanvas {
-	background: white;
+    background: white;
 }
 
 #canvasDiv:hover {
-	cursor: crosshair;
+    cursor: crosshair;
 }
 
 .canvasLayers {
-	background: transparent;
+    background: transparent;
     position: absolute;
     top: 0px;
     left: 0px;
@@ -110,35 +113,35 @@ tr,td {
 }
 
 #zoomDiv {
-	margin:0px;
-	margin-bottom:5px;
-	padding:0px;
-	width:251px;
-	text-align:center;
+    margin: 0px;
+    margin-bottom: 5px;
+    padding: 0px;
+    width: 251px;
+    text-align: center;
 }
 
 #cursorPosition {
-    padding:0px 0px;
-	margin:0;
-	margin-top:-5px;
-	background:white;
-	width:250px;
-	top:0px;
-	font-size:12px;
-	text-align:center;
+    padding: 0px 0px;
+    margin: 0;
+    margin-top: -5px;
+    background: white;
+    width: 250px;
+    top: 0px;
+    font-size: 12px;
+    text-align: center;
 }
 
 select {
-	height: 20px;
-	font-size:13px;
-	font-family: Verdana, sans-serif;
-	border: thin grey solid;
+    height: 20px;
+    font-size: 13px;
+    font-family: Verdana, sans-serif;
+    border: thin grey solid;
 }
 
 .standardToolbar {
-	height:25px;
-	padding: 0 0px;
-	margin: 0 0px;
+    height: 25px;
+    padding: 0 0px;
+    margin: 0 0px;
 }
 
 .toolbar {
@@ -146,37 +149,43 @@ select {
     margin: 0;
     height: 25px;
     position: absolute;
-    top:-15px;
-    left:5px;
+    top: -15px;
+    left: 5px;
     visibility: hidden;
-    z-index:4;
+    z-index: 4;
 }
 
-.toolbar p { padding:0; margin:0; }
+.toolbar p {
+    padding: 0;
+    margin: 0;
+}
 
 .popupheading {
-    font-size:14px;
+    font-size: 14px;
     text-align: left;
     cursor: move;
     background-color: gold;
     color: black;
-    margin:0 -5px 0 -5px;
+    margin: 0 -5px 0 -5px;
     padding: 5px;
 }
 
-.popup {	
-	padding:0px 5px 12px 5px;
-	margin:0;
-	border: thin #444444 solid;
-	background:white;
-	z-index:100;
-	position:absolute;
-	top:0;
-	left:0;
-	visibility:hidden;
+.popup {
+    padding: 0px 5px 12px 5px;
+    margin: 0;
+    border: thin #444444 solid;
+    background: white;
+    z-index: 100;
+    position: absolute;
+    top: 0;
+    left: 0;
+    visibility: hidden;
 }
 
-.popup p { padding:0; margin: 5px 5px;}
+.popup p {
+    padding: 0;
+    margin: 5px 5px;
+}
 
 .popup-drag-mask {
     position: absolute;
@@ -196,20 +205,28 @@ select {
 }
 
 .sidebar {
-	padding:0px 0px;
-	margin:0;
-	background:white;
-	width:250px;
-	display: none;
-	font-size:13px;
+    padding: 0px 0px;
+    margin: 0;
+    background: white;
+    width: 250px;
+    display: none;
+    font-size: 13px;
     overflow: auto;
 }
 
-.sidebar p { padding: 1px 0px 1px 1px; margin: 2px 1px 2px 1px; font-size:13px; }
+.sidebar p {
+    padding: 1px 0px 1px 1px;
+    margin: 2px 1px 2px 1px;
+    font-size: 13px;
+}
 
-.footnote {font-size: 10px;}
+.footnote {
+    font-size: 10px;
+}
 
-.leftIndent {margin-left:10px;}
+.leftIndent {
+    margin-left: 10px;
+}
 
 #zoom-settings-container {
     position: absolute;
@@ -221,7 +238,7 @@ select {
 #zoom-settings-button {
     width: 20px;
     height: 20px;
-    font-size:14px;
+    font-size: 14px;
     padding: 0px;
 }
 
@@ -235,22 +252,22 @@ select {
 
 .largeColorBox {
     display: inline-block;
-    height:40px;
+    height: 40px;
     width: 40px;
     border: thin black solid;
 }
 
 #wait {
-    position:absolute; 
-    top:0px; 
-    left:300px; 
-    background: #666666; 
-    color: lightgreen; 
-    width:200px; 
-    margin: 0px; 
-    display:inline-block;
-    padding: 0px; 
-    z-index:100;
+    position: absolute;
+    top: 0px;
+    left: 300px;
+    background: #666666;
+    color: lightgreen;
+    width: 200px;
+    margin: 0px;
+    display: inline-block;
+    padding: 0px;
+    z-index: 100;
 }
 
 #wait p {
@@ -261,4 +278,3 @@ select {
 .i18n-string {
     display: none;
 }
-

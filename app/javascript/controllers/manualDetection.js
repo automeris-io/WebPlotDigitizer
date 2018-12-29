@@ -31,7 +31,7 @@ wpd.acquireData = (function() {
 
         if (axes == null) {
             wpd.messagePopup.show(wpd.gettext('dataset-no-calibration'),
-                                  wpd.gettext('calibrate-dataset'));
+                wpd.gettext('calibrate-dataset'));
         } else {
             wpd.graphicsWidget.removeTool();
             wpd.graphicsWidget.resetData();
@@ -48,9 +48,13 @@ wpd.acquireData = (function() {
         }
     }
 
-    function getActiveDataset() { return wpd.tree.getActiveDataset(); }
+    function getActiveDataset() {
+        return wpd.tree.getActiveDataset();
+    }
 
-    function getAxes() { return wpd.appData.getPlotData().getAxesForDataset(getActiveDataset()); }
+    function getAxes() {
+        return wpd.appData.getPlotData().getAxesForDataset(getActiveDataset());
+    }
 
     function manualSelection() {
         var tool = new wpd.ManualSelectionTool(axes, dataset);
@@ -75,8 +79,8 @@ wpd.acquireData = (function() {
             return;
         }
         wpd.okCancelPopup.show(wpd.gettext('clear-data-points'),
-                               wpd.gettext('clear-data-points-text'), confirmedClearAll,
-                               function() {});
+            wpd.gettext('clear-data-points-text'), confirmedClearAll,
+            function() {});
     }
 
     function undo() {
@@ -105,24 +109,26 @@ wpd.acquireData = (function() {
         wpd.graphicsWidget.setTool(new wpd.AdjustDataPointTool(axes, dataset));
     }
 
-    function editLabels() { wpd.graphicsWidget.setTool(new wpd.EditLabelsTool(axes, dataset)); }
+    function editLabels() {
+        wpd.graphicsWidget.setTool(new wpd.EditLabelsTool(axes, dataset));
+    }
 
     function switchToolOnKeyPress(alphaKey) {
         switch (alphaKey) {
-        case 'd':
-            deletePoint();
-            break;
-        case 'a':
-            manualSelection();
-            break;
-        case 's':
-            adjustPoints();
-            break;
-        case 'e':
-            editLabels();
-            break;
-        default:
-            break;
+            case 'd':
+                deletePoint();
+                break;
+            case 'a':
+                manualSelection();
+                break;
+            case 's':
+                adjustPoints();
+                break;
+            case 'e':
+                editLabels();
+                break;
+            default:
+                break;
         }
     }
 
@@ -135,16 +141,16 @@ wpd.acquireData = (function() {
     }
 
     return {
-        load : load,
-        manualSelection : manualSelection,
-        adjustPoints : adjustPoints,
-        deletePoint : deletePoint,
-        clearAll : clearAll,
-        undo : undo,
-        showSidebar : showSidebar,
-        switchToolOnKeyPress : switchToolOnKeyPress,
-        isToolSwitchKey : isToolSwitchKey,
-        editLabels : editLabels
+        load: load,
+        manualSelection: manualSelection,
+        adjustPoints: adjustPoints,
+        deletePoint: deletePoint,
+        clearAll: clearAll,
+        undo: undo,
+        showSidebar: showSidebar,
+        switchToolOnKeyPress: switchToolOnKeyPress,
+        isToolSwitchKey: isToolSwitchKey,
+        editLabels: editLabels
     };
 })();
 
@@ -152,7 +158,9 @@ wpd.dataPointLabelEditor = (function() {
     var ds, ptIndex, tool;
 
     function show(dataset, pointIndex, initTool) {
-        var pixel = dataset.getPixel(pointIndex), originalLabel = pixel.metadata[0], $labelField;
+        var pixel = dataset.getPixel(pointIndex),
+            originalLabel = pixel.metadata[0],
+            $labelField;
 
         ds = dataset;
         ptIndex = pointIndex;
@@ -172,7 +180,7 @@ wpd.dataPointLabelEditor = (function() {
 
         if (newLabel != null && newLabel.length > 0) {
             // set label
-            ds.setMetadataAt(ptIndex, [ newLabel ]);
+            ds.setMetadataAt(ptIndex, [newLabel]);
             // refresh graphics
             wpd.graphicsWidget.resetData();
             wpd.graphicsWidget.forceHandlerRepaint();
@@ -197,5 +205,10 @@ wpd.dataPointLabelEditor = (function() {
         ev.stopPropagation();
     }
 
-    return {show : show, ok : ok, cancel : cancel, keydown : keydown};
+    return {
+        show: show,
+        ok: ok,
+        cancel: cancel,
+        keydown: keydown
+    };
 })();

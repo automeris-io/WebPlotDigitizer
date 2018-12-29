@@ -40,9 +40,13 @@ wpd.Calibration = class {
         this.maxPointCount = 0;
     }
 
-    getCount() { return this._px.length; }
+    getCount() {
+        return this._px.length;
+    }
 
-    getDimensions() { return this._dimensions; }
+    getDimensions() {
+        return this._dimensions;
+    }
 
     addPoint(pxi, pyi, dxi, dyi, dzi) {
         let plen = this._px.length;
@@ -61,11 +65,11 @@ wpd.Calibration = class {
             return null;
 
         return {
-            px : this._px[index],
-            py : this._py[index],
-            dx : this._dp[this._dimensions * index],
-            dy : this._dp[this._dimensions * index + 1],
-            dz : this._dimensions === 2 ? null : this._dp[this._dimensions * index + 2]
+            px: this._px[index],
+            py: this._py[index],
+            dx: this._dp[this._dimensions * index],
+            dy: this._dp[this._dimensions * index + 1],
+            dz: this._dimensions === 2 ? null : this._dp[this._dimensions * index + 2]
         };
     }
 
@@ -94,7 +98,7 @@ wpd.Calibration = class {
 
         for (let i = 0; i < this._px.length; i++) {
             let dist = Math.sqrt((x - this._px[i]) * (x - this._px[i]) +
-                                 (y - this._py[i]) * (y - this._py[i]));
+                (y - this._py[i]) * (y - this._py[i]));
             if ((minIndex < 0 && dist <= threshold) || (minIndex >= 0 && dist < minDist)) {
                 minIndex = i;
                 minDist = dist;
@@ -116,11 +120,17 @@ wpd.Calibration = class {
         }
     }
 
-    getSelectedPoints() { return this._selections; }
+    getSelectedPoints() {
+        return this._selections;
+    }
 
-    unselectAll() { this._selections = []; }
+    unselectAll() {
+        this._selections = [];
+    }
 
-    isPointSelected(index) { return this._selections.indexOf(index) >= 0; }
+    isPointSelected(index) {
+        return this._selections.indexOf(index) >= 0;
+    }
 
     dump() {
         console.log(this._px);

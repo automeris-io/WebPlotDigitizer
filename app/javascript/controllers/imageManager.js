@@ -25,9 +25,14 @@ var wpd = wpd || {};
 
 wpd.imageManager = (function() {
     let _firstLoad = true;
-    let _imageInfo = {width : 0, height : 0};
+    let _imageInfo = {
+        width: 0,
+        height: 0
+    };
 
-    function saveImage() { wpd.graphicsWidget.saveImage(); }
+    function saveImage() {
+        wpd.graphicsWidget.saveImage();
+    }
 
     function load() {
         let $input = document.getElementById('fileLoadBox');
@@ -62,7 +67,10 @@ wpd.imageManager = (function() {
                             let ctx = $canvas.getContext('2d');
                             $canvas.width = viewport.width;
                             $canvas.height = viewport.height;
-                            page.render({canvasContext : ctx, viewport : viewport})
+                            page.render({
+                                    canvasContext: ctx,
+                                    viewport: viewport
+                                })
                                 .promise.then(
                                     function() {
                                         let url = $canvas.toDataURL();
@@ -80,7 +88,7 @@ wpd.imageManager = (function() {
             } else {
                 console.log(imageFile.type);
                 wpd.messagePopup.show(wpd.gettext('invalid-file'),
-                                      wpd.gettext('invalid-file-text'));
+                    wpd.gettext('invalid-file-text'));
             }
         });
     }
@@ -110,16 +118,21 @@ wpd.imageManager = (function() {
             wpd.popup.show('axesList');
         }
         _firstLoad = false;
-        _imageInfo = {width : imageData.width, height : imageData.height};
+        _imageInfo = {
+            width: imageData.width,
+            height: imageData.height
+        };
     }
 
-    function getImageInfo() { return _imageInfo; }
+    function getImageInfo() {
+        return _imageInfo;
+    }
 
     return {
-        saveImage : saveImage,
-        loadFromURL : loadFromURL,
-        loadFromFile : loadFromFile,
-        load : load,
-        getImageInfo : getImageInfo
+        saveImage: saveImage,
+        loadFromURL: loadFromURL,
+        loadFromFile: loadFromFile,
+        load: load,
+        getImageInfo: getImageInfo
     };
 })();

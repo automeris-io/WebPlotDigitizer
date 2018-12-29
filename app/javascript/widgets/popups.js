@@ -80,11 +80,11 @@ wpd.popup = (function() {
         document.body.appendChild($dragMask);
 
         dragInfo = {
-            dragMaskDiv : $dragMask,
-            initialMouseX : ev.pageX,
-            initialMouseY : ev.pageY,
-            initialWindowX : $activeWindow.offsetLeft,
-            initialWindowY : $activeWindow.offsetTop
+            dragMaskDiv: $dragMask,
+            initialMouseX: ev.pageX,
+            initialMouseY: ev.pageY,
+            initialWindowX: $activeWindow.offsetLeft,
+            initialWindowY: $activeWindow.offsetTop
         };
 
         ev.preventDefault();
@@ -120,7 +120,9 @@ wpd.popup = (function() {
         }
     }
 
-    function dragMouseOut(ev) { removeDragMask(); }
+    function dragMouseOut(ev) {
+        removeDragMask();
+    }
 
     function removeDragMask() {
         if (dragInfo != null && dragInfo.dragMaskDiv != null) {
@@ -133,7 +135,10 @@ wpd.popup = (function() {
         }
     }
 
-    return {show : show, close : close};
+    return {
+        show: show,
+        close: close
+    };
 })();
 
 wpd.busyNote = (function() {
@@ -159,7 +164,10 @@ wpd.busyNote = (function() {
         }
     }
 
-    return {show : show, close : close};
+    return {
+        show: show,
+        close: close
+    };
 })();
 
 wpd.messagePopup = (function() {
@@ -179,7 +187,10 @@ wpd.messagePopup = (function() {
         }
     }
 
-    return {show : show, close : close};
+    return {
+        show: show,
+        close: close
+    };
 })();
 
 wpd.okCancelPopup = (function() {
@@ -207,7 +218,11 @@ wpd.okCancelPopup = (function() {
         }
     }
 
-    return {show : show, ok : ok, cancel : cancel};
+    return {
+        show: show,
+        ok: ok,
+        cancel: cancel
+    };
 })();
 
 wpd.unsupported = function() {

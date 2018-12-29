@@ -38,10 +38,10 @@ wpd.ManualSelectionTool = (function() {
                 // This isn't the cleanest approach, but should do for now:
                 mkeys = dataset.getMetadataKeys();
                 if (mkeys == null || mkeys[0] !== 'Label') {
-                    dataset.setMetadataKeys([ 'Label' ]);
+                    dataset.setMetadataKeys(['Label']);
                 }
                 pointLabel = axes.dataPointsLabelPrefix + dataset.getCount();
-                dataset.addPixel(imagePos.x, imagePos.y, [ pointLabel ]);
+                dataset.addPixel(imagePos.x, imagePos.y, [pointLabel]);
                 wpd.graphicsHelper.drawPoint(imagePos, "rgb(200,0,0)", pointLabel);
 
             } else {
@@ -65,7 +65,8 @@ wpd.ManualSelectionTool = (function() {
         };
 
         this.onKeyDown = function(ev) {
-            var lastPtIndex = dataset.getCount() - 1, lastPt = dataset.getPixel(lastPtIndex),
+            var lastPtIndex = dataset.getCount() - 1,
+                lastPt = dataset.getPixel(lastPtIndex),
                 stepSize = 0.5 / wpd.graphicsWidget.getZoomRatio();
 
             if (wpd.keyCodes.isUp(ev.keyCode)) {
@@ -127,7 +128,8 @@ wpd.DataPointsRepainter = (function() {
     var Painter = function(axes, dataset) {
         var drawPoints = function() {
             var dindex, imagePos, fillStyle, isSelected, mkeys = dataset.getMetadataKeys(),
-                                                         hasLabels = false, pointLabel;
+                hasLabels = false,
+                pointLabel;
 
             if (axes == null) {
                 return; // this can happen when removing widgets when a new file is loaded:
@@ -166,7 +168,9 @@ wpd.DataPointsRepainter = (function() {
             drawPoints();
         };
 
-        this.onRedraw = function() { drawPoints(); };
+        this.onRedraw = function() {
+            drawPoints();
+        };
 
         this.onForcedRedraw = function() {
             wpd.graphicsWidget.resetData();
@@ -210,9 +214,11 @@ wpd.AdjustDataPointTool = (function() {
                 return;
             }
 
-            var selPoint = dataset.getPixel(selIndex), pointPx = selPoint.x, pointPy = selPoint.y,
-                stepSize = ev.shiftKey === true ? 5 / wpd.graphicsWidget.getZoomRatio()
-                                                : 0.5 / wpd.graphicsWidget.getZoomRatio();
+            var selPoint = dataset.getPixel(selIndex),
+                pointPx = selPoint.x,
+                pointPy = selPoint.y,
+                stepSize = ev.shiftKey === true ? 5 / wpd.graphicsWidget.getZoomRatio() :
+                0.5 / wpd.graphicsWidget.getZoomRatio();
 
             if (wpd.keyCodes.isUp(ev.keyCode)) {
                 pointPy = pointPy - stepSize;
@@ -285,7 +291,8 @@ wpd.EditLabelsTool = function(axes, dataset) {
     };
 
     this.onMouseClick = function(ev, pos, imagePos) {
-        var dataSeries = dataset, pixelIndex;
+        var dataSeries = dataset,
+            pixelIndex;
         dataSeries.unselectAll();
         pixelIndex = dataSeries.selectNearestPixel(imagePos.x, imagePos.y);
         if (pixelIndex >= 0) {
@@ -303,7 +310,7 @@ wpd.EditLabelsTool = function(axes, dataset) {
 };
 
 wpd.dataPointCounter = {
-    setCount : function(count) {
+    setCount: function(count) {
         let $counters = document.getElementsByClassName('data-point-counter');
         for (let ci = 0; ci < $counters.length; ci++) {
             $counters[ci].innerHTML = count;

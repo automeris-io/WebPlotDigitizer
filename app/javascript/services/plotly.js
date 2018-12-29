@@ -27,7 +27,8 @@ wpd.plotly = (function() {
     function send(dataObject) {
         var formContainer = document.createElement('div'),
             formElement = document.createElement('form'),
-            formData = document.createElement('textarea'), jsonString;
+            formData = document.createElement('textarea'),
+            jsonString;
 
         formElement.setAttribute('method', 'post');
         formElement.setAttribute('action', 'https://plot.ly/external');
@@ -48,5 +49,7 @@ wpd.plotly = (function() {
         document.body.removeChild(formContainer);
     }
 
-    return {send : send};
+    return {
+        send: send
+    };
 })();

@@ -24,11 +24,11 @@
 /* Multi-layered canvas widget to display plot, data, graphics etc. */
 var wpd = wpd || {};
 wpd.graphicsWidget = (function() {
-    var $mainCanvas,  // original picture is displayed here
-        $dataCanvas,  // data points
-        $drawCanvas,  // selection region graphics etc
+    var $mainCanvas, // original picture is displayed here
+        $dataCanvas, // data points
+        $drawCanvas, // selection region graphics etc
         $hoverCanvas, // temp graphics while drawing
-        $topCanvas,   // top level, handles mouse events
+        $topCanvas, // top level, handles mouse events
 
         $oriImageCanvas, $oriDataCanvas,
 
@@ -42,43 +42,62 @@ wpd.graphicsWidget = (function() {
 
         aspectRatio, displayAspectRatio,
 
-        originalImageData, scaledImage, zoomRatio, extendedCrosshair = false, hoverTimer,
+        originalImageData, scaledImage, zoomRatio, extendedCrosshair = false,
+        hoverTimer,
 
-                                                   activeTool, repaintHandler,
+        activeTool, repaintHandler,
 
-                                                   isCanvasInFocus = false,
+        isCanvasInFocus = false,
 
-                                                   firstLoad = true;
+        firstLoad = true;
 
     function posn(ev) { // get screen pixel from event
         let mainCanvasPosition = $mainCanvas.getBoundingClientRect();
         return {
-            x : parseInt(ev.pageX - (mainCanvasPosition.left + window.pageXOffset), 10),
-            y : parseInt(ev.pageY - (mainCanvasPosition.top + window.pageYOffset), 10)
+            x: parseInt(ev.pageX - (mainCanvasPosition.left + window.pageXOffset), 10),
+            y: parseInt(ev.pageY - (mainCanvasPosition.top + window.pageYOffset), 10)
         };
     }
 
     // get image pixel when screen pixel is provided
     function imagePx(screenX, screenY) {
-        return {x : screenX / zoomRatio, y : screenY / zoomRatio};
+        return {
+            x: screenX / zoomRatio,
+            y: screenY / zoomRatio
+        };
     }
 
     // get screen pixel when image pixel is provided
-    function screenPx(imageX, imageY) { return {x : imageX * zoomRatio, y : imageY * zoomRatio}; }
+    function screenPx(imageX, imageY) {
+        return {
+            x: imageX * zoomRatio,
+            y: imageY * zoomRatio
+        };
+    }
 
-    function getDisplaySize() { return {width : width, height : height}; }
+    function getDisplaySize() {
+        return {
+            width: width,
+            height: height
+        };
+    }
 
-    function getImageSize() { return {width : originalWidth, height : originalHeight}; }
+    function getImageSize() {
+        return {
+            width: originalWidth,
+            height: originalHeight
+        };
+    }
 
     function getAllContexts() {
         return {
-            mainCtx : mainCtx,
-            dataCtx : dataCtx,
-            drawCtx : drawCtx,
-            hoverCtx : hoverCtx,
-            topCtx : topCtx,
-            oriImageCtx : oriImageCtx,
-            oriDataCtx : oriDataCtx
+            mainCtx: mainCtx,
+            dataCtx: dataCtx,
+            drawCtx: drawCtx,
+            hoverCtx: hoverCtx,
+            topCtx: topCtx,
+            oriImageCtx: oriImageCtx,
+            oriDataCtx: oriDataCtx
         };
     }
 
@@ -156,7 +175,9 @@ wpd.graphicsWidget = (function() {
         }
     }
 
-    function getRepainter() { return repaintHandler; }
+    function getRepainter() {
+        return repaintHandler;
+    }
 
     function removeRepainter() {
         if (repaintHandler != null && repaintHandler.onRemove != undefined) {
@@ -169,9 +190,13 @@ wpd.graphicsWidget = (function() {
         dataCtx.drawImage($oriDataCanvas, 0, 0, width, height);
     }
 
-    function zoomIn() { setZoomRatio(zoomRatio * 1.2); }
+    function zoomIn() {
+        setZoomRatio(zoomRatio * 1.2);
+    }
 
-    function zoomOut() { setZoomRatio(zoomRatio / 1.2); }
+    function zoomOut() {
+        setZoomRatio(zoomRatio / 1.2);
+    }
 
     function zoomFit() {
         let viewportSize = wpd.layoutManager.getGraphicsViewportSize();
@@ -186,21 +211,27 @@ wpd.graphicsWidget = (function() {
         }
     }
 
-    function zoom100perc() { setZoomRatio(1.0); }
+    function zoom100perc() {
+        setZoomRatio(1.0);
+    }
 
     function setZoomRatio(zratio) {
         zoomRatio = zratio;
         resize(originalWidth * zoomRatio, originalHeight * zoomRatio);
     }
 
-    function getZoomRatio() { return zoomRatio; }
+    function getZoomRatio() {
+        return zoomRatio;
+    }
 
     function resetData() {
         $oriDataCanvas.width = $oriDataCanvas.width;
         $dataCanvas.width = $dataCanvas.width;
     }
 
-    function resetHover() { $hoverCanvas.width = $hoverCanvas.width; }
+    function resetHover() {
+        $hoverCanvas.width = $hoverCanvas.width;
+    }
 
     function toggleExtendedCrosshair(ev) { // called when backslash is hit
         if (ev.keyCode === 220) {
@@ -242,9 +273,14 @@ wpd.graphicsWidget = (function() {
     }
 
     function setZoomImage(ix, iy) {
-        var zsize = wpd.zoomView.getSize(), zratio = wpd.zoomView.getZoomRatio(), ix0, iy0, iw, ih,
-            idata, ddata, ixmin, iymin, ixmax, iymax, zxmin = 0, zymin = 0, zxmax = zsize.width,
-            zymax = zsize.height, xcorr, ycorr, alpha;
+        var zsize = wpd.zoomView.getSize(),
+            zratio = wpd.zoomView.getZoomRatio(),
+            ix0, iy0, iw, ih,
+            idata, ddata, ixmin, iymin, ixmax, iymax, zxmin = 0,
+            zymin = 0,
+            zxmax = zsize.width,
+            zymax = zsize.height,
+            xcorr, ycorr, alpha;
 
         iw = zsize.width / zratio;
         ih = zsize.height / zratio;
@@ -274,10 +310,10 @@ wpd.graphicsWidget = (function() {
             zymax = zymax - zratio * (originalHeight - (iy0 + ih));
         }
         idata = oriImageCtx.getImageData(parseInt(ixmin, 10), parseInt(iymin, 10),
-                                         parseInt(ixmax - ixmin, 10), parseInt(iymax - iymin, 10));
+            parseInt(ixmax - ixmin, 10), parseInt(iymax - iymin, 10));
 
         ddata = oriDataCtx.getImageData(parseInt(ixmin, 10), parseInt(iymin, 10),
-                                        parseInt(ixmax - ixmin, 10), parseInt(iymax - iymin, 10));
+            parseInt(ixmax - ixmin, 10), parseInt(iymax - iymin, 10));
 
         for (var index = 0; index < ddata.data.length; index += 4) {
             if (ddata.data[index] != 0 || ddata.data[index + 1] != 0 ||
@@ -296,11 +332,14 @@ wpd.graphicsWidget = (function() {
         ycorr = zratio * (parseInt(iymin, 10) - iymin);
 
         wpd.zoomView.setZoomImage(idata, parseInt(zxmin + xcorr, 10), parseInt(zymin + ycorr, 10),
-                                  parseInt(zxmax - zxmin, 10), parseInt(zymax - zymin, 10));
+            parseInt(zxmax - zxmin, 10), parseInt(zymax - zymin, 10));
     }
 
     function updateZoomOnEvent(ev) {
-        var pos = posn(ev), xpos = pos.x, ypos = pos.y, imagePos = imagePx(xpos, ypos);
+        var pos = posn(ev),
+            xpos = pos.x,
+            ypos = pos.y,
+            imagePos = imagePx(xpos, ypos);
         setZoomImage(imagePos.x, imagePos.y);
         wpd.zoomView.setCoords(imagePos.x, imagePos.y);
     }
@@ -370,7 +409,9 @@ wpd.graphicsWidget = (function() {
         $topCanvas.addEventListener('mousemove', hoverOverCanvasHandler, false);
 
         // drag over canvas
-        $topCanvas.addEventListener('dragover', function(evt) { evt.preventDefault(); }, true);
+        $topCanvas.addEventListener('dragover', function(evt) {
+            evt.preventDefault();
+        }, true);
         $topCanvas.addEventListener("drop", function(evt) {
             evt.preventDefault();
             dropHandler(evt);
@@ -399,7 +440,9 @@ wpd.graphicsWidget = (function() {
         wpd.zoomView.initZoom();
 
         // Paste image from clipboard
-        window.addEventListener('paste', function(event) { pasteHandler(event); }, false);
+        window.addEventListener('paste', function(event) {
+            pasteHandler(event);
+        }, false);
     }
 
     function loadImage(originalImage) {
@@ -445,7 +488,8 @@ wpd.graphicsWidget = (function() {
 
     function saveImage() {
         var exportCanvas = document.createElement('canvas'),
-            exportCtx = exportCanvas.getContext('2d'), exportData, di, dLayer, alpha;
+            exportCtx = exportCanvas.getContext('2d'),
+            exportData, di, dLayer, alpha;
         exportCanvas.width = originalWidth;
         exportCanvas.height = originalHeight;
         exportCtx.drawImage($oriImageCanvas, 0, 0, originalWidth, originalHeight);
@@ -471,7 +515,9 @@ wpd.graphicsWidget = (function() {
         loadImageFromData(opResult.imageData, opResult.width, opResult.height, opResult.keepZoom);
     }
 
-    function getImageData() { return originalImageData; }
+    function getImageData() {
+        return originalImageData;
+    }
 
     function setTool(tool) {
         if (activeTool != null && activeTool.onRemove != undefined) {
@@ -492,42 +538,60 @@ wpd.graphicsWidget = (function() {
 
     function onMouseMove(ev) {
         if (activeTool != null && activeTool.onMouseMove != undefined) {
-            var pos = posn(ev), xpos = pos.x, ypos = pos.y, imagePos = imagePx(xpos, ypos);
+            var pos = posn(ev),
+                xpos = pos.x,
+                ypos = pos.y,
+                imagePos = imagePx(xpos, ypos);
             activeTool.onMouseMove(ev, pos, imagePos);
         }
     }
 
     function onMouseClick(ev) {
         if (activeTool != null && activeTool.onMouseClick != undefined) {
-            var pos = posn(ev), xpos = pos.x, ypos = pos.y, imagePos = imagePx(xpos, ypos);
+            var pos = posn(ev),
+                xpos = pos.x,
+                ypos = pos.y,
+                imagePos = imagePx(xpos, ypos);
             activeTool.onMouseClick(ev, pos, imagePos);
         }
     }
 
     function onDocumentMouseUp(ev) {
         if (activeTool != null && activeTool.onDocumentMouseUp != undefined) {
-            var pos = posn(ev), xpos = pos.x, ypos = pos.y, imagePos = imagePx(xpos, ypos);
+            var pos = posn(ev),
+                xpos = pos.x,
+                ypos = pos.y,
+                imagePos = imagePx(xpos, ypos);
             activeTool.onDocumentMouseUp(ev, pos, imagePos);
         }
     }
 
     function onMouseUp(ev) {
         if (activeTool != null && activeTool.onMouseUp != undefined) {
-            var pos = posn(ev), xpos = pos.x, ypos = pos.y, imagePos = imagePx(xpos, ypos);
+            var pos = posn(ev),
+                xpos = pos.x,
+                ypos = pos.y,
+                imagePos = imagePx(xpos, ypos);
             activeTool.onMouseUp(ev, pos, imagePos);
         }
     }
 
     function onMouseDown(ev) {
         if (activeTool != null && activeTool.onMouseDown != undefined) {
-            var pos = posn(ev), xpos = pos.x, ypos = pos.y, imagePos = imagePx(xpos, ypos);
+            var pos = posn(ev),
+                xpos = pos.x,
+                ypos = pos.y,
+                imagePos = imagePx(xpos, ypos);
             activeTool.onMouseDown(ev, pos, imagePos);
         }
     }
 
     function onMouseOut(ev) {
         if (activeTool != null && activeTool.onMouseOut != undefined) {
-            var pos = posn(ev), xpos = pos.x, ypos = pos.y, imagePos = imagePx(xpos, ypos);
+            var pos = posn(ev),
+                xpos = pos.x,
+                ypos = pos.y,
+                imagePos = imagePx(xpos, ypos);
             activeTool.onMouseOut(ev, pos, imagePos);
         }
     }
@@ -546,45 +610,48 @@ wpd.graphicsWidget = (function() {
         while (n--) {
             u8arr[n] = bstr.charCodeAt(n);
         }
-        imageFile = new Blob([ u8arr ], {type : "image/png", encoding : 'utf-8'});
+        imageFile = new Blob([u8arr], {
+            type: "image/png",
+            encoding: 'utf-8'
+        });
         return imageFile;
     }
 
     return {
-        zoomIn : zoomIn,
-        zoomOut : zoomOut,
-        zoomFit : zoomFit,
-        zoom100perc : zoom100perc,
-        toggleExtendedCrosshairBtn : toggleExtendedCrosshairBtn,
-        setZoomRatio : setZoomRatio,
-        getZoomRatio : getZoomRatio,
+        zoomIn: zoomIn,
+        zoomOut: zoomOut,
+        zoomFit: zoomFit,
+        zoom100perc: zoom100perc,
+        toggleExtendedCrosshairBtn: toggleExtendedCrosshairBtn,
+        setZoomRatio: setZoomRatio,
+        getZoomRatio: getZoomRatio,
 
-        runImageOp : runImageOp,
+        runImageOp: runImageOp,
 
-        setTool : setTool,
-        removeTool : removeTool,
+        setTool: setTool,
+        removeTool: removeTool,
 
-        getAllContexts : getAllContexts,
-        resetData : resetData,
-        resetHover : resetHover,
-        imagePx : imagePx,
-        screenPx : screenPx,
+        getAllContexts: getAllContexts,
+        resetData: resetData,
+        resetHover: resetHover,
+        imagePx: imagePx,
+        screenPx: screenPx,
 
-        updateZoomOnEvent : updateZoomOnEvent,
-        updateZoomToImagePosn : updateZoomToImagePosn,
+        updateZoomOnEvent: updateZoomOnEvent,
+        updateZoomToImagePosn: updateZoomToImagePosn,
 
-        getDisplaySize : getDisplaySize,
-        getImageSize : getImageSize,
+        getDisplaySize: getDisplaySize,
+        getImageSize: getImageSize,
 
-        copyImageDataLayerToScreen : copyImageDataLayerToScreen,
-        setRepainter : setRepainter,
-        removeRepainter : removeRepainter,
-        forceHandlerRepaint : forceHandlerRepaint,
-        getRepainter : getRepainter,
+        copyImageDataLayerToScreen: copyImageDataLayerToScreen,
+        setRepainter: setRepainter,
+        removeRepainter: removeRepainter,
+        forceHandlerRepaint: forceHandlerRepaint,
+        getRepainter: getRepainter,
 
-        saveImage : saveImage,
-        loadImage : loadImage,
+        saveImage: saveImage,
+        loadImage: loadImage,
 
-        getImagePNG : getImagePNG
+        getImagePNG: getImagePNG
     };
 })();

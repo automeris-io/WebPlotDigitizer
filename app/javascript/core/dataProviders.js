@@ -26,7 +26,9 @@ var wpd = wpd || {};
 wpd.plotDataProvider = (function() {
     let _ds = null;
 
-    function setDataSource(ds) { _ds = ds; }
+    function setDataSource(ds) {
+        _ds = ds;
+    }
 
     function getData() {
         var axes = wpd.appData.getPlotData().getAxesForDataset(_ds);
@@ -39,7 +41,11 @@ wpd.plotDataProvider = (function() {
     }
 
     function getBarAxesData(dataSeries, axes) {
-        var fields = [], fieldDateFormat = [], rawData = [], isFieldSortable = [], rowi, coli,
+        var fields = [],
+            fieldDateFormat = [],
+            rawData = [],
+            isFieldSortable = [],
+            rowi, coli,
             dataPt, transformedDataPt, lab;
 
         for (rowi = 0; rowi < dataSeries.getCount(); rowi++) {
@@ -61,26 +67,32 @@ wpd.plotDataProvider = (function() {
             // other metadata if present can go here in the future.
         }
 
-        fields = [ 'Label', 'Value' ];
-        isFieldSortable = [ false, true ];
+        fields = ['Label', 'Value'];
+        isFieldSortable = [false, true];
 
         return {
-            fields : fields,
-            fieldDateFormat : fieldDateFormat,
-            rawData : rawData,
-            allowConnectivity : false,
-            connectivityFieldIndices : [],
-            isFieldSortable : isFieldSortable
+            fields: fields,
+            fieldDateFormat: fieldDateFormat,
+            rawData: rawData,
+            allowConnectivity: false,
+            connectivityFieldIndices: [],
+            isFieldSortable: isFieldSortable
         };
     }
 
     function getGeneralAxesData(dataSeries, axes) {
         // 2D XY, Polar, Ternary, Image, Map
 
-        var fields = [], fieldDateFormat = [], connectivityFieldIndices = [], rawData = [],
-            isFieldSortable = [], rowi, coli, pt, ptData, metadi,
-            hasMetadata = dataSeries.hasMetadata(), metaKeys = dataSeries.getMetadataKeys(),
-            metaKeyCount = hasMetadata === true ? metaKeys.length : 0, ptmetadata;
+        var fields = [],
+            fieldDateFormat = [],
+            connectivityFieldIndices = [],
+            rawData = [],
+            isFieldSortable = [],
+            rowi, coli, pt, ptData, metadi,
+            hasMetadata = dataSeries.hasMetadata(),
+            metaKeys = dataSeries.getMetadataKeys(),
+            metaKeyCount = hasMetadata === true ? metaKeys.length : 0,
+            ptmetadata;
 
         for (rowi = 0; rowi < dataSeries.getCount(); rowi++) {
 
@@ -121,27 +133,37 @@ wpd.plotDataProvider = (function() {
         }
 
         return {
-            fields : fields,
-            fieldDateFormat : fieldDateFormat,
-            rawData : rawData,
-            allowConnectivity : true,
-            connectivityFieldIndices : connectivityFieldIndices,
-            isFieldSortable : isFieldSortable
+            fields: fields,
+            fieldDateFormat: fieldDateFormat,
+            rawData: rawData,
+            allowConnectivity: true,
+            connectivityFieldIndices: connectivityFieldIndices,
+            isFieldSortable: isFieldSortable
         };
     }
 
-    return {setDataSource : setDataSource, getData : getData};
+    return {
+        setDataSource: setDataSource,
+        getData: getData
+    };
 })();
 
 wpd.measurementDataProvider = (function() {
     let _ms = null;
 
-    function setDataSource(ms) { _ms = ms; }
+    function setDataSource(ms) {
+        _ms = ms;
+    }
 
     function getData() {
-        var fields = [], fieldDateFormat = [], rawData = [], isFieldSortable = [],
-            plotData = wpd.appData.getPlotData(), axes = plotData.getAxesForMeasurement(_ms),
-            isMap = axes != null && (axes instanceof wpd.MapAxes), conni;
+        var fields = [],
+            fieldDateFormat = [],
+            rawData = [],
+            isFieldSortable = [],
+            plotData = wpd.appData.getPlotData(),
+            axes = plotData.getAxesForMeasurement(_ms),
+            isMap = axes != null && (axes instanceof wpd.MapAxes),
+            conni;
 
         if (_ms instanceof wpd.DistanceMeasurement) {
             for (conni = 0; conni < _ms.connectionCount(); conni++) {
@@ -154,8 +176,8 @@ wpd.measurementDataProvider = (function() {
                 }
             }
 
-            fields = [ 'Label', 'Distance' ];
-            isFieldSortable = [ false, true ];
+            fields = ['Label', 'Distance'];
+            isFieldSortable = [false, true];
 
         } else if (_ms instanceof wpd.AngleMeasurement) {
 
@@ -165,8 +187,8 @@ wpd.measurementDataProvider = (function() {
                 rawData[conni][1] = _ms.getAngle(conni);
             }
 
-            fields = [ 'Label', 'Angle' ];
-            isFieldSortable = [ false, true ];
+            fields = ['Label', 'Angle'];
+            isFieldSortable = [false, true];
 
         } else if (_ms instanceof wpd.AreaMeasurement) {
 
@@ -182,19 +204,22 @@ wpd.measurementDataProvider = (function() {
                 }
             }
 
-            fields = [ 'Label', 'Area', 'Perimeter' ];
-            isFieldSortable = [ false, true, true ];
+            fields = ['Label', 'Area', 'Perimeter'];
+            isFieldSortable = [false, true, true];
         }
 
         return {
-            fields : fields,
-            fieldDateFormat : fieldDateFormat,
-            rawData : rawData,
-            allowConnectivity : false,
-            connectivityFieldIndices : [],
-            isFieldSortable : isFieldSortable
+            fields: fields,
+            fieldDateFormat: fieldDateFormat,
+            rawData: rawData,
+            allowConnectivity: false,
+            connectivityFieldIndices: [],
+            isFieldSortable: isFieldSortable
         };
     }
 
-    return {getData : getData, setDataSource : setDataSource};
+    return {
+        getData: getData,
+        setDataSource: setDataSource
+    };
 })();

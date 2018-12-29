@@ -29,7 +29,9 @@ wpd.UndoManager = class {
         this._actionIndex = 0;
     }
 
-    canUndo() { return this._actionIndex > 0 && this._actions.length >= this._actionIndex; }
+    canUndo() {
+        return this._actionIndex > 0 && this._actions.length >= this._actionIndex;
+    }
 
     undo() {
         if (!this.canUndo()) {
@@ -41,7 +43,9 @@ wpd.UndoManager = class {
         this.updateUI();
     }
 
-    canRedo() { return this._actions.length > this._actionIndex; }
+    canRedo() {
+        return this._actions.length > this._actionIndex;
+    }
 
     redo() {
         if (!this.canRedo()) {

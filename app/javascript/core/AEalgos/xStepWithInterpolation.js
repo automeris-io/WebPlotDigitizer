@@ -47,9 +47,12 @@ wpd.XStepWithInterpolationAlgo = class {
             }
         }
         return [
-            [ "X_min", "Units", this._xmin ], [ "ΔX Step", "Units", this._delx ],
-            [ "X_max", "Units", this._xmax ], [ "Y_min", "Units", this._ymin ],
-            [ "Y_max", "Units", this._ymax ], [ "Smoothing", "% of ΔX", this._smoothing ]
+            ["X_min", "Units", this._xmin],
+            ["ΔX Step", "Units", this._delx],
+            ["X_max", "Units", this._xmax],
+            ["Y_min", "Units", this._ymin],
+            ["Y_max", "Units", this._ymax],
+            ["Smoothing", "% of ΔX", this._smoothing]
         ];
     }
 
@@ -71,34 +74,34 @@ wpd.XStepWithInterpolationAlgo = class {
 
     getParam(index) {
         switch (index) {
-        case 0:
-            return this._xmin;
-        case 1:
-            return this._delx;
-        case 2:
-            return this._xmax;
-        case 3:
-            return this._ymin;
-        case 4:
-            return this._ymax;
-        case 5:
-            return this._smoothing;
-        default:
-            return null;
+            case 0:
+                return this._xmin;
+            case 1:
+                return this._delx;
+            case 2:
+                return this._xmax;
+            case 3:
+                return this._ymin;
+            case 4:
+                return this._ymax;
+            case 5:
+                return this._smoothing;
+            default:
+                return null;
         }
     }
 
     serialize() {
         return this._wasRun ? {
-            algoType : "XStepWithInterpolationAlgo",
-            xmin : this._xmin,
-            delx : this._delx,
-            xmax : this._xmax,
-            ymin : this._ymin,
-            ymax : this._ymax,
-            smoothing : this._smoothing
-        }
-                            : null;
+                algoType: "XStepWithInterpolationAlgo",
+                xmin: this._xmin,
+                delx: this._delx,
+                xmax: this._xmax,
+                ymin: this._ymin,
+                ymax: this._ymax,
+                smoothing: this._smoothing
+            } :
+            null;
     }
 
     deserialize(obj) {
@@ -112,14 +115,26 @@ wpd.XStepWithInterpolationAlgo = class {
 
     run(autoDetector, dataSeries, axes) {
         this._wasRun = true;
-        var pointsPicked = 0, dw = autoDetector.imageWidth, dh = autoDetector.imageHeight, xi,
+        var pointsPicked = 0,
+            dw = autoDetector.imageWidth,
+            dh = autoDetector.imageHeight,
+            xi,
             dist_y_px, dist_x_px, ii, yi, jj, mean_yi, y_count, pdata, pdata0, pdata1, xpoints = [],
-            ypoints = [], xpoints_mean = [], ypoints_mean = [], mean_x, mean_y, delx, dely, xinterp,
-            yinterp, param_width = Math.abs(this._delx * (this._smoothing / 100.0)), cs,
-            isLogX = axes.isLogX(), isLogY = axes.isLogY(), isDateX = axes.isDate(0),
-            isDateY = axes.isDate(1), scaled_param_xmin = this._xmin,
-            scaled_param_xmax = this._xmax, scaled_param_ymin = this._ymin,
-            scaled_param_ymax = this._ymax, scaled_param_width = param_width,
+            ypoints = [],
+            xpoints_mean = [],
+            ypoints_mean = [],
+            mean_x, mean_y, delx, dely, xinterp,
+            yinterp, param_width = Math.abs(this._delx * (this._smoothing / 100.0)),
+            cs,
+            isLogX = axes.isLogX(),
+            isLogY = axes.isLogY(),
+            isDateX = axes.isDate(0),
+            isDateY = axes.isDate(1),
+            scaled_param_xmin = this._xmin,
+            scaled_param_xmax = this._xmax,
+            scaled_param_ymin = this._ymin,
+            scaled_param_ymax = this._ymax,
+            scaled_param_width = param_width,
             scaled_param_delx = this._delx;
 
         dataSeries.clearAll();
@@ -139,13 +154,13 @@ wpd.XStepWithInterpolationAlgo = class {
         pdata0 = axes.dataToPixel(this._xmin, this._ymin);
         pdata1 = axes.dataToPixel(this._xmin, this._ymax);
         dist_y_px = Math.sqrt((pdata0.x - pdata1.x) * (pdata0.x - pdata1.x) +
-                              (pdata0.y - pdata1.y) * (pdata0.y - pdata1.y));
+            (pdata0.y - pdata1.y) * (pdata0.y - pdata1.y));
         dely = (scaled_param_ymax - scaled_param_ymin) / dist_y_px;
 
         // Calculate pixel distance between x_min and x_max:
         pdata1 = axes.dataToPixel(this._xmax, this._ymin);
         dist_x_px = Math.sqrt((pdata0.x - pdata1.x) * (pdata0.x - pdata1.x) +
-                              (pdata0.y - pdata1.y) * (pdata0.y - pdata1.y));
+            (pdata0.y - pdata1.y) * (pdata0.y - pdata1.y));
         delx = (scaled_param_xmax - scaled_param_xmin) / dist_x_px;
 
         if (Math.abs(scaled_param_width / delx) > 0 && Math.abs(scaled_param_width / delx) < 1) {
@@ -154,17 +169,17 @@ wpd.XStepWithInterpolationAlgo = class {
 
         xi = delx > 0 ? scaled_param_xmin - 2 * delx : scaled_param_xmin + 2 * delx;
         while ((delx > 0 && xi <= scaled_param_xmax + 2 * delx) ||
-               (delx < 0 && xi >= scaled_param_xmax - 2 * delx)) {
+            (delx < 0 && xi >= scaled_param_xmax - 2 * delx)) {
 
             mean_yi = 0;
             y_count = 0;
             yi = scaled_param_ymin;
             while ((dely > 0 && yi <= scaled_param_ymax) || (dely < 0 && yi >= scaled_param_ymax)) {
                 pdata = axes.dataToPixel(isLogX ? Math.pow(10, xi) : xi,
-                                         isLogY ? Math.pow(10, yi) : yi);
+                    isLogY ? Math.pow(10, yi) : yi);
                 if (pdata.x >= 0 && pdata.y >= 0 && pdata.x < dw && pdata.y < dh) {
                     if (autoDetector.binaryData.has(parseInt(pdata.y, 10) * dw +
-                                                    parseInt(pdata.x, 10))) {
+                            parseInt(pdata.x, 10))) {
                         mean_yi = (mean_yi * y_count + yi) / (parseFloat(y_count + 1));
                         y_count++;
                     }
@@ -191,7 +206,7 @@ wpd.XStepWithInterpolationAlgo = class {
 
             xi = xpoints[0];
             while ((delx > 0 && xi <= xpoints[xpoints.length - 1]) ||
-                   (delx < 0 && xi >= xpoints[xpoints.length - 1])) {
+                (delx < 0 && xi >= xpoints[xpoints.length - 1])) {
                 mean_x = 0;
                 mean_y = 0;
                 y_count = 0;
@@ -253,7 +268,7 @@ wpd.XStepWithInterpolationAlgo = class {
                     yinterp[ii] = wpd.cspline_interp(cs, xinterp[ii]);
                     if (yinterp[ii] !== null) {
                         pdata = axes.dataToPixel(isLogX ? Math.pow(10, xinterp[ii]) : xinterp[ii],
-                                                 isLogY ? Math.pow(10, yinterp[ii]) : yinterp[ii]);
+                            isLogY ? Math.pow(10, yinterp[ii]) : yinterp[ii]);
                         dataSeries.addPixel(pdata.x, pdata.y);
                     }
                 }

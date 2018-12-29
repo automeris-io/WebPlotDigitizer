@@ -65,5 +65,7 @@ wpd.transformationEquations = (function() {
 
         $list.innerHTML = listHTML;
     }
-    return {show : show};
+    return {
+        show: show
+    };
 })();

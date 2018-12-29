@@ -37,7 +37,9 @@ wpd.CropTool = class {
         this._ctx = wpd.graphicsWidget.getAllContexts();
     }
 
-    onAttach() { document.getElementById('image-editing-crop').classList.add('pressed-button'); }
+    onAttach() {
+        document.getElementById('image-editing-crop').classList.add('pressed-button');
+    }
 
     onRemove() {
         wpd.graphicsWidget.resetHover();
@@ -63,7 +65,9 @@ wpd.CropTool = class {
             this._screenPos = pos;
             this._imagePos = imagePos;
             clearTimeout(this._moveTimer);
-            this._moveTimer = setTimeout(() => { this._drawCropBox(); }, 2);
+            this._moveTimer = setTimeout(() => {
+                this._drawCropBox();
+            }, 2);
         } else if (this._hasCropBox) {
             // reposition selected point (and others to match)
             let hotspot = this._getHotspot(pos);
@@ -97,8 +101,8 @@ wpd.CropTool = class {
 
         ctx.strokeStyle = "rgb(0,0,0)";
         ctx.strokeRect(this._topScreenCorner.x, this._topScreenCorner.y,
-                       this._screenPos.x - this._topScreenCorner.x,
-                       this._screenPos.y - this._topScreenCorner.y);
+            this._screenPos.x - this._topScreenCorner.x,
+            this._screenPos.y - this._topScreenCorner.y);
 
         this._hotspotCoords = this._getHotspotCoords();
 
@@ -112,7 +116,9 @@ wpd.CropTool = class {
         }
     }
 
-    onMouseUp(e, pos, imagePos) { this._finalizeDrawing(); }
+    onMouseUp(e, pos, imagePos) {
+        this._finalizeDrawing();
+    }
 
     _finalizeDrawing() {
         clearTimeout(this._moveTimer);
@@ -125,37 +131,54 @@ wpd.CropTool = class {
     }
 
     _getHotspotCoords() {
-        return [
-            {x : this._topScreenCorner.x, y : this._topScreenCorner.y}, // nw
-            {x : this._screenPos.x, y : this._topScreenCorner.y},       // ne
-            {x : this._screenPos.x, y : this._screenPos.y},             // se
-            {x : this._topScreenCorner.x, y : this._screenPos.y},       // sw
+        return [{
+                x: this._topScreenCorner.x,
+                y: this._topScreenCorner.y
+            }, // nw
             {
-                x : (this._topScreenCorner.x + this._screenPos.x) / 2,
-                y : this._topScreenCorner.y
-            },                                                                              // n
-            {x : this._screenPos.x, y : (this._topScreenCorner.y + this._screenPos.y) / 2}, // e
-            {x : (this._topScreenCorner.x + this._screenPos.x) / 2, y : this._screenPos.y}, // s
+                x: this._screenPos.x,
+                y: this._topScreenCorner.y
+            }, // ne
             {
-                x : this._topScreenCorner.x,
-                y : (this._topScreenCorner.y + this._screenPos.y) / 2
+                x: this._screenPos.x,
+                y: this._screenPos.y
+            }, // se
+            {
+                x: this._topScreenCorner.x,
+                y: this._screenPos.y
+            }, // sw
+            {
+                x: (this._topScreenCorner.x + this._screenPos.x) / 2,
+                y: this._topScreenCorner.y
+            }, // n
+            {
+                x: this._screenPos.x,
+                y: (this._topScreenCorner.y + this._screenPos.y) / 2
+            }, // e
+            {
+                x: (this._topScreenCorner.x + this._screenPos.x) / 2,
+                y: this._screenPos.y
+            }, // s
+            {
+                x: this._topScreenCorner.x,
+                y: (this._topScreenCorner.y + this._screenPos.y) / 2
             }, // w
             {
-                x : (this._topScreenCorner.x + this._screenPos.x) / 2,
-                y : (this._topScreenCorner.y + this._screenPos.y) / 2
+                x: (this._topScreenCorner.x + this._screenPos.x) / 2,
+                y: (this._topScreenCorner.y + this._screenPos.y) / 2
             } // c
         ];
     }
 
     // is the screenPos on an active hotspot? if yes, then return the type
     _getHotspot(screenPos) {
-        let hotspots = [ 'nw', 'ne', 'se', 'sw', 'n', 'e', 's', 'w', 'c' ];
+        let hotspots = ['nw', 'ne', 'se', 'sw', 'n', 'e', 's', 'w', 'c'];
         let radius = 8; // distance from the center
         let pointCoords = this._hotspotCoords;
         for (let ptIdx = 0; ptIdx < pointCoords.length; ptIdx++) {
             let pt = pointCoords[ptIdx];
             let dist2 = (pt.x - screenPos.x) * (pt.x - screenPos.x) +
-                        (pt.y - screenPos.y) * (pt.y - screenPos.y);
+                (pt.y - screenPos.y) * (pt.y - screenPos.y);
             if (dist2 < radius * radius) {
                 return hotspots[ptIdx];
             }
@@ -163,9 +186,13 @@ wpd.CropTool = class {
         return null; // not on a hotspot
     }
 
-    onMouseOut() { this._finalizeDrawing(); }
+    onMouseOut() {
+        this._finalizeDrawing();
+    }
 
-    onDocumentMouseUp() { this._finalizeDrawing(); }
+    onDocumentMouseUp() {
+        this._finalizeDrawing();
+    }
 
     onKeyDown(e) {
         let isEsc = wpd.keyCodes.isEsc(e.keyCode);
@@ -182,7 +209,7 @@ wpd.CropTool = class {
         if (isEnter && this._hasCropBox) {
             // execute the crop action
             let cropAction = new wpd.CropImageAction(this._topImageCorner.x, this._topImageCorner.y,
-                                                     this._imagePos.x, this._imagePos.y);
+                this._imagePos.x, this._imagePos.y);
             wpd.appData.getUndoManager().insertAction(cropAction);
             cropAction.execute();
         }
