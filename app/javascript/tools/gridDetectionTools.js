@@ -32,7 +32,8 @@ wpd.GridColorFilterRepainter = (function() {
             wpd.colorSelectionWidget.paintFilteredColor(autoDetector.binaryData,
                                                         autoDetector.gridMask.pixels);
         };
-    } return Painter;
+    };
+    return Painter;
 })();
 
 // TODO: Think of reusing mask.js code here
