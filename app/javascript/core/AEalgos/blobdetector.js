@@ -53,8 +53,7 @@ wpd.BlobDetectorAlgo = class {
     }
 
     serialize() {
-        return this._wasRun ?
-            {
+        return this._wasRun ? {
                 algoType: "BlobDetectorAlgo",
                 minDia: this._minDia,
                 maxDia: this._maxDia

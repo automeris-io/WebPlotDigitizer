@@ -87,8 +87,7 @@ wpd.BarExtractionAlgo = class {
     }
 
     serialize() {
-        return this._wasRun ?
-            {
+        return this._wasRun ? {
                 algoType: "BarExtractionAlgo",
                 delX: this._delX,
                 delVal: this._delVal
