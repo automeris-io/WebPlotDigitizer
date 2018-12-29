@@ -51,8 +51,7 @@ wpd.AveragingWindowAlgo = class {
     }
 
     serialize() {
-        return this._wasRun ?
-            {
+        return this._wasRun ? {
                 algoType: "AveragingWindowAlgo",
                 xStep: this._xStep,
                 yStep: this._yStep
