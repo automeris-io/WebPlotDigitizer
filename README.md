@@ -18,22 +18,27 @@ WebPlotDigitizer is distributed under [GNU AGPL v3](https://www.gnu.org/licenses
 Stable Versions
 ---------------
 
-The master branch in this repository is unstable and not recommended to be used in production. To access stable releases, checkout: https://github.com/ankitrohatgi/WebPlotDigitizer/releases
+The master branch in this repository is unstable and not recommended to be used in production. To access stable releases, check out: https://github.com/ankitrohatgi/WebPlotDigitizer/releases
 
 Development Dependencies
 ------------------------
-(You can also use the pre-configured Ubuntu based Dockerfile from the docker folder)
+For an Ubuntu system, please refer to the [setupUbuntuDev.sh](setupUbuntuDev.sh) script.
+
+I can only help with setting up the development environment on Linux, but it should also be possible to set up Windows and MacOS systems for development.
 
 UI:
 - See app/thirdparty folder and download the required third party libraries and dependencies.
 - A recent Java to run the javascript compiler (Google Closure Compiler).
-- Python 3 with jinja2 package and pybabel to compile the HTML templates.
+- Python 3 with python3-jinja2 package and python3-babel to compile the HTML templates.
+- js-beautify npm package to autoformat javascript, HTML and CSS files.
 
 Web Server:
 - A recent Go compiler
 
 Electron App:
-- npm
+- `electron-packager` npm package to create packages for distributions
+- `wine` on Linux systems to create Windows distributins
+- Run `npm install` in the electron folder to fetch any other dependencies
 
 
 Building the App
@@ -89,4 +94,3 @@ Translations
 ------------
 
 If you would like to translate WPD to your language, then please email me.
-
