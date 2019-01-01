@@ -1,9 +1,9 @@
 /*
-        WebPlotDigitizer - https://automeris.io/WebPlotDigitizer
+    WebPlotDigitizer - https://automeris.io/WebPlotDigitizer
 
-        Copyright 2010-2019 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+    Copyright 2010-2019 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
-        This file is part of WebPlotDigitizer.
+    This file is part of WebPlotDigitizer.
 
     WebPlotDigitizer is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as published by
@@ -17,8 +17,6 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
-
-
 */
 
 /**
