@@ -23,9 +23,9 @@
 var wpd = wpd || {};
 wpd.browserInfo = (function() {
     function checkBrowser() {
-        if (!window.FileReader) {
+        if (!window.FileReader || typeof WebAssembly !== "object") {
             alert(
-                '\tWARNING!\nYour web browser is not supported. This program might not behave as intended. Please use a recent version of Google Chrome, Firefox or Safari browser.');
+                'WARNING!\nYour web browser may not be fully supported. Please use a recent version of Google Chrome, Firefox or Safari browser with HTML5 and WebAssembly support.');
         }
     }
 
