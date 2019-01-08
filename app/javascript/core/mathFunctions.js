@@ -151,7 +151,7 @@ wpd.cspline_interp =
 
 
 // Homography matrix for perspective transformations based on pixel coordinates of corner points.
-wpd.calculateHomographyMatrix = function(orignalCorners, finalCorners) {    
+wpd.calculateHomographyMatrix = function(orignalCorners, finalCorners) {
     let sourcePtr = wpd.wasmHelper.arrayToPtr(originalCorners);
     let targetPtr = wpd.wasmHelper.arrayToPtr(finalCorners);
     let homographyPtr = Module._newDoubleArray(9);
