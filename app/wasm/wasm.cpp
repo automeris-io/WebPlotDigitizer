@@ -6,6 +6,16 @@
 extern "C" {
 
 EMSCRIPTEN_KEEPALIVE
+double* newDoubleArray(size_t size) {
+    return (double*)malloc(size*sizeof(double));    
+}
+
+EMSCRIPTEN_KEEPALIVE
+void freeArray(double* ptr) {
+    free(ptr);
+}
+
+EMSCRIPTEN_KEEPALIVE
 void computeHomography(double sourcePts[8], double targetPts[8], double homography[9]) {
     Eigen::Vector2d source[4];
     Eigen::Vector2d target[4];
