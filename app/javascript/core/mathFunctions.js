@@ -149,21 +149,16 @@ wpd.cspline_interp =
         return a + b * t + c * t * t + d * t * t * t;
     }
 
-// Perform a Singular Value Decomposition (SVD) of a mxn matrix:
-// mat = [[...], [...], ...] (2D array, row-by-row)
-wpd.svd = function(mat) {
-    let result = numeric.svd(mat);
-
-    return {
-        U: result.U,
-        D: result.S,
-        V: result.V
-    };
-};
 
 // Homography matrix for perspective transformations based on pixel coordinates of corner points.
 wpd.calculateHomographyMatrix = function(orignalCorners, finalCorners) {
-    return {
-        H: null // homography matrix
-    };
+    let sourcePtr = wpd.wasmHelper.arrayToPtr(originalCorners);
+    let targetPtr = wpd.wasmHelper.arrayToPtr(finalCorners);
+    let homographyPtr = Module._newDoubleArray(9);
+    Module._computeHomography(sourcePtr, targetPtr, homographyPtr);
+    let H = wpd.wasmHelper.ptrToArray(homographyPtr);
+    wpd.wasmHelper.freePtr(sourcePtr);
+    wpd.wasmHelper.freePtr(targetPtr);
+    wpd.wasmHelper.freePtr(homographyPtr);
+    return H; // flattened homography matrix
 };
