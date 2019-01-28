@@ -6,9 +6,8 @@
   <title>WPD Tests</title>
   <link rel="stylesheet" href="https://code.jquery.com/qunit/qunit-2.4.0.css">
 
-  <!-- Third Party Libraries -->
-  <script src="../thirdparty/numericjs/numeric_core.js"></script>
-  <script src="../thirdparty/numericjs/numeric_svd.js"></script>
+  <!-- WebAssembly -->
+  <script src="../wasm.js"></script>
 
   <!-- WPD -->
   <script src="../javascript/controllers/appData.js"></script>
@@ -46,7 +45,8 @@
   <script src="../javascript/core/gridDetectionCore.js"></script>
   <script src="../javascript/core/inputParser.js"></script>
   <script src="../javascript/core/mathFunctions.js"></script>
-  <script src="../javascript/core/plotData.js"></script>  
+  <script src="../javascript/core/plotData.js"></script>
+  <script src="../javascript/core/wasmHelper.js"></script>  
   <script src="../javascript/services/args.js"></script>
   <script src="../javascript/services/dataExport.js"></script>
   <script src="../javascript/services/download.js"></script>
@@ -81,7 +81,6 @@
   <script src="date_tests.js"></script>
   <script src="save_tests.js"></script>
   <script src="axes_tests.js"></script>
-  <script src="svd_tests.js"></script>
   <script src="xstep_with_interp_tests.js"></script>
 </body>
 </html>

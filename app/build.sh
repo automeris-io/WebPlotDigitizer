@@ -1,5 +1,8 @@
 #!/bin/bash
 
+echo "Compiling WebAssembly Code..."
+./build_wasm.sh
+
 echo "Combining Javascript Files..."
 cat javascript/*.js > combined.js
 cat javascript/core/*.js >> combined.js
@@ -12,7 +15,6 @@ cat javascript/controllers/*.js >> combined.js
 
 echo "Compiling Javascript Files..."
 java -jar thirdparty/closure-compiler/compiler.jar --js combined.js --js_output_file combined-compiled.js
-echo "done."
 
 echo "Update translation files..."
 pybabel -v extract -F templates/babel.config -o ./locale/messages.pot ./templates
