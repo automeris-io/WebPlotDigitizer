@@ -30,9 +30,16 @@ void computeHomography(double sourcePts[8], double targetPts[8], double homograp
         }
     }
 }
+
+EMSCRIPTEN_KEEPALIVE
+void printVersion() {
+    std::cout << "WebPlotDigitizer WebAssembly Version 4.2" << std::endl;
+}
+
 }
 
 int main() {
     std::cout << "WebPlotDigitizer WebAssembly Module Loaded" << std::endl;
+    EM_ASM(onWASMLoad());
     return 0;
 }
