@@ -13,9 +13,10 @@
   "author": "Ankit Rohatgi",
   "license": "AGPL-3.0",
   "devDependencies": {
-    "electron": "~2.0.2"
+    "electron": "^4.0.4"
   },
   "dependencies": {
-    "electron-packager": "^12.1.0"
+    "electron-packager": "^12.2.0",
+    "npm": "^6.7.0"
   }
 }
