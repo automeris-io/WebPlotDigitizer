@@ -28,4 +28,7 @@ pybabel update -l ru -d ./locale/ -i ./locale/messages.pot
 echo "Rendering HTML Pages..."
 python3 renderHTML.py
 
+echo "Generating NodeJS module..."
+./build_node_module.sh
+
 echo "Done!"

@@ -1,7 +1,5 @@
 #!/bin/bash
 
-echo "Creating node module with core functionality..."
-
 # Code JS
 cat javascript/core/*.js > wpd_node.js
 cat javascript/core/AEalgos/*.js >> wpd_node.js
@@ -13,4 +11,3 @@ printf "\nlet Module = require(\"./wasm.js\");\n" >> wpd_node.js
 # Export Module
 printf "\nmodule.exports = { wpd: wpd };\n" >> wpd_node.js
 
-echo "Done!"
