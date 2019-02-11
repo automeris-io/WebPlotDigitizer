@@ -96,6 +96,7 @@ wpd.BarExtractionAlgo = class {
     deserialize(obj) {
         this._delX = obj.delX;
         this._delVal = obj.delVal;
+        this._wasRun = true;
     }
 
     run(autoDetector, dataSeries, axes) {
