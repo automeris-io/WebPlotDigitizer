@@ -108,6 +108,7 @@ wpd.AveragingWindowWithStepSizeAlgo = class {
         this._ymin = obj.ymin;
         this._ymax = obj.ymax;
         this._lineWidth = obj.lineWidth;
+        this._wasRun = true;
     }
 
     run(autoDetector, dataSeries, axes) {

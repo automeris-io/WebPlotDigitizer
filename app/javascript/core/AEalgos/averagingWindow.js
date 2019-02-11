@@ -60,6 +60,7 @@ wpd.AveragingWindowAlgo = class {
     deserialize(obj) {
         this._xStep = obj.xStep;
         this._yStep = obj.yStep;
+        this._wasRun = true;
     }
 
     run(autoDetector, dataSeries, axes) {
