@@ -499,8 +499,38 @@ wpd.alignAxes = (function() {
         }
         return fullName;
     }
+    function iniauto(){
+        calibration = new wpd.Calibration(2);
+        calibration.labels = ['X1', 'X2', 'Y1', 'Y2'];
+        calibration.labelPositions = ['N', 'N', 'E', 'E'];
+        calibration.maxPointCount = 4;
+        calibrator = new wpd.XYAxesCalibrator(calibration, false);
+        let promise1 = new Promise(function(resolve) {
+            wpd.autoAlign.number_detection(resolve);
+        });
+        promise1.then(function(value) {
+        let values =wpd.autoAlign.cornerValues(value)
+        console.log(values.length)    
+        if (calibrator != null&&values.length==4) {
+            calibration.addPoint(values[0].x,values[0].y,0,0)
+            calibration.addPoint(values[1].x,values[1].y,0,0)
+            calibration.addPoint(values[2].x,values[2].y,0,0)
+            calibration.addPoint(values[3].x,values[3].y,0,0)
+            calibrator.reload();
+           
+            wpd.graphicsWidget.setRepainter(new wpd.AlignmentCornersRepainter(calibration));
+            wpd.graphicsWidget.forceHandlerRepaint();
+            wpd.sidebar.show('axes-calibration-sidebar');    
+            //wpd.sidebar.show('axes-calibration-sidebar');
+            document.getElementById('xmin').value = values[0].val;
+            document.getElementById('xmax').value = values[1].val;
+            document.getElementById('ymin').value = values[2].val;
+            document.getElementById('ymax').value = values[3].val;
+        }
+        });}
 
-    return {
+return {
+        iniauto: iniauto,
         start: initiatePlotAlignment,
         calibrationCompleted: calibrationCompleted,
         zoomCalPoint: zoomCalPoint,
