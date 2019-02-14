@@ -27,9 +27,10 @@ wpd.autoAlign = (function() {
         };         
             Tesseract.recognize(img, {
                 tessedit_char_whitelist: "-+0123456789.",
-            //}).progress((progress)=>{
-                //if(progress.status ==="recognizing text"){
-                  //  $('#progress').text(progress.progress*100+"%");
+                /* Jquery can be use to display progress status of the ocr*/
+                //}).progress((progress)=>{
+                //  if(progress.status ==="recognizing text"){
+                //     $('#progress').text(progress.progress*100+"%");
                 //}
             }).then((result)=>{
             result.words.forEach(function(w){
