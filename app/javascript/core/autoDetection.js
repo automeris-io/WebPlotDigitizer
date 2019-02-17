@@ -49,10 +49,14 @@ wpd.AutoDetectionData = class {
             return null;
         }
 
+        let compressedMask = wpd.rle.encode(Array.from(this.mask.values()).sort((a, b) => {
+            return (a - b);
+        }));
+
         return {
             fgColor: this.fgColor,
             bgColor: this.bgColor,
-            mask: Array.from(this.mask.values()),
+            mask: compressedMask,
             colorDetectionMode: this.colorDetectionMode,
             colorDistance: this.colorDistance,
             algorithm: algoData,
@@ -67,10 +71,12 @@ wpd.AutoDetectionData = class {
         this.bgColor = jsonObj.bgColor;
         this.imageWidth = jsonObj.imageWidth;
         this.imageHeight = jsonObj.imageHeight;
-
-        this.mask = new Set();
-        for (let i of jsonObj.mask) {
-            this.mask.add(i);
+        if (jsonObj.mask != null) {
+            let uncompressedMaskData = wpd.rle.decode(jsonObj.mask);
+            this.mask = new Set();
+            for (let i of uncompressedMaskData) {
+                this.mask.add(i);
+            }
         }
         this.colorDetectionMode = jsonObj.colorDetectionMode;
         this.colorDistance = jsonObj.colorDistance;

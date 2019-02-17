@@ -62,7 +62,7 @@ wpd.BlobDetectorAlgo = class {
     deserialize(obj) {
         this._minDia = obj.minDia;
         this._maxDia = obj.maxDia;
-        this._wasRun = true;        
+        this._wasRun = true;
     }
 
     getParam(index) {

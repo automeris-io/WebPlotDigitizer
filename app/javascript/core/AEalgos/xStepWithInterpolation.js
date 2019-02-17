@@ -102,7 +102,7 @@ wpd.XStepWithInterpolationAlgo = class {
             null;
     }
 
-    deserialize(obj) {        
+    deserialize(obj) {
         this._xmin = obj.xmin;
         this._delx = obj.delx;
         this._xmax = obj.xmax;
