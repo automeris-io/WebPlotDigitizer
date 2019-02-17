@@ -3,7 +3,7 @@
 # Setup an Ubuntu system for development
 
 # install Ubuntu packages
-sudo apt install python3-jinja2 python3-babel wine npm default-jre golang-go libeigen3-dev jsdoc-toolkit
+sudo apt install python3-jinja2 python3-babel wine npm default-jre golang-go libeigen3-dev
 
 # install global npm packages
 sudo npm install -g electron-packager 
