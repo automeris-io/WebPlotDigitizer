@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-02-16 21:57-0800\n"
-"PO-Revision-Date: 2017-10-24 22:43-0500\n"
+"POT-Creation-Date: 2019-02-24 00:41-0800\n"
+"PO-Revision-Date: 2019-02-24 00:40-0800\n"
 "Last-Translator: \n"
 "Language: de_DE\n"
 "Language-Team: de_DE <LL@li.org>\n"
@@ -229,7 +229,7 @@ msgstr "Punkt 2"
 #: templates/_popups.html:128 templates/_popups.html:158
 #: templates/_popups.html:190
 msgid "Log Scale"
-msgstr "Auflösung des Protokolls"
+msgstr "Logarithmisch"
 
 #: templates/_popups.html:131
 msgid "X-Axis"
@@ -906,15 +906,15 @@ msgstr ""
 
 #: templates/_sidebars.html:156
 msgid "Undo"
-msgstr ""
+msgstr "Undo"
 
 #: templates/_sidebars.html:157
 msgid "Redo"
-msgstr ""
+msgstr "Redo"
 
 #: templates/_sidebars.html:161
 msgid "Crop"
-msgstr ""
+msgstr "Crop"
 
 #: templates/_sidebars.html:162
 msgid "Fix Perspective"
@@ -922,7 +922,7 @@ msgstr ""
 
 #: templates/_sidebars.html:165
 msgid "Rotate"
-msgstr ""
+msgstr "Rotate"
 
 #: templates/_sidebars.html:166
 msgid "?"
@@ -1270,19 +1270,4 @@ msgstr "Alle löschen"
 
 #~ msgid "Script"
 #~ msgstr "Skript"
-
-#~ msgid "Press Enter key to complete the polygon"
-#~ msgstr ""
-
-#~ msgid "Crop"
-#~ msgstr ""
-
-#~ msgid "Undo"
-#~ msgstr ""
-
-#~ msgid "Redo"
-#~ msgstr ""
-
-#~ msgid "Rotate"
-#~ msgstr ""
 
