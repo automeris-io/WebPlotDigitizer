@@ -7,7 +7,7 @@ echo "Compiling Javascript Code..."
 ./build_js.sh
 
 echo "Update translation files..."
-./build_translations.js
+./build_translations.sh
 
 echo "Rendering HTML Pages..."
 python3 renderHTML.py
