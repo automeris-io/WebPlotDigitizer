@@ -5,7 +5,8 @@ Version 4.2
 Coming soon!
 
 New Features:
- - Save and resume auto-detection algorithm settings in the project file (per dataset). 
+ - Save and resume auto-detection algorithm settings along with masks in the project file (per dataset). 
+ - Crop images before digitization
 
 Bug fixes:
  - Improve X Step with Interpolation algorithm for log-scale charts
