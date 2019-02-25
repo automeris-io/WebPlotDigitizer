@@ -87,8 +87,6 @@ wpd.CropImageAction = class extends wpd.ReversibleAction {
             };
         };
 
-        wpd.graphicsWidget.removeRepainter();
-        wpd.graphicsWidget.resetData();
         wpd.graphicsWidget.runImageOp(imageOp);
     }
 
@@ -104,8 +102,6 @@ wpd.CropImageAction = class extends wpd.ReversibleAction {
         };
 
         // call all dependent UI elements
-        wpd.graphicsWidget.removeRepainter();
-        wpd.graphicsWidget.resetData();
         wpd.graphicsWidget.runImageOp(imageOp);
     }
 };
