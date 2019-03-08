@@ -16,6 +16,16 @@ wpdtest.fetchJSON = function(filename) {
     });
 };
 
+wpdtest.loadPlotData = function(filename) {
+    return new Promise((resolve, reject) => {
+        fetch(filename).then(resp => resp.json()).then(data => {
+            let plotData = new wpd.PlotData();
+            plotData.deserialize(data);
+            resolve(plotData);
+        });
+    });
+};
+
 wpdtest.matCompare = function(mat1, mat2, eps) {
     if (mat1 == null || mat2 == null) {
         return false;
