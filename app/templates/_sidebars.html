@@ -159,11 +159,14 @@
         <br />
         <p align="center">
             <input type="button" value="{{ _("Crop") }}" style="width: 120px;" onclick="wpd.imageEditing.startImageCrop()" id="image-editing-crop" />
-            <input type="button" value="{{ _("Fix Perspective") }}" style="width: 120px;" onclick="wpd.imageEditing.startPerspective()" id="image-editing-perspective" />
+            <!-- <input type="button" value="{{ _("Fix Perspective") }}" style="width: 120px;" onclick="wpd.imageEditing.startPerspective()" id="image-editing-perspective" /> -->
         </p>
+        <!--
         <p align="center">
             <input type="button" value="{{ _("Rotate") }}" style="width: 120px;" onclick="" id="image-editing-rotate" />
             <input type="button" value="{{ _("?") }}" style="width: 120px;" onclick="" id="image-editing-misc" />
         </p>
+        -->
+        <p><span id="image-editing-crop-info">Click and drag to mark the crop region. Press Enter to complete cropping, Esc to cancel</span></p>
     </center>
 </div>
