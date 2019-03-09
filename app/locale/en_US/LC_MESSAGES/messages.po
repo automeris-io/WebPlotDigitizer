@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-02-24 00:41-0800\n"
+"POT-Creation-Date: 2019-03-08 22:50-0800\n"
 "PO-Revision-Date: 2016-12-12 23:09-0600\n"
 "Last-Translator: \n"
 "Language: en_US\n"
@@ -881,11 +881,11 @@ msgstr ""
 msgid "Fix Perspective"
 msgstr ""
 
-#: templates/_sidebars.html:165
+#: templates/_sidebars.html:166
 msgid "Rotate"
 msgstr ""
 
-#: templates/_sidebars.html:166
+#: templates/_sidebars.html:167
 msgid "?"
 msgstr ""
 
@@ -1906,5 +1906,340 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Rotate"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Problems loading? Make sure you have "
+#~ "a recent version of Google Chrome, "
+#~ "Firefox, Safari or Microsoft Edge "
+#~ "installed."
+#~ msgstr ""
+
+#~ msgid "Load Project"
+#~ msgstr ""
+
+#~ msgid "Save Project"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Load a Javascript file to further "
+#~ "extend the capabilities of WebPlotDigitizer."
+#~ msgstr ""
+
+#~ msgid "For examples, visit the"
+#~ msgstr ""
+
+#~ msgid "Align Axes"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Enter X-values of the two points "
+#~ "clicked on X-axis and Y-values of "
+#~ "the two points clicked on Y-axes"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "*For dates, use yyyy/mm/dd hh:ii:ss "
+#~ "format, where ii denotes minutes (e.g."
+#~ " 2013/10/23 or 2013/10 or 2013/10/23 "
+#~ "10:15 or just 10:15). For exponents, "
+#~ "enter values as 1e-3 for 10^-3."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Enter the values at the two points"
+#~ " selected on the continuous axes "
+#~ "along the bars"
+#~ msgstr ""
+
+#~ msgid "Copy to Clipboard"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "*Plotly is a secure data analysis "
+#~ "and graphing site with data sharing "
+#~ "and access controls."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Visit <a href=\"http://plot.ly\" "
+#~ "target=\"plotlyWebsite\">http://plot.ly</a> for details."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Click four known points on the "
+#~ "axes in the <font color=\"red\">order "
+#~ "shown in red</font>. Two on the X"
+#~ " axis (X1, X2) and two on the"
+#~ " Y axis (Y1, Y2)"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Click on two known points (P1, P2)"
+#~ " on the continuous axes along the "
+#~ "bars"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "This program is distributed under the"
+#~ " <a "
+#~ "href=\"https://www.gnu.org/licenses/agpl-3.0-standalone.html\" "
+#~ "target=\"_blank\">GNU Affero General Public "
+#~ "License Version 3</a>."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "The following relationships are being "
+#~ "used to convert image pixels to "
+#~ "data"
+#~ msgstr ""
+
+#~ msgid "Export JSON or Project File"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Export a JSON file containing the "
+#~ "axes calibrations, digitized data and "
+#~ "measurements. This JSON file can be "
+#~ "loaded to resume work at a later"
+#~ " time. You can also download a "
+#~ "combined 'project file' which includes "
+#~ "this JSON and also the image in"
+#~ " a single TAR file."
+#~ msgstr ""
+
+#~ msgid "Download JSON"
+#~ msgstr ""
+
+#~ msgid "Download Project File (.tar)"
+#~ msgstr ""
+
+#~ msgid "Import JSON/Project"
+#~ msgstr ""
+
+#~ msgid "Load a previously exported JSON or project file (.tar)"
+#~ msgstr ""
+
+#~ msgid "(Note: This will clear any unsaved data in the current plot.)"
+#~ msgstr ""
+
+#~ msgid "JSON/Project File"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Click to select a data point. The"
+#~ " following keys can then be used "
+#~ "to the adjust the position"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Do you wish to tweak existing axes"
+#~ " calibration or select a new axes "
+#~ "type?"
+#~ msgstr ""
+
+#~ msgid "Export data from all datasets"
+#~ msgstr ""
+
+#~ msgid "Add Dataset"
+#~ msgstr ""
+
+#~ msgid "Rename Dataset"
+#~ msgstr ""
+
+#~ msgid "Rename Axes"
+#~ msgstr ""
+
+#~ msgid "Image Info"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Click points to select and use "
+#~ "cursor keys to adjust positions. Use "
+#~ "Shift+Arrow for faster movement. Click "
+#~ "complete when finished."
+#~ msgstr ""
+
+#~ msgid "Manual Extraction"
+#~ msgstr ""
+
+#~ msgid "Automatic Extraction"
+#~ msgstr ""
+
+#~ msgid "Measure Area/Perimeter"
+#~ msgstr ""
+
+#~ msgid "Add Polygon"
+#~ msgstr ""
+
+#~ msgid "Delete Polygon"
+#~ msgstr ""
+
+#~ msgid "Press Enter or Esc key to complete the polygon"
+#~ msgstr ""
+
+#~ msgid "Tutorial Video"
+#~ msgstr ""
+
+#~ msgid "Visit Website"
+#~ msgstr ""
+
+#~ msgid "Visit GitHub"
+#~ msgstr ""
+
+#~ msgid "Image Editing"
+#~ msgstr ""
+
+#~ msgid "Fix Perspective"
+#~ msgstr ""
+
+#~ msgid "?"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "You are using a beta version of"
+#~ " WebPlotDigitizer. There may be some "
+#~ "issues with the software that are "
+#~ "expected."
+#~ msgstr ""
+
+#~ msgid "JSON/Project data has been loaded!"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Values on a log scale axis can "
+#~ "not be zero as log(0) is "
+#~ "undefined. Please enter a non-zero "
+#~ "value."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Your browser does not support webcam "
+#~ "capture using HTML5 APIs. A recent "
+#~ "version of Google Chrome is recommended."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Transformation equations are available only"
+#~ " after axes have been calibrated."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "This feature has not been implemented"
+#~ " in the current version. This may "
+#~ "be available in a future release."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Please load a valid image file. "
+#~ "Common image formats such as JPG, "
+#~ "PNG, BMP, GIF etc. should work. "
+#~ "PDF or Word documents are not "
+#~ "accepted."
+#~ msgstr ""
+
+#~ msgid "Are you sure you want to delete this dataset?"
+#~ msgstr ""
+
+#~ msgid "Delete Axes"
+#~ msgstr ""
+
+#~ msgid "Are you sure you want to delete this axes?"
+#~ msgstr ""
+
+#~ msgid "Please add some data before exporting."
+#~ msgstr ""
+
+#~ msgid "Error: No datasets to export!"
+#~ msgstr ""
+
+#~ msgid "Add Dataset Error!"
+#~ msgstr ""
+
+#~ msgid "Rename Dataset Error!"
+#~ msgstr ""
+
+#~ msgid "Dataset with this name already exists. Please pick a different name."
+#~ msgstr ""
+
+#~ msgid "Rename Axes Error!"
+#~ msgstr ""
+
+#~ msgid "Axes with this name already exists. Please pick a different name."
+#~ msgstr ""
+
+#~ msgid "Specify a valid number of datasets to add!"
+#~ msgstr ""
+
+#~ msgid "Datasets"
+#~ msgstr ""
+
+#~ msgid "Measurements"
+#~ msgstr ""
+
+#~ msgid "Angle"
+#~ msgstr ""
+
+#~ msgid "Area/Perimeter"
+#~ msgstr ""
+
+#~ msgid "XY"
+#~ msgstr ""
+
+#~ msgid "Bar"
+#~ msgstr ""
+
+#~ msgid "Polar"
+#~ msgstr ""
+
+#~ msgid "Ternary"
+#~ msgstr ""
+
+#~ msgid "Map"
+#~ msgstr ""
+
+#~ msgid "Project"
+#~ msgstr ""
+
+#~ msgid "Distance Measurements"
+#~ msgstr ""
+
+#~ msgid "Angle Measurements"
+#~ msgstr ""
+
+#~ msgid "Area Measurements"
+#~ msgstr ""
+
+#~ msgid "Uncalibrated Dataset!"
+#~ msgstr ""
+
+#~ msgid "Assign an axes calibration to this dataset!"
+#~ msgstr ""
+
+#~ msgid "Invalid Project!"
+#~ msgstr ""
+
+#~ msgid "Not a valid project file format!"
+#~ msgstr ""
+
+#~ msgid "Add Calibration"
+#~ msgstr ""
+
+#~ msgid "Import Calibration"
+#~ msgstr ""
+
+#~ msgid "Export Calibration"
+#~ msgstr ""
+
+#~ msgid "Tweak Calibration"
+#~ msgstr ""
+
+#~ msgid "View Equations"
+#~ msgstr ""
+
+#~ msgid "Export All Data"
+#~ msgstr ""
+
+#~ msgid "Clear Data"
 #~ msgstr ""
 

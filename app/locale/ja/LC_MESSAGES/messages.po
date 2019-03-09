@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-02-24 00:41-0800\n"
+"POT-Creation-Date: 2019-03-08 22:50-0800\n"
 "PO-Revision-Date: 2016-12-18 10:38-0600\n"
 "Last-Translator: \n"
 "Language: ja\n"
@@ -881,11 +881,11 @@ msgstr ""
 msgid "Fix Perspective"
 msgstr ""
 
-#: templates/_sidebars.html:165
+#: templates/_sidebars.html:166
 msgid "Rotate"
 msgstr ""
 
-#: templates/_sidebars.html:166
+#: templates/_sidebars.html:167
 msgid "?"
 msgstr ""
 

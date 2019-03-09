@@ -2,7 +2,7 @@
 
 # Code JS
 cat javascript/core/*.js > wpd_node.js
-cat javascript/core/AEalgos/*.js >> wpd_node.js
+cat javascript/core/curve_detection/*.js >> wpd_node.js
 cat javascript/core/axes/*.js >> wpd_node.js
 
 # WebAssembly
