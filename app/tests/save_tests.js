@@ -71,7 +71,10 @@ QUnit.test("Resume Version 4.2 with masks", function(assert) {
 
         // Check an autodetection object
         let autodetection1 = plotData.getAutoDetectionDataForDataset(datasets[0]);
-        assert.equal(autodetection1.mask.size, 264662, testLabelPrefix + "Check mask size");
+        assert.equal(autodetection1.mask.size, 264662, testLabelPrefix + "Check mask size for 1st dataset");
+        let autodetection2 = plotData.getAutoDetectionDataForDataset(datasets[5]);
+        assert.equal(autodetection2.mask.size, 14710, testLabelPrefix + "Check mask size for 6th dataset");
+        
     };
     let done = assert.async();
     wpdtest.loadPlotData("files/wpd4_2_with_masks.json").then(plotDataObjs => {
