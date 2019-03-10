@@ -26,7 +26,10 @@ wpdtest.loadPlotData = function(filename) {
             // Second, serialize then deserialize the same data. This helps testing if we're serializing the same information we're deserializing.
             let plotData2 = new wpd.PlotData();
             plotData2.deserialize(plotData.serialize());
-            resolve({plotData: plotData, plotData2: plotData2});
+            resolve({
+                plotData: plotData,
+                plotData2: plotData2
+            });
         });
     });
 };
