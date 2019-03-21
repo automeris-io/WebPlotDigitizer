@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  WebPlotDigitizer\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-03-08 22:50-0800\n"
+"POT-Creation-Date: 2019-03-20 21:07-0700\n"
 "PO-Revision-Date: 2018-02-21 00:47-0600\n"
 "Last-Translator: RGXGR <rgxgr@outlook.com>\n"
 "Language: zh_Hans_CN\n"
@@ -40,7 +40,7 @@ msgstr "还原"
 msgid "File"
 msgstr "文件"
 
-#: templates/_menubar.html:5 templates/_sidebars.html:143
+#: templates/_menubar.html:5 templates/_sidebars.html:149
 msgid "Load Image"
 msgstr "导入图片"
 
@@ -145,7 +145,7 @@ msgstr "如需示例，请访问"
 msgid "WebPlotDigitizer-Examples repository"
 msgstr "WebPlotDigitizer - 范例库"
 
-#: templates/_popups.html:58 templates/_sidebars.html:35
+#: templates/_popups.html:58 templates/_sidebars.html:41
 msgid "Run"
 msgstr "运行"
 
@@ -706,11 +706,11 @@ msgstr "编辑标签"
 msgid "Automatic Extraction"
 msgstr "自动提取"
 
-#: templates/_sidebars.html:21 templates/_sidebars.html:98
+#: templates/_sidebars.html:21 templates/_sidebars.html:104
 msgid "Mask"
 msgstr "蒙板"
 
-#: templates/_sidebars.html:21 templates/_sidebars.html:99
+#: templates/_sidebars.html:21 templates/_sidebars.html:105
 msgid "Box"
 msgstr "方块"
 
@@ -722,180 +722,188 @@ msgstr "画笔"
 msgid "Erase"
 msgstr "擦除"
 
-#: templates/_sidebars.html:21 templates/_sidebars.html:101
+#: templates/_sidebars.html:21 templates/_sidebars.html:107
 msgid "View"
 msgstr "显示"
 
-#: templates/_sidebars.html:23 templates/_sidebars.html:105
+#: templates/_sidebars.html:23 templates/_sidebars.html:26
+msgid "Width"
+msgstr ""
+
+#: templates/_sidebars.html:23
+msgid "Erase All"
+msgstr "全部清除"
+
+#: templates/_sidebars.html:29 templates/_sidebars.html:111
 msgid "Color"
 msgstr "颜色"
 
-#: templates/_sidebars.html:24
+#: templates/_sidebars.html:30
 msgid "Foreground Color"
 msgstr "前景色"
 
-#: templates/_sidebars.html:25
+#: templates/_sidebars.html:31
 msgid "Background Color"
 msgstr "背景色"
 
-#: templates/_sidebars.html:26
+#: templates/_sidebars.html:32
 msgid "Click to change color"
 msgstr "单击选择颜色"
 
-#: templates/_sidebars.html:27 templates/_strings.html:51
+#: templates/_sidebars.html:33 templates/_strings.html:51
 #: templates/_tree.html:45 templates/_tree.html:64
 msgid "Distance"
 msgstr "距离"
 
-#: templates/_sidebars.html:28
+#: templates/_sidebars.html:34
 msgid "Filter Colors"
 msgstr "颜色过滤"
 
-#: templates/_sidebars.html:30
+#: templates/_sidebars.html:36
 msgid "Algorithm"
 msgstr "算法"
 
-#: templates/_sidebars.html:41
+#: templates/_sidebars.html:47
 msgid "Edit Image"
 msgstr "编辑图像"
 
-#: templates/_sidebars.html:50
+#: templates/_sidebars.html:56
 msgid "Measure Distances"
 msgstr "测量距离"
 
-#: templates/_sidebars.html:52
+#: templates/_sidebars.html:58
 msgid "Add Pair"
 msgstr "新增测量"
 
-#: templates/_sidebars.html:53
+#: templates/_sidebars.html:59
 msgid "Delete Pair"
 msgstr "删除测量"
 
-#: templates/_sidebars.html:59
+#: templates/_sidebars.html:65
 msgid "Measure Angles"
 msgstr "测量角度"
 
-#: templates/_sidebars.html:61
+#: templates/_sidebars.html:67
 msgid "Add Angle"
 msgstr "新增测量"
 
-#: templates/_sidebars.html:62
+#: templates/_sidebars.html:68
 msgid "Delete Angle"
 msgstr "删除测量"
 
-#: templates/_sidebars.html:68
+#: templates/_sidebars.html:74
 msgid "Measure Area/Perimeter"
 msgstr "测量面积/周长"
 
-#: templates/_sidebars.html:69
+#: templates/_sidebars.html:75
 msgid "Add Polygon"
 msgstr "添加多边形"
 
-#: templates/_sidebars.html:70
+#: templates/_sidebars.html:76
 msgid "Delete Polygon"
 msgstr "删除多边形"
 
-#: templates/_sidebars.html:72
+#: templates/_sidebars.html:78
 msgid "Press Enter or Esc key to complete the polygon"
 msgstr "按Enter或Esc键完成多边形"
 
-#: templates/_sidebars.html:78
+#: templates/_sidebars.html:84
 msgid "Measure Path"
 msgstr "测量路径"
 
-#: templates/_sidebars.html:80 templates/_sidebars.html:89
+#: templates/_sidebars.html:86 templates/_sidebars.html:95
 msgid "Add Path"
 msgstr "新增测量"
 
-#: templates/_sidebars.html:81 templates/_sidebars.html:90
+#: templates/_sidebars.html:87 templates/_sidebars.html:96
 msgid "Delete Path"
 msgstr "删除测量"
 
-#: templates/_sidebars.html:87
+#: templates/_sidebars.html:93
 msgid "Measure Closed Path"
 msgstr "测量闭环"
 
-#: templates/_sidebars.html:96
+#: templates/_sidebars.html:102
 msgid "Detect Grid"
 msgstr "检测网格"
 
-#: templates/_sidebars.html:100
+#: templates/_sidebars.html:106
 msgid "Clear"
 msgstr "清除"
 
-#: templates/_sidebars.html:106
+#: templates/_sidebars.html:112
 msgid "Pick"
 msgstr "拾取"
 
-#: templates/_sidebars.html:108
+#: templates/_sidebars.html:114
 msgid "Test"
 msgstr "测试"
 
-#: templates/_sidebars.html:110
+#: templates/_sidebars.html:116
 msgid "Background Mode"
 msgstr "背景模式"
 
-#: templates/_sidebars.html:114
+#: templates/_sidebars.html:120
 msgid "Horizontal"
 msgstr "横轴"
 
-#: templates/_sidebars.html:118
+#: templates/_sidebars.html:124
 msgid "X%"
 msgstr "X%"
 
-#: templates/_sidebars.html:122
+#: templates/_sidebars.html:128
 msgid "Vertical"
 msgstr "纵轴"
 
-#: templates/_sidebars.html:126
+#: templates/_sidebars.html:132
 msgid "Y%"
 msgstr "Y%"
 
-#: templates/_sidebars.html:132
+#: templates/_sidebars.html:138
 msgid "Detect"
 msgstr "检测"
 
-#: templates/_sidebars.html:134
+#: templates/_sidebars.html:140
 msgid "Reset"
 msgstr "重置"
 
-#: templates/_sidebars.html:144
+#: templates/_sidebars.html:150
 msgid "Tutorial Video"
 msgstr "视频教程"
 
-#: templates/_sidebars.html:145
+#: templates/_sidebars.html:151
 msgid "Visit Website"
 msgstr "访问网站"
 
-#: templates/_sidebars.html:146
+#: templates/_sidebars.html:152
 msgid "Visit GitHub"
 msgstr "访问 GitHub"
 
-#: templates/_sidebars.html:152
+#: templates/_sidebars.html:158
 msgid "Image Editing"
 msgstr ""
 
-#: templates/_sidebars.html:156
+#: templates/_sidebars.html:162
 msgid "Undo"
 msgstr ""
 
-#: templates/_sidebars.html:157
+#: templates/_sidebars.html:163
 msgid "Redo"
 msgstr ""
 
-#: templates/_sidebars.html:161
+#: templates/_sidebars.html:167
 msgid "Crop"
 msgstr ""
 
-#: templates/_sidebars.html:162
+#: templates/_sidebars.html:168
 msgid "Fix Perspective"
 msgstr ""
 
-#: templates/_sidebars.html:166
+#: templates/_sidebars.html:172
 msgid "Rotate"
 msgstr ""
 
-#: templates/_sidebars.html:167
+#: templates/_sidebars.html:173
 msgid "?"
 msgstr ""
 
@@ -1153,14 +1161,6 @@ msgid "Not a valid project file format!"
 msgstr "不是有效的项目文件格式！"
 
 #: templates/_toolbars.html:3
-msgid "Erase All"
-msgstr "全部清除"
-
-#: templates/_toolbars.html:4 templates/_toolbars.html:9
-msgid "Stroke Width"
-msgstr "笔画宽度"
-
-#: templates/_toolbars.html:14
 msgid "View Keyboard Shortcuts"
 msgstr "查看键盘快捷键"
 
@@ -1227,4 +1227,7 @@ msgstr "清除所有"
 
 #~ msgid "Rotate"
 #~ msgstr ""
+
+#~ msgid "Stroke Width"
+#~ msgstr "笔画宽度"
 

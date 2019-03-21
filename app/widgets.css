@@ -138,8 +138,13 @@ input[type="text"] {
 }
 
 input[type="range"] {
-    height: 17px;
+    height: 13px;
     background: white;
+    border: thin lightgrey solid;
+}
+
+input[type=range]::-moz-range-track {
+    background: grey;
 }
 
 input[type="file"] {
