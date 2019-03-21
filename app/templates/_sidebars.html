@@ -19,6 +19,12 @@
     <br />
     <p class="sidebar-title">{{ _("Automatic Extraction") }}</p>
     <p>{{ _("Mask") }} <input type="button" value="{{ _("Box") }}" style="width:50px;" onclick="wpd.dataMask.markBox();" id="box-mask"><input type="button" value="{{ _("Pen") }}" style="width:45px;" onClick="wpd.dataMask.markPen();" id="pen-mask"><input type="button" value="{{ _("Erase") }}" style="width:50px;" onClick="wpd.dataMask.eraseMarks();" id="erase-mask"><input type="button" value="{{ _("View") }}" style="width:40px;" onclick="wpd.dataMask.viewMask();" id="view-mask" /></p>
+    <div id="mask-erase-container" class="sidebar-extras">
+        <p align="center">{{ _("Width") }} <input type="range" id="eraseThickness" min="1" max="150" value="20" style="width:80px;"> <input type="button" id="clearMaskBtn" value="{{ _("Erase All") }}" style="width:80px;" onclick="wpd.dataMask.clearMask();" /></p>
+    </div>
+    <div id="mask-paint-container" class="sidebar-extras">
+        <p align="center">{{ _("Width") }} <input type="range" id="paintThickness" min="1" max="150" value="20" style="width:120px;"></p>
+    </div>
     <hr />
     <p>{{ _("Color") }} <select id="color-detection-mode-select" onchange="wpd.colorPicker.changeDetectionMode();">
             <option value="fg">{{ _("Foreground Color") }}</option>

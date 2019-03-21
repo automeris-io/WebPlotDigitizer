@@ -278,3 +278,9 @@ select {
 .i18n-string {
     display: none;
 }
+
+.sidebar-extras {
+    border: thin lightgray solid;
+    padding-top: 5px;
+    display: none;
+}

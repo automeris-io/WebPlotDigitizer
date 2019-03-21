@@ -129,7 +129,7 @@ wpd.PenMaskTool = (function() {
             wpd.graphicsWidget.setRepainter(new wpd.MaskPainter());
             document.getElementById('pen-mask').classList.add('pressed-button');
             document.getElementById('view-mask').classList.add('pressed-button');
-            wpd.toolbar.show('paintToolbar');
+            document.getElementById('mask-paint-container').style.display = 'block';
         };
 
         this.onMouseDown = function(ev, pos, imagePos) {
@@ -173,6 +173,7 @@ wpd.PenMaskTool = (function() {
         this.onRemove = function() {
             document.getElementById('pen-mask').classList.remove('pressed-button');
             document.getElementById('view-mask').classList.remove('pressed-button');
+            document.getElementById('mask-paint-container').style.display = 'none';
             wpd.dataMask.grabMask();
             wpd.toolbar.clear();
         };
@@ -202,7 +203,7 @@ wpd.EraseMaskTool = (function() {
             wpd.graphicsWidget.setRepainter(new wpd.MaskPainter());
             document.getElementById('erase-mask').classList.add('pressed-button');
             document.getElementById('view-mask').classList.add('pressed-button');
-            wpd.toolbar.show('eraseToolbar');
+            document.getElementById('mask-erase-container').style.display = 'block';
         };
 
         this.onMouseDown = function(ev, pos, imagePos) {
@@ -253,6 +254,7 @@ wpd.EraseMaskTool = (function() {
         this.onRemove = function() {
             document.getElementById('erase-mask').classList.remove('pressed-button');
             document.getElementById('view-mask').classList.remove('pressed-button');
+            document.getElementById('mask-erase-container').style.display = 'none';
             wpd.dataMask.grabMask();
             wpd.toolbar.clear();
         };
