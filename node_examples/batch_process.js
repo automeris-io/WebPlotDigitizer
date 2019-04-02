@@ -8,7 +8,7 @@ const path = require("path")
 const imagesPath = "./batch_process_images";
 const outputPath = "./batch_process_images/output";
 const fileExtension = ".png";
-const projectJSON = "./batch_process_images/reference_project.json";
+const referenceProjectJSON = "./batch_process_images/reference_project.json";
 
 // ---------------------------------------------
 
@@ -17,7 +17,7 @@ function digitizeImage(file, img) {
 
     // load base project
     let plotData = new wpd.PlotData();
-    let serializedPlotData = JSON.parse(fs.readFileSync(projectJSON, 'utf8'));
+    let serializedPlotData = JSON.parse(fs.readFileSync(referenceProjectJSON, 'utf8'));
     plotData.deserialize(serializedPlotData);
     
     // clear existing datasets and re-run auto-extraction
@@ -50,8 +50,8 @@ function digitizeImage(file, img) {
     }
 
     // export JSON specific to this image for later use
-    let newPlotData = JSON.stringify(plotData.serialize());
-    fs.writeFileSync(path.join(outputPath, path.basename(file, fileExtension) + "_project.json"), newPlotData);
+    let newSerializedPlotData = JSON.stringify(plotData.serialize());
+    fs.writeFileSync(path.join(outputPath, path.basename(file, fileExtension) + "_project.json"), newSerializedPlotData);
 }
 
 
