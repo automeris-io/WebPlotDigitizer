@@ -6,10 +6,16 @@ Coming soon!
 
 New Features:
  - Save and resume auto-detection algorithm settings along with masks in the project file (per dataset). 
- - Crop images before digitization
+ - Crop images before digitization.
+ - Undo/Redo management system (used only for cropping images at the moment)
+ - Initial ability to run digitization on multiple images via NodeJS command-line
 
 Bug fixes:
  - Improve X Step with Interpolation algorithm for log-scale charts
+ - Improved unit test coverage
+
+Misc:
+ - Minor UI tweaks for mask creation
 
 Version 4.1
 ===========
