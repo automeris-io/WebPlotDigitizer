@@ -76,8 +76,8 @@ wpd.TernaryAxes = (function() {
             var data = [],
                 rp, thetap, xx, yy, ap, bp, cp, bpt;
 
-            xp = parseFloat(pxi);
-            yp = parseFloat(pyi);
+            let xp = parseFloat(pxi);
+            let yp = parseFloat(pyi);
 
             rp = Math.sqrt((xp - x0) * (xp - x0) + (yp - y0) * (yp - y0));
 

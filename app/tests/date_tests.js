@@ -1,7 +1,7 @@
 QUnit.module("Date/Time Parsing Tests");
 QUnit.test("Date Format", function(assert) {
     // yyyy/mm
-    formatStr = wpd.dateConverter.getFormatString("2017/10");
+    let formatStr = wpd.dateConverter.getFormatString("2017/10");
     assert.equal(formatStr, "yyyy/mm", "yyyy/mm ok");
 
     // yyyy/mm/dd
