@@ -52,6 +52,8 @@ wpd.popup = (function() {
             }
         }
 
+        window.addEventListener("keydown", handleKeydown, false);
+
         $activeWindow = pWindow;
     }
 
@@ -64,6 +66,8 @@ wpd.popup = (function() {
         pWindow.style.visibility = "hidden";
 
         removeDragMask();
+
+        window.removeEventListener("keydown", handleKeydown, false);
         $activeWindow = null;
     }
 
@@ -130,6 +134,12 @@ wpd.popup = (function() {
             dragInfo.dragMaskDiv.style.display = 'none';
             document.body.removeChild(dragInfo.dragMaskDiv);
             dragInfo = null;
+        }
+    }
+
+    function handleKeydown(e) {
+        if (wpd.keyCodes.isEsc(e.keyCode)) {
+            close($activeWindow.id);
         }
     }
 
