@@ -2,7 +2,7 @@ RELEASE NOTES
 
 Version 4.2
 ===========
-Coming soon!
+April 7, 2019
 
 New Features:
  - Save and resume auto-detection algorithm settings along with masks in the project file (per dataset). 
