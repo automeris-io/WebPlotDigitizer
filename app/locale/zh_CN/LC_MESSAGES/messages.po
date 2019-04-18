@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  WebPlotDigitizer\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-04-06 20:27-0700\n"
+"POT-Creation-Date: 2019-04-17 21:14-0700\n"
 "PO-Revision-Date: 2018-02-21 00:47-0600\n"
 "Last-Translator: RGXGR <rgxgr@outlook.com>\n"
 "Language: zh_Hans_CN\n"
@@ -142,8 +142,8 @@ msgid "For examples, visit the"
 msgstr "如需示例，请访问"
 
 #: templates/_popups.html:54
-msgid "WebPlotDigitizer-Examples repository"
-msgstr "WebPlotDigitizer - 范例库"
+msgid "WebPlotDigitizer repository"
+msgstr ""
 
 #: templates/_popups.html:58 templates/_sidebars.html:41
 msgid "Run"
@@ -1230,4 +1230,7 @@ msgstr "清除所有"
 
 #~ msgid "Stroke Width"
 #~ msgstr "笔画宽度"
+
+#~ msgid "WebPlotDigitizer-Examples repository"
+#~ msgstr "WebPlotDigitizer - 范例库"
 

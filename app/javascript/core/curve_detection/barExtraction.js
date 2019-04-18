@@ -24,25 +24,25 @@ var wpd = wpd || {};
 wpd.BarValue = class {
 
     constructor() {
-        this._npoints = 0;
-        this._avgValTop = 0;
-        this._avgValBot = 0;
-        this._avgX = 0;
+        this.npoints = 0;
+        this.avgValTop = 0;
+        this.avgValBot = 0;
+        this.avgX = 0;
     }
 
     append(x, valTop, valBot) {
-        this._avgX = (this._npoints * this._avgX + x) / (this._npoints + 1.0);
-        this._avgValTop = (this._npoints * this._avgValTop + valTop) / (this._npoints + 1.0);
-        this._avgValBot = (this._npoints * this._avgValBot + valBot) / (this._npoints + 1.0);
-        this._npoints++;
+        this.avgX = (this.npoints * this.avgX + x) / (this.npoints + 1.0);
+        this.avgValTop = (this.npoints * this.avgValTop + valTop) / (this.npoints + 1.0);
+        this.avgValBot = (this.npoints * this.avgValBot + valBot) / (this.npoints + 1.0);
+        this.npoints++;
     }
 
     isPointInGroup(x, valTop, valBot, del_x, del_val) {
-        if (this._npoints === 0) {
+        if (this.npoints === 0) {
             return true;
         }
-        if (Math.abs(this._avgX - x) <= del_x && Math.abs(this._avgValTop - valTop) <= del_val &&
-            Math.abs(this._avgValBot - valBot) <= del_val) {
+        if (Math.abs(this.avgX - x) <= del_x && Math.abs(this.avgValTop - valTop) <= del_val &&
+            Math.abs(this.avgValBot - valBot) <= del_val) {
             return true;
         }
         return false;
@@ -109,12 +109,12 @@ wpd.BarExtractionAlgo = class {
             pixelAdded,
             barValuei, bv, dataVal, pxVal, mkeys, topVal, botVal,
 
-            appendData = function(x, valTop, valBot) {
+            appendData = function(x, valTop, valBot, delX, delVal) {
                 pixelAdded = false;
                 for (barValuei = 0; barValuei < barValueColl.length; barValuei++) {
                     bv = barValueColl[barValuei];
 
-                    if (bv.isPointInGroup(x, valTop, valBot, this._delX, this._delVal)) {
+                    if (bv.isPointInGroup(x, valTop, valBot, delX, delVal)) {
                         bv.append(x, valTop, valBot);
                         pixelAdded = true;
                         break;
@@ -154,7 +154,7 @@ wpd.BarExtractionAlgo = class {
                     }
                 }
                 if (valCount === 2) { // found both top and bottom ends
-                    appendData(px, valTop, valBot);
+                    appendData(px, valTop, valBot, this._delX, this._delVal);
                 }
             }
         } else {
@@ -178,7 +178,7 @@ wpd.BarExtractionAlgo = class {
                     }
                 }
                 if (valCount === 2) {
-                    appendData(py, valTop, valBot);
+                    appendData(py, valTop, valBot, this._delX, this._delVal);
                 }
             }
         }
