@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-04-06 20:27-0700\n"
+"POT-Creation-Date: 2019-04-17 21:14-0700\n"
 "PO-Revision-Date: 2017-11-01 23:56-0500\n"
 "Last-Translator: \n"
 "Language: fr_FR\n"
@@ -148,8 +148,8 @@ msgid "For examples, visit the"
 msgstr "Par exemples, visitez le"
 
 #: templates/_popups.html:54
-msgid "WebPlotDigitizer-Examples repository"
-msgstr "WebPlotDigitizer-Examples Référentiel"
+msgid "WebPlotDigitizer repository"
+msgstr ""
 
 #: templates/_popups.html:58 templates/_sidebars.html:41
 msgid "Run"
@@ -1275,4 +1275,7 @@ msgstr "Effacer Tout"
 
 #~ msgid "Stroke Width"
 #~ msgstr "Largeur du Trait"
+
+#~ msgid "WebPlotDigitizer-Examples repository"
+#~ msgstr "WebPlotDigitizer-Examples Référentiel"
 
