@@ -5,12 +5,26 @@ const path = require("path")
 
 // ---------- Parameters -----------------------
 
-const imagesPath = "./batch_process_images";
-const outputPath = "./batch_process_images/output";
+// Set defaults if parameters are not passed but default to using parameters
+// for batch scripting using this process
+const imagesPath = getArgvValue(process.argv, "--image-path=") || "./batch_process_images";
+const outputPath = getArgvValue(process.argv, "--output-path=") || "./batch_process_images/output";
+const referenceProjectJSON = getArgvValue(process.argv, "--json-reference-file=") || "./reference_project.json";
+
 const fileExtension = ".png";
-const referenceProjectJSON = "./batch_process_images/reference_project.json";
 
 // ---------------------------------------------
+
+
+function getArgvValue(args, arg) {
+    for (i = 0; i < args.length; i++) {
+        if (args[i].startsWith(arg) === true) {
+            var return_string = String(args[i].split("=")[1]);
+        };
+    };
+    return return_string;
+};
+
 
 function digitizeImage(file, img) {
     console.log("Reading: " + file);
@@ -72,9 +86,11 @@ function doAllImages() {
     });
 }
 
-// read base project, then digitize all images in imagesPath
+
+// Make sure that the output directory exists.  If it doesn't we create it here.
 if (!fs.existsSync(outputPath)){
     fs.mkdirSync(outputPath);
 }
 
+// read base project, then digitize all images in imagesPath
 doAllImages();
