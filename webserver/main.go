@@ -50,11 +50,6 @@ func main() {
 	fs := WPDFileSystem{http.Dir("../app")}
 	http.Handle("/", http.FileServer(fs))
 
-	// internal backend API
-	http.HandleFunc("/download/text", func(w http.ResponseWriter, r *http.Request) {
-		HandleDownload(w, r)
-	})
-
 	// log
 	http.HandleFunc("/log", func(w http.ResponseWriter, r *http.Request) {
 		// collect posted json data
