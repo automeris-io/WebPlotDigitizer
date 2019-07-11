@@ -17,14 +17,6 @@ wget https://github.com/ankitrohatgi/tarballjs/archive/master.zip
 unzip master.zip -d tarballjs
 rm master.zip
 
-# numericjs
-wget https://github.com/sloisel/numeric/archive/v1.2.6.zip
-unzip v1.2.6.zip -d numericjs
-cd numericjs
-ln -s numeric-1.2.6/src/numeric.js numeric_core.js
-ln -s numeric-1.2.6/src/svd.js numeric_svd.js
-cd ..
-
 # emscripten
 wget https://github.com/juj/emsdk/archive/master.zip
 unzip master.zip
