@@ -23,13 +23,11 @@
 var wpd = wpd || {};
 wpd.browserInfo = (function() {
     function checkBrowser() {
-        if (!window.FileReader || typeof WebAssembly !== "object") {
+        if (!window.FileReader || typeof WebAssembly !== "object" || !("download" in document.createElement("a"))) {
             alert(
                 'WARNING!\nYour web browser may not be fully supported. Please use a recent version of Google Chrome, Firefox or Safari browser with HTML5 and WebAssembly support.');
         }
     }
-
-    let downloadAttributeSupported = ("download" in document.createElement("a"));
 
     function isElectronBrowser() {
         if (typeof process === 'undefined') { // there's probably a much better way to do this!
@@ -40,7 +38,6 @@ wpd.browserInfo = (function() {
 
     return {
         checkBrowser: checkBrowser,
-        downloadAttributeSupported: downloadAttributeSupported,
         isElectronBrowser: isElectronBrowser
     };
 })();
