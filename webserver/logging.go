@@ -61,9 +61,9 @@ func writeJSONData(filePath string, jsonString string) {
 }
 
 // CollectLogDataFunc - collect JSON data from applications
-func CollectLogDataFunc(w http.ResponseWriter, r *http.Request, s ServerSettings) {
+func CollectLogDataFunc(w http.ResponseWriter, r *http.Request, s *ServerSettings) {
 
-	if !s.LogUsage {
+	if !s.Logging.Enabled {
 		return // logging is disabled in server settings
 	}
 
@@ -84,10 +84,10 @@ func CollectLogDataFunc(w http.ResponseWriter, r *http.Request, s ServerSettings
 	log.Println("Accessed by IP:", userip)
 
 	// create directory if it does not exist:
-	if _, err := os.Stat(s.LogDir); os.IsNotExist(err) {
-		err = os.MkdirAll(s.LogDir, os.ModePerm)
+	if _, err := os.Stat(s.Logging.Path); os.IsNotExist(err) {
+		err = os.MkdirAll(s.Logging.Path, os.ModePerm)
 		if err != nil {
-			log.Panicln("Error creating folder", s.LogDir)
+			log.Panicln("Error creating folder", s.Logging.Path)
 			return
 		}
 	}
@@ -98,6 +98,6 @@ func CollectLogDataFunc(w http.ResponseWriter, r *http.Request, s ServerSettings
 		return
 	}
 	fileName := "data-" + currentTime.Format("20060102") + ".json"
-	filePath := filepath.Join(s.LogDir, fileName)
+	filePath := filepath.Join(s.Logging.Path, fileName)
 	go writeJSONData(filePath, string(msgJSON)+"\n")
 }

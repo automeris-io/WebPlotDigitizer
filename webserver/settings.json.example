@@ -1,6 +1,12 @@
 {
-    "Hostname":"",
-    "HTTPPort":"8080",
-    "LogUsage": false,
-    "LogDir": "log/"
+    "hostname": "",
+    "port": "8080",
+    "logging": {
+        "enabled": false,
+        "path": "log"
+    },
+    "storage": {
+        "enabled": false,
+        "path": "storage"
+    }
 }
