@@ -22,29 +22,17 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"log"
 	"net/http"
 )
 
-// ServerSettings - global server settings
-type ServerSettings struct {
-	Hostname string
-	HTTPPort string
-	LogUsage bool
-	LogDir   string
-}
-
 func main() {
 	// read server settings
-	file, err := ioutil.ReadFile("settings.json")
+	settings, err := ReadServerSettings("settings.json")
 	if err != nil {
 		log.Fatal("Error reading setting.json")
 	}
-	var settings ServerSettings
-	json.Unmarshal(file, &settings)
 
 	// host the ui frontend
 	fs := WPDFileSystem{http.Dir("../app")}
@@ -56,7 +44,7 @@ func main() {
 		if r.Method == "POST" {
 			CollectLogDataFunc(w, r, settings)
 		} else if r.Method == "GET" {
-			fmt.Fprintf(w, "%t", settings.LogUsage)
+			fmt.Fprintf(w, "%t", settings.Logging.Enabled)
 		}
 	})
 
