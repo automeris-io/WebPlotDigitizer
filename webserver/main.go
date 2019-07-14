@@ -22,7 +22,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 )
@@ -38,15 +37,19 @@ func main() {
 	fs := WPDFileSystem{http.Dir("../app")}
 	http.Handle("/", http.FileServer(fs))
 
-	// log
-	http.HandleFunc("/log", func(w http.ResponseWriter, r *http.Request) {
-		// collect posted json data
-		if r.Method == "POST" {
-			CollectLogDataFunc(w, r, settings)
-		} else if r.Method == "GET" {
-			fmt.Fprintf(w, "%t", settings.Logging.Enabled)
-		}
-	})
+	// logging
+	logging, err := InitLogging(settings)
+	if err != nil {
+		log.Fatal("Error enabling logging: ", err)
+	}
+	http.Handle("/log", logging)
+
+	// data storage
+	storage, err := InitStorage(settings)
+	if err != nil {
+		log.Fatal(err)
+	}
+	http.Handle("/storage/", storage)
 
 	// start the server
 	addr := settings.Hostname + ":" + settings.HTTPPort
