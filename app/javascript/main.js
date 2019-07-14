@@ -24,10 +24,31 @@ var wpd = wpd || {};
 wpd.initApp = function() { // This is run when the page loads.
     wpd.browserInfo.checkBrowser();
     wpd.layoutManager.initialLayout();
-    wpd.imageManager.loadFromURL('start.png');
+    wpd.handleLaunchArgs();
     wpd.log();
     document.getElementById('loadingCurtain').style.display = 'none';
 
+};
+
+wpd.handleLaunchArgs = function() {
+    // fetch a project with specific ID from the backend if a projectid argument is provided:
+    let projectid = wpd.args.getValue("projectid");
+    if (projectid == null) {
+        wpd.imageManager.loadFromURL('start.png');
+    } else {
+        fetch("storage/project/" + projectid + ".tar").then(function(response) {
+            if (response.ok) {
+                return response.blob();
+            } else {
+                throw new Error("Can not open project file with ID: " + projectid);
+            }
+        }).then(function(blob) {
+            wpd.saveResume.readProjectFile(blob);
+        }).catch((err) => {
+            wpd.messagePopup.show(wpd.gettext("invalid-project"), err);
+            wpd.imageManager.loadFromURL('start.png');
+        });
+    }
 };
 
 document.addEventListener("DOMContentLoaded", wpd.initApp, true);
