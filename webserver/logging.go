@@ -23,6 +23,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"net"
 	"net/http"
@@ -32,8 +33,21 @@ import (
 	"time"
 )
 
+// Logging - keep structured logs
+type Logging struct {
+	fileWriteMutex sync.Mutex
+	enabled        bool
+	path           string
+}
+
+// InitLogging - Initialize logging
+func InitLogging(settings *ServerSettings) (*Logging, error) {
+	logging := Logging{enabled: settings.Logging.Enabled, path: settings.Logging.Path}
+	return &logging, nil
+}
+
 // GetIP - Get IP address from request
-func GetIP(r *http.Request) string {
+func (l *Logging) GetIP(r *http.Request) string {
 	ipAddr := r.Header.Get("X-Forwarded-For")
 	if ipAddr == "" {
 		ip, _, err := net.SplitHostPort(r.RemoteAddr)
@@ -45,12 +59,9 @@ func GetIP(r *http.Request) string {
 	return ipAddr
 }
 
-// Have a separate mutex for each open file
-var fileWriteMutex sync.Mutex
-
-func writeJSONData(filePath string, jsonString string) {
-	fileWriteMutex.Lock()
-	defer fileWriteMutex.Unlock()
+func (l *Logging) writeJSONData(filePath string, jsonString string) {
+	l.fileWriteMutex.Lock()
+	defer l.fileWriteMutex.Unlock()
 
 	fh, err := os.OpenFile(filePath, os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0666)
 	if err != nil {
@@ -60,44 +71,44 @@ func writeJSONData(filePath string, jsonString string) {
 	fh.WriteString(string(jsonString))
 }
 
-// CollectLogDataFunc - collect JSON data from applications
-func CollectLogDataFunc(w http.ResponseWriter, r *http.Request, s *ServerSettings) {
+// ServeHTTP - Handle HTTP Requests
+func (l *Logging) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
-	if !s.Logging.Enabled {
-		return // logging is disabled in server settings
-	}
-
-	// parse JSON
-	decoder := json.NewDecoder(r.Body)
-	var res map[string]interface{}
-	err := decoder.Decode(&res)
-	if err != nil {
-		return
-	}
-
-	// add additional info
-	currentTime := time.Now()
-	res["Time"] = currentTime
-	userip := GetIP(r)
-	res["IP"] = userip
-
-	log.Println("Accessed by IP:", userip)
-
-	// create directory if it does not exist:
-	if _, err := os.Stat(s.Logging.Path); os.IsNotExist(err) {
-		err = os.MkdirAll(s.Logging.Path, os.ModePerm)
+	if r.Method == "POST" && l.enabled {
+		// parse JSON
+		decoder := json.NewDecoder(r.Body)
+		var res map[string]interface{}
+		err := decoder.Decode(&res)
 		if err != nil {
-			log.Panicln("Error creating folder", s.Logging.Path)
 			return
 		}
-	}
 
-	// write json file with today's date, for example, data-20170721.json
-	msgJSON, err := json.Marshal(res)
-	if err != nil {
-		return
+		// add additional info
+		currentTime := time.Now()
+		res["Time"] = currentTime
+		userip := l.GetIP(r)
+		res["IP"] = userip
+
+		log.Println("Accessed by IP:", userip)
+
+		// create directory if it does not exist:
+		if _, err := os.Stat(l.path); os.IsNotExist(err) {
+			err = os.MkdirAll(l.path, os.ModePerm)
+			if err != nil {
+				log.Panicln("Error creating folder", l.path)
+				return
+			}
+		}
+
+		// write json file with today's date, for example, data-20170721.json
+		msgJSON, err := json.Marshal(res)
+		if err != nil {
+			return
+		}
+		fileName := "data-" + currentTime.Format("20060102") + ".json"
+		filePath := filepath.Join(l.path, fileName)
+		go l.writeJSONData(filePath, string(msgJSON)+"\n")
+	} else if r.Method == "GET" {
+		fmt.Fprintf(w, "%t", l.enabled)
 	}
-	fileName := "data-" + currentTime.Format("20060102") + ".json"
-	filePath := filepath.Join(s.Logging.Path, fileName)
-	go writeJSONData(filePath, string(msgJSON)+"\n")
 }
