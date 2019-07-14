@@ -22,7 +22,7 @@
 var wpd = wpd || {};
 
 wpd.download = (function() {
-    
+
     function textFile(data, filename) {
         let $downloadElem = document.createElement('a');
         $downloadElem.href = URL.createObjectURL(new Blob([data]), {

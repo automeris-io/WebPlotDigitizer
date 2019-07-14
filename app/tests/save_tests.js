@@ -79,7 +79,7 @@ QUnit.test("Resume Version 4.2 with masks", function(assert) {
         // distance
         let distanceMeasurements = plotData.getMeasurementsByType(wpd.DistanceMeasurement);
         assert.equal(distanceMeasurements.length, 1, testLabelPrefix + "Number of distance measurements");
-        assert.equal(distanceMeasurements[0].connectionCount(), 1, testLabelPrefix + "Number of distances");        
+        assert.equal(distanceMeasurements[0].connectionCount(), 1, testLabelPrefix + "Number of distances");
         let axes = plotData.getAxesForMeasurement(distanceMeasurements[0]);
         assert.equal(axes.pixelToDataDistance(distanceMeasurements[0].getDistance(0)), 5.969022081900202, testLabelPrefix + "Distance value");
 
@@ -92,12 +92,12 @@ QUnit.test("Resume Version 4.2 with masks", function(assert) {
         // area/perimeter
         let areaMeasurements = plotData.getMeasurementsByType(wpd.AreaMeasurement);
         assert.equal(areaMeasurements.length, 1, testLabelPrefix + "Number of area measurements");
-        assert.equal(areaMeasurements[0].connectionCount(), 1, testLabelPrefix + "Number of areas");        
+        assert.equal(areaMeasurements[0].connectionCount(), 1, testLabelPrefix + "Number of areas");
         axes = plotData.getAxesForMeasurement(areaMeasurements[0]);
         assert.equal(axes.pixelToDataDistance(areaMeasurements[0].getPerimeter(0)), 22.18065208060926, testLabelPrefix + "Perimeter value");
         assert.equal(axes.pixelToDataArea(areaMeasurements[0].getArea(0)), 30.245012069196335, testLabelPrefix + "Area value");
 
-    }; 
+    };
     let done = assert.async();
     wpdtest.loadPlotData("files/wpd4_2_with_masks.json").then(plotDataObjs => {
         checkAxes(plotDataObjs.plotData, assert, "Deserialize from JSON: ");
