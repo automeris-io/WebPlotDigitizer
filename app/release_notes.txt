@@ -1,4 +1,10 @@
 RELEASE NOTES
+Version 4.3
+===========
+To be released
+
+New Features:
+ - Allow loading static projects from the server using a project ID param in the URL
 
 Version 4.2
 ===========
