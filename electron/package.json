@@ -1,5 +1,5 @@
 {
-  "name": "WebPlotDigitizer",
+  "name": "webplotdigitizer",
   "version": "4.3.0",
   "description": "Extract data from images of charts",
   "main": "main.js",
