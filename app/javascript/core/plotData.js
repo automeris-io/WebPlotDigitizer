@@ -380,6 +380,9 @@ wpd.PlotData = class {
                 if (dsData.metadataKeys != null) {
                     ds.setMetadataKeys(dsData.metadataKeys);
                 }
+                if (dsData.colorRGB != null) {
+                    ds.colorRGB = new wpd.Color(dsData.colorRGB[0], dsData.colorRGB[1], dsData.colorRGB[2]);
+                }
                 for (let pxIdx = 0; pxIdx < dsData.data.length; pxIdx++) {
                     ds.addPixel(dsData.data[pxIdx].x, dsData.data[pxIdx].y,
                         dsData.data[pxIdx].metadata);
@@ -511,6 +514,7 @@ wpd.PlotData = class {
             dsData.name = ds.name;
             dsData.axesName = axes != null ? axes.name : "";
             dsData.metadataKeys = ds.getMetadataKeys();
+            dsData.colorRGB = ds.colorRGB.serialize();
             dsData.data = [];
             for (let pxIdx = 0; pxIdx < ds.getCount(); pxIdx++) {
                 let px = ds.getPixel(pxIdx);

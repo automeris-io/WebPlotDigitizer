@@ -40,12 +40,12 @@ wpd.ManualSelectionTool = (function() {
                 }
                 pointLabel = axes.dataPointsLabelPrefix + dataset.getCount();
                 dataset.addPixel(imagePos.x, imagePos.y, [pointLabel]);
-                wpd.graphicsHelper.drawPoint(imagePos, "rgb(200,0,0)", pointLabel);
+                wpd.graphicsHelper.drawPoint(imagePos, dataset.colorRGB.toRGBString(), pointLabel);
 
             } else {
 
                 dataset.addPixel(imagePos.x, imagePos.y);
-                wpd.graphicsHelper.drawPoint(imagePos, "rgb(200,0,0)");
+                wpd.graphicsHelper.drawPoint(imagePos, dataset.colorRGB.toRGBString());
             }
 
             wpd.graphicsWidget.updateZoomOnEvent(ev);
@@ -144,7 +144,7 @@ wpd.DataPointsRepainter = (function() {
                 if (isSelected) {
                     fillStyle = "rgb(0,200,0)";
                 } else {
-                    fillStyle = "rgb(200,0,0)";
+                    fillStyle = dataset.colorRGB.toRGBString();
                 }
 
                 if (hasLabels) {
