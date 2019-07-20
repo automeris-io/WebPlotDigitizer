@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  WebPlotDigitizer\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-07-18 23:03-0700\n"
+"POT-Creation-Date: 2019-07-20 00:57-0700\n"
 "PO-Revision-Date: 2018-02-21 00:47-0600\n"
 "Last-Translator: RGXGR <rgxgr@outlook.com>\n"
 "Language: zh_Hans_CN\n"
@@ -651,7 +651,7 @@ msgstr "数量"
 msgid "Add Multiple Datasets"
 msgstr "添加多个数据集"
 
-#: templates/_popups.html:522 templates/_tree.html:55
+#: templates/_popups.html:522 templates/_tree.html:56
 msgid "Rename Dataset"
 msgstr "重命名数据集"
 
@@ -751,7 +751,7 @@ msgid "Click to change color"
 msgstr "单击选择颜色"
 
 #: templates/_sidebars.html:33 templates/_strings.html:51
-#: templates/_tree.html:45 templates/_tree.html:64
+#: templates/_tree.html:45 templates/_tree.html:65
 msgid "Distance"
 msgstr "距离"
 
@@ -1007,7 +1007,7 @@ msgstr "管理数据集"
 msgid "Please calibrate the axes before managing datasets."
 msgstr "请先标定坐标轴，再开始整理数据集。"
 
-#: templates/_strings.html:27 templates/_tree.html:56
+#: templates/_strings.html:27 templates/_tree.html:57
 msgid "Delete Dataset"
 msgstr "删除数据集"
 
@@ -1096,15 +1096,15 @@ msgid "Measurements"
 msgstr "测量"
 
 #: templates/_strings.html:50 templates/_tree.html:15 templates/_tree.html:25
-#: templates/_tree.html:54 templates/_tree.html:66 templates/_tree.html:83
+#: templates/_tree.html:54 templates/_tree.html:67 templates/_tree.html:84
 msgid "Axes"
 msgstr "坐标轴"
 
-#: templates/_strings.html:52 templates/_tree.html:46 templates/_tree.html:73
+#: templates/_strings.html:52 templates/_tree.html:46 templates/_tree.html:74
 msgid "Angle"
 msgstr "角度"
 
-#: templates/_strings.html:53 templates/_tree.html:47 templates/_tree.html:81
+#: templates/_strings.html:53 templates/_tree.html:47 templates/_tree.html:82
 msgid "Area/Perimeter"
 msgstr "面积/周长"
 
@@ -1196,20 +1196,24 @@ msgstr "查看方程"
 msgid "Export All Data"
 msgstr "导出所有数据"
 
-#: templates/_tree.html:57 templates/_tree.html:68 templates/_tree.html:76
-#: templates/_tree.html:85
+#: templates/_tree.html:55
+msgid "Display Color"
+msgstr ""
+
+#: templates/_tree.html:58 templates/_tree.html:69 templates/_tree.html:77
+#: templates/_tree.html:86
 msgid "View Data"
 msgstr "查看数据"
 
-#: templates/_tree.html:58
+#: templates/_tree.html:59
 msgid "Clear Data"
 msgstr "清除数据"
 
-#: templates/_tree.html:59
+#: templates/_tree.html:60
 msgid "Data Points"
 msgstr "数据点数"
 
-#: templates/_tree.html:67 templates/_tree.html:75 templates/_tree.html:84
+#: templates/_tree.html:68 templates/_tree.html:76 templates/_tree.html:85
 msgid "Clear All"
 msgstr "清除所有"
 

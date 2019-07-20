@@ -52,6 +52,7 @@
         <p class="sidebar-title">{{ _("Dataset") }}</p>
         <center>
             <p>{{ _("Axes") }}: <select id="dataset-item-axes-select" style="min-width:100px; max-width:150px;" onchange="wpd.dataSeriesManagement.changeAxes(this.value);"></select></p>
+            <p><input type="button" value="{{ _("Display Color") }}" style="width: 150px;" id="dataset-display-color-picker-button" onclick="wpd.dataSeriesManagement.startColorPicker();" /></p>
             <p><input type="button" value="{{ _("Rename Dataset") }}" style="width:150px;" onclick="wpd.dataSeriesManagement.showRenameDataset();" /></p>
             <p><input type="button" value="{{ _("Delete Dataset") }}" style="width:150px;" onclick="wpd.dataSeriesManagement.deleteDataset();" /></p>
             <p><input type="button" value="{{ _("View Data") }}" style="width:150px;" onclick="wpd.dataTable.showTable();" /></p>

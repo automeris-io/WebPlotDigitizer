@@ -151,6 +151,20 @@ wpd.dataSeriesManagement = (function() {
         wpd.tree.refreshPreservingSelection(true);
     }
 
+    function startColorPicker() {
+        wpd.colorSelectionWidget.setParams({
+            color: wpd.tree.getActiveDataset().colorRGB.getRGB(),
+            triggerElementId: 'dataset-display-color-picker-button',
+            title: 'Specify Display Color for Digitized Points',
+            setColorDelegate: function(
+                col) {
+                    wpd.tree.getActiveDataset().colorRGB = new wpd.Color(col[0], col[1], col[2]);
+                    wpd.graphicsWidget.forceHandlerRepaint();
+            }
+        });
+        wpd.colorSelectionWidget.startPicker();
+    }
+
     return {
         showAddDataset: showAddDataset,
         showRenameDataset: showRenameDataset,
@@ -159,6 +173,7 @@ wpd.dataSeriesManagement = (function() {
         addSingleDataset: addSingleDataset,
         addMultipleDatasets: addMultipleDatasets,
         deleteDataset: deleteDataset,
-        changeAxes: changeAxes
+        changeAxes: changeAxes,
+        startColorPicker: startColorPicker
     };
 })();
