@@ -41,6 +41,10 @@ wpd.Color = class {
         return [this._r, this._g, this._b, this._a];
     }
 
+    getRGB() {
+        return [this._r, this._g, this._b];
+    }
+
     deserialize(data) {
         this._r = data[0];
         this._g = data[1];

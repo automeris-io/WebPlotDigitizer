@@ -243,6 +243,7 @@ wpd.tree = (function() {
         }
         showTreeItemWidget('dataset-item-tree-widget');
         renderDatasetAxesSelection();
+        setDatasetDisplayColor();
     }
 
     function renderDatasetAxesSelection() {
@@ -263,6 +264,14 @@ wpd.tree = (function() {
             $selection.value = axesNames.indexOf(dsaxes.name);
         }
         activeAxes = dsaxes;
+    }
+
+    function setDatasetDisplayColor() {
+        if (activeDataset == null) {
+            return;
+        }
+        let $btn = document.getElementById("dataset-display-color-picker-button");
+        $btn.style.backgroundColor = activeDataset.colorRGB.toRGBString();
     }
 
     function renderAreaAxesSelection() {

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-07-18 23:03-0700\n"
+"POT-Creation-Date: 2019-07-20 00:57-0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -640,7 +640,7 @@ msgstr ""
 msgid "Add Multiple Datasets"
 msgstr ""
 
-#: templates/_popups.html:522 templates/_tree.html:55
+#: templates/_popups.html:522 templates/_tree.html:56
 msgid "Rename Dataset"
 msgstr ""
 
@@ -740,7 +740,7 @@ msgid "Click to change color"
 msgstr ""
 
 #: templates/_sidebars.html:33 templates/_strings.html:51
-#: templates/_tree.html:45 templates/_tree.html:64
+#: templates/_tree.html:45 templates/_tree.html:65
 msgid "Distance"
 msgstr ""
 
@@ -996,7 +996,7 @@ msgstr ""
 msgid "Please calibrate the axes before managing datasets."
 msgstr ""
 
-#: templates/_strings.html:27 templates/_tree.html:56
+#: templates/_strings.html:27 templates/_tree.html:57
 msgid "Delete Dataset"
 msgstr ""
 
@@ -1085,15 +1085,15 @@ msgid "Measurements"
 msgstr ""
 
 #: templates/_strings.html:50 templates/_tree.html:15 templates/_tree.html:25
-#: templates/_tree.html:54 templates/_tree.html:66 templates/_tree.html:83
+#: templates/_tree.html:54 templates/_tree.html:67 templates/_tree.html:84
 msgid "Axes"
 msgstr ""
 
-#: templates/_strings.html:52 templates/_tree.html:46 templates/_tree.html:73
+#: templates/_strings.html:52 templates/_tree.html:46 templates/_tree.html:74
 msgid "Angle"
 msgstr ""
 
-#: templates/_strings.html:53 templates/_tree.html:47 templates/_tree.html:81
+#: templates/_strings.html:53 templates/_tree.html:47 templates/_tree.html:82
 msgid "Area/Perimeter"
 msgstr ""
 
@@ -1185,20 +1185,24 @@ msgstr ""
 msgid "Export All Data"
 msgstr ""
 
-#: templates/_tree.html:57 templates/_tree.html:68 templates/_tree.html:76
-#: templates/_tree.html:85
+#: templates/_tree.html:55
+msgid "Display Color"
+msgstr ""
+
+#: templates/_tree.html:58 templates/_tree.html:69 templates/_tree.html:77
+#: templates/_tree.html:86
 msgid "View Data"
 msgstr ""
 
-#: templates/_tree.html:58
+#: templates/_tree.html:59
 msgid "Clear Data"
 msgstr ""
 
-#: templates/_tree.html:59
+#: templates/_tree.html:60
 msgid "Data Points"
 msgstr ""
 
-#: templates/_tree.html:67 templates/_tree.html:75 templates/_tree.html:84
+#: templates/_tree.html:68 templates/_tree.html:76 templates/_tree.html:85
 msgid "Clear All"
 msgstr ""
 
