@@ -165,7 +165,7 @@ wpd.DataPointsRepainter = class {
     }
 
     drawPoints() {
-        let mkeys = dataset.getMetadataKeys();
+        let mkeys = this._dataset.getMetadataKeys();
         let hasLabels = false;
 
         if (this._axes == null) {
@@ -176,7 +176,7 @@ wpd.DataPointsRepainter = class {
             hasLabels = true;
         }
 
-        for (let dindex = 0; dindex < dataset.getCount(); dindex++) {
+        for (let dindex = 0; dindex < this._dataset.getCount(); dindex++) {
             let imagePos = this._dataset.getPixel(dindex);
             let isSelected = this._dataset.getSelectedPixels().indexOf(dindex) >= 0;
 
