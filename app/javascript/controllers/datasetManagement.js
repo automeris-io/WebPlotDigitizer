@@ -158,8 +158,8 @@ wpd.dataSeriesManagement = (function() {
             title: 'Specify Display Color for Digitized Points',
             setColorDelegate: function(
                 col) {
-                    wpd.tree.getActiveDataset().colorRGB = new wpd.Color(col[0], col[1], col[2]);
-                    wpd.graphicsWidget.forceHandlerRepaint();
+                wpd.tree.getActiveDataset().colorRGB = new wpd.Color(col[0], col[1], col[2]);
+                wpd.graphicsWidget.forceHandlerRepaint();
             }
         });
         wpd.colorSelectionWidget.startPicker();
