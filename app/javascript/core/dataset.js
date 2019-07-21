@@ -30,7 +30,7 @@ wpd.Dataset = class {
         this._selections = [];
         this._hasMetadata = false;
         this._mkeys = [];
-        
+
         // public:
         this.name = "Defaut Dataset";
         this.variableNames = ['x', 'y'];
