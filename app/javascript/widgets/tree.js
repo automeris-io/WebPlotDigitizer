@@ -246,6 +246,18 @@ wpd.tree = (function() {
         setDatasetDisplayColor();
     }
 
+    function onDatasetGroupSelection() {
+        resetGraphics();
+        let axesList = [];
+        let datasetList = [];
+        const plotData = wpd.appData.getPlotData();
+        for (let ds of plotData.getDatasets()) {
+            axesList.push(plotData.getAxesForDataset(ds));
+            datasetList.push(ds);
+        }
+        wpd.graphicsWidget.setRepainter(new wpd.MultipltDatasetRepainter(axesList, datasetList));
+    }
+
     function renderDatasetAxesSelection() {
         if (activeDataset == null)
             return;
@@ -328,7 +340,7 @@ wpd.tree = (function() {
             wpd.sidebar.show("image-editing-sidebar");
             wpd.appData.getUndoManager().updateUI();
         } else if (path === "/" + wpd.gettext("datasets")) {
-            resetGraphics();
+            onDatasetGroupSelection();
             showTreeItemWidget("dataset-group-tree-widget");
             activeAxes = null;
         } else if (path === "/" + wpd.gettext("axes")) {
