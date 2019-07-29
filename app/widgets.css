@@ -214,3 +214,11 @@ select {
 .tree-widget p {
     margin: 5px 0px 5px 0px;
 }
+
+.tree-item-icon {
+    width: 10px;
+    height: 10px;
+    background-color: red;
+    display: inline-block;
+    margin-right: 3px;
+}

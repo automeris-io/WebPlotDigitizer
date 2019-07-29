@@ -160,6 +160,7 @@ wpd.dataSeriesManagement = (function() {
                 col) {
                 wpd.tree.getActiveDataset().colorRGB = new wpd.Color(col[0], col[1], col[2]);
                 wpd.graphicsWidget.forceHandlerRepaint();
+                wpd.tree.refreshPreservingSelection();
             }
         });
         wpd.colorSelectionWidget.startPicker();

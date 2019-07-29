@@ -24,6 +24,7 @@ wpd.TreeWidget = class {
     constructor($elem) {
         this.$mainElem = $elem;
         this.treeData = null;
+        this.itemColors = {};
         this.$mainElem.addEventListener("click", e => this._onclick(e));
         this.$mainElem.addEventListener("keydown", e => this._onkeydown(e));
         this.$mainElem.addEventListener("dblclick", e => this._ondblclick(e));
@@ -48,10 +49,15 @@ wpd.TreeWidget = class {
             let item = data[i];
             this.itemCount++;
             if (typeof(item) === "string") {
+                let itemPath = basePath + "/" + item;
                 htmlStr += "<li title=\"" + item + "\">";
+                let itemColor = this.itemColors[itemPath];
+                if (typeof(itemColor) !== 'undefined') {
+                    htmlStr += "<div class=\"tree-item-icon\" style=\"background-color: " + itemColor.toRGBString() + ";\"></div>";
+                }
                 htmlStr += "<span class=\"tree-item\" id=\"tree-item-id-" + this.itemCount + "\">" +
                     item + "</span>";
-                this.idmap[this.itemCount] = basePath + "/" + item;
+                this.idmap[this.itemCount] = itemPath;
             } else if (typeof(item) === "object") {
                 htmlStr += "<li>";
                 let labelKey = Object.keys(item)[0];
@@ -66,10 +72,14 @@ wpd.TreeWidget = class {
         return (htmlStr);
     }
 
-    render(treeData) {
+    // Expected format: 
+    // treeData = ["item0", {"folder0": ["sub-item0", "sub-item1"]}, "item1"]
+    // itemColors = {"path0" : wpd.Color, "path1" : wpd.Color}
+    render(treeData, itemColors) {
         this.idmap = [];
         this.itemCount = 0;
         this.treeData = treeData;
+        this.itemColors = itemColors;
         this.$mainElem.innerHTML = this._renderFolder(this.treeData, "", false);
         this.selectedPath = null;
     }
@@ -166,6 +176,7 @@ wpd.tree = (function() {
             return;
         }
         let treeData = [];
+        let itemColors = {};
 
         const plotData = wpd.appData.getPlotData();
 
@@ -182,6 +193,13 @@ wpd.tree = (function() {
         let datasetsFolder = {};
         datasetsFolder[wpd.gettext("datasets")] = datasetNames;
         treeData.push(datasetsFolder);
+
+        // Dataset colors
+        for (let ds of plotData.getDatasets()) {
+            if (ds.colorRGB != null) {
+                itemColors["/" + wpd.gettext("datasets") + "/" + ds.name] = ds.colorRGB;
+            }
+        }
 
         // Measurements folder
         let measurementItems = [];
@@ -201,7 +219,7 @@ wpd.tree = (function() {
         measurementFolder[wpd.gettext("measurements")] = measurementItems;
         treeData.push(measurementFolder);
 
-        treeWidget.render(treeData);
+        treeWidget.render(treeData, itemColors);
 
         showTreeItemWidget(null);
     }
