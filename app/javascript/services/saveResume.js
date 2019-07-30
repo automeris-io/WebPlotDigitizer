@@ -94,6 +94,7 @@ wpd.saveResume = (function() {
             wpd.graphicsWidget.removeRepainter();
             wpd.tree.refresh();
             wpd.messagePopup.show(wpd.gettext('import-json'), wpd.gettext("json-data-loaded"));
+            afterProjectLoaded();
         };
         fileReader.readAsText(jsonFile);
     }
@@ -115,12 +116,21 @@ wpd.saveResume = (function() {
                         wpd.tree.refresh();
                         wpd.messagePopup.show(wpd.gettext('import-json'),
                             wpd.gettext("json-data-loaded"));
+                        afterProjectLoaded();
                     });
                 }
             },
             function(err) {
                 console.log(err);
             });
+    }
+
+    function afterProjectLoaded() {
+        const plotData = wpd.appData.getPlotData();
+        // if we have a bunch of datasets, then select the dataset group
+        if (plotData.getDatasetCount() > 0) {
+            wpd.tree.selectPath("/" + wpd.gettext("datasets"));
+        }
     }
 
     function read() {
