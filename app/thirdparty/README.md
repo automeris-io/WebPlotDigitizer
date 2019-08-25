@@ -8,7 +8,7 @@ Use the ./getThirdparty.sh script, or follow the following steps manually:
     - Rename (or symlink) the .jar file to compiler.jar
 
 2) PDFJS:
-    - Download: https://github.com/mozilla/pdf.js/releases/download/v1.8.188/pdfjs-1.8.188-dist.zip
+    - Download: https://github.com/mozilla/pdf.js/releases/download/v2.1.266/pdfjs-2.1.266-dist.zip
     - Extract to pdfjs folder
 
 3) tarballjs:
