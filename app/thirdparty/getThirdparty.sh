@@ -9,8 +9,8 @@ ln -s $jarfile compiler.jar
 cd ..
 
 # PDFJS
-wget https://github.com/mozilla/pdf.js/releases/download/v1.8.188/pdfjs-1.8.188-dist.zip
-unzip pdfjs-1.8.188-dist.zip -d pdfjs
+wget -O pdfjs.zip https://github.com/mozilla/pdf.js/releases/download/v2.1.266/pdfjs-2.1.266-dist.zip
+unzip pdfjs.zip -d pdfjs
 
 # tarballjs
 wget https://github.com/ankitrohatgi/tarballjs/archive/master.zip
