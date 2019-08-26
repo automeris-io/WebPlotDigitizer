@@ -56,11 +56,10 @@ wpd.imageManager = (function() {
                 let reader = new FileReader();
                 reader.onload = function() {
                     let pdfurl = reader.result;
-                    // PDFJS.disableWorker = true;
-                    PDFJS.getDocument(pdfurl).then(function(pdf) {
+                    pdfjsLib.getDocument(pdfurl).promise.then(function(pdf) {
                         pdf.getPage(1).then(function(page) {
                             let scale = 3;
-                            let viewport = page.getViewport(scale);
+                            let viewport = page.getViewport({scale: scale});
                             let $canvas = document.createElement('canvas');
                             let ctx = $canvas.getContext('2d');
                             $canvas.width = viewport.width;
