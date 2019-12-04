@@ -57,6 +57,7 @@ wpd.imageManager = (function() {
                 reader.onload = function() {
                     let pdfurl = reader.result;
                     pdfjsLib.getDocument(pdfurl).promise.then(function(pdf) {
+                        console.log(pdf);
                         pdf.getPage(1).then(function(page) {
                             let scale = 3;
                             let viewport = page.getViewport({scale: scale});
