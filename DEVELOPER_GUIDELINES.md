@@ -15,12 +15,16 @@ Areas to contribute:
 
 ## Development Setup
 
-It should be easy to setup any Linux distribution for development purposes, but Ubuntu is preferred. Windows and MacOS are unsupported for development. To install Ubuntu packages and download other dependencies, you can try the script [setupUbuntuDev.sh](setupUbuntuDev.sh).
+It should be easy to setup any Linux distribution for development purposes, but Ubuntu is preferred. MacOS has a few different setup steps and is currently experimental. Windows is unsupported for development.
+
+To install Ubuntu packages and download other dependencies, you can try the script [setupUbuntuDev.sh](setupUbuntuDev.sh).
+To install MacOS packages and download other dependencies, you can try the script [setupMacOSDev.sh](setupMacOSDev.sh).
 
 For other operating systems, please install the following dependencies manually:
 
 UI:
 - See app/thirdparty folder and download the required third party libraries and dependencies.
+- The Eigen C++ template library (see <http://eigen.tuxfamily.org/>).
 - A recent Java to run the javascript compiler (Google Closure Compiler).
 - Python 3 with python3-jinja2 package and python3-babel to compile the HTML templates.
 - js-beautify npm package to autoformat javascript, HTML and CSS files.
@@ -41,6 +45,11 @@ To build the HTML5 code, do the following (make sure you have checked out the de
 
     cd app
     ./build.sh
+
+For MacOS, do this instead of the above:
+
+    cd app
+    ./build-mac.sh
 
 This should generate a combined-compiled.js file and several HTML files in the 'app' directory. Use the web server (see webserver folder) or Electron app (see electron folder) to host this app.
 
@@ -69,11 +78,11 @@ To run the electron app, follow these steps:
 At the moment, this is only an basic implementation. If you are familiar with electron app development, then feel free to contribute here.
 
 To build MacOS, Windows or Linux apps, make sure "electron-packager" is available:
-    
+
     npm install electron-packager -g
 
 On a Linux development machine, you will also need "wine" to build the Windows app. To build the apps, run:
-   
+
     cd electron
     ./build-packages.sh # Windows, Mac and Linux
     ./build-mac.sh      # Mac only
