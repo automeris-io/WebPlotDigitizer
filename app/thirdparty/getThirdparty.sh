@@ -24,8 +24,8 @@ mv emsdk-master emsdk
 cd emsdk
 ./emsdk install latest
 ./emsdk activate latest
+source ./emsdk_env.sh
 cd ..
-rm master.zip
 
 # clean up downloaded packages
 rm *.zip
