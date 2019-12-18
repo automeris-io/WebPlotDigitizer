@@ -51,12 +51,33 @@ wpd.PlotData = class {
         return this._topColors;
     }
 
+    _getPageMap(object) {
+        return object.reduce((acc, cur) => ({...acc, [cur.name]: cur.page}), {});
+    }
+
+    _createDefaultDataset() {
+        let ds = new wpd.Dataset();
+        ds.name = 'Default Dataset';
+        const count = wpd.dataSeriesManagement.getDatasetWithNameCount(ds.name);
+        if (count > 0) ds.name += ' ' + (count + 1);
+        this.addDataset(ds);
+    }
+
     addAxes(ax) {
         this._axesColl.push(ax);
-        if (this._axesColl.length === 1 && this._datasetColl.length === 0) {
-            let ds = new wpd.Dataset();
-            ds.name = "Default Dataset";
-            this.addDataset(ds);
+
+        if (wpd.appData.isMultipage()) {
+            const currentPage = wpd.appData.getPageManager().currentPage();
+            ax.page = currentPage;
+            const pageAxes = this._axesColl.filter(ax => ax.page === currentPage);
+            const pageDataset = this._datasetColl.filter(ds => ds.page === currentPage);
+            if (pageAxes.length === 1 && pageDataset.length === 0) {
+                this._createDefaultDataset();
+            }
+        } else {
+            if (this._axesColl.length === 1 && this._datasetColl.length === 0) {
+                this._createDefaultDataset();
+            }
         }
     }
 
@@ -70,6 +91,10 @@ wpd.PlotData = class {
             names.push(ax.name);
         });
         return names;
+    }
+
+    getAxesPageMap() {
+        return this._getPageMap(this._axesColl);
     }
 
     deleteAxes(ax) {
@@ -92,6 +117,9 @@ wpd.PlotData = class {
 
     addDataset(ds) {
         this._datasetColl.push(ds);
+
+        if (wpd.appData.isMultipage()) ds.page = wpd.appData.getPageManager().currentPage();
+
         // by default bind ds to last axes
         const axCount = this._axesColl.length;
         if (axCount > 0) {
@@ -112,11 +140,17 @@ wpd.PlotData = class {
         return names;
     }
 
+    getDatasetPageMap() {
+        return this._getPageMap(this._datasetColl);
+    }
+
     getDatasetCount() {
         return this._datasetColl.length;
     }
 
     addMeasurement(ms) {
+        if (wpd.appData.isMultipage()) ms.page = wpd.appData.getPageManager().currentPage();
+
         this._measurementColl.push(ms);
 
         // if this is a distance measurement, then attach to fist existing image or map axes:
@@ -133,8 +167,15 @@ wpd.PlotData = class {
     getMeasurementsByType(mtype) {
         let mcoll = [];
         this._measurementColl.forEach(m => {
-            if (m instanceof mtype) {
-                mcoll.push(m);
+            if (wpd.appData.isMultipage()) {
+                const currentPage = wpd.appData.getPageManager().currentPage();
+                if (m.page === currentPage && m instanceof mtype) {
+                    mcoll.push(m);
+                }
+            } else {
+                if (m instanceof mtype) {
+                    mcoll.push(m);
+                }
             }
         });
         return mcoll;
@@ -366,6 +407,7 @@ wpd.PlotData = class {
 
                 if (axes != null) {
                     axes.name = axData.name;
+                    axes.page = axData.page;
                     this._axesColl.push(axes);
                 }
             }
@@ -377,6 +419,7 @@ wpd.PlotData = class {
                 const dsData = data.datasetColl[dsIdx];
                 let ds = new wpd.Dataset();
                 ds.name = dsData.name;
+                ds.page = dsData.page;
                 if (dsData.metadataKeys != null) {
                     ds.setMetadataKeys(dsData.metadataKeys);
                 }
@@ -411,6 +454,7 @@ wpd.PlotData = class {
                 let ms = null;
                 if (msData.type === "Distance") {
                     ms = new wpd.DistanceMeasurement();
+                    ms.page = msData.page;
                     this._measurementColl.push(ms);
                     // set axes
                     const axIdx = this.getAxesNames().indexOf(msData.axesName);
@@ -419,9 +463,11 @@ wpd.PlotData = class {
                     }
                 } else if (msData.type === "Angle") {
                     ms = new wpd.AngleMeasurement();
+                    ms.page = msData.page;
                     this._measurementColl.push(ms);
                 } else if (msData.type === "Area") {
                     ms = new wpd.AreaMeasurement();
+                    ms.page = msData.page;
                     this._measurementColl.push(ms);
                     // set axes
                     const axIdx = this.getAxesNames().indexOf(msData.axesName);
@@ -469,6 +515,7 @@ wpd.PlotData = class {
             const axes = this._axesColl[axIdx];
             let axData = {};
             axData.name = axes.name;
+            axData.page = axes.page;
             if (axes instanceof wpd.XYAxes) {
                 axData.type = "XYAxes";
                 axData.isLogX = axes.isLogX();
@@ -512,6 +559,7 @@ wpd.PlotData = class {
             const autoDetectionData = this.getAutoDetectionDataForDataset(ds);
             let dsData = {};
             dsData.name = ds.name;
+            dsData.page = ds.page;
             dsData.axesName = axes != null ? axes.name : "";
             dsData.metadataKeys = ds.getMetadataKeys();
             dsData.colorRGB = ds.colorRGB.serialize();
@@ -536,13 +584,16 @@ wpd.PlotData = class {
             if (ms instanceof wpd.DistanceMeasurement) {
                 msData.type = "Distance";
                 msData.name = "Distance";
+                msData.page = ms.page;
                 msData.axesName = axes != null ? axes.name : "";
             } else if (ms instanceof wpd.AngleMeasurement) {
                 msData.type = "Angle";
                 msData.name = "Angle";
+                msData.page = ms.page;
             } else if (ms instanceof wpd.AreaMeasurement) {
                 msData.type = "Area";
                 msData.name = "Area";
+                msData.page = ms.page;
                 msData.axesName = axes != null ? axes.name : "";
             }
             msData.data = [];

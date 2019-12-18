@@ -23,9 +23,14 @@ var wpd = wpd || {};
 
 wpd.imageEditing = {
     showImageInfo: function() {
-        let $imageDimensions = document.getElementById("image-info-dimensions");
+        let $imageDimensions = document.getElementById('image-info-dimensions');
         let imageInfo = wpd.imageManager.getImageInfo();
-        $imageDimensions.innerHTML = "(" + imageInfo.width + "x" + imageInfo.height + ")";
+        $imageDimensions.innerHTML = '(' + imageInfo.width + 'x' + imageInfo.height + ')';
+
+        if (wpd.appData.isMultipage()) {
+            let $imagePages = document.getElementById('image-info-pages');
+            $imagePages.innerHTML = wpd.appData.getPageManager().pageCount();
+        }
         wpd.popup.show('image-info-popup');
     },
 

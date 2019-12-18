@@ -23,6 +23,7 @@ var wpd = wpd || {};
 
 wpd.imageManager = (function() {
     let _firstLoad = true;
+    let _newLoad = false;
     let _imageInfo = {
         width: 0,
         height: 0
@@ -35,6 +36,7 @@ wpd.imageManager = (function() {
     function load() {
         let $input = document.getElementById('fileLoadBox');
         if ($input.files.length == 1) {
+            _newLoad = true;
             let imageFile = $input.files[0];
             loadFromFile(imageFile);
         }
@@ -57,28 +59,8 @@ wpd.imageManager = (function() {
                 reader.onload = function() {
                     let pdfurl = reader.result;
                     pdfjsLib.getDocument(pdfurl).promise.then(function(pdf) {
-                        pdf.getPage(1).then(function(page) {
-                            let scale = 3;
-                            let viewport = page.getViewport({scale: scale});
-                            let $canvas = document.createElement('canvas');
-                            let ctx = $canvas.getContext('2d');
-                            $canvas.width = viewport.width;
-                            $canvas.height = viewport.height;
-                            page.render({
-                                    canvasContext: ctx,
-                                    viewport: viewport
-                                })
-                                .promise.then(
-                                    function() {
-                                        let url = $canvas.toDataURL();
-                                        loadFromURL(url, resumedProject).then(resolve);
-                                    },
-                                    function(err) {
-                                        console.log(err);
-                                        wpd.busyNote.close();
-                                        reject(err);
-                                    });
-                        });
+                        var pdfManager = new wpd.PDFManager(pdf);
+                        pdfManager.renderPage(1, resumedProject).then(resolve);
                     });
                 };
                 reader.readAsDataURL(imageFile);
@@ -102,12 +84,18 @@ wpd.imageManager = (function() {
     }
 
     function _setImage(image, resumedProject) {
-        wpd.appData.reset();
-        wpd.sidebar.clear();
+        if (_newLoad) {
+            wpd.appData.reset();
+            wpd.sidebar.clear();
+        }
         let imageData = wpd.graphicsWidget.loadImage(image);
         wpd.appData.plotLoaded(imageData);
         wpd.busyNote.close();
-        wpd.tree.refresh();
+        if (_newLoad) {
+            wpd.tree.refresh();
+        } else {
+            wpd.tree.refreshPreservingSelection();
+        }
 
         if (_firstLoad) {
             wpd.sidebar.show('start-sidebar');
@@ -115,6 +103,7 @@ wpd.imageManager = (function() {
             wpd.popup.show('axesList');
         }
         _firstLoad = false;
+        _newLoad = false;
         _imageInfo = {
             width: imageData.width,
             height: imageData.height

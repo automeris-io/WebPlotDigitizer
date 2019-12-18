@@ -31,6 +31,18 @@ wpd.dataSeriesManagement = (function() {
         return false;
     }
 
+    function getDatasetWithNameCount(name) {
+        const plotData = wpd.appData.getPlotData();
+        const dsNameColl = plotData.getDatasetNames();
+        let counter = 0;
+        for (const dsName of dsNameColl) {
+            if (dsName.startsWith(name)) {
+                counter++;
+            }
+        }
+        return counter;
+    }
+
     function getDatasetCount() {
         const plotData = wpd.appData.getPlotData();
         return plotData.getDatasetCount();
@@ -175,6 +187,7 @@ wpd.dataSeriesManagement = (function() {
         addMultipleDatasets: addMultipleDatasets,
         deleteDataset: deleteDataset,
         changeAxes: changeAxes,
-        startColorPicker: startColorPicker
+        startColorPicker: startColorPicker,
+        getDatasetWithNameCount: getDatasetWithNameCount
     };
 })();
