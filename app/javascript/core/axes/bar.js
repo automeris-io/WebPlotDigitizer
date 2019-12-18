@@ -154,6 +154,8 @@ wpd.BarAxes = (function() {
         };
 
         this.name = "Bar";
+
+        this.page = 0;
     };
 
     AxesObj.prototype.numCalibrationPointsRequired = function() {

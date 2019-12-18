@@ -32,9 +32,10 @@ wpd.Dataset = class {
         this._mkeys = [];
 
         // public:
-        this.name = "Defaut Dataset";
+        this.name = 'Default Dataset';
         this.variableNames = ['x', 'y'];
         this.colorRGB = new wpd.Color(200, 0, 0);
+        this.page = 0;
     }
 
     hasMetadata() {

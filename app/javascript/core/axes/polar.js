@@ -177,6 +177,8 @@ wpd.PolarAxes = (function() {
         };
 
         this.name = "Polar";
+
+        this.page = 0;
     };
 
     AxesObj.prototype.numCalibrationPointsRequired = function() {

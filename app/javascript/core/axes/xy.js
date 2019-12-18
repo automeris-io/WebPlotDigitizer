@@ -274,6 +274,8 @@ wpd.XYAxes = (function() {
         };
 
         this.name = "XY";
+
+        this.page = 0;
     };
 
     AxesObj.prototype.numCalibrationPointsRequired = function() {

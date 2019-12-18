@@ -25,6 +25,7 @@ var wpd = wpd || {};
 wpd.appData = (function() {
     let _plotData = null;
     let _undoManager = null;
+    let _pageManager = null;
 
     function reset() {
         _plotData = null;
@@ -45,8 +46,22 @@ wpd.appData = (function() {
         return _undoManager;
     }
 
+    function getPageManager() {
+        return _pageManager;
+    }
+
+    function setPageManager(pageManager) {
+        return _pageManager = pageManager;
+    }
+
     function isAligned() {
         return getPlotData().getAxesCount() > 0;
+    }
+
+    function isMultipage() {
+        const pageManager = getPageManager();
+        if (!pageManager) return false;
+        return pageManager.pageCount() > 1;
     }
 
     function plotLoaded(imageData) {
@@ -55,8 +70,11 @@ wpd.appData = (function() {
 
     return {
         isAligned: isAligned,
+        isMultipage: isMultipage,
         getPlotData: getPlotData,
         getUndoManager: getUndoManager,
+        getPageManager: getPageManager,
+        setPageManager: setPageManager,
         reset: reset,
         plotLoaded: plotLoaded
     };

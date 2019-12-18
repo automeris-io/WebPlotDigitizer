@@ -27,6 +27,8 @@ wpd.ConnectedPoints = class {
         this._selectedConnectionIndex = -1;
         this._selectedPointIndex = -1;
         this._connectivity = connectivity;
+
+        this.page = 0;
     }
 
     addConnection(plist) {

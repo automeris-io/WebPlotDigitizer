@@ -97,6 +97,8 @@ wpd.MapAxes = (function() {
         };
 
         this.name = "Map";
+
+        this.page = 0;
     };
 
     AxesObj.prototype.numCalibrationPointsRequired = function() {
