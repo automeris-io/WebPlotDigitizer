@@ -85,6 +85,14 @@ wpd.appData = (function() {
         getFileManager().refreshPageInfo();
     }
 
+    function getPageManager() {
+        return _pageManager;
+    }
+
+    function setPageManager(pageManager) {
+        return _pageManager = pageManager;
+    }
+
     function isAligned() {
         return getPlotData().getAxesCount() > 0;
     }
