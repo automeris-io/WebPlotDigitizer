@@ -615,13 +615,13 @@ wpd.graphicsWidget = (function() {
         return imageFile;
     }
 
-    async function getImagePDF() {
-        const u8arr = await wpd.appData.getPageManager().get().getData();
-        const imageFile = new Blob([u8arr], {
-            type: 'application/pdf',
-            encoding: 'utf-8'
+    function getImagePDF() {
+        return wpd.appData.getPageManager().get().getData().then(u8arr => {
+            return new Blob([u8arr], {
+                type: 'application/pdf',
+                encoding: 'utf-8'
+            });
         });
-        return imageFile;
     }
 
     return {

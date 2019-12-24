@@ -54,24 +54,7 @@ wpd.saveResume = (function() {
         wpd.popup.close('export-json-window');
     }
 
-    async function downloadProject() {
-        // get project name
-        let projectName =
-            stripIllegalCharacters(document.getElementById('project-name-input').value);
-
-        // get JSON
-        let json = generateJSON();
-
-        // get Image
-        let imageFile, imageFileName;
-        if (wpd.appData.isMultipage()) {
-            imageFile = await wpd.graphicsWidget.getImagePDF();
-            imageFileName = 'image.pdf';
-        } else {
-            imageFile = wpd.graphicsWidget.getImagePNG();
-            imageFileName = 'image.png';
-        }
-
+    function _writeAndDownloadTar(projectName, json, imageFile, imageFileName) {
         // projectInfo
         let projectInfo =
             JSON.stringify({
@@ -87,6 +70,27 @@ wpd.saveResume = (function() {
         tarWriter.addTextFile(projectName + '/wpd.json', json);
         tarWriter.addFile(projectName + '/' + imageFileName, imageFile);
         tarWriter.download(projectName + '.tar');
+    }
+
+    function downloadProject() {
+        // get project name
+        let projectName =
+            stripIllegalCharacters(document.getElementById('project-name-input').value);
+
+        // get JSON
+        let json = generateJSON();
+
+        // get Image
+        let imageFile, imageFileName;
+        if (wpd.appData.isMultipage()) {
+            wpd.busyNote.show();
+            wpd.graphicsWidget.getImagePDF().then(imageFile => {
+                _writeAndDownloadTar(projectName, json, imageFile, 'image.pdf');
+                wpd.busyNote.close();
+            });
+        } else {
+            _writeAndDownloadTar(projectName, json, wpd.graphicsWidget.getImagePNG(), 'image.png');
+        }
         wpd.popup.close('export-json-window');
     }
 
