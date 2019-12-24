@@ -37,32 +37,34 @@ wpd.PageManager = class {
         this._minPage = 0;
         this._maxPage = this.pageCount();
         this._$pageNavInput.setAttribute('max', this._maxPage);
-        this.showInfo();
-        wpd.appData.setPageManager(this);
+        this._showPageInfo();
+    }
+
+    destroy() {
+        this._hidePageInfo();
+        return null;
     }
 
     get() {
         return this._handle;
     }
 
-    getPage(pageNumber) {
-        // implementation specific
-    }
+    getPage() {}
 
     pageCount() {
         return 0;
     }
 
-    _toggleInfoDisplay(hide) {
+    _togglePageInfoDisplay(hide) {
         for (const $el of this._$pageInfoElements) $el.hidden = hide;
     }
 
-    showInfo() {
-        this._toggleInfoDisplay(false);
+    _showPageInfo() {
+        this._togglePageInfoDisplay(false);
     }
 
-    hideInfo() {
-        this._toggleInfoDisplay(true);
+    _hidePageInfo() {
+        this._togglePageInfoDisplay(true);
     }
 
     currentPage() {
@@ -105,8 +107,9 @@ wpd.PageManager = class {
 
     renderPage(pageNumber, resumedProject) {
         return new Promise((resolve, reject) => {
-            this.getPage(pageNumber).then(page => this._pageRenderer(page, resumedProject, resolve,
-                reject));
+            this.getPage(pageNumber).then(page => {
+                this._pageRenderer(page, resumedProject, resolve, reject);
+            });
         });
     }
 };

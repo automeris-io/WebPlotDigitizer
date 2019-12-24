@@ -54,32 +54,39 @@ wpd.saveResume = (function() {
         wpd.popup.close('export-json-window');
     }
 
-    function downloadProject() {
+    async function downloadProject() {
         // get project name
         let projectName =
-            stripIllegalCharacters(document.getElementById("project-name-input").value);
+            stripIllegalCharacters(document.getElementById('project-name-input').value);
 
         // get JSON
         let json = generateJSON();
 
         // get Image
-        let imageFile = wpd.graphicsWidget.getImagePNG();
+        let imageFile, imageFileName;
+        if (wpd.appData.isMultipage()) {
+            imageFile = await wpd.graphicsWidget.getImagePDF();
+            imageFileName = 'image.pdf';
+        } else {
+            imageFile = wpd.graphicsWidget.getImagePNG();
+            imageFileName = 'image.png';
+        }
 
         // projectInfo
         let projectInfo =
             JSON.stringify({
-                "version": [4, 0],
-                "json": "wpd.json",
-                "image": "image.png"
+                'version': [4, 0],
+                'json': 'wpd.json',
+                'image': imageFileName
             });
 
         // generate project file
         let tarWriter = new tarball.TarWriter();
-        tarWriter.addFolder(projectName + "/");
-        tarWriter.addTextFile(projectName + "/info.json", projectInfo);
-        tarWriter.addTextFile(projectName + "/wpd.json", json);
-        tarWriter.addFile(projectName + "/image.png", imageFile);
-        tarWriter.download(projectName + ".tar");
+        tarWriter.addFolder(projectName + '/');
+        tarWriter.addTextFile(projectName + '/info.json', projectInfo);
+        tarWriter.addTextFile(projectName + '/wpd.json', json);
+        tarWriter.addFile(projectName + '/' + imageFileName, imageFile);
+        tarWriter.download(projectName + '.tar');
         wpd.popup.close('export-json-window');
     }
 
@@ -105,17 +112,22 @@ wpd.saveResume = (function() {
         tarReader.readFile(file).then(
             function(fileInfo) {
                 wpd.busyNote.close();
-                let infoIndex = fileInfo.findIndex(info => info.name.endsWith("/info.json"));
+                let infoIndex = fileInfo.findIndex(info => info.name.endsWith('/info.json'));
                 if (infoIndex >= 0) {
-                    let projectName = fileInfo[infoIndex].name.replace("/info.json", "");
-                    let wpdimage = tarReader.getFileBlob(projectName + "/image.png", "image/png");
-                    wpdimage.name = "image.png";
-                    let wpdjson = JSON.parse(tarReader.getTextFile(projectName + "/wpd.json"));
+                    let projectName = fileInfo[infoIndex].name.replace('/info.json', '');
+                    let wpdimage;
+                    if (fileInfo.findIndex(info => info.name.endsWith('/image.pdf')) >= 0) {
+                        wpdimage = tarReader.getFileBlob(projectName + '/image.pdf', 'application/pdf');
+                    } else {
+                        wpdimage = tarReader.getFileBlob(projectName + '/image.png', 'image/png');
+                        wpdimage.name = 'image.png';
+                    }
+                    let wpdjson = JSON.parse(tarReader.getTextFile(projectName + '/wpd.json'));
                     wpd.imageManager.loadFromFile(wpdimage, true).then(() => {
                         resumeFromJSON(wpdjson);
                         wpd.tree.refresh();
                         wpd.messagePopup.show(wpd.gettext('import-json'),
-                            wpd.gettext("json-data-loaded"));
+                            wpd.gettext('json-data-loaded'));
                         afterProjectLoaded();
                     });
                 }

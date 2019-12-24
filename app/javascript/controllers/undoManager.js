@@ -55,6 +55,17 @@ wpd.UndoManager = class {
         this.updateUI();
     }
 
+    reapply() {
+        if (!this.canUndo()) {
+            return;
+        }
+        for (let i = 0; i < this._actionIndex; i++) {
+            let action = this._actions[i];
+            action.execute();
+        }
+        this.updateUI();
+    }
+
     insertAction(action) {
         if (!(action instanceof wpd.ReversibleAction)) {
             console.error("action must be a wpd.ReversibleAction!");

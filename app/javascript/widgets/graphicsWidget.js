@@ -615,6 +615,15 @@ wpd.graphicsWidget = (function() {
         return imageFile;
     }
 
+    async function getImagePDF() {
+        const u8arr = await wpd.appData.getPageManager().get().getData();
+        const imageFile = new Blob([u8arr], {
+            type: 'application/pdf',
+            encoding: 'utf-8'
+        });
+        return imageFile;
+    }
+
     return {
         zoomIn: zoomIn,
         zoomOut: zoomOut,
@@ -650,6 +659,7 @@ wpd.graphicsWidget = (function() {
         saveImage: saveImage,
         loadImage: loadImage,
 
-        getImagePNG: getImagePNG
+        getImagePNG: getImagePNG,
+        getImagePDF: getImagePDF
     };
 })();

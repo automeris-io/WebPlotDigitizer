@@ -35,7 +35,10 @@ wpd.Dataset = class {
         this.name = 'Default Dataset';
         this.variableNames = ['x', 'y'];
         this.colorRGB = new wpd.Color(200, 0, 0);
-        this.page = 0;
+
+        if (wpd.appData.isMultipage()) {
+            this.page = 1;
+        }
     }
 
     hasMetadata() {

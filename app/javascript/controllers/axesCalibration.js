@@ -351,7 +351,12 @@ wpd.alignAxes = (function() {
             wpd.tree.refresh();
             let dsNameColl = wpd.appData.getPlotData().getDatasetNames();
             if (dsNameColl.length > 0) {
-                let dsName = dsNameColl[0];
+                let dsName;
+                if (wpd.appData.isMultipage()) {
+                    dsName = dsNameColl[dsNameColl.length - 1];
+                } else {
+                    dsName = dsNameColl[0];
+                }
                 wpd.tree.selectPath("/" + wpd.gettext("datasets") + "/" + dsName, true);
             }
             wpd.acquireData.load();

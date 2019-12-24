@@ -57,7 +57,9 @@ wpd.ImageAxes = (function() {
 
         this.name = "Image";
 
-        this.page = 0;
+        if (wpd.appData.isMultipage()) {
+            this.page = 1;
+        }
     };
 
     AxesObj.prototype.numCalibrationPointsRequired = function() {

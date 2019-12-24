@@ -24,6 +24,7 @@ var wpd = wpd || {};
 wpd.imageManager = (function() {
     let _firstLoad = true;
     let _newLoad = false;
+    let _pageManager = null;
     let _imageInfo = {
         width: 0,
         height: 0
@@ -36,7 +37,6 @@ wpd.imageManager = (function() {
     function load() {
         let $input = document.getElementById('fileLoadBox');
         if ($input.files.length == 1) {
-            _newLoad = true;
             let imageFile = $input.files[0];
             loadFromFile(imageFile);
         }
@@ -45,6 +45,7 @@ wpd.imageManager = (function() {
 
     function loadFromFile(imageFile, resumedProject) {
         return new Promise((resolve, reject) => {
+            _newLoad = true;
             if (imageFile.type.match("image.*")) {
                 wpd.busyNote.show();
                 let reader = new FileReader();
@@ -59,8 +60,8 @@ wpd.imageManager = (function() {
                 reader.onload = function() {
                     let pdfurl = reader.result;
                     pdfjsLib.getDocument(pdfurl).promise.then(function(pdf) {
-                        var pdfManager = new wpd.PDFManager(pdf);
-                        pdfManager.renderPage(1, resumedProject).then(resolve);
+                        _pageManager = new wpd.PDFManager(pdf);
+                        _pageManager.renderPage(1, resumedProject).then(resolve);
                     });
                 };
                 reader.readAsDataURL(imageFile);
@@ -89,14 +90,14 @@ wpd.imageManager = (function() {
             wpd.sidebar.clear();
         }
         let imageData = wpd.graphicsWidget.loadImage(image);
-        wpd.appData.plotLoaded(imageData);
+        wpd.appData.plotLoaded(imageData, _pageManager);
+        _pageManager = null;
         wpd.busyNote.close();
         if (_newLoad) {
             wpd.tree.refresh();
         } else {
             wpd.tree.refreshPreservingSelection();
         }
-
         if (_firstLoad) {
             wpd.sidebar.show('start-sidebar');
         } else if (!resumedProject) {
