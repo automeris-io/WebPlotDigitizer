@@ -154,10 +154,6 @@ wpd.BarAxes = (function() {
         };
 
         this.name = "Bar";
-
-        if (wpd.appData.isMultipage()) {
-            this.page = 1;
-        }
     };
 
     AxesObj.prototype.numCalibrationPointsRequired = function() {

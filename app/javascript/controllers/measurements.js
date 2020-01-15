@@ -30,13 +30,39 @@ wpd.measurementModes = {
         sidebarId: 'measure-distances-sidebar',
         init: function() {
             let plotData = wpd.appData.getPlotData();
-            if (plotData.getMeasurementsByType(wpd.DistanceMeasurement).length == 0) {
-                plotData.addMeasurement(new wpd.DistanceMeasurement());
+            if (wpd.appData.isMultipage()) {
+                const pageManager = wpd.appData.getPageManager();
+                const pageDistanceMeasurements = pageManager.filterToCurrentPageMeasurements(
+                    plotData.getMeasurementsByType(wpd.DistanceMeasurement)
+                );
+                if (pageDistanceMeasurements.length == 0) {
+                    const ms = new wpd.DistanceMeasurement();
+                    plotData.addMeasurement(ms, true);
+                    const pageAxes = pageManager.getCurrentPageAxes();
+                    if (pageAxes.length > 0) {
+                        for (let i = pageAxes.length - 1; i > -1; i--) {
+                            if (pageAxes[i] instanceof wpd.MapAxes || pageAxes[i] instanceof wpd.ImageAxes) {
+                                plotData.setAxesForMeasurement(ms, pageAxes[i]);
+                                break;
+                            }
+                        }
+                    }
+                    pageManager.addMeasurementToCurrentPage(ms);
+                }
+            } else {
+                if (plotData.getMeasurementsByType(wpd.DistanceMeasurement).length == 0) {
+                    plotData.addMeasurement(new wpd.DistanceMeasurement());
+                }
             }
         },
         clear: function() {
             let plotData = wpd.appData.getPlotData();
             let distMeasures = plotData.getMeasurementsByType(wpd.DistanceMeasurement);
+            if (wpd.appData.isMultipage()) {
+                const pageManager = wpd.appData.getPageManager();
+                distMeasures = pageManager.filterToCurrentPageMeasurements(distMeasures);
+                pageManager.deleteMeasurementsFromCurrentPage(distMeasures);
+            }
             distMeasures.forEach(m => {
                 m.clearAll();
             });
@@ -44,16 +70,29 @@ wpd.measurementModes = {
         getData: function() {
             let plotData = wpd.appData.getPlotData();
             let distMeasures = plotData.getMeasurementsByType(wpd.DistanceMeasurement);
+            if (wpd.appData.isMultipage()) {
+                const pageManager = wpd.appData.getPageManager();
+                distMeasures = pageManager.filterToCurrentPageMeasurements(distMeasures);
+            }
             return distMeasures[0];
         },
         getAxes: function() {
             let plotData = wpd.appData.getPlotData();
             let distMeasures = plotData.getMeasurementsByType(wpd.DistanceMeasurement);
+            if (wpd.appData.isMultipage()) {
+                const pageManager = wpd.appData.getPageManager();
+                distMeasures = pageManager.filterToCurrentPageMeasurements(distMeasures);
+            }
             return plotData.getAxesForMeasurement(distMeasures[0]);
         },
         changeAxes: function(axIdx) {
             let plotData = wpd.appData.getPlotData();
-            let ms = plotData.getMeasurementsByType(wpd.DistanceMeasurement)[0];
+            let distMeasures = plotData.getMeasurementsByType(wpd.DistanceMeasurement);
+            if (wpd.appData.isMultipage()) {
+                const pageManager = wpd.appData.getPageManager();
+                distMeasures = pageManager.filterToCurrentPageMeasurements(distMeasures);
+            }
+            let ms = distMeasures[0];
             let axesColl = plotData.getAxesColl();
             if (axIdx == -1) {
                 plotData.setAxesForMeasurement(ms, null);
@@ -71,13 +110,30 @@ wpd.measurementModes = {
         sidebarId: 'measure-angles-sidebar',
         init: function() {
             let plotData = wpd.appData.getPlotData();
-            if (plotData.getMeasurementsByType(wpd.AngleMeasurement).length == 0) {
-                plotData.addMeasurement(new wpd.AngleMeasurement());
+            if (wpd.appData.isMultipage()) {
+                const pageManager = wpd.appData.getPageManager();
+                const pageAngleMeasurements = pageManager.filterToCurrentPageMeasurements(
+                    plotData.getMeasurementsByType(wpd.AngleMeasurement)
+                );
+                if (pageAngleMeasurements.length == 0) {
+                    const ms = new wpd.AngleMeasurement();
+                    plotData.addMeasurement(ms, true);
+                    pageManager.addMeasurementToCurrentPage(ms);
+                }
+            } else {
+                if (plotData.getMeasurementsByType(wpd.AngleMeasurement).length == 0) {
+                    plotData.addMeasurement(new wpd.AngleMeasurement());
+                }
             }
         },
         clear: function() {
             let plotData = wpd.appData.getPlotData();
             let angleMeasures = plotData.getMeasurementsByType(wpd.AngleMeasurement);
+            if (wpd.appData.isMultipage()) {
+                const pageManager = wpd.appData.getPageManager();
+                angleMeasures = pageManager.filterToCurrentPageMeasurements(angleMeasures);
+                pageManager.deleteMeasurementsFromCurrentPage(angleMeasures);
+            }
             angleMeasures.forEach(m => {
                 m.clearAll();
             });
@@ -85,6 +141,10 @@ wpd.measurementModes = {
         getData: function() {
             let plotData = wpd.appData.getPlotData();
             let angleMeasures = plotData.getMeasurementsByType(wpd.AngleMeasurement);
+            if (wpd.appData.isMultipage()) {
+                const pageManager = wpd.appData.getPageManager();
+                angleMeasures = pageManager.filterToCurrentPageMeasurements(angleMeasures);
+            }
             return angleMeasures[0];
         }
     },
@@ -96,13 +156,30 @@ wpd.measurementModes = {
         sidebarId: 'measure-area-sidebar',
         init: function() {
             let plotData = wpd.appData.getPlotData();
-            if (plotData.getMeasurementsByType(wpd.AreaMeasurement).length == 0) {
-                plotData.addMeasurement(new wpd.AreaMeasurement());
+            if (wpd.appData.isMultipage()) {
+                const pageManager = wpd.appData.getPageManager();
+                const pageAreaMeasurements = pageManager.filterToCurrentPageMeasurements(
+                    plotData.getMeasurementsByType(wpd.AreaMeasurement)
+                );
+                if (pageAreaMeasurements.length == 0) {
+                    const ms = new wpd.AreaMeasurement();
+                    plotData.addMeasurement(ms, true);
+                    pageManager.addMeasurementToCurrentPage(ms);
+                }
+            } else {
+                if (plotData.getMeasurementsByType(wpd.AreaMeasurement).length == 0) {
+                    plotData.addMeasurement(new wpd.AreaMeasurement());
+                }
             }
         },
         clear: function() {
             let plotData = wpd.appData.getPlotData();
             let areaMeasures = plotData.getMeasurementsByType(wpd.AreaMeasurement);
+            if (wpd.appData.isMultipage()) {
+                const pageManager = wpd.appData.getPageManager();
+                areaMeasures = pageManager.filterToCurrentPageMeasurements(areaMeasures);
+                pageManager.deleteMeasurementsFromCurrentPage(areaMeasures);
+            }
             areaMeasures.forEach(m => {
                 m.clearAll();
             });
@@ -110,16 +187,29 @@ wpd.measurementModes = {
         getData: function() {
             let plotData = wpd.appData.getPlotData();
             let areaMeasures = plotData.getMeasurementsByType(wpd.AreaMeasurement);
+            if (wpd.appData.isMultipage()) {
+                const pageManager = wpd.appData.getPageManager();
+                areaMeasures = pageManager.filterToCurrentPageMeasurements(areaMeasures);
+            }
             return areaMeasures[0];
         },
         getAxes: function() {
             let plotData = wpd.appData.getPlotData();
             let areaMeasures = plotData.getMeasurementsByType(wpd.AreaMeasurement);
+            if (wpd.appData.isMultipage()) {
+                const pageManager = wpd.appData.getPageManager();
+                areaMeasures = pageManager.filterToCurrentPageMeasurements(areaMeasures);
+            }
             return plotData.getAxesForMeasurement(areaMeasures[0]);
         },
         changeAxes: function(axIdx) {
             let plotData = wpd.appData.getPlotData();
-            let ms = plotData.getMeasurementsByType(wpd.AreaMeasurement)[0];
+            let areaMeasures = plotData.getMeasurementsByType(wpd.AreaMeasurement);
+            if (wpd.appData.isMultipage()) {
+                const pageManager = wpd.appData.getPageManager();
+                areaMeasures = pageManager.filterToCurrentPageMeasurements(areaMeasures);
+            }
+            let ms = areaMeasures[0];
             let axesColl = plotData.getAxesColl();
             if (axIdx == -1) {
                 plotData.setAxesForMeasurement(ms, null);

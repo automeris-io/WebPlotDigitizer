@@ -95,7 +95,8 @@ wpd.XYAxesCalibrator = class extends wpd.AxesCalibrator {
         if (!this._isEditing) {
             axes.name = wpd.alignAxes.makeAxesName(wpd.XYAxes);
             let plot = wpd.appData.getPlotData();
-            plot.addAxes(axes);
+            plot.addAxes(axes, wpd.appData.isMultipage());
+            wpd.alignAxes.postProcessAxesAdd(axes);
         }
         wpd.popup.close('xyAlignment');
         return true;
@@ -147,7 +148,8 @@ wpd.BarAxesCalibrator = class extends wpd.AxesCalibrator {
         if (!this._isEditing) {
             axes.name = wpd.alignAxes.makeAxesName(wpd.BarAxes);
             let plot = wpd.appData.getPlotData();
-            plot.addAxes(axes);
+            plot.addAxes(axes, wpd.appData.isMultipage());
+            wpd.alignAxes.postProcessAxesAdd(axes);
         }
         wpd.popup.close('barAlignment');
         return true;
@@ -204,7 +206,8 @@ wpd.PolarAxesCalibrator = class extends wpd.AxesCalibrator {
         if (!this._isEditing) {
             axes.name = wpd.alignAxes.makeAxesName(wpd.PolarAxes);
             let plot = wpd.appData.getPlotData();
-            plot.addAxes(axes);
+            plot.addAxes(axes, wpd.appData.isMultipage());
+            wpd.alignAxes.postProcessAxesAdd(axes);
         }
         wpd.popup.close('polarAlignment');
         return true;
@@ -250,7 +253,8 @@ wpd.TernaryAxesCalibrator = class extends wpd.AxesCalibrator {
         if (!this._isEditing) {
             axes.name = wpd.alignAxes.makeAxesName(wpd.TernaryAxes);
             let plot = wpd.appData.getPlotData();
-            plot.addAxes(axes);
+            plot.addAxes(axes, wpd.appData.isMultipage());
+            wpd.alignAxes.postProcessAxesAdd(axes);
         }
         wpd.popup.close('ternaryAlignment');
         return true;
@@ -290,7 +294,8 @@ wpd.MapAxesCalibrator = class extends wpd.AxesCalibrator {
         if (!this._isEditing) {
             axes.name = wpd.alignAxes.makeAxesName(wpd.MapAxes);
             let plot = wpd.appData.getPlotData();
-            plot.addAxes(axes);
+            plot.addAxes(axes, wpd.appData.isMultipage());
+            wpd.alignAxes.postProcessAxesAdd(axes);
         }
         wpd.popup.close('mapAlignment');
         return true;
@@ -347,7 +352,8 @@ wpd.alignAxes = (function() {
             var imageAxes = new wpd.ImageAxes();
             imageAxes.name = wpd.alignAxes.makeAxesName(wpd.ImageAxes);
             imageAxes.calibrate();
-            wpd.appData.getPlotData().addAxes(imageAxes);
+            wpd.appData.getPlotData().addAxes(imageAxes, wpd.appData.isMultipage());
+            postProcessAxesAdd(imageAxes);
             wpd.tree.refresh();
             let dsNameColl = wpd.appData.getPlotData().getDatasetNames();
             if (dsNameColl.length > 0) {
@@ -443,6 +449,9 @@ wpd.alignAxes = (function() {
                 const plotData = wpd.appData.getPlotData();
                 const axes = wpd.tree.getActiveAxes();
                 plotData.deleteAxes(axes);
+                if (wpd.appData.isMultipage()) {
+                    wpd.appData.getPageManager().deleteAxesFromCurrentPage(axes);
+                }
                 wpd.tree.refresh();
                 wpd.tree.selectPath("/" + wpd.gettext("axes"));
             });
@@ -505,6 +514,14 @@ wpd.alignAxes = (function() {
         return fullName;
     }
 
+    function postProcessAxesAdd(axes) {
+        if (wpd.appData.isMultipage()) {
+            const pageManager = wpd.appData.getPageManager();
+            pageManager.addAxesToCurrentPage(axes);
+            pageManager.autoAddDataset();
+        }
+    }
+
     return {
         start: initiatePlotAlignment,
         calibrationCompleted: calibrationCompleted,
@@ -519,6 +536,7 @@ wpd.alignAxes = (function() {
         showRenameAxes: showRenameAxes,
         makeAxesName: makeAxesName,
         renameAxes: renameAxes,
-        renameKeypress: renameKeypress
+        renameKeypress: renameKeypress,
+        postProcessAxesAdd: postProcessAxesAdd
     };
 })();

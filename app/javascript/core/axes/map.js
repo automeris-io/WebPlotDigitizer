@@ -97,10 +97,6 @@ wpd.MapAxes = (function() {
         };
 
         this.name = "Map";
-
-        if (wpd.appData.isMultipage()) {
-            this.page = 1;
-        }
     };
 
     AxesObj.prototype.numCalibrationPointsRequired = function() {

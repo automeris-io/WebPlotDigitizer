@@ -32,13 +32,21 @@ wpd.saveResume = (function() {
 
     function resumeFromJSON(json_data) {
         const plotData = wpd.appData.getPlotData();
-        plotData.deserialize(json_data);
+        const pageData = plotData.deserialize(json_data);
+        if (wpd.appData.isMultipage() && pageData) {
+            const pageManager = wpd.appData.getPageManager();
+            pageManager.loadPageData(pageData);
+        }
         wpd.tree.refresh();
     }
 
     function generateJSON() {
         const plotData = wpd.appData.getPlotData();
-        return JSON.stringify(plotData.serialize());
+        let pageData = undefined;
+        if (wpd.appData.isMultipage()) {
+            pageData = wpd.appData.getPageManager().getPageData();
+        }
+        return JSON.stringify(plotData.serialize(pageData));
     }
 
     function stripIllegalCharacters(filename) {

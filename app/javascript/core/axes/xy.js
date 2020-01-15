@@ -274,10 +274,6 @@ wpd.XYAxes = (function() {
         };
 
         this.name = "XY";
-
-        if (wpd.appData.isMultipage()) {
-            this.page = 1;
-        }
     };
 
     AxesObj.prototype.numCalibrationPointsRequired = function() {

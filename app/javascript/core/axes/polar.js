@@ -177,10 +177,6 @@ wpd.PolarAxes = (function() {
         };
 
         this.name = "Polar";
-
-        if (wpd.appData.isMultipage()) {
-            this.page = 1;
-        }
     };
 
     AxesObj.prototype.numCalibrationPointsRequired = function() {

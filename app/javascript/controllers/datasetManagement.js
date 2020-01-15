@@ -107,6 +107,9 @@ wpd.dataSeriesManagement = (function() {
         let ds = new wpd.Dataset();
         ds.name = $singleDatasetName.value.trim();
         plotData.addDataset(ds);
+        if (wpd.appData.isMultipage()) {
+            wpd.appData.getPageManager().addDatasetToCurrentPage(ds);
+        }
         wpd.tree.refreshPreservingSelection();
     }
 
@@ -116,6 +119,8 @@ wpd.dataSeriesManagement = (function() {
         wpd.popup.close('add-dataset-popup');
         if (dsCount > 0) {
             const plotData = wpd.appData.getPlotData();
+            const isMultipage = wpd.appData.isMultipage();
+            const pageManager = wpd.appData.getPageManager();
             let idx = getDatasetCount();
             const prefix = wpd.gettext("dataset") + " ";
             let i = 0;
@@ -125,6 +130,9 @@ wpd.dataSeriesManagement = (function() {
                     let ds = new wpd.Dataset();
                     ds.name = dsName;
                     plotData.addDataset(ds);
+                    if (isMultipage) {
+                        pageManager.addDatasetToCurrentPage(ds);
+                    }
                     i++;
                 }
                 idx++;
@@ -145,6 +153,9 @@ wpd.dataSeriesManagement = (function() {
                 const plotData = wpd.appData.getPlotData();
                 const ds = wpd.tree.getActiveDataset();
                 plotData.deleteDataset(ds);
+                if (wpd.appData.isMultipage()) {
+                    wpd.appData.getPageManager().deleteDatasetFromCurrentPage(ds);
+                }
                 wpd.tree.refresh();
                 wpd.tree.selectPath("/" + wpd.gettext("datasets"));
             });
@@ -168,8 +179,7 @@ wpd.dataSeriesManagement = (function() {
             color: wpd.tree.getActiveDataset().colorRGB.getRGB(),
             triggerElementId: 'dataset-display-color-picker-button',
             title: 'Specify Display Color for Digitized Points',
-            setColorDelegate: function(
-                col) {
+            setColorDelegate: function(col) {
                 wpd.tree.getActiveDataset().colorRGB = new wpd.Color(col[0], col[1], col[2]);
                 wpd.graphicsWidget.forceHandlerRepaint();
                 wpd.tree.refreshPreservingSelection();
