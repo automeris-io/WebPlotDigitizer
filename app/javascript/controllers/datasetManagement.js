@@ -107,8 +107,9 @@ wpd.dataSeriesManagement = (function() {
         let ds = new wpd.Dataset();
         ds.name = $singleDatasetName.value.trim();
         plotData.addDataset(ds);
+        wpd.appData.getFileManager().addDatasetsToCurrentFile([ds]);
         if (wpd.appData.isMultipage()) {
-            wpd.appData.getPageManager().addDatasetToCurrentPage(ds);
+            wpd.appData.getPageManager().addDatasetsToCurrentPage([ds]);
         }
         wpd.tree.refreshPreservingSelection();
     }
@@ -119,8 +120,8 @@ wpd.dataSeriesManagement = (function() {
         wpd.popup.close('add-dataset-popup');
         if (dsCount > 0) {
             const plotData = wpd.appData.getPlotData();
+            const fileManager = wpd.appData.getFileManager();
             const isMultipage = wpd.appData.isMultipage();
-            const pageManager = wpd.appData.getPageManager();
             let idx = getDatasetCount();
             const prefix = wpd.gettext("dataset") + " ";
             let i = 0;
@@ -130,8 +131,9 @@ wpd.dataSeriesManagement = (function() {
                     let ds = new wpd.Dataset();
                     ds.name = dsName;
                     plotData.addDataset(ds);
+                    fileManager.addDatasetsToCurrentFile([ds]);
                     if (isMultipage) {
-                        pageManager.addDatasetToCurrentPage(ds);
+                        wpd.appData.getPageManager().addDatasetsToCurrentPage([ds]);
                     }
                     i++;
                 }
@@ -153,8 +155,9 @@ wpd.dataSeriesManagement = (function() {
                 const plotData = wpd.appData.getPlotData();
                 const ds = wpd.tree.getActiveDataset();
                 plotData.deleteDataset(ds);
+                wpd.appData.getFileManager().deleteDatasetsFromCurrentFile([ds]);
                 if (wpd.appData.isMultipage()) {
-                    wpd.appData.getPageManager().deleteDatasetFromCurrentPage(ds);
+                    wpd.appData.getPageManager().deleteDatasetsFromCurrentPage([ds]);
                 }
                 wpd.tree.refresh();
                 wpd.tree.selectPath("/" + wpd.gettext("datasets"));

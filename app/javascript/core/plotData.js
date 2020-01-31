@@ -51,20 +51,8 @@ wpd.PlotData = class {
         return this._topColors;
     }
 
-    createDefaultDataset() {
-        let ds = new wpd.Dataset();
-        ds.name = 'Default Dataset';
-        const count = wpd.dataSeriesManagement.getDatasetWithNameCount(ds.name);
-        if (count > 0) ds.name += ' ' + (count + 1);
-        return ds;
-    }
-
-    addAxes(ax, skipAutoAddDataset) {
+    addAxes(ax) {
         this._axesColl.push(ax);
-
-        if (!skipAutoAddDataset && this._axesColl.length === 1 && this._datasetColl.length === 0) {
-            this.addDataset(this.createDefaultDataset());
-        }
     }
 
     getAxesColl() {
@@ -318,10 +306,16 @@ wpd.PlotData = class {
 
     _deserializeVersion4(data) {
         // collect page data if it exists
-        let pageData = {
-            axes: {},
-            datasets: {},
-            measurements: {}
+        let metadata = {};
+
+        const collectMetadata = (group, type, key, object) => {
+            if (!metadata[group])
+                metadata[group] = {};
+            if (!metadata[group][type])
+                metadata[group][type] = {};
+            if (!metadata[group][type][key])
+                metadata[group][type][key] = [];
+            metadata[group][type][key].push(object);
         };
 
         // axes data
@@ -386,11 +380,13 @@ wpd.PlotData = class {
                 if (axes != null) {
                     axes.name = axData.name;
                     this._axesColl.push(axes);
-                    if (axData.page) {
-                        if (!pageData.axes[axData.page]) {
-                            pageData.axes[axData.page] = [];
-                        }
-                        pageData.axes[axData.page].push(axes);
+
+                    // collect metadata
+                    if (axData.file !== undefined) {
+                        collectMetadata('file', 'axes', axData.file, axes);
+                    }
+                    if (axData.page !== undefined) {
+                        collectMetadata('page', 'axes', axData.page, axes);
                     }
                 }
             }
@@ -414,11 +410,12 @@ wpd.PlotData = class {
                 }
                 this._datasetColl.push(ds);
 
-                if (dsData.page) {
-                    if (!pageData.datasets[dsData.page]) {
-                        pageData.datasets[dsData.page] = [];
-                    }
-                    pageData.datasets[dsData.page].push(ds);
+                // collect metadata
+                if (dsData.file !== undefined) {
+                    collectMetadata('file', 'datasets', dsData.file, ds);
+                }
+                if (dsData.page !== undefined) {
+                    collectMetadata('page', 'datasets', dsData.page, ds);
                 }
 
                 // set axes for this dataset
@@ -467,17 +464,18 @@ wpd.PlotData = class {
                         ms.addConnection(msData.data[cIdx]);
                     }
 
-                    if (msData.page) {
-                        if (!pageData.measurements[msData.page]) {
-                            pageData.measurements[msData.page] = [];
-                        }
-                        pageData.measurements[msData.page].push(ms);
+                    // collect metadata
+                    if (msData.file !== undefined) {
+                        collectMetadata('file', 'measurements', msData.file, ms);
+                    }
+                    if (msData.page !== undefined) {
+                        collectMetadata('page', 'measurements', msData.page, ms);
                     }
                 }
             }
         }
 
-        return pageData;
+        return metadata;
     }
 
     deserialize(data) {
@@ -496,7 +494,7 @@ wpd.PlotData = class {
         }
     }
 
-    serialize(pageData) {
+    serialize(metadata) {
         let data = {};
         data.version = [4, 2];
         data.axesColl = [];
@@ -508,8 +506,13 @@ wpd.PlotData = class {
             const axes = this._axesColl[axIdx];
             let axData = {};
             axData.name = axes.name;
-            if (pageData) {
-                axData.page = pageData.axes[axes.name];
+            if (metadata) {
+                if (metadata.file && metadata.file.axes[axes.name] !== undefined) {
+                    axData.file = metadata.file.axes[axes.name];
+                }
+                if (metadata.page && metadata.page.axes[axes.name] !== undefined) {
+                    axData.page = metadata.page.axes[axes.name];
+                }
             }
             if (axes instanceof wpd.XYAxes) {
                 axData.type = "XYAxes";
@@ -554,8 +557,13 @@ wpd.PlotData = class {
             const autoDetectionData = this.getAutoDetectionDataForDataset(ds);
             let dsData = {};
             dsData.name = ds.name;
-            if (pageData) {
-                dsData.page = pageData.datasets[ds.name];
+            if (metadata) {
+                if (metadata.file && metadata.file.datasets[ds.name] !== undefined) {
+                    dsData.file = metadata.file.datasets[ds.name];
+                }
+                if (metadata.page && metadata.page.datasets[ds.name] !== undefined) {
+                    dsData.page = metadata.page.datasets[ds.name];
+                }
             }
             dsData.axesName = axes != null ? axes.name : "";
             dsData.metadataKeys = ds.getMetadataKeys();
@@ -590,8 +598,13 @@ wpd.PlotData = class {
                 msData.name = "Area";
                 msData.axesName = axes != null ? axes.name : "";
             }
-            if (pageData) {
-                msData.page = pageData.measurements[msIdx];
+            if (metadata) {
+                if (metadata.file && metadata.file.measurements[msIdx] !== undefined) {
+                    msData.file = metadata.file.measurements[msIdx];
+                }
+                if (metadata.page && metadata.page.measurements[msIdx] !== undefined) {
+                    msData.page = metadata.page.measurements[msIdx];
+                }
             }
             msData.data = [];
             for (let cIdx = 0; cIdx < ms.connectionCount(); cIdx++) {

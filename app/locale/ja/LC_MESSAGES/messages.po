@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-01-14 18:53-0500\n"
+"POT-Creation-Date: 2020-01-30 22:40-0500\n"
 "PO-Revision-Date: 2016-12-18 10:38-0600\n"
 "Last-Translator: \n"
 "Language: ja\n"
@@ -305,7 +305,7 @@ msgid "Acquired Data"
 msgstr ""
 
 #: templates/_popups.html:258 templates/_strings.html:47
-#: templates/_tree.html:57
+#: templates/_tree.html:58
 msgid "Dataset"
 msgstr ""
 
@@ -620,7 +620,7 @@ msgstr ""
 msgid "Export to Plotly"
 msgstr ""
 
-#: templates/_popups.html:512 templates/_tree.html:42
+#: templates/_popups.html:512 templates/_tree.html:43
 msgid "Add Dataset"
 msgstr ""
 
@@ -641,12 +641,12 @@ msgstr ""
 msgid "Add Multiple Datasets"
 msgstr ""
 
-#: templates/_popups.html:522 templates/_tree.html:61
+#: templates/_popups.html:522 templates/_tree.html:62
 msgid "Rename Dataset"
 msgstr ""
 
 #: templates/_popups.html:527 templates/_popups.html:538
-#: templates/_tree.html:32
+#: templates/_tree.html:33
 msgid "Rename"
 msgstr ""
 
@@ -654,7 +654,7 @@ msgstr ""
 msgid "Rename Axes"
 msgstr ""
 
-#: templates/_popups.html:544 templates/_tree.html:10
+#: templates/_popups.html:544 templates/_tree.html:11
 msgid "Image Info"
 msgstr ""
 
@@ -741,7 +741,7 @@ msgid "Click to change color"
 msgstr ""
 
 #: templates/_sidebars.html:33 templates/_strings.html:51
-#: templates/_tree.html:50 templates/_tree.html:70
+#: templates/_tree.html:51 templates/_tree.html:71
 msgid "Distance"
 msgstr ""
 
@@ -978,7 +978,7 @@ msgstr ""
 #: templates/_strings.html:22
 msgid ""
 "Please load a valid image file. Common image formats such as JPG, PNG, "
-"BMP, GIF etc. should work. PDF or Word documents are not accepted."
+"BMP, GIF etc. should work. Word documents are not accepted."
 msgstr ""
 
 #: templates/_strings.html:23
@@ -997,7 +997,7 @@ msgstr ""
 msgid "Please calibrate the axes before managing datasets."
 msgstr ""
 
-#: templates/_strings.html:27 templates/_tree.html:62
+#: templates/_strings.html:27 templates/_tree.html:63
 msgid "Delete Dataset"
 msgstr ""
 
@@ -1077,24 +1077,24 @@ msgstr ""
 msgid "Specify a valid number of datasets to add!"
 msgstr ""
 
-#: templates/_strings.html:48 templates/_tree.html:40
+#: templates/_strings.html:48 templates/_tree.html:41
 msgid "Datasets"
 msgstr ""
 
-#: templates/_strings.html:49 templates/_tree.html:48
+#: templates/_strings.html:49 templates/_tree.html:49
 msgid "Measurements"
 msgstr ""
 
-#: templates/_strings.html:50 templates/_tree.html:20 templates/_tree.html:30
-#: templates/_tree.html:59 templates/_tree.html:72 templates/_tree.html:89
+#: templates/_strings.html:50 templates/_tree.html:21 templates/_tree.html:31
+#: templates/_tree.html:60 templates/_tree.html:73 templates/_tree.html:90
 msgid "Axes"
 msgstr ""
 
-#: templates/_strings.html:52 templates/_tree.html:51 templates/_tree.html:79
+#: templates/_strings.html:52 templates/_tree.html:52 templates/_tree.html:80
 msgid "Angle"
 msgstr ""
 
-#: templates/_strings.html:53 templates/_tree.html:52 templates/_tree.html:87
+#: templates/_strings.html:53 templates/_tree.html:53 templates/_tree.html:88
 msgid "Area/Perimeter"
 msgstr ""
 
@@ -1162,68 +1162,68 @@ msgstr ""
 msgid "View Keyboard Shortcuts"
 msgstr ""
 
-#: templates/_tree.html:11
+#: templates/_tree.html:12
 msgid "Previous Page"
 msgstr ""
 
-#: templates/_tree.html:12
+#: templates/_tree.html:13
 msgid "Next Page"
 msgstr ""
 
-#: templates/_tree.html:14
+#: templates/_tree.html:15
 msgid "Go"
 msgstr ""
 
-#: templates/_tree.html:22
+#: templates/_tree.html:23
 msgid "Add Calibration"
 msgstr ""
 
-#: templates/_tree.html:23
+#: templates/_tree.html:24
 msgid "Remove Grid"
 msgstr ""
 
-#: templates/_tree.html:24
+#: templates/_tree.html:25
 msgid "Import Calibration"
 msgstr ""
 
-#: templates/_tree.html:25
+#: templates/_tree.html:26
 msgid "Export Calibration"
 msgstr ""
 
-#: templates/_tree.html:33
+#: templates/_tree.html:34
 msgid "Tweak Calibration"
 msgstr ""
 
-#: templates/_tree.html:34
+#: templates/_tree.html:35
 msgid "Delete"
 msgstr ""
 
-#: templates/_tree.html:35
+#: templates/_tree.html:36
 msgid "View Equations"
 msgstr ""
 
-#: templates/_tree.html:43
+#: templates/_tree.html:44
 msgid "Export All Data"
 msgstr ""
 
-#: templates/_tree.html:60
+#: templates/_tree.html:61
 msgid "Display Color"
 msgstr ""
 
-#: templates/_tree.html:63 templates/_tree.html:74 templates/_tree.html:82
-#: templates/_tree.html:91
+#: templates/_tree.html:64 templates/_tree.html:75 templates/_tree.html:83
+#: templates/_tree.html:92
 msgid "View Data"
 msgstr ""
 
-#: templates/_tree.html:64
+#: templates/_tree.html:65
 msgid "Clear Data"
 msgstr ""
 
-#: templates/_tree.html:65
+#: templates/_tree.html:66
 msgid "Data Points"
 msgstr ""
 
-#: templates/_tree.html:73 templates/_tree.html:81 templates/_tree.html:90
+#: templates/_tree.html:74 templates/_tree.html:82 templates/_tree.html:91
 msgid "Clear All"
 msgstr ""
 
@@ -1948,5 +1948,13 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Last Page"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Please load a valid image file. "
+#~ "Common image formats such as JPG, "
+#~ "PNG, BMP, GIF etc. should work. "
+#~ "PDF or Word documents are not "
+#~ "accepted."
 #~ msgstr ""
 

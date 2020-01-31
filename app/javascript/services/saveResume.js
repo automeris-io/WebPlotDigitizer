@@ -32,21 +32,21 @@ wpd.saveResume = (function() {
 
     function resumeFromJSON(json_data) {
         const plotData = wpd.appData.getPlotData();
-        const pageData = plotData.deserialize(json_data);
-        if (wpd.appData.isMultipage() && pageData) {
-            const pageManager = wpd.appData.getPageManager();
-            pageManager.loadPageData(pageData);
-        }
+        const metadata = plotData.deserialize(json_data);
+        _loadMetadata(metadata);
         wpd.tree.refresh();
     }
 
     function generateJSON() {
         const plotData = wpd.appData.getPlotData();
-        let pageData = undefined;
-        if (wpd.appData.isMultipage()) {
-            pageData = wpd.appData.getPageManager().getPageData();
+        const metadata = wpd.appData.getFileManager().getMetadata();
+        return JSON.stringify(plotData.serialize(metadata));
+    }
+
+    function _loadMetadata(metadata) {
+        if (metadata && Object.keys(metadata).length !== 0) {
+            wpd.appData.getFileManager().loadMetadata(metadata);
         }
-        return JSON.stringify(plotData.serialize(pageData));
     }
 
     function stripIllegalCharacters(filename) {
@@ -62,13 +62,13 @@ wpd.saveResume = (function() {
         wpd.popup.close('export-json-window');
     }
 
-    function _writeAndDownloadTar(projectName, json, imageFile, imageFileName) {
+    function _writeAndDownloadTar(projectName, json, imageFiles, imageFileNames) {
         // projectInfo
         let projectInfo =
             JSON.stringify({
                 'version': [4, 0],
                 'json': 'wpd.json',
-                'image': imageFileName
+                'images': imageFileNames
             });
 
         // generate project file
@@ -76,29 +76,28 @@ wpd.saveResume = (function() {
         tarWriter.addFolder(projectName + '/');
         tarWriter.addTextFile(projectName + '/info.json', projectInfo);
         tarWriter.addTextFile(projectName + '/wpd.json', json);
-        tarWriter.addFile(projectName + '/' + imageFileName, imageFile);
-        tarWriter.download(projectName + '.tar');
+        for (let i = 0; i < imageFiles.length; i++) {
+            tarWriter.addFile(projectName + '/' + imageFileNames[i], imageFiles[i]);
+        }
+        return tarWriter.download(projectName + '.tar');
     }
 
     function downloadProject() {
         // get project name
-        let projectName =
+        const projectName =
             stripIllegalCharacters(document.getElementById('project-name-input').value);
 
         // get JSON
-        let json = generateJSON();
+        const json = generateJSON();
 
-        // get Image
-        let imageFile, imageFileName;
-        if (wpd.appData.isMultipage()) {
-            wpd.busyNote.show();
-            wpd.graphicsWidget.getImagePDF().then(imageFile => {
-                _writeAndDownloadTar(projectName, json, imageFile, 'image.pdf');
-                wpd.busyNote.close();
-            });
-        } else {
-            _writeAndDownloadTar(projectName, json, wpd.graphicsWidget.getImagePNG(), 'image.png');
-        }
+        // get images, write everything to a tar, and initiate download
+        wpd.busyNote.show();
+        wpd.graphicsWidget.getImageFiles().then(imageFiles => {
+            const imageFileNames = imageFiles.map(file => file.name);
+            _writeAndDownloadTar(projectName, json, imageFiles, imageFileNames).then(
+                wpd.busyNote.close()
+            );
+        });
         wpd.popup.close('export-json-window');
     }
 
@@ -124,18 +123,30 @@ wpd.saveResume = (function() {
         tarReader.readFile(file).then(
             function(fileInfo) {
                 wpd.busyNote.close();
-                let infoIndex = fileInfo.findIndex(info => info.name.endsWith('/info.json'));
+                const infoIndex = fileInfo.findIndex(info => info.name.endsWith('/info.json'));
                 if (infoIndex >= 0) {
-                    let projectName = fileInfo[infoIndex].name.replace('/info.json', '');
-                    let wpdimage;
-                    if (fileInfo.findIndex(info => info.name.endsWith('/image.pdf')) >= 0) {
-                        wpdimage = tarReader.getFileBlob(projectName + '/image.pdf', 'application/pdf');
-                    } else {
-                        wpdimage = tarReader.getFileBlob(projectName + '/image.png', 'image/png');
-                        wpdimage.name = 'image.png';
-                    }
+                    const projectName = fileInfo[infoIndex].name.replace('/info.json', '');
+
+                    let wpdimages = [];
+                    fileInfo.filter((info) => {
+                        return info.type === 'file' && !info.name.endsWith('.json');
+                    }).forEach((info) => {
+                        let mimeType = '';
+                        if (info.name.endsWith('.pdf')) {
+                            mimeType = 'application/pdf';
+                        } else {
+                            mimeType = 'image/png';
+                        }
+                        const nameRegexp = new RegExp(projectName + '/', 'i');
+                        const wpdimage = tarReader.getFileBlob(info.name, mimeType);
+                        wpdimage.name = info.name.replace(nameRegexp, '');
+                        wpdimages.push(wpdimage);
+                    });
+
                     let wpdjson = JSON.parse(tarReader.getTextFile(projectName + '/wpd.json'));
-                    wpd.imageManager.loadFromFile(wpdimage, true).then(() => {
+
+                    wpd.imageManager.initializeFileManager(wpdimages);
+                    wpd.imageManager.loadFromFile(wpdimages[0], true).then(() => {
                         resumeFromJSON(wpdjson);
                         wpd.tree.refresh();
                         wpd.messagePopup.show(wpd.gettext('import-json'),

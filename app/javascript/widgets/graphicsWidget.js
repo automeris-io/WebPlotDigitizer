@@ -28,13 +28,13 @@ wpd.graphicsWidget = (function() {
         $hoverCanvas, // temp graphics while drawing
         $topCanvas, // top level, handles mouse events
 
-        $oriImageCanvas, $oriDataCanvas,
+        $oriImageCanvas, $oriDataCanvas, $tempImageCanvas,
 
         $canvasDiv,
 
         mainCtx, dataCtx, drawCtx, hoverCtx, topCtx,
 
-        oriImageCtx, oriDataCtx,
+        oriImageCtx, oriDataCtx, tempImageCtx,
 
         width, height, originalWidth, originalHeight,
 
@@ -384,6 +384,7 @@ wpd.graphicsWidget = (function() {
 
         $oriImageCanvas = document.createElement('canvas');
         $oriDataCanvas = document.createElement('canvas');
+        $tempImageCanvas = document.createElement('canvas');
 
         mainCtx = $mainCanvas.getContext('2d');
         dataCtx = $dataCanvas.getContext('2d');
@@ -393,6 +394,7 @@ wpd.graphicsWidget = (function() {
 
         oriImageCtx = $oriImageCanvas.getContext('2d');
         oriDataCtx = $oriDataCanvas.getContext('2d');
+        tempImageCtx = $tempImageCanvas.getContext('2d');
 
         $canvasDiv = document.getElementById('canvasDiv');
 
@@ -600,27 +602,57 @@ wpd.graphicsWidget = (function() {
         }
     }
 
-    function getImagePNG() {
-        let imageURL = $oriImageCanvas.toDataURL("image/png");
-        let bstr = atob(imageURL.split(',')[1]);
-        let n = bstr.length;
-        let u8arr = new Uint8Array(n);
-        while (n--) {
-            u8arr[n] = bstr.charCodeAt(n);
+    // for use when downloading wpd project file
+    // converts all images (except pdfs) to png
+    function getImageFiles() {
+        let imageFiles = [];
+        for (const file of wpd.appData.getFileManager().getFiles()) {
+            let imageFile;
+            if (file.type === 'application/pdf') {
+                imageFile = file;
+            } else {
+                imageFile = _convertToPNG(file);
+            }
+            imageFiles.push(imageFile);
         }
-        imageFile = new Blob([u8arr], {
-            type: "image/png",
-            encoding: 'utf-8'
-        });
-        return imageFile;
+        return Promise.all(imageFiles);
     }
 
-    function getImagePDF() {
-        return wpd.appData.getPageManager().get().getData().then(u8arr => {
-            return new Blob([u8arr], {
-                type: 'application/pdf',
-                encoding: 'utf-8'
-            });
+    function _convertToPNG(imageFile) {
+        return new Promise((resolve, reject) => {
+            // reject any non-image files
+            if (imageFile.type.match("image.*")) {
+                let reader = new FileReader();
+                reader.onload = function() {
+                    let url = reader.result;
+                    new Promise((resolve, reject) => {
+                        let image = new Image();
+                        image.onload = function() {
+                            $tempImageCanvas.width = image.width;
+                            $tempImageCanvas.height = image.height;
+                            tempImageCtx.drawImage(image, 0, 0, image.width, image.height);
+                            resolve();
+                        };
+                        image.src = url;
+                    }).then(() => {
+                        let imageURL = $tempImageCanvas.toDataURL('image/png');
+                        let bstr = atob(imageURL.split(',')[1]);
+                        let n = bstr.length;
+                        let u8arr = new Uint8Array(n);
+                        while (n--) {
+                            u8arr[n] = bstr.charCodeAt(n);
+                        }
+                        resolve(new File([u8arr], imageFile.name, {
+                            type: 'image/png',
+                            encoding: 'utf-8',
+                        }));
+                        tempImageCtx.clearRect(0, 0, $tempImageCanvas.width, $tempImageCanvas.height);
+                    });
+                };
+                reader.readAsDataURL(imageFile);
+            } else {
+                reject();
+            }
         });
     }
 
@@ -659,7 +691,6 @@ wpd.graphicsWidget = (function() {
         saveImage: saveImage,
         loadImage: loadImage,
 
-        getImagePNG: getImagePNG,
-        getImagePDF: getImagePDF
+        getImageFiles: getImageFiles
     };
 })();

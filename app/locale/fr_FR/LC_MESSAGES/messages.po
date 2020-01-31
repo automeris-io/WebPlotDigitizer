@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-01-14 18:53-0500\n"
+"POT-Creation-Date: 2020-01-30 22:40-0500\n"
 "PO-Revision-Date: 2017-11-01 23:56-0500\n"
 "Last-Translator: \n"
 "Language: fr_FR\n"
@@ -319,7 +319,7 @@ msgid "Acquired Data"
 msgstr "Données acquises"
 
 #: templates/_popups.html:258 templates/_strings.html:47
-#: templates/_tree.html:57
+#: templates/_tree.html:58
 msgid "Dataset"
 msgstr "Ensemble de Données"
 
@@ -659,7 +659,7 @@ msgstr ""
 msgid "Export to Plotly"
 msgstr "Exporter vers Plotly"
 
-#: templates/_popups.html:512 templates/_tree.html:42
+#: templates/_popups.html:512 templates/_tree.html:43
 msgid "Add Dataset"
 msgstr "Ajouter Dataset"
 
@@ -680,12 +680,12 @@ msgstr "Compte"
 msgid "Add Multiple Datasets"
 msgstr "Ajouter plusieurs Datasets"
 
-#: templates/_popups.html:522 templates/_tree.html:61
+#: templates/_popups.html:522 templates/_tree.html:62
 msgid "Rename Dataset"
 msgstr "Renommer Dataset"
 
 #: templates/_popups.html:527 templates/_popups.html:538
-#: templates/_tree.html:32
+#: templates/_tree.html:33
 msgid "Rename"
 msgstr "Renommer"
 
@@ -693,7 +693,7 @@ msgstr "Renommer"
 msgid "Rename Axes"
 msgstr "Renommer les axes"
 
-#: templates/_popups.html:544 templates/_tree.html:10
+#: templates/_popups.html:544 templates/_tree.html:11
 msgid "Image Info"
 msgstr ""
 
@@ -783,7 +783,7 @@ msgid "Click to change color"
 msgstr "Cliquez pour changer la couleur"
 
 #: templates/_sidebars.html:33 templates/_strings.html:51
-#: templates/_tree.html:50 templates/_tree.html:70
+#: templates/_tree.html:51 templates/_tree.html:71
 msgid "Distance"
 msgstr "Distance"
 
@@ -1030,11 +1030,8 @@ msgstr "ERREUR: Fichier Non valide!"
 #: templates/_strings.html:22
 msgid ""
 "Please load a valid image file. Common image formats such as JPG, PNG, "
-"BMP, GIF etc. should work. PDF or Word documents are not accepted."
+"BMP, GIF etc. should work. Word documents are not accepted."
 msgstr ""
-"Veuillez charger un fichier image valide. Les formats d’image courantes "
-"tels que JPG, PNG, BMP, GIF etc. devrait fonctionner. Les documents PDF "
-"ou Word ne sont pas acceptés."
 
 #: templates/_strings.html:23
 msgid "Raw"
@@ -1052,7 +1049,7 @@ msgstr "Gérer Datasets"
 msgid "Please calibrate the axes before managing datasets."
 msgstr "Veuillez étalonner les axes avant de gérer les dataset."
 
-#: templates/_strings.html:27 templates/_tree.html:62
+#: templates/_strings.html:27 templates/_tree.html:63
 msgid "Delete Dataset"
 msgstr "Supprimer le Dataset"
 
@@ -1132,24 +1129,24 @@ msgstr "Axes avec ce nom existe déjà. Veuillez choisir un autre nom."
 msgid "Specify a valid number of datasets to add!"
 msgstr "Spécifiez un nombre valide de datasets à ajouter!"
 
-#: templates/_strings.html:48 templates/_tree.html:40
+#: templates/_strings.html:48 templates/_tree.html:41
 msgid "Datasets"
 msgstr "Datasets"
 
-#: templates/_strings.html:49 templates/_tree.html:48
+#: templates/_strings.html:49 templates/_tree.html:49
 msgid "Measurements"
 msgstr "Mesures"
 
-#: templates/_strings.html:50 templates/_tree.html:20 templates/_tree.html:30
-#: templates/_tree.html:59 templates/_tree.html:72 templates/_tree.html:89
+#: templates/_strings.html:50 templates/_tree.html:21 templates/_tree.html:31
+#: templates/_tree.html:60 templates/_tree.html:73 templates/_tree.html:90
 msgid "Axes"
 msgstr "Axes"
 
-#: templates/_strings.html:52 templates/_tree.html:51 templates/_tree.html:79
+#: templates/_strings.html:52 templates/_tree.html:52 templates/_tree.html:80
 msgid "Angle"
 msgstr "Angle"
 
-#: templates/_strings.html:53 templates/_tree.html:52 templates/_tree.html:87
+#: templates/_strings.html:53 templates/_tree.html:53 templates/_tree.html:88
 msgid "Area/Perimeter"
 msgstr ""
 
@@ -1217,68 +1214,68 @@ msgstr ""
 msgid "View Keyboard Shortcuts"
 msgstr "Voir les Raccourcis du Clavier"
 
-#: templates/_tree.html:11
+#: templates/_tree.html:12
 msgid "Previous Page"
 msgstr ""
 
-#: templates/_tree.html:12
+#: templates/_tree.html:13
 msgid "Next Page"
 msgstr ""
 
-#: templates/_tree.html:14
+#: templates/_tree.html:15
 msgid "Go"
 msgstr ""
 
-#: templates/_tree.html:22
+#: templates/_tree.html:23
 msgid "Add Calibration"
 msgstr "Ajouter le calibrage"
 
-#: templates/_tree.html:23
+#: templates/_tree.html:24
 msgid "Remove Grid"
 msgstr "Supprimer la Grille"
 
-#: templates/_tree.html:24
+#: templates/_tree.html:25
 msgid "Import Calibration"
 msgstr "Importer le calibrage"
 
-#: templates/_tree.html:25
+#: templates/_tree.html:26
 msgid "Export Calibration"
 msgstr "Export calibrage"
 
-#: templates/_tree.html:33
+#: templates/_tree.html:34
 msgid "Tweak Calibration"
 msgstr "Calibrage tweak"
 
-#: templates/_tree.html:34
+#: templates/_tree.html:35
 msgid "Delete"
 msgstr "Supprimer"
 
-#: templates/_tree.html:35
+#: templates/_tree.html:36
 msgid "View Equations"
 msgstr "Voir les équations"
 
-#: templates/_tree.html:43
+#: templates/_tree.html:44
 msgid "Export All Data"
 msgstr "Exporter toutes les données"
 
-#: templates/_tree.html:60
+#: templates/_tree.html:61
 msgid "Display Color"
 msgstr ""
 
-#: templates/_tree.html:63 templates/_tree.html:74 templates/_tree.html:82
-#: templates/_tree.html:91
+#: templates/_tree.html:64 templates/_tree.html:75 templates/_tree.html:83
+#: templates/_tree.html:92
 msgid "View Data"
 msgstr "Voir les Données"
 
-#: templates/_tree.html:64
+#: templates/_tree.html:65
 msgid "Clear Data"
 msgstr "Effacer les données"
 
-#: templates/_tree.html:65
+#: templates/_tree.html:66
 msgid "Data Points"
 msgstr "Points de Données"
 
-#: templates/_tree.html:73 templates/_tree.html:81 templates/_tree.html:90
+#: templates/_tree.html:74 templates/_tree.html:82 templates/_tree.html:91
 msgid "Clear All"
 msgstr "Effacer Tout"
 
@@ -1320,4 +1317,17 @@ msgstr "Effacer Tout"
 
 #~ msgid "Last Page"
 #~ msgstr ""
+
+#~ msgid ""
+#~ "Please load a valid image file. "
+#~ "Common image formats such as JPG, "
+#~ "PNG, BMP, GIF etc. should work. "
+#~ "PDF or Word documents are not "
+#~ "accepted."
+#~ msgstr ""
+#~ "Veuillez charger un fichier image "
+#~ "valide. Les formats d’image courantes "
+#~ "tels que JPG, PNG, BMP, GIF etc."
+#~ " devrait fonctionner. Les documents PDF "
+#~ "ou Word ne sont pas acceptés."
 
