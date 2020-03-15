@@ -13,11 +13,11 @@
   "author": "Ankit Rohatgi",
   "license": "AGPL-3.0",
   "devDependencies": {
-    "electron": "^4.0.5"
+    "electron": "^4.2.12"
   },
   "dependencies": {
     "electron-packager": "^12.2.0",
     "is-builtin-module": "^3.0.0",
-    "npm": "^6.8.0"
+    "npm": "^6.14.2"
   }
 }
