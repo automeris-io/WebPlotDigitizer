@@ -25,10 +25,14 @@ var wpd = wpd || {};
 wpd.appData = (function() {
     let _plotData = null;
     let _undoManager = null;
+    let _pageManager = null;
 
     function reset() {
         _plotData = null;
         _undoManager = null;
+        if (_pageManager !== null) {
+            _pageManager = _pageManager.destroy()
+        }
     }
 
     function getPlotData() {
@@ -39,24 +43,51 @@ wpd.appData = (function() {
     }
 
     function getUndoManager() {
-        if (_undoManager == null) {
-            _undoManager = new wpd.UndoManager();
+        if (isMultipage()) {
+            let currentPage = _pageManager.currentPage();
+            if (_undoManager === null) {
+                _undoManager = {};
+            }
+            if (!_undoManager.hasOwnProperty(currentPage)) {
+                _undoManager[currentPage] = new wpd.UndoManager();
+            }
+            return _undoManager[currentPage];
+        } else {
+            if (_undoManager == null) {
+                _undoManager = new wpd.UndoManager();
+            }
+            return _undoManager;
         }
-        return _undoManager;
+    }
+
+    function getPageManager() {
+        return _pageManager;
     }
 
     function isAligned() {
         return getPlotData().getAxesCount() > 0;
     }
 
-    function plotLoaded(imageData) {
+    function isMultipage() {
+        const pageManager = getPageManager();
+        if (!pageManager) return false;
+        return pageManager.pageCount() > 1;
+    }
+
+    function plotLoaded(imageData, pageManager) {
+        if (_pageManager === null && pageManager !== null) {
+            _pageManager = pageManager;
+        }
         getPlotData().setTopColors(wpd.colorAnalyzer.getTopColors(imageData));
+        getUndoManager().reapply();
     }
 
     return {
         isAligned: isAligned,
+        isMultipage: isMultipage,
         getPlotData: getPlotData,
         getUndoManager: getUndoManager,
+        getPageManager: getPageManager,
         reset: reset,
         plotLoaded: plotLoaded
     };

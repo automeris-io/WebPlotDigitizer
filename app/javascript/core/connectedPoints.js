@@ -27,6 +27,10 @@ wpd.ConnectedPoints = class {
         this._selectedConnectionIndex = -1;
         this._selectedPointIndex = -1;
         this._connectivity = connectivity;
+
+        if (wpd.appData.isMultipage()) {
+            this.page = 1;
+        }
     }
 
     addConnection(plist) {

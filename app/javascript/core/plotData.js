@@ -51,12 +51,19 @@ wpd.PlotData = class {
         return this._topColors;
     }
 
-    addAxes(ax) {
+    createDefaultDataset() {
+        let ds = new wpd.Dataset();
+        ds.name = 'Default Dataset';
+        const count = wpd.dataSeriesManagement.getDatasetWithNameCount(ds.name);
+        if (count > 0) ds.name += ' ' + (count + 1);
+        return ds;
+    }
+
+    addAxes(ax, skipAutoAddDataset) {
         this._axesColl.push(ax);
-        if (this._axesColl.length === 1 && this._datasetColl.length === 0) {
-            let ds = new wpd.Dataset();
-            ds.name = "Default Dataset";
-            this.addDataset(ds);
+
+        if (!skipAutoAddDataset && this._axesColl.length === 1 && this._datasetColl.length === 0) {
+            this.addDataset(this.createDefaultDataset());
         }
     }
 
@@ -92,6 +99,7 @@ wpd.PlotData = class {
 
     addDataset(ds) {
         this._datasetColl.push(ds);
+
         // by default bind ds to last axes
         const axCount = this._axesColl.length;
         if (axCount > 0) {
@@ -116,11 +124,11 @@ wpd.PlotData = class {
         return this._datasetColl.length;
     }
 
-    addMeasurement(ms) {
+    addMeasurement(ms, skipAutoAttach) {
         this._measurementColl.push(ms);
 
-        // if this is a distance measurement, then attach to fist existing image or map axes:
-        if (ms instanceof wpd.DistanceMeasurement && this._axesColl.length > 0) {
+        // if this is a distance measurement, then attach to first existing image or map axes:
+        if (!skipAutoAttach && ms instanceof wpd.DistanceMeasurement && this._axesColl.length > 0) {
             for (let aIdx = 0; aIdx < this._axesColl.length; aIdx++) {
                 if (this._axesColl[aIdx] instanceof wpd.MapAxes || this._axesColl[aIdx] instanceof wpd.ImageAxes) {
                     this.setAxesForMeasurement(ms, this._axesColl[aIdx]);
@@ -128,6 +136,10 @@ wpd.PlotData = class {
                 }
             }
         }
+    }
+
+    getMeasurementColl() {
+        return this._measurementColl;
     }
 
     getMeasurementsByType(mtype) {
@@ -305,6 +317,13 @@ wpd.PlotData = class {
     }
 
     _deserializeVersion4(data) {
+        // collect page data if it exists
+        let pageData = {
+            axes: {},
+            datasets: {},
+            measurements: {}
+        };
+
         // axes data
         if (data.axesColl != null) {
             for (let axIdx = 0; axIdx < data.axesColl.length; axIdx++) {
@@ -367,6 +386,12 @@ wpd.PlotData = class {
                 if (axes != null) {
                     axes.name = axData.name;
                     this._axesColl.push(axes);
+                    if (axData.page) {
+                        if (!pageData.axes[axData.page]) {
+                            pageData.axes[axData.page] = [];
+                        }
+                        pageData.axes[axData.page].push(axes);
+                    }
                 }
             }
         }
@@ -388,6 +413,13 @@ wpd.PlotData = class {
                         dsData.data[pxIdx].metadata);
                 }
                 this._datasetColl.push(ds);
+
+                if (dsData.page) {
+                    if (!pageData.datasets[dsData.page]) {
+                        pageData.datasets[dsData.page] = [];
+                    }
+                    pageData.datasets[dsData.page].push(ds);
+                }
 
                 // set axes for this dataset
                 const axIdx = this.getAxesNames().indexOf(dsData.axesName);
@@ -429,16 +461,23 @@ wpd.PlotData = class {
                         this.setAxesForMeasurement(ms, this._axesColl[axIdx]);
                     }
                 }
-                // add connections
                 if (ms != null) {
+                    // add connections
                     for (let cIdx = 0; cIdx < msData.data.length; cIdx++) {
                         ms.addConnection(msData.data[cIdx]);
+                    }
+
+                    if (msData.page) {
+                        if (!pageData.measurements[msData.page]) {
+                            pageData.measurements[msData.page] = [];
+                        }
+                        pageData.measurements[msData.page].push(ms);
                     }
                 }
             }
         }
 
-        return true;
+        return pageData;
     }
 
     deserialize(data) {
@@ -457,7 +496,7 @@ wpd.PlotData = class {
         }
     }
 
-    serialize() {
+    serialize(pageData) {
         let data = {};
         data.version = [4, 2];
         data.axesColl = [];
@@ -469,6 +508,9 @@ wpd.PlotData = class {
             const axes = this._axesColl[axIdx];
             let axData = {};
             axData.name = axes.name;
+            if (pageData) {
+                axData.page = pageData.axes[axes.name];
+            }
             if (axes instanceof wpd.XYAxes) {
                 axData.type = "XYAxes";
                 axData.isLogX = axes.isLogX();
@@ -512,6 +554,9 @@ wpd.PlotData = class {
             const autoDetectionData = this.getAutoDetectionDataForDataset(ds);
             let dsData = {};
             dsData.name = ds.name;
+            if (pageData) {
+                dsData.page = pageData.datasets[ds.name];
+            }
             dsData.axesName = axes != null ? axes.name : "";
             dsData.metadataKeys = ds.getMetadataKeys();
             dsData.colorRGB = ds.colorRGB.serialize();
@@ -544,6 +589,9 @@ wpd.PlotData = class {
                 msData.type = "Area";
                 msData.name = "Area";
                 msData.axesName = axes != null ? axes.name : "";
+            }
+            if (pageData) {
+                msData.page = pageData.measurements[msIdx];
             }
             msData.data = [];
             for (let cIdx = 0; cIdx < ms.connectionCount(); cIdx++) {

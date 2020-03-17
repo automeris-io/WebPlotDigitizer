@@ -72,7 +72,7 @@ wpd.TreeWidget = class {
         return (htmlStr);
     }
 
-    // Expected format: 
+    // Expected format:
     // treeData = ["item0", {"folder0": ["sub-item0", "sub-item1"]}, "item1"]
     // itemColors = {"path0" : wpd.Color, "path1" : wpd.Color}
     render(treeData, itemColors) {
@@ -181,17 +181,48 @@ wpd.tree = (function() {
         const plotData = wpd.appData.getPlotData();
 
         // Image item
-        treeData.push(wpd.gettext("image"));
+        if (wpd.appData.isMultipage()) {
+            const pageManager = wpd.appData.getPageManager();
+            let imageFolder = {};
+            imageFolder[wpd.gettext('image')] = [
+                wpd.gettext('image-page')
+                    + ' ' + pageManager.currentPage()
+                    + ' ' + wpd.gettext('image-of')
+                    + ' ' + pageManager.pageCount()
+            ];
+            treeData.push(imageFolder);
+        } else {
+            treeData.push(wpd.gettext('image'));
+        }
 
         // Axes folder
+        const axesNames = plotData.getAxesNames();
         let axesFolder = {};
-        axesFolder[wpd.gettext("axes")] = plotData.getAxesNames();
+        if (wpd.appData.isMultipage()) {
+            const pageManager = wpd.appData.getPageManager();
+            const currentPage = pageManager.currentPage();
+            const axesByName = pageManager.getAxesByName();
+            axesFolder[wpd.gettext("axes")] = axesNames.filter(
+                name => axesByName[name] === currentPage
+            );
+        } else {
+            axesFolder[wpd.gettext("axes")] = axesNames;
+        }
         treeData.push(axesFolder);
 
         // Datasets folder
         const datasetNames = plotData.getDatasetNames();
         let datasetsFolder = {};
-        datasetsFolder[wpd.gettext("datasets")] = datasetNames;
+        if (wpd.appData.isMultipage()) {
+            const pageManager = wpd.appData.getPageManager();
+            const currentPage = pageManager.currentPage()
+            const datasetsByName = pageManager.getDatasetsByName();
+            datasetsFolder[wpd.gettext("datasets")] = datasetNames.filter(
+                name => datasetsByName[name] === currentPage
+            );
+        } else {
+            datasetsFolder[wpd.gettext("datasets")] = datasetNames;
+        }
         treeData.push(datasetsFolder);
 
         // Dataset colors
@@ -206,6 +237,12 @@ wpd.tree = (function() {
         let distMeasures = plotData.getMeasurementsByType(wpd.DistanceMeasurement);
         let angleMeasures = plotData.getMeasurementsByType(wpd.AngleMeasurement);
         let areaMeasures = plotData.getMeasurementsByType(wpd.AreaMeasurement);
+        if (wpd.appData.isMultipage()) {
+            const pageManager = wpd.appData.getPageManager();
+            distMeasures = pageManager.filterToCurrentPageMeasurements(distMeasures);
+            angleMeasures = pageManager.filterToCurrentPageMeasurements(angleMeasures);
+            areaMeasures = pageManager.filterToCurrentPageMeasurements(areaMeasures);
+        }
         if (areaMeasures.length > 0) {
             measurementItems.push(wpd.gettext("area"));
         }
@@ -269,9 +306,19 @@ wpd.tree = (function() {
         let axesList = [];
         let datasetList = [];
         const plotData = wpd.appData.getPlotData();
-        for (let ds of plotData.getDatasets()) {
-            axesList.push(plotData.getAxesForDataset(ds));
-            datasetList.push(ds);
+        if (wpd.appData.isMultipage()) {
+            const pageManager = wpd.appData.getPageManager();
+            const currentPage = pageManager.currentPage();
+            const datasetsByName = pageManager.getDatasetsByName();
+            for (let ds of plotData.getDatasets().filter(d => datasetsByName[d.name] === currentPage)) {
+                axesList.push(plotData.getAxesForDataset(ds));
+                datasetList.push(ds);
+            }
+        } else {
+            for (let ds of plotData.getDatasets()) {
+                axesList.push(plotData.getAxesForDataset(ds));
+                datasetList.push(ds);
+            }
         }
         wpd.graphicsWidget.setRepainter(new wpd.MultipltDatasetRepainter(axesList, datasetList));
     }
@@ -283,11 +330,24 @@ wpd.tree = (function() {
         const axesNames = plotData.getAxesNames();
         const dsaxes = plotData.getAxesForDataset(activeDataset);
         const $selection = document.getElementById("dataset-item-axes-select");
+
         let innerHTML = "<option value='-1'>None</option>";
-        for (let axIdx = 0; axIdx < axesNames.length; axIdx++) {
-            innerHTML += "<option value='" + axIdx + "'>" + axesNames[axIdx] + "</option>";
+        if (wpd.appData.isMultipage()) {
+            const pageManager = wpd.appData.getPageManager();
+            const currentPage = pageManager.currentPage();
+            const axesByName = pageManager.getAxesByName();
+            for (let axIdx = 0; axIdx < axesNames.length; axIdx++) {
+                if (axesByName[axesNames[axIdx]] === currentPage) {
+                    innerHTML += "<option value='" + axIdx + "'>" + axesNames[axIdx] + "</option>";
+                }
+            }
+        } else {
+            for (let axIdx = 0; axIdx < axesNames.length; axIdx++) {
+                innerHTML += "<option value='" + axIdx + "'>" + axesNames[axIdx] + "</option>";
+            }
         }
         $selection.innerHTML = innerHTML;
+
         if (dsaxes == null) {
             $selection.value = "-1";
         } else {
@@ -313,24 +373,48 @@ wpd.tree = (function() {
     }
 
     function renderAxesSelectionForMeasurement(mode) {
-        const isDist = mode == wpd.measurementModes.distance;
         const plotData = wpd.appData.getPlotData();
-        const msColl = isDist ? plotData.getMeasurementsByType(wpd.DistanceMeasurement) :
-            plotData.getMeasurementsByType(wpd.AreaMeasurement);
-        if (msColl.length != 1)
-            return; // only 1 distance or area object is supported right now
-        const ms = msColl[0];
-        const $selection = isDist ? document.getElementById("distance-item-axes-select") :
-            document.getElementById("area-item-axes-select");;
         const axesColl = plotData.getAxesColl();
-        const axes = plotData.getAxesForMeasurement(ms);
+        let msColl;
+        let ms;
+        const isDist = mode == wpd.measurementModes.distance;
         let innerHTML = "<option value='-1'>None</option>";
-        for (let axIdx = 0; axIdx < axesColl.length; axIdx++) {
-            if (axesColl[axIdx] instanceof wpd.ImageAxes || axesColl[axIdx] instanceof wpd.MapAxes) {
-                innerHTML += "<option value='" + axIdx + "'>" + axesColl[axIdx].name + "</option>";
+        if (wpd.appData.isMultipage()) {
+            const pageManager = wpd.appData.getPageManager();
+            msColl = isDist ? plotData.getMeasurementsByType(wpd.DistanceMeasurement) :
+                plotData.getMeasurementsByType(wpd.AreaMeasurement);
+            msColl = pageManager.filterToCurrentPageMeasurements(msColl);
+            ms = msColl[msColl.length - 1];
+            const currentPage = pageManager.currentPage();
+            const axesByName = pageManager.getAxesByName();
+            for (let axIdx = 0; axIdx < axesColl.length; axIdx++) {
+                if (
+                    axesByName[axesColl[axIdx].name] === currentPage
+                    && (
+                        axesColl[axIdx] instanceof wpd.ImageAxes
+                        || axesColl[axIdx] instanceof wpd.MapAxes
+                    )
+                ) {
+                    innerHTML += "<option value='" + axIdx + "'>" + axesColl[axIdx].name + "</option>";
+                }
+            }
+        } else {
+            msColl = isDist ? plotData.getMeasurementsByType(wpd.DistanceMeasurement) :
+                plotData.getMeasurementsByType(wpd.AreaMeasurement);
+            if (msColl.length != 1)
+                return; // only 1 distance or area object is supported right now
+            ms = msColl[0];
+            const axesColl = plotData.getAxesColl();
+            for (let axIdx = 0; axIdx < axesColl.length; axIdx++) {
+                if (axesColl[axIdx] instanceof wpd.ImageAxes || axesColl[axIdx] instanceof wpd.MapAxes) {
+                    innerHTML += "<option value='" + axIdx + "'>" + axesColl[axIdx].name + "</option>";
+                }
             }
         }
+        const $selection = isDist ? document.getElementById("distance-item-axes-select") :
+            document.getElementById("area-item-axes-select");
         $selection.innerHTML = innerHTML;
+        const axes = plotData.getAxesForMeasurement(ms);
         if (axes == null) {
             $selection.value = "-1";
         } else {
@@ -350,24 +434,30 @@ wpd.tree = (function() {
         $tweakButton.disabled = activeAxes instanceof wpd.ImageAxes ? true : false;
     }
 
+    function onImageSelection(elem, path, suppressSecondaryActions) {
+        resetGraphics();
+        activeAxes = null;
+        showTreeItemWidget('image-item-tree-widget');
+        wpd.sidebar.show('image-editing-sidebar');
+        wpd.appData.getUndoManager().updateUI();
+    }
+
     function onSelection(elem, path, suppressSecondaryActions) {
-        if (path === "/" + wpd.gettext("image")) {
-            resetGraphics();
-            activeAxes = null;
-            showTreeItemWidget("image-item-tree-widget");
-            wpd.sidebar.show("image-editing-sidebar");
-            wpd.appData.getUndoManager().updateUI();
-        } else if (path === "/" + wpd.gettext("datasets")) {
+        if (path === '/' + wpd.gettext('image')) {
+            onImageSelection(elem, path, suppressSecondaryActions);
+        } else if (path.startsWith('/' + wpd.gettext('image') + '/')) {
+            selectPath('/' + wpd.gettext('image'));
+        } else if (path === '/' + wpd.gettext('datasets')) {
             onDatasetGroupSelection();
-            showTreeItemWidget("dataset-group-tree-widget");
+            showTreeItemWidget('dataset-group-tree-widget');
             activeAxes = null;
-        } else if (path === "/" + wpd.gettext("axes")) {
+        } else if (path === '/' + wpd.gettext('axes')) {
             resetGraphics();
-            showTreeItemWidget("axes-group-tree-widget");
+            showTreeItemWidget('axes-group-tree-widget');
             activeAxes = null;
-        } else if (path === "/" + wpd.gettext("measurements")) {
+        } else if (path === '/' + wpd.gettext('measurements')) {
             resetGraphics();
-            showTreeItemWidget("measurement-group-tree-widget");
+            showTreeItemWidget('measurement-group-tree-widget');
             activeAxes = null;
         } else if (path === '/' + wpd.gettext('measurements') + '/' + wpd.gettext('distance')) {
             if (!suppressSecondaryActions) {
@@ -387,9 +477,9 @@ wpd.tree = (function() {
             }
             showTreeItemWidget('area-item-tree-widget');
             renderAreaAxesSelection();
-        } else if (path.startsWith("/" + wpd.gettext("datasets") + "/")) {
+        } else if (path.startsWith('/' + wpd.gettext('datasets') + '/')) {
             onDatasetSelection(elem, path, suppressSecondaryActions);
-        } else if (path.startsWith("/" + wpd.gettext("axes") + "/")) {
+        } else if (path.startsWith('/' + wpd.gettext('axes') + '/')) {
             onAxesSelection(elem, path, suppressSecondaryActions);
         } else {
             resetGraphics();
@@ -435,15 +525,17 @@ wpd.tree = (function() {
     function addMeasurement(mode) {
         wpd.measurement.start(mode);
         refresh();
+        let suppressSecondaryActions = true;
+        if (wpd.appData.isMultipage()) suppressSecondaryActions = false;
         if (mode === wpd.measurementModes.distance) {
             wpd.tree.selectPath("/" + wpd.gettext("measurements") + "/" + wpd.gettext("distance"),
-                true);
+                suppressSecondaryActions);
         } else if (mode === wpd.measurementModes.angle) {
             wpd.tree.selectPath("/" + wpd.gettext("measurements") + "/" + wpd.gettext("angle"),
-                true);
+                suppressSecondaryActions);
         } else if (mode === wpd.measurementModes.area) {
             wpd.tree.selectPath("/" + wpd.gettext("measurements") + "/" + wpd.gettext("area"),
-                true);
+                suppressSecondaryActions);
         }
     }
 
