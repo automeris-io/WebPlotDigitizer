@@ -1,6 +1,6 @@
 /*
 	WebPlotDigitizer - https://automeris.io/WebPlotDigitizer
-	
+
 	Copyright 2010-2020 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
 	This file is part of WebPlotDigitizer.
@@ -149,6 +149,16 @@ input[type=range]::-moz-range-track {
 
 input[type="file"] {
     font-size: 14px;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number] {
+    -moz-appearance:textfield;
 }
 
 hr {

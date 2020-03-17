@@ -8,6 +8,11 @@
         <p class="sidebar-title">{{ _("Image") }}</p>
         <center>
             <p><input type="button" value="{{ _("Image Info") }}" style="width:150px;" onclick="wpd.imageEditing.showImageInfo();" /></p>
+            <p class="paged" hidden><input type="button" value="{{ _("Previous Page") }}" style="width:150px;" onclick="wpd.appData.getPageManager().previousPage();" /></p>
+            <p class="paged" hidden><input type="button" value="{{ _("Next Page") }}" style="width:150px;" onclick="wpd.appData.getPageManager().nextPage();" /></p>
+            <p class="paged" hidden>Go to page: <input id="image-page-nav-input" type="number" style="width:30px;" min="0" value="1" />
+                <input type="button" value="{{ _("Go") }}" onclick="wpd.appData.getPageManager().goToPage(document.getElementById('image-page-nav-input').value);" />
+            </p>
         </center>
     </div>
 
