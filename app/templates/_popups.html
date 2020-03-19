@@ -6,7 +6,7 @@
 <div id="loadNewImage" class="popup" style="width: 400px;">
     <div class="popupheading">{{ _("Load Image File") }}</div>
     <p>&nbsp;</p>
-    <p align="center"><input type="file" id="fileLoadBox" onchange="wpd.imageManager.load();" /></p>
+    <p align="center"><input type="file" id="fileLoadBox" multiple onchange="wpd.imageManager.load();" /></p>
     <p>&nbsp;</p>
     <p align="center">
         <input type="button" value="{{ _("Load") }}" onclick="wpd.imageManager.load();" />
