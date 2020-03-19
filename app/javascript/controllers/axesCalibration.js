@@ -357,12 +357,7 @@ wpd.alignAxes = (function() {
             wpd.tree.refresh();
             let dsNameColl = wpd.appData.getPlotData().getDatasetNames();
             if (dsNameColl.length > 0) {
-                let dsName;
-                if (wpd.appData.isMultipage()) {
-                    dsName = dsNameColl[dsNameColl.length - 1];
-                } else {
-                    dsName = dsNameColl[0];
-                }
+                let dsName = dsNameColl[dsNameColl.length - 1];
                 wpd.tree.selectPath("/" + wpd.gettext("datasets") + "/" + dsName, true);
             }
             wpd.acquireData.load();
@@ -450,7 +445,7 @@ wpd.alignAxes = (function() {
                 const axes = wpd.tree.getActiveAxes();
                 plotData.deleteAxes(axes);
                 if (wpd.appData.isMultipage()) {
-                    wpd.appData.getPageManager().deleteAxesFromCurrentPage(axes);
+                    wpd.appData.getPageManager().deleteAxesFromCurrentPage([axes]);
                 }
                 wpd.tree.refresh();
                 wpd.tree.selectPath("/" + wpd.gettext("axes"));
@@ -515,10 +510,35 @@ wpd.alignAxes = (function() {
     }
 
     function postProcessAxesAdd(axes) {
+        const plotData = wpd.appData.getPlotData();
+        const fileManager = wpd.appData.getFileManager();
+        const pageManager = wpd.appData.getPageManager();
+
+        fileManager.addAxesToCurrentFile([axes]);
+
+        let axesColl = fileManager.filterToCurrentFileAxes(plotData.getAxesColl());
+        let datasetColl = fileManager.filterToCurrentFileDatasets(plotData.getDatasets());
+
         if (wpd.appData.isMultipage()) {
-            const pageManager = wpd.appData.getPageManager();
-            pageManager.addAxesToCurrentPage(axes);
-            pageManager.autoAddDataset();
+            pageManager.addAxesToCurrentPage([axes]);
+            axesColl = pageManager.filterToCurrentPageAxes(axesColl);
+            datasetColl = pageManager.filterToCurrentPageDatasets(datasetColl);
+        }
+
+        // create a default dataset and associate it with the axes if this is the first
+        // axes (in the file and/or page) and datasets do not yet exist
+        if (axesColl.length === 1 && datasetColl.length === 0) {
+            let dataset = new wpd.Dataset();
+            dataset.name = 'Default Dataset';
+            const count = wpd.dataSeriesManagement.getDatasetWithNameCount(dataset.name);
+            if (count > 0) dataset.name += ' ' + (count + 1);
+
+            plotData.addDataset(dataset);
+            fileManager.addDatasetsToCurrentFile([dataset]);
+
+            if (wpd.appData.isMultipage()) {
+                pageManager.addDatasetsToCurrentPage([dataset]);
+            }
         }
     }
 

@@ -26,13 +26,11 @@ wpd.appData = (function() {
     let _plotData = null;
     let _undoManager = null;
     let _pageManager = null;
+    let _fileManager = null;
 
     function reset() {
         _plotData = null;
         _undoManager = null;
-        if (_pageManager !== null) {
-            _pageManager = _pageManager.destroy()
-        }
     }
 
     function getPlotData() {
@@ -60,8 +58,31 @@ wpd.appData = (function() {
         }
     }
 
+    function getMultipageUndoManager() {
+        if (isMultipage()) {
+            return _undoManager;
+        }
+        return null;
+    }
+
+    function setUndoManager(undoManager) {
+        _undoManager = undoManager;
+    }
+
+    function getFileManager() {
+        if (_fileManager == null) {
+            _fileManager = new wpd.FileManager();
+        }
+        return _fileManager;
+    }
+
     function getPageManager() {
         return _pageManager;
+    }
+
+    function setPageManager(pageManager) {
+        _pageManager = pageManager;
+        getFileManager().refreshPageInfo();
     }
 
     function isAligned() {
@@ -74,10 +95,7 @@ wpd.appData = (function() {
         return pageManager.pageCount() > 1;
     }
 
-    function plotLoaded(imageData, pageManager) {
-        if (_pageManager === null && pageManager !== null) {
-            _pageManager = pageManager;
-        }
+    function plotLoaded(imageData) {
         getPlotData().setTopColors(wpd.colorAnalyzer.getTopColors(imageData));
         getUndoManager().reapply();
     }
@@ -88,6 +106,10 @@ wpd.appData = (function() {
         getPlotData: getPlotData,
         getUndoManager: getUndoManager,
         getPageManager: getPageManager,
+        getFileManager: getFileManager,
+        getMultipageUndoManager: getMultipageUndoManager,
+        setPageManager: setPageManager,
+        setUndoManager: setUndoManager,
         reset: reset,
         plotLoaded: plotLoaded
     };

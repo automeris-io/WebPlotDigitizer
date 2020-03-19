@@ -307,7 +307,7 @@ msgid "Acquired Data"
 msgstr "采集的数据"
 
 #: templates/_popups.html:258 templates/_strings.html:47
-#: templates/_tree.html:57
+#: templates/_tree.html:58
 msgid "Dataset"
 msgstr "数据集"
 
@@ -630,7 +630,7 @@ msgstr ""
 msgid "Export to Plotly"
 msgstr "导出到 Plotly"
 
-#: templates/_popups.html:512 templates/_tree.html:42
+#: templates/_popups.html:512 templates/_tree.html:43
 msgid "Add Dataset"
 msgstr "添加数据集"
 
@@ -651,12 +651,12 @@ msgstr "数量"
 msgid "Add Multiple Datasets"
 msgstr "添加多个数据集"
 
-#: templates/_popups.html:522 templates/_tree.html:61
+#: templates/_popups.html:522 templates/_tree.html:62
 msgid "Rename Dataset"
 msgstr "重命名数据集"
 
 #: templates/_popups.html:527 templates/_popups.html:538
-#: templates/_tree.html:32
+#: templates/_tree.html:33
 msgid "Rename"
 msgstr "重命名"
 
@@ -664,7 +664,7 @@ msgstr "重命名"
 msgid "Rename Axes"
 msgstr "重命名坐标轴"
 
-#: templates/_popups.html:544 templates/_tree.html:10
+#: templates/_popups.html:544 templates/_tree.html:11
 msgid "Image Info"
 msgstr ""
 
@@ -751,7 +751,7 @@ msgid "Click to change color"
 msgstr "单击选择颜色"
 
 #: templates/_sidebars.html:33 templates/_strings.html:51
-#: templates/_tree.html:50 templates/_tree.html:70
+#: templates/_tree.html:51 templates/_tree.html:71
 msgid "Distance"
 msgstr "距离"
 
@@ -988,8 +988,8 @@ msgstr "错误：无效文件！"
 #: templates/_strings.html:22
 msgid ""
 "Please load a valid image file. Common image formats such as JPG, PNG, "
-"BMP, GIF etc. should work. PDF or Word documents are not accepted."
-msgstr "请导入有效的图片文件。常见图像格式如JPG、PNG、BMP、GIF等。不支持 PDF 或 Word 文档。"
+"BMP, GIF etc. should work. Word documents are not accepted."
+msgstr ""
 
 #: templates/_strings.html:23
 msgid "Raw"
@@ -1007,7 +1007,7 @@ msgstr "管理数据集"
 msgid "Please calibrate the axes before managing datasets."
 msgstr "请先标定坐标轴，再开始整理数据集。"
 
-#: templates/_strings.html:27 templates/_tree.html:62
+#: templates/_strings.html:27 templates/_tree.html:63
 msgid "Delete Dataset"
 msgstr "删除数据集"
 
@@ -1087,24 +1087,24 @@ msgstr "已存在相同名称的坐标轴，请选择一个不同的名称。"
 msgid "Specify a valid number of datasets to add!"
 msgstr "指定要添加的数据集个数的有效值！"
 
-#: templates/_strings.html:48 templates/_tree.html:40
+#: templates/_strings.html:48 templates/_tree.html:41
 msgid "Datasets"
 msgstr "数据集"
 
-#: templates/_strings.html:49 templates/_tree.html:48
+#: templates/_strings.html:49 templates/_tree.html:49
 msgid "Measurements"
 msgstr "测量"
 
-#: templates/_strings.html:50 templates/_tree.html:20 templates/_tree.html:30
-#: templates/_tree.html:59 templates/_tree.html:72 templates/_tree.html:89
+#: templates/_strings.html:50 templates/_tree.html:21 templates/_tree.html:31
+#: templates/_tree.html:60 templates/_tree.html:73 templates/_tree.html:90
 msgid "Axes"
 msgstr "坐标轴"
 
-#: templates/_strings.html:52 templates/_tree.html:51 templates/_tree.html:79
+#: templates/_strings.html:52 templates/_tree.html:52 templates/_tree.html:80
 msgid "Angle"
 msgstr "角度"
 
-#: templates/_strings.html:53 templates/_tree.html:52 templates/_tree.html:87
+#: templates/_strings.html:53 templates/_tree.html:53 templates/_tree.html:88
 msgid "Area/Perimeter"
 msgstr "面积/周长"
 
@@ -1172,68 +1172,68 @@ msgstr ""
 msgid "View Keyboard Shortcuts"
 msgstr "查看键盘快捷键"
 
-#: templates/_tree.html:11
+#: templates/_tree.html:12
 msgid "Previous Page"
 msgstr ""
 
-#: templates/_tree.html:12
+#: templates/_tree.html:13
 msgid "Next Page"
 msgstr ""
 
-#: templates/_tree.html:14
+#: templates/_tree.html:15
 msgid "Go"
 msgstr ""
 
-#: templates/_tree.html:22
+#: templates/_tree.html:23
 msgid "Add Calibration"
 msgstr "添加标定"
 
-#: templates/_tree.html:23
+#: templates/_tree.html:24
 msgid "Remove Grid"
 msgstr "清除网格"
 
-#: templates/_tree.html:24
+#: templates/_tree.html:25
 msgid "Import Calibration"
 msgstr "导入标定"
 
-#: templates/_tree.html:25
+#: templates/_tree.html:26
 msgid "Export Calibration"
 msgstr "导出标定"
 
-#: templates/_tree.html:33
+#: templates/_tree.html:34
 msgid "Tweak Calibration"
 msgstr "调整标定"
 
-#: templates/_tree.html:34
+#: templates/_tree.html:35
 msgid "Delete"
 msgstr "删除"
 
-#: templates/_tree.html:35
+#: templates/_tree.html:36
 msgid "View Equations"
 msgstr "查看方程"
 
-#: templates/_tree.html:43
+#: templates/_tree.html:44
 msgid "Export All Data"
 msgstr "导出所有数据"
 
-#: templates/_tree.html:60
+#: templates/_tree.html:61
 msgid "Display Color"
 msgstr ""
 
-#: templates/_tree.html:63 templates/_tree.html:74 templates/_tree.html:82
-#: templates/_tree.html:91
+#: templates/_tree.html:64 templates/_tree.html:75 templates/_tree.html:83
+#: templates/_tree.html:92
 msgid "View Data"
 msgstr "查看数据"
 
-#: templates/_tree.html:64
+#: templates/_tree.html:65
 msgid "Clear Data"
 msgstr "清除数据"
 
-#: templates/_tree.html:65
+#: templates/_tree.html:66
 msgid "Data Points"
 msgstr "数据点数"
 
-#: templates/_tree.html:73 templates/_tree.html:81 templates/_tree.html:90
+#: templates/_tree.html:74 templates/_tree.html:82 templates/_tree.html:91
 msgid "Clear All"
 msgstr "清除所有"
 
@@ -1275,4 +1275,12 @@ msgstr "清除所有"
 
 #~ msgid "Last Page"
 #~ msgstr ""
+
+#~ msgid ""
+#~ "Please load a valid image file. "
+#~ "Common image formats such as JPG, "
+#~ "PNG, BMP, GIF etc. should work. "
+#~ "PDF or Word documents are not "
+#~ "accepted."
+#~ msgstr "请导入有效的图片文件。常见图像格式如JPG、PNG、BMP、GIF等。不支持 PDF 或 Word 文档。"
 
