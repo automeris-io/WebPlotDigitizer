@@ -52,6 +52,7 @@ wpd.FileManager = class {
 
     reset() {
         this._init();
+        wpd.appData.setPageManager(null);
     }
 
     getFiles() {
@@ -344,8 +345,11 @@ wpd.FileManager = class {
                 });
             } else {
                 // if there aren't multiple files, associate all of the page metadata with
-                // the page manager of the only file
-                fileManager.pageManagers['0'].loadPageData(metadata.page);
+                // the page manager of the only pdf file
+                if (fileManager.files[0].type === 'application/pdf') {
+                    fileManager._savePageManager();
+                    fileManager.pageManagers['0'].loadPageData(metadata.page);
+                }
             }
         }
     }
