@@ -1,7 +1,7 @@
 /*
     WebPlotDigitizer - https://automeris.io/WebPlotDigitizer
 
-    Copyright 2010-2019 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+    Copyright 2010-2020 Ankit Rohatgi <ankitrohatgi@hotmail.com>
 
     This file is part of WebPlotDigitizer.
 
@@ -20,64 +20,6 @@
 */
 
 var wpd = wpd || {};
-
-wpd.utils = (function() {
-    function toggleElementsDisplay(elements, hide) {
-        for (const $el of elements) $el.hidden = hide;
-    }
-
-    function addToCollection(collection, key, objects) {
-        if (!collection[key]) {
-            collection[key] = [];
-        }
-        Array.prototype.push.apply(collection[key], objects);
-    }
-
-    function deleteFromCollection(collection, key, objects) {
-        if (!collection[key]) return;
-        objects.forEach(object => {
-            const index = collection[key].indexOf(object);
-            if (index > -1) {
-                collection[key].splice(index, 1);
-            }
-        });
-    }
-
-    function invertObject(object) {
-        let map = {};
-        Object.entries(object).forEach(([index, collection]) => {
-            collection.forEach(item => map[item.name] = parseInt(index, 10));
-        });
-        return map;
-    }
-
-    function filterCollection(collection, key, objects) {
-        let filtered = [];
-        if (collection[key]) {
-            filtered = objects.filter(object => {
-                return collection[key].indexOf(object) > -1;
-            });
-        }
-        return filtered;
-    }
-
-    function findKey(collection, object) {
-        for (const key in collection) {
-            if (collection[key].indexOf(object) > -1) {
-                return parseInt(key, 10);
-            }
-        }
-    }
-
-    return {
-        addToCollection: addToCollection,
-        deleteFromCollection: deleteFromCollection,
-        filterCollection: filterCollection,
-        findKey: findKey,
-        invertObject: invertObject,
-        toggleElementsDisplay: toggleElementsDisplay
-    };
-})();
 
 wpd.FileManager = class {
     constructor() {
