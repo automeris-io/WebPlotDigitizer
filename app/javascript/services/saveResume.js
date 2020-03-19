@@ -44,9 +44,11 @@ wpd.saveResume = (function() {
     }
 
     function _loadMetadata(metadata) {
+        let data = {};
         if (metadata && Object.keys(metadata).length !== 0) {
-            wpd.appData.getFileManager().loadMetadata(metadata);
+            data = metadata;
         }
+        wpd.appData.getFileManager().loadMetadata(data);
     }
 
     function stripIllegalCharacters(filename) {
