@@ -5,6 +5,8 @@ To be released
 
 New Features:
  - Allow loading static projects from the server using a project ID param in the URL
+ - Display color for a dataset
+
 
 Version 4.2
 ===========

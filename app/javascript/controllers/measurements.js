@@ -42,8 +42,8 @@ wpd.measurementModes = {
                     if (pageAxes.length > 0) {
                         for (let i = pageAxes.length - 1; i > -1; i--) {
                             if (
-                                pageAxes[i] instanceof wpd.MapAxes
-                                || pageAxes[i] instanceof wpd.ImageAxes
+                                pageAxes[i] instanceof wpd.MapAxes ||
+                                pageAxes[i] instanceof wpd.ImageAxes
                             ) {
                                 plotData.setAxesForMeasurement(distMeasure, pageAxes[i]);
                                 break;
