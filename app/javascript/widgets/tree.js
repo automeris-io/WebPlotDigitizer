@@ -354,8 +354,8 @@ wpd.tree = (function() {
             const axesPageMap = pageManager.getAxesNameMap();
             for (let axIdx = 0; axIdx < axesNames.length; axIdx++) {
                 if (
-                    axesFileMap[axesNames[axIdx]] === currentFileIndex
-                    && axesPageMap[axesNames[axIdx]] === currentPage
+                    axesFileMap[axesNames[axIdx]] === currentFileIndex &&
+                    axesPageMap[axesNames[axIdx]] === currentPage
                 ) {
                     innerHTML += "<option value='" + axIdx + "'>" + axesNames[axIdx] + "</option>";
                 }
@@ -404,7 +404,7 @@ wpd.tree = (function() {
 
         let msColl = fileManager.filterToCurrentFileMeasurements(
             isDist ? plotData.getMeasurementsByType(wpd.DistanceMeasurement) :
-                plotData.getMeasurementsByType(wpd.AreaMeasurement)
+            plotData.getMeasurementsByType(wpd.AreaMeasurement)
         );
         let ms;
 
@@ -419,11 +419,11 @@ wpd.tree = (function() {
 
             for (let axIdx = 0; axIdx < axesColl.length; axIdx++) {
                 if (
-                    axesFileMap[axesColl[axIdx].name] === currentFileIndex
-                    && axesPageMap[axesColl[axIdx].name] === currentPage
-                    && (
-                        axesColl[axIdx] instanceof wpd.ImageAxes
-                        || axesColl[axIdx] instanceof wpd.MapAxes
+                    axesFileMap[axesColl[axIdx].name] === currentFileIndex &&
+                    axesPageMap[axesColl[axIdx].name] === currentPage &&
+                    (
+                        axesColl[axIdx] instanceof wpd.ImageAxes ||
+                        axesColl[axIdx] instanceof wpd.MapAxes
                     )
                 ) {
                     innerHTML += "<option value='" + axIdx + "'>" + axesColl[axIdx].name + "</option>";
@@ -434,10 +434,10 @@ wpd.tree = (function() {
 
             for (let axIdx = 0; axIdx < axesColl.length; axIdx++) {
                 if (
-                    axesFileMap[axesColl[axIdx].name] === currentFileIndex
-                    && (
-                        axesColl[axIdx] instanceof wpd.ImageAxes
-                        || axesColl[axIdx] instanceof wpd.MapAxes
+                    axesFileMap[axesColl[axIdx].name] === currentFileIndex &&
+                    (
+                        axesColl[axIdx] instanceof wpd.ImageAxes ||
+                        axesColl[axIdx] instanceof wpd.MapAxes
                     )
                 ) {
                     innerHTML += "<option value='" + axIdx + "'>" + axesColl[axIdx].name + "</option>";

@@ -146,7 +146,7 @@ wpd.FileManager = class {
         wpd.appData.setUndoManager(undoManager);
     }
 
-    switch(index) {
+    switch (index) {
         const newIndex = parseInt(index, 10);
         if (newIndex !== this.currentIndex && newIndex > -1 && newIndex <= this.files.length) {
             // save page manager
@@ -317,20 +317,20 @@ wpd.FileManager = class {
 
                             for (const page in metadata.page.axes) {
                                 pageAxes[page] = metadata.page.axes[page].filter(ax => {
-                                    return fileManager.axesByFile[index]
-                                        && fileManager.axesByFile[index].indexOf(ax) > -1;
+                                    return fileManager.axesByFile[index] &&
+                                        fileManager.axesByFile[index].indexOf(ax) > -1;
                                 });
                             }
                             for (const page in metadata.page.datasets) {
                                 pageDatasets[page] = metadata.page.datasets[page].filter(ds => {
-                                    return fileManager.datasetsByFile[index]
-                                        && fileManager.datasetsByFile[index].indexOf(ds) > -1;
+                                    return fileManager.datasetsByFile[index] &&
+                                        fileManager.datasetsByFile[index].indexOf(ds) > -1;
                                 });
                             }
                             for (const page in metadata.page.measurements) {
                                 pageMeasurements[page] = metadata.page.measurements[page].filter(ms => {
-                                    return fileManager.measurementsByFile[index]
-                                        && fileManager.measurementsByFile[index].indexOf(ms) > -1;
+                                    return fileManager.measurementsByFile[index] &&
+                                        fileManager.measurementsByFile[index].indexOf(ms) > -1;
                                 });
                             }
 

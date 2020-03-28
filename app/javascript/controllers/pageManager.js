@@ -55,10 +55,10 @@ wpd.PageManager = class {
     }
 
     getPageText() {
-        return wpd.gettext('image-page')
-            + ' ' + this.currentPage()
-            + ' ' + wpd.gettext('image-of')
-            + ' ' + this.pageCount();
+        return wpd.gettext('image-page') +
+            ' ' + this.currentPage() +
+            ' ' + wpd.gettext('image-of') +
+            ' ' + this.pageCount();
     }
 
     currentPage() {
@@ -188,7 +188,9 @@ wpd.PDFManager = class extends wpd.PageManager {
 
     _pageRenderer(page, resumedProject, resolve, reject) {
         let scale = 3;
-        let viewport = page.getViewport({scale: scale});
+        let viewport = page.getViewport({
+            scale: scale
+        });
         let $canvas = document.createElement('canvas');
         let ctx = $canvas.getContext('2d');
         $canvas.width = viewport.width;
