@@ -81,6 +81,12 @@ td {
     height: 100%;
 }
 
+#bottomContainer {
+    width: 100%;
+    height: 40px;
+    border-top: thin lightgrey solid;
+}
+
 #canvasDiv {
     height: 400px;
     /* temporary */
@@ -283,4 +289,28 @@ select {
     border: thin lightgray solid;
     padding-top: 5px;
     display: none;
+}
+
+#bottomNavbarContainer {
+    height: 100%;
+}
+
+#imageAndPageNavbar {
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+#imageAndPageNavbar .paged {
+    margin-left: 10px;
+}
+
+#imageAndPageNavbar .files {
+    margin-left: 10px;
+}
+
+#navSeparator {
+    height: 100%;
+    margin: 0px 10px 0px 20px;
+    border-left: thin lightgray solid;
 }

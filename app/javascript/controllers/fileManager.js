@@ -25,6 +25,7 @@ wpd.FileManager = class {
     constructor() {
         this.$pageInfoElements = document.getElementsByClassName('paged');
         this.$fileSelectorContainers = document.getElementsByClassName('files');
+        this.$navSeparator = document.getElementById('navSeparator');
         this.$fileSelector = document.getElementById('image-file-select');
         this._init();
     }
@@ -37,6 +38,7 @@ wpd.FileManager = class {
         this.datasetsByFile = {};
         this.measurementsByFile = {};
         this.files = [];
+        this.$navSeparator.hidden = true;
         this._hidePageInfo();
     }
 
@@ -47,6 +49,7 @@ wpd.FileManager = class {
             this._showFileInfo();
         } else {
             this._hideFileInfo();
+            this.$navSeparator.hidden = true;
         }
     }
 
@@ -98,8 +101,12 @@ wpd.FileManager = class {
     refreshPageInfo() {
         if (wpd.appData.isMultipage()) {
             this._showPageInfo();
+            if (this.files.length > 1) {
+                this.$navSeparator.hidden = false;
+            }
         } else {
             this._hidePageInfo();
+            this.$navSeparator.hidden = true;
         }
     }
 
