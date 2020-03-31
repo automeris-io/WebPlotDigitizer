@@ -7,13 +7,7 @@
     <div id="image-item-tree-widget" class="tree-widget" style="flex: 0 0 100px;">
         <p class="sidebar-title">{{ _("Image") }}</p>
         <center>
-            <p class="files" hidden><select id="image-file-select" style="width:100%;" onchange="wpd.appData.getFileManager().switch(this.value);"></select></p>
             <p><input type="button" value="{{ _("Image Info") }}" style="width:150px;" onclick="wpd.imageEditing.showImageInfo();" /></p>
-            <p class="paged" hidden><input type="button" value="{{ _("Previous Page") }}" style="width:150px;" onclick="wpd.appData.getPageManager().previousPage();" /></p>
-            <p class="paged" hidden><input type="button" value="{{ _("Next Page") }}" style="width:150px;" onclick="wpd.appData.getPageManager().nextPage();" /></p>
-            <p class="paged" hidden>Go to page: <input id="image-page-nav-input" type="number" style="width:30px;" value="1" />
-                <input type="button" value="{{ _("Go") }}" onclick="wpd.appData.getPageManager().goToPage(document.getElementById('image-page-nav-input').value);" />
-            </p>
         </center>
     </div>
 

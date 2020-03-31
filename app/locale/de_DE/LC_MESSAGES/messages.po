@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-03-28 13:06-0700\n"
+"POT-Creation-Date: 2020-03-30 13:05-0400\n"
 "PO-Revision-Date: 2019-02-24 00:40-0800\n"
 "Last-Translator: \n"
 "Language: de_DE\n"
@@ -87,6 +87,18 @@ msgstr "Probleme melden"
 #: templates/_menubar.html:24
 msgid "Donate (PayPal)"
 msgstr "Spenden (PayPal)"
+
+#: templates/_navbar.html:5
+msgid "Previous Page"
+msgstr ""
+
+#: templates/_navbar.html:6
+msgid "Next Page"
+msgstr ""
+
+#: templates/_navbar.html:8
+msgid "Go"
+msgstr ""
 
 #: templates/_popups.html:7
 msgid "Load Image File"
@@ -318,7 +330,7 @@ msgid "Acquired Data"
 msgstr "Erlangte Daten"
 
 #: templates/_popups.html:258 templates/_strings.html:47
-#: templates/_tree.html:58
+#: templates/_tree.html:52
 msgid "Dataset"
 msgstr "Datensatz"
 
@@ -656,7 +668,7 @@ msgstr ""
 msgid "Export to Plotly"
 msgstr "Zu Plotly exportieren"
 
-#: templates/_popups.html:512 templates/_tree.html:43
+#: templates/_popups.html:512 templates/_tree.html:37
 msgid "Add Dataset"
 msgstr "Datensatz hinzufügen"
 
@@ -677,12 +689,12 @@ msgstr "Zähler"
 msgid "Add Multiple Datasets"
 msgstr "Mehrere Datensätze hinzufügen"
 
-#: templates/_popups.html:522 templates/_tree.html:62
+#: templates/_popups.html:522 templates/_tree.html:56
 msgid "Rename Dataset"
 msgstr "Datensatz umbenennen"
 
 #: templates/_popups.html:527 templates/_popups.html:538
-#: templates/_tree.html:33
+#: templates/_tree.html:27
 msgid "Rename"
 msgstr "Umbenennen"
 
@@ -690,7 +702,7 @@ msgstr "Umbenennen"
 msgid "Rename Axes"
 msgstr "Achsen umbenennen"
 
-#: templates/_popups.html:544 templates/_tree.html:11
+#: templates/_popups.html:544 templates/_tree.html:10
 msgid "Image Info"
 msgstr ""
 
@@ -780,7 +792,7 @@ msgid "Click to change color"
 msgstr "Klicken Sie um die Farbe ändern"
 
 #: templates/_sidebars.html:33 templates/_strings.html:51
-#: templates/_tree.html:51 templates/_tree.html:71
+#: templates/_tree.html:45 templates/_tree.html:65
 msgid "Distance"
 msgstr "Entfernung"
 
@@ -1046,7 +1058,7 @@ msgstr "Verwalten von Datensätzen"
 msgid "Please calibrate the axes before managing datasets."
 msgstr "Bitte kalibrieren Sie die Achsen, bevor Sie Datensätze verwalten."
 
-#: templates/_strings.html:27 templates/_tree.html:63
+#: templates/_strings.html:27 templates/_tree.html:57
 msgid "Delete Dataset"
 msgstr "Datensatz löschen"
 
@@ -1130,24 +1142,24 @@ msgstr ""
 msgid "Specify a valid number of datasets to add!"
 msgstr "Geben sie eine gültige Nummer hinzuzufügender Datensätze an!"
 
-#: templates/_strings.html:48 templates/_tree.html:41
+#: templates/_strings.html:48 templates/_tree.html:35
 msgid "Datasets"
 msgstr "Datensätze"
 
-#: templates/_strings.html:49 templates/_tree.html:49
+#: templates/_strings.html:49 templates/_tree.html:43
 msgid "Measurements"
 msgstr "Maße"
 
-#: templates/_strings.html:50 templates/_tree.html:21 templates/_tree.html:31
-#: templates/_tree.html:60 templates/_tree.html:73 templates/_tree.html:90
+#: templates/_strings.html:50 templates/_tree.html:15 templates/_tree.html:25
+#: templates/_tree.html:54 templates/_tree.html:67 templates/_tree.html:84
 msgid "Axes"
 msgstr "Achsen"
 
-#: templates/_strings.html:52 templates/_tree.html:52 templates/_tree.html:80
+#: templates/_strings.html:52 templates/_tree.html:46 templates/_tree.html:74
 msgid "Angle"
 msgstr "Winkel"
 
-#: templates/_strings.html:53 templates/_tree.html:53 templates/_tree.html:88
+#: templates/_strings.html:53 templates/_tree.html:47 templates/_tree.html:82
 msgid "Area/Perimeter"
 msgstr ""
 
@@ -1215,68 +1227,56 @@ msgstr ""
 msgid "View Keyboard Shortcuts"
 msgstr "Tastaturbefehle anzeigen"
 
-#: templates/_tree.html:12
-msgid "Previous Page"
-msgstr ""
-
-#: templates/_tree.html:13
-msgid "Next Page"
-msgstr ""
-
-#: templates/_tree.html:15
-msgid "Go"
-msgstr ""
-
-#: templates/_tree.html:23
+#: templates/_tree.html:17
 msgid "Add Calibration"
 msgstr "Kalibrierung hinzufügen"
 
-#: templates/_tree.html:24
+#: templates/_tree.html:18
 msgid "Remove Grid"
 msgstr "Gitter entfernen"
 
-#: templates/_tree.html:25
+#: templates/_tree.html:19
 msgid "Import Calibration"
 msgstr "Kalibrierung importieren"
 
-#: templates/_tree.html:26
+#: templates/_tree.html:20
 msgid "Export Calibration"
 msgstr "Kalibrierung exportieren"
 
-#: templates/_tree.html:34
+#: templates/_tree.html:28
 msgid "Tweak Calibration"
 msgstr "Kalibrierung bearbeiten"
 
-#: templates/_tree.html:35
+#: templates/_tree.html:29
 msgid "Delete"
 msgstr "Löschen"
 
-#: templates/_tree.html:36
+#: templates/_tree.html:30
 msgid "View Equations"
 msgstr "Gleichungen anzeigen"
 
-#: templates/_tree.html:44
+#: templates/_tree.html:38
 msgid "Export All Data"
 msgstr "Alle Daten exportieren"
 
-#: templates/_tree.html:61
+#: templates/_tree.html:55
 msgid "Display Color"
 msgstr ""
 
-#: templates/_tree.html:64 templates/_tree.html:75 templates/_tree.html:83
-#: templates/_tree.html:92
+#: templates/_tree.html:58 templates/_tree.html:69 templates/_tree.html:77
+#: templates/_tree.html:86
 msgid "View Data"
 msgstr "Daten anzeigen"
 
-#: templates/_tree.html:65
+#: templates/_tree.html:59
 msgid "Clear Data"
 msgstr "Daten löschen"
 
-#: templates/_tree.html:66
+#: templates/_tree.html:60
 msgid "Data Points"
 msgstr "Datenpunkte"
 
-#: templates/_tree.html:74 templates/_tree.html:82 templates/_tree.html:91
+#: templates/_tree.html:68 templates/_tree.html:76 templates/_tree.html:85
 msgid "Clear All"
 msgstr "Alle löschen"
 
