@@ -34,8 +34,8 @@ wpd.layoutManager = (function() {
         $sidebarControlsContainer.style.height = windowHeight - 280 + 'px';
         $mainContainer.style.width = windowWidth - $sidebarContainer.offsetWidth - 5 + 'px';
         $mainContainer.style.height = windowHeight + 'px';
-        $graphicsContainer.style.height = windowHeight - 45 + 'px';
-        $treeContainer.style.height = windowHeight - 45 + 'px';
+        $graphicsContainer.style.height = windowHeight - 85 + 'px';
+        $treeContainer.style.height = windowHeight - 85 + 'px';
         wpd.sidebar.resize();
     }
 
