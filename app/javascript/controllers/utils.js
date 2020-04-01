@@ -71,7 +71,6 @@ wpd.utils = (function() {
 
     function createOptionsHTML(labels, values, selectedValue) {
         if (labels.length !== values.length) {
-            debugger;
             console.error('labels and values length mismatch');
         }
 
