@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-03-30 13:05-0400\n"
+"POT-Creation-Date: 2020-04-01 12:01-0400\n"
 "PO-Revision-Date: 2016-12-12 23:09-0600\n"
 "Last-Translator: \n"
 "Language: en_US\n"
@@ -84,16 +84,16 @@ msgstr ""
 msgid "Donate (PayPal)"
 msgstr ""
 
-#: templates/_navbar.html:5
-msgid "Previous Page"
-msgstr ""
-
-#: templates/_navbar.html:6
-msgid "Next Page"
-msgstr ""
-
 #: templates/_navbar.html:8
-msgid "Go"
+msgid "Previous"
+msgstr ""
+
+#: templates/_navbar.html:9
+msgid "Next"
+msgstr ""
+
+#: templates/_navbar.html:10 templates/_popups.html:556
+msgid "Page Labels"
 msgstr ""
 
 #: templates/_popups.html:7
@@ -111,7 +111,7 @@ msgstr ""
 #: templates/_popups.html:466 templates/_popups.html:479
 #: templates/_popups.html:494 templates/_popups.html:506
 #: templates/_popups.html:517 templates/_popups.html:527
-#: templates/_popups.html:538
+#: templates/_popups.html:538 templates/_popups.html:570
 msgid "Cancel"
 msgstr ""
 
@@ -670,6 +670,25 @@ msgstr ""
 msgid "Image Info"
 msgstr ""
 
+#: templates/_popups.html:557
+msgid ""
+"Relabel the current page number with an alphanumeric string. Optionally, "
+"relabel all page numbers in the image based on the current page (only "
+"supports integer values)."
+msgstr ""
+
+#: templates/_popups.html:567
+msgid "Relabel"
+msgstr ""
+
+#: templates/_popups.html:568 templates/_sidebars.html:140
+msgid "Reset"
+msgstr ""
+
+#: templates/_popups.html:569
+msgid "Reset All"
+msgstr ""
+
 #: templates/_sidebars.html:3
 msgid "Axes Calibration"
 msgstr ""
@@ -863,10 +882,6 @@ msgstr ""
 
 #: templates/_sidebars.html:138
 msgid "Detect"
-msgstr ""
-
-#: templates/_sidebars.html:140
-msgid "Reset"
 msgstr ""
 
 #: templates/_sidebars.html:150
@@ -2283,5 +2298,31 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Last Page"
+#~ msgstr ""
+
+#~ msgid "Go"
+#~ msgstr ""
+
+#~ msgid "Previous Page"
+#~ msgstr ""
+
+#~ msgid "Next Page"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Relabel the current page. Optionally, "
+#~ "relabel all pages in the image "
+#~ "based on the new label (only "
+#~ "integers are supported)."
+#~ msgstr ""
+
+#~ msgid "Relabel Page"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Relabel the current page number. "
+#~ "Optionally, relabel all pages in the "
+#~ "image based on the new label (only"
+#~ " integers values)."
 #~ msgstr ""
 

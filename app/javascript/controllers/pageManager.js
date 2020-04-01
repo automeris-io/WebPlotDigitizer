@@ -27,21 +27,121 @@ wpd.PageManager = class {
         this.curPage = 0;
         this.minPage = 0;
         this.maxPage = 0;
+        this.customLabelsByPage = {};
         this.axesByPage = {};
         this.datasetsByPage = {};
         this.measurementsByPage = {};
-        this.$pageNavInput = document.getElementById('image-page-nav-input');
+        this.$pageSelector = document.getElementById('image-page-nav-select');
+        this.$pageRelabelInput = document.getElementById('image-page-relabel-input');
+        this.$pageRelabelAllCheckbox = document.getElementById('image-page-relabel-all-checkbox');
+        this.$pageRelabelSetButton = document.getElementById('image-page-relabel-set-button');
+        this.$pageRelabelDeleteButton = document.getElementById('image-page-relabel-delete-button');
+        this.$pageRelabelDeleteAllButton = document.getElementById('image-page-relabel-delete-all-button');
     }
 
-    init(handle) {
+    init(handle, skipInputRefresh) {
         this.handle = handle;
         this.curPage = 1;
         this.minPage = 1;
         this.maxPage = this.pageCount();
-        this.$pageNavInput.setAttribute('min', this.minPage);
-        this.$pageNavInput.setAttribute('max', this.maxPage);
+        if (!skipInputRefresh) {
+            this._initializeInput();
+        }
 
         return this;
+    }
+
+    _initializeInput() {
+        const values = wpd.utils.integerRange(this.maxPage, this.minPage);
+        const selected = this.curPage;
+        this.getPageLabels().then(fileLabels => {
+            let labels = [];
+
+            // loop through page range
+            values.forEach(page => {
+                const index = page - 1;
+                let label = page;
+                // priority of page labels:
+                //   1. custom page labels
+                //   2. file page labels
+                //   3. page number
+                if (this.customLabelsByPage.hasOwnProperty(page)) {
+                    label = this.customLabelsByPage[page] + ' (page ' + page + ' within file)';
+                } else if (fileLabels !== null) {
+                    label = fileLabels[index] + ' (page ' + page + ' within file)';
+                }
+                labels.push(label);
+            }, this);
+
+            this.$pageSelector.innerHTML = wpd.utils.createOptionsHTML(labels, values, selected);
+        });
+    }
+
+    refreshInput() {
+        this._initializeInput();
+        this._resetRelabelPopup();
+    }
+
+    validateLabel(label) {
+        if (label !== '') {
+            this.$pageRelabelSetButton.disabled = false;
+            if (wpd.utils.isInteger(label)) {
+                this.$pageRelabelAllCheckbox.disabled = false;
+                this.$pageRelabelAllCheckbox.parentElement.style = 'color: black;';
+            } else {
+                this.$pageRelabelAllCheckbox.checked = false;
+                this.$pageRelabelAllCheckbox.disabled = true;
+                this.$pageRelabelAllCheckbox.parentElement.style = 'color: lightgray;';
+            }
+        } else {
+            this.$pageRelabelSetButton.disabled = true;
+        }
+    }
+
+    _resetRelabelPopup() {
+        this.$pageRelabelInput.value = '';
+        this.$pageRelabelAllCheckbox.checked = false;
+        this.$pageRelabelAllCheckbox.disabled = true;
+        this.$pageRelabelAllCheckbox.parentElement.style = 'color: lightgray;';
+        this.$pageRelabelSetButton.disabled = true;
+        if (Object.keys(this.customLabelsByPage).length) {
+            this.$pageRelabelDeleteAllButton.disabled = false;
+            if (this.customLabelsByPage.hasOwnProperty(this.curPage)) {
+                this.$pageRelabelDeleteButton.disabled = false;
+            } else {
+                this.$pageRelabelDeleteButton.disabled = true;
+            }
+        } else {
+            this.$pageRelabelDeleteButton.disabled = true;
+            this.$pageRelabelDeleteAllButton.disabled = true;
+        }
+    }
+
+    setLabel() {
+        const newLabel = this.$pageRelabelInput.value;
+        if (newLabel !== '') {
+            if (this.$pageRelabelAllCheckbox.checked) {
+                const pages = wpd.utils.integerRange(this.maxPage, this.minPage);
+                const delta = newLabel - this.curPage;
+                pages.forEach(page => this.customLabelsByPage[page] = page + delta, this);
+            } else {
+                this.customLabelsByPage[this.curPage] = newLabel;
+            }
+            this._initializeInput();
+            wpd.popup.close('image-page-relabel-popup');
+            this._resetRelabelPopup();
+        }
+    }
+
+    deleteLabel(all) {
+        if (all) {
+            this.customLabelsByPage = {};
+        } else {
+            delete this.customLabelsByPage[this.curPage];
+        }
+        this._initializeInput();
+        wpd.popup.close('image-page-relabel-popup');
+        this._resetRelabelPopup();
     }
 
     get() {
@@ -54,41 +154,42 @@ wpd.PageManager = class {
         return 0;
     }
 
-    getPageText() {
-        return wpd.gettext('image-page') +
-            ' ' + this.currentPage() +
-            ' ' + wpd.gettext('image-of') +
-            ' ' + this.pageCount();
+    getPageLabels() {
+        return new Promise(resolve => resolve(null));
     }
 
     currentPage() {
         return this.curPage;
     }
 
-    previousPage() {
-        this.goToPage(this.curPage - 1);
+    previous() {
+        this.switch(this.curPage - 1);
     }
 
-    nextPage() {
-        this.goToPage(this.curPage + 1);
+    next() {
+        this.switch(this.curPage + 1);
     }
 
-    goToPage(pageNumber = 1) {
+    switch(pageNumber = 1) {
         wpd.busyNote.show();
 
-        if (!this._validatePageNumber(pageNumber)) {
+        const parsedPageNumber = parseInt(pageNumber, 10);
+
+        if (!this._validatePageNumber(parsedPageNumber)) {
             wpd.busyNote.close();
             wpd.messagePopup.show('Error', 'Invalid page number.');
             return false;
         }
 
-        const parsedPageNumber = parseInt(pageNumber, 10);
         this.curPage = parsedPageNumber;
-        this.$pageNavInput.value = parsedPageNumber;
+
+        // udpate select value for calls from other controls
+        this.$pageSelector.value = parsedPageNumber;
 
         const axesPageMap = this.getAxesNameMap();
         const hasAxes = Object.keys(axesPageMap).some(name => axesPageMap[name] === parsedPageNumber);
         this.renderPage(parsedPageNumber, hasAxes);
+        this._resetRelabelPopup();
     }
 
     _validatePageNumber(pageNumber) {
@@ -170,16 +271,25 @@ wpd.PageManager = class {
         return this.measurementsByPage;
     }
 
+    getPageLabelMap() {
+        return this.customLabelsByPage;
+    }
+
     loadPageData(data) {
-        this.axesByPage = data.axes;
-        this.datasetsByPage = data.datasets;
-        this.measurementsByPage = data.measurements;
+        this.axesByPage = data.axes || {};
+        this.datasetsByPage = data.datasets || {};
+        this.measurementsByPage = data.measurements || {};
+        this.customLabelsByPage = data.pageLabels || {};
     }
 };
 
 wpd.PDFManager = class extends wpd.PageManager {
     getPage(pageNumber) {
         return this.handle.getPage(pageNumber);
+    }
+
+    getPageLabels() {
+        return this.handle.getPageLabels();
     }
 
     pageCount() {

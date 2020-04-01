@@ -184,13 +184,7 @@ wpd.tree = (function() {
         const currentFileIndex = fileManager.currentFileIndex();
 
         // Image item
-        if (wpd.appData.isMultipage()) {
-            let imageFolder = {};
-            imageFolder[wpd.gettext('image')] = [pageManager.getPageText()];
-            treeData.push(imageFolder);
-        } else {
-            treeData.push(wpd.gettext('image'));
-        }
+        treeData.push(wpd.gettext('image'));
 
         // Axes folder
         let axesNames = plotData.getAxesNames();
