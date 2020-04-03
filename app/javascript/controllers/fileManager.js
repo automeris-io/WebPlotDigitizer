@@ -71,13 +71,10 @@ wpd.FileManager = class {
     }
 
     _initializeInput() {
-        let optionsHTML = '';
-        for (let i = 0; i < this.files.length; i++) {
-            optionsHTML += '<option value="' + i;
-            if (i === this.currentIndex) optionsHTML += ' selected';
-            optionsHTML += '">' + this.files[i].name + '</option>';
-        }
-        this.$fileSelector.innerHTML = optionsHTML;
+        const labels = Array.prototype.map.call(this.files, file => file.name);
+        const values = wpd.utils.integerRange(this.files.length);
+        const selected = this.currentIndex;
+        this.$fileSelector.innerHTML = wpd.utils.createOptionsHTML(labels, values, selected);
     }
 
     _showFileInfo() {
@@ -121,6 +118,7 @@ wpd.FileManager = class {
         let pageManager = null;
         if (this.pageManagers[index]) {
             pageManager = this.pageManagers[index];
+            pageManager.refreshInput();
         }
         wpd.appData.setPageManager(pageManager);
     }
@@ -153,7 +151,7 @@ wpd.FileManager = class {
         wpd.appData.setUndoManager(undoManager);
     }
 
-    switch (index) {
+    switch(index) {
         const newIndex = parseInt(index, 10);
         if (newIndex !== this.currentIndex && newIndex > -1 && newIndex <= this.files.length) {
             // save page manager
@@ -237,19 +235,24 @@ wpd.FileManager = class {
             };
         }
 
-        // only include page metadata if there are page managers saved in the file manager
+        // only include page and pageLabel metadata if there are page managers saved in the file manager
         if (Object.keys(this.pageManagers).length > 0) {
             // setting axes name maps and dataset name maps to start with an empty object
             // for ease of calling Object.assign later
             let axesNameMaps = [{}];
             let datasetNameMaps = [{}];
             let measurementPageMaps = []; // measurements do not have unique names
+            let pageLabelMaps = {};
 
             // collect metadata from all page managers
             for (const index in this.pageManagers) {
                 axesNameMaps.push(this.pageManagers[index].getAxesNameMap());
                 datasetNameMaps.push(this.pageManagers[index].getDatasetNameMap());
                 measurementPageMaps.push(this.pageManagers[index].getMeasurementPageMap());
+                const pageLabelMap = this.pageManagers[index].getPageLabelMap();
+                if (Object.keys(pageLabelMap).length) {
+                    pageLabelMaps[index] = pageLabelMap;
+                }
             }
 
             metadata.page = {
@@ -264,6 +267,13 @@ wpd.FileManager = class {
                     }
                 })
             };
+
+            if (Object.keys(pageLabelMaps).length) {
+                // include page label maps by file in the miscellaneous category
+                metadata.misc = {
+                    pageLabel: pageLabelMaps
+                };
+            }
         }
 
         return metadata;
@@ -272,52 +282,59 @@ wpd.FileManager = class {
     // for use when loading wpd json
     loadMetadata(metadata) {
         let fileManager = this;
-        // load file metadata
-        if (metadata.file && fileManager.files.length > 1) {
-            fileManager.axesByFile = metadata.file.axes;
-            fileManager.datasetsByFile = metadata.file.datasets;
-            fileManager.measurementsByFile = metadata.file.measurements;
-        } else {
-            // if the file key doesn't exist or there aren't multiple files, associate all of
-            // the file metadata with the only file
-            fileManager.axesByFile['0'] = wpd.appData.getPlotData().getAxesColl();
-            fileManager.datasetsByFile['0'] = wpd.appData.getPlotData().getDatasets();
-            fileManager.measurementsByFile['0'] = wpd.appData.getPlotData().getMeasurementColl();
-        }
 
-        // load page metadata
-        if (metadata.page) {
-            if (fileManager.files.length > 1) {
-                let pdfs = [];
-                for (let index = 0; index < fileManager.files.length; index++) {
-                    if (fileManager.files[index].type === 'application/pdf') {
-                        let filePromise = null
-                        // skip the first pdf, it has already been loaded
-                        if (index > 0) {
-                            filePromise = new Promise((resolve, reject) => {
-                                let reader = new FileReader();
-                                reader.onload = function() {
-                                    pdfjsLib.getDocument(reader.result).promise.then(pdf => resolve(pdf));
-                                };
-                                reader.readAsDataURL(this.files[index]);
-                            });
-                        }
-                        pdfs.push(filePromise);
+        if (Object.keys(metadata).length) {
+            // load file metadata
+            if (metadata.file) {
+                fileManager.axesByFile = metadata.file.axes || {};
+                fileManager.datasetsByFile = metadata.file.datasets || {};
+                fileManager.measurementsByFile = metadata.file.measurements || {};
+            } else {
+                // if there does not exist file indexes, assume there is only one file and
+                // associate all data collections with the only file
+                fileManager.axesByFile['0'] = wpd.appData.getPlotData().getAxesColl();
+                fileManager.datasetsByFile['0'] = wpd.appData.getPlotData().getDatasets();
+                fileManager.measurementsByFile['0'] = wpd.appData.getPlotData().getMeasurementColl();
+            }
+
+            let files = [];
+            for (let index = 0; index < fileManager.files.length; index++) {
+                let filePromise = null
+                if (fileManager.files[index].type === 'application/pdf') {
+                    // if the first file is a pdf, it has already been loaded with a page manager
+                    // save the page manager
+                    if (index === 0) {
+                        fileManager._savePageManager();
+                    } else {
+                        filePromise = new Promise((resolve, reject) => {
+                            let reader = new FileReader();
+                            reader.onload = function() {
+                                pdfjsLib.getDocument(reader.result).promise.then(pdf => resolve(pdf));
+                            };
+                            reader.readAsDataURL(this.files[index]);
+                        });
                     }
                 }
-                Promise.all(pdfs).then(pdfs => {
-                    let pdfIndex = 0;
-                    for (let index = 0; index < fileManager.files.length; index++) {
-                        if (fileManager.files[index].type === 'application/pdf') {
-                            if (pdfs[pdfIndex] !== null) {
-                                fileManager.pageManagers[index] = wpd.imageManager.initializePDFManager(
-                                    pdfs[pdfIndex]
-                                );
-                            } else {
-                                fileManager._savePageManager();
-                            }
-                            pdfIndex++;
+                files.push(filePromise);
+            }
 
+            Promise.all(files).then(files => {
+                for (let index = 0; index < files.length; index++) {
+                    let pageData = {};
+
+                    // only supporting pages in pdf files for now, this should include tiff files
+                    // in the future
+                    if (fileManager.files[index].type === 'application/pdf') {
+                        if (files[index] !== null) {
+                            // initialize page managers
+                            fileManager.pageManagers[index] = wpd.imageManager.initializePDFManager(
+                                files[index],
+                                true
+                            );
+                        }
+
+                        // load page metadata
+                        if (metadata.page) {
                             let pageAxes = {};
                             let pageDatasets = {};
                             let pageMeasurements = {};
@@ -341,23 +358,40 @@ wpd.FileManager = class {
                                 });
                             }
 
-                            fileManager.pageManagers[index].loadPageData({
+                            Object.assign(pageData, {
                                 axes: pageAxes,
                                 datasets: pageDatasets,
                                 measurements: pageMeasurements
                             });
                         }
                     }
-                    wpd.tree.refresh();
-                });
-            } else {
-                // if there aren't multiple files, associate all of the page metadata with
-                // the page manager of the only pdf file
-                if (fileManager.files[0].type === 'application/pdf') {
-                    fileManager._savePageManager();
-                    fileManager.pageManagers['0'].loadPageData(metadata.page);
+
+                    // load miscellaneous metadata
+                    if (metadata.misc) {
+                        // load page labels
+                        if (metadata.misc.pageLabel) {
+                            if (fileManager.pageManagers.hasOwnProperty(index)) {
+                                Object.assign(pageData, {
+                                    pageLabels: metadata.misc.pageLabel[index]
+                                });
+                            }
+                        }
+                    }
+
+                    // load page data into page manager
+                    if (fileManager.pageManagers.hasOwnProperty(index)) {
+                        if (Object.keys(pageData).length) {
+                            fileManager.pageManagers[index].loadPageData(pageData);
+                        }
+
+                        // refresh the page select input for the first file
+                        if (index === 0) {
+                            fileManager.pageManagers[index].refreshInput();
+                        }
+                    }
                 }
-            }
+                wpd.tree.refresh();
+            });
         }
     }
 };

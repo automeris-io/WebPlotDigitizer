@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-03-30 13:05-0400\n"
+"POT-Creation-Date: 2020-04-01 14:03-0400\n"
 "PO-Revision-Date: 2019-02-24 00:40-0800\n"
 "Last-Translator: \n"
 "Language: de_DE\n"
@@ -88,16 +88,16 @@ msgstr "Probleme melden"
 msgid "Donate (PayPal)"
 msgstr "Spenden (PayPal)"
 
-#: templates/_navbar.html:5
-msgid "Previous Page"
-msgstr ""
-
-#: templates/_navbar.html:6
-msgid "Next Page"
-msgstr ""
-
 #: templates/_navbar.html:8
-msgid "Go"
+msgid "Previous"
+msgstr ""
+
+#: templates/_navbar.html:9
+msgid "Next"
+msgstr ""
+
+#: templates/_navbar.html:10 templates/_popups.html:556
+msgid "Page Labels"
 msgstr ""
 
 #: templates/_popups.html:7
@@ -115,7 +115,7 @@ msgstr "Laden"
 #: templates/_popups.html:466 templates/_popups.html:479
 #: templates/_popups.html:494 templates/_popups.html:506
 #: templates/_popups.html:517 templates/_popups.html:527
-#: templates/_popups.html:538
+#: templates/_popups.html:538 templates/_popups.html:570
 msgid "Cancel"
 msgstr "Abbrechen"
 
@@ -706,6 +706,25 @@ msgstr "Achsen umbenennen"
 msgid "Image Info"
 msgstr ""
 
+#: templates/_popups.html:557
+msgid ""
+"Relabel the current page number with an alphanumeric string. Optionally, "
+"relabel all page numbers in the image based on the current page (only "
+"supports integer values)."
+msgstr ""
+
+#: templates/_popups.html:567
+msgid "Relabel"
+msgstr ""
+
+#: templates/_popups.html:568 templates/_sidebars.html:140
+msgid "Reset"
+msgstr "Zurücksetzen"
+
+#: templates/_popups.html:569
+msgid "Reset All"
+msgstr ""
+
 #: templates/_sidebars.html:3
 msgid "Axes Calibration"
 msgstr "Achsenkalibrierung"
@@ -903,10 +922,6 @@ msgstr "Y%"
 #: templates/_sidebars.html:138
 msgid "Detect"
 msgstr "Erkennen"
-
-#: templates/_sidebars.html:140
-msgid "Reset"
-msgstr "Zurücksetzen"
 
 #: templates/_sidebars.html:150
 msgid "Tutorial Video"
@@ -1328,4 +1343,30 @@ msgstr "Alle löschen"
 #~ "BMP, GIF etc. sollten funktionieren. PDF"
 #~ " oder Word-Dokumente werden nicht "
 #~ "akzeptiert."
+
+#~ msgid "Go"
+#~ msgstr ""
+
+#~ msgid "Previous Page"
+#~ msgstr ""
+
+#~ msgid "Next Page"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Relabel the current page. Optionally, "
+#~ "relabel all pages in the image "
+#~ "based on the new label (only "
+#~ "integers are supported)."
+#~ msgstr ""
+
+#~ msgid "Relabel Page"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Relabel the current page number. "
+#~ "Optionally, relabel all pages in the "
+#~ "image based on the new label (only"
+#~ " integers values)."
+#~ msgstr ""
 

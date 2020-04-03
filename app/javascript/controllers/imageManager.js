@@ -127,9 +127,9 @@ wpd.imageManager = (function() {
         fileManager.set(files);
     }
 
-    function initializePDFManager(pdf) {
+    function initializePDFManager(pdf, skipInputRefresh) {
         const pdfManager = new wpd.PDFManager();
-        pdfManager.init(pdf);
+        pdfManager.init(pdf, skipInputRefresh);
         return pdfManager;
     }
 

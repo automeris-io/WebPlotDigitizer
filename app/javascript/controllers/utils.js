@@ -69,12 +69,37 @@ wpd.utils = (function() {
         }
     }
 
+    function createOptionsHTML(labels, values, selectedValue) {
+        if (labels.length !== values.length) {
+            console.error('labels and values length mismatch');
+        }
+
+        let optionsHTML = '';
+        for (let i = 0; i < labels.length; i++) {
+            optionsHTML += '<option value="' + values[i] + '"';
+            if (values[i] === selectedValue) optionsHTML += ' selected';
+            optionsHTML += '>' + labels[i] + '</option>';
+        }
+        return optionsHTML;
+    }
+
+    function integerRange(count, start = 0) {
+        return Array.apply(null, Array(count)).map((_, i) => i + start);
+    }
+
+    function isInteger(value) {
+        return /^-?[1-9]\d*$|^0$/.test(value);
+    }
+
     return {
         addToCollection: addToCollection,
+        createOptionsHTML: createOptionsHTML,
         deleteFromCollection: deleteFromCollection,
         filterCollection: filterCollection,
         findKey: findKey,
+        integerRange: integerRange,
         invertObject: invertObject,
+        isInteger: isInteger,
         toggleElementsDisplay: toggleElementsDisplay
     };
 })();
