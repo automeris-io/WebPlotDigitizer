@@ -24,6 +24,7 @@ Version specifies the major and minor version of the file format as a JSON numbe
 "axesColl" is an array of objects defining each axis in the file.  Generally, each axis in the file is defined by the following names and values:
 
 * "name" is the string name for the axis as provided by the user.
+* "page" is the integer page number within the file.
 * "type" is the string type of axis (further details are below).
 * "calibrationPoints" are the points used to calibrate the axis.
     * "px" and "py" are the x and y points for calibration in pixel units as a number.
@@ -85,6 +86,7 @@ When "type" is "ImageAxes", only "name" and "type" are defined and no calibratio
 The dataset objects are made of the following name/value pairs:
 
 * "name" is the string name for the axis as provided by the user.
+* "page" is the integer page number within the file.
 * "axesName" is the name of the axes associated with the dataset.  It must be a name given in the "name" field for one of the axes defined in "axesColl".
 * "metadataKeys" is an empty array or it gives information on the use of the "metadata" in each data point object.
 * "data" are a vector of data point objects in the dataset.
