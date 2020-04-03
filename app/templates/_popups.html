@@ -551,6 +551,26 @@
     </center>
 </div>
 
+<!-- Page relabelling -->
+<div id="image-page-relabel-popup" class="popup" style="width:400px;">
+    <div class="popupheading">{{ _("Page Labels") }}</div>
+    <p>{{ _("Relabel the current page number with an alphanumeric string. Optionally, relabel all page numbers in the image based on the current page (only supports integer values).") }}</p>
+    <br />
+    <p>New page label: <input id="image-page-relabel-input" type="text" onkeyup="wpd.appData.getPageManager().validateLabel(this.value)" /></p>
+    <center>
+        <p style="color: lightgray;">
+            <input id="image-page-relabel-all-checkbox" type="checkbox" disabled />
+            <label for="image-page-relabel-all-checkbox">Relabel all pages</label>
+        </p>
+        <br />
+        <p>
+            <input id="image-page-relabel-set-button" type="button" value="{{ _("Relabel") }}" onclick="wpd.appData.getPageManager().setLabel();" disabled />
+            <input id="image-page-relabel-delete-button" type="button" value="{{ _("Reset") }}" onclick="wpd.appData.getPageManager().deleteLabel();" disabled />
+            <input id="image-page-relabel-delete-all-button" type="button" value="{{ _("Reset All") }}" onclick="wpd.appData.getPageManager().deleteLabel(true);" disabled />
+            <input id="image-page-relabel-cancel-button" type="button" value="{{ _("Cancel") }}" onclick="wpd.popup.close('image-page-relabel-popup');" />
+        </p>
+    </center>
+</div>
 
 <!-- Unit testing -->
 {% if enableTesting == True %}

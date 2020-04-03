@@ -475,6 +475,11 @@ wpd.PlotData = class {
             }
         }
 
+        // misc
+        if (data.misc != null) {
+            metadata.misc = data.misc;
+        }
+
         return metadata;
     }
 
@@ -612,6 +617,11 @@ wpd.PlotData = class {
             }
             data.measurementColl.push(msData);
         }
+
+        if (metadata && metadata.misc) {
+            data.misc = metadata.misc;
+        }
+
         return data;
     }
 };

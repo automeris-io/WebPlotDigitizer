@@ -1,10 +1,11 @@
 <!-- Image and Page navigation bar -->
 <div id="imageAndPageNavbar">
+    <span class="files" hidden>Image: </span>
     <div class="files" hidden><select id="image-file-select" style="width:100%;" onchange="wpd.appData.getFileManager().switch(this.value);"></select></div>
     <div id="navSeparator" hidden></div>
-    <div class="paged" hidden><input type="button" value="{{ _("Previous Page") }}" style="width:150px;" onclick="wpd.appData.getPageManager().previousPage();" /></div>
-    <div class="paged" hidden><input type="button" value="{{ _("Next Page") }}" style="width:150px;" onclick="wpd.appData.getPageManager().nextPage();" /></div>
-    <div class="paged" hidden>Go to page: <input id="image-page-nav-input" type="number" style="width:30px;" value="1" />
-        <input type="button" value="{{ _("Go") }}" onclick="wpd.appData.getPageManager().goToPage(document.getElementById('image-page-nav-input').value);" />
-    </div>
+    <span class="paged" hidden>Page: </span>
+    <div class="paged" hidden><select id="image-page-nav-select" style="width:100%;" onchange="wpd.appData.getPageManager().switch(this.value);"></select></div>
+    <div class="paged" hidden><input type="button" value="{{ _("Previous") }}" style="width:100px;" onclick="wpd.appData.getPageManager().previous();" /></div>
+    <div class="paged" hidden><input type="button" value="{{ _("Next") }}" style="width:100px;" onclick="wpd.appData.getPageManager().next();" /></div>
+    <div class="paged" hidden><input type="button" value="{{ _("Page Labels") }}" style="width:100px;" onclick="wpd.popup.show('image-page-relabel-popup');" /></div>
 </div>

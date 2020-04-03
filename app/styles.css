@@ -314,3 +314,7 @@ select {
     margin: 0px 10px 0px 20px;
     border-left: thin lightgray solid;
 }
+
+label {
+    vertical-align: top;
+}
