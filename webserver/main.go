@@ -30,7 +30,7 @@ func main() {
 	// read server settings
 	settings, err := ReadServerSettings("settings.json")
 	if err != nil {
-		log.Fatal("Error reading setting.json")
+		log.Fatal("Error reading settings.json")
 	}
 
 	// host the ui frontend
