@@ -34,7 +34,7 @@ Web Server:
 
 Electron App:
 - `electron-packager` npm package to create packages for distributions
-- `wine` on Linux systems to create Windows distributins
+- `wine` on Linux systems to create Windows distributions
 - Run `npm install` in the electron folder to fetch any other dependencies
 
 ## Building Source
