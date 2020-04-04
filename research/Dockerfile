@@ -23,8 +23,8 @@ RUN apt-get update \
 
 RUN git clone https://github.com/ankitrohatgi/WebPlotDigitizer.git \
     && cd WebPlotDigitizer \
-    && sed s/wine// setupUbuntuDev.sh > setupUbuntuDev-nowine.sh \
-    && sed 's/apt install/apt-get install --yes --no-install-recommends/' setupUbuntuDev-nowine.sh > setupUbuntuDev-aptfix.sh\
+    && grep -v wine setupUbuntuDev.sh | \
+       sed 's/apt install/apt-get install --yes --no-install-recommends/' > setupUbuntuDev-aptfix.sh \
     && chmod +x setupUbuntuDev-aptfix.sh \
     && DEBIAN_FRONTEND=noninteractive \
        ./setupUbuntuDev-aptfix.sh \
