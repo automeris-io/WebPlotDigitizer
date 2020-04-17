@@ -41,8 +41,10 @@ QUnit.test("Linear axis, vertical", function(assert) {
     }
 
     let algo = new wpd.BarExtractionAlgo();
-    algo.setParam(0, 20);
-    algo.setParam(1, 1);
+    algo.setParams({
+        delX: 20,
+        delVal: 1
+    });
     let ds = new wpd.Dataset();
     algo.run(autodetection, ds, barAxes);
     assert.equal(ds.getCount(), 3, "Dataset size");
@@ -98,8 +100,10 @@ QUnit.test("Linear axis, horizontal", function(assert) {
     }
 
     let algo = new wpd.BarExtractionAlgo();
-    algo.setParam(0, 20);
-    algo.setParam(1, 1);
+    algo.setParams({
+        delX: 20,
+        delVal: 1
+    });
     let ds = new wpd.Dataset();
     algo.run(autodetection, ds, barAxes);
     assert.equal(ds.getCount(), 2, "Dataset size");

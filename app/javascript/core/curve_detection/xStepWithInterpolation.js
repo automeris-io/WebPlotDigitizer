@@ -44,49 +44,34 @@ wpd.XStepWithInterpolationAlgo = class {
                 this._smoothing = 0;
             }
         }
-        return [
-            ["X_min", "Units", this._xmin],
-            ["ΔX Step", "Units", this._delx],
-            ["X_max", "Units", this._xmax],
-            ["Y_min", "Units", this._ymin],
-            ["Y_max", "Units", this._ymax],
-            ["Smoothing", "% of ΔX", this._smoothing]
-        ];
+        return {
+            xmin: ["X_min", "Units", this._xmin],
+            delx: ["ΔX Step", "Units", this._delx],
+            xmax: ["X_max", "Units", this._xmax],
+            ymin: ["Y_min", "Units", this._ymin],
+            ymax: ["Y_max", "Units", this._ymax],
+            smoothing: ["Smoothing", "% of ΔX", this._smoothing]
+        };
     }
 
-    setParam(index, val) {
-        if (index === 0) {
-            this._xmin = val;
-        } else if (index === 1) {
-            this._delx = val;
-        } else if (index === 2) {
-            this._xmax = val;
-        } else if (index === 3) {
-            this._ymin = val;
-        } else if (index === 4) {
-            this._ymax = val;
-        } else if (index === 5) {
-            this._smoothing = val;
-        }
+    setParams(params) {
+        this._xmin = params.xmin;
+        this._delx = params.delx;
+        this._xmax = params.xmax;
+        this._ymin = params.ymin;
+        this._ymax = params.ymax;
+        this._smoothing = params.smoothing;
     }
 
-    getParam(index) {
-        switch (index) {
-            case 0:
-                return this._xmin;
-            case 1:
-                return this._delx;
-            case 2:
-                return this._xmax;
-            case 3:
-                return this._ymin;
-            case 4:
-                return this._ymax;
-            case 5:
-                return this._smoothing;
-            default:
-                return null;
-        }
+    getParams() {
+        return {
+            xmin: this._xmin,
+            delx: this._delx,
+            xmax: this._xmax,
+            ymin: this._ymin,
+            ymax: this._ymax,
+            smoothing: this._smoothing
+        };
     }
 
     serialize() {

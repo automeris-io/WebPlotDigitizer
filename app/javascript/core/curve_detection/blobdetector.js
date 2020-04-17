@@ -31,23 +31,15 @@ wpd.BlobDetectorAlgo = class {
 
     getParamList(axes) {
         if (axes != null && axes instanceof wpd.MapAxes) {
-            return [
-                ['Min Diameter', 'Units', this._minDia],
-                ['Max Diameter', 'Units', this._maxDia]
-            ];
+            return {
+                minDia: ['Min Diameter', 'Units', this._minDia],
+                maxDia: ['Max Diameter', 'Units', this._maxDia]
+            };
         }
-        return [
-            ['Min Diameter', 'Px', this._minDia],
-            ['Max Diameter', 'Px', this._maxDia]
-        ];
-    }
-
-    setParam(index, val) {
-        if (index === 0) {
-            this._minDia = parseFloat(val);
-        } else if (index === 1) {
-            this._maxDia = parseFloat(val);
-        }
+        return {
+            minDia: ['Min Diameter', 'Px', this._minDia],
+            maxDia: ['Max Diameter', 'Px', this._maxDia]
+        };
     }
 
     serialize() {
@@ -65,8 +57,16 @@ wpd.BlobDetectorAlgo = class {
         this._wasRun = true;
     }
 
-    getParam(index) {
-        return index === 0 ? this._minDia : this._maxDia;
+    setParams(params) {
+        this._minDia = params.minDia;
+        this._maxDia = params.maxDia;
+    }
+
+    getParams() {
+        return {
+            minDia: this._minDia,
+            maxDia: this._maxDia
+        };
     }
 
     run(autoDetector, dataSeries, axes) {
