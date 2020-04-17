@@ -60,28 +60,28 @@ wpd.BarExtractionAlgo = class {
     getParamList(axes) {
         var orientationAxes = axes.getOrientation().axes;
         if (orientationAxes === 'Y') {
-            return [
-                ['ΔX', 'Px', this._delX],
-                ['ΔVal', 'Px', this._delVal]
-            ];
+            return {
+                delX: ['ΔX', 'Px', this._delX],
+                delVal: ['ΔVal', 'Px', this._delVal]
+            };
         } else {
-            return [
-                ['ΔY', 'Px', this._delX],
-                ['ΔVal', 'Px', this._delVal]
-            ];
+            return {
+                delX: ['ΔY', 'Px', this._delX],
+                delVal: ['ΔVal', 'Px', this._delVal]
+            };
         }
     }
 
-    setParam(index, val) {
-        if (index === 0) {
-            this._delX = parseFloat(val);
-        } else if (index === 1) {
-            this._delVal = parseFloat(val);
-        }
+    setParams(params) {
+        this._delX = params.delX;
+        this._delVal = params.delVal;
     }
 
-    getParam(index) {
-        return index === 0 ? this._delX : this._delVal;
+    getParams(params) {
+        return {
+            delX: this._delX,
+            delVal: this._delVal
+        };
     }
 
     serialize() {

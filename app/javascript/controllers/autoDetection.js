@@ -127,13 +127,15 @@ wpd.algoManager = (function() {
     function renderParameters(algo) {
         let $paramContainer = document.getElementById('algo-parameter-container');
         let algoParams = algo.getParamList(axes);
+        let algoParamKeys = Object.keys(algoParams);
         let tableString = "<table>";
 
-        for (let pi = 0; pi < algoParams.length; pi++) {
-            tableString += '<tr><td>' + algoParams[pi][0] +
-                '</td><td><input type="text" size=3 id="algo-param-' + pi +
-                '" class="algo-params" value="' + algoParams[pi][2] + '"/></td><td>' +
-                algoParams[pi][1] + '</td></tr>';
+        for (let pi = 0; pi < algoParamKeys.length; pi++) {
+            let algoParam = algoParams[algoParamKeys[pi]];
+            tableString += '<tr><td>' + algoParam[0] +
+                '</td><td><input type="text" size=3 id="algo-param-' + algoParamKeys[pi] +
+                '" class="algo-params" value="' + algoParam[2] + '"/></td><td>' +
+                algoParam[1] + '</td></tr>';
         }
 
         tableString += "</table>";
@@ -149,11 +151,13 @@ wpd.algoManager = (function() {
         let ctx = wpd.graphicsWidget.getAllContexts();
         let imageSize = wpd.graphicsWidget.getImageSize();
 
+        let algoParams = {};
         for (let pi = 0; pi < $paramFields.length; pi++) {
             let paramId = $paramFields[pi].id;
-            let paramIndex = parseInt(paramId.replace('algo-param-', ''), 10);
-            algo.setParam(paramIndex, parseFloat($paramFields[pi].value));
+            let paramVar = paramId.replace('algo-param-', '');
+            algoParams[paramVar] = parseFloat($paramFields[pi].value);
         }
+        algo.setParams(algoParams);
 
         wpd.graphicsWidget.removeTool();
 

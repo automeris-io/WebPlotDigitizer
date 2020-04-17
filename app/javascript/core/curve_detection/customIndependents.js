@@ -39,31 +39,20 @@ wpd.CustomIndependents = class {
         this._wasRun = true;
     }
 
-    getParam(index) {
-        switch (index) {
-            case 0:
-                return this._xvals;
-            case 1:
-                return this._ymin;
-            case 2:
-                return this._ymax;
-            case 3:
-                return this._smoothing;
-            default:
-                return null;
-        }
+    setParams(params) {
+        this._xvals = params.xvals;
+        this._ymin = params.ymin;
+        this._ymax = params.ymax;
+        this._smoothing = params.smoothing;
     }
 
-    setParam(index, val) {
-        if (index === 0) {
-            this._xvals = val;
-        } else if (index === 1) {
-            this._ymin = val;
-        } else if (index === 2) {
-            this._ymax = val;
-        } else if (index === 3) {
-            this._smoothing = val;
-        }
+    getParams() {
+        return {
+            xvals: this._xvals,
+            ymin: this._ymin,
+            ymax: this._ymax,
+            smoothing: this._smoothing
+        };
     }
 
     serialize() {

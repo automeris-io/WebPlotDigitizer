@@ -30,22 +30,22 @@ wpd.AveragingWindowAlgo = class {
     }
 
     getParamList(axes) {
-        return [
-            ['ΔX', 'Px', this._xStep],
-            ['ΔY', 'Px', this._yStep]
-        ];
+        return {
+            xStep: ['ΔX', 'Px', this._xStep],
+            yStep: ['ΔY', 'Px', this._yStep]
+        };
     }
 
-    setParam(index, val) {
-        if (index === 0) {
-            this._xStep = val;
-        } else if (index === 1) {
-            this._yStep = val;
-        }
+    setParams(params) {
+        this._xStep = params.xStep;
+        this._yStep = params.yStep;
     }
 
-    getParam(index) {
-        return index === 0 ? this._xStep : this._yStep;
+    getParams() {
+        return {
+            xStep: this._xStep,
+            yStep: this._yStep
+        };
     }
 
     serialize() {

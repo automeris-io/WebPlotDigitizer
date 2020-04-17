@@ -28,24 +28,30 @@ QUnit.test("Linear XY axes", function(assert) {
 
     // X step w/ Interpolation
     let algo = new wpd.XStepWithInterpolationAlgo();
-    algo.setParam(0, 0); // xmin
-    algo.setParam(1, 1); // delx
-    algo.setParam(2, 100); // xmax
-    algo.setParam(3, 0); // ymin
-    algo.setParam(4, 10); // ymax
-    algo.setParam(5, 0); // smoothing
+    algo.setParams({
+        xmin: 0,
+        delx: 1,
+        xmax: 100,
+        ymin: 0,
+        ymax: 10,
+        smoothing: 0
+    });
 
     let ds = new wpd.Dataset();
 
     algo.run(autodetection, ds, xyaxes);
     assert.equal(ds.getCount(), 101, "Simple Linear XY");
 
-    // Apply on just a small window
-    algo.setParam(0, 10); // xmin
-    algo.setParam(1, 2); // delx
-    algo.setParam(2, 40); // xmax
-    algo.setParam(3, 0); // ymin
-    algo.setParam(4, 10); // ymax
+    // Apply on just a small window    
+    algo.setParams({
+        xmin: 10,
+        delx: 2,
+        xmax: 40,
+        ymin: 0,
+        ymax: 10,
+        smoothing: 0
+    });
+
     algo.run(autodetection, ds, xyaxes);
     assert.equal(ds.getCount(), 16, "Simple Linear XY - Bounded with step size");
 
@@ -58,11 +64,14 @@ QUnit.test("Linear XY axes", function(assert) {
         autodetection.binaryData.add(img_index);
     }
 
-    algo.setParam(0, 10); // xmin
-    algo.setParam(1, 2); // delx
-    algo.setParam(2, 40); // xmax
-    algo.setParam(3, 0); // ymin
-    algo.setParam(4, 10); // ymax
+    algo.setParams({
+        xmin: 10,
+        delx: 2,
+        xmax: 40,
+        ymin: 0,
+        ymax: 10,
+        smoothing: 0
+    });
     algo.run(autodetection, ds, xyaxes);
     assert.equal(ds.getCount(), 16, "Simple Linear XY - Discontinuous sin(x)");
 });
@@ -96,24 +105,29 @@ QUnit.test("Linear negative XY axes", function(assert) {
 
     // X step w/ Interpolation
     let algo = new wpd.XStepWithInterpolationAlgo();
-    algo.setParam(0, -100); // xmin
-    algo.setParam(1, 1); // delx
-    algo.setParam(2, 0); // xmax
-    algo.setParam(3, -10); // ymin
-    algo.setParam(4, 0); // ymax
-    algo.setParam(5, 0); // smoothing
+    algo.setParams({
+        xmin: -100,
+        delx: 1,
+        xmax: 0,
+        ymin: -10,
+        ymax: 0,
+        smoothing: 0
+    });
 
     let ds = new wpd.Dataset();
 
     algo.run(autodetection, ds, xyaxes);
     assert.equal(ds.getCount(), 101, "Simple Linear XY");
 
-    // Apply on just a small window
-    algo.setParam(0, -40); // xmin
-    algo.setParam(1, 2); // delx
-    algo.setParam(2, -10); // xmax
-    algo.setParam(3, -10); // ymin
-    algo.setParam(4, 0); // ymax
+    // Apply on just a small window    
+    algo.setParams({
+        xmin: -40,
+        delx: 2,
+        xmax: -10,
+        ymin: -10,
+        ymax: 0,
+        smoothing: 0
+    });
     algo.run(autodetection, ds, xyaxes);
     assert.equal(ds.getCount(), 16, "Simple Linear XY - Bounded with step size");
 
@@ -126,11 +140,14 @@ QUnit.test("Linear negative XY axes", function(assert) {
         autodetection.binaryData.add(img_index);
     }
 
-    algo.setParam(0, -40); // xmin
-    algo.setParam(1, 2); // delx
-    algo.setParam(2, -10); // xmax
-    algo.setParam(3, -10); // ymin
-    algo.setParam(4, 0); // ymax
+    algo.setParams({
+        xmin: -40,
+        delx: 2,
+        xmax: -10,
+        ymin: -10,
+        ymax: 0,
+        smoothing: 0
+    });
     algo.run(autodetection, ds, xyaxes);
     assert.equal(ds.getCount(), 16, "Simple Linear XY - Discontinuous sin(x)");
 });
@@ -166,12 +183,14 @@ QUnit.test("Log scale in X direction", function(assert) {
 
     // X step w/ Interpolation
     let algo = new wpd.XStepWithInterpolationAlgo();
-    algo.setParam(0, 1e-5); // xmin
-    algo.setParam(1, 10); // delx
-    algo.setParam(2, 10); // xmax
-    algo.setParam(3, 0); // ymin
-    algo.setParam(4, 10); // ymax
-    algo.setParam(5, 0); // smoothing
+    algo.setParams({
+        xmin: 1e-5,
+        delx: 10,
+        xmax: 10,
+        ymin: 0,
+        ymax: 10,
+        smoothing: 0
+    });
 
     let ds = new wpd.Dataset();
 
@@ -209,12 +228,14 @@ QUnit.test("Log scale in Y direction", function(assert) {
 
     // X step w/ Interpolation
     let algo = new wpd.XStepWithInterpolationAlgo();
-    algo.setParam(0, 0); // xmin
-    algo.setParam(1, 1); // delx
-    algo.setParam(2, 100); // xmax
-    algo.setParam(3, 1e-5); // ymin
-    algo.setParam(4, 1000); // ymax
-    algo.setParam(5, 0); // smoothing
+    algo.setParams({
+        xmin: 0,
+        delx: 1,
+        xmax: 100,
+        ymin: 1e-5,
+        ymax: 1000,
+        smoothing: 0
+    });
 
     let ds = new wpd.Dataset();
 
@@ -252,12 +273,14 @@ QUnit.test("Log scale in Y direction, base 2", function(assert) {
 
     // X step w/ Interpolation
     let algo = new wpd.XStepWithInterpolationAlgo();
-    algo.setParam(0, 0); // xmin
-    algo.setParam(1, 1); // delx
-    algo.setParam(2, 100); // xmax
-    algo.setParam(3, Math.pow(2, -5)); // ymin
-    algo.setParam(4, Math.pow(2, 3)); // ymax
-    algo.setParam(5, 0); // smoothing
+    algo.setParams({
+        xmin: 0,
+        delx: 1,
+        xmax: 100,
+        ymin: Math.pow(2, -5),
+        ymax: Math.pow(2, 3),
+        smoothing: 0
+    });
 
     let ds = new wpd.Dataset();
 
