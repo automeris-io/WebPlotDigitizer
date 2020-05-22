@@ -405,7 +405,7 @@ wpd.AdjustDataPointTool = (function() {
                         wpd.graphicsWidget.resetData();
                         wpd.graphicsWidget.forceHandlerRepaint();
                         wpd.graphicsWidget.updateZoomToImagePosn(pointPx, pointPy);
-                        wpd.dataPointCounter.setCount();
+                        wpd.dataPointCounter.setCount(dataset.getCount());
                         ev.preventDefault();
                         ev.stopPropagation();
                         return;
