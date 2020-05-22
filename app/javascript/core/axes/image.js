@@ -70,5 +70,9 @@ wpd.ImageAxes = (function() {
         return ['X', 'Y'];
     };
 
+    AxesObj.prototype.getType = function() {
+        return 'image';
+    };
+
     return AxesObj;
 })();

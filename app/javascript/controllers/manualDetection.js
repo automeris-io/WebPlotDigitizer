@@ -108,7 +108,10 @@ wpd.acquireData = (function() {
     }
 
     function editLabels() {
-        wpd.graphicsWidget.setTool(new wpd.EditLabelsTool(axes, dataset));
+        // this should only trigger the tool if the axes type is bar
+        if (axes.getType() === 'bar') {
+            wpd.graphicsWidget.setTool(new wpd.EditLabelsTool(axes, dataset));
+        }
     }
 
     function switchToolOnKeyPress(alphaKey) {
@@ -208,5 +211,312 @@ wpd.dataPointLabelEditor = (function() {
         ok: ok,
         cancel: cancel,
         keydown: keydown
+    };
+})();
+
+wpd.dataPointValueOverrideEditor = (function() {
+    var ds, ax, ptIndexes, tool;
+
+    var editorID = 'data-point-value-override-editor';
+    var tableID = 'data-point-value-override-editor-table';
+    var resetFlagID = 'data-point-value-override-revert-flag';
+
+    var labelBaseID = 'data-point-value-override-field-label-';
+    var fieldBaseID = 'data-point-value-override-field-';
+    var indicatorBaseID = 'data-point-value-override-indicator-';
+
+    var multiplePointsSelectedMessage = 'Multiple points selected';
+    var multipleOverridesExistMessage = 'Multiple override values';
+    var someOverridesExistMessage = 'Some values overridden';
+
+    function _init(dataset, axes, pointIndexes, initTool) {
+        ds = dataset;
+        ax = axes;
+        ptIndexes = pointIndexes;
+        tool = initTool;
+
+        // get axes labels to label input fields
+        var axesLabels = axes.getAxesLabels();
+
+        // generate the table row HTML
+        document.getElementById(tableID).innerHTML = _getTableRowsHTML(axesLabels);
+
+        // avoid handler collisions
+        wpd.graphicsWidget.removeTool();
+
+        // reselect point, display tool mask, and repaint to keep displaying the selected point
+        dataset.selectPixels(pointIndexes);
+        initTool.displayMask();
+        wpd.graphicsWidget.forceHandlerRepaint();
+
+        // bind keydown listener so esc key closes the popup properly
+        window.addEventListener("keydown", keydown, false);
+    }
+
+    function _getTableRowsHTML(axesLabels) {
+        var html = '';
+
+        for (var i = 0; i < axesLabels.length; i++) {
+            html += '<tr>';
+
+            // row label
+            html += '<td>';
+            html += '<span id="' + labelBaseID + i + '">';
+            html += axesLabels[i] + '</span>:';
+            html += '</td>';
+
+            // row input
+            html += '<td>';
+            html += '<input type="text" id="' + fieldBaseID + i + '"';
+            html += ' onkeydown="wpd.dataPointValueOverrideEditor.keydown(event);" />';
+            html += '</td>';
+
+            // row overridden indicator
+            html += '<td>';
+            html += '<span id="' + indicatorBaseID + i + '"';
+            html += ' hidden>&#8682;</span>';
+            html += '</td>';
+
+            html += '</tr>';
+        }
+
+        return html;
+    }
+
+    function show(dataset, axes, pointIndexes, initTool) {
+        // Bar charts currently not supported
+        if (axes.getType() === 'bar') {
+            return;
+        }
+
+        // initialize popup
+        _init(dataset, axes, pointIndexes, initTool);
+
+        // show popup window
+        wpd.popup.show(editorID);
+
+        var displayValues = [];
+        var fieldCount = axes.getDimensions();
+
+        // variables for checking if each value on points have been overridden
+        var isAllOverridden = [];
+        var isSomeOverridden = [];
+
+        // go through each selected point and collect values for display
+        for (var i = 0; i < pointIndexes.length; i++) {
+            var pixel = dataset.getPixel(pointIndexes[i]);
+            var originalValues = axes.pixelToData(pixel.x, pixel.y);
+            var overrideValues = [];
+
+            // if metadata on the pixel exists, display saved override values
+            // if not, display current values
+            if (pixel.metadata != null) {
+                // retrieve stored override values
+                overrideValues = pixel.metadata;
+            }
+
+            // for each original calculated value, if there exists an override, display
+            // the override value instead of the original value
+            for (var j = 0; j < fieldCount; j++) {
+                if (isAllOverridden[j] === undefined) {
+                    isAllOverridden.push(true);
+                }
+
+                if (isSomeOverridden[j] === undefined) {
+                    isSomeOverridden.push(false);
+                }
+
+                if (overrideValues[j] == null) {
+                    // no override value, use original calculated value
+                    displayValues.push(originalValues[j]);
+
+                    isAllOverridden[j] = false;
+                } else {
+                    // override value exists, use override value
+                    displayValues.push(overrideValues[j]);
+
+                    isSomeOverridden[j] = true;
+                }
+            }
+        }
+
+        // for each field: set display values, show/hide overridden icons,
+        // and display appropriate placeholder text if applicable
+        for (var i = 0; i < fieldCount; i++) {
+            var $field = document.getElementById(fieldBaseID + i);
+            var $overriddenIndicator = document.getElementById(indicatorBaseID + i);
+
+            if (isSomeOverridden[i]) {
+                if (isAllOverridden[i]) {
+                    // check if all overridden values are the same
+                    var sameValue = true;
+                    for (var j = i + fieldCount; j < displayValues.length; j += fieldCount) {
+                        if (displayValues[i] !== displayValues[j]) {
+                            sameValue = false;
+                            break;
+                        }
+                    }
+
+                    if (sameValue) {
+                        // get the first set of values in displayValues if all overrides
+                        // are the same value
+                        $field.value = displayValues[i];
+                    } else {
+                        $field.placeholder = multipleOverridesExistMessage;
+                    }
+                } else {
+                    $field.placeholder = someOverridesExistMessage;
+                }
+
+                // display value overridden indicator
+                $overriddenIndicator.hidden = false;
+            } else {
+                // single point
+                if (displayValues.length === fieldCount) {
+                    $field.value = displayValues[i];
+                } else {
+                    // none overridden, clear inputs
+                    $field.placeholder = multiplePointsSelectedMessage;
+                }
+
+                // hide value overridden indicator
+                $overriddenIndicator.hidden = true;
+            }
+        }
+    }
+
+    function ok() {
+        // process each selected point
+        for (var i = 0; i < ptIndexes.length; i++) {
+            if (document.getElementById(resetFlagID).value === '0') {
+                var hasChanges = false;
+                var newValues = [];
+
+                // fetch original values by converting pixel coordinates to values
+                var pixel = ds.getPixel(ptIndexes[i]);
+                var originalValues = ax.pixelToData(pixel.x, pixel.y);
+
+                // fetch and process each input field values
+                for (var j = 0; j < ax.getDimensions(); j++) {
+                    var newValue = document.getElementById(fieldBaseID + j).value;
+
+                    if (
+                        originalValues[j] != newValue
+                        && newValue != null
+                        && newValue.length > 0
+                    ) {
+                        hasChanges = true;
+
+                        // convert numeric strings to float
+                        if (!isNaN(newValue)) {
+                            newValue = parseFloat(newValue);
+                        }
+                    } else {
+                        newValue = null;
+                    }
+                    newValues.push(newValue);
+                }
+
+                // if any value is overridden, set the metadata
+                if (hasChanges) {
+                    // set value
+                    ds.setMetadataAt(ptIndexes[i], newValues);
+
+                    // set metadata keys for dataset if not been set
+                    if (ds.getMetadataKeys().length === 0) {
+                        ds.setMetadataKeys(ax.getAxesLabels().map(
+                            function(label) { return 'override-' + label.toLowerCase(); }
+                        ));
+                    }
+
+                    // refresh graphics
+                    wpd.graphicsWidget.resetData();
+                } else {
+                    _resetMetadataAt(ptIndexes[i]);
+                }
+            } else {
+                // if reset flag is set, skip the checks and remove metadata on
+                // selected points
+                _resetMetadataAt(ptIndexes[i]);
+            }
+        }
+
+        _closePopup();
+    }
+
+    function _resetMetadataAt(index) {
+        // otherwise set the metadata to null, effectively removing it
+        ds.setMetadataAt(index, undefined);
+
+        // remove metadata keys on the dataset if all have been removed
+        if (!ds.hasMetadata()) {
+            ds.setMetadataKeys([]);
+        }
+    }
+
+    function _closePopup() {
+        // clear reset flag
+        document.getElementById(resetFlagID).value = '0';
+
+        // remove popup keydown listener
+        window.removeEventListener("keydown", keydown, false);
+
+        wpd.popup.close(editorID);
+        wpd.graphicsWidget.setTool(tool);
+        tool.toggleOverrideSection(ptIndexes);
+        wpd.graphicsWidget.forceHandlerRepaint();
+    }
+
+    function cancel() {
+        _closePopup();
+    }
+
+    function keydown(ev) {
+        if (wpd.keyCodes.isEnter(ev.keyCode)) {
+            ok();
+        } else if (wpd.keyCodes.isEsc(ev.keyCode)) {
+            cancel();
+        }
+        ev.stopPropagation();
+    }
+
+    function clear() {
+        // set reset flag
+        document.getElementById(resetFlagID).value = '1';
+
+        // process each selected point
+        for (var i = 0; i < ptIndexes.length; i++) {
+            // convert pixel coordinates to values
+            var pixel = ds.getPixel(ptIndexes[i]);
+            var originalValues = ax.pixelToData(pixel.x, pixel.y);
+
+            // process each field
+            for (var j = 0; j < ax.getDimensions(); j++) {
+                var $field = document.getElementById(fieldBaseID + j);
+                var value;
+
+                // different behavior when multiple points are selected
+                if (ptIndexes.length > 1) {
+                    value = '';
+                    $field.placeholder = multiplePointsSelectedMessage;
+                } else {
+                    value = originalValues[j];
+                }
+
+                // reset input fields
+                document.getElementById(fieldBaseID + j).value = value
+
+                // hide override indicators
+                document.getElementById(indicatorBaseID + j).hidden = true;
+            }
+        }
+    }
+
+    return {
+        show: show,
+        ok: ok,
+        cancel: cancel,
+        keydown: keydown,
+        clear: clear
     };
 })();

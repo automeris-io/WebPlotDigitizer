@@ -211,8 +211,22 @@ wpd.DataPointsRepainter = class {
 
 wpd.AdjustDataPointTool = (function() {
     var Tool = function(axes, dataset) {
+        var $button = document.getElementById('manual-adjust-button');
+        var $overrideSection = document.getElementById('value-overrides-controls');
+        var $overrideButton = document.getElementById('override-data-values');
+
+        // multi-select box
+        var isMouseDown = false;
+        var isSelecting = false;
+        var _drawTimer = null;
+        var p1 = null;
+        var p2 = null;
+        var imageP1 = null;
+        var imageP2 = null;
+
         this.onAttach = function() {
-            document.getElementById('manual-adjust-button').classList.add('pressed-button');
+            $button.classList.add('pressed-button');
+            $overrideButton.classList.remove('pressed-button');
             wpd.graphicsWidget.setRepainter(new wpd.DataPointsRepainter(axes, dataset));
             wpd.toolbar.show('adjustDataPointsToolbar');
         };
@@ -220,15 +234,103 @@ wpd.AdjustDataPointTool = (function() {
         this.onRemove = function() {
             dataset.unselectAll();
             wpd.graphicsWidget.forceHandlerRepaint();
-            document.getElementById('manual-adjust-button').classList.remove('pressed-button');
+            $button.classList.remove('pressed-button');
             wpd.toolbar.clear();
+
+            // hide override section
+            $overrideSection.hidden = true;
+        };
+
+        this.onMouseDown = function(ev, pos, imagePos) {
+            isMouseDown = true;
+
+            // record the first selection rectangle point
+            p1 = pos;
+            imageP1 = imagePos;
+
+            // unselect everything
+            dataset.unselectAll();
+        };
+
+        this.onMouseUp = function(ev, pos) {
+            if (isSelecting === true) {
+                // reset hover context to remove selection box drawing
+                wpd.graphicsWidget.resetHover();
+
+                // select points within the selection rectangle
+                dataset.selectPixelsInRectangle(imageP1, imageP2);
+                this._onSelect(ev, dataset.getSelectedPixels());
+
+                // clear the draw timer
+                clearTimeout(_drawTimer);
+
+                // push these reset statements to the bottom of the events message queue
+                setTimeout(function() {
+                    isSelecting = false;
+                    isMouseDown = false;
+                    p1 = null;
+                    p2 = null;
+
+                    // reset hover context to remove previous selection box
+                    wpd.graphicsWidget.resetHover();
+                });
+            } else {
+                isMouseDown = false;
+                p1 = null;
+                p2 = null;
+
+                // reset hover context to remove previous selection box
+                wpd.graphicsWidget.resetHover();
+            }
+        };
+
+        this.onMouseMove = function(ev, pos, imagePos) {
+            if (isMouseDown === true) {
+                isSelecting = true;
+
+                // record the new position as the second selection rectangle point
+                p2 = pos;
+                imageP2 = imagePos;
+
+                // refresh the selection rectangle every 1 ms
+                clearTimeout(_drawTimer);
+                _drawTimer = setTimeout(function() {
+                    this._drawSelectionBox();
+                }.bind(this), 1);
+            }
+        };
+
+        this._drawSelectionBox = function() {
+            // reset hover context to remove previous selection box
+            wpd.graphicsWidget.resetHover();
+
+            // fetch the hover context
+            var ctx = wpd.graphicsWidget.getAllContexts().hoverCtx;
+
+            // draw a black rectangle
+            if (p1 != null && p2 != null) {
+                ctx.strokeStyle = 'rgb(0,0,0)';
+                ctx.strokeRect(
+                    p1.x,
+                    p1.y,
+                    p2.x - p1.x,
+                    p2.y - p1.y
+                );
+            }
+        };
+
+        this._onSelect = function(ev, pixelIndex) {
+            wpd.graphicsWidget.forceHandlerRepaint();
+            wpd.graphicsWidget.updateZoomOnEvent(ev);
+            this.toggleOverrideSection(pixelIndex);
         };
 
         this.onMouseClick = function(ev, pos, imagePos) {
-            dataset.unselectAll();
-            dataset.selectNearestPixel(imagePos.x, imagePos.y);
-            wpd.graphicsWidget.forceHandlerRepaint();
-            wpd.graphicsWidget.updateZoomOnEvent(ev);
+            if (isSelecting === false) {
+                dataset.unselectAll();
+                var pixelIndex = dataset.selectNearestPixel(imagePos.x, imagePos.y);
+                this._onSelect(ev, [pixelIndex]);
+            }
         };
 
         this.onKeyDown = function(ev) {
@@ -237,72 +339,146 @@ wpd.AdjustDataPointTool = (function() {
                 return;
             }
 
-            var selIndex = dataset.getSelectedPixels()[0];
+            var selIndexes = dataset.getSelectedPixels();
 
-            if (selIndex == null) {
+            if (selIndexes.length < 1) {
                 return;
             }
 
-            var selPoint = dataset.getPixel(selIndex),
-                pointPx = selPoint.x,
-                pointPy = selPoint.y,
-                stepSize = ev.shiftKey === true ? 5 / wpd.graphicsWidget.getZoomRatio() :
-                0.5 / wpd.graphicsWidget.getZoomRatio();
-
-            if (wpd.keyCodes.isUp(ev.keyCode)) {
-                pointPy = pointPy - stepSize;
-            } else if (wpd.keyCodes.isDown(ev.keyCode)) {
-                pointPy = pointPy + stepSize;
-            } else if (wpd.keyCodes.isLeft(ev.keyCode)) {
-                pointPx = pointPx - stepSize;
-            } else if (wpd.keyCodes.isRight(ev.keyCode)) {
-                pointPx = pointPx + stepSize;
-            } else if (wpd.keyCodes.isAlphabet(ev.keyCode, 'q')) {
-                dataset.selectPreviousPixel();
-                selIndex = dataset.getSelectedPixels()[0];
-                selPoint = dataset.getPixel(selIndex);
-                pointPx = selPoint.x;
-                pointPy = selPoint.y;
-            } else if (wpd.keyCodes.isAlphabet(ev.keyCode, 'w')) {
-                dataset.selectNextPixel();
-                selIndex = dataset.getSelectedPixels()[0];
-                selPoint = dataset.getPixel(selIndex);
-                pointPx = selPoint.x;
-                pointPy = selPoint.y;
-            } else if (wpd.keyCodes.isAlphabet(ev.keyCode, 'e')) {
-                if (axes.dataPointsHaveLabels) {
-                    selIndex = dataset.getSelectedPixels()[0];
-                    ev.preventDefault();
-                    ev.stopPropagation();
-                    wpd.dataPointLabelEditor.show(dataset, selIndex, this);
+            // key strokes that do not need each point processed
+            if (wpd.keyCodes.isAlphabet(ev.keyCode, 'r')) {
+                // currently not supporting bar charts
+                if (axes.getType() !== 'bar') {
+                    wpd.dataPointValueOverrideEditor.show(dataset, axes, selIndexes, this);
                     return;
                 }
-            } else if (wpd.keyCodes.isDel(ev.keyCode) || wpd.keyCodes.isBackspace(ev.keyCode)) {
-                dataset.removePixelAtIndex(selIndex);
-                dataset.unselectAll();
-                if (dataset.findNearestPixel(pointPx, pointPy) >= 0) {
-                    dataset.selectNearestPixel(pointPx, pointPy);
-                    selIndex = dataset.getSelectedPixels()[0];
-                    selPoint = dataset.getPixel(selIndex);
-                    pointPx = selPoint.x;
-                    pointPy = selPoint.y;
-                }
-                wpd.graphicsWidget.resetData();
-                wpd.graphicsWidget.forceHandlerRepaint();
-                wpd.graphicsWidget.updateZoomToImagePosn(pointPx, pointPy);
-                wpd.dataPointCounter.setCount();
-                ev.preventDefault();
-                ev.stopPropagation();
-                return;
-            } else {
-                return;
             }
 
-            dataset.setPixelAt(selIndex, pointPx, pointPy);
+            // key strokes that need each point processed
+            selIndexes.forEach(function(selIndex) {
+                var selPoint = dataset.getPixel(selIndex),
+                    pointPx = selPoint.x,
+                    pointPy = selPoint.y,
+                    stepSize = ev.shiftKey === true ? 5 / wpd.graphicsWidget.getZoomRatio() :
+                    0.5 / wpd.graphicsWidget.getZoomRatio();
+
+                if (wpd.keyCodes.isUp(ev.keyCode)) {
+                    pointPy = pointPy - stepSize;
+                } else if (wpd.keyCodes.isDown(ev.keyCode)) {
+                    pointPy = pointPy + stepSize;
+                } else if (wpd.keyCodes.isLeft(ev.keyCode)) {
+                    pointPx = pointPx - stepSize;
+                } else if (wpd.keyCodes.isRight(ev.keyCode)) {
+                    pointPx = pointPx + stepSize;
+                } else if (selIndexes.length === 1) {
+                    // single selected point operations
+                    if (wpd.keyCodes.isAlphabet(ev.keyCode, 'q')) {
+                        dataset.selectPreviousPixel();
+                        selIndex = dataset.getSelectedPixels()[0];
+                        selPoint = dataset.getPixel(selIndex);
+                        pointPx = selPoint.x;
+                        pointPy = selPoint.y;
+                    } else if (wpd.keyCodes.isAlphabet(ev.keyCode, 'w')) {
+                        dataset.selectNextPixel();
+                        selIndex = dataset.getSelectedPixels()[0];
+                        selPoint = dataset.getPixel(selIndex);
+                        pointPx = selPoint.x;
+                        pointPy = selPoint.y;
+                    } else if (wpd.keyCodes.isAlphabet(ev.keyCode, 'e')) {
+                        if (axes.dataPointsHaveLabels) {
+                            selIndex = dataset.getSelectedPixels()[0];
+                            ev.preventDefault();
+                            ev.stopPropagation();
+                            wpd.dataPointLabelEditor.show(dataset, selIndex, this);
+                            return;
+                        }
+                    } else if (wpd.keyCodes.isDel(ev.keyCode) || wpd.keyCodes.isBackspace(ev.keyCode)) {
+                        dataset.removePixelAtIndex(selIndex);
+                        dataset.unselectAll();
+                        if (dataset.findNearestPixel(pointPx, pointPy) >= 0) {
+                            dataset.selectNearestPixel(pointPx, pointPy);
+                            selIndex = dataset.getSelectedPixels()[0];
+                            selPoint = dataset.getPixel(selIndex);
+                            pointPx = selPoint.x;
+                            pointPy = selPoint.y;
+                        }
+                        wpd.graphicsWidget.resetData();
+                        wpd.graphicsWidget.forceHandlerRepaint();
+                        wpd.graphicsWidget.updateZoomToImagePosn(pointPx, pointPy);
+                        wpd.dataPointCounter.setCount();
+                        ev.preventDefault();
+                        ev.stopPropagation();
+                        return;
+                    } else {
+                        return;
+                    }
+                } else {
+                    return;
+                }
+
+                dataset.setPixelAt(selIndex, pointPx, pointPy);
+                wpd.graphicsWidget.updateZoomToImagePosn(pointPx, pointPy);
+            }.bind(this));
+
             wpd.graphicsWidget.forceHandlerRepaint();
-            wpd.graphicsWidget.updateZoomToImagePosn(pointPx, pointPy);
             ev.preventDefault();
             ev.stopPropagation();
+        };
+
+        this.toggleOverrideSection = function(pixelIndexes) {
+            // Bar charts currently not supported
+            if (axes.getType() !== 'bar') {
+                var $overriddenIndicator = document.getElementById('overridden-data-indicator');
+
+                // always start with overridden value indicator hidden
+                $overriddenIndicator.hidden = true;
+
+                if (
+                    // single pixel selection:
+                    // if selectNearestPixel does not find a pixel within the threshold
+                    // it returns -1
+                    (
+                        pixelIndexes.length === 1
+                        && pixelIndexes[0] >= 0
+                    )
+                    || pixelIndexes.length > 1
+                ) {
+                    // display override section
+                    $overrideSection.hidden = false;
+
+                    // attach click handler for value edit popup
+                    $overrideButton.onclick = wpd.dataPointValueOverrideEditor.show.bind(
+                        null,
+                        dataset,
+                        axes,
+                        pixelIndexes,
+                        this
+                    );
+
+                    // display overridden value indicator if necessary
+                    for (var i = 0; i < dataset.getSelectedPixels().length; i++) {
+                        if (dataset.getPixel(dataset.getSelectedPixels()[i]).metadata) {
+                            $overriddenIndicator.hidden = false;
+                            break;
+                        }
+                    }
+                } else {
+                    // no point(s) selected
+                    $overrideSection.hidden = true;
+
+                    // hide button and clear onclick handler
+                    $overrideButton.onclick = null;
+                }
+            }
+        };
+
+        this.displayMask = function() {
+            // create a mask that makes this tool appear to still be selected
+            // when the override popup is engaged
+            $button.classList.add('pressed-button');
+            wpd.toolbar.show('adjustDataPointsToolbar');
+            $overrideSection.hidden = false;
+            $overrideButton.classList.add('pressed-button');
         };
     };
     return Tool;

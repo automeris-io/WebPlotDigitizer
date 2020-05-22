@@ -106,7 +106,7 @@ wpd.plotDataProvider = (function() {
             // metadata
             for (metadi = 0; metadi < metaKeyCount; metadi++) {
                 if (pt.metadata == null || pt.metadata[metadi] == null) {
-                    ptmetadata = 0;
+                    ptmetadata = null;
                 } else {
                     ptmetadata = pt.metadata[metadi];
                 }

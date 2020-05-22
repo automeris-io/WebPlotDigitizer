@@ -111,5 +111,9 @@ wpd.MapAxes = (function() {
         return ['X', 'Y'];
     };
 
+    AxesObj.prototype.getType = function() {
+        return 'map';
+    };
+
     return AxesObj;
 })();
