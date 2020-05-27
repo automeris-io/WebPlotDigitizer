@@ -65,6 +65,10 @@ wpd.Dataset = class {
         return this._dataPoints[index];
     }
 
+    getAllPixels() {
+        return this._dataPoints;
+    }
+
     setPixelAt(index, pxi, pyi) {
         if (index < this._dataPoints.length) {
             this._dataPoints[index].x = pxi;

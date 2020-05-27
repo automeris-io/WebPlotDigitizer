@@ -283,115 +283,113 @@ wpd.FileManager = class {
     loadMetadata(metadata) {
         let fileManager = this;
 
-        if (Object.keys(metadata).length) {
-            // load file metadata
-            if (metadata.file) {
-                fileManager.axesByFile = metadata.file.axes || {};
-                fileManager.datasetsByFile = metadata.file.datasets || {};
-                fileManager.measurementsByFile = metadata.file.measurements || {};
-            } else {
-                // if there does not exist file indexes, assume there is only one file and
-                // associate all data collections with the only file
-                fileManager.axesByFile['0'] = wpd.appData.getPlotData().getAxesColl();
-                fileManager.datasetsByFile['0'] = wpd.appData.getPlotData().getDatasets();
-                fileManager.measurementsByFile['0'] = wpd.appData.getPlotData().getMeasurementColl();
-            }
+        // load file metadata
+        if (metadata.file) {
+            fileManager.axesByFile = metadata.file.axes || {};
+            fileManager.datasetsByFile = metadata.file.datasets || {};
+            fileManager.measurementsByFile = metadata.file.measurements || {};
+        } else {
+            // if there does not exist file indexes, assume there is only one file and
+            // associate all data collections with the only file
+            fileManager.axesByFile['0'] = wpd.appData.getPlotData().getAxesColl();
+            fileManager.datasetsByFile['0'] = wpd.appData.getPlotData().getDatasets();
+            fileManager.measurementsByFile['0'] = wpd.appData.getPlotData().getMeasurementColl();
+        }
 
-            let files = [];
-            for (let index = 0; index < fileManager.files.length; index++) {
-                let filePromise = null
+        let files = [];
+        for (let index = 0; index < fileManager.files.length; index++) {
+            let filePromise = null
+            if (fileManager.files[index].type === 'application/pdf') {
+                // if the first file is a pdf, it has already been loaded with a page manager
+                // save the page manager
+                if (index === 0) {
+                    fileManager._savePageManager();
+                } else {
+                    filePromise = new Promise((resolve, reject) => {
+                        let reader = new FileReader();
+                        reader.onload = function() {
+                            pdfjsLib.getDocument(reader.result).promise.then(pdf => resolve(pdf));
+                        };
+                        reader.readAsDataURL(this.files[index]);
+                    });
+                }
+            }
+            files.push(filePromise);
+        }
+
+        Promise.all(files).then(files => {
+            for (let index = 0; index < files.length; index++) {
+                let pageData = {};
+
+                // only supporting pages in pdf files for now, this should include tiff files
+                // in the future
                 if (fileManager.files[index].type === 'application/pdf') {
-                    // if the first file is a pdf, it has already been loaded with a page manager
-                    // save the page manager
-                    if (index === 0) {
-                        fileManager._savePageManager();
-                    } else {
-                        filePromise = new Promise((resolve, reject) => {
-                            let reader = new FileReader();
-                            reader.onload = function() {
-                                pdfjsLib.getDocument(reader.result).promise.then(pdf => resolve(pdf));
-                            };
-                            reader.readAsDataURL(this.files[index]);
+                    if (files[index] !== null) {
+                        // initialize page managers
+                        fileManager.pageManagers[index] = wpd.imageManager.initializePDFManager(
+                            files[index],
+                            true
+                        );
+                    }
+
+                    // load page metadata
+                    if (metadata.page) {
+                        let pageAxes = {};
+                        let pageDatasets = {};
+                        let pageMeasurements = {};
+
+                        for (const page in metadata.page.axes) {
+                            pageAxes[page] = metadata.page.axes[page].filter(ax => {
+                                return fileManager.axesByFile[index] &&
+                                    fileManager.axesByFile[index].indexOf(ax) > -1;
+                            });
+                        }
+                        for (const page in metadata.page.datasets) {
+                            pageDatasets[page] = metadata.page.datasets[page].filter(ds => {
+                                return fileManager.datasetsByFile[index] &&
+                                    fileManager.datasetsByFile[index].indexOf(ds) > -1;
+                            });
+                        }
+                        for (const page in metadata.page.measurements) {
+                            pageMeasurements[page] = metadata.page.measurements[page].filter(ms => {
+                                return fileManager.measurementsByFile[index] &&
+                                    fileManager.measurementsByFile[index].indexOf(ms) > -1;
+                            });
+                        }
+
+                        Object.assign(pageData, {
+                            axes: pageAxes,
+                            datasets: pageDatasets,
+                            measurements: pageMeasurements
                         });
                     }
                 }
-                files.push(filePromise);
-            }
 
-            Promise.all(files).then(files => {
-                for (let index = 0; index < files.length; index++) {
-                    let pageData = {};
-
-                    // only supporting pages in pdf files for now, this should include tiff files
-                    // in the future
-                    if (fileManager.files[index].type === 'application/pdf') {
-                        if (files[index] !== null) {
-                            // initialize page managers
-                            fileManager.pageManagers[index] = wpd.imageManager.initializePDFManager(
-                                files[index],
-                                true
-                            );
-                        }
-
-                        // load page metadata
-                        if (metadata.page) {
-                            let pageAxes = {};
-                            let pageDatasets = {};
-                            let pageMeasurements = {};
-
-                            for (const page in metadata.page.axes) {
-                                pageAxes[page] = metadata.page.axes[page].filter(ax => {
-                                    return fileManager.axesByFile[index] &&
-                                        fileManager.axesByFile[index].indexOf(ax) > -1;
-                                });
-                            }
-                            for (const page in metadata.page.datasets) {
-                                pageDatasets[page] = metadata.page.datasets[page].filter(ds => {
-                                    return fileManager.datasetsByFile[index] &&
-                                        fileManager.datasetsByFile[index].indexOf(ds) > -1;
-                                });
-                            }
-                            for (const page in metadata.page.measurements) {
-                                pageMeasurements[page] = metadata.page.measurements[page].filter(ms => {
-                                    return fileManager.measurementsByFile[index] &&
-                                        fileManager.measurementsByFile[index].indexOf(ms) > -1;
-                                });
-                            }
-
+                // load miscellaneous metadata
+                if (metadata.misc) {
+                    // load page labels
+                    if (metadata.misc.pageLabel) {
+                        if (fileManager.pageManagers.hasOwnProperty(index)) {
                             Object.assign(pageData, {
-                                axes: pageAxes,
-                                datasets: pageDatasets,
-                                measurements: pageMeasurements
+                                pageLabels: metadata.misc.pageLabel[index]
                             });
                         }
                     }
+                }
 
-                    // load miscellaneous metadata
-                    if (metadata.misc) {
-                        // load page labels
-                        if (metadata.misc.pageLabel) {
-                            if (fileManager.pageManagers.hasOwnProperty(index)) {
-                                Object.assign(pageData, {
-                                    pageLabels: metadata.misc.pageLabel[index]
-                                });
-                            }
-                        }
+                // load page data into page manager
+                if (fileManager.pageManagers.hasOwnProperty(index)) {
+                    if (Object.keys(pageData).length) {
+                        fileManager.pageManagers[index].loadPageData(pageData);
                     }
 
-                    // load page data into page manager
-                    if (fileManager.pageManagers.hasOwnProperty(index)) {
-                        if (Object.keys(pageData).length) {
-                            fileManager.pageManagers[index].loadPageData(pageData);
-                        }
-
-                        // refresh the page select input for the first file
-                        if (index === 0) {
-                            fileManager.pageManagers[index].refreshInput();
-                        }
+                    // refresh the page select input for the first file
+                    if (index === 0) {
+                        fileManager.pageManagers[index].refreshInput();
                     }
                 }
-                wpd.tree.refresh();
-            });
-        }
+            }
+            wpd.tree.refresh();
+        });
     }
 };

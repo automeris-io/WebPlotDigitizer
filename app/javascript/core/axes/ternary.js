@@ -170,9 +170,5 @@ wpd.TernaryAxes = (function() {
         return ['a', 'b', 'c'];
     };
 
-    AxesObj.prototype.getType = function() {
-        return 'ternary';
-    };
-
     return AxesObj;
 })();

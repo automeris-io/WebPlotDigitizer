@@ -288,9 +288,5 @@ wpd.XYAxes = (function() {
         return ['X', 'Y'];
     };
 
-    AxesObj.prototype.getType = function() {
-        return 'xy';
-    };
-
     return AxesObj;
 })();

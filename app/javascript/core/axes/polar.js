@@ -191,9 +191,5 @@ wpd.PolarAxes = (function() {
         return ['r', 'θ'];
     };
 
-    AxesObj.prototype.getType = function() {
-        return 'polar';
-    };
-
     return AxesObj;
 })();

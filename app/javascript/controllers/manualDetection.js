@@ -109,7 +109,7 @@ wpd.acquireData = (function() {
 
     function editLabels() {
         // this should only trigger the tool if the axes type is bar
-        if (axes.getType() === 'bar') {
+        if (axes instanceof wpd.BarAxes) {
             wpd.graphicsWidget.setTool(new wpd.EditLabelsTool(axes, dataset));
         }
     }
@@ -159,9 +159,8 @@ wpd.dataPointLabelEditor = (function() {
     var ds, ptIndex, tool;
 
     function show(dataset, pointIndex, initTool) {
-        var pixel = dataset.getPixel(pointIndex),
-            originalLabel = pixel.metadata[0],
-            $labelField;
+        const pixel = dataset.getPixel(pointIndex),
+            originalLabel = pixel.metadata.label;
 
         ds = dataset;
         ptIndex = pointIndex;
@@ -171,7 +170,7 @@ wpd.dataPointLabelEditor = (function() {
 
         // show popup window with originalLabel in the input field.
         wpd.popup.show('data-point-label-editor');
-        $labelField = document.getElementById('data-point-label-field');
+        const $labelField = document.getElementById('data-point-label-field');
         $labelField.value = originalLabel;
         $labelField.focus();
     }
@@ -180,8 +179,18 @@ wpd.dataPointLabelEditor = (function() {
         var newLabel = document.getElementById('data-point-label-field').value;
 
         if (newLabel != null && newLabel.length > 0) {
+            // fetch metadata and override values
+            const pixel = ds.getPixel(ptIndex);
+            let metadata = {};
+            if (pixel.metadata != null) {
+                metadata = pixel.metadata;
+            }
+
+            metadata.label = newLabel;
+
             // set label
-            ds.setMetadataAt(ptIndex, [newLabel]);
+            ds.setMetadataAt(ptIndex, metadata);
+
             // refresh graphics
             wpd.graphicsWidget.resetData();
             wpd.graphicsWidget.forceHandlerRepaint();
@@ -215,7 +224,7 @@ wpd.dataPointLabelEditor = (function() {
 })();
 
 wpd.dataPointValueOverrideEditor = (function() {
-    let ds, ax, ptIndexes, tool;
+    let ds, ax, axLabels, ptIndexes, tool;
 
     const editorID = 'data-point-value-override-editor';
     const tableID = 'data-point-value-override-editor-table';
@@ -235,8 +244,13 @@ wpd.dataPointValueOverrideEditor = (function() {
         ptIndexes = pointIndexes;
         tool = initTool;
 
+        // filter out bar chart "Label" axis
+        axLabels = axes.getAxesLabels()
+            .map(label => label.toLowerCase())
+            .filter(label => label !== 'label');
+
         // generate the table row HTML using axes labels to label input fields
-        document.getElementById(tableID).innerHTML = _getTableRowsHTML(axes.getAxesLabels());
+        document.getElementById(tableID).innerHTML = _getTableRowsHTML();
 
         // avoid handler collisions
         wpd.graphicsWidget.removeTool();
@@ -247,119 +261,115 @@ wpd.dataPointValueOverrideEditor = (function() {
         wpd.graphicsWidget.forceHandlerRepaint();
 
         // bind keydown listener so esc key closes the popup properly
-        window.addEventListener("keydown", keydown, false);
+        window.addEventListener('keydown', keydown, false);
     }
 
-    function _getTableRowsHTML(axesLabels) {
+    function _getTableRowsHTML() {
         let html = '';
 
-        for (let i = 0; i < axesLabels.length; i++) {
+        axLabels.forEach(label => {
+            let displayLabel = wpd.utils.toSentenceCase(label);
+
+            // display "Value" instead of "Y" for bar chart values
+            if (ax instanceof wpd.BarAxes && label === 'y') {
+                displayLabel = wpd.utils.toSentenceCase('value');
+            }
+
             html += '<tr>';
 
             // row label
             html += '<td>';
-            html += '<span id="' + labelBaseID + i + '">';
-            html += axesLabels[i] + '</span>:';
+            html += '<span id="' + labelBaseID + label + '">';
+            html += displayLabel + '</span>:';
             html += '</td>';
 
             // row input
             html += '<td>';
-            html += '<input type="text" id="' + fieldBaseID + i + '"';
+            html += '<input type="text" id="' + fieldBaseID + label + '"';
             html += ' onkeydown="wpd.dataPointValueOverrideEditor.keydown(event);" />';
             html += '</td>';
 
             // row overridden indicator
             html += '<td>';
-            html += '<span id="' + indicatorBaseID + i + '"';
+            html += '<span id="' + indicatorBaseID + label + '"';
             html += ' hidden>&#8682;</span>';
             html += '</td>';
 
             html += '</tr>';
-        }
+        });
 
         return html;
     }
 
     function show(dataset, axes, pointIndexes, initTool) {
-        // Bar charts currently not supported
-        if (axes.getType() === 'bar') {
-            return;
-        }
-
-        const fieldCount = axes.getDimensions();
-
         // initialize popup
         _init(dataset, axes, pointIndexes, initTool);
 
         // show popup window
         wpd.popup.show(editorID);
 
-        const displayValues = [];
+        const displayValues = {};
 
         // variables for checking if each value on points have been overridden
-        const isAllOverridden = [];
-        const isSomeOverridden = [];
+        // and if all override values for each field are the same across all
+        // selected points
+        const isAllOverridden = {};
+        const isSomeOverridden = {};
+        const overrideValuesByField = {};
+
+        // initialize information collection variables
+        axLabels.forEach(label => {
+            isAllOverridden[label] = true;
+            isSomeOverridden[label] = false;
+            overrideValuesByField[label] = [];
+        });
 
         // go through each selected point and collect values for display
-        for (let i = 0; i < pointIndexes.length; i++) {
-            const pixel = dataset.getPixel(pointIndexes[i]);
-            const originalValues = axes.pixelToData(pixel.x, pixel.y);
-
-            let overrideValues = [];
+        pointIndexes.forEach(index => {
+            const pixel = dataset.getPixel(index);
+            const originals = _getDataFromPixel(pixel);
 
             // if metadata on the pixel exists, display saved override values
             // if not, display current values
-            if (pixel.metadata != null) {
-                // retrieve stored override values
-                overrideValues = pixel.metadata;
+            let overrides = {};
+            if (pixel.metadata != null && pixel.metadata.hasOwnProperty('overrides')) {
+                overrides = pixel.metadata.overrides;
             }
 
             // for each original calculated value, if there exists an override, display
             // the override value instead of the original value
-            for (let j = 0; j < fieldCount; j++) {
-                if (isAllOverridden[j] === undefined) {
-                    isAllOverridden.push(true);
-                }
-
-                if (isSomeOverridden[j] === undefined) {
-                    isSomeOverridden.push(false);
-                }
-
-                if (overrideValues[j] == null) {
+            axLabels.forEach(label => {
+                if (!overrides.hasOwnProperty(label)) {
                     // no override value, use original calculated value
-                    displayValues.push(originalValues[j]);
+                    displayValues[label] = originals[label];
 
-                    isAllOverridden[j] = false;
+                    isAllOverridden[label] = false;
                 } else {
                     // override value exists, use override value
-                    displayValues.push(overrideValues[j]);
+                    displayValues[label] = overrides[label];
 
-                    isSomeOverridden[j] = true;
+                    overrideValuesByField[label].push(overrides[label]);
+
+                    isSomeOverridden[label] = true;
                 }
-            }
-        }
+            });
+        });
 
         // for each field: set display values, show/hide overridden icons,
         // and display appropriate placeholder text if applicable
-        for (let i = 0; i < fieldCount; i++) {
-            const $field = document.getElementById(fieldBaseID + i);
-            const $overriddenIndicator = document.getElementById(indicatorBaseID + i);
+        axLabels.forEach(label => {
+            const $field = document.getElementById(fieldBaseID + label);
+            const $overriddenIndicator = document.getElementById(indicatorBaseID + label);
 
-            if (isSomeOverridden[i]) {
-                if (isAllOverridden[i]) {
+            if (isSomeOverridden[label]) {
+                if (isAllOverridden[label]) {
                     // check if all overridden values are the same
-                    let sameValue = true;
-                    for (let j = i + fieldCount; j < displayValues.length; j += fieldCount) {
-                        if (displayValues[i] !== displayValues[j]) {
-                            sameValue = false;
-                            break;
-                        }
-                    }
+                    const hasSameValue = (value) => value === overrideValuesByField[label][0];
 
-                    if (sameValue) {
+                    if (overrideValuesByField[label].every(hasSameValue)) {
                         // get the first set of values in displayValues if all overrides
                         // are the same value
-                        $field.value = displayValues[i];
+                        $field.value = displayValues[label];
                     } else {
                         $field.placeholder = multipleOverridesExistMessage;
                     }
@@ -371,8 +381,8 @@ wpd.dataPointValueOverrideEditor = (function() {
                 $overriddenIndicator.hidden = false;
             } else {
                 // single point
-                if (displayValues.length === fieldCount) {
-                    $field.value = displayValues[i];
+                if (pointIndexes.length === 1) {
+                    $field.value = displayValues[label];
                 } else {
                     // none overridden, clear inputs
                     $field.placeholder = multiplePointsSelectedMessage;
@@ -381,89 +391,86 @@ wpd.dataPointValueOverrideEditor = (function() {
                 // hide value overridden indicator
                 $overriddenIndicator.hidden = true;
             }
-        }
+        });
     }
 
     function ok() {
         // process each selected point
-        for (let i = 0; i < ptIndexes.length; i++) {
-            if (document.getElementById(resetFlagID).value === '0') {
+        ptIndexes.forEach(index => {
+            if (!_isReset()) {
                 // fetch original values by converting pixel coordinates to values
-                const pixel = ds.getPixel(ptIndexes[i]);
-                const originalValues = ax.pixelToData(pixel.x, pixel.y);
+                const pixel = ds.getPixel(index);
+                const originals = _getDataFromPixel(pixel);
 
-                const newValues = [];
+                // fetch metadata and override values
+                let metadata = {};
+                let overrides = {};
+                if (pixel.metadata != null) {
+                    metadata = pixel.metadata;
+
+                    if (pixel.metadata.hasOwnProperty('overrides')) {
+                        overrides = metadata.overrides;
+                    }
+                }
+
+                const metadataKeys = ds.getMetadataKeys();
+
+                const newOverrides = {};
                 let hasChanges = false;
 
                 // fetch and process each input field values
-                for (let j = 0; j < ax.getDimensions(); j++) {
-                    let newValue = document.getElementById(fieldBaseID + j).value;
+                axLabels.forEach(label => {
+                    let newValue = document.getElementById(fieldBaseID + label).value;
 
-                    if (
-                        originalValues[j] != newValue
-                        && newValue != null
-                        && newValue.length > 0
-                    ) {
-                        hasChanges = true;
+                    // given value differs from the original calculated value
+                    if (originals[label] != newValue) {
+                        // given value is not null and has length
+                        if (newValue != null && newValue.length > 0) {
+                            hasChanges = true;
 
-                        // convert numeric strings to float
-                        if (!isNaN(newValue)) {
-                            newValue = parseFloat(newValue);
+                            // convert numeric strings to float
+                            if (!isNaN(newValue)) {
+                                newValue = parseFloat(newValue);
+                            }
+
+                            // collect given value
+                            newOverrides[label] = newValue;
+
+                            // set overrides metadata keys for dataset if not been set
+                            if (metadataKeys.indexOf('overrides') < 0) {
+                                ds.setMetadataKeys([...metadataKeys, 'overrides']);
+                            }
+                        } else {
+                            if (overrides.hasOwnProperty(label)) {
+                                hasChanges = true;
+
+                                // preserve previous override value if it exists
+                                newOverrides[label] = overrides[label];
+                            }
                         }
-                    } else {
-                        newValue = null;
                     }
-                    newValues.push(newValue);
-                }
+                });
 
                 // if any value is overridden, set the metadata
                 if (hasChanges) {
-                    // set value
-                    ds.setMetadataAt(ptIndexes[i], newValues);
+                    metadata.overrides = newOverrides;
 
-                    // set metadata keys for dataset if not been set
-                    if (ds.getMetadataKeys().length === 0) {
-                        ds.setMetadataKeys(ax.getAxesLabels().map(
-                            function(label) { return 'Override-' + label; }
-                        ));
-                    }
+                    // set value
+                    ds.setMetadataAt(index, metadata);
 
                     // refresh graphics
                     wpd.graphicsWidget.resetData();
                 } else {
-                    _resetMetadataAt(ptIndexes[i]);
+                    _resetMetadataAt(index);
                 }
             } else {
                 // if reset flag is set, skip the checks and remove metadata on
                 // selected points
-                _resetMetadataAt(ptIndexes[i]);
+                _resetMetadataAt(index);
             }
-        }
+        });
 
         _closePopup();
-    }
-
-    function _resetMetadataAt(index) {
-        // otherwise set the metadata to null, effectively removing it
-        ds.setMetadataAt(index, undefined);
-
-        // remove metadata keys on the dataset if all have been removed
-        if (!ds.hasMetadata()) {
-            ds.setMetadataKeys([]);
-        }
-    }
-
-    function _closePopup() {
-        // clear reset flag
-        document.getElementById(resetFlagID).value = '0';
-
-        // remove popup keydown listener
-        window.removeEventListener("keydown", keydown, false);
-
-        wpd.popup.close(editorID);
-        wpd.graphicsWidget.setTool(tool);
-        tool.toggleOverrideSection(ptIndexes);
-        wpd.graphicsWidget.forceHandlerRepaint();
     }
 
     function cancel() {
@@ -481,17 +488,16 @@ wpd.dataPointValueOverrideEditor = (function() {
 
     function clear() {
         // set reset flag
-        document.getElementById(resetFlagID).value = '1';
+        _toggleResetFlag(true);
 
         // process each selected point
-        for (let i = 0; i < ptIndexes.length; i++) {
+        ptIndexes.forEach(index => {
             // convert pixel coordinates to values
-            const pixel = ds.getPixel(ptIndexes[i]);
-            const originalValues = ax.pixelToData(pixel.x, pixel.y);
+            const originals = _getDataFromPixel(ds.getPixel(index));
 
             // process each field
-            for (let j = 0; j < ax.getDimensions(); j++) {
-                let $field = document.getElementById(fieldBaseID + j);
+            axLabels.forEach(label => {
+                let $field = document.getElementById(fieldBaseID + label);
                 let value;
 
                 // different behavior when multiple points are selected
@@ -499,16 +505,86 @@ wpd.dataPointValueOverrideEditor = (function() {
                     value = '';
                     $field.placeholder = multiplePointsSelectedMessage;
                 } else {
-                    value = originalValues[j];
+                    value = originals[label];
                 }
 
                 // reset input fields
-                document.getElementById(fieldBaseID + j).value = value
+                document.getElementById(fieldBaseID + label).value = value;
 
                 // hide override indicators
-                document.getElementById(indicatorBaseID + j).hidden = true;
+                document.getElementById(indicatorBaseID + label).hidden = true;
+            });
+        });
+    }
+
+    function _getDataFromPixel(pixel) {
+        // convert pixel data array into object keyed by axes labels
+        // dependent on ordering of labels
+        return ax.pixelToData(pixel.x, pixel.y).reduce((object, value, index) => {
+            return {
+                ...object,
+                [axLabels[index]]: value
+            };
+        }, {});
+    }
+
+    function _resetMetadataAt(index) {
+        // set the metadata to null, effectively removing it
+        let newMetadata = undefined;
+
+        if (ax instanceof wpd.BarAxes) {
+            // preserve label information if this is a bar chart
+            newMetadata = ds.getPixel(index).metadata;
+
+            delete newMetadata.overrides;
+
+            // check if there are any overrides
+            const hasOverrides = ds.getAllPixels().some(pixel => {
+                if (pixel.metadata && pixel.metadata.hasOwnProperty('overrides')) {
+                    return true;
+                }
+                return false;
+            });
+
+            // no overrides left, remove overrides metadata key
+            if (!hasOverrides) {
+                ds.setMetadataKeys(ds.getMetadataKeys().filter(key => key !== 'overrides'));
+            }
+        } else {
+            // remove metadata keys on the dataset if all have been removed
+            if (!ds.hasMetadata()) {
+                ds.setMetadataKeys([]);
             }
         }
+
+        ds.setMetadataAt(index, newMetadata);
+    }
+
+    function _closePopup() {
+        // clear reset flag
+        _toggleResetFlag(false);
+
+        // remove popup keydown listener
+        window.removeEventListener("keydown", keydown, false);
+
+        wpd.popup.close(editorID);
+        wpd.graphicsWidget.setTool(tool);
+        tool.toggleOverrideSection(ptIndexes);
+        wpd.graphicsWidget.forceHandlerRepaint();
+    }
+
+    function _toggleResetFlag(enable) {
+        let value = '0';
+
+        if (enable) {
+            value = '1';
+        }
+
+        document.getElementById(resetFlagID).value = value;
+    }
+
+    function _isReset() {
+        return document.getElementById(resetFlagID).value === '1';
     }
 
     return {

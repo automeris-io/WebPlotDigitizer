@@ -168,9 +168,5 @@ wpd.BarAxes = (function() {
         return ['Label', 'Y'];
     };
 
-    AxesObj.prototype.getType = function() {
-        return 'bar';
-    };
-
     return AxesObj;
 })();

@@ -29,22 +29,25 @@ wpd.ManualSelectionTool = (function() {
         };
 
         this.onMouseClick = function(ev, pos, imagePos) {
-            var pointLabel, mkeys;
-
             if (axes.dataPointsHaveLabels) { // e.g. Bar charts
+                const mkeys = dataset.getMetadataKeys();
+                const labelKey = 'label';
 
-                // This isn't the cleanest approach, but should do for now:
-                mkeys = dataset.getMetadataKeys();
-                if (mkeys == null || mkeys[0] !== 'Label') {
-                    dataset.setMetadataKeys(['Label']);
+                if (mkeys == null) {
+                    dataset.setMetadataKeys([labelKey]);
+                } else if (mkeys[0] !== labelKey) {
+                    dataset.setMetadataKeys([labelKey, ...mkeys]);
                 }
-                pointLabel = axes.dataPointsLabelPrefix + dataset.getCount();
-                dataset.addPixel(imagePos.x, imagePos.y, [pointLabel]);
+
+                const pointLabel = axes.dataPointsLabelPrefix + dataset.getCount();
+                dataset.addPixel(imagePos.x, imagePos.y, {
+                    [labelKey]: pointLabel
+                });
+
                 wpd.graphicsHelper.drawPoint(imagePos, dataset.colorRGB.toRGBString(), pointLabel);
-
             } else {
-
                 dataset.addPixel(imagePos.x, imagePos.y);
+
                 wpd.graphicsHelper.drawPoint(imagePos, dataset.colorRGB.toRGBString());
             }
 
@@ -172,7 +175,7 @@ wpd.DataPointsRepainter = class {
             return; // this can happen when removing widgets when a new file is loaded:
         }
 
-        if (this._axes.dataPointsHaveLabels && mkeys != null && mkeys[0] === 'Label') {
+        if (this._axes.dataPointsHaveLabels && mkeys != null && mkeys[0] === 'label') {
             hasLabels = true;
         }
 
@@ -183,7 +186,7 @@ wpd.DataPointsRepainter = class {
             let fillStyle = isSelected ? "rgb(0,200,0)" : this._dataset.colorRGB.toRGBString();
 
             if (hasLabels) {
-                let pointLabel = imagePos.metadata[0];
+                let pointLabel = imagePos.metadata.label;
                 if (pointLabel == null) {
                     pointLabel = this._axes.dataPointsLabelPrefix + dindex;
                 }
@@ -347,11 +350,8 @@ wpd.AdjustDataPointTool = (function() {
 
             // key strokes that do not need each point processed
             if (wpd.keyCodes.isAlphabet(ev.keyCode, 'r')) {
-                // currently not supporting bar charts
-                if (axes.getType() !== 'bar') {
-                    wpd.dataPointValueOverrideEditor.show(dataset, axes, selIndexes, this);
-                    return;
-                }
+                wpd.dataPointValueOverrideEditor.show(dataset, axes, selIndexes, this);
+                return;
             }
 
             // key strokes that need each point processed
@@ -428,48 +428,55 @@ wpd.AdjustDataPointTool = (function() {
 
         this.toggleOverrideSection = function(pixelIndexes) {
             // Bar charts currently not supported
-            if (axes.getType() !== 'bar') {
-                const $overriddenIndicator = document.getElementById('overridden-data-indicator');
+            const $overriddenIndicator = document.getElementById('overridden-data-indicator');
 
-                // always start with overridden value indicator hidden
-                $overriddenIndicator.hidden = true;
+            // always start with overridden value indicator hidden
+            $overriddenIndicator.hidden = true;
 
-                if (
-                    // single pixel selection:
-                    // if selectNearestPixel does not find a pixel within the threshold
-                    // it returns -1
-                    (
-                        pixelIndexes.length === 1
-                        && pixelIndexes[0] >= 0
-                    )
-                    || pixelIndexes.length > 1
-                ) {
-                    // display override section
-                    $overrideSection.hidden = false;
+            if (
+                // single pixel selection:
+                // if selectNearestPixel does not find a pixel within the threshold
+                // it returns -1
+                (
+                    pixelIndexes.length === 1 &&
+                    pixelIndexes[0] >= 0
+                ) ||
+                pixelIndexes.length > 1
+            ) {
+                // display override section
+                $overrideSection.hidden = false;
 
-                    // attach click handler for value edit popup
-                    $overrideButton.onclick = wpd.dataPointValueOverrideEditor.show.bind(
-                        null,
-                        dataset,
-                        axes,
-                        pixelIndexes,
-                        this
-                    );
+                // attach click handler for value edit popup
+                $overrideButton.onclick = wpd.dataPointValueOverrideEditor.show.bind(
+                    null,
+                    dataset,
+                    axes,
+                    pixelIndexes,
+                    this
+                );
 
-                    // display overridden value indicator if necessary
-                    for (let i = 0; i < dataset.getSelectedPixels().length; i++) {
-                        if (dataset.getPixel(dataset.getSelectedPixels()[i]).metadata) {
+                // display overridden value indicator if at least one point has
+                // one override value (unless the key is label)
+                dataset.getSelectedPixels().some(index => {
+                    const pixel = dataset.getPixel(index);
+                    if (pixel.metadata) {
+                        let threshold = 1;
+                        if (pixel.metadata.hasOwnProperty('label')) {
+                            threshold += 1;
+                        }
+                        if (Object.keys(pixel.metadata).length >= threshold) {
                             $overriddenIndicator.hidden = false;
-                            break;
+                            return true;
                         }
                     }
-                } else {
-                    // no point(s) selected
-                    $overrideSection.hidden = true;
+                    return false;
+                });
+            } else {
+                // no point(s) selected
+                $overrideSection.hidden = true;
 
-                    // hide button and clear onclick handler
-                    $overrideButton.onclick = null;
-                }
+                // hide button and clear onclick handler
+                $overrideButton.onclick = null;
             }
         };
 
