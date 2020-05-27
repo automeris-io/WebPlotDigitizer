@@ -216,13 +216,13 @@ wpd.AdjustDataPointTool = (function() {
         const $overrideButton = document.getElementById('override-data-values');
 
         // multi-select box
-        var isMouseDown = false;
-        var isSelecting = false;
-        var _drawTimer = null;
-        var p1 = null;
-        var p2 = null;
-        var imageP1 = null;
-        var imageP2 = null;
+        let isMouseDown = false;
+        let isSelecting = false;
+        let _drawTimer = null;
+        let p1 = null;
+        let p2 = null;
+        let imageP1 = null;
+        let imageP2 = null;
 
         this.onAttach = function() {
             $button.classList.add('pressed-button');
@@ -356,11 +356,12 @@ wpd.AdjustDataPointTool = (function() {
 
             // key strokes that need each point processed
             selIndexes.forEach(function(selIndex) {
-                var selPoint = dataset.getPixel(selIndex),
-                    pointPx = selPoint.x,
-                    pointPy = selPoint.y,
-                    stepSize = ev.shiftKey === true ? 5 / wpd.graphicsWidget.getZoomRatio() :
+                const stepSize = ev.shiftKey === true ? 5 / wpd.graphicsWidget.getZoomRatio() :
                     0.5 / wpd.graphicsWidget.getZoomRatio();
+
+                let selPoint = dataset.getPixel(selIndex),
+                    pointPx = selPoint.x,
+                    pointPy = selPoint.y;
 
                 if (wpd.keyCodes.isUp(ev.keyCode)) {
                     pointPy = pointPy - stepSize;
@@ -456,7 +457,7 @@ wpd.AdjustDataPointTool = (function() {
                     );
 
                     // display overridden value indicator if necessary
-                    for (var i = 0; i < dataset.getSelectedPixels().length; i++) {
+                    for (let i = 0; i < dataset.getSelectedPixels().length; i++) {
                         if (dataset.getPixel(dataset.getSelectedPixels()[i]).metadata) {
                             $overriddenIndicator.hidden = false;
                             break;
