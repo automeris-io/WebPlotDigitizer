@@ -210,10 +210,10 @@ wpd.DataPointsRepainter = class {
 };
 
 wpd.AdjustDataPointTool = (function() {
-    var Tool = function(axes, dataset) {
-        var $button = document.getElementById('manual-adjust-button');
-        var $overrideSection = document.getElementById('value-overrides-controls');
-        var $overrideButton = document.getElementById('override-data-values');
+    const Tool = function(axes, dataset) {
+        const $button = document.getElementById('manual-adjust-button');
+        const $overrideSection = document.getElementById('value-overrides-controls');
+        const $overrideButton = document.getElementById('override-data-values');
 
         // multi-select box
         var isMouseDown = false;
@@ -305,7 +305,7 @@ wpd.AdjustDataPointTool = (function() {
             wpd.graphicsWidget.resetHover();
 
             // fetch the hover context
-            var ctx = wpd.graphicsWidget.getAllContexts().hoverCtx;
+            const ctx = wpd.graphicsWidget.getAllContexts().hoverCtx;
 
             // draw a black rectangle
             if (p1 != null && p2 != null) {
@@ -328,7 +328,7 @@ wpd.AdjustDataPointTool = (function() {
         this.onMouseClick = function(ev, pos, imagePos) {
             if (isSelecting === false) {
                 dataset.unselectAll();
-                var pixelIndex = dataset.selectNearestPixel(imagePos.x, imagePos.y);
+                const pixelIndex = dataset.selectNearestPixel(imagePos.x, imagePos.y);
                 this._onSelect(ev, [pixelIndex]);
             }
         };
@@ -339,7 +339,7 @@ wpd.AdjustDataPointTool = (function() {
                 return;
             }
 
-            var selIndexes = dataset.getSelectedPixels();
+            const selIndexes = dataset.getSelectedPixels();
 
             if (selIndexes.length < 1) {
                 return;
@@ -428,7 +428,7 @@ wpd.AdjustDataPointTool = (function() {
         this.toggleOverrideSection = function(pixelIndexes) {
             // Bar charts currently not supported
             if (axes.getType() !== 'bar') {
-                var $overriddenIndicator = document.getElementById('overridden-data-indicator');
+                const $overriddenIndicator = document.getElementById('overridden-data-indicator');
 
                 // always start with overridden value indicator hidden
                 $overriddenIndicator.hidden = true;

@@ -215,19 +215,19 @@ wpd.dataPointLabelEditor = (function() {
 })();
 
 wpd.dataPointValueOverrideEditor = (function() {
-    var ds, ax, ptIndexes, tool;
+    let ds, ax, ptIndexes, tool;
 
-    var editorID = 'data-point-value-override-editor';
-    var tableID = 'data-point-value-override-editor-table';
-    var resetFlagID = 'data-point-value-override-revert-flag';
+    const editorID = 'data-point-value-override-editor';
+    const tableID = 'data-point-value-override-editor-table';
+    const resetFlagID = 'data-point-value-override-revert-flag';
 
-    var labelBaseID = 'data-point-value-override-field-label-';
-    var fieldBaseID = 'data-point-value-override-field-';
-    var indicatorBaseID = 'data-point-value-override-indicator-';
+    const labelBaseID = 'data-point-value-override-field-label-';
+    const fieldBaseID = 'data-point-value-override-field-';
+    const indicatorBaseID = 'data-point-value-override-indicator-';
 
-    var multiplePointsSelectedMessage = 'Multiple points selected';
-    var multipleOverridesExistMessage = 'Multiple override values';
-    var someOverridesExistMessage = 'Some values overridden';
+    const multiplePointsSelectedMessage = 'Multiple points selected';
+    const multipleOverridesExistMessage = 'Multiple override values';
+    const someOverridesExistMessage = 'Some values overridden';
 
     function _init(dataset, axes, pointIndexes, initTool) {
         ds = dataset;
@@ -235,11 +235,8 @@ wpd.dataPointValueOverrideEditor = (function() {
         ptIndexes = pointIndexes;
         tool = initTool;
 
-        // get axes labels to label input fields
-        var axesLabels = axes.getAxesLabels();
-
-        // generate the table row HTML
-        document.getElementById(tableID).innerHTML = _getTableRowsHTML(axesLabels);
+        // generate the table row HTML using axes labels to label input fields
+        document.getElementById(tableID).innerHTML = _getTableRowsHTML(axes.getAxesLabels());
 
         // avoid handler collisions
         wpd.graphicsWidget.removeTool();
@@ -254,9 +251,9 @@ wpd.dataPointValueOverrideEditor = (function() {
     }
 
     function _getTableRowsHTML(axesLabels) {
-        var html = '';
+        let html = '';
 
-        for (var i = 0; i < axesLabels.length; i++) {
+        for (let i = 0; i < axesLabels.length; i++) {
             html += '<tr>';
 
             // row label
@@ -289,24 +286,26 @@ wpd.dataPointValueOverrideEditor = (function() {
             return;
         }
 
+        const fieldCount = axes.getDimensions();
+
         // initialize popup
         _init(dataset, axes, pointIndexes, initTool);
 
         // show popup window
         wpd.popup.show(editorID);
 
-        var displayValues = [];
-        var fieldCount = axes.getDimensions();
+        const displayValues = [];
 
         // variables for checking if each value on points have been overridden
-        var isAllOverridden = [];
-        var isSomeOverridden = [];
+        const isAllOverridden = [];
+        const isSomeOverridden = [];
 
         // go through each selected point and collect values for display
-        for (var i = 0; i < pointIndexes.length; i++) {
-            var pixel = dataset.getPixel(pointIndexes[i]);
-            var originalValues = axes.pixelToData(pixel.x, pixel.y);
-            var overrideValues = [];
+        for (let i = 0; i < pointIndexes.length; i++) {
+            const pixel = dataset.getPixel(pointIndexes[i]);
+            const originalValues = axes.pixelToData(pixel.x, pixel.y);
+
+            let overrideValues = [];
 
             // if metadata on the pixel exists, display saved override values
             // if not, display current values
@@ -317,7 +316,7 @@ wpd.dataPointValueOverrideEditor = (function() {
 
             // for each original calculated value, if there exists an override, display
             // the override value instead of the original value
-            for (var j = 0; j < fieldCount; j++) {
+            for (let j = 0; j < fieldCount; j++) {
                 if (isAllOverridden[j] === undefined) {
                     isAllOverridden.push(true);
                 }
@@ -342,15 +341,15 @@ wpd.dataPointValueOverrideEditor = (function() {
 
         // for each field: set display values, show/hide overridden icons,
         // and display appropriate placeholder text if applicable
-        for (var i = 0; i < fieldCount; i++) {
-            var $field = document.getElementById(fieldBaseID + i);
-            var $overriddenIndicator = document.getElementById(indicatorBaseID + i);
+        for (let i = 0; i < fieldCount; i++) {
+            const $field = document.getElementById(fieldBaseID + i);
+            const $overriddenIndicator = document.getElementById(indicatorBaseID + i);
 
             if (isSomeOverridden[i]) {
                 if (isAllOverridden[i]) {
                     // check if all overridden values are the same
-                    var sameValue = true;
-                    for (var j = i + fieldCount; j < displayValues.length; j += fieldCount) {
+                    let sameValue = true;
+                    for (let j = i + fieldCount; j < displayValues.length; j += fieldCount) {
                         if (displayValues[i] !== displayValues[j]) {
                             sameValue = false;
                             break;
@@ -387,18 +386,18 @@ wpd.dataPointValueOverrideEditor = (function() {
 
     function ok() {
         // process each selected point
-        for (var i = 0; i < ptIndexes.length; i++) {
+        for (let i = 0; i < ptIndexes.length; i++) {
             if (document.getElementById(resetFlagID).value === '0') {
-                var hasChanges = false;
-                var newValues = [];
-
                 // fetch original values by converting pixel coordinates to values
-                var pixel = ds.getPixel(ptIndexes[i]);
-                var originalValues = ax.pixelToData(pixel.x, pixel.y);
+                const pixel = ds.getPixel(ptIndexes[i]);
+                const originalValues = ax.pixelToData(pixel.x, pixel.y);
+
+                const newValues = [];
+                let hasChanges = false;
 
                 // fetch and process each input field values
-                for (var j = 0; j < ax.getDimensions(); j++) {
-                    var newValue = document.getElementById(fieldBaseID + j).value;
+                for (let j = 0; j < ax.getDimensions(); j++) {
+                    let newValue = document.getElementById(fieldBaseID + j).value;
 
                     if (
                         originalValues[j] != newValue
@@ -425,7 +424,7 @@ wpd.dataPointValueOverrideEditor = (function() {
                     // set metadata keys for dataset if not been set
                     if (ds.getMetadataKeys().length === 0) {
                         ds.setMetadataKeys(ax.getAxesLabels().map(
-                            function(label) { return 'override-' + label.toLowerCase(); }
+                            function(label) { return 'Override-' + label; }
                         ));
                     }
 
@@ -485,15 +484,15 @@ wpd.dataPointValueOverrideEditor = (function() {
         document.getElementById(resetFlagID).value = '1';
 
         // process each selected point
-        for (var i = 0; i < ptIndexes.length; i++) {
+        for (let i = 0; i < ptIndexes.length; i++) {
             // convert pixel coordinates to values
-            var pixel = ds.getPixel(ptIndexes[i]);
-            var originalValues = ax.pixelToData(pixel.x, pixel.y);
+            const pixel = ds.getPixel(ptIndexes[i]);
+            const originalValues = ax.pixelToData(pixel.x, pixel.y);
 
             // process each field
-            for (var j = 0; j < ax.getDimensions(); j++) {
-                var $field = document.getElementById(fieldBaseID + j);
-                var value;
+            for (let j = 0; j < ax.getDimensions(); j++) {
+                let $field = document.getElementById(fieldBaseID + j);
+                let value;
 
                 // different behavior when multiple points are selected
                 if (ptIndexes.length > 1) {
