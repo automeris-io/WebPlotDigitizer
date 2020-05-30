@@ -89,6 +89,10 @@ On a Linux development machine, you will also need "wine" to build the Windows a
 
 This will create apps for Mac, Windows and Linux.
 
+## Docker
+
+To build a docker image see the file `research/Dockerfile`.
+
 # Coding Style
 
 - **Javascript**: ES6 with [AirBnB's style guide](https://github.com/airbnb/javascript) is recommended. A lot of older code does not follow this style and should be updated eventually.
