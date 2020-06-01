@@ -17,16 +17,6 @@ wget https://github.com/ankitrohatgi/tarballjs/archive/master.zip
 unzip master.zip -d tarballjs
 rm master.zip
 
-# emscripten
-wget https://github.com/juj/emsdk/archive/master.zip
-unzip master.zip
-mv emsdk-master emsdk
-cd emsdk
-./emsdk install latest
-./emsdk activate latest
-source ./emsdk_env.sh
-cd ..
-
 # clean up downloaded packages
 rm *.zip
 
