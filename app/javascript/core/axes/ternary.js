@@ -121,7 +121,7 @@ wpd.TernaryAxes = (function() {
             var dataVal = this.pixelToData(pxi, pyi);
             return dataVal[0].toExponential(4) + ', ' + dataVal[1].toExponential(4) + ', ' +
                 dataVal[2].toExponential(4);
-        };        
+        };
 
         this.name = "Ternary";
     };

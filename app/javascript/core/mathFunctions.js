@@ -148,5 +148,3 @@ wpd.cspline_interp =
         d = 2.0 * (cs.y[i] - cs.y[i + 1]) + cs.d[i] + cs.d[i + 1];
         return a + b * t + c * t * t + d * t * t * t;
     };
-
-
