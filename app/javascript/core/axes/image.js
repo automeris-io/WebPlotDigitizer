@@ -48,13 +48,6 @@ wpd.ImageAxes = (function() {
             return dataVal[0].toFixed(2) + ', ' + dataVal[1].toFixed(2);
         };
 
-        this.getTransformationEquations = function() {
-            return {
-                pixelToData: ['x_data = x_pixel', 'y_data = y_pixel'],
-                dataToPixel: ['x_pixel = x_data', 'y_pixel = y_data']
-            };
-        };
-
         this.name = "Image";
     };
 

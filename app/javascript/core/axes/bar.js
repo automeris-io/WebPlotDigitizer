@@ -111,12 +111,6 @@ wpd.BarAxes = (function() {
             return isRotatedAxes;
         }
 
-        this.getTransformationEquations = function() {
-            return {
-                pixelToData: ['This will be available in a future release.']
-            };
-        };
-
         this.dataPointsHaveLabels = true;
 
         this.dataPointsLabelPrefix = 'Bar';
