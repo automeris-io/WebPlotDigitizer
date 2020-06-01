@@ -170,7 +170,7 @@ wpd.PageManager = class {
         this.switch(this.curPage + 1);
     }
 
-    switch(pageNumber = 1) {
+    switch (pageNumber = 1) {
         wpd.busyNote.show();
 
         const parsedPageNumber = parseInt(pageNumber, 10);
