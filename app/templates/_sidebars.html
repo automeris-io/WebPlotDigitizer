@@ -40,6 +40,14 @@
     <p style="margin-top: 5px;">
         <input type="button" value="{{ _("Run") }}" style="width:40px;" onclick="wpd.algoManager.run();" />
     </p>
+    <div id="value-overrides-controls" hidden>
+        <br />
+        <p class="sidebar-title">{{ _("Overrides") }}</p>
+        <p>
+            <input type="button" value="{{ _("Override Values") }} (R)" id="override-data-values" style="width: 140px;">
+            <span id="overridden-data-indicator" hidden>&#8682;</span>
+        </p>
+    </div>
 </div>
 
 <!-- edit image -->

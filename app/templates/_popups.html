@@ -420,7 +420,7 @@
 </div>
 
 <!-- Adjust Data Points Keyboard Shortcuts -->
-<div id="adjust-data-points-keyboard-shortcuts-window" class="popup" style="width:400px;">
+<div id="adjust-data-points-keyboard-shortcuts-window" class="popup" style="width:500px;">
     <div class="popupheading">{{ _("Keyboard Shortcuts") }}</div>
     <p>{{ _("Click to select a data point. The following keys can then be used to the adjust the position") }}:</p>
     <center>
@@ -449,6 +449,14 @@
                 <td align="right">E -</td>
                 <td>{{ _("Edit label (Bar Chart)") }}</td>
             </tr>
+            <tr>
+                <td align="right" style="vertical-align: top;">R -</td>
+                <td>
+                    {{ _("Override value (When adjusting ") }}
+                    <br />
+                    {{ _("non-Bar Chart points") }}
+                </td>
+            </tr>
         </table>
     </center>
     <p>&nbsp;</p>
@@ -464,6 +472,20 @@
     <p align="center">
         <input type="button" value="{{ _("OK") }}" onclick="wpd.dataPointLabelEditor.ok();" />
         <input type="button" value="{{ _("Cancel") }}" onclick="wpd.dataPointLabelEditor.cancel();" />
+    </p>
+</div>
+
+<!-- Data point value editor -->
+<div id="data-point-value-override-editor" class="popup" style="width:280px;">
+    <div class="popupheading">{{ _("Override Point Values") }}</div>
+    <p>&nbsp;</p>
+    <table style="margin-left: 35px;" id="data-point-value-override-editor-table"></table>
+    <p>&nbsp;</p>
+    <p align="center">
+        <input type="hidden" id="data-point-value-override-revert-flag" value="0" />
+        <input type="button" value="{{ _("OK") }}" onclick="wpd.dataPointValueOverrideEditor.ok();" />
+        <input type="button" value="{{ _("Cancel") }}" onclick="wpd.dataPointValueOverrideEditor.cancel();" />
+        <input type="button" value="{{ _("Clear") }}" onclick="wpd.dataPointValueOverrideEditor.clear();" />
     </p>
 </div>
 
