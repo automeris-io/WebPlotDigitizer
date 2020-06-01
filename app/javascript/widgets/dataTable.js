@@ -318,7 +318,11 @@ wpd.dataTable = (function() {
                             rowValues[coli] = sortedData[rowi][coli];
                         }
                     }
-                    rowValues[coli] = rowValues[coli].toString().replace('.', decSeparator);
+                    if (rowValues[coli] === null) {
+                        rowValues[coli] = '';
+                    } else {
+                        rowValues[coli] = rowValues[coli].toString().replace('.', decSeparator);
+                    }
                 }
             }
             tableText += rowValues.join(colSeparator);

@@ -28,7 +28,7 @@ wpd.Dataset = class {
         this._dataPoints = [];
         this._connections = [];
         this._selections = [];
-        this._hasMetadata = false;
+        this._metadataCount = 0;
         this._mkeys = [];
 
         // public:
@@ -38,7 +38,7 @@ wpd.Dataset = class {
     }
 
     hasMetadata() {
-        return this._hasMetadata;
+        return this._metadataCount > 0;
     }
 
     setMetadataKeys(metakeys) {
@@ -57,12 +57,16 @@ wpd.Dataset = class {
             metadata: mdata
         };
         if (mdata != null) {
-            this._hasMetadata = true;
+            this._metadataCount++;
         }
     }
 
     getPixel(index) {
         return this._dataPoints[index];
+    }
+
+    getAllPixels() {
+        return this._dataPoints;
     }
 
     setPixelAt(index, pxi, pyi) {
@@ -74,6 +78,15 @@ wpd.Dataset = class {
 
     setMetadataAt(index, mdata) {
         if (index < this._dataPoints.length) {
+            if (mdata != null) {
+                if (this._dataPoints[index].metadata == null) {
+                    this._metadataCount++;
+                }
+            } else {
+                if (this._dataPoints[index].metadata != null) {
+                    this._metadataCount--;
+                }
+            }
             this._dataPoints[index].metadata = mdata;
         }
     }
@@ -84,10 +97,16 @@ wpd.Dataset = class {
             y: pyi,
             metadata: mdata
         });
+        if (mdata != null) {
+            this._metadataCount++;
+        }
     }
 
     removePixelAtIndex(index) {
         if (index < this._dataPoints.length) {
+            if (this._dataPoints[index].metadata != null) {
+                this._metadataCount--;
+            }
             this._dataPoints.splice(index, 1);
         }
     }
@@ -121,7 +140,7 @@ wpd.Dataset = class {
 
     clearAll() {
         this._dataPoints = [];
-        this._hasMetadata = false;
+        this._metadataCount = 0;
         this._mkeys = [];
     }
 
@@ -136,8 +155,60 @@ wpd.Dataset = class {
         this._selections.push(index);
     }
 
+    selectPixels(indexes) {
+        for (let i = 0; i < indexes.length; i++) {
+            this.selectPixel(indexes[i]);
+        }
+    }
+
     unselectAll() {
         this._selections = [];
+    }
+
+    selectPixelsInRectangle(p1, p2) {
+        // define tester functions for each quadrant
+        const tester = {
+            ne: function(x, y) {
+                return x >= p1.x && x <= p2.x && y >= p1.y && y <= p2.y;
+            },
+            se: function(x, y) {
+                return x >= p1.x && x <= p2.x && y <= p1.y && y >= p2.y;
+            },
+            sw: function(x, y) {
+                return x <= p1.x && x >= p2.x && y <= p1.y && y >= p2.y;
+            },
+            nw: function(x, y) {
+                return x <= p1.x && x >= p2.x && y >= p1.y && y <= p2.y;
+            }
+        };
+
+        // determine directional relationship between p1 and p2
+        const xDirection = (p1.x - p2.x) > 0 ? -1 : 1;
+        const yDirection = (p1.y - p2.y) > 0 ? 1 : -1;
+
+        // pick tester function based on relationship between p1 and p2
+        let direction = null;
+        if (yDirection > 0) { // south
+            if (xDirection > 0) { // east
+                direction = 'se';
+            } else { // west
+                direction = 'sw';
+            }
+        } else { // north
+            if (xDirection > 0) { // east
+                direction = 'ne';
+            } else { // west
+                direction = 'nw';
+            }
+        }
+
+        // go through each data point and test if coordinates are inside rectangle
+        // defined by p1 and p2
+        for (let index = 0; index < this._dataPoints.length; index++) {
+            if (tester[direction](this._dataPoints[index].x, this._dataPoints[index].y)) {
+                this.selectPixel(index);
+            }
+        }
     }
 
     selectNearestPixel(x, y, threshold) {

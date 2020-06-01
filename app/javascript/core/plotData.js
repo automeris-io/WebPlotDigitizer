@@ -270,8 +270,12 @@ wpd.PlotData = class {
                     ds.setMetadataKeys(dsData.metadataKeys);
                 }
                 for (let pxIdx = 0; pxIdx < dsData.data.length; pxIdx++) {
-                    ds.addPixel(dsData.data[pxIdx].x, dsData.data[pxIdx].y,
-                        dsData.data[pxIdx].metadata);
+                    // only label key existed in the past
+                    const metadataKey = dsData.metadataKeys[0].toLowerCase();
+                    const metadataValue = dsData.data[pxIdx].metadata[0];
+                    ds.addPixel(dsData.data[pxIdx].x, dsData.data[pxIdx].y, {
+                        [metadataKey]: metadataValue
+                    });
                 }
                 this.addDataset(ds);
                 this.setAxesForDataset(ds, axes);
@@ -306,16 +310,16 @@ wpd.PlotData = class {
 
     _deserializeVersion4(data) {
         // collect page data if it exists
-        let metadata = {};
+        let documentMetadata = {};
 
         const collectMetadata = (group, type, key, object) => {
-            if (!metadata[group])
-                metadata[group] = {};
-            if (!metadata[group][type])
-                metadata[group][type] = {};
-            if (!metadata[group][type][key])
-                metadata[group][type][key] = [];
-            metadata[group][type][key].push(object);
+            if (!documentMetadata[group])
+                documentMetadata[group] = {};
+            if (!documentMetadata[group][type])
+                documentMetadata[group][type] = {};
+            if (!documentMetadata[group][type][key])
+                documentMetadata[group][type][key] = [];
+            documentMetadata[group][type][key].push(object);
         };
 
         // axes data
@@ -381,7 +385,7 @@ wpd.PlotData = class {
                     axes.name = axData.name;
                     this._axesColl.push(axes);
 
-                    // collect metadata
+                    // collect document metadata
                     if (axData.file !== undefined) {
                         collectMetadata('file', 'axes', axData.file, axes);
                     }
@@ -405,12 +409,25 @@ wpd.PlotData = class {
                     ds.colorRGB = new wpd.Color(dsData.colorRGB[0], dsData.colorRGB[1], dsData.colorRGB[2]);
                 }
                 for (let pxIdx = 0; pxIdx < dsData.data.length; pxIdx++) {
-                    ds.addPixel(dsData.data[pxIdx].x, dsData.data[pxIdx].y,
-                        dsData.data[pxIdx].metadata);
+                    // for backwards compatibility, metadata was updated from array
+                    // to object
+                    let metadata = dsData.data[pxIdx].metadata;
+                    if (dsData.data[pxIdx].metadata != null) {
+                        if (Array.isArray(metadata)) {
+                            // transform metadata array into object
+                            metadata = metadata.reduce((obj, val, idx) => {
+                                return {
+                                    ...obj,
+                                    [dsData.metadataKeys[idx]]: val
+                                };
+                            }, {});
+                        }
+                    }
+                    ds.addPixel(dsData.data[pxIdx].x, dsData.data[pxIdx].y, metadata);
                 }
                 this._datasetColl.push(ds);
 
-                // collect metadata
+                // collect document metadata
                 if (dsData.file !== undefined) {
                     collectMetadata('file', 'datasets', dsData.file, ds);
                 }
@@ -464,7 +481,7 @@ wpd.PlotData = class {
                         ms.addConnection(msData.data[cIdx]);
                     }
 
-                    // collect metadata
+                    // collect document metadata
                     if (msData.file !== undefined) {
                         collectMetadata('file', 'measurements', msData.file, ms);
                     }
@@ -477,10 +494,10 @@ wpd.PlotData = class {
 
         // misc
         if (data.misc != null) {
-            metadata.misc = data.misc;
+            documentMetadata.misc = data.misc;
         }
 
-        return metadata;
+        return documentMetadata;
     }
 
     deserialize(data) {
@@ -499,7 +516,7 @@ wpd.PlotData = class {
         }
     }
 
-    serialize(metadata) {
+    serialize(documentMetadata) {
         let data = {};
         data.version = [4, 2];
         data.axesColl = [];
@@ -511,12 +528,12 @@ wpd.PlotData = class {
             const axes = this._axesColl[axIdx];
             let axData = {};
             axData.name = axes.name;
-            if (metadata) {
-                if (metadata.file && metadata.file.axes[axes.name] !== undefined) {
-                    axData.file = metadata.file.axes[axes.name];
+            if (documentMetadata) {
+                if (documentMetadata.file && documentMetadata.file.axes[axes.name] !== undefined) {
+                    axData.file = documentMetadata.file.axes[axes.name];
                 }
-                if (metadata.page && metadata.page.axes[axes.name] !== undefined) {
-                    axData.page = metadata.page.axes[axes.name];
+                if (documentMetadata.page && documentMetadata.page.axes[axes.name] !== undefined) {
+                    axData.page = documentMetadata.page.axes[axes.name];
                 }
             }
             if (axes instanceof wpd.XYAxes) {
@@ -562,12 +579,12 @@ wpd.PlotData = class {
             const autoDetectionData = this.getAutoDetectionDataForDataset(ds);
             let dsData = {};
             dsData.name = ds.name;
-            if (metadata) {
-                if (metadata.file && metadata.file.datasets[ds.name] !== undefined) {
-                    dsData.file = metadata.file.datasets[ds.name];
+            if (documentMetadata) {
+                if (documentMetadata.file && documentMetadata.file.datasets[ds.name] !== undefined) {
+                    dsData.file = documentMetadata.file.datasets[ds.name];
                 }
-                if (metadata.page && metadata.page.datasets[ds.name] !== undefined) {
-                    dsData.page = metadata.page.datasets[ds.name];
+                if (documentMetadata.page && documentMetadata.page.datasets[ds.name] !== undefined) {
+                    dsData.page = documentMetadata.page.datasets[ds.name];
                 }
             }
             dsData.axesName = axes != null ? axes.name : "";
@@ -603,12 +620,12 @@ wpd.PlotData = class {
                 msData.name = "Area";
                 msData.axesName = axes != null ? axes.name : "";
             }
-            if (metadata) {
-                if (metadata.file && metadata.file.measurements[msIdx] !== undefined) {
-                    msData.file = metadata.file.measurements[msIdx];
+            if (documentMetadata) {
+                if (documentMetadata.file && documentMetadata.file.measurements[msIdx] !== undefined) {
+                    msData.file = documentMetadata.file.measurements[msIdx];
                 }
-                if (metadata.page && metadata.page.measurements[msIdx] !== undefined) {
-                    msData.page = metadata.page.measurements[msIdx];
+                if (documentMetadata.page && documentMetadata.page.measurements[msIdx] !== undefined) {
+                    msData.page = documentMetadata.page.measurements[msIdx];
                 }
             }
             msData.data = [];
@@ -618,8 +635,8 @@ wpd.PlotData = class {
             data.measurementColl.push(msData);
         }
 
-        if (metadata && metadata.misc) {
-            data.misc = metadata.misc;
+        if (documentMetadata && documentMetadata.misc) {
+            data.misc = documentMetadata.misc;
         }
 
         return data;

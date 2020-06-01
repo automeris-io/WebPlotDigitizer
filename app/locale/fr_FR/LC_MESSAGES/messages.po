@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-04-01 14:03-0400\n"
+"POT-Creation-Date: 2020-05-27 15:45-0400\n"
 "PO-Revision-Date: 2017-11-01 23:56-0500\n"
 "Last-Translator: \n"
 "Language: fr_FR\n"
@@ -44,7 +44,7 @@ msgstr "Adapter"
 msgid "File"
 msgstr "Fichier"
 
-#: templates/_menubar.html:5 templates/_sidebars.html:149
+#: templates/_menubar.html:5 templates/_sidebars.html:157
 msgid "Load Image"
 msgstr "Charger l'image"
 
@@ -96,7 +96,7 @@ msgstr ""
 msgid "Next"
 msgstr ""
 
-#: templates/_navbar.html:10 templates/_popups.html:556
+#: templates/_navbar.html:10 templates/_popups.html:578
 msgid "Page Labels"
 msgstr ""
 
@@ -112,10 +112,11 @@ msgstr "Charger"
 #: templates/_popups.html:58 templates/_popups.html:66
 #: templates/_popups.html:84 templates/_popups.html:114
 #: templates/_popups.html:404 templates/_popups.html:418
-#: templates/_popups.html:466 templates/_popups.html:479
-#: templates/_popups.html:494 templates/_popups.html:506
-#: templates/_popups.html:517 templates/_popups.html:527
-#: templates/_popups.html:538 templates/_popups.html:570
+#: templates/_popups.html:474 templates/_popups.html:487
+#: templates/_popups.html:501 templates/_popups.html:516
+#: templates/_popups.html:528 templates/_popups.html:539
+#: templates/_popups.html:549 templates/_popups.html:560
+#: templates/_popups.html:592
 msgid "Cancel"
 msgstr "Annuler"
 
@@ -178,8 +179,9 @@ msgstr "Capturer"
 #: templates/_popups.html:75 templates/_popups.html:84
 #: templates/_popups.html:145 templates/_popups.html:169
 #: templates/_popups.html:178 templates/_popups.html:209
-#: templates/_popups.html:247 templates/_popups.html:465
-#: templates/_popups.html:478 templates/_popups.html:550
+#: templates/_popups.html:247 templates/_popups.html:473
+#: templates/_popups.html:486 templates/_popups.html:500
+#: templates/_popups.html:572
 msgid "OK"
 msgstr "Ok"
 
@@ -343,7 +345,7 @@ msgstr "Variables"
 msgid "Copy to Clipboard"
 msgstr "Copier dans le presse-papier"
 
-#: templates/_popups.html:264 templates/_popups.html:504
+#: templates/_popups.html:264 templates/_popups.html:526
 msgid "Download .CSV"
 msgstr "Télécharger .CSV"
 
@@ -352,7 +354,7 @@ msgid "Graph in Plotly*"
 msgstr "Graphique dans Plotly *"
 
 #: templates/_popups.html:266 templates/_popups.html:364
-#: templates/_popups.html:391 templates/_popups.html:455
+#: templates/_popups.html:391 templates/_popups.html:463
 msgid "Close"
 msgstr "Fermer"
 
@@ -621,110 +623,126 @@ msgstr "Suprimer le point"
 msgid "Edit label (Bar Chart)"
 msgstr "Modifier le label (diagramme à barres)"
 
-#: templates/_popups.html:460
+#: templates/_popups.html:455
+msgid "Override value (When adjusting "
+msgstr ""
+
+#: templates/_popups.html:457
+msgid "non-Bar Chart points"
+msgstr ""
+
+#: templates/_popups.html:468
 msgid "Edit Label"
 msgstr "Modifier le label"
 
-#: templates/_popups.html:462
+#: templates/_popups.html:470
 msgid "Label"
 msgstr "Label"
 
-#: templates/_popups.html:462
+#: templates/_popups.html:470
 msgid "Data Point"
 msgstr "Point de données"
 
-#: templates/_popups.html:472
+#: templates/_popups.html:480
+msgid "Override Point Values"
+msgstr ""
+
+#: templates/_popups.html:488 templates/_sidebars.html:114
+msgid "Clear"
+msgstr "Effacer"
+
+#: templates/_popups.html:494
 msgid "Perspective Transformation"
 msgstr "Transformation de perspective"
 
-#: templates/_popups.html:475
+#: templates/_popups.html:497
 msgid "Click on four corners of the region to be transformed as shown."
 msgstr "Cliquez sur les quatre coins de la région à transformer comme indiqué."
 
-#: templates/_popups.html:485
+#: templates/_popups.html:507
 msgid "Edit Existing Calibration?"
 msgstr "Modifier le calibrage?"
 
-#: templates/_popups.html:487
+#: templates/_popups.html:509
 msgid "Do you wish to tweak existing axes calibration or select a new axes type?"
 msgstr ""
 "Est-ce que vous souhaitez modifier le calibrage des axes existants ou "
 "sélectionnez un nouveau type d'axes?"
 
-#: templates/_popups.html:490
+#: templates/_popups.html:512
 msgid "Edit Calibration"
 msgstr "Modifier le calibrage"
 
-#: templates/_popups.html:492
+#: templates/_popups.html:514
 msgid "Change Axes Type"
 msgstr "Changer le type d'axes"
 
-#: templates/_popups.html:500
+#: templates/_popups.html:522
 msgid "Export All Datasets"
 msgstr "Exporter tous les Datasets"
 
-#: templates/_popups.html:501
+#: templates/_popups.html:523
 msgid "Export data from all datasets"
 msgstr ""
 
-#: templates/_popups.html:505
+#: templates/_popups.html:527
 msgid "Export to Plotly"
 msgstr "Exporter vers Plotly"
 
-#: templates/_popups.html:512 templates/_tree.html:37
+#: templates/_popups.html:534 templates/_tree.html:37
 msgid "Add Dataset"
 msgstr "Ajouter Dataset"
 
-#: templates/_popups.html:513 templates/_popups.html:525
-#: templates/_popups.html:536
+#: templates/_popups.html:535 templates/_popups.html:547
+#: templates/_popups.html:558
 msgid "Name"
 msgstr "Nom"
 
-#: templates/_popups.html:513
+#: templates/_popups.html:535
 msgid "Add Single Dataset"
 msgstr "Ajouter un Dataset"
 
-#: templates/_popups.html:515
+#: templates/_popups.html:537
 msgid "Count"
 msgstr "Compte"
 
-#: templates/_popups.html:515
+#: templates/_popups.html:537
 msgid "Add Multiple Datasets"
 msgstr "Ajouter plusieurs Datasets"
 
-#: templates/_popups.html:522 templates/_tree.html:56
+#: templates/_popups.html:544 templates/_tree.html:56
 msgid "Rename Dataset"
 msgstr "Renommer Dataset"
 
-#: templates/_popups.html:527 templates/_popups.html:538
+#: templates/_popups.html:549 templates/_popups.html:560
 #: templates/_tree.html:27
 msgid "Rename"
 msgstr "Renommer"
 
-#: templates/_popups.html:533
+#: templates/_popups.html:555
 msgid "Rename Axes"
 msgstr "Renommer les axes"
 
-#: templates/_popups.html:544 templates/_tree.html:10
+#: templates/_popups.html:566 templates/_tree.html:10
 msgid "Image Info"
 msgstr ""
 
-#: templates/_popups.html:557
+#: templates/_popups.html:579
 msgid ""
 "Relabel the current page number with an alphanumeric string. Optionally, "
 "relabel all page numbers in the image based on the current page (only "
 "supports integer values)."
 msgstr ""
 
-#: templates/_popups.html:567
+#: templates/_popups.html:589
 msgid "Relabel"
 msgstr ""
 
-#: templates/_popups.html:568 templates/_sidebars.html:140
+#: templates/_popups.html:590 templates/_sidebars.html:148
 msgid "Reset"
 msgstr "Réinitialiser"
 
-#: templates/_popups.html:569
+#: templates/_popups.html:591
 msgid "Reset All"
 msgstr ""
 
@@ -769,11 +787,11 @@ msgstr "Modifier les Labels"
 msgid "Automatic Extraction"
 msgstr "Extraction automatique"
 
-#: templates/_sidebars.html:21 templates/_sidebars.html:104
+#: templates/_sidebars.html:21 templates/_sidebars.html:112
 msgid "Mask"
 msgstr "Masque"
 
-#: templates/_sidebars.html:21 templates/_sidebars.html:105
+#: templates/_sidebars.html:21 templates/_sidebars.html:113
 msgid "Box"
 msgstr "Boîte"
 
@@ -785,7 +803,7 @@ msgstr "Stylo"
 msgid "Erase"
 msgstr "Effacer"
 
-#: templates/_sidebars.html:21 templates/_sidebars.html:107
+#: templates/_sidebars.html:21 templates/_sidebars.html:115
 msgid "View"
 msgstr "Visualiser"
 
@@ -797,7 +815,7 @@ msgstr ""
 msgid "Erase All"
 msgstr "Tout Effacer"
 
-#: templates/_sidebars.html:29 templates/_sidebars.html:111
+#: templates/_sidebars.html:29 templates/_sidebars.html:119
 msgid "Color"
 msgstr "Couleur"
 
@@ -826,143 +844,147 @@ msgstr "Filtre des couleurs"
 msgid "Algorithm"
 msgstr "Algorithme"
 
+#: templates/_sidebars.html:45
+msgid "Overrides"
+msgstr ""
+
 #: templates/_sidebars.html:47
+msgid "Override Values"
+msgstr ""
+
+#: templates/_sidebars.html:55
 msgid "Edit Image"
 msgstr "Modifier l'image"
 
-#: templates/_sidebars.html:56
+#: templates/_sidebars.html:64
 msgid "Measure Distances"
 msgstr "Mesurer les Distances"
 
-#: templates/_sidebars.html:58
+#: templates/_sidebars.html:66
 msgid "Add Pair"
 msgstr "Ajouter le Paire"
 
-#: templates/_sidebars.html:59
+#: templates/_sidebars.html:67
 msgid "Delete Pair"
 msgstr "Supprimer le Paire"
 
-#: templates/_sidebars.html:65
+#: templates/_sidebars.html:73
 msgid "Measure Angles"
 msgstr "Angles de Mesure"
 
-#: templates/_sidebars.html:67
+#: templates/_sidebars.html:75
 msgid "Add Angle"
 msgstr "Ajouter L'angle"
 
-#: templates/_sidebars.html:68
+#: templates/_sidebars.html:76
 msgid "Delete Angle"
 msgstr "Supprimer L’angle"
 
-#: templates/_sidebars.html:74
+#: templates/_sidebars.html:82
 msgid "Measure Area/Perimeter"
 msgstr ""
 
-#: templates/_sidebars.html:75
+#: templates/_sidebars.html:83
 msgid "Add Polygon"
 msgstr ""
 
-#: templates/_sidebars.html:76
+#: templates/_sidebars.html:84
 msgid "Delete Polygon"
 msgstr ""
 
-#: templates/_sidebars.html:78
+#: templates/_sidebars.html:86
 msgid "Press Enter or Esc key to complete the polygon"
 msgstr ""
 
-#: templates/_sidebars.html:84
+#: templates/_sidebars.html:92
 msgid "Measure Path"
 msgstr "Mesurer le Chemin"
 
-#: templates/_sidebars.html:86 templates/_sidebars.html:95
+#: templates/_sidebars.html:94 templates/_sidebars.html:103
 msgid "Add Path"
 msgstr "Ajouter le Chemin"
 
-#: templates/_sidebars.html:87 templates/_sidebars.html:96
+#: templates/_sidebars.html:95 templates/_sidebars.html:104
 msgid "Delete Path"
 msgstr "Supprimer le Chemin"
 
-#: templates/_sidebars.html:93
+#: templates/_sidebars.html:101
 msgid "Measure Closed Path"
 msgstr "Mesurer le chemin fermé"
 
-#: templates/_sidebars.html:102
+#: templates/_sidebars.html:110
 msgid "Detect Grid"
 msgstr "Détecter la Grille"
 
-#: templates/_sidebars.html:106
-msgid "Clear"
-msgstr "Effacer"
-
-#: templates/_sidebars.html:112
+#: templates/_sidebars.html:120
 msgid "Pick"
 msgstr "Choisir"
 
-#: templates/_sidebars.html:114
+#: templates/_sidebars.html:122
 msgid "Test"
 msgstr "Tester"
 
-#: templates/_sidebars.html:116
+#: templates/_sidebars.html:124
 msgid "Background Mode"
 msgstr "Mode Arrière-plan"
 
-#: templates/_sidebars.html:120
+#: templates/_sidebars.html:128
 msgid "Horizontal"
 msgstr "Horizontal"
 
-#: templates/_sidebars.html:124
+#: templates/_sidebars.html:132
 msgid "X%"
 msgstr "X%"
 
-#: templates/_sidebars.html:128
+#: templates/_sidebars.html:136
 msgid "Vertical"
 msgstr "Vertical"
 
-#: templates/_sidebars.html:132
+#: templates/_sidebars.html:140
 msgid "Y%"
 msgstr "Y%"
 
-#: templates/_sidebars.html:138
+#: templates/_sidebars.html:146
 msgid "Detect"
 msgstr "Détecter"
 
-#: templates/_sidebars.html:150
+#: templates/_sidebars.html:158
 msgid "Tutorial Video"
 msgstr "Vidéo tutoriel"
 
-#: templates/_sidebars.html:151
+#: templates/_sidebars.html:159
 msgid "Visit Website"
 msgstr "Visitez le site Web"
 
-#: templates/_sidebars.html:152
+#: templates/_sidebars.html:160
 msgid "Visit GitHub"
 msgstr "Visitez GitHub"
 
-#: templates/_sidebars.html:158
+#: templates/_sidebars.html:166
 msgid "Image Editing"
 msgstr ""
 
-#: templates/_sidebars.html:162
+#: templates/_sidebars.html:170
 msgid "Undo"
 msgstr ""
 
-#: templates/_sidebars.html:163
+#: templates/_sidebars.html:171
 msgid "Redo"
 msgstr ""
 
-#: templates/_sidebars.html:167
+#: templates/_sidebars.html:175
 msgid "Crop"
 msgstr ""
 
-#: templates/_sidebars.html:168
+#: templates/_sidebars.html:176
 msgid "Fix Perspective"
 msgstr ""
 
-#: templates/_sidebars.html:172
+#: templates/_sidebars.html:180
 msgid "Rotate"
 msgstr ""
 
-#: templates/_sidebars.html:173
+#: templates/_sidebars.html:181
 msgid "?"
 msgstr ""
 
@@ -1370,5 +1392,50 @@ msgstr "Effacer Tout"
 #~ "Optionally, relabel all pages in the "
 #~ "image based on the new label (only"
 #~ " integers values)."
+#~ msgstr ""
+
+#~ msgid "Override Point Values"
+#~ msgstr ""
+
+#~ msgid "Submit"
+#~ msgstr ""
+
+#~ msgid "Override Value"
+#~ msgstr ""
+
+#~ msgid "Override X"
+#~ msgstr ""
+
+#~ msgid "Override Y"
+#~ msgstr ""
+
+#~ msgid "Override value (When Adjusting Non-Bar Chart or Ternary Diagram Points"
+#~ msgstr ""
+
+#~ msgid "Override value"
+#~ msgstr ""
+
+#~ msgid "(When Adjusting Non-Bar Chart or Ternary Diagram Points)"
+#~ msgstr ""
+
+#~ msgid "Revert"
+#~ msgstr ""
+
+#~ msgid "Override value (When Adjusting "
+#~ msgstr ""
+
+#~ msgid "Non-Bar Chart or Ternary "
+#~ msgstr ""
+
+#~ msgid "Diagram Points)"
+#~ msgstr ""
+
+#~ msgid "Clear Overrides"
+#~ msgstr ""
+
+#~ msgid "non-Bar Chart or non-Ternary "
+#~ msgstr ""
+
+#~ msgid "Diagram points)"
 #~ msgstr ""
 

@@ -91,6 +91,10 @@ wpd.utils = (function() {
         return /^-?[1-9]\d*$|^0$/.test(value);
     }
 
+    function toSentenceCase(string) {
+        return string.charAt(0).toUpperCase() + string.substr(1).toLowerCase();
+    }
+
     return {
         addToCollection: addToCollection,
         createOptionsHTML: createOptionsHTML,
@@ -100,6 +104,7 @@ wpd.utils = (function() {
         integerRange: integerRange,
         invertObject: invertObject,
         isInteger: isInteger,
-        toggleElementsDisplay: toggleElementsDisplay
+        toggleElementsDisplay: toggleElementsDisplay,
+        toSentenceCase: toSentenceCase
     };
 })();

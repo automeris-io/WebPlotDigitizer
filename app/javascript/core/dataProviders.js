@@ -39,34 +39,61 @@ wpd.plotDataProvider = (function() {
     }
 
     function getBarAxesData(dataSeries, axes) {
-        var fields = [],
-            fieldDateFormat = [],
+        const fieldDateFormat = [],
             rawData = [],
-            isFieldSortable = [],
-            rowi, coli,
-            dataPt, transformedDataPt, lab;
+            isFieldSortable = [false, true],
+            hasMetadata = dataSeries.hasMetadata();
 
-        for (rowi = 0; rowi < dataSeries.getCount(); rowi++) {
+        let fields = ['Label', 'Value'],
+            metaKeys = dataSeries.getMetadataKeys(),
+            metaKeyCount = hasMetadata === true ? metaKeys.length : 0;
 
-            dataPt = dataSeries.getPixel(rowi);
-            transformedDataPt = axes.pixelToData(dataPt.x, dataPt.y);
+        const hasOverrides = metaKeys.indexOf('overrides') > -1;
+
+        if (hasOverrides) {
+            // remove overrides key
+            metaKeys = metaKeys.filter(key => key !== 'overrides');
+            metaKeyCount -= 1;
+        }
+
+        for (let rowi = 0; rowi < dataSeries.getCount(); rowi++) {
+            const dataPt = dataSeries.getPixel(rowi);
+            const transformedDataPt = axes.pixelToData(dataPt.x, dataPt.y);
 
             rawData[rowi] = [];
 
-            // metaData[0] should be the label:
-            if (dataPt.metadata == null) {
-                lab = "Bar" + rowi;
-            } else {
-                lab = dataPt.metadata[0];
+            let lab = "Bar" + rowi;
+
+            if (dataPt.metadata != null) {
+                lab = dataPt.metadata['label'];
             }
             rawData[rowi][0] = lab;
             // transformed value
             rawData[rowi][1] = transformedDataPt[0];
+
             // other metadata if present can go here in the future.
+
+            // overrides
+            if (hasOverrides) {
+                const field = 'y';
+                let ptoverride = null;
+                if (
+                    dataPt.metadata != null &&
+                    dataPt.metadata.overrides != null &&
+                    dataPt.metadata.overrides[field] != null
+                ) {
+                    ptoverride = dataPt.metadata.overrides[field];
+                }
+                rawData[rowi][2] = ptoverride;
+            }
         }
 
-        fields = ['Label', 'Value'];
-        isFieldSortable = [false, true];
+        if (hasOverrides) {
+            // add override field labels to fields
+            fields = fields.concat(['Value-Override']);
+
+            isFieldSortable.push(true);
+        }
 
         return {
             fields: fields,
@@ -80,46 +107,74 @@ wpd.plotDataProvider = (function() {
 
     function getGeneralAxesData(dataSeries, axes) {
         // 2D XY, Polar, Ternary, Image, Map
+        const rawData = [],
+            isFieldSortable = [],
+            hasMetadata = dataSeries.hasMetadata();
 
-        var fields = [],
+        let fields = axes.getAxesLabels(),
             fieldDateFormat = [],
             connectivityFieldIndices = [],
-            rawData = [],
-            isFieldSortable = [],
-            rowi, coli, pt, ptData, metadi,
-            hasMetadata = dataSeries.hasMetadata(),
             metaKeys = dataSeries.getMetadataKeys(),
-            metaKeyCount = hasMetadata === true ? metaKeys.length : 0,
-            ptmetadata;
+            metaKeyCount = hasMetadata === true ? metaKeys.length : 0;
 
-        for (rowi = 0; rowi < dataSeries.getCount(); rowi++) {
+        const hasOverrides = metaKeys.indexOf('overrides') > -1;
 
-            pt = dataSeries.getPixel(rowi);
-            ptData = axes.pixelToData(pt.x, pt.y);
+        if (hasOverrides) {
+            // remove overrides key
+            metaKeys = metaKeys.filter(key => key !== 'overrides');
+            metaKeyCount -= 1;
+        }
+
+        for (let rowi = 0; rowi < dataSeries.getCount(); rowi++) {
+            const pt = dataSeries.getPixel(rowi);
+            const ptData = axes.pixelToData(pt.x, pt.y);
             rawData[rowi] = [];
 
             // transformed coordinates
-            for (coli = 0; coli < ptData.length; coli++) {
+            for (let coli = 0; coli < ptData.length; coli++) {
                 rawData[rowi][coli] = ptData[coli];
             }
 
             // metadata
+            let metadi;
             for (metadi = 0; metadi < metaKeyCount; metadi++) {
-                if (pt.metadata == null || pt.metadata[metadi] == null) {
-                    ptmetadata = 0;
-                } else {
-                    ptmetadata = pt.metadata[metadi];
+                const key = metaKeys[metadi];
+                let ptmetadata = null;
+                if (pt.metadata != null && pt.metadata[key] != null) {
+                    ptmetadata = pt.metadata[key];
                 }
                 rawData[rowi][ptData.length + metadi] = ptmetadata;
             }
+
+            // overrides
+            if (hasOverrides) {
+                for (let fieldi = 0; fieldi < fields.length; fieldi++) {
+                    const field = fields[fieldi].toLowerCase();
+                    let ptoverride = null;
+                    if (
+                        pt.metadata != null &&
+                        pt.metadata.overrides != null &&
+                        pt.metadata.overrides[field] != null
+                    ) {
+                        ptoverride = pt.metadata.overrides[field];
+                    }
+                    rawData[rowi][ptData.length + metadi + fieldi] = ptoverride;
+                }
+            }
         }
 
-        fields = axes.getAxesLabels();
         if (hasMetadata) {
             fields = fields.concat(metaKeys);
+
+            if (hasOverrides) {
+                // add override field labels to fields
+                fields = fields.concat(fields.map(field => {
+                    return wpd.utils.toSentenceCase(field) + '-Override';
+                }));
+            }
         }
 
-        for (coli = 0; coli < fields.length; coli++) {
+        for (let coli = 0; coli < fields.length; coli++) {
             if (coli < axes.getDimensions()) {
                 connectivityFieldIndices[coli] = coli;
                 if (axes.isDate != null && axes.isDate(coli)) {
