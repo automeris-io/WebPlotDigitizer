@@ -152,30 +152,6 @@ wpd.PolarAxes = (function() {
             return dataVal[0].toExponential(4) + ', ' + dataVal[1].toExponential(4);
         };
 
-        this.getTransformationEquations = function() {
-            var rEqn = 'r = (' + (r2 - r1) / dist12 + ')*sqrt((x_pixel - ' + x0 +
-                ')^2 + (y_pixel - ' + y0 + ')^2) + (' + (r1 - dist10 * (r2 - r1) / dist12) +
-                ')',
-                thetaEqn;
-
-            if (isClockwise) {
-                thetaEqn = alpha0 + '- atan2((' + y0 + ' - y_pixel), (x_pixel - ' + x0 + '))';
-            } else {
-                thetaEqn =
-                    'atan2((' + y0 + ' - y_pixel), (x_pixel - ' + x0 + ')) - (' + alpha0 + ')';
-            }
-
-            if (isDegrees) {
-                thetaEqn = 'theta = (180/PI)*(' + thetaEqn + '), theta = theta + 360 if theta < 0';
-            } else {
-                thetaEqn = 'theta = ' + thetaEqn + ' theta = theta + 2*PI if theta < 0';
-            }
-
-            return {
-                pixelToData: [rEqn, thetaEqn]
-            };
-        };
-
         this.name = "Polar";
     };
 
