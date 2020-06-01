@@ -13,7 +13,6 @@ electron-packager ./electron $APPNAME --platform=linux --icon=app/images/icon/ic
 cp -r ./app $APPNAME-linux-x64/resources/
 rm -rf $APPNAME-linux-x64/resources/app/thirdparty/compiler-latest.zip
 rm -rf $APPNAME-linux-x64/resources/app/thirdparty/closure-compiler
-rm -rf $APPNAME-linux-x64/resources/app/thirdparty/emsdk
 zip -r $APPNAME-linux-x64.zip $APPNAME-linux-x64
 md5sum $APPNAME-linux-x64.zip > $APPNAME-linux-x64.zip.md5
 
@@ -22,7 +21,6 @@ electron-packager ./electron $APPNAME --platform=win32 --icon=app/images/icon/ic
 cp -r ./app $APPNAME-win32-x64/resources/
 rm -rf $APPNAME-win32-x64/resources/app/thirdparty/compiler-latest.zip
 rm -rf $APPNAME-win32-x64/resources/app/thirdparty/closure-compiler
-rm -rf $APPNAME-win32-x64/resources/app/thirdparty/emsdk
 zip -r $APPNAME-win32-x64.zip $APPNAME-win32-x64
 md5sum $APPNAME-win32-x64.zip > $APPNAME-win32-x64.zip.md5
 
@@ -31,7 +29,6 @@ electron-packager ./electron $APPNAME --platform=win32 --icon=app/images/icon/ic
 cp -r ./app $APPNAME-win32-ia32/resources/
 rm -rf $APPNAME-win32-ia32/resources/app/thirdparty/compiler-latest.zip
 rm -rf $APPNAME-win32-ia32/resources/app/thirdparty/closure-compiler
-rm -rf $APPNAME-win32-ia32/resources/app/thirdparty/emsdk
 zip -r $APPNAME-win32-ia32.zip $APPNAME-win32-ia32
 md5sum $APPNAME-win32-ia32.zip > $APPNAME-win32-ia32.zip.md5
 
@@ -40,6 +37,5 @@ electron-packager ./electron $APPNAME --platform=darwin --icon=app/images/icon/w
 cp -r ./app $APPNAME-darwin-x64/$APPNAME.app/Contents/Resources/
 rm -rf $APPNAME-darwin-x64/$APPNAME.app/Contents/Resources/app/thirdparty/compiler-latest.zip
 rm -rf $APPNAME-darwin-x64/$APPNAME.app/Contents/Resources/app/thirdparty/closure-compiler
-rm -rf $APPNAME-darwin-x64/$APPNAME.app/Contents/Resources/app/thirdparty/emsdk
 zip -r $APPNAME-darwin-x64.zip $APPNAME-darwin-x64
 md5sum $APPNAME-darwin-x64.zip > $APPNAME-darwin-x64.zip.md5
