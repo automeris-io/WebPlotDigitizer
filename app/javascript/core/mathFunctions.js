@@ -125,7 +125,7 @@ wpd.cspline =
         }
 
         return cs;
-    }
+    };
 
 wpd.cspline_interp =
     function(cs, x) {
@@ -147,18 +147,6 @@ wpd.cspline_interp =
         c = 3.0 * (cs.y[i + 1] - cs.y[i]) - 2.0 * cs.d[i] - cs.d[i + 1];
         d = 2.0 * (cs.y[i] - cs.y[i + 1]) + cs.d[i] + cs.d[i + 1];
         return a + b * t + c * t * t + d * t * t * t;
-    }
+    };
 
 
-// Homography matrix for perspective transformations based on pixel coordinates of corner points.
-wpd.calculateHomographyMatrix = function(orignalCorners, finalCorners) {
-    let sourcePtr = wpd.wasmHelper.arrayToPtr(originalCorners);
-    let targetPtr = wpd.wasmHelper.arrayToPtr(finalCorners);
-    let homographyPtr = Module._newDoubleArray(9);
-    Module._computeHomography(sourcePtr, targetPtr, homographyPtr);
-    let H = wpd.wasmHelper.ptrToArray(homographyPtr);
-    wpd.wasmHelper.freePtr(sourcePtr);
-    wpd.wasmHelper.freePtr(targetPtr);
-    wpd.wasmHelper.freePtr(homographyPtr);
-    return H; // flattened homography matrix
-};

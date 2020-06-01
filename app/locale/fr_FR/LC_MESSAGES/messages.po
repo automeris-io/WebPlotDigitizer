@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-06-01 01:11-0700\n"
+"POT-Creation-Date: 2020-06-01 01:20-0700\n"
 "PO-Revision-Date: 2017-11-01 23:56-0500\n"
 "Last-Translator: \n"
 "Language: fr_FR\n"
@@ -22,17 +22,17 @@ msgstr ""
 msgid "Web based tool to extract numerical data from plots and graph images."
 msgstr ""
 
-#: templates/_base.html:51
+#: templates/_base.html:48
 msgid "Loading application, please wait..."
 msgstr ""
 
-#: templates/_base.html:54
+#: templates/_base.html:51
 msgid ""
 "Problems loading? Make sure you have a recent version of Google Chrome, "
 "Firefox, Safari or Microsoft Edge installed."
 msgstr ""
 
-#: templates/_base.html:76
+#: templates/_base.html:73
 msgid "Fit"
 msgstr ""
 
