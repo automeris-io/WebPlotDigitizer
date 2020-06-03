@@ -37,8 +37,8 @@ wpd.AveragingWindowAlgo = class {
     }
 
     setParams(params) {
-        this._xStep = params.xStep;
-        this._yStep = params.yStep;
+        this._xStep = parseFloat(params.xStep);
+        this._yStep = parseFloat(params.yStep);
     }
 
     getParams() {

@@ -55,6 +55,11 @@ wpd.algoManager = (function() {
             innerHTML += '<option value="XStep">' + wpd.gettext('x-step') + '</option>';
         }
 
+        // CustomIndependents
+        if (axes instanceof wpd.XYAxes) {
+            innerHTML += '<option value="CustomIndependents">' + wpd.gettext('custom-independents') + '</option>';
+        }
+
         // Blob Detector
         if (!(axes instanceof wpd.BarAxes)) {
             innerHTML +=
@@ -80,6 +85,8 @@ wpd.algoManager = (function() {
                 $algoOptions.value = "averagingWindow";
             } else if (autoDetector.algorithm instanceof wpd.XStepWithInterpolationAlgo) {
                 $algoOptions.value = "XStepWithInterpolation";
+            } else if (autoDetector.algorithm instanceof wpd.CustomIndependents) {
+                $algoOptions.value = "CustomIndependents";
             } else if (autoDetector.algorithm instanceof wpd.AveragingWindowWithStepSizeAlgo) {
                 $algoOptions.value = "XStep";
             } else if (autoDetector.algorithm instanceof wpd.BlobDetectorAlgo) {
@@ -111,6 +118,8 @@ wpd.algoManager = (function() {
             autoDetector.algorithm = new wpd.AveragingWindowAlgo();
         } else if (selectedValue === 'XStepWithInterpolation') {
             autoDetector.algorithm = new wpd.XStepWithInterpolationAlgo();
+        } else if (selectedValue === 'CustomIndependents') {
+            autoDetector.algorithm = new wpd.CustomIndependents();
         } else if (selectedValue === 'XStep') {
             autoDetector.algorithm = new wpd.AveragingWindowWithStepSizeAlgo();
         } else if (selectedValue === 'blobDetector') {
@@ -155,7 +164,7 @@ wpd.algoManager = (function() {
         for (let pi = 0; pi < $paramFields.length; pi++) {
             let paramId = $paramFields[pi].id;
             let paramVar = paramId.replace('algo-param-', '');
-            algoParams[paramVar] = parseFloat($paramFields[pi].value);
+            algoParams[paramVar] = $paramFields[pi].value;
         }
         algo.setParams(algoParams);
 
