@@ -54,12 +54,12 @@ wpd.AveragingWindowWithStepSizeAlgo = class {
     }
 
     setParams(params) {
-        this._xmin = params.xmin;
-        this._delx = params.delx;
-        this._xmax = params.xmax;
-        this._ymin = params.ymin;
-        this._ymax = params.ymax;
-        this._lineWidth = params.lineWidth;
+        this._xmin = parseFloat(params.xmin);
+        this._delx = parseFloat(params.delx);
+        this._xmax = parseFloat(params.xmax);
+        this._ymin = parseFloat(params.ymin);
+        this._ymax = parseFloat(params.ymax);
+        this._lineWidth = parseFloat(params.lineWidth);
     }
 
     getParams() {

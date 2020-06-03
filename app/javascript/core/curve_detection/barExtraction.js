@@ -73,8 +73,8 @@ wpd.BarExtractionAlgo = class {
     }
 
     setParams(params) {
-        this._delX = params.delX;
-        this._delVal = params.delVal;
+        this._delX = parseFloat(params.delX);
+        this._delVal = parseFloat(params.delVal);
     }
 
     getParams(params) {

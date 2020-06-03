@@ -28,6 +28,7 @@ wpd.InputParser = class {
         this.isValid = false;
         this.isDate = false;
         this.formatting = null;
+        this.isArray = false;
     }
 
     parse(input) {
@@ -55,6 +56,13 @@ wpd.InputParser = class {
             return parsedDate;
         }
 
+        let parsedArray = this._parseArray(input);
+        if (parsedArray != null) {
+            this.isValid = true;
+            this.isArray = true;
+            return parsedArray;
+        }
+
         let parsedFloat = parseFloat(input);
         if (!isNaN(parsedFloat)) {
             this.isValid = true;
@@ -62,5 +70,15 @@ wpd.InputParser = class {
         }
 
         return null;
+    }
+
+    _parseArray(input) {
+        // e.g. convert "[1.2, 3.4, 100]" to an array [1.2, 3.4, 100]
+        // TODO: support comma decimal separators somehow...
+        let valArray = input.replace("[", "").replace("]", "").split(",").map(v => parseFloat(v)).filter(v => !isNaN(v));
+        if (valArray.length == 0) {
+            return null;
+        }
+        return valArray;
     }
 };

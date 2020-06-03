@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-06-01 01:20-0700\n"
+"POT-Creation-Date: 2020-06-03 01:45-0700\n"
 "PO-Revision-Date: 2016-12-18 10:38-0600\n"
 "Last-Translator: \n"
 "Language: ja\n"
@@ -16,7 +16,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.4.0\n"
+"Generated-By: Babel 2.7.0\n"
 
 #: templates/_base.html:27
 msgid "Web based tool to extract numerical data from plots and graph images."
@@ -203,8 +203,8 @@ msgstr ""
 msgid "Map With Scale Bar"
 msgstr ""
 
-#: templates/_popups.html:109 templates/_strings.html:55
-#: templates/_strings.html:68 templates/_tree.html:8
+#: templates/_popups.html:109 templates/_strings.html:56
+#: templates/_strings.html:69 templates/_tree.html:8
 msgid "Image"
 msgstr ""
 
@@ -318,7 +318,7 @@ msgstr ""
 msgid "Acquired Data"
 msgstr ""
 
-#: templates/_popups.html:258 templates/_strings.html:47
+#: templates/_popups.html:258 templates/_strings.html:48
 #: templates/_tree.html:51
 msgid "Dataset"
 msgstr ""
@@ -789,7 +789,7 @@ msgstr ""
 msgid "Click to change color"
 msgstr ""
 
-#: templates/_sidebars.html:33 templates/_strings.html:51
+#: templates/_sidebars.html:33 templates/_strings.html:52
 #: templates/_tree.html:44 templates/_tree.html:64
 msgid "Distance"
 msgstr ""
@@ -1071,139 +1071,143 @@ msgid "X Step w/ Interpolation"
 msgstr ""
 
 #: templates/_strings.html:33
-msgid "X Step"
+msgid "Custom Independents"
 msgstr ""
 
 #: templates/_strings.html:34
-msgid "Blob Detector"
+msgid "X Step"
 msgstr ""
 
 #: templates/_strings.html:35
-msgid "Bar Extraction"
+msgid "Blob Detector"
 msgstr ""
 
 #: templates/_strings.html:36
-msgid "Histogram"
+msgid "Bar Extraction"
 msgstr ""
 
 #: templates/_strings.html:37
-msgid "Specify Plot (Foreground) Color"
+msgid "Histogram"
 msgstr ""
 
 #: templates/_strings.html:38
-msgid "Specify Background Color"
+msgid "Specify Plot (Foreground) Color"
 msgstr ""
 
 #: templates/_strings.html:39
-msgid "Please add some data before exporting."
+msgid "Specify Background Color"
 msgstr ""
 
 #: templates/_strings.html:40
-msgid "Error: No datasets to export!"
+msgid "Please add some data before exporting."
 msgstr ""
 
 #: templates/_strings.html:41
-msgid "Add Dataset Error!"
+msgid "Error: No datasets to export!"
 msgstr ""
 
 #: templates/_strings.html:42
-msgid "Rename Dataset Error!"
+msgid "Add Dataset Error!"
 msgstr ""
 
 #: templates/_strings.html:43
-msgid "Dataset with this name already exists. Please pick a different name."
+msgid "Rename Dataset Error!"
 msgstr ""
 
 #: templates/_strings.html:44
-msgid "Rename Axes Error!"
+msgid "Dataset with this name already exists. Please pick a different name."
 msgstr ""
 
 #: templates/_strings.html:45
-msgid "Axes with this name already exists. Please pick a different name."
+msgid "Rename Axes Error!"
 msgstr ""
 
 #: templates/_strings.html:46
+msgid "Axes with this name already exists. Please pick a different name."
+msgstr ""
+
+#: templates/_strings.html:47
 msgid "Specify a valid number of datasets to add!"
 msgstr ""
 
-#: templates/_strings.html:48 templates/_tree.html:34
+#: templates/_strings.html:49 templates/_tree.html:34
 msgid "Datasets"
 msgstr ""
 
-#: templates/_strings.html:49 templates/_tree.html:42
+#: templates/_strings.html:50 templates/_tree.html:42
 msgid "Measurements"
 msgstr ""
 
-#: templates/_strings.html:50 templates/_tree.html:15 templates/_tree.html:25
+#: templates/_strings.html:51 templates/_tree.html:15 templates/_tree.html:25
 #: templates/_tree.html:53 templates/_tree.html:66 templates/_tree.html:83
 msgid "Axes"
 msgstr ""
 
-#: templates/_strings.html:52 templates/_tree.html:45 templates/_tree.html:73
+#: templates/_strings.html:53 templates/_tree.html:45 templates/_tree.html:73
 msgid "Angle"
 msgstr ""
 
-#: templates/_strings.html:53 templates/_tree.html:46 templates/_tree.html:81
+#: templates/_strings.html:54 templates/_tree.html:46 templates/_tree.html:81
 msgid "Area/Perimeter"
 msgstr ""
 
-#: templates/_strings.html:54
+#: templates/_strings.html:55
 msgid "XY"
 msgstr ""
 
-#: templates/_strings.html:56
+#: templates/_strings.html:57
 msgid "Bar"
 msgstr ""
 
-#: templates/_strings.html:57
+#: templates/_strings.html:58
 msgid "Polar"
 msgstr ""
 
-#: templates/_strings.html:58
+#: templates/_strings.html:59
 msgid "Ternary"
 msgstr ""
 
-#: templates/_strings.html:59
+#: templates/_strings.html:60
 msgid "Map"
 msgstr ""
 
-#: templates/_strings.html:60
+#: templates/_strings.html:61
 msgid "Project"
 msgstr ""
 
-#: templates/_strings.html:61
+#: templates/_strings.html:62
 msgid "Distance Measurements"
 msgstr ""
 
-#: templates/_strings.html:62
+#: templates/_strings.html:63
 msgid "Angle Measurements"
 msgstr ""
 
-#: templates/_strings.html:63
+#: templates/_strings.html:64
 msgid "Area Measurements"
 msgstr ""
 
-#: templates/_strings.html:64
+#: templates/_strings.html:65
 msgid "Uncalibrated Dataset!"
 msgstr ""
 
-#: templates/_strings.html:65
+#: templates/_strings.html:66
 msgid "Assign an axes calibration to this dataset!"
 msgstr ""
 
-#: templates/_strings.html:66
+#: templates/_strings.html:67
 msgid "Invalid Project!"
 msgstr ""
 
-#: templates/_strings.html:67
+#: templates/_strings.html:68
 msgid "Not a valid project file format!"
 msgstr ""
 
-#: templates/_strings.html:69
+#: templates/_strings.html:70
 msgid "of"
 msgstr ""
 
-#: templates/_strings.html:70
+#: templates/_strings.html:71
 msgid "Page"
 msgstr ""
 

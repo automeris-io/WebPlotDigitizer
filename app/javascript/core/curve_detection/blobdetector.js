@@ -58,8 +58,8 @@ wpd.BlobDetectorAlgo = class {
     }
 
     setParams(params) {
-        this._minDia = params.minDia;
-        this._maxDia = params.maxDia;
+        this._minDia = parseFloat(params.minDia);
+        this._maxDia = parseFloat(params.maxDia);
     }
 
     getParams() {
