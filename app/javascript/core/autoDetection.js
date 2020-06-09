@@ -93,6 +93,8 @@ wpd.AutoDetectionData = class {
                 this.algorithm = new wpd.BlobDetectorAlgo();
             } else if (algoType === "XStepWithInterpolationAlgo") {
                 this.algorithm = new wpd.XStepWithInterpolationAlgo();
+            } else if (algoType === "CustomIndependents") {
+                this.algorithm = new wpd.CustomIndependents();
             }
             this.algorithm.deserialize(jsonObj.algorithm);
         }

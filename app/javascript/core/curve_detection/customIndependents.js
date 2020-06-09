@@ -36,7 +36,7 @@ wpd.CustomIndependents = class {
         this._xvals = obj.xvals;
         this._ymin = obj.ymin;
         this._ymax = obj.ymax;
-        this._curveWidth = obk.curveWidth;
+        this._curveWidth = obj.curveWidth;
         this._smoothing = obj.smoothing;
         this._wasRun = true;
     }
@@ -69,14 +69,14 @@ wpd.CustomIndependents = class {
                 this._curveWidth = 5;
                 this._smoothing = 0;
             }
-            return {
-                xvals: ["Values", "Array", this._xvals],
-                ymin: ["Y_min", "Units", this._ymin],
-                ymax: ["Y_max", "Units", this._ymax],
-                curveWidth: ["Curve Width", "Px", this._curveWidth],
-                smoothing: ["Smoothing", "%", this._smoothing]
-            };
         }
+        return {
+            xvals: ["X Values", "Array", this._xvals],
+            ymin: ["Y min", "Units", this._ymin],
+            ymax: ["Y max", "Units", this._ymax],
+            curveWidth: ["Curve Width", "Px", this._curveWidth],
+            smoothing: ["Smoothing", "%", this._smoothing]
+        };
     }
 
     serialize() {
@@ -85,6 +85,7 @@ wpd.CustomIndependents = class {
             xvals: this._xvals,
             ymin: this._ymin,
             ymax: this._ymax,
+            curveWidth: this._curveWidth,
             smoothing: this._smoothing
         } : null;
     }
