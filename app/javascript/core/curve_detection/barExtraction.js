@@ -211,9 +211,13 @@ wpd.BarExtractionAlgo = class {
             if (axes.dataPointsHaveLabels) {
 
                 if (orientation.axes === 'Y') {
-                    dataSeries.addPixel(bv.avgX + 0.5, val + 0.5, {"label": "Bar" + barValuei});
+                    dataSeries.addPixel(bv.avgX + 0.5, val + 0.5, {
+                        "label": "Bar" + barValuei
+                    });
                 } else {
-                    dataSeries.addPixel(val + 0.5, bv.avgX + 0.5, {"label": "Bar" + barValuei});
+                    dataSeries.addPixel(val + 0.5, bv.avgX + 0.5, {
+                        "label": "Bar" + barValuei
+                    });
                 }
 
             } else {

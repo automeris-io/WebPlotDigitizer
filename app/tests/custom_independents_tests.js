@@ -34,7 +34,7 @@ QUnit.test("Linear XY axes", function(assert) {
         curveWidth: 2,
         smoothing: 0,
     });
-    
+
     let ds = new wpd.Dataset();
     algo.run(autodetection, ds, xyaxes);
     assert.equal(ds.getCount(), 3, "Simple linear XY");
