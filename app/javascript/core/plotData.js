@@ -266,16 +266,20 @@ wpd.PlotData = class {
                 const dsData = data.dataSeries[dsIdx];
                 let ds = new wpd.Dataset();
                 ds.name = dsData.name;
-                if (dsData.metadataKeys != null) {
-                    ds.setMetadataKeys(dsData.metadataKeys);
+                if (dsData.metadataKeys != null && dsData.metadataKeys.length > 0) {
+                    ds.setMetadataKeys(dsData.metadataKeys.map(k => k.toLowerCase()));
                 }
                 for (let pxIdx = 0; pxIdx < dsData.data.length; pxIdx++) {
-                    // only label key existed in the past
-                    const metadataKey = dsData.metadataKeys[0].toLowerCase();
-                    const metadataValue = dsData.data[pxIdx].metadata[0];
-                    ds.addPixel(dsData.data[pxIdx].x, dsData.data[pxIdx].y, {
-                        [metadataKey]: metadataValue
-                    });
+                    // only label key existed in the past                    
+                    if (dsData.metadataKeys.length > 0) {
+                        const metadataKey = dsData.metadataKeys[0].toLowerCase();                        
+                        const metadataValue = dsData.data[pxIdx].metadata[0];                                                
+                        ds.addPixel(dsData.data[pxIdx].x, dsData.data[pxIdx].y, {
+                            [metadataKey]: metadataValue
+                        });
+                    } else {
+                        ds.addPixel(dsData.data[pxIdx].x, dsData.data[pxIdx].y);
+                    }
                 }
                 this.addDataset(ds);
                 this.setAxesForDataset(ds, axes);

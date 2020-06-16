@@ -1,5 +1,5 @@
 QUnit.module("Save/Resume Tests");
-QUnit.test("Resume Version 3.x JSON", function(assert) {
+QUnit.test("Resume Version 3.x JSON: XY", function(assert) {
     let checkAxes = function(plotData, assert, testLabelPrefix) {
         assert.equal(plotData.getAxesCount(), 1, testLabelPrefix + "One axes calibration loaded");
     };
@@ -8,6 +8,25 @@ QUnit.test("Resume Version 3.x JSON", function(assert) {
     wpdtest.loadPlotData("files/wpd3_xy.json").then(plotDataObjs => {
         checkAxes(plotDataObjs.plotData, assert, "Deserialize from JSON: ");
         checkAxes(plotDataObjs.plotData2, assert, "Serialize then deserialize: ");
+        done();
+    }).catch(r => {
+        assert.ok(false, r);
+        done();
+    });
+});
+
+QUnit.test("Resume Version 3.x JSON: Bar", function(assert) {
+    let checkAxes = function(plotData, assert, testLabelPrefix) {
+        assert.equal(plotData.getAxesCount(), 1, testLabelPrefix + "One axes calibration loaded");
+    };
+
+    let done = assert.async();
+    wpdtest.loadPlotData("files/wpd3_bar.json").then(plotDataObjs => {
+        checkAxes(plotDataObjs.plotData, assert, "Deserialize from JSON: ");
+        checkAxes(plotDataObjs.plotData2, assert, "Serialize then deserialize: ");
+        done();
+    }).catch(r => {
+        assert.ok(false, r);
         done();
     });
 });
@@ -21,6 +40,9 @@ QUnit.test("Resume Version 4: Check Axes", function(assert) {
     wpdtest.loadPlotData("files/wpd4.json").then(plotDataObjs => {
         checkAxes(plotDataObjs.plotData, assert, "Deserialize from JSON: ");
         checkAxes(plotDataObjs.plotData2, assert, "Serialize then deserialize: ");
+        done();
+    }).catch(r => {
+        assert.ok(false, r);
         done();
     });
 });
@@ -46,6 +68,9 @@ QUnit.test("Resume Version 4: Check Datasets", function(assert) {
     wpdtest.loadPlotData("files/wpd4.json").then(plotDataObjs => {
         checkDatasets(plotDataObjs.plotData, assert, "Deserialize from JSON: ");
         checkDatasets(plotDataObjs.plotData2, assert, "Serialize then deserialize: ");
+        done();
+    }).catch(r => {
+        assert.ok(false, r);
         done();
     });
 });
@@ -106,6 +131,9 @@ QUnit.test("Resume Version 4.2 with masks", function(assert) {
         checkDatasets(plotDataObjs.plotData2, assert, "Serialize then deserialize: ");
         checkMeasurements(plotDataObjs.plotData, assert, "Deserialize from JSON: ");
         checkMeasurements(plotDataObjs.plotData2, assert, "Serialize then deserialize: ");
+        done();
+    }).catch(r => {
+        assert.ok(false, r);
         done();
     });
 });

@@ -21,15 +21,20 @@ wpdtest.loadPlotData = function(filename) {
         fetch(filename).then(resp => resp.json()).then(data => {
             // First, just deserialize JSON data from the file
             let plotData = new wpd.PlotData();
-            plotData.deserialize(data);
+            if (!plotData.deserialize(data)) {
+                reject("error deserializing data!");
+            }
 
             // Second, serialize then deserialize the same data. This helps testing if we're serializing the same information we're deserializing.
             let plotData2 = new wpd.PlotData();
-            plotData2.deserialize(plotData.serialize());
-            resolve({
-                plotData: plotData,
-                plotData2: plotData2
-            });
+            if(plotData2.deserialize(plotData.serialize())) {
+                resolve({
+                    plotData: plotData,
+                    plotData2: plotData2
+                });
+            } else {
+                reject("error deserializing data!");
+            }
         });
     });
 };
