@@ -272,8 +272,8 @@ wpd.PlotData = class {
                 for (let pxIdx = 0; pxIdx < dsData.data.length; pxIdx++) {
                     // only label key existed in the past                    
                     if (dsData.metadataKeys.length > 0) {
-                        const metadataKey = dsData.metadataKeys[0].toLowerCase();                        
-                        const metadataValue = dsData.data[pxIdx].metadata[0];                                                
+                        const metadataKey = dsData.metadataKeys[0].toLowerCase();
+                        const metadataValue = dsData.data[pxIdx].metadata[0];
                         ds.addPixel(dsData.data[pxIdx].x, dsData.data[pxIdx].y, {
                             [metadataKey]: metadataValue
                         });
