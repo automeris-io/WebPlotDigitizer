@@ -49,17 +49,17 @@ QUnit.test("Linear axis, vertical", function(assert) {
     algo.run(autodetection, ds, barAxes);
     assert.equal(ds.getCount(), 3, "Dataset size");
     let pt1 = ds.getPixel(0);
-    assert.equal(pt1.metadata[0], "Bar0", "pt1 label");
+    assert.equal(pt1.metadata["label"], "Bar0", "pt1 label");
     assert.equal(pt1.x, 15, "pt1 x");
     assert.equal(pt1.y, 12.5, "pt1 y");
 
     let pt2 = ds.getPixel(1);
-    assert.equal(pt2.metadata[0], "Bar1", "pt2 label");
+    assert.equal(pt2.metadata["label"], "Bar1", "pt2 label");
     assert.equal(pt2.x, 40, "pt2 x");
     assert.equal(pt2.y, 97.5, "pt2 y");
 
     let pt3 = ds.getPixel(2);
-    assert.equal(pt3.metadata[0], "Bar2", "pt3 label");
+    assert.equal(pt3.metadata["label"], "Bar2", "pt3 label");
     assert.equal(pt3.x, 70, "pt3 x");
     assert.equal(pt3.y, 20.5, "pt3 y");
 });
@@ -108,12 +108,12 @@ QUnit.test("Linear axis, horizontal", function(assert) {
     algo.run(autodetection, ds, barAxes);
     assert.equal(ds.getCount(), 2, "Dataset size");
     let pt1 = ds.getPixel(0);
-    assert.equal(pt1.metadata[0], "Bar0", "pt1 label");
+    assert.equal(pt1.metadata["label"], "Bar0", "pt1 label");
     assert.equal(pt1.x, 5.5, "pt1 x");
     assert.equal(pt1.y, 15, "pt1 y");
 
     let pt2 = ds.getPixel(1);
-    assert.equal(pt2.metadata[0], "Bar1", "pt2 label");
+    assert.equal(pt2.metadata["label"], "Bar1", "pt2 label");
     assert.equal(pt2.x, 56.5, "pt2 x");
     assert.equal(pt2.y, 40, "pt2 y");
 });
