@@ -185,8 +185,8 @@ wpd.BarExtractionAlgo = class {
 
         if (axes.dataPointsHaveLabels) {
             mkeys = dataSeries.getMetadataKeys();
-            if (mkeys == null || mkeys[0] !== 'Label') {
-                dataSeries.setMetadataKeys(['Label']);
+            if (mkeys == null || mkeys[0] !== 'label') {
+                dataSeries.setMetadataKeys(['label']);
             }
         }
 
