@@ -99,11 +99,16 @@ wpd.CustomIndependents = class {
         if (parsedVals == null || !inputParser.isArray) {
             return;
         }
-        parsedVals.sort();
-        let scaled_xmin = parsedVals[0];
-        let scaled_xmax = parsedVals[parsedVals.length - 1];
-        let scaled_ymin = this._ymin;
-        let scaled_ymax = this._ymax;
+        parsedVals.sort((a, b) => {return a-b;});
+        let xmin = parsedVals[0];
+        let xmax = parsedVals[parsedVals.length - 1];
+        let ymin = this._ymin;
+        let ymax = this._ymax;
+
+        let scaled_xmin = xmin;
+        let scaled_xmax = xmax;
+        let scaled_ymin = ymin;
+        let scaled_ymax = ymax;
 
         let isLogX = axes.isLogX();
         let isLogY = axes.isLogY();
@@ -117,9 +122,9 @@ wpd.CustomIndependents = class {
         }
 
         // pixel distance between xmin and xmax, ymin and ymax:
-        let xmin_ymin_px = axes.dataToPixel(scaled_xmin, this._ymin);
-        let xmax_ymin_px = axes.dataToPixel(scaled_xmax, this._ymin);
-        let xmin_ymax_px = axes.dataToPixel(scaled_xmin, this._ymax);
+        let xmin_ymin_px = axes.dataToPixel(xmin, this._ymin);
+        let xmax_ymin_px = axes.dataToPixel(xmax, this._ymin);
+        let xmin_ymax_px = axes.dataToPixel(xmin, this._ymax);
         let distX = Math.sqrt((xmin_ymin_px.x - xmax_ymin_px.x) * (xmin_ymin_px.x - xmax_ymin_px.x) + (xmin_ymin_px.y - xmax_ymin_px.y) * (xmin_ymin_px.y - xmax_ymin_px.y));
         let distY = Math.sqrt((xmin_ymin_px.x - xmin_ymax_px.x) * (xmin_ymin_px.x - xmin_ymax_px.x) + (xmin_ymin_px.y - xmin_ymax_px.y) * (xmin_ymin_px.y - xmin_ymax_px.y));
 
@@ -137,8 +142,7 @@ wpd.CustomIndependents = class {
             let y_count = 0;
             let yi = delY > 0 ? scaled_ymin : scaled_ymax;
             while ((delY > 0 && yi <= scaled_ymax) || (delY < 0 && yi >= scaled_ymin)) {
-                let px = axes.dataToPixel(isLogX ? Math.pow(10, xi) : xi,
-                    isLogY ? Math.pow(10, yi) : yi);
+                let px = axes.dataToPixel(isLogX ? Math.pow(10, xi) : xi, isLogY ? Math.pow(10, yi) : yi);
                 if (px.x >= 0 && px.y >= 0 && px.x < imageWidth && px.y < imageHeight) {
                     if (autoDetector.binaryData.has(parseInt(px.y, 10) * imageWidth +
                             parseInt(px.x, 10))) {
@@ -203,7 +207,7 @@ wpd.CustomIndependents = class {
                 continue;
             }
 
-            let px = axes.dataToPixel(isLogX ? Math.pow(10, parsedVals[ptIdx]) : parsedVals[ptIdx], isLogY ? Math.pow(10, yinterp) : yinterp);
+            let px = axes.dataToPixel(parsedVals[ptIdx], yinterp);
             dataSeries.addPixel(px.x, px.y);
         }
     }
