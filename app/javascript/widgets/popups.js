@@ -55,6 +55,12 @@ wpd.popup = (function() {
         window.addEventListener("keydown", handleKeydown, false);
 
         $activeWindow = pWindow;
+
+        // set focus to first input field
+        let inputs = pWindow.getElementsByTagName("input");
+        if (inputs.length > 0) {
+            inputs[0].focus();
+        }
     }
 
     function close(popupid) {
