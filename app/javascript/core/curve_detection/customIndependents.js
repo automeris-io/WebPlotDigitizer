@@ -139,7 +139,8 @@ wpd.CustomIndependents = class {
         let xpoints = [];
         let ypoints = [];
 
-        for (let xi = scaled_xmin - 2.0 * delX; xi <= scaled_xmax + 2.0 * delX; xi += delX) {
+        let overflowPixels = this._curveWidth > 2.0 ? this._curveWidth : 2.0;
+        for (let xi = scaled_xmin - overflowPixels * delX; xi <= scaled_xmax + overflowPixels * delX; xi += delX) {
             let mean_yi = 0;
             let y_count = 0;
             let yi = delY > 0 ? scaled_ymin : scaled_ymax;
@@ -169,7 +170,11 @@ wpd.CustomIndependents = class {
         let xpointsMean = [];
         let ypointsMean = [];
         if (this._curveWidth > 0) {
-            for (let ptIdx = 0; ptIdx < xpoints.length; ptIdx += this._curveWidth) {
+            let stepSize = parseInt(this._curveWidth/2, 10);
+            if (stepSize < 1) {
+                stepSize = 1;
+            }
+            for (let ptIdx = 0; ptIdx < xpoints.length; ptIdx += stepSize) {
                 let meanX = 0;
                 let meanY = 0;
                 let neighborCount = 0;
@@ -198,7 +203,6 @@ wpd.CustomIndependents = class {
             return;
         }
 
-        let yinterp = [];
         for (let ptIdx = 0; ptIdx < parsedVals.length; ptIdx++) {
             if (isNaN(parsedVals[ptIdx])) {
                 continue;
