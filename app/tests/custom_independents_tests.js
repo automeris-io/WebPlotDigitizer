@@ -46,7 +46,6 @@ QUnit.test("Linear XY axes", function(assert) {
         totError += Math.abs(dataFn(data[0]) - data[1]);
     }
     totError /= ds.getCount();
-    console.log(totError);
     assert.ok(totError < 0.3, "Total error");
 });
 
@@ -97,7 +96,6 @@ QUnit.test("Linear negative axes", function(assert) {
         totError += Math.abs(dataFn(data[0]) - data[1]);
     }
     totError /= ds.getCount();
-    console.log(totError);
     assert.ok(totError < 0.3, "Total error less than 0.3");
 });
 
