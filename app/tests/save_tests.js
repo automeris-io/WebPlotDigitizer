@@ -112,7 +112,7 @@ QUnit.test("Resume Version 4.2 with masks", function(assert) {
         let angleMeasurements = plotData.getMeasurementsByType(wpd.AngleMeasurement);
         assert.equal(angleMeasurements.length, 1, testLabelPrefix + "Number of angle measurements");
         assert.equal(angleMeasurements[0].connectionCount(), 1, testLabelPrefix + "Number of angles");
-        assert.equal(angleMeasurements[0].getAngle(0), 45.01999740464475, testLabelPrefix + "Angle value");
+        assert.ok(Math.abs(angleMeasurements[0].getAngle(0) - 45.019997404644755) < 1e-14, testLabelPrefix + "Angle value");
 
         // area/perimeter
         let areaMeasurements = plotData.getMeasurementsByType(wpd.AreaMeasurement);

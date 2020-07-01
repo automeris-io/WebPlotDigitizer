@@ -18,6 +18,6 @@
   "dependencies": {
     "electron-packager": "^12.2.0",
     "is-builtin-module": "^3.0.0",
-    "npm": "^6.14.2"
+    "npm": "^6.14.5"
   }
 }

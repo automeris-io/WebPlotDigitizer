@@ -99,7 +99,9 @@ wpd.CustomIndependents = class {
         if (parsedVals == null || !inputParser.isArray) {
             return;
         }
-        parsedVals.sort((a, b) => {return a-b;});
+        parsedVals.sort((a, b) => {
+            return a - b;
+        });
         let xmin = parsedVals[0];
         let xmax = parsedVals[parsedVals.length - 1];
         let ymin = this._ymin;
@@ -171,9 +173,9 @@ wpd.CustomIndependents = class {
                 let meanX = 0;
                 let meanY = 0;
                 let neighborCount = 0;
-                let currPx = axes.dataToPixel(xpoints[ptIdx], ypoints[ptIdx]);
+                let currPx = axes.dataToPixel(isLogX ? Math.pow(10, xpoints[ptIdx]) : xpoints[ptIdx], isLogY ? Math.pow(10, ypoints[ptIdx]) : ypoints[ptIdx]);
                 for (let nIdx = 0; nIdx < xpoints.length; nIdx++) {
-                    let nPx = axes.dataToPixel(xpoints[nIdx], ypoints[nIdx]);
+                    let nPx = axes.dataToPixel(isLogX ? Math.pow(10, xpoints[nIdx]) : xpoints[nIdx], isLogY ? Math.pow(10, ypoints[nIdx]) : ypoints[nIdx]);
                     if (Math.abs(currPx.x - nPx.x) < this._curveWidth && Math.abs(currPx.y - nPx.y) < this._curveWidth) {
                         meanX += xpoints[nIdx];
                         meanY += ypoints[nIdx];
@@ -202,12 +204,12 @@ wpd.CustomIndependents = class {
                 continue;
             }
 
-            let yinterp = wpd.cspline_interp(cs, parsedVals[ptIdx]);
+            let yinterp = wpd.cspline_interp(cs, isLogX ? Math.log10(parsedVals[ptIdx]) : parsedVals[ptIdx]);
             if (yinterp == null) {
                 continue;
             }
 
-            let px = axes.dataToPixel(parsedVals[ptIdx], yinterp);
+            let px = axes.dataToPixel(parsedVals[ptIdx], isLogY ? Math.pow(10, yinterp) : yinterp);
             dataSeries.addPixel(px.x, px.y);
         }
     }
