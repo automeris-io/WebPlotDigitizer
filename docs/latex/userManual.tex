@@ -31,7 +31,7 @@ A large quantity of technical data is available only in the form of plots and im
 \item{Closed source or no freedom to modify the code.}
 \end{itemize}
 
-Because of the above limitations with the current digitizing tools, WebPlotDigitizer was developed to facilitate easy and accurate data extraction from a variety of plot types. This program has been built using HTML5 which allows it to run within most popular web browsers and does not require to be installed by the user. This is distributed free of charge as an opensource software and since its creation in 2011, this tool has gained thousands of users and has been cited in many published articles. A screenshot of a typical session of the software is shown in Figure \ref{fig:screenshot}.
+Because of the above limitations with the current digitizing tools, WebPlotDigitizer was developed to facilitate easy and accurate data extraction from a variety of plot types. This program has been built using HTML5 which allows it to run within most popular web browsers and does not require to be installed by the user (desktop versions are also available for offline usage). This is distributed free of charge as an opensource software and since its creation in 2011, this tool has gained thousands of users and has been cited in many published articles. A screenshot of a typical session of the software is shown in Figure \ref{fig:screenshot}.
 
 \begin{figure}
 \begin{center}
@@ -52,16 +52,16 @@ WebPlotDigitizer is now used by thousands everyday and because of this interest,
 This user manual describes the various capabilities of the software and aims to help the user in making an effective use of the software. This manual may be updated continuously to match the latest deployed version of the software. A few video tutorials are also available at \url{https://automeris.io/WebPlotDigitizer}. If the you want me to document the underlying theory and algorithms, then please send me a request over email.
 
 \subsection{License}
-WebPlotDigitizer is distributed under the GNU Affero General Public License version 3 by Ankit Rohatgi. For the complete terms and conditions, please refer to \url{https://www.gnu.org/copyleft/gpl.html}
+WebPlotDigitizer is distributed under the GNU Affero General Public License version 3 by Ankit Rohatgi. For the complete terms and conditions, please refer to \url{https://www.gnu.org/licenses/agpl-3.0.html}
 
 \subsection{Source Code}
 WebPlotDigitizer is an open source software (see above). The source code can be obtained from GitHub (\url{https://github.com/ankitrohatgi/WebPlotDigitizer/}). Feel free to contact via email if you wish to contribute to this project.
 
 \subsection{Availability}
-The latest stable version of the software can be used directly from the website \url{https://automeris.io/WebPlotDigitizer}. For the Google Chrome web browser, an \emph{app} pointing to the online software is also available at the Chrome App Store (\url{https://chrome.google.com/webstore/category/apps}).
+The latest stable version of the software can be used directly from the website \url{https://automeris.io/WebPlotDigitizer}. Desktop versions are also available for Windows, Linux and Mac OS on the website \url{https://automeris.io/WebPlotDigitizer/download.html}.
 
 \subsection{Supported Browsers}
-WebPlotDigitizer should be compatible with most popular web browsers that support HTML5 and were released in the last 2 to 3 years. Version 3.9 had been tested on recent versions of Google Chrome, Firefox, Safari, Internet Explorer and Microsoft Edge.
+Online version of WebPlotDigitizer should be compatible with most recent versions of popular browsers such as Google Chrome, Firefox and Safari. Internet Explorer and Microsoft Edge are not tested.
 
 \subsection{Citing WebPlotDigitizer}
 If you wish to cite WebPlotDigitizer in any of your works, then please use the following information:
@@ -100,9 +100,6 @@ The image file containing the figure to be analyzed can be loaded into the softw
 
 \subsection{Supported Image Formats}
 WebPlotDigitizer relies on the image formats supported by the HTML5 \emph{canvas} element. Most browsers support common image formats such as JPEG, PNG, BMP and GIF. Since the support for an image format depends on the browser used to access the software, please refer to your browser's manual for details. For popular browsers, you can also refer to Wikipedia (\url{https://en.wikipedia.org/wiki/Comparison_of_web_browsers#Image_format_support}).
-
-Please note that loading PDF files directly is not supported. It is recommended that you use the tools built into your PDF reader to save the image of the region of interest or copy the image area into the clipboard and paste into WebPlotDigitizer. Pasting images from the clipboard is only supported for Google Chrome.
-
 
 \section{Calibrate Axes}
 
@@ -153,9 +150,11 @@ Like most computer programs, WebPlotDigitizer accepts integers (e.g. 1, 2, 3 etc
 \hline
 Date & Format & Examples\\
 \hline
-Year, Month and Date & YYYY/MM/DD & 2012/10/23, 2012/10/5 or 2012/10/05\\
-Year, Month & YYYY/MM & 2012/10 or 1989/5\\
-Year & YYYY & 2012 (treated as any integer)\\
+Year, Month, Date and Time & yyyy/mm/dd hh:ii:ss & 2012/10/23 05:11:06.25\\
+Year, Month, Date and Hour & yyyy/mm/dd hh & 2012/10/23 05\\ 
+Year, Month and Date & yyyy/mm/dd & 2012/10/23, 2012/10/5 or 2012/10/05\\
+Year, Month & yyyy/mm & 2012/10 or 1989/5\\
+Year & yyyy & 2012 (treated as any integer)\\
 \hline
 \end{tabular}
 \end{table}
@@ -430,12 +429,16 @@ If one or both of the axes in a 2D (X-Y) plot contain dates then fields to speci
 \hline
 Text & Replaced With & Example\\
 \hline
-YYYY or yyyy & Year, all digits & 2012\\
-YY or yy & Year, last two digits & 98 for 1998\\
-MMMM or mmmm & Month, full name & January\\
-MMM or mmm & Month, short name & Jan\\
-MM or mm & Month, numeric & 10\\
-DD or dd & Date & 23\\
+yyyy & Year, all digits & 2012\\
+yy & Year, last two digits & 98 for 1998\\
+mmmm & Month, full name & January\\
+mmm & Month, short name & Jan\\
+mm & Month, numeric & 10\\
+dd & Date & 23\\
+hh & Hour & 05\\
+ii & Minutes & 12\\
+ss & Seconds & 5\\
+ss.frac & Fractional Seconds & 5.25\\
 \hline
 \end{tabular}
 \end{center}
