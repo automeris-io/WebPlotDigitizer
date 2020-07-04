@@ -48,6 +48,12 @@ QUnit.test("Date Value", function(assert) {
 
     dateStr = wpd.dateConverter.formatDateNumber(val, "ss ii hh yyyy mm dd");
     assert.equal(dateStr, "55 11 05 2017 10 12", "ss ii hh yyyy mm dd ok");
+
+    dateStr = wpd.dateConverter.formatDateNumber(val, "yyyy/mmm/dd hh:ii:ss");
+    assert.equal(dateStr, "2017/Oct/12 05:11:55", "yyyy/mmm/dd hh:ii:ss ok");
+
+    dateStr = wpd.dateConverter.formatDateNumber(val, "yyyy/mmmm/dd hh:ii:ss");
+    assert.equal(dateStr, "2017/October/12 05:11:55", "yyyy/mmmm/dd hh:ii:ss ok");
 });
 
 QUnit.test("Date Input Parser", function(assert) {
