@@ -30,11 +30,25 @@ wpd.initApp = function() { // This is run when the page loads.
 
 };
 
+wpd.loadDefaultImage = function() {
+    // Need to initialize file manager alongside loading image.
+    // TODO: clean up file manager initialization!
+    let loadImage = async function() {
+        let response = await fetch("start.png");
+        let data = await response.blob();
+        let metadata = { type: "image/png" };
+        let file = new File([data], "start.png", metadata);
+        wpd.imageManager.initializeFileManager([file]);
+        wpd.imageManager.loadFromFile(file);
+    };
+    loadImage();
+}
+
 wpd.handleLaunchArgs = function() {
     // fetch a project with specific ID from the backend if a projectid argument is provided:
     let projectid = wpd.args.getValue("projectid");
     if (projectid == null) {
-        wpd.imageManager.loadFromURL('start.png');
+        wpd.loadDefaultImage();
     } else {
         fetch("storage/project/" + projectid + ".tar").then(function(response) {
             if (response.ok) {
@@ -46,7 +60,7 @@ wpd.handleLaunchArgs = function() {
             wpd.saveResume.readProjectFile(blob);
         }).catch((err) => {
             wpd.messagePopup.show(wpd.gettext("invalid-project"), err);
-            wpd.imageManager.loadFromURL('start.png');
+            wpd.loadDefaultImage();
         });
     }
 };
