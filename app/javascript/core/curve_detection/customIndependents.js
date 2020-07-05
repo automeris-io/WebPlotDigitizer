@@ -27,7 +27,6 @@ wpd.CustomIndependents = class {
         this._xvals = [];
         this._ymin = 0;
         this._ymax = 0;
-        this._smoothing = 0;
         this._curveWidth = 5;
         this._wasRun = false;
     }
@@ -37,7 +36,6 @@ wpd.CustomIndependents = class {
         this._ymin = obj.ymin;
         this._ymax = obj.ymax;
         this._curveWidth = obj.curveWidth;
-        this._smoothing = obj.smoothing;
         this._wasRun = true;
     }
 
@@ -46,7 +44,6 @@ wpd.CustomIndependents = class {
         this._ymin = parseFloat(params.ymin);
         this._ymax = parseFloat(params.ymax);
         this._curveWidth = parseFloat(params.curveWidth);
-        this._smoothing = parseFloat(params.smoothing);
     }
 
     getParams() {
@@ -54,8 +51,7 @@ wpd.CustomIndependents = class {
             xvals: this._xvals,
             ymin: this._ymin,
             ymax: this._ymax,
-            curveWidth: this._curveWidth,
-            smoothing: this._smoothing
+            curveWidth: this._curveWidth
         };
     }
 
@@ -67,15 +63,13 @@ wpd.CustomIndependents = class {
                 this._ymin = bounds.y3;
                 this._ymax = bounds.y4;
                 this._curveWidth = 5;
-                this._smoothing = 0;
             }
         }
         return {
             xvals: ["X Values", "Array", this._xvals],
             ymin: ["Y min", "Units", this._ymin],
             ymax: ["Y max", "Units", this._ymax],
-            curveWidth: ["Curve Width", "Px", this._curveWidth],
-            smoothing: ["Smoothing", "%", this._smoothing]
+            curveWidth: ["Curve Width", "Px", this._curveWidth]            
         };
     }
 
@@ -85,8 +79,7 @@ wpd.CustomIndependents = class {
             xvals: this._xvals,
             ymin: this._ymin,
             ymax: this._ymax,
-            curveWidth: this._curveWidth,
-            smoothing: this._smoothing
+            curveWidth: this._curveWidth
         } : null;
     }
 
