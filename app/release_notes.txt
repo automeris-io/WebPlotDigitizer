@@ -1,12 +1,19 @@
 RELEASE NOTES
+
 Version 4.3
 ===========
-To be released
+July 7, 2020
 
 New Features:
+ - Load multiple images at once (contribution from Eric Chow and Bill Denney)
+ - Digitize data from multiple PDF pages (contribution from Eric Chow and Bill Denney)
+ - New algorithm ("Custom Independents") allows specifying X values for which XY charts should be digitized
  - Allow loading static projects from the server using a project ID param in the URL
- - Display color for a dataset
+ - Specify display color for a dataset
 
+Misc:
+- Removed WebAssembly code for now. May revive that in the future
+- Many minor bug fixes and slightly improved test coverage
 
 Version 4.2
 ===========
