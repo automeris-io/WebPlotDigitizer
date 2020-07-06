@@ -393,6 +393,7 @@ wpd.alignAxes = (function() {
         if (!calibrator.align()) {
             return;
         }
+        wpd.sidebar.clear();
         wpd.tree.refresh();
         let dsNameColl = wpd.appData.getPlotData().getDatasetNames();
         if (dsNameColl.length > 0) {
