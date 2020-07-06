@@ -356,6 +356,7 @@ wpd.graphicsWidget = (function() {
         wpd.busyNote.show();
         let allDrop = ev.dataTransfer.files;
         if (allDrop.length === 1) {
+            wpd.imageManager.initializeFileManager(allDrop);
             wpd.imageManager.loadFromFile(allDrop[0]);
         }
     }
