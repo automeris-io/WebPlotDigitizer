@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-07-05 22:46-0700\n"
+"POT-Creation-Date: 2020-07-05 22:53-0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -39,8 +39,8 @@ msgstr ""
 msgid "File"
 msgstr ""
 
-#: templates/_menubar.html:5 templates/_sidebars.html:157
-msgid "Load Image"
+#: templates/_menubar.html:5
+msgid "Load Image(s)"
 msgstr ""
 
 #: templates/_menubar.html:6
@@ -96,7 +96,7 @@ msgid "Page Labels"
 msgstr ""
 
 #: templates/_popups.html:7
-msgid "Load Image File"
+msgid "Load Image File(s)"
 msgstr ""
 
 #: templates/_popups.html:12
@@ -907,6 +907,10 @@ msgstr ""
 
 #: templates/_sidebars.html:146
 msgid "Detect"
+msgstr ""
+
+#: templates/_sidebars.html:157
+msgid "Load Image"
 msgstr ""
 
 #: templates/_sidebars.html:158
