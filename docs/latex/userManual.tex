@@ -264,9 +264,6 @@ The \emph{Map with Scale Bar} option is similar to 2D (X-Y) Plots and is to be u
 \subsection{Image (Align to Image Pixels)}
 This plot type is similar to the Map plot type and is provided just as a convenience to work with generic images. If you select this type, no calibration information is required as the software will just do a 1:1 mapping from the image pixels to data values. This plot type is useful when the exact pixel locations of the image features are required.
 
-\subsection{Transformation Equations}
-After calibrating the axes, you can select the \emph{Transformation Equations} option in the \emph{Axes} menu to view the relationship that is constructed by WebPlotDigitizer to convert image pixels to data. This feature allows users to use this mapping in other graphics codes or softwares where it may be required to convert image pixel locations to corresponding data or vice versa.
-
 \section{Grid Removal}
 The automatic extraction algorithms of WebPlotDigitizer rely on the color differences between the data points or curves and the background. This approach works only when there are very few background artifacts of the same color as the data. In many plots with grid lines, it is difficult for the extraction algorithms to distinguish between the background grid lines and the data curves (often in the same color). For such plots, a grid removal tool has been added, that can be used to remove the interfering horizontal and vertical lines present in the image before data extraction.
 
@@ -376,6 +373,9 @@ As mentioned above, this is probably the most useful algorithm and is useful acr
 
 \subsubsection{X Step with Interpolation}
 This algorithm is available only for non log-scale 2D (X-Y) axes plots. In the future, this will be extended to other axes types. This algorithm can identify data points at regular intervals on the X-axis that fall between $X_{min}$ and $X_{max}$ and $Y_{min}$ and $Y_{max}$. The data points are spaced at an interval $\Delta X$ units apart. This algorithm interpolates over missing data using cubic splines and is therefore suitable even for curves with dotted lines or a series with just data points. The \emph{Smoothing} value can be increased from zero (for example, try 0.5) to average over a larger neighborhood around the data points. This is useful for reducing noise in the captured data. (Also see: \url{https://automeris.io/WebPlotDigitizer/blog/posts/discontinuous_data.html})
+
+\subsubsection{Custom Independents}
+This algorithm is only available for 2D (X-Y) axes plots (without dates) for now. This allows the user to specify custom X values at which automatic digitization should be attempted. Use the \emph{Curve Width} option to account for thicker curves (or noisy data points).
 
 \subsubsection{X Step}
 This is a simplified version of the \emph{X Step with Interpolation} algorithm. This does not use cubic splines to interpolate over data. The \emph{Line Width} parameter is the y-direction thickness of the curve in on-screen pixels (In future, this will be updated to use the appropriate units in Y). 
