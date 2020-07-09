@@ -236,6 +236,7 @@ wpd.TernaryAxesCalibrator = class extends wpd.AxesCalibrator {
 
         if (this._isEditing) {
             let axes = wpd.tree.getActiveAxes();
+            let prevCal = axes.calibration;
             if (prevCal.getCount() == 3) {
                 document.getElementById('range0to1').checked = !axes.isRange100();
                 document.getElementById('range0to100').checked = axes.isRange100();
