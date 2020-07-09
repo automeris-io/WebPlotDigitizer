@@ -280,6 +280,7 @@ wpd.MapAxesCalibrator = class extends wpd.AxesCalibrator {
         wpd.popup.show('mapAlignment');
         if (this._isEditing) {
             let axes = wpd.tree.getActiveAxes();
+            let prevCal = axes.calibration;
             if (prevCal.getCount() == 2) {
                 document.getElementById('scaleLength').checked = axes.getScaleLength();
                 document.getElementById('scaleUnits').checked = axes.getUnits();
