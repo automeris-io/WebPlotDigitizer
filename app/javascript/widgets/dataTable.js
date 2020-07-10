@@ -36,8 +36,7 @@ wpd.dataTable = (function() {
 
     function showAngleData() {
         dataProvider = wpd.measurementDataProvider;
-        selectedMeasurement =
-            wpd.appData.getPlotData().getMeasurementsByType(wpd.AngleMeasurement)[0];
+        selectedMeasurement = wpd.measurementModes.angle.getData();
         selectedDataset = null;
         dataProvider.setDataSource(selectedMeasurement);
         show();
@@ -45,8 +44,7 @@ wpd.dataTable = (function() {
 
     function showDistanceData() {
         dataProvider = wpd.measurementDataProvider;
-        selectedMeasurement =
-            wpd.appData.getPlotData().getMeasurementsByType(wpd.DistanceMeasurement)[0];
+        selectedMeasurement = wpd.measurementModes.distance.getData();
         selectedDataset = null;
         dataProvider.setDataSource(selectedMeasurement);
         show();
@@ -54,8 +52,7 @@ wpd.dataTable = (function() {
 
     function showAreaData() {
         dataProvider = wpd.measurementDataProvider;
-        selectedMeasurement =
-            wpd.appData.getPlotData().getMeasurementsByType(wpd.AreaMeasurement)[0];
+        selectedMeasurement = wpd.measurementModes.area.getData();
         selectedDataset = null;
         dataProvider.setDataSource(selectedMeasurement);
         show();
