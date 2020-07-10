@@ -77,6 +77,8 @@ wpd.measurementModes = {
             distMeasures.forEach(m => {
                 m.clearAll();
             });
+            plotData.deleteMeasurement(distMeasures[0]);
+            wpd.tree.refresh();
         },
         getData: function() {
             const plotData = wpd.appData.getPlotData();
@@ -162,6 +164,8 @@ wpd.measurementModes = {
             angleMeasures.forEach(m => {
                 m.clearAll();
             });
+            plotData.deleteMeasurement(angleMeasures[0]);
+            wpd.tree.refresh();
         },
         getData: function() {
             let plotData = wpd.appData.getPlotData();
@@ -219,6 +223,8 @@ wpd.measurementModes = {
             areaMeasures.forEach(m => {
                 m.clearAll();
             });
+            plotData.deleteMeasurement(areaMeasures[0]);
+            wpd.tree.refresh();
         },
         getData: function() {
             const plotData = wpd.appData.getPlotData();
