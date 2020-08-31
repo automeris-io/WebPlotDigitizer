@@ -291,9 +291,9 @@ wpd.FileManager = class {
         } else {
             // if there does not exist file indexes, assume there is only one file and
             // associate all data collections with the only file
-            fileManager.axesByFile['0'] = wpd.appData.getPlotData().getAxesColl();
-            fileManager.datasetsByFile['0'] = wpd.appData.getPlotData().getDatasets();
-            fileManager.measurementsByFile['0'] = wpd.appData.getPlotData().getMeasurementColl();
+            fileManager.axesByFile['0'] = wpd.appData.getPlotData().getAxesColl().slice();
+            fileManager.datasetsByFile['0'] = wpd.appData.getPlotData().getDatasets().slice();
+            fileManager.measurementsByFile['0'] = wpd.appData.getPlotData().getMeasurementColl().slice();
         }
 
         let files = [];
