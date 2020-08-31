@@ -12,7 +12,7 @@ from pathlib import Path
 
 class WPDTranslation:
     def __init__(self, locale):
-        self.language = gettext.translation("messages", "locale/", [locale], codeset="utf-8")
+        self.language = gettext.translation("messages", "locale/", [locale])
         self.language.install()
 
     def gettext(self, x):
