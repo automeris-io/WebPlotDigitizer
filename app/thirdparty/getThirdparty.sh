@@ -1,9 +1,9 @@
 #!/bin/bash
 
 # closure compiler
-wget https://dl.google.com/closure-compiler/compiler-latest.zip
-unzip compiler-latest.zip -d closure-compiler
+mkdir -p closure-compiler
 cd closure-compiler
+wget https://repo1.maven.org/maven2/com/google/javascript/closure-compiler/v20200719/closure-compiler-v20200719.jar
 jarfile=(*.jar)
 ln -s $jarfile compiler.jar
 cd ..
