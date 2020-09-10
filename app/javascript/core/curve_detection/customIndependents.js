@@ -69,7 +69,7 @@ wpd.CustomIndependents = class {
             xvals: ["X Values", "Array", this._xvals],
             ymin: ["Y min", "Units", this._ymin],
             ymax: ["Y max", "Units", this._ymax],
-            curveWidth: ["Curve Width", "Px", this._curveWidth]            
+            curveWidth: ["Curve Width", "Px", this._curveWidth]
         };
     }
 
@@ -163,7 +163,7 @@ wpd.CustomIndependents = class {
         let xpointsMean = [];
         let ypointsMean = [];
         if (this._curveWidth > 0) {
-            let stepSize = parseInt(this._curveWidth/2, 10);
+            let stepSize = parseInt(this._curveWidth / 2, 10);
             if (stepSize < 1) {
                 stepSize = 1;
             }

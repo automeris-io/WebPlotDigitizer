@@ -29,6 +29,7 @@ wpd.XYAxes = (function() {
 
             isXDate = false,
             isYDate = false,
+            noRotation = false,
 
             initialFormattingX, initialFormattingY,
 
@@ -37,7 +38,7 @@ wpd.XYAxes = (function() {
             a_inv_mat = [0, 0, 0, 0],
             c_vec = [0, 0],
 
-            processCalibration = function(cal, isLogX, isLogY) {
+            processCalibration = function(cal, isLogX, isLogY, noRotationCorrection) {
                 if (cal.getCount() < 4) {
                     return false;
                 }
@@ -91,6 +92,7 @@ wpd.XYAxes = (function() {
 
                 isLogScaleX = isLogX;
                 isLogScaleY = isLogY;
+                noRotation = noRotationCorrection;
 
                 // If x-axis is log scale
                 if (isLogScaleX === true) {
@@ -108,6 +110,24 @@ wpd.XYAxes = (function() {
                 pix_mat = [x1 - x2, x3 - x4, y1 - y2, y3 - y4];
 
                 a_mat = wpd.mat.mult2x2(dat_mat, wpd.mat.inv2x2(pix_mat));
+
+                if (noRotation) {
+                    // avoid rotating the axes if this is selected.
+                    if (Math.abs(a_mat[0] * a_mat[3]) > Math.abs(a_mat[1] * a_mat[2])) {
+                        // snap to zero deg
+                        a_mat[1] = 0;
+                        a_mat[2] = 0;
+                        a_mat[0] = (xmax - xmin) / (x2 - x1);
+                        a_mat[3] = (ymax - ymin) / (y4 - y3);
+                    } else {
+                        // snap to +/- 90 deg since it appears x-axis is vertical and y is horizontal
+                        a_mat[0] = 0;
+                        a_mat[3] = 0;
+                        a_mat[1] = (xmax - xmin) / (y2 - y1);
+                        a_mat[2] = (ymax - ymin) / (x4 - x3);
+                    }
+                }
+
                 a_inv_mat = wpd.mat.inv2x2(a_mat);
                 c_vec[0] = xmin - a_mat[0] * x1 - a_mat[1] * y1;
                 c_vec[1] = ymin - a_mat[2] * x3 - a_mat[3] * y3;
@@ -131,9 +151,9 @@ wpd.XYAxes = (function() {
 
         this.calibration = null;
 
-        this.calibrate = function(calib, isLogX, isLogY) {
+        this.calibrate = function(calib, isLogX, isLogY, noRotationCorrection) {
             this.calibration = calib;
-            isCalibrated = processCalibration(calib, isLogX, isLogY);
+            isCalibrated = processCalibration(calib, isLogX, isLogY, noRotationCorrection);
             return isCalibrated;
         };
 
@@ -227,6 +247,10 @@ wpd.XYAxes = (function() {
 
         this.isLogY = function() {
             return isLogScaleY;
+        };
+
+        this.noRotation = function() {
+            return noRotation;
         };
 
         this.getOrientation = function() {

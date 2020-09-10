@@ -36,7 +36,9 @@ wpd.loadDefaultImage = function() {
     let loadImage = async function() {
         let response = await fetch("start.png");
         let data = await response.blob();
-        let metadata = { type: "image/png" };
+        let metadata = {
+            type: "image/png"
+        };
         let file = new File([data], "start.png", metadata);
         wpd.imageManager.initializeFileManager([file]);
         wpd.imageManager.loadFromFile(file);

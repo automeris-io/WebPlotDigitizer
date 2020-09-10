@@ -57,6 +57,7 @@ wpd.XYAxesCalibrator = class extends wpd.AxesCalibrator {
                 document.getElementById('ymax').value = prevCal.getPoint(3).dy;
                 document.getElementById('xlog').checked = axes.isLogX();
                 document.getElementById('ylog').checked = axes.isLogY();
+                document.getElementById('xy-axes-no-rotation').checked = axes.noRotation();
             }
         }
     }
@@ -68,6 +69,7 @@ wpd.XYAxesCalibrator = class extends wpd.AxesCalibrator {
         let ymax = document.getElementById('ymax').value;
         let xlog = document.getElementById('xlog').checked;
         let ylog = document.getElementById('ylog').checked;
+        let noRotation = document.getElementById('xy-axes-no-rotation').checked;
         let axes = this._isEditing ? wpd.tree.getActiveAxes() : new wpd.XYAxes();
 
         // validate log scale values
@@ -84,7 +86,7 @@ wpd.XYAxesCalibrator = class extends wpd.AxesCalibrator {
         this._calibration.setDataAt(1, xmax, ymin);
         this._calibration.setDataAt(2, xmin, ymin);
         this._calibration.setDataAt(3, xmax, ymax);
-        if (!axes.calibrate(this._calibration, xlog, ylog)) {
+        if (!axes.calibrate(this._calibration, xlog, ylog, noRotation)) {
             wpd.popup.close('xyAlignment');
             wpd.messagePopup.show(wpd.gettext('calibration-invalid-inputs'),
                 wpd.gettext('calibration-enter-valid'),

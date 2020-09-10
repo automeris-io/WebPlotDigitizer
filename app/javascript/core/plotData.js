@@ -355,7 +355,7 @@ wpd.PlotData = class {
                     calibration.labels = ['X1', 'X2', 'Y1', 'Y2'];
                     calibration.labelPositions = ['N', 'N', 'E', 'E'];
                     calibration.maxPointCount = 4;
-                    axes.calibrate(calibration, axData.isLogX, axData.isLogY);
+                    axes.calibrate(calibration, axData.isLogX, axData.isLogY, axData.noRotation);
                 } else if (axData.type === "BarAxes") {
                     axes = new wpd.BarAxes();
                     calibration.labels = ['P1', 'P2'];
@@ -544,6 +544,7 @@ wpd.PlotData = class {
                 axData.type = "XYAxes";
                 axData.isLogX = axes.isLogX();
                 axData.isLogY = axes.isLogY();
+                axData.noRotation = axes.noRotation();
             } else if (axes instanceof wpd.BarAxes) {
                 axData.type = "BarAxes";
                 axData.isLog = axes.isLog();
