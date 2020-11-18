@@ -10,7 +10,7 @@ if ! [ -x "$(command -v java)" ]; then
 fi
 
 # install MacOS packages
-brew install python3 node go eigen
+brew install python3 node go eigen git-lfs
 
 # install python packages
 pip3 install Jinja2 babel
@@ -25,6 +25,10 @@ cd electron
 npm install
 cd ..
 
+# get third party libraries
 cd app/thirdparty
 ./getThirdparty.sh
 cd ../..
+
+# refresh git lfs pointers
+git lfs pull
