@@ -1,5 +1,5 @@
-QUnit.module("Save/Resume Tests");
-QUnit.test("Resume Version 3.x JSON: XY", function(assert) {
+QUnit.module("Save/Resume tests");
+QUnit.test("Resume version 3.x JSON: XY", function(assert) {
     let checkAxes = function(plotData, assert, testLabelPrefix) {
         assert.equal(plotData.getAxesCount(), 1, testLabelPrefix + "One axes calibration loaded");
     };
@@ -15,7 +15,7 @@ QUnit.test("Resume Version 3.x JSON: XY", function(assert) {
     });
 });
 
-QUnit.test("Resume Version 3.x JSON: Bar", function(assert) {
+QUnit.test("Resume version 3.x JSON: Bar", function(assert) {
     let checkAxes = function(plotData, assert, testLabelPrefix) {
         assert.equal(plotData.getAxesCount(), 1, testLabelPrefix + "One axes calibration loaded");
     };
@@ -31,7 +31,7 @@ QUnit.test("Resume Version 3.x JSON: Bar", function(assert) {
     });
 });
 
-QUnit.test("Resume Version 4: Check Axes", function(assert) {
+QUnit.test("Resume version 4: Check axes", function(assert) {
     let checkAxes = function(plotData, assert, testLabelPrefix) {
         assert.equal(plotData.getAxesCount(), 6, testLabelPrefix + "6 axes calibrations loaded");
     };
@@ -47,7 +47,7 @@ QUnit.test("Resume Version 4: Check Axes", function(assert) {
     });
 });
 
-QUnit.test("Resume Version 4: Check Datasets", function(assert) {
+QUnit.test("Resume version 4: Check datasets", function(assert) {
     let checkDatasets = function(plotData, assert, testLabelPrefix) {
         assert.equal(plotData.getDatasetCount(), 6, testLabelPrefix + "6 datasets loaded");
 
@@ -75,7 +75,7 @@ QUnit.test("Resume Version 4: Check Datasets", function(assert) {
     });
 });
 
-QUnit.test("Resume Version 4.2 with masks", function(assert) {
+QUnit.test("Resume version 4.2 with masks", function(assert) {
     let checkAxes = function(plotData, assert, testLabelPrefix) {
         assert.equal(plotData.getAxesCount(), 6, testLabelPrefix + "6 axes calibrations loaded");
     };

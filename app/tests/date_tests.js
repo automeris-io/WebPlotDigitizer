@@ -1,5 +1,5 @@
-QUnit.module("Date/Time Parsing Tests");
-QUnit.test("Date Format", function(assert) {
+QUnit.module("Date/Time parsing tests");
+QUnit.test("Date format", function(assert) {
     // yyyy/mm
     let formatStr = wpd.dateConverter.getFormatString("2017/10");
     assert.equal(formatStr, "yyyy/mm", "yyyy/mm ok");
@@ -25,7 +25,7 @@ QUnit.test("Date Format", function(assert) {
     assert.equal(formatStr, "yyyy/mm/dd hh:ii:ss", "yyyy/mm/dd hh:ii:ss.frac ok");
 });
 
-QUnit.test("Date Value", function(assert) {
+QUnit.test("Date value", function(assert) {
     let val = wpd.dateConverter.parse("2017/10/12 5:11:55.5");
 
     let dateStr = wpd.dateConverter.formatDateNumber(val, "yyyy");
@@ -56,7 +56,7 @@ QUnit.test("Date Value", function(assert) {
     assert.equal(dateStr, "2017/October/12 05:11:55", "yyyy/mmmm/dd hh:ii:ss ok");
 });
 
-QUnit.test("Date Input Parser", function(assert) {
+QUnit.test("Date input parser", function(assert) {
     let ip = new wpd.InputParser();
     ip.parse("2017/10/11 5:10:16");
     assert.equal(ip.isValid, true, "isValid with date ok");

@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
   <title>WPD Tests</title>
-  <link rel="stylesheet" href="https://code.jquery.com/qunit/qunit-2.9.2.css">
-  
+  <link rel="stylesheet" href="https://code.jquery.com/qunit/qunit-2.12.0.css">
+
   <!-- WPD -->
   <script src="../javascript/controllers/appData.js"></script>
   <script src="../javascript/controllers/autoDetection.js"></script>
@@ -13,21 +13,16 @@
   <script src="../javascript/controllers/browserInfo.js"></script>
   <script src="../javascript/controllers/colorPicker.js"></script>
   <script src="../javascript/controllers/datasetManagement.js"></script>
+  <script src="../javascript/controllers/fileManager.js"></script>
   <script src="../javascript/controllers/gridDetection.js"></script>
   <script src="../javascript/controllers/i18n.js"></script>
   <script src="../javascript/controllers/imageEditing.js"></script>
   <script src="../javascript/controllers/imageManager.js"></script>
   <script src="../javascript/controllers/manualDetection.js"></script>
   <script src="../javascript/controllers/measurements.js"></script>
+  <script src="../javascript/controllers/pageManager.js"></script>
   <script src="../javascript/controllers/undoManager.js"></script>
-  <script src="../javascript/core/curve_detection/averagingWindow.js"></script>
-  <script src="../javascript/core/curve_detection/averagingWindowCore.js"></script>
-  <script src="../javascript/core/curve_detection/averagingWindowWithStepSize.js"></script>
-  <script src="../javascript/core/curve_detection/barExtraction.js"></script>
-  <script src="../javascript/core/curve_detection/blobdetector.js"></script>
-  <script src="../javascript/core/curve_detection/customIndependents.js"></script>
-  <script src="../javascript/core/curve_detection/xStepWithInterpolation.js"></script>
-  <script src="../javascript/core/point_detection/template_matching_detector.js"></script>
+  <script src="../javascript/controllers/utils.js"></script>
   <script src="../javascript/core/autoDetection.js"></script>
   <script src="../javascript/core/axes/bar.js"></script>
   <script src="../javascript/core/axes/image.js"></script>
@@ -39,6 +34,13 @@
   <script src="../javascript/core/color.js"></script>
   <script src="../javascript/core/colorAnalysis.js"></script>
   <script src="../javascript/core/connectedPoints.js"></script>
+  <script src="../javascript/core/curve_detection/averagingWindow.js"></script>
+  <script src="../javascript/core/curve_detection/averagingWindowCore.js"></script>
+  <script src="../javascript/core/curve_detection/averagingWindowWithStepSize.js"></script>
+  <script src="../javascript/core/curve_detection/barExtraction.js"></script>
+  <script src="../javascript/core/curve_detection/blobdetector.js"></script>
+  <script src="../javascript/core/curve_detection/customIndependents.js"></script>
+  <script src="../javascript/core/curve_detection/xStepWithInterpolation.js"></script>
   <script src="../javascript/core/dataProviders.js"></script>
   <script src="../javascript/core/dataset.js"></script>
   <script src="../javascript/core/dateConversion.js"></script>
@@ -46,7 +48,8 @@
   <script src="../javascript/core/inputParser.js"></script>
   <script src="../javascript/core/mathFunctions.js"></script>
   <script src="../javascript/core/plotData.js"></script>
-  <script src="../javascript/core/rle.js"></script>  
+  <script src="../javascript/core/point_detection/template_matching_detector.js"></script>
+  <script src="../javascript/core/rle.js"></script>
   <script src="../javascript/services/args.js"></script>
   <script src="../javascript/services/dataExport.js"></script>
   <script src="../javascript/services/download.js"></script>
@@ -57,6 +60,7 @@
   <script src="../javascript/tools/colorPickerTools.js"></script>
   <script src="../javascript/tools/graphicsHelper.js"></script>
   <script src="../javascript/tools/gridDetectionTools.js"></script>
+  <script src="../javascript/tools/imageEditingTools.js"></script>
   <script src="../javascript/tools/imageOps.js"></script>
   <script src="../javascript/tools/keyCodes.js"></script>
   <script src="../javascript/tools/manualDetectionTools.js"></script>
@@ -67,7 +71,7 @@
   <script src="../javascript/widgets/layoutManager.js"></script>
   <script src="../javascript/widgets/popups.js"></script>
   <script src="../javascript/widgets/sidebars.js"></script>
-  <script src="../javascript/widgets/toolbars.js"></script>  
+  <script src="../javascript/widgets/toolbars.js"></script>
   <script src="../javascript/widgets/tree.js"></script>
   <script src="../javascript/widgets/webcam.js"></script>
   <script src="../javascript/widgets/zoom.js"></script>
@@ -75,7 +79,8 @@
 <body>
   <div id="qunit"></div>
   <div id="qunit-fixture"></div>
-  <script src="https://code.jquery.com/qunit/qunit-2.9.2.js"></script>  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/sinon.js/9.2.1/sinon.min.js"></script>
+  <script src="https://code.jquery.com/qunit/qunit-2.12.0.js"></script>
   <script src="testhelpers.js"></script>
   <script src="date_tests.js"></script>
   <script src="save_tests.js"></script>
@@ -84,5 +89,6 @@
   <script src="bar_extraction_tests.js"></script>
   <script src="xstep_with_interp_tests.js"></script>
   <script src="custom_independents_tests.js"></script>
+  <script src="app_data_tests.js"></script>
 </body>
 </html>
