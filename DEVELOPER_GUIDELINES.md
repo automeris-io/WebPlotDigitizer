@@ -46,11 +46,6 @@ To build the HTML5 code, do the following (make sure you have checked out the de
     cd app
     ./build.sh
 
-For MacOS, do this instead of the above:
-
-    cd app
-    ./build-mac.sh
-
 This should generate a combined-compiled.js file and several HTML files in the 'app' directory. Use the web server (see webserver folder) or Electron app (see electron folder) to host this app.
 
 **Web Server**
@@ -63,7 +58,7 @@ PHP backend has now been replaced with a simple Go server. To start the server d
     go build
     ./webserver
 
-You can now open this WPD in your web browser.
+You can now open WebPlotDigitizer in your web browser.
 
 The Go based server will be extended to include typical server side features like server-side data storage, remote APIs etc.
 
@@ -92,6 +87,16 @@ This will create apps for Mac, Windows and Linux.
 ## Docker
 
 To build a docker image see the file `research/Dockerfile`.
+
+## Unit Tests
+
+Unit tests are located in the `app/tests` directory. The tests are written using [QUnit](https://api.qunitjs.com/) and [Sinon.js](https://sinonjs.org/).
+
+To run the tests, start a development server and append `/tests` to the url (e.g. `http://localhost:8080/tests`).
+
+This will load the QUnit tests, run them, and display the results.
+
+Please consider adding unit tests when adding or updating code. Any contributions to increase existing code coverage is greatly appreciated.
 
 # Coding Style
 
