@@ -1,5 +1,15 @@
 RELEASE NOTES
 
+Version 4.4
+===========
+November 28, 2020
+
+New Features:
+- Added an option to turn off automatic rotation correction of XY axes
+
+Misc:
+- Several minor bug fixes
+
 Version 4.3
 ===========
 July 7, 2020
