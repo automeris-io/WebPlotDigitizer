@@ -88,15 +88,19 @@ This will create apps for Mac, Windows and Linux.
 
 To build a docker image see the file `research/Dockerfile`.
 
-## Unit Tests
+# Unit Tests
 
-Unit tests are located in the `app/tests` directory. The tests are written using [QUnit](https://api.qunitjs.com/) and [Sinon.js](https://sinonjs.org/).
+Please consider adding unit tests when adding or editing code. Any contributions to increase existing code coverage is greatly appreciated.
+
+Unit tests are located in the `app/tests` directory. The tests are written for [QUnit](https://api.qunitjs.com/). The mocking library [Sinon.js](https://sinonjs.org/) is included as well to facilitate unit test creation.
 
 To run the tests, start a development server and append `/tests` to the url (e.g. `http://localhost:8080/tests`).
 
 This will load the QUnit tests, run them, and display the results.
 
-Please consider adding unit tests when adding or updating code. Any contributions to increase existing code coverage is greatly appreciated.
+To add new unit tests, add or edit an existing test script. If adding a new script, make sure to include it in `app/tests/index.html` via an HTML `script` tag so the new script is included.
+
+This isn't always possible, but ideally, each test assertion should complete execution within 10ms.
 
 # Coding Style
 
