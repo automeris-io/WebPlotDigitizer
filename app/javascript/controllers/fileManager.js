@@ -151,7 +151,7 @@ wpd.FileManager = class {
         wpd.appData.setUndoManager(undoManager);
     }
 
-    switch (index) {
+    switch(index) {
         const newIndex = parseInt(index, 10);
         if (newIndex !== this.currentIndex && newIndex > -1 && newIndex <= this.files.length) {
             // save page manager
@@ -317,7 +317,7 @@ wpd.FileManager = class {
             files.push(filePromise);
         }
 
-        Promise.all(files).then(files => {
+        return Promise.all(files).then(files => {
             for (let index = 0; index < files.length; index++) {
                 let pageData = {};
 
