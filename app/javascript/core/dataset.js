@@ -59,6 +59,7 @@ wpd.Dataset = class {
         if (mdata != null) {
             this._metadataCount++;
         }
+        return dlen;
     }
 
     getPixel(index) {
@@ -113,7 +114,8 @@ wpd.Dataset = class {
 
     removeLastPixel() {
         let pIndex = this._dataPoints.length - 1;
-        removePixelAtIndex(pIndex);
+        this.removePixelAtIndex(pIndex);
+        return pIndex;
     }
 
     findNearestPixel(x, y, threshold) {
@@ -136,6 +138,7 @@ wpd.Dataset = class {
         if (minIndex >= 0) {
             this.removePixelAtIndex(minIndex);
         }
+        return minIndex;
     }
 
     clearAll() {
