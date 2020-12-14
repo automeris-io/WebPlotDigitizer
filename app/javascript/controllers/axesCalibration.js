@@ -544,6 +544,9 @@ wpd.alignAxes = (function() {
             if (wpd.appData.isMultipage()) {
                 pageManager.addDatasetsToCurrentPage([dataset]);
             }
+
+            // dispatch dataset add event
+            wpd.events.dispatch("wpd.dataset.add", { dataset: dataset });
         }
     }
 

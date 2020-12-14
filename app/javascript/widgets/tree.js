@@ -298,6 +298,8 @@ wpd.tree = (function() {
         showTreeItemWidget('dataset-item-tree-widget');
         renderDatasetAxesSelection();
         setDatasetDisplayColor();
+        // dispatch dataset select event
+        wpd.events.dispatch("wpd.dataset.select", { dataset: activeDataset });
     }
 
     function onDatasetGroupSelection() {
