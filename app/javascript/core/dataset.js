@@ -28,8 +28,9 @@ wpd.Dataset = class {
         this._dataPoints = [];
         this._connections = [];
         this._selections = [];
-        this._metadataCount = 0;
-        this._mkeys = [];
+        this._pixelMetadataCount = 0;
+        this._pixelMetadataKeys = [];
+        this._metadata = {};
 
         // public:
         this.name = 'Default Dataset';
@@ -38,15 +39,15 @@ wpd.Dataset = class {
     }
 
     hasMetadata() {
-        return this._metadataCount > 0;
+        return this._pixelMetadataCount > 0;
     }
 
     setMetadataKeys(metakeys) {
-        this._mkeys = metakeys;
+        this._pixelMetadataKeys = metakeys;
     }
 
     getMetadataKeys() {
-        return this._mkeys;
+        return this._pixelMetadataKeys;
     }
 
     addPixel(pxi, pyi, mdata) {
@@ -57,7 +58,7 @@ wpd.Dataset = class {
             metadata: mdata
         };
         if (mdata != null) {
-            this._metadataCount++;
+            this._pixelMetadataCount++;
         }
         return dlen;
     }
@@ -81,11 +82,11 @@ wpd.Dataset = class {
         if (index < this._dataPoints.length) {
             if (mdata != null) {
                 if (this._dataPoints[index].metadata == null) {
-                    this._metadataCount++;
+                    this._pixelMetadataCount++;
                 }
             } else {
                 if (this._dataPoints[index].metadata != null) {
-                    this._metadataCount--;
+                    this._pixelMetadataCount--;
                 }
             }
             this._dataPoints[index].metadata = mdata;
@@ -99,14 +100,14 @@ wpd.Dataset = class {
             metadata: mdata
         });
         if (mdata != null) {
-            this._metadataCount++;
+            this._pixelMetadataCount++;
         }
     }
 
     removePixelAtIndex(index) {
         if (index < this._dataPoints.length) {
             if (this._dataPoints[index].metadata != null) {
-                this._metadataCount--;
+                this._pixelMetadataCount--;
             }
             this._dataPoints.splice(index, 1);
         }
@@ -143,8 +144,9 @@ wpd.Dataset = class {
 
     clearAll() {
         this._dataPoints = [];
-        this._metadataCount = 0;
-        this._mkeys = [];
+        this._pixelMetadataCount = 0;
+        this._pixelMetadataKeys = [];
+        this._metadata = {};
     }
 
     getCount() {
@@ -242,5 +244,15 @@ wpd.Dataset = class {
 
     getSelectedPixels() {
         return this._selections;
+    }
+
+    getMetadata() {
+        // deep clone
+        return JSON.parse(JSON.stringify(this._metadata));
+    }
+
+    setMetadata(obj) {
+        // deep clone
+        this._metadata = JSON.parse(JSON.stringify(obj));
     }
 };

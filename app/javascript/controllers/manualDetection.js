@@ -529,7 +529,7 @@ wpd.dataPointValueOverrideEditor = (function() {
     }
 
     function _resetMetadataAt(index) {
-        // set the metadata to null, effectively removing it
+        // set the metadata to undefined, effectively removing it
         let newMetadata = undefined;
 
         if (ax instanceof wpd.BarAxes) {

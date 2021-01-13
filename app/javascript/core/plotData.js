@@ -270,7 +270,7 @@ wpd.PlotData = class {
                     ds.setMetadataKeys(dsData.metadataKeys.map(k => k.toLowerCase()));
                 }
                 for (let pxIdx = 0; pxIdx < dsData.data.length; pxIdx++) {
-                    // only label key existed in the past                    
+                    // only label key existed in the past
                     if (dsData.metadataKeys.length > 0) {
                         const metadataKey = dsData.metadataKeys[0].toLowerCase();
                         const metadataValue = dsData.data[pxIdx].metadata[0];
@@ -387,6 +387,11 @@ wpd.PlotData = class {
 
                 if (axes != null) {
                     axes.name = axData.name;
+
+                    if (axes.metadata !== undefined) {
+                        axes.metadata = axData.metadata;
+                    }
+
                     this._axesColl.push(axes);
 
                     // collect document metadata
@@ -406,6 +411,13 @@ wpd.PlotData = class {
                 const dsData = data.datasetColl[dsIdx];
                 let ds = new wpd.Dataset();
                 ds.name = dsData.name;
+
+                // dataset metadata
+                if (dsData.metadata !== undefined) {
+                    ds.metadata = dsData.metadata;
+                }
+
+                // data points metadata keys
                 if (dsData.metadataKeys != null) {
                     ds.setMetadataKeys(dsData.metadataKeys);
                 }
@@ -413,7 +425,7 @@ wpd.PlotData = class {
                     ds.colorRGB = new wpd.Color(dsData.colorRGB[0], dsData.colorRGB[1], dsData.colorRGB[2]);
                 }
                 for (let pxIdx = 0; pxIdx < dsData.data.length; pxIdx++) {
-                    // for backwards compatibility, metadata was updated from array
+                    // for backwards compatibility; metadata was updated from array
                     // to object
                     let metadata = dsData.data[pxIdx].metadata;
                     if (dsData.data[pxIdx].metadata != null) {
@@ -532,6 +544,8 @@ wpd.PlotData = class {
             const axes = this._axesColl[axIdx];
             let axData = {};
             axData.name = axes.name;
+
+            // file and page metadata
             if (documentMetadata) {
                 if (documentMetadata.file && documentMetadata.file.axes[axes.name] !== undefined) {
                     axData.file = documentMetadata.file.axes[axes.name];
@@ -540,6 +554,8 @@ wpd.PlotData = class {
                     axData.page = documentMetadata.page.axes[axes.name];
                 }
             }
+
+            // axes data
             if (axes instanceof wpd.XYAxes) {
                 axData.type = "XYAxes";
                 axData.isLogX = axes.isLogX();
@@ -564,6 +580,11 @@ wpd.PlotData = class {
                 axData.unitString = axes.getUnits();
             } else if (axes instanceof wpd.ImageAxes) {
                 axData.type = "ImageAxes";
+            }
+
+            // include axes metadata, if present
+            if (Object.keys(axes.getMetadata()).length > 0) {
+                axData.metadata = axes.getMetadata();
             }
 
             // calibration points
@@ -593,9 +614,17 @@ wpd.PlotData = class {
                 }
             }
             dsData.axesName = axes != null ? axes.name : "";
-            dsData.metadataKeys = ds.getMetadataKeys();
+            dsData.metadataKeys = ds.getMetadataKeys(); // point metadata keys
             dsData.colorRGB = ds.colorRGB.serialize();
             dsData.data = [];
+
+            // include dataset metadata, if present
+            if (Object.keys(ds.getMetadata()).length > 0) {
+                // this is metadata on the dataset itself, not to be confused with metadataKeys which denote metadata keys on
+                // each data point within the dataset
+                dsData.metadata = ds.getMetadata();
+            }
+
             for (let pxIdx = 0; pxIdx < ds.getCount(); pxIdx++) {
                 let px = ds.getPixel(pxIdx);
                 dsData.data[pxIdx] = px;

@@ -31,6 +31,8 @@ wpd.XYAxes = (function() {
             isYDate = false,
             noRotation = false,
 
+            metadata = {},
+
             initialFormattingX, initialFormattingY,
 
             x1, x2, x3, x4, y1, y2, y3, y4, xmin, xmax, ymin, ymax,
@@ -261,6 +263,16 @@ wpd.XYAxes = (function() {
                 direction: 'increasing',
                 angle: 90
             };
+        };
+
+        this.getMetadata = function() {
+            // deep clone
+            return JSON.parse(JSON.stringify(metadata));
+        };
+
+        this.setMetadata = function(obj) {
+            // deep clone
+            metadata = JSON.parse(JSON.stringify(obj));
         };
 
         this.name = "XY";

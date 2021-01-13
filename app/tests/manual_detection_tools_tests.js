@@ -45,10 +45,11 @@ QUnit.test("Manual selection tool", (assert) => {
     assert.true(showLabelEditorStub.notCalled, "Non-bar chart point: Label editor not shown");
     assert.true(dispatchStub.calledWith(...expectedEventArgs), "Non-bar chart point: Dispatched point add event");
 
-    // bar chart, non-shift key case
+    // bar chart, non-shift key, no data set metadata keys case
     // create new instance and supply bar axes
     const barAxes = new wpd.BarAxes();
     dataset._dataPoints = [];
+    dataset._pixelMetadataKeys = [];
     tool = new wpd.ManualSelectionTool(barAxes, dataset);
     ev = { shiftKey: false };
     imagePos = {
@@ -75,8 +76,10 @@ QUnit.test("Manual selection tool", (assert) => {
     assert.true(setCountStub.calledTwice, "Bar chart point, non-shift key: Updated count");
     assert.true(showLabelEditorStub.notCalled, "Bar chart point, non-shift key: Label editor not shown");
     assert.true(dispatchStub.calledWith(...expectedEventArgs), "Bar chart point, non-shift key: Dispatched point add event");
+    assert.deepEqual(dataset.getMetadataKeys(), ["label"], "Label added to empty data set metadata keys correctly");
 
-    // bar chart, shift key case
+    // bar chart, shift key, existing data set metadata keys case
+    dataset._pixelMetadataKeys = ["test"];
     ev = { shiftKey: true };
     imagePos = {
         x: 4,
@@ -96,12 +99,38 @@ QUnit.test("Manual selection tool", (assert) => {
         }
     ];
     tool.onMouseClick(ev, null, imagePos);
-    assert.deepEqual(dataset._dataPoints[1], expectedPoint, "Bar chart point, shift key: Added");
-    assert.true(drawPointStub.calledWith(imagePos, dataset.colorRGB.toRGBString()), "Bar chart point, shift key: Drawn");
-    assert.true(updateZoomStub.calledThrice, "Bar chart point, shift key: Updated zoom");
-    assert.true(setCountStub.calledThrice, "Bar chart point, shift key: Updated count");
-    assert.true(showLabelEditorStub.calledOnce, "Bar chart point, shift key: Label editor shown");
-    assert.true(dispatchStub.calledWith(...expectedEventArgs), "Bar chart point, shift key: Dispatched point add event");
+    assert.deepEqual(dataset._dataPoints[1], expectedPoint, "Bar chart point, shift key, other metadata exists: Added");
+    assert.true(drawPointStub.calledWith(imagePos, dataset.colorRGB.toRGBString()), "Bar chart point, shift key, other metadata exists: Drawn");
+    assert.true(updateZoomStub.calledThrice, "Bar chart point, shift key, other metadata exists: Updated zoom");
+    assert.true(setCountStub.calledThrice, "Bar chart point, shift key, other metadata exists: Updated count");
+    assert.true(showLabelEditorStub.calledOnce, "Bar chart point, shift key, other metadata exists: Label editor shown");
+    assert.true(dispatchStub.calledWith(...expectedEventArgs), "Bar chart point, shift key, other metadata exists: Dispatched point add event");
+    assert.deepEqual(dataset.getMetadataKeys(), ["label", "test"], "Label added to data set metadata keys correctly");
+
+    // bar chart, shift key, existing label data set metadata key case
+    ev = { shiftKey: true };
+    imagePos = {
+        x: 6,
+        y: 7
+    };
+    expectedPoint = Object.assign({
+        metadata: {
+            label: "Bar2"
+        }
+    }, imagePos);
+    expectedEventArgs = [
+        "wpd.dataset.point.add",
+        {
+            axes: barAxes,
+            dataset: dataset,
+            index: 2
+        }
+    ];
+    tool.onMouseClick(ev, null, imagePos);
+    assert.deepEqual(dataset._dataPoints[2], expectedPoint, "Bar chart point, shift key, label metadata exists: Added");
+    assert.true(drawPointStub.calledWith(imagePos, dataset.colorRGB.toRGBString()), "Bar chart point, shift key, label metadata exists: Drawn");
+    assert.true(dispatchStub.calledWith(...expectedEventArgs), "Bar chart point, shift key, label metadata exists: Dispatched point add event");
+    assert.deepEqual(dataset.getMetadataKeys(), ["label", "test"], "Label not duplicated in data set metadata keys");
 });
 
 QUnit.test("Delete data point tool", (assert) => {

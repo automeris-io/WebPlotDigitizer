@@ -17,8 +17,9 @@ QUnit.test("Initialization", (assert) => {
         _dataPoints: [],
         _connections: [],
         _selections: [],
-        _metadataCount: 0,
-        _mkeys: [],
+        _pixelMetadataCount: 0,
+        _pixelMetadataKeys: [],
+        _metadata: {},
         name: 'Default Dataset',
         variableNames: ['x', 'y'],
         colorRGB: new wpd.Color(200, 0, 0)
@@ -121,4 +122,18 @@ QUnit.test("Remove nearest pixel", (assert) => {
     index = dataset.removeNearestPixel();
     assert.equal(index, 1, "Returned 1");
     assert.deepEqual(dataset._dataPoints, [a, c], "Removed index 1");
+});
+
+QUnit.test("Get/Set metadata", (assert) => {
+    const dataset = new wpd.Dataset(1);
+
+    const expected = { hello: "there" };
+
+    dataset.setMetadata(expected);
+
+    // set
+    assert.deepEqual(dataset._metadata, expected, "Metadata set");
+
+    // get
+    assert.deepEqual(dataset.getMetadata(), expected, "Metadata get");
 });

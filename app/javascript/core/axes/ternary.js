@@ -25,6 +25,8 @@ wpd.TernaryAxes = (function() {
     var AxesObj = function() {
         var isCalibrated = false,
 
+            metadata = {},
+
             x0, y0, x1, y1, x2, y2, L, phi0, root3, isRange0to100, isOrientationNormal,
 
             processCalibration = function(cal, range100, is_normal) {
@@ -121,6 +123,16 @@ wpd.TernaryAxes = (function() {
             var dataVal = this.pixelToData(pxi, pyi);
             return dataVal[0].toExponential(4) + ', ' + dataVal[1].toExponential(4) + ', ' +
                 dataVal[2].toExponential(4);
+        };
+
+        this.getMetadata = function() {
+            // deep clone
+            return JSON.parse(JSON.stringify(metadata));
+        };
+
+        this.setMetadata = function(obj) {
+            // deep clone
+            metadata = JSON.parse(JSON.stringify(obj));
         };
 
         this.name = "Ternary";

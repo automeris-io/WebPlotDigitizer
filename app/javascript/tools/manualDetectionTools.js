@@ -35,9 +35,9 @@ wpd.ManualSelectionTool = (function() {
                 const mkeys = dataset.getMetadataKeys();
                 const labelKey = 'label';
 
-                if (mkeys == null) {
+                if (mkeys == null || !mkeys.length) {
                     dataset.setMetadataKeys([labelKey]);
-                } else if (mkeys[0] !== labelKey) {
+                } else if (mkeys.indexOf(labelKey) < 0) {
                     dataset.setMetadataKeys([labelKey, ...mkeys]);
                 }
 
