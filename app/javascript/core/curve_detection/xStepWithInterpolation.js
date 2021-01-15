@@ -112,6 +112,10 @@ wpd.XStepWithInterpolationAlgo = class {
             cs,
             isLogX = axes.isLogX(),
             isLogY = axes.isLogY(),
+            isLogXNegative = axes.isLogXNegative(),
+            isLogYNegative = axes.isLogYNegative(),
+            logXFactor = isLogXNegative ? -1.0 : 1.0,
+            logYFactor = isLogYNegative ? -1.0 : 1.0,
             isDateX = axes.isDate(0),
             isDateY = axes.isDate(1),
             scaled_param_xmin = this._xmin,
@@ -124,14 +128,14 @@ wpd.XStepWithInterpolationAlgo = class {
         dataSeries.clearAll();
 
         if (isLogX) {
-            scaled_param_xmax = Math.log10(scaled_param_xmax);
-            scaled_param_xmin = Math.log10(scaled_param_xmin);
-            scaled_param_width = Math.abs(Math.log10(this._delx) * this._smoothing / 100.0);
-            scaled_param_delx = Math.log10(scaled_param_delx);
+            scaled_param_xmax = Math.log10(logXFactor * scaled_param_xmax);
+            scaled_param_xmin = Math.log10(logXFactor * scaled_param_xmin);
+            scaled_param_width = Math.abs(Math.log10(logXFactor * this._delx) * this._smoothing / 100.0);
+            scaled_param_delx = logXFactor * Math.log10(logXFactor * scaled_param_delx);
         }
         if (isLogY) {
-            scaled_param_ymin = Math.log10(scaled_param_ymin);
-            scaled_param_ymax = Math.log10(scaled_param_ymax);
+            scaled_param_ymin = Math.log10(logYFactor * scaled_param_ymin);
+            scaled_param_ymax = Math.log10(logYFactor * scaled_param_ymax);
         }
 
         // Calculate pixel distance between y_min and y_max:
@@ -159,8 +163,8 @@ wpd.XStepWithInterpolationAlgo = class {
             y_count = 0;
             yi = scaled_param_ymin;
             while ((dely > 0 && yi <= scaled_param_ymax) || (dely < 0 && yi >= scaled_param_ymax)) {
-                pdata = axes.dataToPixel(isLogX ? Math.pow(10, xi) : xi,
-                    isLogY ? Math.pow(10, yi) : yi);
+                pdata = axes.dataToPixel(isLogX ? logXFactor * Math.pow(10, xi) : xi,
+                    isLogY ? logYFactor * Math.pow(10, yi) : yi);
                 if (pdata.x >= 0 && pdata.y >= 0 && pdata.x < dw && pdata.y < dh) {
                     if (autoDetector.binaryData.has(parseInt(pdata.y, 10) * dw +
                             parseInt(pdata.x, 10))) {
@@ -251,8 +255,8 @@ wpd.XStepWithInterpolationAlgo = class {
                 if (!isNaN(xinterp[ii])) {
                     yinterp[ii] = wpd.cspline_interp(cs, xinterp[ii]);
                     if (yinterp[ii] !== null) {
-                        pdata = axes.dataToPixel(isLogX ? Math.pow(10, xinterp[ii]) : xinterp[ii],
-                            isLogY ? Math.pow(10, yinterp[ii]) : yinterp[ii]);
+                        pdata = axes.dataToPixel(isLogX ? logXFactor * Math.pow(10, xinterp[ii]) : xinterp[ii],
+                            isLogY ? logYFactor * Math.pow(10, yinterp[ii]) : yinterp[ii]);
                         dataSeries.addPixel(pdata.x, pdata.y);
                     }
                 }
