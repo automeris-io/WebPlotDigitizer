@@ -96,6 +96,22 @@ QUnit.test("Log XY axes", function(assert) {
     assert.ok(Math.abs(px.y - 99 * (1 - (-3 + 20) / (0 + 20))) < 1e-13, "Y calibration");
 });
 
+QUnit.test("Log XY axes - negative direction", function(assert) {
+    // Given linearly aligned axes
+    let calib = new wpd.Calibration(2);
+    calib.addPoint(0, 99, "-1e-5", "0"); // X1 = -10^-5 at (0, 99)px
+    calib.addPoint(99, 99, "-1e12", "0"); // X2 = -1e12 at (99, 99)px
+    calib.addPoint(0, 99, "-1e-5", "-1e-20"); // Y1 = -1e-20 at (0, 99)px
+    calib.addPoint(0, 0, "-1e-5", "-1"); // Y2 = -1 at (0, 0)px
+
+    let xyaxes = new wpd.XYAxes();
+    xyaxes.calibrate(calib, true, true);
+
+    let px = xyaxes.dataToPixel(-1e6, -1e-3);
+    assert.ok(Math.abs(px.x - 99 * (6 + 5) / (12 + 5)) < 1e-13, "X calibration");
+    assert.ok(Math.abs(px.y - 99 * (1 - (-3 + 20) / (0 + 20))) < 1e-13, "Y calibration");
+});
+
 QUnit.test("Log XY axes, no rotation correction", function(assert) {
     // Given linearly aligned axes
     let calib = new wpd.Calibration(2);

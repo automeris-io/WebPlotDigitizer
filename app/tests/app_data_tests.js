@@ -1,6 +1,5 @@
 QUnit.module(
-    "App data tests",
-    {
+    "App data tests", {
         afterEach: () => {
             // restore mocks and fakes
             sinon.restore();

@@ -151,7 +151,7 @@ wpd.FileManager = class {
         wpd.appData.setUndoManager(undoManager);
     }
 
-    switch(index) {
+    switch (index) {
         const newIndex = parseInt(index, 10);
         if (newIndex !== this.currentIndex && newIndex > -1 && newIndex <= this.files.length) {
             // save page manager

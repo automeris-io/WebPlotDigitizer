@@ -26,6 +26,8 @@ wpd.XYAxes = (function() {
         var calibration, isCalibrated = false,
             isLogScaleX = false,
             isLogScaleY = false,
+            isLogScaleXNegative = false,
+            isLogScaleYNegative = false,
 
             isXDate = false,
             isYDate = false,
@@ -98,14 +100,26 @@ wpd.XYAxes = (function() {
 
                 // If x-axis is log scale
                 if (isLogScaleX === true) {
-                    xmin = Math.log(xmin) / Math.log(10);
-                    xmax = Math.log(xmax) / Math.log(10);
+                    if (xmin < 0 && xmax < 0) {
+                        isLogScaleXNegative = true;
+                        xmin = Math.log(-xmin) / Math.log(10);
+                        xmax = Math.log(-xmax) / Math.log(10);
+                    } else {
+                        xmin = Math.log(xmin) / Math.log(10);
+                        xmax = Math.log(xmax) / Math.log(10);
+                    }
                 }
 
                 // If y-axis is log scale
                 if (isLogScaleY === true) {
-                    ymin = Math.log(ymin) / Math.log(10);
-                    ymax = Math.log(ymax) / Math.log(10);
+                    if (ymin < 0 && ymax < 0) {
+                        isLogScaleYNegative = true;
+                        ymin = Math.log(-ymin) / Math.log(10);
+                        ymax = Math.log(-ymax) / Math.log(10);
+                    } else {
+                        ymin = Math.log(ymin) / Math.log(10);
+                        ymax = Math.log(ymax) / Math.log(10);
+                    }
                 }
 
                 dat_mat = [xmin - xmax, 0, 0, ymin - ymax];
@@ -174,12 +188,14 @@ wpd.XYAxes = (function() {
             yf = dat_vec[1];
 
             // if x-axis is log scale
-            if (isLogScaleX === true)
-                xf = Math.pow(10, xf);
+            if (isLogScaleX === true) {
+                xf = isLogScaleXNegative ? -Math.pow(10, xf) : Math.pow(10, xf);
+            }
 
             // if y-axis is log scale
-            if (isLogScaleY === true)
-                yf = Math.pow(10, yf);
+            if (isLogScaleY === true) {
+                yf = isLogScaleYNegative ? -Math.pow(10, yf) : Math.pow(10, yf);
+            }
 
             data[0] = xf;
             data[1] = yf;
@@ -191,10 +207,10 @@ wpd.XYAxes = (function() {
             var xf, yf, dat_vec, rtnPix;
 
             if (isLogScaleX) {
-                x = Math.log(x) / Math.log(10);
+                x = isLogScaleXNegative ? Math.log(-x) / Math.log(10) : Math.log(x) / Math.log(10);
             }
             if (isLogScaleY) {
-                y = Math.log(y) / Math.log(10);
+                y = isLogScaleYNegative ? Math.log(-y) / Math.log(10) : Math.log(y) / Math.log(10);
             }
 
             dat_vec = [x - c_vec[0], y - c_vec[1]];
@@ -247,9 +263,17 @@ wpd.XYAxes = (function() {
             return isLogScaleX;
         };
 
+        this.isLogXNegative = function() {
+            return isLogScaleXNegative;
+        }
+
         this.isLogY = function() {
             return isLogScaleY;
         };
+
+        this.isLogYNegative = function() {
+            return isLogScaleYNegative;
+        }
 
         this.noRotation = function() {
             return noRotation;

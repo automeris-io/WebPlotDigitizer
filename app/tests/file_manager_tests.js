@@ -1,6 +1,5 @@
 QUnit.module(
-    "File manager tests",
-    {
+    "File manager tests", {
         afterEach: () => {
             // restore mocks and fakes
             sinon.restore();
@@ -14,12 +13,16 @@ const createInstance = () => {
     sinon
         .stub(document, "getElementsByClassName")
         .withArgs("paged")
-        .returns([{ hidden: null }]);
+        .returns([{
+            hidden: null
+        }]);
 
     sinon
         .stub(document, "getElementById")
         .withArgs("navSeparator")
-        .returns({ hidden: null });
+        .returns({
+            hidden: null
+        });
 
     // create instance
     const fileManager = new wpd.FileManager();
@@ -122,7 +125,9 @@ QUnit.test("Save/Load page manager", (assert) => {
 
     // not saving
     fileManager.currentIndex = 0;
-    fileManager.pageManagers = { 0: true };
+    fileManager.pageManagers = {
+        0: true
+    };
     getPageManagerStub.returns(true);
     fileManager._savePageManager();
     assert.true(getPageManagerStub.calledOnce, "Saving: Page manager exists");
@@ -141,7 +146,11 @@ QUnit.test("Save/Load page manager", (assert) => {
 
     // loading
     const refreshInputStub = sinon.spy();
-    fileManager.pageManagers = { 0: { refreshInput: refreshInputStub } };
+    fileManager.pageManagers = {
+        0: {
+            refreshInput: refreshInputStub
+        }
+    };
     fileManager._loadPageManager(0);
     assert.true(setPageManagerStub.calledTwice && refreshInputStub.calledOnce, "Loading: Page manager loaded");
 });
@@ -157,7 +166,9 @@ QUnit.test("Save/Load undo manager", (assert) => {
 
     // not saving
     fileManager.currentIndex = 0;
-    fileManager.pageManagers = { 0: false };
+    fileManager.pageManagers = {
+        0: false
+    };
     fileManager.undoManagers = {};
     getUndoManagerStub.returns({
         canUndo: () => false,
@@ -168,7 +179,9 @@ QUnit.test("Save/Load undo manager", (assert) => {
 
     // single page saving
     fileManager.currentIndex = 0;
-    fileManager.pageManagers = { 0: false };
+    fileManager.pageManagers = {
+        0: false
+    };
     fileManager.undoManagers = {};
     getUndoManagerStub.returns({
         canUndo: () => true,
@@ -179,7 +192,9 @@ QUnit.test("Save/Load undo manager", (assert) => {
 
     // multiple page saving
     fileManager.currentIndex = 0;
-    fileManager.pageManagers = { 0: true };
+    fileManager.pageManagers = {
+        0: true
+    };
     fileManager.undoManagers = {};
     getMultipageUndoManagerStub.returns(true);
     fileManager._saveUndoManager();
@@ -191,7 +206,9 @@ QUnit.test("Save/Load undo manager", (assert) => {
     assert.true(setUndoManagerStub.calledOnce && setUndoManagerStub.calledWith(null), "Loading: Undo manager does not exist");
 
     // loading
-    fileManager.undoManagers = { 0: true };
+    fileManager.undoManagers = {
+        0: true
+    };
     fileManager._loadUndoManager(0);
     assert.true(setUndoManagerStub.calledTwice && setUndoManagerStub.calledWith(true), "Loading: Undo manager loaded");
 });
@@ -309,13 +326,23 @@ QUnit.test("Get metadata for JSON", (assert) => {
                 1: ["a"],
                 2: ["b"]
             }),
-            getPageLabelMap: sinon.stub().returns({ 1: "hello" })
+            getPageLabelMap: sinon.stub().returns({
+                1: "hello"
+            })
         },
         1: {
-            getAxesNameMap: sinon.stub().returns({ c: 1 }),
-            getDatasetNameMap: sinon.stub().returns({ c: 1 }),
-            getMeasurementPageMap: sinon.stub().returns({ 1: ["c"] }),
-            getPageLabelMap: sinon.stub().returns({ 1: "goodbye" })
+            getAxesNameMap: sinon.stub().returns({
+                c: 1
+            }),
+            getDatasetNameMap: sinon.stub().returns({
+                c: 1
+            }),
+            getMeasurementPageMap: sinon.stub().returns({
+                1: ["c"]
+            }),
+            getPageLabelMap: sinon.stub().returns({
+                1: "goodbye"
+            })
         }
     };
     fileManager.measurementsByFile = {
@@ -389,7 +416,9 @@ QUnit.test("Get metadata for JSON", (assert) => {
                 1: ["a"],
                 2: ["b"]
             }),
-            getPageLabelMap: sinon.stub().returns({ 1: "hello" })
+            getPageLabelMap: sinon.stub().returns({
+                1: "hello"
+            })
         }
     };
     fileManager.measurementsByFile = {
@@ -459,8 +488,12 @@ QUnit.test("Load metadata from JSON", async (assert) => {
     assert.timeout(500);
 
     // create fake files
-    const png = new File([], "test.png", { type: "image/png" });
-    const pdf = new File([], "test.pdf", { type: "application/pdf" });
+    const png = new File([], "test.png", {
+        type: "image/png"
+    });
+    const pdf = new File([], "test.pdf", {
+        type: "application/pdf"
+    });
 
     // stub functions
     sinon.stub(fileManager, "_initializeInput");
@@ -502,7 +535,9 @@ QUnit.test("Load metadata from JSON", async (assert) => {
     let expected = {};
     fileManager.set([png]);
     // ends test by calling functionDone
-    treeRefreshStub.callsFake(() => { functionDone1() });
+    treeRefreshStub.callsFake(() => {
+        functionDone1()
+    });
     await fileManager.loadMetadata(metadata);
     assert.notEqual(fileManager.axesByFile['0'], currentAxes, "Axes cloned not referenced");
     assert.notEqual(fileManager.datasetsByFile['0'], currentDatasets, "Datasets cloned not referenced");
@@ -531,7 +566,9 @@ QUnit.test("Load metadata from JSON", async (assert) => {
     expected = metadata.page;
     fileManager.set([pdf]);
     // ends test by calling functionDone
-    treeRefreshStub.callsFake(function () { functionDone2() });
+    treeRefreshStub.callsFake(function() {
+        functionDone2()
+    });
     await fileManager.loadMetadata(metadata);
     assert.deepEqual(fileManager.pageManagers['0'].loadPageData.args[0][0], expected, "Single file, multiple pages: Page manager stored");
 
@@ -589,7 +626,9 @@ QUnit.test("Load metadata from JSON", async (assert) => {
     };
     fileManager.set([pdf, pdf]);
     // ends test by calling functionDone
-    treeRefreshStub.callsFake(function () { functionDone3() });
+    treeRefreshStub.callsFake(function() {
+        functionDone3()
+    });
     await fileManager.loadMetadata(metadata);
     assert.deepEqual(fileManager.pageManagers['0'].loadPageData.args[1][0], expected1, "Multiple files, multiple pages: Page manager 1 stored");
     assert.deepEqual(fileManager.pageManagers['1'].loadPageData.args[0][0], expected2, "Multiple files, multiple pages: Page manager 2 stored");
@@ -651,7 +690,9 @@ QUnit.test("Load metadata from JSON", async (assert) => {
     };
     fileManager.set([pdf, pdf, png]);
     // ends test by calling functionDone
-    treeRefreshStub.callsFake(function () { functionDone4() });
+    treeRefreshStub.callsFake(function() {
+        functionDone4()
+    });
     await fileManager.loadMetadata(metadata);
     assert.deepEqual(fileManager.pageManagers['0'].loadPageData.args[2][0], expected1, "Multiple files, mixed pages: Page manager 1 stored");
     assert.deepEqual(fileManager.pageManagers['1'].loadPageData.args[1][0], expected2, "Multiple files, mixed pages: Page manager 2 stored");

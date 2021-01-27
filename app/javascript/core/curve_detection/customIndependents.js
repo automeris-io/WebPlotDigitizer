@@ -92,9 +92,21 @@ wpd.CustomIndependents = class {
         if (parsedVals == null || !inputParser.isArray) {
             return;
         }
-        parsedVals.sort((a, b) => {
-            return a - b;
-        });
+        let isLogX = axes.isLogX();
+        let isLogY = axes.isLogY();
+        let isLogXNegative = axes.isLogXNegative();
+        let isLogYNegative = axes.isLogYNegative();
+        let logXFactor = isLogXNegative ? -1.0 : 1.0;
+        let logYFactor = isLogYNegative ? -1.0 : 1.0;
+        if (isLogXNegative) {
+            parsedVals.sort((a, b) => {
+                return b - a;
+            });
+        } else {
+            parsedVals.sort((a, b) => {
+                return a - b;
+            });
+        }
         let xmin = parsedVals[0];
         let xmax = parsedVals[parsedVals.length - 1];
         let ymin = this._ymin;
@@ -105,15 +117,13 @@ wpd.CustomIndependents = class {
         let scaled_ymin = ymin;
         let scaled_ymax = ymax;
 
-        let isLogX = axes.isLogX();
-        let isLogY = axes.isLogY();
         if (isLogX) {
-            scaled_xmin = Math.log10(scaled_xmin);
-            scaled_xmax = Math.log10(scaled_xmax);
+            scaled_xmin = Math.log10(logXFactor * scaled_xmin);
+            scaled_xmax = Math.log10(logXFactor * scaled_xmax);
         }
         if (isLogY) {
-            scaled_ymin = Math.log10(scaled_ymin);
-            scaled_ymax = Math.log10(scaled_ymax);
+            scaled_ymin = Math.log10(logYFactor * scaled_ymin);
+            scaled_ymax = Math.log10(logYFactor * scaled_ymax);
         }
 
         // pixel distance between xmin and xmax, ymin and ymax:
@@ -137,8 +147,8 @@ wpd.CustomIndependents = class {
             let mean_yi = 0;
             let y_count = 0;
             let yi = delY > 0 ? scaled_ymin : scaled_ymax;
-            while ((delY > 0 && yi <= scaled_ymax) || (delY < 0 && yi >= scaled_ymin)) {
-                let px = axes.dataToPixel(isLogX ? Math.pow(10, xi) : xi, isLogY ? Math.pow(10, yi) : yi);
+            while ((delY > 0 && yi <= scaled_ymax) || (delY < 0 && yi <= scaled_ymin)) {
+                let px = axes.dataToPixel(isLogX ? (logXFactor * Math.pow(10, xi)) : xi, isLogY ? (logYFactor * Math.pow(10, yi)) : yi);
                 if (px.x >= 0 && px.y >= 0 && px.x < imageWidth && px.y < imageHeight) {
                     if (autoDetector.binaryData.has(parseInt(px.y, 10) * imageWidth +
                             parseInt(px.x, 10))) {
@@ -146,7 +156,7 @@ wpd.CustomIndependents = class {
                         y_count++;
                     }
                 }
-                yi += delY;
+                yi += Math.abs(delY);
             }
 
             if (y_count > 0) {
@@ -171,9 +181,9 @@ wpd.CustomIndependents = class {
                 let meanX = 0;
                 let meanY = 0;
                 let neighborCount = 0;
-                let currPx = axes.dataToPixel(isLogX ? Math.pow(10, xpoints[ptIdx]) : xpoints[ptIdx], isLogY ? Math.pow(10, ypoints[ptIdx]) : ypoints[ptIdx]);
+                let currPx = axes.dataToPixel(isLogX ? logXFactor * Math.pow(10, xpoints[ptIdx]) : xpoints[ptIdx], isLogY ? logYFactor * Math.pow(10, ypoints[ptIdx]) : ypoints[ptIdx]);
                 for (let nIdx = 0; nIdx < xpoints.length; nIdx++) {
-                    let nPx = axes.dataToPixel(isLogX ? Math.pow(10, xpoints[nIdx]) : xpoints[nIdx], isLogY ? Math.pow(10, ypoints[nIdx]) : ypoints[nIdx]);
+                    let nPx = axes.dataToPixel(isLogX ? logXFactor * Math.pow(10, xpoints[nIdx]) : xpoints[nIdx], isLogY ? logYFactor * Math.pow(10, ypoints[nIdx]) : ypoints[nIdx]);
                     if (Math.abs(currPx.x - nPx.x) < this._curveWidth && Math.abs(currPx.y - nPx.y) < this._curveWidth) {
                         meanX += xpoints[nIdx];
                         meanY += ypoints[nIdx];
@@ -201,12 +211,12 @@ wpd.CustomIndependents = class {
                 continue;
             }
 
-            let yinterp = wpd.cspline_interp(cs, isLogX ? Math.log10(parsedVals[ptIdx]) : parsedVals[ptIdx]);
+            let yinterp = wpd.cspline_interp(cs, isLogX ? Math.log10(logXFactor * parsedVals[ptIdx]) : parsedVals[ptIdx]);
             if (yinterp == null) {
                 continue;
             }
 
-            let px = axes.dataToPixel(parsedVals[ptIdx], isLogY ? Math.pow(10, yinterp) : yinterp);
+            let px = axes.dataToPixel(parsedVals[ptIdx], isLogY ? logYFactor * Math.pow(10, yinterp) : yinterp);
             dataSeries.addPixel(px.x, px.y);
         }
     }
