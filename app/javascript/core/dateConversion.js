@@ -128,7 +128,7 @@ wpd.dateConverter = (function() {
 
         var longMonths = [],
             shortMonths = [],
-            tmpDate = new Date();
+            tmpDate = new Date('1/1/2021');
 
         for (var i = 0; i < 12; i++) {
             tmpDate.setUTCMonth(i);
