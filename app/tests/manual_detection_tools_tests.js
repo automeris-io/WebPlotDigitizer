@@ -1,6 +1,5 @@
 QUnit.module(
-    "Manual detection tools tests",
-    {
+    "Manual detection tools tests", {
         afterEach: () => {
             // restore mocks and fakes
             sinon.restore();
@@ -28,7 +27,9 @@ QUnit.test("Manual selection tool", (assert) => {
         x: 0,
         y: 1
     };
-    let expectedPoint = Object.assign({ metadata: undefined }, imagePos);
+    let expectedPoint = Object.assign({
+        metadata: undefined
+    }, imagePos);
     let expectedEventArgs = [
         "wpd.dataset.point.add",
         {
@@ -51,7 +52,9 @@ QUnit.test("Manual selection tool", (assert) => {
     dataset._dataPoints = [];
     dataset._pixelMetadataKeys = [];
     tool = new wpd.ManualSelectionTool(barAxes, dataset);
-    ev = { shiftKey: false };
+    ev = {
+        shiftKey: false
+    };
     imagePos = {
         x: 2,
         y: 3
@@ -80,7 +83,9 @@ QUnit.test("Manual selection tool", (assert) => {
 
     // bar chart, shift key, existing data set metadata keys case
     dataset._pixelMetadataKeys = ["test"];
-    ev = { shiftKey: true };
+    ev = {
+        shiftKey: true
+    };
     imagePos = {
         x: 4,
         y: 5
@@ -108,7 +113,9 @@ QUnit.test("Manual selection tool", (assert) => {
     assert.deepEqual(dataset.getMetadataKeys(), ["label", "test"], "Label added to data set metadata keys correctly");
 
     // bar chart, shift key, existing label data set metadata key case
-    ev = { shiftKey: true };
+    ev = {
+        shiftKey: true
+    };
     imagePos = {
         x: 6,
         y: 7
@@ -157,7 +164,10 @@ QUnit.test("Delete data point tool", (assert) => {
         }
     ];
 
-    tool.onMouseClick(null, null, { x: 0, y: 1 });
+    tool.onMouseClick(null, null, {
+        x: 0,
+        y: 1
+    });
     assert.true(resetStub.calledOnce, "Graphics reset");
     assert.true(repaintStub.calledOnce, "Repainted");
     assert.true(updateZoomStub.calledOnce, "Updated zoom");
@@ -189,7 +199,7 @@ QUnit.test("Edit data point tool", (assert) => {
     const unselectAllSpy = sinon.spy(dataset, "unselectAll");
     const repaintStub = sinon.stub(wpd.graphicsWidget, "forceHandlerRepaint");
     const updateZoomStub = sinon.stub(wpd.graphicsWidget, "updateZoomOnEvent");
-    const resetHoverStub = sinon.stub(wpd.graphicsWidget, "resetHover").onSecondCall().callsFake(function () {
+    const resetHoverStub = sinon.stub(wpd.graphicsWidget, "resetHover").onSecondCall().callsFake(function() {
         assert.true(resetHoverStub.calledTwice, "Multiple point selection: Hover reset");
         done();
     });
@@ -204,7 +214,10 @@ QUnit.test("Edit data point tool", (assert) => {
         indexes: [0]
     };
     const expectedEventArgs = ["wpd.dataset.point.select", expectedPayload];
-    tool.onMouseClick(null, null, { x: 0, y: 1 });
+    tool.onMouseClick(null, null, {
+        x: 0,
+        y: 1
+    });
     assert.true(unselectAllSpy.calledOnce, "Single point selection: All points unselected");
     assert.true(onSelectSpy.calledWith(null, sinon.match([0])), "Single point selection: Passed point in an array");
     assert.true(repaintStub.calledOnce, "Single point selection: Repainted");

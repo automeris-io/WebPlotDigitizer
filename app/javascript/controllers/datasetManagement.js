@@ -113,7 +113,9 @@ wpd.dataSeriesManagement = (function() {
         }
         wpd.tree.refreshPreservingSelection();
         // dispatch dataset add event
-        wpd.events.dispatch("wpd.dataset.add", { dataset: ds });
+        wpd.events.dispatch("wpd.dataset.add", {
+            dataset: ds
+        });
     }
 
     function addMultipleDatasets() {
@@ -138,7 +140,9 @@ wpd.dataSeriesManagement = (function() {
                         wpd.appData.getPageManager().addDatasetsToCurrentPage([ds]);
                     }
                     // dispatch dataset add event
-                    wpd.events.dispatch("wpd.dataset.add", { dataset: ds });
+                    wpd.events.dispatch("wpd.dataset.add", {
+                        dataset: ds
+                    });
                     i++;
                 }
                 idx++;
@@ -166,7 +170,9 @@ wpd.dataSeriesManagement = (function() {
                 wpd.tree.refresh();
                 wpd.tree.selectPath("/" + wpd.gettext("datasets"));
                 // dispatch dataset delete event
-                wpd.events.dispatch("wpd.dataset.delete", { dataset: ds });
+                wpd.events.dispatch("wpd.dataset.delete", {
+                    dataset: ds
+                });
             });
     }
 

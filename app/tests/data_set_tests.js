@@ -1,6 +1,5 @@
 QUnit.module(
-    "Data set tests",
-    {
+    "Data set tests", {
         afterEach: () => {
             // restore mocks and fakes
             sinon.restore();
@@ -127,7 +126,9 @@ QUnit.test("Remove nearest pixel", (assert) => {
 QUnit.test("Get/Set metadata", (assert) => {
     const dataset = new wpd.Dataset(1);
 
-    const expected = { hello: "there" };
+    const expected = {
+        hello: "there"
+    };
 
     dataset.setMetadata(expected);
 

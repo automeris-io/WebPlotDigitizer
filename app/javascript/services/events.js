@@ -26,7 +26,7 @@ wpd.events = (function() {
 
     // polyfill for IE9+
     if (typeof window.CustomEvent !== "function") {
-        window.CustomEvent = function (event, params) {
+        window.CustomEvent = function(event, params) {
             params = params || {
                 bubbles: false,
                 cancelable: false,
@@ -43,7 +43,9 @@ wpd.events = (function() {
     function dispatch(type, payload) {
         // only dispatch events if registered
         if (_isRegisteredEvent(type)) {
-            window.dispatchEvent(new CustomEvent(type, { detail: payload }));
+            window.dispatchEvent(new CustomEvent(type, {
+                detail: payload
+            }));
         }
     }
 
@@ -79,8 +81,7 @@ wpd.events = (function() {
             if (_isRegisteredEvent(type)) {
                 removeListenersForType(type);
             }
-        }
-        else {
+        } else {
             for (const registeredType in _registeredEvents) {
                 removeListenersForType(registeredType);
             }
@@ -94,8 +95,7 @@ wpd.events = (function() {
     function _registerEvent(type, handler) {
         if (_registeredEvents[type]) {
             _registeredEvents[type].push(handler);
-        }
-        else {
+        } else {
             _registeredEvents[type] = [handler];
         }
     }
@@ -113,13 +113,11 @@ wpd.events = (function() {
                 if (_registeredEvents[type].length === 0) {
                     delete _registeredEvents[type];
                 }
-            }
-            else {
+            } else {
                 // unregister all handlers
                 delete _registeredEvents[type];
             }
-        }
-        else {
+        } else {
             // no type specified; unregister everything
             _registeredEvents = {};
         }

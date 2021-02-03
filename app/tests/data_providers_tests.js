@@ -1,6 +1,5 @@
 QUnit.module(
-    "Data providers tests",
-    {
+    "Data providers tests", {
         afterEach: () => {
             // restore mocks and fakes
             sinon.restore();
@@ -15,9 +14,16 @@ QUnit.test("Plot data providers", (assert) => {
     // set fake calibration
     const calibration = {
         getPoint: (index) => {
-            const points = [
-                { px: 0, py: 0, dy: 0 },
-                { px: 10, py: 10, dy: 10 }
+            const points = [{
+                    px: 0,
+                    py: 0,
+                    dy: 0
+                },
+                {
+                    px: 10,
+                    py: 10,
+                    dy: 10
+                }
             ];
             return points[index];
         }
@@ -35,11 +41,15 @@ QUnit.test("Plot data providers", (assert) => {
 
     // No other metadata case
     dataset.setMetadataKeys(["label"]);
-    dataset.addPixel(0, 0, { label: "Bar0" });
+    dataset.addPixel(0, 0, {
+        label: "Bar0"
+    });
     let expected = {
         fields: ["Label", "Value"],
         fieldDateFormat: [],
-        rawData: [[ "Bar0", 0 ]],
+        rawData: [
+            ["Bar0", 0]
+        ],
         allowConnectivity: false,
         connectivityFieldIndices: [],
         isFieldSortable: [false, true]
@@ -49,7 +59,9 @@ QUnit.test("Plot data providers", (assert) => {
 
     // Other metadata case
     dataset.setMetadataKeys(["label", "obi-wan", "general grievous"]);
-    dataset.addPixel(0, 0, { label: "Bar0" });
+    dataset.addPixel(0, 0, {
+        label: "Bar0"
+    });
     dataset.addPixel(0, 0, {
         label: "Bar1",
         "obi-wan": "hello there",
@@ -59,8 +71,8 @@ QUnit.test("Plot data providers", (assert) => {
         fields: ["Label", "Value", "Obi-wan", "General grievous"],
         fieldDateFormat: [],
         rawData: [
-            [ "Bar0", 0, null, null ],
-            [ "Bar1", 0, "hello there", "general kenobi, you are a bold one!" ]
+            ["Bar0", 0, null, null],
+            ["Bar1", 0, "hello there", "general kenobi, you are a bold one!"]
         ],
         allowConnectivity: false,
         connectivityFieldIndices: [],
@@ -71,8 +83,15 @@ QUnit.test("Plot data providers", (assert) => {
 
     // Overrides case
     dataset.setMetadataKeys(["label", "overrides"]);
-    dataset.addPixel(0, 0, { label: "Bar0" });
-    dataset.addPixel(0, 0, { label: "Bar1", overrides: { y: 1 } });
+    dataset.addPixel(0, 0, {
+        label: "Bar0"
+    });
+    dataset.addPixel(0, 0, {
+        label: "Bar1",
+        overrides: {
+            y: 1
+        }
+    });
     expected = {
         fields: ["Label", "Value", "Value-Override"],
         fieldDateFormat: [],
@@ -89,12 +108,16 @@ QUnit.test("Plot data providers", (assert) => {
 
     // Other metadata and overrides case
     dataset.setMetadataKeys(["label", "obi-wan", "general grievous", "overrides"]);
-    dataset.addPixel(0, 0, { label: "Bar0" });
+    dataset.addPixel(0, 0, {
+        label: "Bar0"
+    });
     dataset.addPixel(0, 0, {
         label: "Bar1",
         "obi-wan": "hello there",
         "general grievous": "general kenobi, you are a bold one!",
-        overrides: { y: 1 }
+        overrides: {
+            y: 1
+        }
     });
     expected = {
         fields: ["Label", "Value", "Obi-wan", "General grievous", "Value-Override"],

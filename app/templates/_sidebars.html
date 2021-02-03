@@ -31,7 +31,8 @@
             <option value="bg">{{ _("Background Color") }}</option>
         </select><input type="button" id="color-button" value=" " onclick="wpd.colorPicker.startPicker();" style="width: 25px;" title="{{ _("Click to change color") }}" /></p>
     <p>{{ _("Distance") }} <input type="text" size="3" id="color-distance-value" onchange="wpd.colorPicker.changeColorDistance();" />
-        <input type="button" value="{{ _("Filter Colors") }}" onclick="wpd.colorPicker.testColorDetection();" style="width: 90px;"></p>
+        <input type="button" value="{{ _("Filter Colors") }}" onclick="wpd.colorPicker.testColorDetection();" style="width: 90px;">
+    </p>
     <hr />
     <p>{{ _("Algorithm") }}
         <select id="auto-extract-algo-name" onchange="wpd.algoManager.applyAlgoSelection();"></select>

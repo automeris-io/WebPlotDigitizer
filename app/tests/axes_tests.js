@@ -152,7 +152,9 @@ QUnit.test("Log base 2 axes", function(assert) {
 });
 
 QUnit.test("Get/Set axes metadata", (assert) => {
-    const expected = { hello: "there" };
+    const expected = {
+        hello: "there"
+    };
 
     // bar
     const barAxes = new wpd.BarAxes();

@@ -455,7 +455,9 @@ wpd.alignAxes = (function() {
                 wpd.tree.refresh();
                 wpd.tree.selectPath("/" + wpd.gettext("axes"));
                 // dispatch axes delete event
-                wpd.events.dispatch("wpd.axes.delete", { axes: axes });
+                wpd.events.dispatch("wpd.axes.delete", {
+                    axes: axes
+                });
             });
     }
 
@@ -518,7 +520,9 @@ wpd.alignAxes = (function() {
 
     function postProcessAxesAdd(axes) {
         // dispatch axes add event
-        wpd.events.dispatch("wpd.axes.add", { axes: axes });
+        wpd.events.dispatch("wpd.axes.add", {
+            axes: axes
+        });
 
         const plotData = wpd.appData.getPlotData();
         const fileManager = wpd.appData.getFileManager();
@@ -551,7 +555,9 @@ wpd.alignAxes = (function() {
             }
 
             // dispatch dataset add event
-            wpd.events.dispatch("wpd.dataset.add", { dataset: dataset });
+            wpd.events.dispatch("wpd.dataset.add", {
+                dataset: dataset
+            });
         }
     }
 

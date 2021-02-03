@@ -299,7 +299,9 @@ wpd.tree = (function() {
         renderDatasetAxesSelection();
         setDatasetDisplayColor();
         // dispatch dataset select event
-        wpd.events.dispatch("wpd.dataset.select", { dataset: activeDataset });
+        wpd.events.dispatch("wpd.dataset.select", {
+            dataset: activeDataset
+        });
     }
 
     function onDatasetGroupSelection() {
@@ -464,7 +466,9 @@ wpd.tree = (function() {
         const $tweakButton = document.getElementById("tweak-axes-calibration-button");
         $tweakButton.disabled = activeAxes instanceof wpd.ImageAxes ? true : false;
         // dispatch axes select event
-        wpd.events.dispatch("wpd.axes.select", { axes: activeAxes });
+        wpd.events.dispatch("wpd.axes.select", {
+            axes: activeAxes
+        });
     }
 
     function onImageSelection(elem, path, suppressSecondaryActions) {

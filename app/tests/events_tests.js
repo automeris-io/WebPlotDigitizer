@@ -1,6 +1,5 @@
 QUnit.module(
-    "Events tests",
-    {
+    "Events tests", {
         afterEach: () => {
             // restore mocks and fakes
             sinon.restore();
@@ -11,7 +10,9 @@ QUnit.module(
 QUnit.test("Dispatch event, add and remove listener", (assert) => {
     const type = "test";
     const listener = sinon.spy();
-    const payload = { test: "ing" };
+    const payload = {
+        test: "ing"
+    };
 
     // listen for test event type
     const handler = wpd.events.addListener(type, listener);
