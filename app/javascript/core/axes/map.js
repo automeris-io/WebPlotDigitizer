@@ -24,7 +24,11 @@ var wpd = wpd || {};
 wpd.MapAxes = (function() {
     var AxesObj = function() {
         var isCalibrated = false,
+
+            metadata = {},
+
             scaleLength, scaleUnits, dist,
+
             processCalibration = function(cal, scale_length, scale_units) {
                 var cp0 = cal.getPoint(0),
                     cp1 = cal.getPoint(1);
@@ -81,6 +85,16 @@ wpd.MapAxes = (function() {
 
         this.getUnits = function() {
             return scaleUnits;
+        };
+
+        this.getMetadata = function() {
+            // deep clone
+            return JSON.parse(JSON.stringify(metadata));
+        };
+
+        this.setMetadata = function(obj) {
+            // deep clone
+            metadata = JSON.parse(JSON.stringify(obj));
         };
 
         this.name = "Map";

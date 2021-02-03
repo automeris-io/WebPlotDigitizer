@@ -29,24 +29,26 @@ wpd.ManualSelectionTool = (function() {
         };
 
         this.onMouseClick = function(ev, pos, imagePos) {
+            let index = -1;
+
             if (axes.dataPointsHaveLabels) { // e.g. Bar charts
                 const mkeys = dataset.getMetadataKeys();
                 const labelKey = 'label';
 
-                if (mkeys == null) {
+                if (mkeys == null || !mkeys.length) {
                     dataset.setMetadataKeys([labelKey]);
-                } else if (mkeys[0] !== labelKey) {
+                } else if (mkeys.indexOf(labelKey) < 0) {
                     dataset.setMetadataKeys([labelKey, ...mkeys]);
                 }
 
                 const pointLabel = axes.dataPointsLabelPrefix + dataset.getCount();
-                dataset.addPixel(imagePos.x, imagePos.y, {
+                index = dataset.addPixel(imagePos.x, imagePos.y, {
                     [labelKey]: pointLabel
                 });
 
                 wpd.graphicsHelper.drawPoint(imagePos, dataset.colorRGB.toRGBString(), pointLabel);
             } else {
-                dataset.addPixel(imagePos.x, imagePos.y);
+                index = dataset.addPixel(imagePos.x, imagePos.y);
 
                 wpd.graphicsHelper.drawPoint(imagePos, dataset.colorRGB.toRGBString());
             }
@@ -59,6 +61,13 @@ wpd.ManualSelectionTool = (function() {
             if (axes.dataPointsHaveLabels && ev.shiftKey) {
                 wpd.dataPointLabelEditor.show(dataset, dataset.getCount() - 1, this);
             }
+
+            // dispatch point add event
+            wpd.events.dispatch("wpd.dataset.point.add", {
+                axes: axes,
+                dataset: dataset,
+                index: index
+            });
         };
 
         this.onRemove = function() {
@@ -105,11 +114,18 @@ wpd.DeleteDataPointTool = (function() {
         };
 
         this.onMouseClick = function(ev, pos, imagePos) {
-            dataset.removeNearestPixel(imagePos.x, imagePos.y);
+            const index = dataset.removeNearestPixel(imagePos.x, imagePos.y);
             wpd.graphicsWidget.resetData();
             wpd.graphicsWidget.forceHandlerRepaint();
             wpd.graphicsWidget.updateZoomOnEvent(ev);
             wpd.dataPointCounter.setCount(dataset.getCount());
+
+            // dispatch point delete event
+            wpd.events.dispatch("wpd.dataset.point.delete", {
+                axes: axes,
+                dataset: dataset,
+                index: index
+            });
         };
 
         this.onKeyDown = function(ev) {
@@ -322,10 +338,15 @@ wpd.AdjustDataPointTool = (function() {
             }
         };
 
-        this._onSelect = function(ev, pixelIndex) {
+        this._onSelect = function(ev, pixelIndexes) {
             wpd.graphicsWidget.forceHandlerRepaint();
             wpd.graphicsWidget.updateZoomOnEvent(ev);
-            this.toggleOverrideSection(pixelIndex);
+            this.toggleOverrideSection(pixelIndexes);
+            wpd.events.dispatch("wpd.dataset.point.select", {
+                axes: axes,
+                dataset: dataset,
+                indexes: pixelIndexes
+            });
         };
 
         this.onMouseClick = function(ev, pos, imagePos) {

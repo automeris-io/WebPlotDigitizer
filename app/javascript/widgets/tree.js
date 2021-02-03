@@ -298,6 +298,8 @@ wpd.tree = (function() {
         showTreeItemWidget('dataset-item-tree-widget');
         renderDatasetAxesSelection();
         setDatasetDisplayColor();
+        // dispatch dataset select event
+        wpd.events.dispatch("wpd.dataset.select", { dataset: activeDataset });
     }
 
     function onDatasetGroupSelection() {
@@ -461,6 +463,8 @@ wpd.tree = (function() {
         activeAxes = plotData.getAxesColl()[axIdx];
         const $tweakButton = document.getElementById("tweak-axes-calibration-button");
         $tweakButton.disabled = activeAxes instanceof wpd.ImageAxes ? true : false;
+        // dispatch axes select event
+        wpd.events.dispatch("wpd.axes.select", { axes: activeAxes });
     }
 
     function onImageSelection(elem, path, suppressSecondaryActions) {

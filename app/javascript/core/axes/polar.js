@@ -28,6 +28,8 @@ wpd.PolarAxes = (function() {
             isClockwise = false,
             isLog = false,
 
+            metadata = {},
+
             x0, y0, x1, y1, x2, y2, r1, theta1, r2, theta2, dist10, dist20, dist12, phi0, alpha0;
 
         let processCalibration = function(cal, is_degrees, is_clockwise, is_log_r) {
@@ -150,6 +152,16 @@ wpd.PolarAxes = (function() {
         this.pixelToLiveString = function(pxi, pyi) {
             var dataVal = this.pixelToData(pxi, pyi);
             return dataVal[0].toExponential(4) + ', ' + dataVal[1].toExponential(4);
+        };
+
+        this.getMetadata = function() {
+            // deep clone
+            return JSON.parse(JSON.stringify(metadata));
+        };
+
+        this.setMetadata = function(obj) {
+            // deep clone
+            metadata = JSON.parse(JSON.stringify(obj));
         };
 
         this.name = "Polar";

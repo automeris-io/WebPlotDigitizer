@@ -45,15 +45,14 @@ wpd.plotDataProvider = (function() {
             hasMetadata = dataSeries.hasMetadata();
 
         let fields = ['Label', 'Value'],
-            metaKeys = dataSeries.getMetadataKeys(),
-            metaKeyCount = hasMetadata === true ? metaKeys.length : 0;
+            // remove label from metadata
+            metaKeys = dataSeries.getMetadataKeys().filter(key => key !== 'label');
 
         const hasOverrides = metaKeys.indexOf('overrides') > -1;
 
         if (hasOverrides) {
-            // remove overrides key
+            // remove label and overrides key
             metaKeys = metaKeys.filter(key => key !== 'overrides');
-            metaKeyCount -= 1;
         }
 
         for (let rowi = 0; rowi < dataSeries.getCount(); rowi++) {
@@ -71,7 +70,16 @@ wpd.plotDataProvider = (function() {
             // transformed value
             rawData[rowi][1] = transformedDataPt[0];
 
-            // other metadata if present can go here in the future.
+            // other metadata
+            let metadi;
+            for (metadi = 0; metadi < metaKeys.length; metadi++) {
+                const key = metaKeys[metadi];
+                let ptmetadata = null;
+                if (dataPt.metadata != null && dataPt.metadata[key] != null) {
+                    ptmetadata = dataPt.metadata[key];
+                }
+                rawData[rowi][2 + metadi] = ptmetadata;
+            }
 
             // overrides
             if (hasOverrides) {
@@ -84,8 +92,16 @@ wpd.plotDataProvider = (function() {
                 ) {
                     ptoverride = dataPt.metadata.overrides[field];
                 }
-                rawData[rowi][2] = ptoverride;
+                rawData[rowi][rawData[rowi].length] = ptoverride;
             }
+        }
+
+        if (metaKeys.length) {
+            // add metadata keys to fields
+            fields = fields.concat(metaKeys.map(key => {
+                isFieldSortable.push(true);
+                return wpd.utils.toSentenceCase(key);
+            }));
         }
 
         if (hasOverrides) {
@@ -164,7 +180,9 @@ wpd.plotDataProvider = (function() {
         }
 
         if (hasMetadata) {
-            fields = fields.concat(metaKeys);
+            fields = fields.concat(metaKeys.map(key => {
+                return wpd.utils.toSentenceCase(key);
+            }));
 
             if (hasOverrides) {
                 // add override field labels to fields

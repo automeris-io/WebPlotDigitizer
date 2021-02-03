@@ -29,6 +29,7 @@ wpd.BarAxes = (function() {
         var isCalibrated = false,
             isLogScale = false,
             isRotatedAxes = false,
+            metadata = {},
             x1, y1, x2, y2, p1, p2,
             orientation;
 
@@ -145,6 +146,16 @@ wpd.BarAxes = (function() {
 
         this.getOrientation = function() {
             return orientation;
+        };
+
+        this.getMetadata = function() {
+            // deep clone
+            return JSON.parse(JSON.stringify(metadata));
+        };
+
+        this.setMetadata = function(obj) {
+            // deep clone
+            metadata = JSON.parse(JSON.stringify(obj));
         };
 
         this.name = "Bar";

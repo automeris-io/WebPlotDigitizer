@@ -23,6 +23,8 @@ var wpd = wpd || {};
 
 wpd.ImageAxes = (function() {
     var AxesObj = function() {
+        let metadata = {};
+
         this.isCalibrated = function() {
             return true;
         };
@@ -46,6 +48,16 @@ wpd.ImageAxes = (function() {
         this.pixelToLiveString = function(pxi, pyi) {
             var dataVal = this.pixelToData(pxi, pyi);
             return dataVal[0].toFixed(2) + ', ' + dataVal[1].toFixed(2);
+        };
+
+        this.getMetadata = function() {
+            // deep clone
+            return JSON.parse(JSON.stringify(metadata));
+        };
+
+        this.setMetadata = function(obj) {
+            // deep clone
+            metadata = JSON.parse(JSON.stringify(obj));
         };
 
         this.name = "Image";
