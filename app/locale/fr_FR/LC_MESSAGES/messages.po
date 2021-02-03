@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-02-02 23:53-0800\n"
+"POT-Creation-Date: 2021-02-03 00:03-0800\n"
 "PO-Revision-Date: 2017-11-01 23:56-0500\n"
 "Last-Translator: \n"
 "Language: fr_FR\n"
@@ -92,7 +92,7 @@ msgstr ""
 msgid "Next"
 msgstr ""
 
-#: templates/_navbar.html:10 templates/_popups.html:583
+#: templates/_navbar.html:10 templates/_popups.html:584
 msgid "Page Labels"
 msgstr ""
 
@@ -107,12 +107,12 @@ msgstr ""
 #: templates/_popups.html:13 templates/_popups.html:47
 #: templates/_popups.html:58 templates/_popups.html:66
 #: templates/_popups.html:84 templates/_popups.html:114
-#: templates/_popups.html:409 templates/_popups.html:423
-#: templates/_popups.html:479 templates/_popups.html:492
-#: templates/_popups.html:506 templates/_popups.html:521
-#: templates/_popups.html:533 templates/_popups.html:544
-#: templates/_popups.html:554 templates/_popups.html:565
-#: templates/_popups.html:597
+#: templates/_popups.html:410 templates/_popups.html:424
+#: templates/_popups.html:480 templates/_popups.html:493
+#: templates/_popups.html:507 templates/_popups.html:522
+#: templates/_popups.html:534 templates/_popups.html:545
+#: templates/_popups.html:555 templates/_popups.html:566
+#: templates/_popups.html:598
 msgid "Cancel"
 msgstr ""
 
@@ -158,7 +158,7 @@ msgstr ""
 msgid "WebPlotDigitizer repository"
 msgstr ""
 
-#: templates/_popups.html:58 templates/_sidebars.html:41
+#: templates/_popups.html:58 templates/_sidebars.html:42
 msgid "Run"
 msgstr ""
 
@@ -173,9 +173,9 @@ msgstr ""
 #: templates/_popups.html:75 templates/_popups.html:84
 #: templates/_popups.html:148 templates/_popups.html:172
 #: templates/_popups.html:181 templates/_popups.html:212
-#: templates/_popups.html:250 templates/_popups.html:478
-#: templates/_popups.html:491 templates/_popups.html:505
-#: templates/_popups.html:577
+#: templates/_popups.html:250 templates/_popups.html:479
+#: templates/_popups.html:492 templates/_popups.html:506
+#: templates/_popups.html:578
 msgid "OK"
 msgstr ""
 
@@ -337,7 +337,7 @@ msgstr ""
 msgid "Copy to Clipboard"
 msgstr ""
 
-#: templates/_popups.html:267 templates/_popups.html:531
+#: templates/_popups.html:267 templates/_popups.html:532
 msgid "Download .CSV"
 msgstr ""
 
@@ -346,7 +346,7 @@ msgid "Graph in Plotly*"
 msgstr ""
 
 #: templates/_popups.html:269 templates/_popups.html:369
-#: templates/_popups.html:396 templates/_popups.html:468
+#: templates/_popups.html:397 templates/_popups.html:469
 msgid "Close"
 msgstr ""
 
@@ -494,27 +494,27 @@ msgstr ""
 msgid "Color Picker"
 msgstr ""
 
-#: templates/_popups.html:384
+#: templates/_popups.html:385
 msgid "Dominant Colors"
 msgstr ""
 
-#: templates/_popups.html:387
+#: templates/_popups.html:388
 msgid "Done"
 msgstr ""
 
-#: templates/_popups.html:392 templates/_strings.html:16
+#: templates/_popups.html:393 templates/_strings.html:16
 msgid "Transformation Equations"
 msgstr ""
 
-#: templates/_popups.html:393
+#: templates/_popups.html:394
 msgid "The following relationships are being used to convert image pixels to data"
 msgstr ""
 
-#: templates/_popups.html:401
+#: templates/_popups.html:402
 msgid "Export JSON or Project File"
 msgstr ""
 
-#: templates/_popups.html:402
+#: templates/_popups.html:403
 msgid ""
 "Export a JSON file containing the axes calibrations, digitized data and "
 "measurements. This JSON file can be loaded to resume work at a later "
@@ -522,198 +522,198 @@ msgid ""
 " JSON and also the image in a single TAR file."
 msgstr ""
 
-#: templates/_popups.html:407
+#: templates/_popups.html:408
 msgid "Download JSON"
 msgstr ""
 
-#: templates/_popups.html:408
+#: templates/_popups.html:409
 msgid "Download Project File (.tar)"
 msgstr ""
 
-#: templates/_popups.html:415 templates/_strings.html:4
+#: templates/_popups.html:416 templates/_strings.html:4
 msgid "Import JSON/Project"
 msgstr ""
 
-#: templates/_popups.html:416
+#: templates/_popups.html:417
 msgid "Load a previously exported JSON or project file (.tar)"
 msgstr ""
 
-#: templates/_popups.html:417
+#: templates/_popups.html:418
 msgid "(Note: This will clear any unsaved data in the current plot.)"
 msgstr ""
 
-#: templates/_popups.html:419
+#: templates/_popups.html:420
 msgid "JSON/Project File"
 msgstr ""
 
-#: templates/_popups.html:422
+#: templates/_popups.html:423
 msgid "Import"
 msgstr ""
 
-#: templates/_popups.html:429
+#: templates/_popups.html:430
 msgid "Keyboard Shortcuts"
 msgstr ""
 
-#: templates/_popups.html:430
+#: templates/_popups.html:431
 msgid ""
 "Click to select a data point. The following keys can then be used to "
 "adjust the position"
 msgstr ""
 
-#: templates/_popups.html:434
+#: templates/_popups.html:435
 msgid "Cursor (Arrows)"
 msgstr ""
 
-#: templates/_popups.html:435
+#: templates/_popups.html:436
 msgid "Move up/down/right/left"
 msgstr ""
 
-#: templates/_popups.html:438
+#: templates/_popups.html:439
 msgid "Shift + Cursor"
 msgstr ""
 
-#: templates/_popups.html:439
+#: templates/_popups.html:440
 msgid "Faster rate of movement"
 msgstr ""
 
-#: templates/_popups.html:443
+#: templates/_popups.html:444
 msgid "Select next point"
 msgstr ""
 
-#: templates/_popups.html:447
+#: templates/_popups.html:448
 msgid "Select previous point"
 msgstr ""
 
-#: templates/_popups.html:450
+#: templates/_popups.html:451
 msgid "Del/Backspace"
 msgstr ""
 
-#: templates/_popups.html:451
+#: templates/_popups.html:452
 msgid "Delete point"
 msgstr ""
 
-#: templates/_popups.html:455
+#: templates/_popups.html:456
 msgid "Edit label (Bar Chart)"
 msgstr ""
 
-#: templates/_popups.html:460
+#: templates/_popups.html:461
 msgid "Override value (When adjusting "
 msgstr ""
 
-#: templates/_popups.html:462
+#: templates/_popups.html:463
 msgid "non-Bar Chart points"
 msgstr ""
 
-#: templates/_popups.html:473
+#: templates/_popups.html:474
 msgid "Edit Label"
 msgstr ""
 
-#: templates/_popups.html:475
+#: templates/_popups.html:476
 msgid "Label"
 msgstr ""
 
-#: templates/_popups.html:475
+#: templates/_popups.html:476
 msgid "Data Point"
 msgstr ""
 
-#: templates/_popups.html:485
+#: templates/_popups.html:486
 msgid "Override Point Values"
 msgstr ""
 
-#: templates/_popups.html:493 templates/_sidebars.html:114
+#: templates/_popups.html:494 templates/_sidebars.html:115
 msgid "Clear"
 msgstr ""
 
-#: templates/_popups.html:499
+#: templates/_popups.html:500
 msgid "Perspective Transformation"
 msgstr ""
 
-#: templates/_popups.html:502
+#: templates/_popups.html:503
 msgid "Click on four corners of the region to be transformed as shown."
 msgstr ""
 
-#: templates/_popups.html:512
+#: templates/_popups.html:513
 msgid "Edit Existing Calibration?"
 msgstr ""
 
-#: templates/_popups.html:514
+#: templates/_popups.html:515
 msgid "Do you wish to tweak existing axes calibration or select a new axes type?"
 msgstr ""
 
-#: templates/_popups.html:517
+#: templates/_popups.html:518
 msgid "Edit Calibration"
 msgstr ""
 
-#: templates/_popups.html:519
+#: templates/_popups.html:520
 msgid "Change Axes Type"
 msgstr ""
 
-#: templates/_popups.html:527
+#: templates/_popups.html:528
 msgid "Export All Datasets"
 msgstr ""
 
-#: templates/_popups.html:528
+#: templates/_popups.html:529
 msgid "Export data from all datasets"
 msgstr ""
 
-#: templates/_popups.html:532
+#: templates/_popups.html:533
 msgid "Export to Plotly"
 msgstr ""
 
-#: templates/_popups.html:539 templates/_tree.html:36
+#: templates/_popups.html:540 templates/_tree.html:36
 msgid "Add Dataset"
 msgstr ""
 
-#: templates/_popups.html:540 templates/_popups.html:552
-#: templates/_popups.html:563
+#: templates/_popups.html:541 templates/_popups.html:553
+#: templates/_popups.html:564
 msgid "Name"
 msgstr ""
 
-#: templates/_popups.html:540
+#: templates/_popups.html:541
 msgid "Add Single Dataset"
 msgstr ""
 
-#: templates/_popups.html:542
+#: templates/_popups.html:543
 msgid "Count"
 msgstr ""
 
-#: templates/_popups.html:542
+#: templates/_popups.html:543
 msgid "Add Multiple Datasets"
 msgstr ""
 
-#: templates/_popups.html:549 templates/_tree.html:55
+#: templates/_popups.html:550 templates/_tree.html:55
 msgid "Rename Dataset"
 msgstr ""
 
-#: templates/_popups.html:554 templates/_popups.html:565
+#: templates/_popups.html:555 templates/_popups.html:566
 #: templates/_tree.html:27
 msgid "Rename"
 msgstr ""
 
-#: templates/_popups.html:560
+#: templates/_popups.html:561
 msgid "Rename Axes"
 msgstr ""
 
-#: templates/_popups.html:571 templates/_tree.html:10
+#: templates/_popups.html:572 templates/_tree.html:10
 msgid "Image Info"
 msgstr ""
 
-#: templates/_popups.html:584
+#: templates/_popups.html:585
 msgid ""
 "Relabel the current page number with an alphanumeric string. Optionally, "
 "relabel all page numbers in the image based on the current page (only "
 "supports integer values)."
 msgstr ""
 
-#: templates/_popups.html:594
+#: templates/_popups.html:595
 msgid "Relabel"
 msgstr ""
 
-#: templates/_popups.html:595 templates/_sidebars.html:148
+#: templates/_popups.html:596 templates/_sidebars.html:149
 msgid "Reset"
 msgstr ""
 
-#: templates/_popups.html:596
+#: templates/_popups.html:597
 msgid "Reset All"
 msgstr ""
 
@@ -755,11 +755,11 @@ msgstr ""
 msgid "Automatic Extraction"
 msgstr ""
 
-#: templates/_sidebars.html:21 templates/_sidebars.html:112
+#: templates/_sidebars.html:21 templates/_sidebars.html:113
 msgid "Mask"
 msgstr ""
 
-#: templates/_sidebars.html:21 templates/_sidebars.html:113
+#: templates/_sidebars.html:21 templates/_sidebars.html:114
 msgid "Box"
 msgstr ""
 
@@ -771,7 +771,7 @@ msgstr ""
 msgid "Erase"
 msgstr ""
 
-#: templates/_sidebars.html:21 templates/_sidebars.html:115
+#: templates/_sidebars.html:21 templates/_sidebars.html:116
 msgid "View"
 msgstr ""
 
@@ -783,7 +783,7 @@ msgstr ""
 msgid "Erase All"
 msgstr ""
 
-#: templates/_sidebars.html:29 templates/_sidebars.html:119
+#: templates/_sidebars.html:29 templates/_sidebars.html:120
 msgid "Color"
 msgstr ""
 
@@ -808,155 +808,155 @@ msgstr ""
 msgid "Filter Colors"
 msgstr ""
 
-#: templates/_sidebars.html:36
+#: templates/_sidebars.html:37
 msgid "Algorithm"
 msgstr ""
 
-#: templates/_sidebars.html:45
+#: templates/_sidebars.html:46
 msgid "Overrides"
 msgstr ""
 
-#: templates/_sidebars.html:47
+#: templates/_sidebars.html:48
 msgid "Override Values"
 msgstr ""
 
-#: templates/_sidebars.html:55
+#: templates/_sidebars.html:56
 msgid "Edit Image"
 msgstr ""
 
-#: templates/_sidebars.html:64
+#: templates/_sidebars.html:65
 msgid "Measure Distances"
 msgstr ""
 
-#: templates/_sidebars.html:66
+#: templates/_sidebars.html:67
 msgid "Add Pair"
 msgstr ""
 
-#: templates/_sidebars.html:67
+#: templates/_sidebars.html:68
 msgid "Delete Pair"
 msgstr ""
 
-#: templates/_sidebars.html:73
+#: templates/_sidebars.html:74
 msgid "Measure Angles"
 msgstr ""
 
-#: templates/_sidebars.html:75
+#: templates/_sidebars.html:76
 msgid "Add Angle"
 msgstr ""
 
-#: templates/_sidebars.html:76
+#: templates/_sidebars.html:77
 msgid "Delete Angle"
 msgstr ""
 
-#: templates/_sidebars.html:82
+#: templates/_sidebars.html:83
 msgid "Measure Area/Perimeter"
 msgstr ""
 
-#: templates/_sidebars.html:83
+#: templates/_sidebars.html:84
 msgid "Add Polygon"
 msgstr ""
 
-#: templates/_sidebars.html:84
+#: templates/_sidebars.html:85
 msgid "Delete Polygon"
 msgstr ""
 
-#: templates/_sidebars.html:86
+#: templates/_sidebars.html:87
 msgid "Press Enter or Esc key to complete the polygon"
 msgstr ""
 
-#: templates/_sidebars.html:92
+#: templates/_sidebars.html:93
 msgid "Measure Path"
 msgstr ""
 
-#: templates/_sidebars.html:94 templates/_sidebars.html:103
+#: templates/_sidebars.html:95 templates/_sidebars.html:104
 msgid "Add Path"
 msgstr ""
 
-#: templates/_sidebars.html:95 templates/_sidebars.html:104
+#: templates/_sidebars.html:96 templates/_sidebars.html:105
 msgid "Delete Path"
 msgstr ""
 
-#: templates/_sidebars.html:101
+#: templates/_sidebars.html:102
 msgid "Measure Closed Path"
 msgstr ""
 
-#: templates/_sidebars.html:110
+#: templates/_sidebars.html:111
 msgid "Detect Grid"
 msgstr ""
 
-#: templates/_sidebars.html:120
+#: templates/_sidebars.html:121
 msgid "Pick"
 msgstr ""
 
-#: templates/_sidebars.html:122
+#: templates/_sidebars.html:123
 msgid "Test"
 msgstr ""
 
-#: templates/_sidebars.html:124
+#: templates/_sidebars.html:125
 msgid "Background Mode"
 msgstr ""
 
-#: templates/_sidebars.html:128
+#: templates/_sidebars.html:129
 msgid "Horizontal"
 msgstr ""
 
-#: templates/_sidebars.html:132
+#: templates/_sidebars.html:133
 msgid "X%"
 msgstr ""
 
-#: templates/_sidebars.html:136
+#: templates/_sidebars.html:137
 msgid "Vertical"
 msgstr ""
 
-#: templates/_sidebars.html:140
+#: templates/_sidebars.html:141
 msgid "Y%"
 msgstr ""
 
-#: templates/_sidebars.html:146
+#: templates/_sidebars.html:147
 msgid "Detect"
 msgstr ""
 
-#: templates/_sidebars.html:157
+#: templates/_sidebars.html:158
 msgid "Load Image"
 msgstr ""
 
-#: templates/_sidebars.html:158
+#: templates/_sidebars.html:159
 msgid "Tutorial Video"
 msgstr ""
 
-#: templates/_sidebars.html:159
+#: templates/_sidebars.html:160
 msgid "Visit Website"
 msgstr ""
 
-#: templates/_sidebars.html:160
+#: templates/_sidebars.html:161
 msgid "Visit GitHub"
 msgstr ""
 
-#: templates/_sidebars.html:166
+#: templates/_sidebars.html:167
 msgid "Image Editing"
 msgstr ""
 
-#: templates/_sidebars.html:170
+#: templates/_sidebars.html:171
 msgid "Undo"
 msgstr ""
 
-#: templates/_sidebars.html:171
+#: templates/_sidebars.html:172
 msgid "Redo"
 msgstr ""
 
-#: templates/_sidebars.html:175
+#: templates/_sidebars.html:176
 msgid "Crop"
 msgstr ""
 
-#: templates/_sidebars.html:176
+#: templates/_sidebars.html:177
 msgid "Fix Perspective"
 msgstr ""
 
-#: templates/_sidebars.html:180
+#: templates/_sidebars.html:181
 msgid "Rotate"
 msgstr ""
 
-#: templates/_sidebars.html:181
+#: templates/_sidebars.html:182
 msgid "?"
 msgstr ""
 
