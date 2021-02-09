@@ -148,4 +148,4 @@ An event system is available to attach listeners to various actions taken in Web
     - `Object`
         - `axes`: `Axes` - Axes selected data point belongs to
         - `dataset`: `Dataset` - Data set selected data point belongs to
-        - `index`: `Number` - Index of selected data point in data set (for use with `Dataset.prototype.getPixel`)
+        - `indexes`: `Array` - Array containing indexes of selected data points in data set (for use with `Dataset.prototype.getPixel`)
