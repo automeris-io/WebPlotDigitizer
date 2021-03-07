@@ -84,11 +84,7 @@ On a Linux development machine, you will also need "wine" to build the Windows a
 
 This will create apps for Mac, Windows and Linux.
 
-## Docker
-
-To build a docker image see the file `research/Dockerfile`.
-
-# Unit Tests
+## Unit Tests
 
 Please consider adding unit tests when adding or editing code. Any contributions to increase existing code coverage is greatly appreciated.
 
@@ -102,17 +98,25 @@ To add new unit tests, add or edit an existing test script. If adding a new scri
 
 This isn't always possible, but ideally, each test assertion should complete execution within 10ms.
 
-# Coding Style
+## Coding Style
 
 - **Javascript**: ES6 with [AirBnB's style guide](https://github.com/airbnb/javascript) is recommended. A lot of older code does not follow this style and should be updated eventually.
 - **WebAssembly C++**: C++17 or newer is preferred. The [Google C++ Style Guide](https://google.github.io/styleguide/cppguide.html) is a good resource.
 
 To run automatic formatting on the Javascript and C++ code, run the [format.sh](app/format.sh) script in the `app` folder.
 
-# Internationalization (Language Translations)
+## Scripts
+
+Custom JS scripts can be loaded into WebPlotDigitizer and executed. See [script_examples](script_examples/README.md) for more details.
+
+## Docker
+
+To build a docker image see the file `research/Dockerfile`.
+
+## Internationalization (Language Translations)
 
 Use [Poedit](https://poedit.net/) to edit the `.po` files in `app/locale` folder. To add support for a new language, please contact Ankit Rohatgi.
 
-# Documentation, Tutorial Videos
+## Documentation, Tutorial Videos
 
 Good documentation and tutorials are severly lacking and any help would be highly appreciated. The LaTeX source for the current user manual is in the `docs/latex` folder.
