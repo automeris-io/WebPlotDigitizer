@@ -36,17 +36,22 @@ function createWindow () {
     mainWindow = null
   })
 
-  mainWindow.on('close', function(e) {
-      var choice = electron.dialog.showMessageBox(this,
-        {
-          type: 'question',
-          buttons: ['Yes', 'No'],
-          title: 'Confirm',
-          message: 'Are you sure you want to quit?'
-       });
-       if(choice == 1){
-         e.preventDefault();
-       }
+  var allow_quit = false;
+  mainWindow.on('close', async function(e) {
+    if(!allow_quit) {
+      e.preventDefault();
+      var choice = await electron.dialog.showMessageBox(mainWindow,
+          {
+              type: 'question',
+              buttons: ['Yes', 'No'],
+              title: 'Confirm',
+              message: 'Are you sure you want to quit?'
+          });
+      if(choice.response == 0){
+        allow_quit = true;
+        app.quit();
+      }
+    }
   })
 
   // Add Edit menu for Mac to allow copy-paste:
