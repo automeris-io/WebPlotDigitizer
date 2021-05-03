@@ -31,6 +31,10 @@ wpd.Dataset = class {
         this._pixelMetadataCount = 0;
         this._pixelMetadataKeys = [];
         this._metadata = {};
+        this._groupNames = []; // point group names
+        // _tuples is an array of arrays
+        // each inner array contains pixel indexes, indexed by group indexes
+        this._tuples = [];
 
         // public:
         this.name = 'Default Dataset';
@@ -147,6 +151,8 @@ wpd.Dataset = class {
         this._pixelMetadataCount = 0;
         this._pixelMetadataKeys = [];
         this._metadata = {};
+        this._groupNames = [];
+        this._tuples = [];
     }
 
     getCount() {
@@ -244,6 +250,129 @@ wpd.Dataset = class {
 
     getSelectedPixels() {
         return this._selections;
+    }
+
+    getPointGroups() {
+        return this._groupNames;
+    }
+
+    setPointGroups(pointGroups) {
+        this._groupNames = pointGroups;
+    }
+
+    hasPointGroups() {
+        return this._groupNames.length > 0;
+    }
+
+    getPointGroupsCount() {
+        return this._groupNames.length;
+    }
+
+    getPointGroupIndexInTuple(tupleIndex, pixelIndex) {
+        if (this._tuples[tupleIndex]) {
+            return this._tuples[tupleIndex].indexOf(pixelIndex);
+        }
+        return -1;
+    }
+
+    getPixelIndexesInGroup(groupIndex) {
+        if (groupIndex < this._groupNames.length) {
+            return this._tuples.map(tuple => tuple[groupIndex]);
+        }
+        return [];
+    }
+
+    removePointGroupFromTuples(groupIndex) {
+        if (groupIndex < this._groupNames.length) {
+            this._tuples.forEach(tuple => {
+                tuple.splice(groupIndex, 1);
+            });
+        }
+    }
+
+    addTuple(pixelIndex) {
+        if (!this._tuples.some(tuple => tuple[0] === pixelIndex)) {
+            // create a new array of nulls
+            const tuple = Array(this._groupNames.length).fill(null);
+            tuple[0] = pixelIndex;
+            this._tuples.push(tuple);
+
+            // return last index
+            return this._tuples.length - 1;
+        }
+
+        return null;
+    }
+
+    addEmptyTupleAt(tupleIndex) {
+        // create an "empty" tuple if it doesn't already exist
+        // "empty" here means filled with nulls
+        if (!this._tuples[tupleIndex]) {
+            this._tuples[tupleIndex] = Array(this._groupNames.length).fill(null);
+        }
+    }
+
+    addToTupleAt(tupleIndex, groupIndex, pixelIndex) {
+        if (!this._tuples[tupleIndex].includes(pixelIndex)) {
+            this._tuples[tupleIndex][groupIndex] = pixelIndex;
+        }
+    }
+
+    removeTuple(tupleIndex) {
+        if (tupleIndex < this._tuples.length) {
+            this._tuples.splice(tupleIndex, 1);
+        }
+    }
+
+    removeFromTupleAt(tupleIndex, pixelIndex) {
+        const groupIndex = this._tuples[tupleIndex].indexOf(pixelIndex);
+
+        if (groupIndex > -1) {
+            // set group to null for the tuple
+            this._tuples[tupleIndex][groupIndex] = null;
+        }
+    }
+
+    getTupleIndex(pixelIndex) {
+        return this._tuples.findIndex(tuple => tuple.includes(pixelIndex));
+    }
+
+    getTuple(tupleIndex) {
+        return this._tuples[tupleIndex];
+    }
+
+    getTupleCount() {
+        return this._tuples.length;
+    }
+
+    getAllTuples() {
+        return this._tuples;
+    }
+
+    isTupleEmpty(tupleIndex) {
+        return this._tuples[tupleIndex].every(groupIndex => groupIndex === null);
+    }
+
+    refreshTuplesAfterGroupAdd(count) {
+        this._tuples.forEach(tuple => tuple.push(...Array(count).fill(null)));
+    }
+
+    refreshTuplesAfterPixelRemoval(removedPixelIndex) {
+        for (let tupleIndex = 0; tupleIndex < this._tuples.length; tupleIndex++) {
+            const tuple = this._tuples[tupleIndex];
+
+            for (let groupIndex = 0; groupIndex < tuple.length; groupIndex++) {
+                if (tuple[groupIndex] !== null) {
+                    if (tuple[groupIndex] === removedPixelIndex) {
+                        // set to null
+                        tuple[groupIndex] = null;
+                    } else if (tuple[groupIndex] > removedPixelIndex) {
+                        // decrement any index greater than the removed index
+                        tuple[groupIndex]--;
+                    }
+                }
+            }
+        }
     }
 
     getMetadata() {

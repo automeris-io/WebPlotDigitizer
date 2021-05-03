@@ -41,6 +41,16 @@
     <p style="margin-top: 5px;">
         <input type="button" value="{{ _("Run") }}" style="width:40px;" onclick="wpd.algoManager.run();" />
     </p>
+    <div id="point-groups-controls" hidden>
+        <br />
+        <p class="sidebar-title">{{ _("Point Groups") }}</p>
+        <p>Current Tuple: <span id="current-point-tuple-index" style="font-weight: bold;"></span></p>
+        <p>Current Group: <span id="current-point-group-name" style="font-weight: bold;"></span></p>
+        <p>
+            <input type="button" value="{{ _("Prev Group") }} (,)" onclick="wpd.pointGroups.previousGroup();" style="width: 115px;">
+            <input type="button" value="{{ _("Next Group") }} (.)" onclick="wpd.pointGroups.nextGroup();" style="width: 115px;">
+        </p>
+    </div>
     <div id="value-overrides-controls" hidden>
         <br />
         <p class="sidebar-title">{{ _("Overrides") }}</p>

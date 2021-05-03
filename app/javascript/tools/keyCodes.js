@@ -49,6 +49,12 @@ wpd.keyCodes = {
         }
         return String.fromCharCode(code).toLowerCase() === alpha;
     },
+    isPeriod: function(code) {
+        return code === 190;
+    },
+    isComma: function(code) {
+        return code === 188;
+    },
     isEnter: function(code) {
         return code === 13;
     },

@@ -411,19 +411,23 @@ wpd.PlotData = class {
                 const dsData = data.datasetColl[dsIdx];
                 let ds = new wpd.Dataset();
                 ds.name = dsData.name;
-
+                if (dsData.colorRGB != null) {
+                    ds.colorRGB = new wpd.Color(dsData.colorRGB[0], dsData.colorRGB[1], dsData.colorRGB[2]);
+                }
                 // dataset metadata
                 if (dsData.metadata !== undefined) {
-                    ds.metadata = dsData.metadata;
+                    ds.setMetadata(dsData.metadata);
                 }
-
+                // data point groups
+                if (dsData.groupNames !== undefined) {
+                    ds.setPointGroups(dsData.groupNames);
+                }
                 // data points metadata keys
                 if (dsData.metadataKeys != null) {
                     ds.setMetadataKeys(dsData.metadataKeys);
                 }
-                if (dsData.colorRGB != null) {
-                    ds.colorRGB = new wpd.Color(dsData.colorRGB[0], dsData.colorRGB[1], dsData.colorRGB[2]);
-                }
+
+                // data points
                 for (let pxIdx = 0; pxIdx < dsData.data.length; pxIdx++) {
                     // for backwards compatibility; metadata was updated from array
                     // to object
@@ -438,6 +442,16 @@ wpd.PlotData = class {
                                 };
                             }, {});
                         }
+                    }
+                    // set point group data, if present
+                    if (
+                        ds.hasPointGroups() &&
+                        dsData.data[pxIdx].tuple !== undefined &&
+                        dsData.data[pxIdx].group !== undefined
+                    ) {
+                        // addEmptyTupleAt checks if tuple exists
+                        ds.addEmptyTupleAt(dsData.data[pxIdx].tuple);
+                        ds.addToTupleAt(dsData.data[pxIdx].tuple, dsData.data[pxIdx].group, pxIdx);
                     }
                     ds.addPixel(dsData.data[pxIdx].x, dsData.data[pxIdx].y, metadata);
                 }
@@ -603,8 +617,14 @@ wpd.PlotData = class {
             const ds = this._datasetColl[dsIdx];
             const axes = this.getAxesForDataset(ds);
             const autoDetectionData = this.getAutoDetectionDataForDataset(ds);
+
+            // dataset information
             let dsData = {};
             dsData.name = ds.name;
+            dsData.axesName = axes != null ? axes.name : "";
+            dsData.colorRGB = ds.colorRGB.serialize();
+            dsData.metadataKeys = ds.getMetadataKeys(); // point metadata keys
+            // include file and page information, if present
             if (documentMetadata) {
                 if (documentMetadata.file && documentMetadata.file.datasets[ds.name] !== undefined) {
                     dsData.file = documentMetadata.file.datasets[ds.name];
@@ -613,11 +633,10 @@ wpd.PlotData = class {
                     dsData.page = documentMetadata.page.datasets[ds.name];
                 }
             }
-            dsData.axesName = axes != null ? axes.name : "";
-            dsData.metadataKeys = ds.getMetadataKeys(); // point metadata keys
-            dsData.colorRGB = ds.colorRGB.serialize();
-            dsData.data = [];
-
+            // include point group names, if present
+            if (ds.hasPointGroups()) {
+                dsData.groupNames = ds.getPointGroups();
+            }
             // include dataset metadata, if present
             if (Object.keys(ds.getMetadata()).length > 0) {
                 // this is metadata on the dataset itself, not to be confused with metadataKeys which denote metadata keys on
@@ -625,8 +644,21 @@ wpd.PlotData = class {
                 dsData.metadata = ds.getMetadata();
             }
 
+            // data points
+            dsData.data = [];
             for (let pxIdx = 0; pxIdx < ds.getCount(); pxIdx++) {
                 let px = ds.getPixel(pxIdx);
+
+                // include point group data, if present
+                if (ds.hasPointGroups()) {
+                    const tupleIdx = ds.getTupleIndex(pxIdx)
+                    const groupIdx = ds.getPointGroupIndexInTuple(tupleIdx, pxIdx);
+                    if (tupleIdx > -1 && groupIdx > -1) {
+                        px.tuple = tupleIdx;
+                        px.group = groupIdx;
+                    }
+                }
+
                 dsData.data[pxIdx] = px;
                 if (axes != null) {
                     dsData.data[pxIdx].value = axes.pixelToData(px.x, px.y);

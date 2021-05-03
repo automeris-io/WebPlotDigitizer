@@ -66,6 +66,7 @@ wpd.acquireData = (function() {
 
     function confirmedClearAll() {
         dataset.clearAll();
+        wpd.pointGroups.hideControls();
         wpd.graphicsWidget.removeTool();
         wpd.graphicsWidget.resetData();
         wpd.dataPointCounter.setCount(dataset.getCount());
@@ -73,7 +74,7 @@ wpd.acquireData = (function() {
     }
 
     function clearAll() {
-        if (dataset.getCount() <= 0) {
+        if (dataset.getCount() <= 0 && !dataset.hasPointGroups()) {
             return;
         }
         wpd.okCancelPopup.show(wpd.gettext('clear-data-points'),

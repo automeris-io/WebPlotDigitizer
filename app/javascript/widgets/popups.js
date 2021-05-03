@@ -210,23 +210,25 @@ wpd.messagePopup = (function() {
 wpd.okCancelPopup = (function() {
     var okCallback, cancelCallback;
 
-    function show(title, msg, ok_callback, cancel_callback) {
-        wpd.popup.show('okCancelPopup');
-        document.getElementById('ok-cancel-popup-heading').innerHTML = title;
-        document.getElementById('ok-cancel-popup-text').innerHTML = msg;
+    function show(title, msg, ok_callback, cancel_callback, ok_text, cancel_text) {
+        wpd.popup.show("okCancelPopup");
+        document.getElementById("ok-cancel-popup-heading").innerHTML = title;
+        document.getElementById("ok-cancel-popup-text").innerHTML = msg;
+        document.getElementById("ok-cancel-popup-ok-button").value = ok_text || wpd.gettext("ok");
+        document.getElementById("ok-cancel-popup-cancel-button").value = cancel_text || wpd.gettext("cancel");
         okCallback = ok_callback;
         cancelCallback = cancel_callback;
     }
 
     function ok() {
-        wpd.popup.close('okCancelPopup');
+        wpd.popup.close("okCancelPopup");
         if (okCallback != null) {
             okCallback();
         }
     }
 
     function cancel() {
-        wpd.popup.close('okCancelPopup');
+        wpd.popup.close("okCancelPopup");
         if (cancelCallback != null) {
             cancelCallback();
         }
