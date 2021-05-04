@@ -5,7 +5,7 @@
 # docker run -p 8080:8080 webplotdigitizer:dev
 
 # Set the base image to a long-term Ubuntu release
-FROM ubuntu:18.04
+FROM ubuntu:20.04
 
 # Dockerfile Maintainer
 MAINTAINER William Denney <wdenney@humanpredictions.com>
@@ -20,9 +20,12 @@ RUN apt-get update \
     && DEBIAN_FRONTEND=noninteractive \
        dpkg-reconfigure --frontend noninteractive tzdata
 
+ARG GITREPO=https://github.com/ankitrohatgi/WebPlotDigitizer.git
+ARG GITBRANCH=master
 
-RUN git clone https://github.com/ankitrohatgi/WebPlotDigitizer.git \
+RUN git clone $GITREPO \
     && cd WebPlotDigitizer \
+    && git checkout $GITBRANCH \
     && grep -v wine setupUbuntuDev.sh | \
        sed 's/apt install/apt-get install --yes --no-install-recommends/' > setupUbuntuDev-aptfix.sh \
     && chmod +x setupUbuntuDev-aptfix.sh \
