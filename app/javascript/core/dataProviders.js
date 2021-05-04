@@ -260,7 +260,7 @@ wpd.plotDataProvider = (function() {
 
             if (hasOverrides) {
                 // add override field labels to fields
-                fields = fields.concat(fields.map(field => {
+                fields = fields.concat(axes.getAxesLabels().map(field => {
                     return wpd.utils.toSentenceCase(field) + '-Override';
                 }));
             }
