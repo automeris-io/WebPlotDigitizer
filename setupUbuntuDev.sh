@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Setup an Ubuntu 18.04 system for development
+# Setup an Ubuntu 20.04 system for development
 
 # install Ubuntu packages
 sudo apt install \
@@ -9,7 +9,7 @@ sudo apt install \
      wine-stable \
      npm \
      default-jre \
-     golang-go \
+     golang \
      libeigen3-dev
 
 # install global npm packages
