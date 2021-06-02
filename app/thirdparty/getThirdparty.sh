@@ -3,13 +3,13 @@
 # closure compiler
 mkdir -p closure-compiler
 cd closure-compiler
-wget https://repo1.maven.org/maven2/com/google/javascript/closure-compiler/v20200719/closure-compiler-v20200719.jar
+wget https://repo1.maven.org/maven2/com/google/javascript/closure-compiler/v20210406/closure-compiler-v20210406.jar
 jarfile=(*.jar)
 ln -s $jarfile compiler.jar
 cd ..
 
 # PDFJS
-wget -O pdfjs.zip https://github.com/mozilla/pdf.js/releases/download/v2.1.266/pdfjs-2.1.266-dist.zip
+wget -O pdfjs.zip https://github.com/mozilla/pdf.js/releases/download/v2.7.570/pdfjs-2.7.570-dist.zip
 unzip pdfjs.zip -d pdfjs
 
 # tarballjs
