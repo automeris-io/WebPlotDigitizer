@@ -163,7 +163,7 @@ wpd.BlobDetectorAlgo = class {
             if (dia <= this._maxDia && dia >= this._minDia) {
                 // add 0.5 pixel offset to shift to the center of the pixels.
                 dataSeries.addPixel(blobs[bIndex].centroid.x + 0.5, blobs[bIndex].centroid.y + 0.5,
-                    [blobs[bIndex].area, blobs[bIndex].moment]);
+                    {"area": blobs[bIndex].area, "moment": blobs[bIndex].moment});
             }
         }
     }
