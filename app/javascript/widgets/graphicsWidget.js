@@ -369,6 +369,7 @@ wpd.graphicsWidget = (function() {
                     if (items[i].type.indexOf("image") !== -1) {
                         wpd.busyNote.show();
                         var imageFile = items[i].getAsFile();
+                        wpd.imageManager.initializeFileManager([imageFile]);
                         wpd.imageManager.loadFromFile(imageFile);
                     }
                 }
