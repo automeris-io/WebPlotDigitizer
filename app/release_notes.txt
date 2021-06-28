@@ -1,5 +1,14 @@
 RELEASE NOTES
 
+Version 4.5
+===========
+
+Bug fixes:
+- Fixed blob detection area and moment broken in previous releases.
+- Fixed loading PDFs in desktop versions
+- Other minor bug fixes
+
+
 Version 4.4
 ===========
 November 28, 2020
