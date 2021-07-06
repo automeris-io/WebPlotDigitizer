@@ -19,6 +19,8 @@ QUnit.test("Initialization", (assert) => {
         _pixelMetadataCount: 0,
         _pixelMetadataKeys: [],
         _metadata: {},
+        _groupNames: [],
+        _tuples: [],
         name: 'Default Dataset',
         variableNames: ['x', 'y'],
         colorRGB: new wpd.Color(200, 0, 0)
@@ -137,4 +139,142 @@ QUnit.test("Get/Set metadata", (assert) => {
 
     // get
     assert.deepEqual(dataset.getMetadata(), expected, "Metadata get");
+});
+
+QUnit.test("Point groups", (assert) => {
+    const dataset = new wpd.Dataset(1);
+
+    let expected = ["hello", "there"];
+
+    // set point groups
+    dataset.setPointGroups(expected);
+    assert.deepEqual(dataset._groupNames, expected, "Point groups set");
+
+    // get point groups
+    assert.deepEqual(dataset.getPointGroups(), expected, "Point group get");
+
+    // has point groups
+    assert.true(dataset.hasPointGroups(), "Point group has");
+
+    // get group index at
+    dataset._tuples = [
+        [0, 1]
+    ];
+    assert.equal(dataset.getPointGroupIndexInTuple(0, 1), 1, "Get point group index at tuple index");
+
+    // get pixel indexes in group
+    dataset._tuples = [
+        [0, 1],
+        [1, 2]
+    ];
+    expected = [0, 1];
+    assert.deepEqual(dataset.getPixelIndexesInGroup(0), expected, "Get point indexes in group");
+});
+
+QUnit.test("Tuples", (assert) => {
+    const dataset = new wpd.Dataset(1);
+
+    dataset._groupNames = ["hello", "there"];
+
+    let expected;
+
+    // add tuple
+    expected = [
+        [0, null],
+    ];
+    dataset.addTuple(0);
+    assert.deepEqual(dataset._tuples, expected, "Add tuple");
+
+    // add tuple no duplicate
+    dataset.addTuple(0);
+    assert.deepEqual(dataset._tuples, expected, "Add tuple: no duplicate");
+
+    // add empty tuple
+    expected = [
+        [0, null],
+        [null, null],
+    ];
+    dataset.addEmptyTupleAt(1);
+    assert.deepEqual(dataset._tuples, expected, "Add empty tuple");
+
+    // add empty tuple no duplicate
+    dataset.addEmptyTupleAt(1);
+    assert.deepEqual(dataset._tuples, expected, "Add empty tuple: no duplicate");
+
+    // add to tuple at
+    expected = [
+        [0, 1],
+        [null, null],
+    ];
+    dataset.addToTupleAt(0, 1, 1);
+    assert.deepEqual(dataset._tuples, expected, "Add point to tuple");
+
+    // add to tuple at no duplicate
+    dataset.addToTupleAt(0, 1, 1);
+    assert.deepEqual(dataset._tuples, expected, "Add point to tuple: no duplicate");
+
+    // remove tuple
+    expected = [
+        [0, 1]
+    ];
+    dataset.removeTuple(1);
+    assert.deepEqual(dataset._tuples, expected, "Tuple removed: found");
+
+    // remove tuple not found
+    dataset.removeTuple(1);
+    assert.deepEqual(dataset._tuples, expected, "Tuple removed: not found");
+
+    // remove from tuple at
+    expected = [
+        [0, null]
+    ];
+    dataset.removeFromTupleAt(0, 1);
+    assert.deepEqual(dataset._tuples, expected, "Remove point from tuple: found");
+
+    // remove from tuple at not found
+    dataset.removeFromTupleAt(0, 2);
+    assert.deepEqual(dataset._tuples, expected, "Remove point from tuple: not found");
+
+    // get tuple index found
+    assert.equal(dataset.getTupleIndex(0), 0, "Get tuple index: found");
+
+    // get tuple index not found
+    assert.equal(dataset.getTupleIndex(1), -1, "Get tuple index: not found");
+
+    // get tuple
+    assert.deepEqual(dataset.getTuple(0), expected[0], "Get tuple");
+
+    // get all tuples
+    assert.deepEqual(dataset.getAllTuples(), expected, "Get all tuples");
+
+    // is tuple empty false
+    assert.false(dataset.isTupleEmpty(0), "Is tuple empty: false");
+
+    // is tuple empty true
+    dataset.addEmptyTupleAt(1);
+    assert.true(dataset.isTupleEmpty(1), "Is tuple empty: true");
+
+    // refresh tuples after pixel removal
+    dataset._tuples = [
+        [0, 1],
+        [2, 3]
+    ];
+    expected = [
+        [0, null],
+        [1, 2]
+    ];
+    dataset.refreshTuplesAfterPixelRemoval(1);
+    assert.deepEqual(dataset._tuples, expected, "Refresh tuples after point removal");
+
+    // refresh tuples after group add
+    dataset._tuples = [
+        [0, 1],
+        [2, 3]
+    ];
+    expected = [
+        [0, 1, null, null],
+        [2, 3, null, null]
+    ];
+    dataset.refreshTuplesAfterGroupAdd(2);
+    assert.deepEqual(dataset._tuples, expected, "Refresh tuples after group add");
 });

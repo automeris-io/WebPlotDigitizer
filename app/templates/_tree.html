@@ -54,6 +54,7 @@
             <p><input type="button" value="{{ _("Display Color") }}" style="width: 150px;" id="dataset-display-color-picker-button" onclick="wpd.dataSeriesManagement.startColorPicker();" /></p>
             <p><input type="button" value="{{ _("Rename Dataset") }}" style="width:150px;" onclick="wpd.dataSeriesManagement.showRenameDataset();" /></p>
             <p><input type="button" value="{{ _("Delete Dataset") }}" style="width:150px;" onclick="wpd.dataSeriesManagement.deleteDataset();" /></p>
+            <p><input type="button" value="{{ _("Edit Point Groups") }}" id="dataset-edit-point-groups-button" style="width: 150px;" onclick="wpd.pointGroups.showSettingsPopup();" /></p>
             <p><input type="button" value="{{ _("View Data") }}" style="width:150px;" onclick="wpd.dataTable.showTable();" /></p>
             <p><input type="button" value="{{ _("Clear Data") }}" style="width:150px;" onclick="wpd.acquireData.clearAll();" /></p>
             <p>{{ _("Data Points") }}: <span class="data-point-counter">0</span></p>

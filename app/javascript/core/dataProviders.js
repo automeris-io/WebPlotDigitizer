@@ -55,30 +55,69 @@ wpd.plotDataProvider = (function() {
             metaKeys = metaKeys.filter(key => key !== 'overrides');
         }
 
+        const hasPointGroups = dataSeries.hasPointGroups();
+        const pointGroupNames = dataSeries.getPointGroups();
+
         for (let rowi = 0; rowi < dataSeries.getCount(); rowi++) {
             const dataPt = dataSeries.getPixel(rowi);
             const transformedDataPt = axes.pixelToData(dataPt.x, dataPt.y);
+
+            let tupleIdx;
+            let groupIdx;
+            if (hasPointGroups) {
+                tupleIdx = dataSeries.getTupleIndex(rowi);
+                groupIdx = dataSeries.getPointGroupIndexInTuple(tupleIdx, rowi);
+            }
 
             rawData[rowi] = [];
 
             let lab = "Bar" + rowi;
 
             if (dataPt.metadata != null) {
-                lab = dataPt.metadata['label'];
+                lab = dataPt.metadata["label"];
+            } else if (hasPointGroups) {
+                // for point groups, label each tuple as the bar in the primary group
+                // if there isn't a label stored in the metadata
+                if (tupleIdx > -1 && groupIdx > -1) {
+                    const primaryPt = dataSeries.getPixel(dataSeries.getTuple(tupleIdx)[0]);
+                    if (primaryPt.metadata != null) {
+                        lab = primaryPt.metadata["label"];
+                    } else {
+                        lab = "Bar" + tupleIdx;
+                    }
+                }
             }
-            rawData[rowi][0] = lab;
+            rawData[rowi].push(lab);
             // transformed value
-            rawData[rowi][1] = transformedDataPt[0];
+            rawData[rowi].push(transformedDataPt[0]);
+
+            // point groups
+            if (hasPointGroups) {
+                let groupName = pointGroupNames[groupIdx];
+                if (!groupName) {
+                    if (groupIdx === -1) {
+                        // not in a group
+                        groupName = "";
+                    } else if (groupIdx === 0) {
+                        // unnamed primary group
+                        groupName = wpd.gettext("point-group-primary-group");
+                    } else {
+                        // unnamed non-primary group
+                        groupName = `${wpd.gettext("point-group-group")} ${groupIdx}`
+                    }
+                }
+                rawData[rowi].push(tupleIdx);
+                rawData[rowi].push(groupName);
+            }
 
             // other metadata
-            let metadi;
-            for (metadi = 0; metadi < metaKeys.length; metadi++) {
+            for (let metadi = 0; metadi < metaKeys.length; metadi++) {
                 const key = metaKeys[metadi];
                 let ptmetadata = null;
                 if (dataPt.metadata != null && dataPt.metadata[key] != null) {
                     ptmetadata = dataPt.metadata[key];
                 }
-                rawData[rowi][2 + metadi] = ptmetadata;
+                rawData[rowi].push(ptmetadata);
             }
 
             // overrides
@@ -92,8 +131,14 @@ wpd.plotDataProvider = (function() {
                 ) {
                     ptoverride = dataPt.metadata.overrides[field];
                 }
-                rawData[rowi][rawData[rowi].length] = ptoverride;
+                rawData[rowi].push(ptoverride);
             }
+        }
+
+        if (hasPointGroups) {
+            // add tuples and groups to fields
+            fields = fields.concat("Tuple", "Group");
+            isFieldSortable.push(true, true);
         }
 
         if (metaKeys.length) {
@@ -141,6 +186,10 @@ wpd.plotDataProvider = (function() {
             metaKeyCount -= 1;
         }
 
+        const hasPointGroups = dataSeries.hasPointGroups();
+        const pointGroupNames = dataSeries.getPointGroups();
+
+        // data points
         for (let rowi = 0; rowi < dataSeries.getCount(); rowi++) {
             const pt = dataSeries.getPixel(rowi);
             const ptData = axes.pixelToData(pt.x, pt.y);
@@ -148,18 +197,38 @@ wpd.plotDataProvider = (function() {
 
             // transformed coordinates
             for (let coli = 0; coli < ptData.length; coli++) {
-                rawData[rowi][coli] = ptData[coli];
+                rawData[rowi].push(ptData[coli]);
+            }
+
+            // point groups
+            if (hasPointGroups) {
+                const tuplei = dataSeries.getTupleIndex(rowi)
+                const groupi = dataSeries.getPointGroupIndexInTuple(tuplei, rowi);
+                let groupName = pointGroupNames[groupi];
+                if (!groupName) {
+                    if (groupi === -1) {
+                        // not in a group
+                        groupName = "";
+                    } else if (groupi === 0) {
+                        // unnamed primary group
+                        groupName = wpd.gettext("point-group-primary-group");
+                    } else {
+                        // unnamed non-primary group
+                        groupName = `${wpd.gettext("point-group-group")} ${groupi}`
+                    }
+                }
+                rawData[rowi].push(tuplei);
+                rawData[rowi].push(groupName);
             }
 
             // metadata
-            let metadi;
-            for (metadi = 0; metadi < metaKeyCount; metadi++) {
+            for (let metadi = 0; metadi < metaKeyCount; metadi++) {
                 const key = metaKeys[metadi];
                 let ptmetadata = null;
                 if (pt.metadata != null && pt.metadata[key] != null) {
                     ptmetadata = pt.metadata[key];
                 }
-                rawData[rowi][ptData.length + metadi] = ptmetadata;
+                rawData[rowi].push(ptmetadata);
             }
 
             // overrides
@@ -174,11 +243,16 @@ wpd.plotDataProvider = (function() {
                     ) {
                         ptoverride = pt.metadata.overrides[field];
                     }
-                    rawData[rowi][ptData.length + metadi + fieldi] = ptoverride;
+                    rawData[rowi].push(ptoverride);
                 }
             }
         }
 
+        // field labels
+        if (hasPointGroups) {
+            fields = fields.concat("Tuple", "Group");
+            isFieldSortable.push(true, true);
+        }
         if (hasMetadata) {
             fields = fields.concat(metaKeys.map(key => {
                 return wpd.utils.toSentenceCase(key);
@@ -186,7 +260,7 @@ wpd.plotDataProvider = (function() {
 
             if (hasOverrides) {
                 // add override field labels to fields
-                fields = fields.concat(fields.map(field => {
+                fields = fields.concat(axes.getAxesLabels().map(field => {
                     return wpd.utils.toSentenceCase(field) + '-Override';
                 }));
             }

@@ -26,31 +26,76 @@ wpd.ManualSelectionTool = (function() {
         this.onAttach = function() {
             document.getElementById('manual-select-button').classList.add('pressed-button');
             wpd.graphicsWidget.setRepainter(new wpd.DataPointsRepainter(axes, dataset));
+
+            // show point group controls if set
+            if (dataset.hasPointGroups()) {
+                wpd.pointGroups.showControls();
+                wpd.pointGroups.refreshControls();
+            }
         };
 
         this.onMouseClick = function(ev, pos, imagePos) {
-            let index = -1;
+            const addPixelArgs = [imagePos.x, imagePos.y];
+            const hasPointGroups = dataset.hasPointGroups();
 
-            if (axes.dataPointsHaveLabels) { // e.g. Bar charts
-                const mkeys = dataset.getMetadataKeys();
-                const labelKey = 'label';
+            const tupleIndex = wpd.pointGroups.getCurrentTupleIndex();
+            const groupIndex = wpd.pointGroups.getCurrentGroupIndex();
 
-                if (mkeys == null || !mkeys.length) {
-                    dataset.setMetadataKeys([labelKey]);
-                } else if (mkeys.indexOf(labelKey) < 0) {
-                    dataset.setMetadataKeys([labelKey, ...mkeys]);
+            // handle bar axes labels
+            let pointLabel = null;
+            if (axes.dataPointsHaveLabels) {
+                // only add a label if:
+                // 1. point groups do not exist, or
+                // 2. current group is a primary group (i.e. index 0)
+                if (!hasPointGroups || groupIndex === 0) {
+                    const mkeys = dataset.getMetadataKeys();
+                    const labelKey = "label";
+
+                    // update metadata keys on the dataset, if necessary
+                    if (mkeys == null || !mkeys.length) {
+                        // first metadata entry
+                        dataset.setMetadataKeys([labelKey]);
+                    } else if (mkeys.indexOf(labelKey) < 0) {
+                        // first label entry (existing metadata)
+                        dataset.setMetadataKeys([labelKey, ...mkeys]);
+                    }
+
+                    // generate label
+                    let count = dataset.getCount();
+                    if (hasPointGroups) {
+                        if (tupleIndex === null) {
+                            count = dataset.getTupleCount();
+                        } else {
+                            count = tupleIndex;
+                        }
+                    }
+                    pointLabel = axes.dataPointsLabelPrefix + count;
+
+                    // include label as point metadata
+                    addPixelArgs.push({
+                        [labelKey]: pointLabel
+                    });
+                }
+            }
+
+            // add the pixel to the dataset
+            const index = dataset.addPixel(...addPixelArgs);
+
+            // draw the point
+            wpd.graphicsHelper.drawPoint(imagePos, dataset.colorRGB.toRGBString(), pointLabel);
+
+            // update point group data
+            if (hasPointGroups) {
+                if (tupleIndex === null && groupIndex === 0) {
+                    // record the point as a new tuple
+                    const newTupleIndex = dataset.addTuple(index);
+                    wpd.pointGroups.setCurrentTupleIndex(newTupleIndex);
+                } else {
+                    dataset.addToTupleAt(tupleIndex, groupIndex, index);
                 }
 
-                const pointLabel = axes.dataPointsLabelPrefix + dataset.getCount();
-                index = dataset.addPixel(imagePos.x, imagePos.y, {
-                    [labelKey]: pointLabel
-                });
-
-                wpd.graphicsHelper.drawPoint(imagePos, dataset.colorRGB.toRGBString(), pointLabel);
-            } else {
-                index = dataset.addPixel(imagePos.x, imagePos.y);
-
-                wpd.graphicsHelper.drawPoint(imagePos, dataset.colorRGB.toRGBString());
+                // switch to next point group
+                wpd.pointGroups.nextGroup();
             }
 
             wpd.graphicsWidget.updateZoomOnEvent(ev);
@@ -72,6 +117,11 @@ wpd.ManualSelectionTool = (function() {
 
         this.onRemove = function() {
             document.getElementById('manual-select-button').classList.remove('pressed-button');
+
+            // hide point group controls if set
+            if (dataset.hasPointGroups()) {
+                wpd.pointGroups.hideControls();
+            }
         };
 
         this.onKeyDown = function(ev) {
@@ -87,6 +137,12 @@ wpd.ManualSelectionTool = (function() {
                 lastPt.x = lastPt.x - stepSize;
             } else if (wpd.keyCodes.isRight(ev.keyCode)) {
                 lastPt.x = lastPt.x + stepSize;
+            } else if (wpd.keyCodes.isComma(ev.keyCode)) {
+                wpd.pointGroups.previousGroup();
+                return;
+            } else if (wpd.keyCodes.isPeriod(ev.keyCode)) {
+                wpd.pointGroups.nextGroup();
+                return;
             } else if (wpd.acquireData.isToolSwitchKey(ev.keyCode)) {
                 wpd.acquireData.switchToolOnKeyPress(String.fromCharCode(ev.keyCode).toLowerCase());
                 return;
@@ -114,18 +170,91 @@ wpd.DeleteDataPointTool = (function() {
         };
 
         this.onMouseClick = function(ev, pos, imagePos) {
-            const index = dataset.removeNearestPixel(imagePos.x, imagePos.y);
-            wpd.graphicsWidget.resetData();
-            wpd.graphicsWidget.forceHandlerRepaint();
-            wpd.graphicsWidget.updateZoomOnEvent(ev);
-            wpd.dataPointCounter.setCount(dataset.getCount());
+            const tupleCallback = (imagePos, index) => {
+                let indexes = [];
 
-            // dispatch point delete event
-            wpd.events.dispatch("wpd.dataset.point.delete", {
-                axes: axes,
-                dataset: dataset,
-                index: index
-            });
+                const tupleIndex = dataset.getTupleIndex(index);
+
+                if (tupleIndex > -1) {
+                    const indexes = dataset.getTuple(tupleIndex);
+
+                    // sort indexes in descending order for removal
+                    const indexesDesc = [...indexes].filter(i => i !== null).sort((a, b) => b - a);
+
+                    // remove each data point in tuple
+                    indexesDesc.forEach(idx => {
+                        dataset.removePixelAtIndex(idx);
+                        // update pixel references in tuples
+                        dataset.refreshTuplesAfterPixelRemoval(idx);
+                    });
+
+                    // remove tuple
+                    dataset.removeTuple(tupleIndex);
+
+                    // update current tuple index pointer
+                    wpd.pointGroups.previousGroup();
+                } else {
+                    // if tuple does not exist, just remove the pixel
+                    indexes = [dataset.removeNearestPixel(imagePos.x, imagePos.y)];
+                }
+
+                finalCallback(indexes);
+            };
+
+            const pointCallback = (imagePos) => {
+                const index = dataset.removeNearestPixel(imagePos.x, imagePos.y);
+
+                // remove data point index references from tuples
+                const tupleIndex = dataset.getTupleIndex(index);
+
+                if (tupleIndex > -1) {
+                    dataset.removeFromTupleAt(tupleIndex, index);
+
+                    // update pixel references in tuples
+                    dataset.refreshTuplesAfterPixelRemoval(index);
+
+                    // remove tuple if no point index references left in tuple
+                    if (dataset.isTupleEmpty(tupleIndex)) {
+                        dataset.removeTuple(tupleIndex);
+                    }
+
+                    // update current tuple index pointer
+                    wpd.pointGroups.previousGroup();
+                }
+
+                finalCallback([index]);
+            };
+
+            const finalCallback = (indexes) => {
+                wpd.graphicsWidget.resetData();
+                wpd.graphicsWidget.forceHandlerRepaint();
+                wpd.graphicsWidget.updateZoomOnEvent(ev);
+                wpd.dataPointCounter.setCount(dataset.getCount());
+
+                // dispatch point delete event
+                indexes.forEach(index => {
+                    wpd.events.dispatch("wpd.dataset.point.delete", {
+                        axes: axes,
+                        dataset: dataset,
+                        index: index
+                    });
+                });
+            };
+
+            // handle point tuple deletion
+            if (dataset.hasPointGroups()) {
+                const index = dataset.findNearestPixel(imagePos.x, imagePos.y);
+
+                if (index > -1) {
+                    // display tuple deletion confirmation popup if point groups exist
+                    wpd.pointGroups.showDeleteTuplePopup(
+                        tupleCallback.bind(this, imagePos, index),
+                        pointCallback.bind(this, imagePos)
+                    );
+                }
+            } else {
+                pointCallback(imagePos);
+            }
         };
 
         this.onKeyDown = function(ev) {
@@ -202,9 +331,25 @@ wpd.DataPointsRepainter = class {
             let fillStyle = isSelected ? "rgb(0,200,0)" : this._dataset.colorRGB.toRGBString();
 
             if (hasLabels) {
-                let pointLabel = imagePos.metadata.label;
-                if (pointLabel == null) {
-                    pointLabel = this._axes.dataPointsLabelPrefix + dindex;
+                let pointLabel = null;
+                if (this._dataset.hasPointGroups()) {
+                    // with point groups, bar labels only apply to points in the primary group (i.e. index 0)
+                    const tupleIndex = this._dataset.getTupleIndex(dindex);
+                    const groupIndex = this._dataset.getPointGroupIndexInTuple(tupleIndex, dindex);
+                    if (groupIndex <= 0) {
+                        if (imagePos.metadata !== undefined) {
+                            pointLabel = imagePos.metadata.label;
+                        }
+                        const index = tupleIndex > -1 ? tupleIndex : dindex;
+                        if (pointLabel == null) {
+                            pointLabel = this._axes.dataPointsLabelPrefix + index;
+                        }
+                    }
+                } else {
+                    pointLabel = imagePos.metadata.label;
+                    if (pointLabel == null) {
+                        pointLabel = this._axes.dataPointsLabelPrefix + dindex;
+                    }
                 }
                 wpd.graphicsHelper.drawPoint(imagePos, fillStyle, pointLabel);
             } else {
@@ -529,7 +674,17 @@ wpd.EditLabelsTool = function(axes, dataset) {
             pixelIndex;
         dataSeries.unselectAll();
         pixelIndex = dataSeries.selectNearestPixel(imagePos.x, imagePos.y);
-        if (pixelIndex >= 0) {
+        if (
+            pixelIndex >= 0 &&
+            (
+                // if point groups exist, check that point is either not in a group
+                // or in the primary group
+                !dataSeries.hasPointGroups() || dataSeries.getPointGroupIndexInTuple(
+                    dataSeries.getTupleIndex(pixelIndex),
+                    pixelIndex
+                ) <= 0
+            )
+        ) {
             wpd.graphicsWidget.forceHandlerRepaint();
             wpd.graphicsWidget.updateZoomOnEvent(ev);
             wpd.dataPointLabelEditor.show(dataSeries, pixelIndex, this);

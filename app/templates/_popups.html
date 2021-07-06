@@ -76,12 +76,15 @@
 </div>
 
 <!-- Generic Ok/Cancel Popup -->
-<div id="okCancelPopup" class="popup" style="width: 400px;">
+<div id="okCancelPopup" class="popup" style="width: 400px; z-index: 110;">
     <div id="ok-cancel-popup-heading" class="popupheading"></div>
     <p>&nbsp;</p>
     <p align="center" id="ok-cancel-popup-text"></p>
     <p>&nbsp;</p>
-    <p align="center"><input type="button" value="{{ _("OK") }}" onclick="wpd.okCancelPopup.ok()" /> <input type="button" value="{{ _("Cancel") }}" onclick="wpd.okCancelPopup.cancel()" /></p>
+    <p align="center">
+        <input id="ok-cancel-popup-ok-button" type="button" onclick="wpd.okCancelPopup.ok()" />
+        <input id="ok-cancel-popup-cancel-button" type="button" onclick="wpd.okCancelPopup.cancel()" />
+    </p>
 </div>
 
 <!-- Choose axes type -->
@@ -598,6 +601,40 @@
             <input id="image-page-relabel-cancel-button" type="button" value="{{ _("Cancel") }}" onclick="wpd.popup.close('image-page-relabel-popup');" />
         </p>
     </center>
+</div>
+
+<!-- Data point group settings -->
+<div id="point-group-settings-popup" class="popup" style="width: 600px">
+    <div class="popupheading">{{ _("Point Groups") }}</div>
+    <p>
+        {{ _("Point groups are groups of related data points such as standard error or confidence") }}
+        <br />
+        {{ _("intervals. Configure point groups to add related data points, in order, by tuples.") }}
+        <br />
+        {{ _("Tuples are bound by points in the primary group.") }}
+    </p>
+    <br />
+    <table style="margin: 0 auto;">
+        <tbody id="point-group-table">
+            <tr>
+                <td>
+                    {{ _("Group") }} <span>0</span>:
+                </td>
+                <td>
+                    <input id="point-group-0" placeholder="{{_("Primary Group")}}" type="text" />
+                </td>
+                <td>&nbsp;</td>
+            </tr>
+        </tbody>
+    </table>
+    <br />
+    <p style="text-align: center;">
+        <input id="point-group-add-button" type="button" value="{{_("Add New Group")}}" onclick="wpd.pointGroups.addSettingsRow(true);" />
+    </p>
+    <p style="text-align: center;">
+        <input id="point-group-save-button" type="button" value="{{ _("Save") }}" onclick="wpd.pointGroups.saveSettings();" />
+        <input id="point-group-cancel-button" type="button" value="{{ _("Cancel") }}" onclick="wpd.pointGroups.closeSettingsPopup();" />
+    </p>
 </div>
 
 <!-- Unit testing -->

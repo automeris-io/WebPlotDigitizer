@@ -42,6 +42,9 @@ QUnit.test("Remove multiple listeners", (assert) => {
     const listener3a = sinon.stub();
     const listener3b = sinon.stub();
 
+    // remove all listeners before proceeding
+    wpd.events.removeAllListeners();
+
     // listen for test event type
     wpd.events.addListener(type1, listener1a);
     wpd.events.addListener(type1, listener1b);

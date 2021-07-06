@@ -54,7 +54,34 @@ QUnit.test("Plot data providers", (assert) => {
         connectivityFieldIndices: [],
         isFieldSortable: [false, true]
     };
-    assert.deepEqual(wpd.plotDataProvider.getData(), expected, "Bar axes: No other metadata");
+    assert.deepEqual(wpd.plotDataProvider.getData(), expected, "Bar axes: No point groups or other metadata");
+    dataset.clearAll();
+
+    // Point groups case
+    dataset.setMetadataKeys([]);
+    dataset.setPointGroups(["Obi-wan", "General grievous"]);
+    dataset.addPixel(0, 0);
+    dataset.addPixel(0, 1);
+    dataset.addPixel(1, 0);
+    dataset.addPixel(1, 1);
+    dataset.addTuple(0);
+    dataset.addToTupleAt(0, 1, 1);
+    dataset.addTuple(2);
+    dataset.addToTupleAt(1, 1, 3);
+    expected = {
+        fields: ["Label", "Value", "Tuple", "Group"],
+        fieldDateFormat: [],
+        rawData: [
+            ["Bar0", 0, 0, "Obi-wan"],
+            ["Bar0", 1, 0, "General grievous"],
+            ["Bar1", 0, 1, "Obi-wan"],
+            ["Bar1", 1, 1, "General grievous"]
+        ],
+        allowConnectivity: false,
+        connectivityFieldIndices: [],
+        isFieldSortable: [false, true, true, true]
+    };
+    assert.deepEqual(wpd.plotDataProvider.getData(), expected, "Bar axes: Point groups");
     dataset.clearAll();
 
     // Other metadata case
