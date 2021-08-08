@@ -2,6 +2,10 @@ RELEASE NOTES
 
 Version 4.5
 ===========
+August 9, 2021
+
+New Features:
+- Ability to create Point Groups (contribution from Eric Chow)
 
 Bug fixes:
 - Fixed blob detection area and moment broken in previous releases.
