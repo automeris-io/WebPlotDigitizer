@@ -6,6 +6,7 @@ Version 4.5
 Bug fixes:
 - Fixed blob detection area and moment broken in previous releases.
 - Fixed loading PDFs in desktop versions
+- Fixed image paste behavior
 - Other minor bug fixes
 
 
