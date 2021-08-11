@@ -478,7 +478,6 @@ QUnit.test("Load metadata from JSON", async (assert) => {
     const fileManager = createInstance();
 
     // create async completion signals
-    const pdfDone = assert.async();
     const functionDone1 = assert.async();
     const functionDone2 = assert.async();
     const functionDone3 = assert.async();
@@ -511,12 +510,14 @@ QUnit.test("Load metadata from JSON", async (assert) => {
         };
     });
     // stub out pdfjsLib
-    sinon.stub(pdfjsLib, "getDocument").returns({
-        promise: new Promise((resolve) => {
-            pdfDone();
-            resolve();
-        })
-    });
+    const pdfjsLibBackup = window.pdfjsLib;
+    window.pdfjsLib = {
+        getDocument: () => ({
+            promise: new Promise((resolve) => {
+                resolve();
+            }),
+        }),
+    };
     // stub appData getPageManager
     const getPageManagerStub = sinon.stub(wpd.appData, "getPageManager").returns({
         loadPageData: sinon.spy(),
@@ -536,7 +537,7 @@ QUnit.test("Load metadata from JSON", async (assert) => {
     fileManager.set([png]);
     // ends test by calling functionDone
     treeRefreshStub.callsFake(() => {
-        functionDone1()
+        functionDone1();
     });
     await fileManager.loadMetadata(metadata);
     assert.notEqual(fileManager.axesByFile['0'], currentAxes, "Axes cloned not referenced");
@@ -567,7 +568,7 @@ QUnit.test("Load metadata from JSON", async (assert) => {
     fileManager.set([pdf]);
     // ends test by calling functionDone
     treeRefreshStub.callsFake(function() {
-        functionDone2()
+        functionDone2();
     });
     await fileManager.loadMetadata(metadata);
     assert.deepEqual(fileManager.pageManagers['0'].loadPageData.args[0][0], expected, "Single file, multiple pages: Page manager stored");
@@ -627,7 +628,7 @@ QUnit.test("Load metadata from JSON", async (assert) => {
     fileManager.set([pdf, pdf]);
     // ends test by calling functionDone
     treeRefreshStub.callsFake(function() {
-        functionDone3()
+        functionDone3();
     });
     await fileManager.loadMetadata(metadata);
     assert.deepEqual(fileManager.pageManagers['0'].loadPageData.args[1][0], expected1, "Multiple files, multiple pages: Page manager 1 stored");
@@ -691,10 +692,13 @@ QUnit.test("Load metadata from JSON", async (assert) => {
     fileManager.set([pdf, pdf, png]);
     // ends test by calling functionDone
     treeRefreshStub.callsFake(function() {
-        functionDone4()
+        functionDone4();
     });
     await fileManager.loadMetadata(metadata);
     assert.deepEqual(fileManager.pageManagers['0'].loadPageData.args[2][0], expected1, "Multiple files, mixed pages: Page manager 1 stored");
     assert.deepEqual(fileManager.pageManagers['1'].loadPageData.args[1][0], expected2, "Multiple files, mixed pages: Page manager 2 stored");
     assert.equal(fileManager.pageManagers['2'], undefined, "Multiple files, mixed pages: Page manager 3 not stored");
+
+    // revert pdfjsLib
+    window.pdfjsLib = pdfjsLibBackup;
 });
