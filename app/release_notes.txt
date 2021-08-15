@@ -2,7 +2,7 @@ RELEASE NOTES
 
 Version 4.5
 ===========
-August 9, 2021
+August 15, 2021
 
 New Features:
 - Ability to create Point Groups (contribution from Eric Chow)
