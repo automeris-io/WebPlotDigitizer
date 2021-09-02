@@ -148,3 +148,31 @@ wpd.cspline_interp =
         d = 2.0 * (cs.y[i] - cs.y[i + 1]) + cs.d[i] + cs.d[i + 1];
         return a + b * t + c * t * t + d * t * t * t;
     };
+
+
+// Get circle center and radius from three 2D points
+wpd.getCircleFrom3Pts = function(pts) {
+    let Ax = pts[0][0];
+    let Bx = pts[1][0];
+    let Cx = pts[2][0];
+    let Ay = pts[0][1];
+    let By = pts[1][1];
+    let Cy = pts[2][1];
+    let a = wpd.dist2d(Cx, Cy, Bx, By);
+    let b = wpd.dist2d(Ax, Ay, Cx, Cy);
+    let c = wpd.dist2d(Bx, By, Ax, Ay);
+    let s = (a + b + c)/2.0;
+    let R = (a*b*c)/4.0/Math.sqrt(s*(s-a)*(s-b)*(s-c));
+    let b1 = a*a * (b*b + c*c - a*a);
+    let b2 = b*b * (a*a + c*c - b*b);
+    let b3 = c*c * (a*a + b*b - c*c);
+    let X = [
+        (Ax*b1 + Bx*b2 + Cx*b3)/(b1+b2+b3),
+        (Ay*b1 + By*b2 + Cy*b3)/(b1+b2+b3)
+    ];
+    return {
+        "x0": X[0],
+        "y0": X[1],
+        "radius": R,
+    };
+};
