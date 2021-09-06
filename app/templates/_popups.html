@@ -111,6 +111,9 @@
             <tr>
                 <td align="left"><label><input type="radio" name="plotlisting" id="r_image"> {{ _("Image") }}</label></td>
             </tr>
+            <tr>
+                <td align="left"><label><input type="radio" name="plotlisting" id="r_circular_chart_recorder"> {{ _("Circular Chart Recorder") }}</label></td>
+            </tr>
         </table>
     </center>
     <p>&nbsp;</p>
@@ -253,6 +256,37 @@
     <p align="center"><input type="button" value="{{ _("OK") }}" onclick="wpd.alignAxes.align();"></p>
 </div>
 
+<!-- Circular Chart Recorder Alignment -->
+<div id="circularChartRecorderAlignment" class="popup" style="width: 400px;">
+    <div class="popupheading">{{ _("Align Circular Chart Recorder Axes") }}</div>
+    <center>
+        <table padding="15">
+            <tr>
+                <td>&nbsp;</td>
+                <td align="center"><b>{{ _("Point 1") }}</b></td>
+                <td align="center"><b>{{ _("Point 2") }}</b></td>
+                <td align="center"><b>{{ _("Log Scale") }}</b></td>
+            </tr>
+            <tr>
+                <td>R: </td>
+                <td align="center"><input type="text" size="6" id="polar-r1" value="1" onfocus="wpd.alignAxes.zoomCalPoint(1);" /></td>
+                <td align="center"><input type="text" size="6" id="polar-r2" value="1" onfocus="wpd.alignAxes.zoomCalPoint(2);" /></td>
+                <td align="center"><input type="checkbox" id="polar-log-scale" /></td>
+            </tr>
+            <tr>
+                <td>Θ: </td>
+                <td align="center"><input type="text" size="6" id="polar-theta1" value="1" onfocus="wpd.alignAxes.zoomCalPoint(1);" /></td>
+                <td align="center"><input type="text" size="6" id="polar-theta2" value="1" onfocus="wpd.alignAxes.zoomCalPoint(2);" /></td>
+                <td align="center">&nbsp;</td>
+            </tr>
+        </table>
+    </center>
+    <p align="center"><label><input type="radio" id="polar-degrees" name="angleUnits" checked> {{ _("Degrees") }}</label> <label><input type="radio" id="polar-radians" name="angleUnits"> {{ _("Radians") }}</label></p>
+    <p align="center"><input type="checkbox" id="polar-clockwise"> {{ _("Clockwise") }}</p>
+    <br />
+    <p align="center"><input type="button" value="{{ _("OK") }}" onclick="wpd.alignAxes.align();"></p>
+</div>
+
 <!-- View Data -->
 <div id="csvWindow" class="popup" style="width: 800px; height: 480px;">
     <div class="popupheading">{{ _("Acquired Data") }}</div>
@@ -354,6 +388,16 @@
     <p>&nbsp;</p>
     <p align="center"><img src="images/ternaryaxes.png" /></p>
     <p align="center">{{ _("Click on the three corners in the order shown above.") }}</p>
+    <p>&nbsp;</p>
+    <p align="center"><input type="button" value="{{ _("Proceed") }}" onclick="wpd.alignAxes.pickCorners();"></p>
+</div>
+
+<!-- Circular Chart Recorder Axes Calibration Instructions -->
+<div id="circularChartRecorderAxesInfo" class="popup" style="width: 350px;">
+    <div class="popupheading">{{ _("Align Circular Chart Recorder Axes") }}</div>
+    <p>&nbsp;</p>
+    <p align="center"><img src="images/polaraxes.png" /></p>
+    <p align="center">{{ _("Click on the center, followed by two known points.") }}</p>
     <p>&nbsp;</p>
     <p align="center"><input type="button" value="{{ _("Proceed") }}" onclick="wpd.alignAxes.pickCorners();"></p>
 </div>

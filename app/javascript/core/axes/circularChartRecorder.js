@@ -21,28 +21,36 @@
 
 var wpd = wpd || {};
 
-wpd.CircularChartRecorder = class {
+wpd.CircularChartRecorderAxes = class {
     isCalibrated() {
         return false;
     }
+    
+    calibrate(calib) {
+        this.calibration = calib;
 
-    calibrate() {
-
+        return true;
     }
 
     pixelToData(pxi, pyi) {
-
+        let data = [0, 1];
+        return data;
     }
 
     dataToPixel(x, y) {
-
+        return {
+            "x": 0,
+            "y": 0
+        };
     }
 
     pixelToLiveString(pxi, pyi) {
-
+        let dataVal = this.pixelToData(pxi, pyi);
+        return dataVal[0].toExponential(4) + ', ' + dataVal[1].toExponential(4);
     }
 
     name = "Circular Chart Recorder";
+    calibration = null;
 
     static numCalibrationPointsRequired() {
         return 5;
