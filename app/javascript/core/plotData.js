@@ -383,6 +383,12 @@ wpd.PlotData = class {
                     axes.calibrate(calibration, axData.scaleLength, axData.unitString);
                 } else if (axData.type === "ImageAxes") {
                     axes = new wpd.ImageAxes();
+                } else if (axData.type === "CircularChartRecorderAxes") {
+                    axes = new wpd.CircularChartRecorderAxes();
+                    calibration.labels = ['(T0,R0)', '(T0,R1)', '(T0,R2)', '(T1,R2)', '(T2,R2)'];
+                    calibration.labelPositions = ['S', 'S', 'S', 'S', 'S'];
+                    calibration.maxPointCount = 5;
+                    axes.calibrate(calibration);
                 }
 
                 if (axes != null) {
@@ -594,6 +600,8 @@ wpd.PlotData = class {
                 axData.unitString = axes.getUnits();
             } else if (axes instanceof wpd.ImageAxes) {
                 axData.type = "ImageAxes";
+            } else if (axes instanceof wpd.CircularChartRecorderAxes) {
+                axData.type = "CircularChartRecorderAxes";                
             }
 
             // include axes metadata, if present
