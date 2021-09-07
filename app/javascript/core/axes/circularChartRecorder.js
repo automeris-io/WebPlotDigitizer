@@ -49,7 +49,7 @@ wpd.CircularChartRecorderAxes = class {
         return dataVal[0].toExponential(4) + ', ' + dataVal[1].toExponential(4);
     }
 
-    name = "Circular Chart Recorder";
+    name = "Circular Chart";
     calibration = null;
 
     static numCalibrationPointsRequired() {

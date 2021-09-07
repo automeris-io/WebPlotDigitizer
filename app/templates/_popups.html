@@ -261,28 +261,27 @@
     <div class="popupheading">{{ _("Align Circular Chart Recorder Axes") }}</div>
     <center>
         <table padding="15">
-            <tr>
-                <td>&nbsp;</td>
-                <td align="center"><b>{{ _("Point 1") }}</b></td>
-                <td align="center"><b>{{ _("Point 2") }}</b></td>
-                <td align="center"><b>{{ _("Log Scale") }}</b></td>
+            <tr>                
+                <td align="center"><b>{{ _("Time (T0)") }}</b></td>
+                <td align="left"><input type="text" size="6" id="circular-t0" value="0" /></td>
             </tr>
             <tr>
-                <td>R: </td>
-                <td align="center"><input type="text" size="6" id="polar-r1" value="1" onfocus="wpd.alignAxes.zoomCalPoint(1);" /></td>
-                <td align="center"><input type="text" size="6" id="polar-r2" value="1" onfocus="wpd.alignAxes.zoomCalPoint(2);" /></td>
-                <td align="center"><input type="checkbox" id="polar-log-scale" /></td>
+                <td align="center"><b>{{ _("Ranges (R0, R1, R2)") }}</b></td>
+                <td align="left">
+                    <input type="text" size="6" id="circular-r0" value="0" />
+                    <input type="text" size="6" id="circular-r1" value="0" />
+                    <input type="text" size="6" id="circular-r2" value="0" />
+                </td>
             </tr>
             <tr>
-                <td>Θ: </td>
-                <td align="center"><input type="text" size="6" id="polar-theta1" value="1" onfocus="wpd.alignAxes.zoomCalPoint(1);" /></td>
-                <td align="center"><input type="text" size="6" id="polar-theta2" value="1" onfocus="wpd.alignAxes.zoomCalPoint(2);" /></td>
-                <td align="center">&nbsp;</td>
-            </tr>
+                <td align="center"><b>{{ _("Times (T1, T2)") }}</b></td>
+                <td align="left">
+                    <input type="text" size="6" id="circular-t1" value="0" />
+                    <input type="text" size="6" id="circular-t2" value="0" />
+                </td>
+            </tr>            
         </table>
-    </center>
-    <p align="center"><label><input type="radio" id="polar-degrees" name="angleUnits" checked> {{ _("Degrees") }}</label> <label><input type="radio" id="polar-radians" name="angleUnits"> {{ _("Radians") }}</label></p>
-    <p align="center"><input type="checkbox" id="polar-clockwise"> {{ _("Clockwise") }}</p>
+    </center>    
     <br />
     <p align="center"><input type="button" value="{{ _("OK") }}" onclick="wpd.alignAxes.align();"></p>
 </div>

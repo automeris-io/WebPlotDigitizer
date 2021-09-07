@@ -327,32 +327,32 @@ wpd.CircularChartRecorderCalibrator = class extends wpd.AxesCalibrator {
             let axes = wpd.tree.getActiveAxes();
             let prevCal = axes.calibration;
             if (prevCal.getCount() == 5) {
-                document.getElementById('polar-r1').value = prevCal.getPoint(1).dx;
-                document.getElementById('polar-theta1').value = prevCal.getPoint(1).dy;
-                document.getElementById('polar-r2').value = prevCal.getPoint(2).dx;
-                document.getElementById('polar-theta2').value = prevCal.getPoint(2).dy;
-                document.getElementById('polar-degrees').checked = axes.isThetaDegrees();
-                document.getElementById('polar-radians').checked = !axes.isThetaDegrees();
-                document.getElementById('polar-clockwise').checked = axes.isThetaClockwise();
-                document.getElementById('polar-log-scale').checked = axes.isRadialLog();
+                document.getElementById('circular-t0').value = prevCal.getPoint(0).dx;
+                document.getElementById('circular-r0').value = prevCal.getPoint(0).dy;
+                document.getElementById('circular-r1').value = prevCal.getPoint(1).dy;
+                document.getElementById('circular-r2').value = prevCal.getPoint(2).dy;
+                document.getElementById('circular-t1').value = prevCal.getPoint(3).dx;
+                document.getElementById('circular-t2').value = prevCal.getPoint(4).dx;
             }
         }
     }
 
     align() {
-        let r1 = parseFloat(document.getElementById('polar-r1').value);
-        let theta1 = parseFloat(document.getElementById('polar-theta1').value);
-        let r2 = parseFloat(document.getElementById('polar-r2').value);
-        let theta2 = parseFloat(document.getElementById('polar-theta2').value);
-        let degrees = document.getElementById('polar-degrees').checked;
-        let orientation = document.getElementById('polar-clockwise').checked;
-        let rlog = document.getElementById('polar-log-scale').checked;
+        let t0 = parseFloat(document.getElementById('circular-t0').value);
+        let r0 = parseFloat(document.getElementById('circular-r0').value);
+        let r1 = parseFloat(document.getElementById('circular-r1').value);
+        let r2 = parseFloat(document.getElementById('circular-r2').value);
+        let t1 = parseFloat(document.getElementById('circular-t1').value);
+        let t2 = parseFloat(document.getElementById('circular-t2').value); 
         let axes = this._isEditing ? wpd.tree.getActiveAxes() : new wpd.CircularChartRecorderAxes();
-        let isDegrees = degrees;
 
-        this._calibration.setDataAt(1, r1, theta1);
-        this._calibration.setDataAt(2, r2, theta2);
-        axes.calibrate(this._calibration, isDegrees, orientation, rlog);
+        this._calibration.setDataAt(0, t0, r0);
+        this._calibration.setDataAt(1, t0, r1);
+        this._calibration.setDataAt(2, t0, r2);
+        this._calibration.setDataAt(3, t1, r2);
+        this._calibration.setDataAt(4, t2, r2);
+        
+        axes.calibrate(this._calibration);
         if (!this._isEditing) {
             axes.name = wpd.alignAxes.makeAxesName(wpd.CircularChartRecorderAxes);
             let plot = wpd.appData.getPlotData();
@@ -426,7 +426,7 @@ wpd.alignAxes = (function() {
             wpd.acquireData.load();
         } else if (circularChartRecorderEl.checked === true) {
             calibration = new wpd.Calibration(2);
-            calibration.labels = ['R0', 'R1', 'R2', 'T1', 'T2'];
+            calibration.labels = ['(T0,R0)', '(T0,R1)', '(T0,R2)', '(T1,R2)', '(T2,R2)'];
             calibration.labelPositions = ['S', 'S', 'S', 'S', 'S'];
             calibration.maxPointCount = 5;
             calibrator = new wpd.CircularChartRecorderCalibrator(calibration);
