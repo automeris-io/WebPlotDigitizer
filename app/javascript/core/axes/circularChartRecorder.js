@@ -41,7 +41,7 @@ wpd.CircularChartRecorderAxes = class {
     thetac0 = 0;
     timeFormat = null;
     time0 = 0;
-    timeMax = 0;
+    timeMax = 0;    
 
     calibrate(calib) {
 
@@ -121,7 +121,7 @@ wpd.CircularChartRecorderAxes = class {
         // todo: map thetac to [0, 360)
         // todo: map time angle to time
 
-        let timeVal = (this.timeMax-this.time0)*(thetacDeg-this.thetac0)/360.0 + this.time0;
+        let timeVal = (this.timeMax-this.time0)*(wpd.normalizeAngleDeg(thetacDeg-this.thetac0))/360.0 + this.time0;
         data[0] = timeVal;
         data[1] = r;        
 
@@ -129,6 +129,12 @@ wpd.CircularChartRecorderAxes = class {
     }
 
     dataToPixel(t, r) {
+        // calc thetac
+
+        // calc range
+
+        // calc coords
+
         return {
             "x": 0,
             "y": 0
@@ -145,6 +151,21 @@ wpd.CircularChartRecorderAxes = class {
     calibration = null;
     metadata = {};
 
+    getTimeFormat() {
+        return this.timeFormat;
+    }
+
+    getInitialDateFormat(col) {
+        if (col == 0) {
+            return this.timeFormat;
+        }
+        return null;
+    }
+
+    isDate(col) {
+        return (col === 0) ? true : false;
+    }
+
     getMetadata() {
         // deep clone
         return JSON.parse(JSON.stringify(this.metadata));
@@ -155,11 +176,11 @@ wpd.CircularChartRecorderAxes = class {
         this.metadata = JSON.parse(JSON.stringify(obj));
     };
 
-    static numCalibrationPointsRequired() {
+    numCalibrationPointsRequired() {
         return 5;
     }
 
-    static getDimensions() {
+    getDimensions() {
         return 2;
     }
 

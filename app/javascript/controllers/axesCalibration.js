@@ -434,7 +434,11 @@ wpd.alignAxes = (function() {
 
         if (calibrator != null) {
             calibrator.start();
-            wpd.graphicsWidget.setRepainter(new wpd.AlignmentCornersRepainter(calibration));
+            if (circularChartRecorderEl.checked == true) {
+                wpd.graphicsWidget.setRepainter(new wpd.CircularChartRecorderAlignmentRepainter(calibration));
+            } else {
+                wpd.graphicsWidget.setRepainter(new wpd.AlignmentCornersRepainter(calibration));
+            }
         }
     }
 
@@ -505,7 +509,11 @@ wpd.alignAxes = (function() {
         if (calibrator == null)
             return;
         calibrator.reload();
-        wpd.graphicsWidget.setRepainter(new wpd.AlignmentCornersRepainter(calibration));
+        if (axes instanceof wpd.CircularChartRecorderAxes) {
+            wpd.graphicsWidget.setRepainter(new wpd.CircularChartRecorderAlignmentRepainter(calibration));
+        } else {
+            wpd.graphicsWidget.setRepainter(new wpd.AlignmentCornersRepainter(calibration));
+        }
         wpd.graphicsWidget.forceHandlerRepaint();
         wpd.sidebar.show('axes-calibration-sidebar');
     }
