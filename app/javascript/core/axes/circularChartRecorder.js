@@ -103,12 +103,13 @@ wpd.CircularChartRecorderAxes = class {
         let thetap = wpd.taninverse(pyi-this.yChart, pxi-this.xChart);
         let alpha = Math.acos((this.chartToPenDist*this.chartToPenDist + rPx*rPx - this.rPen*this.rPen)/(2.0*this.chartToPenDist*rPx));
         let thetac = thetap + alpha;
+        let thetacDeg = wpd.normalizeAngleDeg(thetac*180.0/Math.PI);
 
         // todo: map thetac to [0, 360)
         // todo: map time angle to time
 
         data[0] = r;
-        data[1] = thetac*180.0/Math.PI;
+        data[1] = thetacDeg;
 
         return data;
     }

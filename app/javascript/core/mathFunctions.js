@@ -176,3 +176,11 @@ wpd.getCircleFrom3Pts = function(pts) {
         "radius": R,
     };
 };
+
+wpd.normalizeAngleDeg = function(angleDeg) {
+    let normDeg = angleDeg % 360;
+    if (normDeg < 0) {
+        normDeg += 360.0;
+    }
+    return normDeg;
+};
