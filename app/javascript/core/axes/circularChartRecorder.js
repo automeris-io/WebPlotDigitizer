@@ -38,6 +38,10 @@ wpd.CircularChartRecorderAxes = class {
     rMaxPx = 0;
 
     chartToPenDist = 0;
+    thetac0 = 0;
+    timeFormat = null;
+    time0 = 0;
+    timeMax = 0;
 
     calibrate(calib) {
 
@@ -47,9 +51,16 @@ wpd.CircularChartRecorderAxes = class {
         let cp3 = calib.getPoint(3);
         let cp4 = calib.getPoint(4);        
 
+        let ip = new wpd.InputParser();
         let t0 = cp0.dx;
-        let t1 = cp3.dx;
-        let t2 = cp4.dx;
+        let t1 = cp3.dx; // unused?
+        let t2 = cp4.dx; // unused?
+        this.time0 = ip.parse(t0);
+        if (ip.isDate) {
+            this.timeFormat = ip.formatting;
+        }
+        let date0 = new Date(this.time0);
+        this.timeMax = parseFloat(date0.setDate(date0.getDate() + 7));
 
         // TODO: check t=t0 for cp1 and cp2
         // TODO: check r=r2 for cp3 and cp4
@@ -70,6 +81,8 @@ wpd.CircularChartRecorderAxes = class {
             [cp4.px, cp4.py],
         ];
         let chartCircle = wpd.getCircleFrom3Pts(chartArcPts);
+
+        this.thetac0 = wpd.taninverse(penCircle.y0-chartCircle.y0, penCircle.x0-chartCircle.x0)*180.0/Math.PI;
 
         // debug
         console.log(penCircle);
@@ -108,8 +121,9 @@ wpd.CircularChartRecorderAxes = class {
         // todo: map thetac to [0, 360)
         // todo: map time angle to time
 
-        data[0] = r;
-        data[1] = thetacDeg;
+        let timeVal = (this.timeMax-this.time0)*(thetacDeg-this.thetac0)/360.0 + this.time0;
+        data[0] = timeVal;
+        data[1] = r;        
 
         return data;
     }
@@ -123,7 +137,8 @@ wpd.CircularChartRecorderAxes = class {
 
     pixelToLiveString(pxi, pyi) {
         let dataVal = this.pixelToData(pxi, pyi);
-        return dataVal[0].toExponential(4) + ', ' + dataVal[1].toExponential(4);
+        let timeStr = wpd.dateConverter.formatDateNumber(dataVal[0], this.timeFormat);
+        return timeStr + ', ' + dataVal[1].toExponential(4);
     }
 
     name = "Circular Chart";
@@ -148,7 +163,7 @@ wpd.CircularChartRecorderAxes = class {
         return 2;
     }
 
-    static getAxesLabels() {
+    getAxesLabels() {
         return ['Time', 'Magnitude'];
     }
 };

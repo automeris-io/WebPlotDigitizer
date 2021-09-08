@@ -338,12 +338,12 @@ wpd.CircularChartRecorderCalibrator = class extends wpd.AxesCalibrator {
     }
 
     align() {
-        let t0 = parseFloat(document.getElementById('circular-t0').value);
+        let t0 = document.getElementById('circular-t0').value;
         let r0 = parseFloat(document.getElementById('circular-r0').value);
         let r1 = parseFloat(document.getElementById('circular-r1').value);
         let r2 = parseFloat(document.getElementById('circular-r2').value);
-        let t1 = parseFloat(document.getElementById('circular-t1').value);
-        let t2 = parseFloat(document.getElementById('circular-t2').value); 
+        let t1 = document.getElementById('circular-t1').value;
+        let t2 = document.getElementById('circular-t2').value; 
         let axes = this._isEditing ? wpd.tree.getActiveAxes() : new wpd.CircularChartRecorderAxes();
 
         this._calibration.setDataAt(0, t0, r0);
