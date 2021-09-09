@@ -329,10 +329,10 @@ wpd.CircularChartRecorderCalibrator = class extends wpd.AxesCalibrator {
             if (prevCal.getCount() == 5) {
                 document.getElementById('circular-t0').value = prevCal.getPoint(0).dx;
                 document.getElementById('circular-r0').value = prevCal.getPoint(0).dy;
-                document.getElementById('circular-r1').value = prevCal.getPoint(1).dy;
+                //document.getElementById('circular-r1').value = prevCal.getPoint(1).dy;
                 document.getElementById('circular-r2').value = prevCal.getPoint(2).dy;
-                document.getElementById('circular-t1').value = prevCal.getPoint(3).dx;
-                document.getElementById('circular-t2').value = prevCal.getPoint(4).dx;
+                //document.getElementById('circular-t1').value = prevCal.getPoint(3).dx;
+                //document.getElementById('circular-t2').value = prevCal.getPoint(4).dx;
             }
         }
     }
@@ -340,17 +340,17 @@ wpd.CircularChartRecorderCalibrator = class extends wpd.AxesCalibrator {
     align() {
         let t0 = document.getElementById('circular-t0').value;
         let r0 = parseFloat(document.getElementById('circular-r0').value);
-        let r1 = parseFloat(document.getElementById('circular-r1').value);
+        //let r1 = parseFloat(document.getElementById('circular-r1').value);
         let r2 = parseFloat(document.getElementById('circular-r2').value);
-        let t1 = document.getElementById('circular-t1').value;
-        let t2 = document.getElementById('circular-t2').value; 
+        //let t1 = document.getElementById('circular-t1').value;
+        //let t2 = document.getElementById('circular-t2').value; 
         let axes = this._isEditing ? wpd.tree.getActiveAxes() : new wpd.CircularChartRecorderAxes();
 
         this._calibration.setDataAt(0, t0, r0);
-        this._calibration.setDataAt(1, t0, r1);
+        this._calibration.setDataAt(1, t0, 0);
         this._calibration.setDataAt(2, t0, r2);
-        this._calibration.setDataAt(3, t1, r2);
-        this._calibration.setDataAt(4, t2, r2);
+        this._calibration.setDataAt(3, 0, r2);
+        this._calibration.setDataAt(4, 0, r2);
         
         axes.calibrate(this._calibration);
         if (!this._isEditing) {
