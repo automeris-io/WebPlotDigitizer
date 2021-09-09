@@ -25,7 +25,7 @@ wpd.CircularChartRecorderAxes = class {
     isCalibrated() {
         return false;
     }
-        
+
     xChart = 0;
     yChart = 0;
 
@@ -41,7 +41,7 @@ wpd.CircularChartRecorderAxes = class {
     thetac0 = 0;
     timeFormat = null;
     time0 = 0;
-    timeMax = 0;    
+    timeMax = 0;
 
     calibrate(calib) {
 
@@ -49,7 +49,7 @@ wpd.CircularChartRecorderAxes = class {
         let cp1 = calib.getPoint(1);
         let cp2 = calib.getPoint(2);
         let cp3 = calib.getPoint(3);
-        let cp4 = calib.getPoint(4);        
+        let cp4 = calib.getPoint(4);
 
         let ip = new wpd.InputParser();
         let t0 = cp0.dx;
@@ -82,7 +82,7 @@ wpd.CircularChartRecorderAxes = class {
         ];
         let chartCircle = wpd.getCircleFrom3Pts(chartArcPts);
 
-        this.thetac0 = wpd.taninverse(penCircle.y0-chartCircle.y0, penCircle.x0-chartCircle.x0)*180.0/Math.PI;
+        this.thetac0 = wpd.taninverse(penCircle.y0 - chartCircle.y0, penCircle.x0 - chartCircle.x0) * 180.0 / Math.PI;
 
         // debug
         console.log(penCircle);
@@ -98,7 +98,7 @@ wpd.CircularChartRecorderAxes = class {
         this.rMinPx = wpd.dist2d(cp0.px, cp0.py, chartCircle.x0, chartCircle.y0);
         this.rMaxPx = wpd.dist2d(cp2.px, cp2.py, chartCircle.x0, chartCircle.y0);
         this.chartToPenDist = wpd.dist2d(chartCircle.x0, chartCircle.y0, penCircle.x0, penCircle.y0);
-        
+
         this.calibration = calib;
 
         return true;
@@ -110,20 +110,20 @@ wpd.CircularChartRecorderAxes = class {
         let rPx = wpd.dist2d(pxi, pyi, this.xChart, this.yChart);
 
         // calc range
-        let r = (this.rMax - this.rMin)*(rPx-this.rMinPx)/(this.rMaxPx - this.rMinPx) + this.rMin;
+        let r = (this.rMax - this.rMin) * (rPx - this.rMinPx) / (this.rMaxPx - this.rMinPx) + this.rMin;
 
         // calc time angle
-        let thetap = wpd.taninverse(pyi-this.yChart, pxi-this.xChart);
-        let alpha = Math.acos((this.chartToPenDist*this.chartToPenDist + rPx*rPx - this.rPen*this.rPen)/(2.0*this.chartToPenDist*rPx));
+        let thetap = wpd.taninverse(pyi - this.yChart, pxi - this.xChart);
+        let alpha = Math.acos((this.chartToPenDist * this.chartToPenDist + rPx * rPx - this.rPen * this.rPen) / (2.0 * this.chartToPenDist * rPx));
         let thetac = thetap + alpha;
-        let thetacDeg = wpd.normalizeAngleDeg(thetac*180.0/Math.PI);
+        let thetacDeg = wpd.normalizeAngleDeg(thetac * 180.0 / Math.PI);
 
         // todo: map thetac to [0, 360)
         // todo: map time angle to time
 
-        let timeVal = (this.timeMax-this.time0)*(wpd.normalizeAngleDeg(thetacDeg-this.thetac0))/360.0 + this.time0;
+        let timeVal = (this.timeMax - this.time0) * (wpd.normalizeAngleDeg(thetacDeg - this.thetac0)) / 360.0 + this.time0;
         data[0] = timeVal;
-        data[1] = r;        
+        data[1] = r;
 
         return data;
     }

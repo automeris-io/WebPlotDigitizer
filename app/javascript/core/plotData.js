@@ -601,7 +601,7 @@ wpd.PlotData = class {
             } else if (axes instanceof wpd.ImageAxes) {
                 axData.type = "ImageAxes";
             } else if (axes instanceof wpd.CircularChartRecorderAxes) {
-                axData.type = "CircularChartRecorderAxes";                
+                axData.type = "CircularChartRecorderAxes";
             }
 
             // include axes metadata, if present

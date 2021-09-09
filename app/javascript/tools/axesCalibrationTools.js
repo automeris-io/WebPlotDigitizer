@@ -136,7 +136,7 @@ wpd.AlignmentCornersRepainter = (function() {
 wpd.CircularChartRecorderAlignmentRepainter = class {
     _calibration = null;
     painterName = 'CircularChartRecorderAlignmentRepainter';
-    
+
     constructor(calibration) {
         this._calibration = calibration;
     }
@@ -167,7 +167,7 @@ wpd.CircularChartRecorderAlignmentRepainter = class {
         // draw chart and pen circles
         if (this._calibration.getCount() == 5) {
             let cp = [];
-            for(let i = 0; i < 5; i++) {
+            for (let i = 0; i < 5; i++) {
                 cp.push(this._calibration.getPoint(i));
             }
             let penArcPts = [

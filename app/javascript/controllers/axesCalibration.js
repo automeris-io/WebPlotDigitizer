@@ -351,7 +351,7 @@ wpd.CircularChartRecorderCalibrator = class extends wpd.AxesCalibrator {
         this._calibration.setDataAt(2, t0, r2);
         this._calibration.setDataAt(3, 0, r2);
         this._calibration.setDataAt(4, 0, r2);
-        
+
         axes.calibrate(this._calibration);
         if (!this._isEditing) {
             axes.name = wpd.alignAxes.makeAxesName(wpd.CircularChartRecorderAxes);

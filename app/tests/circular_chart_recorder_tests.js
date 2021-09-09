@@ -6,6 +6,6 @@ QUnit.test("Calibration", function(assert) {
 
     let circAxes = wpd.CircularChartRecorder();
     circAxes.calibrate(calib);
-    
-    assert.equal(1,1, "dummy");
+
+    assert.equal(1, 1, "dummy");
 });
