@@ -394,11 +394,17 @@
 </div>
 
 <!-- Circular Chart Recorder Axes Calibration Instructions -->
-<div id="circularChartRecorderAxesInfo" class="popup" style="width: 350px;">
+<div id="circularChartRecorderAxesInfo" class="popup" style="width: 620px;">
     <div class="popupheading">{{ _("Align Circular Chart Recorder Axes") }}</div>
     <p>&nbsp;</p>
-    <p align="center"><img src="images/polaraxes.png" /></p>
-    <p align="center">{{ _("Click on the center, followed by two known points.") }}</p>
+    <p align="center"><img src="images/circular_chart_recorder_axes.png" /></p>
+    <p align="left">{{ _("Click on five (5) points on the chart axes as shown:") }}</p>
+    <p align="left">
+        <ul>
+            <li>{{ _("First three (3) points at different maginitudes but the same known time (T0).") }}</li>
+            <li>{{ _("Next two (2) points on any times (T1, T2) but at the same magnitude as R2.") }}</li>
+        </ul>
+    </p>
     <p>&nbsp;</p>
     <p align="center"><input type="button" value="{{ _("Proceed") }}" onclick="wpd.alignAxes.pickCorners();"></p>
 </div>
