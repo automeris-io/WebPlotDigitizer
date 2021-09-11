@@ -39,11 +39,14 @@ wpd.CircularChartRecorderAxes = class {
 
     chartToPenDist = 0;
     thetac0 = 0;
+    thetaStartOffset = 0;
     timeFormat = null;
     time0 = 0;
     timeMax = 0;
+    tStart = null;
+    tEnd = null;
 
-    calibrate(calib) {
+    calibrate(calib, startTimeInput) {
 
         let cp0 = calib.getPoint(0);
         let cp1 = calib.getPoint(1);
@@ -53,19 +56,17 @@ wpd.CircularChartRecorderAxes = class {
 
         let ip = new wpd.InputParser();
         let t0 = cp0.dx;
-        let t1 = cp3.dx; // unused?
-        let t2 = cp4.dx; // unused?
         this.time0 = ip.parse(t0);
         if (ip.isDate) {
             this.timeFormat = ip.formatting;
         }
         let date0 = new Date(this.time0);
         this.timeMax = parseFloat(date0.setDate(date0.getDate() + 7));
+        this.tStart = ip.parse(startTimeInput);
+        let dateEnd = new Date(this.tStart);
+        this.tEnd = parseFloat(dateEnd.setDate(dateEnd.getDate() + 7));
 
-        // TODO: check t=t0 for cp1 and cp2
-        // TODO: check r=r2 for cp3 and cp4
         let r0 = cp0.dy;
-        let r1 = cp1.dy; // unused?
         let r2 = cp2.dy;
 
         let penArcPts = [
@@ -84,9 +85,8 @@ wpd.CircularChartRecorderAxes = class {
 
         this.thetac0 = wpd.taninverse(penCircle.y0 - chartCircle.y0, penCircle.x0 - chartCircle.x0) * 180.0 / Math.PI;
 
-        // debug
-        console.log(penCircle);
-        console.log(chartCircle);
+        // find offset for tStart:
+        this.thetaStartOffset = 360.0 * (this.tStart - this.time0) / (this.timeMax - this.time0);
 
         this.xChart = chartCircle.x0;
         this.yChart = chartCircle.y0;
@@ -118,10 +118,7 @@ wpd.CircularChartRecorderAxes = class {
         let thetac = thetap + alpha;
         let thetacDeg = wpd.normalizeAngleDeg(thetac * 180.0 / Math.PI);
 
-        // todo: map thetac to [0, 360)
-        // todo: map time angle to time
-
-        let timeVal = (this.timeMax - this.time0) * (wpd.normalizeAngleDeg(thetacDeg - this.thetac0)) / 360.0 + this.time0;
+        let timeVal = (this.tEnd - this.tStart) * (wpd.normalizeAngleDeg(thetacDeg - this.thetac0 - this.thetaStartOffset)) / 360.0 + this.tStart;
         data[0] = timeVal;
         data[1] = r;
 
@@ -143,6 +140,9 @@ wpd.CircularChartRecorderAxes = class {
 
     pixelToLiveString(pxi, pyi) {
         let dataVal = this.pixelToData(pxi, pyi);
+        if (this.timeFormat == null) {
+            return "calibration error!";
+        }
         let timeStr = wpd.dateConverter.formatDateNumber(dataVal[0], this.timeFormat);
         return timeStr + ', ' + dataVal[1].toExponential(4);
     }
@@ -150,6 +150,13 @@ wpd.CircularChartRecorderAxes = class {
     name = "Circular Chart";
     calibration = null;
     metadata = {};
+
+    getStartTime() {
+        if (this.timeFormat == null || this.tStart == null) {
+            return null;
+        }
+        return wpd.dateConverter.formatDateNumber(this.tStart, this.timeFormat);
+    }
 
     getTimeFormat() {
         return this.timeFormat;

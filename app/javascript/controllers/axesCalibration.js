@@ -329,10 +329,11 @@ wpd.CircularChartRecorderCalibrator = class extends wpd.AxesCalibrator {
             if (prevCal.getCount() == 5) {
                 document.getElementById('circular-t0').value = prevCal.getPoint(0).dx;
                 document.getElementById('circular-r0').value = prevCal.getPoint(0).dy;
-                //document.getElementById('circular-r1').value = prevCal.getPoint(1).dy;
+                let startTime = axes.getStartTime();
+                if (startTime != null) {
+                    document.getElementById('circular-tstart').value = startTime;
+                }
                 document.getElementById('circular-r2').value = prevCal.getPoint(2).dy;
-                //document.getElementById('circular-t1').value = prevCal.getPoint(3).dx;
-                //document.getElementById('circular-t2').value = prevCal.getPoint(4).dx;
             }
         }
     }
@@ -340,10 +341,8 @@ wpd.CircularChartRecorderCalibrator = class extends wpd.AxesCalibrator {
     align() {
         let t0 = document.getElementById('circular-t0').value;
         let r0 = parseFloat(document.getElementById('circular-r0').value);
-        //let r1 = parseFloat(document.getElementById('circular-r1').value);
         let r2 = parseFloat(document.getElementById('circular-r2').value);
-        //let t1 = document.getElementById('circular-t1').value;
-        //let t2 = document.getElementById('circular-t2').value; 
+        let tstart = document.getElementById('circular-tstart').value;
         let axes = this._isEditing ? wpd.tree.getActiveAxes() : new wpd.CircularChartRecorderAxes();
 
         this._calibration.setDataAt(0, t0, r0);
@@ -352,7 +351,7 @@ wpd.CircularChartRecorderCalibrator = class extends wpd.AxesCalibrator {
         this._calibration.setDataAt(3, 0, r2);
         this._calibration.setDataAt(4, 0, r2);
 
-        axes.calibrate(this._calibration);
+        axes.calibrate(this._calibration, tstart);
         if (!this._isEditing) {
             axes.name = wpd.alignAxes.makeAxesName(wpd.CircularChartRecorderAxes);
             let plot = wpd.appData.getPlotData();

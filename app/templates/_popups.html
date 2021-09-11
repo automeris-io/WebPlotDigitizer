@@ -269,19 +269,14 @@
                 <td align="center"><b>{{ _("Ranges (R0, R2)") }}</b></td>
                 <td align="left">
                     <input type="text" size="6" id="circular-r0" value="0" />
-                    <!-- <input type="text" size="6" id="circular-r1" value="0" /> -->
                     <input type="text" size="6" id="circular-r2" value="0" />
                 </td>
             </tr>
-            <!--
             <tr>
-                <td align="center"><b>{{ _("Times (T1, T2)") }}</b></td>
-                <td align="left">
-                    <input type="text" size="6" id="circular-t1" value="0" />
-                    <input type="text" size="6" id="circular-t2" value="0" />
-                </td>
-            </tr>            
-            -->
+                <td align="center"><b>{{ _("Chart Start Time (T_Start)") }}</b></td>
+                <td align="left"><input type="text" size="15" id="circular-tstart" value="0" /></td>
+            </tr>
+
         </table>
     </center>
     <br />
@@ -400,10 +395,10 @@
     <p align="center"><img src="images/circular_chart_recorder_axes.png" /></p>
     <p align="left">{{ _("Click on five (5) points on the chart axes as shown:") }}</p>
     <p align="left">
-        <ul>
-            <li>{{ _("First three (3) points at different maginitudes but the same known time (T0).") }}</li>
-            <li>{{ _("Next two (2) points on any times (T1, T2) but at the same magnitude as R2.") }}</li>
-        </ul>
+    <ul>
+        <li>{{ _("First three (3) points at different maginitudes but the same known time (T0).") }}</li>
+        <li>{{ _("Next two (2) points on any times (T1, T2) but at the same magnitude as R2.") }}</li>
+    </ul>
     </p>
     <p>&nbsp;</p>
     <p align="center"><input type="button" value="{{ _("Proceed") }}" onclick="wpd.alignAxes.pickCorners();"></p>
