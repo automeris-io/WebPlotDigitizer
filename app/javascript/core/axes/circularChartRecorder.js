@@ -149,7 +149,7 @@ wpd.CircularChartRecorderAxes = class {
 
     name = "Circular Chart";
     calibration = null;
-    metadata = {};
+    _metadata = {};
 
     getStartTime() {
         if (this.timeFormat == null || this.tStart == null) {
@@ -175,12 +175,12 @@ wpd.CircularChartRecorderAxes = class {
 
     getMetadata() {
         // deep clone
-        return JSON.parse(JSON.stringify(this.metadata));
+        return JSON.parse(JSON.stringify(this._metadata));
     };
 
     setMetadata(obj) {
         // deep clone
-        this.metadata = JSON.parse(JSON.stringify(obj));
+        this._metadata = JSON.parse(JSON.stringify(obj));
     };
 
     numCalibrationPointsRequired() {
