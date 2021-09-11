@@ -20,16 +20,4 @@ Alternatively, follow the following steps manually:
     - Download: https://github.com/ankitrohatgi/tarballjs/archive/master.zip
     - Extract to tarballjs folder
 
-4) emscripten:
-    - Download: https://github.com/juj/emsdk/archive/master.zip
-    - Extract it and rename `emsdk-master` to `emsdk`
-    - Run the following commands:
-
-        ```
-        cd emsdk
-        ./emsdk install latest
-        ./emsdk activate latest
-        source ./emsdk_env.sh
-        ```
-
 5) Remove all downloaded zip files in `app/thirdparty`.
