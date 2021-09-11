@@ -73,6 +73,10 @@ wpd.graphicsWidget = (function() {
         };
     }
 
+    function screenLength(imageLength) {
+        return imageLength * zoomRatio;
+    }
+
     function getDisplaySize() {
         return {
             width: width,
@@ -677,6 +681,7 @@ wpd.graphicsWidget = (function() {
         resetHover: resetHover,
         imagePx: imagePx,
         screenPx: screenPx,
+        screenLength: screenLength,
 
         updateZoomOnEvent: updateZoomOnEvent,
         updateZoomToImagePosn: updateZoomToImagePosn,

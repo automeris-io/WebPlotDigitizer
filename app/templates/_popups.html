@@ -111,6 +111,9 @@
             <tr>
                 <td align="left"><label><input type="radio" name="plotlisting" id="r_image"> {{ _("Image") }}</label></td>
             </tr>
+            <tr>
+                <td align="left"><label><input type="radio" name="plotlisting" id="r_circular_chart_recorder"> {{ _("Circular Chart Recorder") }}</label></td>
+            </tr>
         </table>
     </center>
     <p>&nbsp;</p>
@@ -253,6 +256,33 @@
     <p align="center"><input type="button" value="{{ _("OK") }}" onclick="wpd.alignAxes.align();"></p>
 </div>
 
+<!-- Circular Chart Recorder Alignment -->
+<div id="circularChartRecorderAlignment" class="popup" style="width: 400px;">
+    <div class="popupheading">{{ _("Align Circular Chart Recorder Axes") }}</div>
+    <center>
+        <table padding="15">
+            <tr>
+                <td align="center"><b>{{ _("Time (T0)") }}</b></td>
+                <td align="left"><input type="text" size="15" id="circular-t0" value="0" /></td>
+            </tr>
+            <tr>
+                <td align="center"><b>{{ _("Ranges (R0, R2)") }}</b></td>
+                <td align="left">
+                    <input type="text" size="6" id="circular-r0" value="0" />
+                    <input type="text" size="6" id="circular-r2" value="0" />
+                </td>
+            </tr>
+            <tr>
+                <td align="center"><b>{{ _("Chart Start Time (T_Start)") }}</b></td>
+                <td align="left"><input type="text" size="15" id="circular-tstart" value="0" /></td>
+            </tr>
+
+        </table>
+    </center>
+    <br />
+    <p align="center"><input type="button" value="{{ _("OK") }}" onclick="wpd.alignAxes.align();"></p>
+</div>
+
 <!-- View Data -->
 <div id="csvWindow" class="popup" style="width: 800px; height: 480px;">
     <div class="popupheading">{{ _("Acquired Data") }}</div>
@@ -354,6 +384,22 @@
     <p>&nbsp;</p>
     <p align="center"><img src="images/ternaryaxes.png" /></p>
     <p align="center">{{ _("Click on the three corners in the order shown above.") }}</p>
+    <p>&nbsp;</p>
+    <p align="center"><input type="button" value="{{ _("Proceed") }}" onclick="wpd.alignAxes.pickCorners();"></p>
+</div>
+
+<!-- Circular Chart Recorder Axes Calibration Instructions -->
+<div id="circularChartRecorderAxesInfo" class="popup" style="width: 620px;">
+    <div class="popupheading">{{ _("Align Circular Chart Recorder Axes") }}</div>
+    <p>&nbsp;</p>
+    <p align="center"><img src="images/circular_chart_recorder_axes.png" /></p>
+    <p align="left">{{ _("Click on five (5) points on the chart axes as shown:") }}</p>
+    <p align="left">
+    <ul>
+        <li>{{ _("First three (3) points at different maginitudes but the same known time (T0).") }}</li>
+        <li>{{ _("Next two (2) points on any times (T1, T2) but at the same magnitude as R2.") }}</li>
+    </ul>
+    </p>
     <p>&nbsp;</p>
     <p align="center"><input type="button" value="{{ _("Proceed") }}" onclick="wpd.alignAxes.pickCorners();"></p>
 </div>

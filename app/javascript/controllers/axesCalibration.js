@@ -306,6 +306,63 @@ wpd.MapAxesCalibrator = class extends wpd.AxesCalibrator {
     }
 };
 
+wpd.CircularChartRecorderCalibrator = class extends wpd.AxesCalibrator {
+
+    start() {
+        wpd.popup.show('circularChartRecorderAxesInfo');
+    }
+    reload() {
+        let tool = new wpd.AxesCornersTool(this._calibration, true);
+        wpd.graphicsWidget.setTool(tool);
+    }
+    pickCorners() {
+        wpd.popup.close('circularChartRecorderAxesInfo');
+        let tool = new wpd.AxesCornersTool(this._calibration, false);
+        wpd.graphicsWidget.setTool(tool);
+    }
+
+    getCornerValues() {
+        wpd.popup.show('circularChartRecorderAlignment');
+        if (this._isEditing) {
+            let axes = wpd.tree.getActiveAxes();
+            let prevCal = axes.calibration;
+            if (prevCal.getCount() == 5) {
+                document.getElementById('circular-t0').value = prevCal.getPoint(0).dx;
+                document.getElementById('circular-r0').value = prevCal.getPoint(0).dy;
+                let startTime = axes.getStartTime();
+                if (startTime != null) {
+                    document.getElementById('circular-tstart').value = startTime;
+                }
+                document.getElementById('circular-r2').value = prevCal.getPoint(2).dy;
+            }
+        }
+    }
+
+    align() {
+        let t0 = document.getElementById('circular-t0').value;
+        let r0 = parseFloat(document.getElementById('circular-r0').value);
+        let r2 = parseFloat(document.getElementById('circular-r2').value);
+        let tstart = document.getElementById('circular-tstart').value;
+        let axes = this._isEditing ? wpd.tree.getActiveAxes() : new wpd.CircularChartRecorderAxes();
+
+        this._calibration.setDataAt(0, t0, r0);
+        this._calibration.setDataAt(1, t0, 0);
+        this._calibration.setDataAt(2, t0, r2);
+        this._calibration.setDataAt(3, 0, r2);
+        this._calibration.setDataAt(4, 0, r2);
+
+        axes.calibrate(this._calibration, tstart);
+        if (!this._isEditing) {
+            axes.name = wpd.alignAxes.makeAxesName(wpd.CircularChartRecorderAxes);
+            let plot = wpd.appData.getPlotData();
+            plot.addAxes(axes, wpd.appData.isMultipage());
+            wpd.alignAxes.postProcessAxesAdd(axes);
+        }
+        wpd.popup.close('circularChartRecorderAlignment');
+        return true;
+    }
+};
+
 wpd.alignAxes = (function() {
     let calibration = null;
     let calibrator = null;
@@ -317,6 +374,7 @@ wpd.alignAxes = (function() {
         let mapEl = document.getElementById('r_map');
         let imageEl = document.getElementById('r_image');
         let barEl = document.getElementById('r_bar');
+        let circularChartRecorderEl = document.getElementById('r_circular_chart_recorder');
 
         wpd.popup.close('axesList');
 
@@ -365,11 +423,21 @@ wpd.alignAxes = (function() {
                 wpd.tree.selectPath("/" + wpd.gettext("datasets") + "/" + dsName, true);
             }
             wpd.acquireData.load();
+        } else if (circularChartRecorderEl.checked === true) {
+            calibration = new wpd.Calibration(2);
+            calibration.labels = ['(T0,R0)', '(T0,R1)', '(T0,R2)', '(T1,R2)', '(T2,R2)'];
+            calibration.labelPositions = ['S', 'S', 'S', 'S', 'S'];
+            calibration.maxPointCount = 5;
+            calibrator = new wpd.CircularChartRecorderCalibrator(calibration);
         }
 
         if (calibrator != null) {
             calibrator.start();
-            wpd.graphicsWidget.setRepainter(new wpd.AlignmentCornersRepainter(calibration));
+            if (circularChartRecorderEl.checked == true) {
+                wpd.graphicsWidget.setRepainter(new wpd.CircularChartRecorderAlignmentRepainter(calibration));
+            } else {
+                wpd.graphicsWidget.setRepainter(new wpd.AlignmentCornersRepainter(calibration));
+            }
         }
     }
 
@@ -434,11 +502,17 @@ wpd.alignAxes = (function() {
             calibrator = new wpd.TernaryAxesCalibrator(calibration, true);
         } else if (axes instanceof wpd.MapAxes) {
             calibrator = new wpd.MapAxesCalibrator(calibration, true);
+        } else if (axes instanceof wpd.CircularChartRecorderAxes) {
+            calibrator = new wpd.CircularChartRecorderCalibrator(calibration, true);
         }
         if (calibrator == null)
             return;
         calibrator.reload();
-        wpd.graphicsWidget.setRepainter(new wpd.AlignmentCornersRepainter(calibration));
+        if (axes instanceof wpd.CircularChartRecorderAxes) {
+            wpd.graphicsWidget.setRepainter(new wpd.CircularChartRecorderAlignmentRepainter(calibration));
+        } else {
+            wpd.graphicsWidget.setRepainter(new wpd.AlignmentCornersRepainter(calibration));
+        }
         wpd.graphicsWidget.forceHandlerRepaint();
         wpd.sidebar.show('axes-calibration-sidebar');
     }
@@ -507,6 +581,8 @@ wpd.alignAxes = (function() {
             name = wpd.gettext("axes-name-bar");
         } else if (axType === wpd.ImageAxes) {
             name = wpd.gettext("axes-name-image");
+        } else if (axType === wpd.CircularChartRecorderAxes) {
+            name = wpd.gettext("axes-name-circular-chart-recorder");
         }
         // avoid conflict with an existing name
         let idx = 2;

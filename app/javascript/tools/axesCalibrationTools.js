@@ -132,3 +132,58 @@ wpd.AlignmentCornersRepainter = (function() {
     };
     return Tool;
 })();
+
+wpd.CircularChartRecorderAlignmentRepainter = class {
+    _calibration = null;
+    painterName = 'CircularChartRecorderAlignmentRepainter';
+
+    constructor(calibration) {
+        this._calibration = calibration;
+    }
+
+    onForcedRedraw() {
+        wpd.graphicsWidget.resetData();
+        this.onRedraw();
+    }
+
+    onRedraw() {
+        if (this._calibration == null) {
+            return;
+        }
+        for (let i = 0; i < this._calibration.getCount(); i++) {
+            let imagePos = this._calibration.getPoint(i);
+            let imagePx = {
+                x: imagePos.px,
+                y: imagePos.py
+            };
+
+            let fillStyle = "rgba(200,0,0,1)";
+            if (this._calibration.isPointSelected(i)) {
+                fillStyle = "rgba(0,200,0,1)";
+            }
+            wpd.graphicsHelper.drawPoint(imagePx, fillStyle, this._calibration.labels[i], this._calibration.labelPositions[i]);
+        }
+
+        // draw chart and pen circles
+        if (this._calibration.getCount() == 5) {
+            let cp = [];
+            for (let i = 0; i < 5; i++) {
+                cp.push(this._calibration.getPoint(i));
+            }
+            let penArcPts = [
+                [cp[0].px, cp[0].py],
+                [cp[1].px, cp[1].py],
+                [cp[2].px, cp[2].py]
+            ];
+            let chartPts = [
+                [cp[2].px, cp[2].py],
+                [cp[3].px, cp[3].py],
+                [cp[4].px, cp[4].py]
+            ];
+            let penCircle = wpd.getCircleFrom3Pts(penArcPts);
+            let chartCircle = wpd.getCircleFrom3Pts(chartPts);
+            wpd.graphicsHelper.drawCircle(penCircle, "rgba(0,200,0,0.5)");
+            wpd.graphicsHelper.drawCircle(chartCircle, "rgba(200,0,0,1)");
+        }
+    }
+};

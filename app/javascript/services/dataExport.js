@@ -35,6 +35,8 @@ wpd.dataExport = (function() {
                     val[i] = wpd.dateConverter.formatDateNumber(val[i], dformat);
                 }
             }
+        } else if (axes instanceof wpd.CircularChartRecorderAxes) {
+            val[0] = wpd.dateConverter.formatDateNumber(val[0], axes.getTimeFormat());
         } else if (axes instanceof wpd.BarAxes) {
             val = ['', val[0]];
             if (pixel.metadata == null) {

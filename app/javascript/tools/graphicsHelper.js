@@ -93,7 +93,26 @@ wpd.graphicsHelper = (function() {
         ctx.oriDataCtx.stroke();
     }
 
+    function drawCircle(circleInfo, strokeStyle) {
+        let screenPx = wpd.graphicsWidget.screenPx(circleInfo.x0, circleInfo.y0);
+        let screenRadius = wpd.graphicsWidget.screenLength(circleInfo.radius);
+        let ctx = wpd.graphicsWidget.getAllContexts();
+
+        ctx.dataCtx.beginPath();
+        ctx.dataCtx.strokeStyle = strokeStyle;
+        ctx.dataCtx.lineWidth = 2;
+        ctx.dataCtx.arc(screenPx.x, screenPx.y, screenRadius, 0, 2.0 * Math.PI, false);
+        ctx.dataCtx.stroke();
+
+        ctx.oriDataCtx.beginPath();
+        ctx.oriDataCtx.strokeStyle = strokeStyle;
+        ctx.oriDataCtx.lineWidth = 2;
+        ctx.oriDataCtx.arc(circleInfo.x0, circleInfo.y0, circleInfo.radius, 0, 2.0 * Math.PI, false);
+        ctx.oriDataCtx.stroke();
+    }
+
     return {
-        drawPoint: drawPoint
+        drawPoint: drawPoint,
+        drawCircle: drawCircle
     };
 })();
