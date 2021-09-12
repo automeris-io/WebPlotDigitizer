@@ -15,6 +15,6 @@
     },
     "dependencies": {
         "pdfjs-dist": "~2.9.359",
-        "tarballjs" : "https://github.com/ankitrohatgi/tarballjs.git"
+        "tarballjs": "https://github.com/ankitrohatgi/tarballjs.git"
     }
 }
