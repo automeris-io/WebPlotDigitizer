@@ -9,7 +9,7 @@ cat javascript/core/axes/*.js >> wpd_node.js
 printf "\nmodule.exports = { wpd: wpd };\n" >> wpd_node.js
 
 # Package Module
-VERSION=4.5
+VERSION=4.6
 mkdir -p wpd-$VERSION/
 cp wpd_node.js wpd-$VERSION/
 tar -czf wpd-$VERSION.tar.gz wpd-$VERSION

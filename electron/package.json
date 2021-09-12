@@ -1,10 +1,11 @@
 {
   "name": "webplotdigitizer",
-  "version": "4.5.0",
+  "version": "4.6.0",
   "description": "Extract data from images of charts",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "build": "./build-packages.sh"
   },
   "repository": "https://github.com/ankitrohatgi/WebPlotDigitizer.git",
   "keywords": [
@@ -16,8 +17,10 @@
     "electron": "^13.1.4"
   },
   "dependencies": {
-    "electron-packager": "^15.2.0",
+    "electron-packager": ">=15.2.0",
     "is-builtin-module": "^3.1.0",
-    "npm": "^7.19.0"
+    "npm": ">=7.19.0",
+    "pdfjs-dist": "~2.9.359",
+    "tarballjs" : "https://github.com/ankitrohatgi/tarballjs.git"
   }
 }

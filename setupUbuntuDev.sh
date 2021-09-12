@@ -8,21 +8,17 @@ sudo apt install \
      python3-babel \
      wine-stable \
      npm \
-     default-jre \
-     golang \
-     libeigen3-dev
+     golang
 
 # install global npm packages
 sudo npm install -g electron-packager 
-sudo npm install -g js-beautify
 
 # get other dependencies
 cd electron
 npm install
 cd ..
 
-cd app/thirdparty
-./getThirdparty.sh
-cd ../..
-
+cd app
+npm install
+cd ..
 

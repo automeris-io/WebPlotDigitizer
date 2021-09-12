@@ -44,7 +44,8 @@ Electron App:
 To build the HTML5 code, do the following (make sure you have checked out the dependencies above):
 
     cd app
-    ./build.sh
+    npm install
+    npm run build
 
 This should generate a combined-compiled.js file and several HTML files in the 'app' directory. Use the web server (see webserver folder) or Electron app (see electron folder) to host this app.
 
@@ -72,15 +73,12 @@ To run the electron app, follow these steps:
 
 At the moment, this is only an basic implementation. If you are familiar with electron app development, then feel free to contribute here.
 
-To build MacOS, Windows or Linux apps, make sure "electron-packager" is available:
-
-    npm install electron-packager -g
-
-On a Linux development machine, you will also need "wine" to build the Windows app. To build the apps, run:
+On a Linux development machine, you will also need `wine` to build the Windows app. To build the apps, run:
 
     cd electron
-    ./build-packages.sh # Windows, Mac and Linux
-    ./build-mac.sh      # Mac only
+    npm install
+    npm run build # Windows, Mac and Linux
+    ./build-mac.sh # MacOS only (may require global install of `electron-packager` from `npm`)
 
 This will create apps for Mac, Windows and Linux.
 
@@ -101,7 +99,6 @@ This isn't always possible, but ideally, each test assertion should complete exe
 ## Coding Style
 
 - **Javascript**: ES6 with [AirBnB's style guide](https://github.com/airbnb/javascript) is recommended. A lot of older code does not follow this style and should be updated eventually.
-- **WebAssembly C++**: C++17 or newer is preferred. The [Google C++ Style Guide](https://google.github.io/styleguide/cppguide.html) is a good resource.
 
 To run automatic formatting on the Javascript and C++ code, run the [format.sh](app/format.sh) script in the `app` folder.
 
