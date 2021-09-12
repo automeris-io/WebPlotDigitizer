@@ -1,0 +1,20 @@
+{
+    "name": "webplotdigitzer-app",
+    "version": 4.6,
+    "description": "Frontend for WebPlotDigitizer",
+    "main": "wpd.min.js",
+    "license": "AGPL-3.0",
+    "scripts": {
+        "prebuild": "./build.sh",
+        "build": "uglifyjs combined.js -cm -o wpd.min.js",
+        "format": "./format.sh"
+    },
+    "devDependencies": {
+        "uglify-js": ">=3.14.2",
+        "js-beautify": ">=1.14.0"
+    },
+    "dependencies": {
+        "pdfjs-dist": "~2.9.359",
+        "tarballjs" : "https://github.com/ankitrohatgi/tarballjs.git"
+    }
+}
