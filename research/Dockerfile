@@ -13,8 +13,8 @@ MAINTAINER William Denney <wdenney@humanpredictions.com>
 RUN apt-get update \
     && DEBIAN_FRONTEND=noninteractive \
        apt-get install --yes --no-install-recommends \
-       git unzip wget ca-certificates python3 xz-utils libxml2 \
-       sudo tzdata \
+       git git-lfs unzip wget ca-certificates python3 xz-utils libxml2 \
+       sudo tzdata python3-distutils \
     && DEBIAN_FRONTEND=noninteractive \
        ln -fs /usr/share/zoneinfo/UTC /etc/localtime \
     && DEBIAN_FRONTEND=noninteractive \
@@ -36,7 +36,7 @@ RUN git clone $GITREPO \
     && mv settings.json.example settings.json
 
 RUN cd /WebPlotDigitizer/app \
-    && ./build.sh
+    && npm install && npm run build
 
 WORKDIR /WebPlotDigitizer/webserver/
 CMD ["/WebPlotDigitizer/webserver/webserver"]
