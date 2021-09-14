@@ -10,9 +10,6 @@ sudo apt install \
      npm \
      golang
 
-# install global npm packages
-sudo npm install -g electron-packager 
-
 # get other dependencies
 cd electron
 npm install
