@@ -8,14 +8,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-09-11 23:41-0700\n"
+"POT-Creation-Date: 2021-11-16 14:44-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.6.0\n"
+"Generated-By: Babel 2.9.0\n"
 
 #: templates/_base.html:27
 msgid "Web based tool to extract numerical data from plots and graph images."
@@ -111,7 +111,7 @@ msgstr ""
 #: templates/_popups.html:571 templates/_popups.html:583
 #: templates/_popups.html:594 templates/_popups.html:604
 #: templates/_popups.html:615 templates/_popups.html:647
-#: templates/_popups.html:682 templates/_strings.html:74
+#: templates/_popups.html:697 templates/_strings.html:74
 msgid "Cancel"
 msgstr ""
 
@@ -754,35 +754,40 @@ msgstr ""
 msgid "Point Groups"
 msgstr ""
 
-#: templates/_popups.html:656
+#: templates/_popups.html:659
 msgid ""
 "Point groups are groups of related data points such as standard error or "
-"confidence"
+"confidence intervals."
 msgstr ""
 
-#: templates/_popups.html:658
+#: templates/_popups.html:663
 msgid ""
-"intervals. Configure point groups to add related data points, in order, "
-"by tuples."
+"To define a point group, enter a name in the text input below. Create "
+"additional point groups as necessary."
 msgstr ""
 
-#: templates/_popups.html:660
-msgid "Tuples are bound by points in the primary group."
+#: templates/_popups.html:667
+msgid ""
+"E.g. Assume we have 3 point groups defined: Median, Standard error +1, "
+"and Standard error -1. Points would be entered in the order shown in the "
+"image to the right. For each set of points, the median value would first "
+"be recorded, then the standard error +1, and finally the standard error "
+"-1. The process would repeat for the next set of points."
 msgstr ""
 
-#: templates/_popups.html:667 templates/_strings.html:81
+#: templates/_popups.html:682 templates/_strings.html:81
 msgid "Group"
 msgstr ""
 
-#: templates/_popups.html:670 templates/_strings.html:83
+#: templates/_popups.html:685 templates/_strings.html:83
 msgid "Primary Group"
 msgstr ""
 
-#: templates/_popups.html:678
+#: templates/_popups.html:693
 msgid "Add New Group"
 msgstr ""
 
-#: templates/_popups.html:681
+#: templates/_popups.html:696
 msgid "Save"
 msgstr ""
 
