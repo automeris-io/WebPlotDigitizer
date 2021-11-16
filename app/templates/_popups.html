@@ -650,15 +650,30 @@
 </div>
 
 <!-- Data point group settings -->
-<div id="point-group-settings-popup" class="popup" style="width: 600px">
+<div id="point-group-settings-popup" class="popup" style="width: 600px; overflow: auto">
     <div class="popupheading">{{ _("Point Groups") }}</div>
-    <p>
-        {{ _("Point groups are groups of related data points such as standard error or confidence") }}
-        <br />
-        {{ _("intervals. Configure point groups to add related data points, in order, by tuples.") }}
-        <br />
-        {{ _("Tuples are bound by points in the primary group.") }}
-    </p>
+    <table style="margin: 0 auto;">
+        <tr>
+            <td style="vertical-align: top;">
+                <p>
+                    {{ _("Point groups are groups of related data points such as standard error or confidence intervals.") }}
+                </p>
+                <br />
+                <p>
+                    {{ _("To define a point group, enter a name in the text input below. Create additional point groups as necessary.") }}
+                </p>
+                <br />
+                <p>
+                    {{ _("E.g. Assume we have 3 point groups defined: Median, Standard error +1, and Standard error -1. Points would be entered in the order shown in the image to the right. For each set of points, the median value would first be recorded, then the standard error +1, and finally the standard error -1. The process would repeat for the next set of points.") }}
+                </p>
+            </td>
+            <td>
+                <center>
+                    <img src="images/pointgroups.png" width="300px">
+                </center>
+            </td>
+        </tr>
+    </table>
     <br />
     <table style="margin: 0 auto;">
         <tbody id="point-group-table">
