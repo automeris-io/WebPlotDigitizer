@@ -62,11 +62,10 @@ wpd.imageManager = (function() {
                     pdfjsLib.getDocument(pdfurl).promise.then(function(pdf) {
                         const existingPageManager = wpd.appData.getPageManager();
                         if (existingPageManager) {
-                            existingPageManager.renderPage(existingPageManager.currentPage(),
-                                resumedProject).then(resolve);
+                            existingPageManager.renderPage(existingPageManager.currentPage()).then(resolve);
                         } else {
                             const pdfManager = initializePDFManager(pdf);
-                            pdfManager.renderPage(1, resumedProject).then(resolve);
+                            pdfManager.renderPage(1).then(resolve);
                             wpd.appData.setPageManager(pdfManager);
                         }
                     });

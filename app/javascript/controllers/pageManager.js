@@ -186,9 +186,7 @@ wpd.PageManager = class {
         // udpate select value for calls from other controls
         this.$pageSelector.value = parsedPageNumber;
 
-        const axesPageMap = this.getAxesNameMap();
-        const hasAxes = Object.keys(axesPageMap).some(name => axesPageMap[name] === parsedPageNumber);
-        this.renderPage(parsedPageNumber, hasAxes);
+        this.renderPage(parsedPageNumber);
         this._resetRelabelPopup();
     }
 
@@ -196,14 +194,14 @@ wpd.PageManager = class {
         return pageNumber >= this.minPage && pageNumber <= this.maxPage;
     }
 
-    _pageRenderer(page, resumedProject, resolve, reject) {
+    _pageRenderer(page, resolve, reject) {
         // implementation specific
     }
 
-    renderPage(pageNumber, resumedProject) {
+    renderPage(pageNumber) {
         return new Promise((resolve, reject) => {
             this.getPage(pageNumber).then(page => {
-                this._pageRenderer(page, resumedProject, resolve, reject);
+                this._pageRenderer(page, resolve, reject);
             });
         });
     }
@@ -296,7 +294,7 @@ wpd.PDFManager = class extends wpd.PageManager {
         return this.handle.numPages;
     }
 
-    _pageRenderer(page, resumedProject, resolve, reject) {
+    _pageRenderer(page, resolve, reject) {
         let scale = 3;
         let viewport = page.getViewport({
             scale: scale
@@ -312,7 +310,7 @@ wpd.PDFManager = class extends wpd.PageManager {
             .promise.then(
                 function() {
                     let url = $canvas.toDataURL();
-                    wpd.imageManager.loadFromURL(url, resumedProject).then(resolve);
+                    wpd.imageManager.loadFromURL(url, true).then(resolve);
                 },
                 function(err) {
                     console.log(err);
