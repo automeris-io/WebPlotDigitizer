@@ -28,7 +28,7 @@ async function main() {
     calibration.addPoint(100.57, 540.69, "0", "-2"); // X1
     calibration.addPoint(692.42, 540.94, "6", "-2"); // X2
     calibration.addPoint(100.82, 540.44, "0", "-2");  // Y1
-    calibration.addPoint(100.33, 60.54, "6", "2");   // Y2
+    calibration.addPoint(100.33, 60.54, "0", "2");   // Y2
 
 
     // XY axes
