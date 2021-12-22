@@ -5,7 +5,8 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "build": "./build-packages.sh"
+    "build": "./build-packages.sh",
+    "build_on_mac": "./build-mac.sh"
   },
   "repository": "https://github.com/ankitrohatgi/WebPlotDigitizer.git",
   "keywords": [

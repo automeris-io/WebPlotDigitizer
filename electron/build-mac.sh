@@ -6,14 +6,11 @@
 # This works on Linux and has not tested on Mac or Windows
 cd ..
 echo "Packaging..."
-APPNAME=WebPlotDigitizer-4.5
+APPNAME=WebPlotDigitizer-4.6
 electron-packager ./electron $APPNAME --platform=darwin --icon=app/images/icon/wpd.icns --arch=x64 --overwrite
 
 # mac
 electron-packager ./electron $APPNAME --platform=darwin --icon=app/images/icon/wpd.icns --arch=x64 --overwrite
-cp -r ./app $APPNAME-darwin-x64/$APPNAME.app/Contents/Resources/
-rm -rf $APPNAME-darwin-x64/$APPNAME.app/Contents/Resources/app/thirdparty/compiler-latest.zip
-rm -rf $APPNAME-darwin-x64/$APPNAME.app/Contents/Resources/app/thirdparty/closure-compiler
-rm -rf $APPNAME-darwin-x64/$APPNAME.app/Contents/Resources/app/thirdparty/emsdk
+rsync -av --progress ./app $APPNAME-darwin-x64/$APPNAME.app/Contents/Resources/ --exclude node_modules --exclude package.json --exclude package-lock.json
 zip -r $APPNAME-darwin-x64.zip $APPNAME-darwin-x64
 md5 $APPNAME-darwin-x64.zip > $APPNAME-darwin-x64.zip.md5
