@@ -6,7 +6,8 @@
   "scripts": {
     "start": "electron .",
     "build": "./build-packages.sh",
-    "build_on_mac": "./build-mac.sh"
+    "build_on_mac": "./build-mac.sh",
+    "build_on_apple_silicon": "./build-apple-silicon.sh"
   },
   "repository": "https://github.com/ankitrohatgi/WebPlotDigitizer.git",
   "keywords": [
