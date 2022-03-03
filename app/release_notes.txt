@@ -1,5 +1,16 @@
 RELEASE NOTES
 
+Version 4.6
+===========
+TBD
+
+New Features:
+- Experimental support for Circular Chart Recorders
+- Apple Silicon support for desktop application
+
+Code Cleanup:
+- Remove dependence on closure compiler, use NPM to manage builds
+
 Version 4.5
 ===========
 August 15, 2021
