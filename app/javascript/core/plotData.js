@@ -394,8 +394,8 @@ wpd.PlotData = class {
                 if (axes != null) {
                     axes.name = axData.name;
 
-                    if (axes.metadata !== undefined) {
-                        axes.metadata = axData.metadata;
+                    if (axData.metadata !== undefined) {
+                        axes.setMetadata(axData.metadata);
                     }
 
                     this._axesColl.push(axes);
