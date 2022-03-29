@@ -537,35 +537,42 @@ wpd.alignAxes = (function() {
             });
         };
 
-        wpd.okCancelPopup.show(
-            wpd.gettext("delete-associated-datasets"),
-            wpd.gettext("delete-associated-datasets-text"),
-            () => {
-                const plotData = wpd.appData.getPlotData();
-                const axes = wpd.tree.getActiveAxes();
+        const plotData = wpd.appData.getPlotData();
+        const axes = wpd.tree.getActiveAxes();
 
-                // get all datasets and filter to datasets of active axes
-                const datasets = plotData.getDatasets();
-                const axesDatasets = datasets.filter((ds) => plotData.getAxesForDataset(ds) === axes);
+        // get all datasets and filter to datasets of active axes
+        const datasets = plotData.getDatasets();
+        const axesDatasets = datasets.filter((ds) => plotData.getAxesForDataset(ds) === axes);
 
-                for (const dataset of axesDatasets) {
-                    plotData.deleteDataset(dataset);
-                    wpd.appData.getFileManager().deleteDatasetsFromCurrentFile([dataset]);
-                    if (wpd.appData.isMultipage()) {
-                        wpd.appData.getPageManager().deleteDatasetsFromCurrentPage([dataset]);
+        if (axesDatasets.length > 0) {
+            // only display delete associated datasets popup if they exist
+            wpd.okCancelPopup.show(
+                wpd.gettext("delete-associated-datasets"),
+                wpd.gettext("delete-associated-datasets-text"),
+                () => {
+                    for (const dataset of axesDatasets) {
+                        plotData.deleteDataset(dataset);
+                        wpd.appData.getFileManager().deleteDatasetsFromCurrentFile([dataset]);
+                        if (wpd.appData.isMultipage()) {
+                            wpd.appData.getPageManager().deleteDatasetsFromCurrentPage([dataset]);
+                        }
+                        // dispatch dataset delete event
+                        wpd.events.dispatch("wpd.dataset.delete", {
+                            dataset: dataset
+                        });
+
+                        // no need to refresh the tree here
                     }
-                    // dispatch dataset delete event
-                    wpd.events.dispatch("wpd.dataset.delete", {
-                        dataset: dataset
-                    });
 
-                    // no need to refresh the tree here
-                }
-
-                deleteAxes();
-            },
-            deleteAxes,
-        );
+                    deleteAxes();
+                },
+                deleteAxes,
+            );
+        }
+        else {
+            // otherwise, proceed to delete the axes
+            deleteAxes();
+        }
     }
 
     function showRenameAxes() {
