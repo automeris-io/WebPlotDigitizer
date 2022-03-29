@@ -518,21 +518,54 @@ wpd.alignAxes = (function() {
     }
 
     function deleteCalibration() {
-        wpd.okCancelPopup.show(wpd.gettext("delete-axes"), wpd.gettext("delete-axes-text"),
-            function() {
+        wpd.okCancelPopup.show(wpd.gettext("delete-axes"), wpd.gettext("delete-axes-text"), deleteAssociatedDatasets);
+    }
+
+    function deleteAssociatedDatasets() {
+        const deleteAxes = () => {
+            const plotData = wpd.appData.getPlotData();
+            const axes = wpd.tree.getActiveAxes();
+            plotData.deleteAxes(axes);
+            if (wpd.appData.isMultipage()) {
+                wpd.appData.getPageManager().deleteAxesFromCurrentPage([axes]);
+            }
+            wpd.tree.refresh();
+            wpd.tree.selectPath("/" + wpd.gettext("axes"));
+            // dispatch axes delete event
+            wpd.events.dispatch("wpd.axes.delete", {
+                axes: axes
+            });
+        };
+
+        wpd.okCancelPopup.show(
+            wpd.gettext("delete-associated-datasets"),
+            wpd.gettext("delete-associated-datasets-text"),
+            () => {
                 const plotData = wpd.appData.getPlotData();
                 const axes = wpd.tree.getActiveAxes();
-                plotData.deleteAxes(axes);
-                if (wpd.appData.isMultipage()) {
-                    wpd.appData.getPageManager().deleteAxesFromCurrentPage([axes]);
+
+                // get all datasets and filter to datasets of active axes
+                const datasets = plotData.getDatasets();
+                const axesDatasets = datasets.filter((ds) => plotData.getAxesForDataset(ds) === axes);
+
+                for (const dataset of axesDatasets) {
+                    plotData.deleteDataset(dataset);
+                    wpd.appData.getFileManager().deleteDatasetsFromCurrentFile([dataset]);
+                    if (wpd.appData.isMultipage()) {
+                        wpd.appData.getPageManager().deleteDatasetsFromCurrentPage([dataset]);
+                    }
+                    // dispatch dataset delete event
+                    wpd.events.dispatch("wpd.dataset.delete", {
+                        dataset: dataset
+                    });
+
+                    // no need to refresh the tree here
                 }
-                wpd.tree.refresh();
-                wpd.tree.selectPath("/" + wpd.gettext("axes"));
-                // dispatch axes delete event
-                wpd.events.dispatch("wpd.axes.delete", {
-                    axes: axes
-                });
-            });
+
+                deleteAxes();
+            },
+            deleteAxes,
+        );
     }
 
     function showRenameAxes() {
