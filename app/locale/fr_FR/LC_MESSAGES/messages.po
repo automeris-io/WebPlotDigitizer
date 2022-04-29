@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-03-29 11:21-0400\n"
+"POT-Creation-Date: 2022-04-28 14:14-0400\n"
 "PO-Revision-Date: 2017-11-01 23:56-0500\n"
 "Last-Translator: \n"
 "Language: fr_FR\n"
@@ -32,7 +32,7 @@ msgid ""
 "Firefox, Safari or Microsoft Edge installed."
 msgstr ""
 
-#: templates/_base.html:76
+#: templates/_base.html:78
 msgid "Fit"
 msgstr ""
 
@@ -1088,7 +1088,9 @@ msgid "Clear data points?"
 msgstr ""
 
 #: templates/_strings.html:13
-msgid "This will delete all data points from this dataset"
+msgid ""
+"This will delete all data points and point group definitions from this "
+"dataset"
 msgstr ""
 
 #: templates/_strings.html:15
@@ -2343,7 +2345,7 @@ msgstr ""
 #~ msgstr "Effacer les points de données?"
 
 #~ msgid "This will delete all data points from this dataset"
-#~ msgstr "Ceci va supprimer tous les points de données de ce dataset"
+#~ msgstr ""
 
 #~ msgid ""
 #~ "Your browser does not support webcam "

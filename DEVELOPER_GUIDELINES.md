@@ -88,21 +88,53 @@ This will create apps for Mac, Windows and Linux.
 
 Please consider adding unit tests when adding or editing code. Any contributions to increase existing code coverage is greatly appreciated.
 
-Unit tests are located in the `app/tests` directory. The tests are written for [QUnit](https://api.qunitjs.com/). The mocking library [Sinon.js](https://sinonjs.org/) is included as well to facilitate unit test creation.
+Unit tests are located in the `app/tests` directory. The tests are written for [QUnit](https://api.qunitjs.com/). The test runner [Karma](https://karma-runner.github.io/) is used to enable command-line results. The mocking library [Sinon.js](https://sinonjs.org/) is included as well to facilitate unit test creation.
 
-To run the tests, start a development server and append `/tests` to the url (e.g. `http://localhost:8080/tests`).
+**Adding tests**
+
+To add tests, locate the appropriate test file under `app/tests` (or create an appropriate file) and add the tests there.
+
+This isn't always possible, but ideally, each unit test assertion should complete execution within 10ms.
+
+**Running tests**
+
+To run the tests, use the following commands:
+
+    cd app
+    npm test
 
 This will load the QUnit tests, run them, and display the results.
 
-To add new unit tests, add or edit an existing test script. If adding a new script, make sure to include it in `app/tests/index.html` via an HTML `script` tag so the new script is included.
+To view the QUnit results in the browser, start a development server and append `/tests` to the url (e.g. `http://localhost:8080/tests`).
 
-This isn't always possible, but ideally, each test assertion should complete execution within 10ms.
+**Testing different browsers**
+
+To run the unit tests in different browsers, use this command:
+
+    npm test -- --browsers [browser-name]
+
+Note: `[browser-name]` is sentence-cased (e.g. Chrome).
+
+Or, alternatively, edit `karma.conf.js`, uncomment all desired browsers to concurrently run tests on under `browsers`, and re-run the tests.
+
+Karma can run the tests on a plethora of browsers. To use another browser, visit https://karma-runner.github.io/latest/config/browsers.html for more information on how to set it up. This typically involves having the desired browser installed on your local machine, and a Karma plugin for the browser. By default, Karma plugins for Chrome, Firefox, and Edge are already installed.
+
+**Auto-watch**
+
+Karma has been configured to run in single-run mode. But Karma has the ability to watch files for changes and re-run tests. To enable this behavior, run the following instead of `npm test`:
+
+    npm test -- --single-run false
 
 ## Coding Style
 
 - **Javascript**: ES6 with [AirBnB's style guide](https://github.com/airbnb/javascript) is recommended. A lot of older code does not follow this style and should be updated eventually.
 
-To run automatic formatting on the Javascript and C++ code, run the [format.sh](app/format.sh) script in the `app` folder.
+To run automatic formatting on the Javascript and C++ code, use this command:
+
+    cd app
+    npm run format
+
+Or, alternatively, run the [format.sh](app/format.sh) script in the `app` folder.
 
 ## Scripts
 

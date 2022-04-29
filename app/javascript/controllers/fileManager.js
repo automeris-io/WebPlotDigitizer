@@ -37,9 +37,20 @@ wpd.FileManager = class {
         this.axesByFile = {};
         this.datasetsByFile = {};
         this.measurementsByFile = {};
+        this.rotationsByFile = {};
         this.files = [];
         this.$navSeparator.hidden = true;
         this._hidePageInfo();
+
+        // listen for page rotations
+        wpd.events.removeListener("wpd.image.rotate", this.rotationHandler);
+        this.rotationHandler = wpd.events.addListener("wpd.image.rotate", (payload) => {
+            // only set rotation information for files with pages
+            const pageManager = wpd.appData.getPageManager();
+            if (pageManager) {
+                pageManager.setRotation(payload.rotation);
+            }
+        });
     }
 
     set(files) {
@@ -243,6 +254,7 @@ wpd.FileManager = class {
             let datasetNameMaps = [{}];
             let measurementPageMaps = []; // measurements do not have unique names
             let pageLabelMaps = {};
+            let rotationMaps = {};
 
             // collect metadata from all page managers
             for (const index in this.pageManagers) {
@@ -252,6 +264,10 @@ wpd.FileManager = class {
                 const pageLabelMap = this.pageManagers[index].getPageLabelMap();
                 if (Object.keys(pageLabelMap).length) {
                     pageLabelMaps[index] = pageLabelMap;
+                }
+                const rotationMap = this.pageManagers[index].getRotationMap();
+                if (Object.keys(rotationMap).length) {
+                    rotationMaps[index] = rotationMap;
                 }
             }
 
@@ -268,11 +284,18 @@ wpd.FileManager = class {
                 })
             };
 
-            if (Object.keys(pageLabelMaps).length) {
+            if (Object.keys(pageLabelMaps).length || Object.keys(rotationMaps).length) {
+                metadata.misc = {};
+
                 // include page label maps by file in the miscellaneous category
-                metadata.misc = {
-                    pageLabel: pageLabelMaps
-                };
+                if (Object.keys(pageLabelMaps).length) {
+                    metadata.misc.pageLabel = pageLabelMaps;
+                }
+
+                // include rotation maps by file in the miscellaneous category
+                if (Object.keys(rotationMaps).length) {
+                    metadata.misc.rotation = rotationMaps;
+                }
             }
         }
 
@@ -372,6 +395,15 @@ wpd.FileManager = class {
                         if (fileManager.pageManagers.hasOwnProperty(index)) {
                             Object.assign(pageData, {
                                 pageLabels: metadata.misc.pageLabel[index]
+                            });
+                        }
+                    }
+
+                    // load page rotations
+                    if (metadata.misc.rotation) {
+                        if (fileManager.pageManagers.hasOwnProperty(index)) {
+                            Object.assign(pageData, {
+                                rotations: metadata.misc.rotation[index]
                             });
                         }
                     }

@@ -252,6 +252,9 @@ QUnit.test("Get metadata for JSON", (assert) => {
             getPageLabelMap: sinon.stub().returns({
                 1: "hello",
                 2: "goodbye"
+            }),
+            getRotationMap: sinon.stub().returns({
+                2: 180
             })
         }
     };
@@ -274,6 +277,11 @@ QUnit.test("Get metadata for JSON", (assert) => {
                 0: {
                     1: "hello",
                     2: "goodbye"
+                }
+            },
+            rotation: {
+                0: {
+                    2: 180
                 }
             }
         }
@@ -328,6 +336,9 @@ QUnit.test("Get metadata for JSON", (assert) => {
             }),
             getPageLabelMap: sinon.stub().returns({
                 1: "hello"
+            }),
+            getRotationMap: sinon.stub().returns({
+                2: 90
             })
         },
         1: {
@@ -342,6 +353,9 @@ QUnit.test("Get metadata for JSON", (assert) => {
             }),
             getPageLabelMap: sinon.stub().returns({
                 1: "goodbye"
+            }),
+            getRotationMap: sinon.stub().returns({
+                1: 270
             })
         }
     };
@@ -396,6 +410,14 @@ QUnit.test("Get metadata for JSON", (assert) => {
                 1: {
                     1: "goodbye"
                 }
+            },
+            rotation: {
+                0: {
+                    2: 90
+                },
+                1: {
+                    1: 270
+                }
             }
         }
     };
@@ -418,6 +440,9 @@ QUnit.test("Get metadata for JSON", (assert) => {
             }),
             getPageLabelMap: sinon.stub().returns({
                 1: "hello"
+            }),
+            getRotationMap: sinon.stub().returns({
+                1: 180
             })
         }
     };
@@ -466,6 +491,11 @@ QUnit.test("Get metadata for JSON", (assert) => {
             pageLabel: {
                 0: {
                     1: "hello"
+                }
+            },
+            rotation: {
+                0: {
+                    1: 180
                 }
             }
         }

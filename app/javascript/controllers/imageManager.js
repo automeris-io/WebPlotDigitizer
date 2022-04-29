@@ -95,6 +95,10 @@ wpd.imageManager = (function() {
             wpd.appData.reset();
             wpd.sidebar.clear();
         }
+        const pageManager = wpd.appData.getPageManager();
+        if (pageManager) {
+            wpd.graphicsWidget.setRotation(pageManager.getRotation());
+        }
         let imageData = wpd.graphicsWidget.loadImage(image);
         wpd.appData.plotLoaded(imageData);
         wpd.busyNote.close();

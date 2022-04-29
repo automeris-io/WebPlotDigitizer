@@ -7,11 +7,20 @@
     "scripts": {
         "prebuild": "./build.sh",
         "build": "uglifyjs combined.js -cm -o wpd.min.js",
-        "format": "./format.sh"
+        "format": "./format.sh",
+        "test": "./node_modules/karma/bin/karma start"
     },
     "devDependencies": {
-        "uglify-js": ">=3.14.2",
-        "js-beautify": ">=1.14.0"
+        "js-beautify": ">=1.14.0",
+        "karma": ">=6.3.19",
+        "karma-chrome-launcher": ">=3.1.1",
+        "karma-edge-launcher": ">=0.4.2",
+        "karma-firefox-launcher": ">=2.1.2",
+        "karma-qunit": ">=4.1.2",
+        "karma-sinon": ">=1.0.5",
+        "qunit": ">=2.19.0",
+        "sinon": ">=13.0.2",
+        "uglify-js": ">=3.14.2"
     },
     "dependencies": {
         "pdfjs-dist": "~2.9.359",
