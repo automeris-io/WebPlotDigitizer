@@ -267,9 +267,7 @@ wpd.graphicsWidget = (function() {
         rotation = ((rotation || 360) + deltaDegrees) % 360;
 
         // determine if it is necessary to swap canvas width and height
-        const dimensions = rotation % 180 === 0 ?
-            [displayWidth, displayHeight] :
-            [displayHeight, displayWidth];
+        const dimensions = rotation % 180 === 0 ? [displayWidth, displayHeight] : [displayHeight, displayWidth];
 
         // setting size clears canvases, update the size of the canvases before transforming
         resize(...dimensions);
@@ -400,15 +398,13 @@ wpd.graphicsWidget = (function() {
         }
 
         // determine source rotation image dimensions
-        const dimensions = sourceDegrees % 180 === 0 ?
-            {
-                x: originalWidth,
-                y: originalHeight
-            } :
-            {
-                x: originalHeight,
-                y: originalWidth
-            };
+        const dimensions = sourceDegrees % 180 === 0 ? {
+            x: originalWidth,
+            y: originalHeight
+        } : {
+            x: originalHeight,
+            y: originalWidth
+        };
 
         let rotatedX, rotatedY;
         switch (deltaDegrees) {

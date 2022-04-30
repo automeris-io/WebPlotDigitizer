@@ -71,21 +71,34 @@ wpd.AxesCornersTool = (function() {
                 stepSize = ev.shiftKey === true ? 5 / wpd.graphicsWidget.getZoomRatio() :
                 0.5 / wpd.graphicsWidget.getZoomRatio();
 
+            // rotate to current rotation
+            const currentRotation = wpd.graphicsWidget.getRotation();
+            let {
+                x,
+                y
+            } = wpd.graphicsWidget.getRotatedCoordinates(0, currentRotation, pointPx, pointPy);
+
             if (wpd.keyCodes.isUp(ev.keyCode)) {
-                pointPy = pointPy - stepSize;
+                y = y - stepSize;
             } else if (wpd.keyCodes.isDown(ev.keyCode)) {
-                pointPy = pointPy + stepSize;
+                y = y + stepSize;
             } else if (wpd.keyCodes.isLeft(ev.keyCode)) {
-                pointPx = pointPx - stepSize;
+                x = x - stepSize;
             } else if (wpd.keyCodes.isRight(ev.keyCode)) {
-                pointPx = pointPx + stepSize;
+                x = x + stepSize;
             } else {
                 return;
             }
 
-            _calibration.changePointPx(_calibration.getSelectedPoints()[0], pointPx, pointPy);
+            // rotate back to original rotation
+            ({
+                x,
+                y
+            } = wpd.graphicsWidget.getRotatedCoordinates(currentRotation, 0, x, y));
+
+            _calibration.changePointPx(_calibration.getSelectedPoints()[0], x, y);
             wpd.graphicsWidget.forceHandlerRepaint();
-            wpd.graphicsWidget.updateZoomToImagePosn(pointPx, pointPy);
+            wpd.graphicsWidget.updateZoomToImagePosn(x, y);
             ev.preventDefault();
             ev.stopPropagation();
         };
