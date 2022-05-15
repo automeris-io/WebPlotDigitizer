@@ -534,6 +534,10 @@ wpd.AdjustDataPointTool = (function() {
             }
 
             // key strokes that need each point processed
+            let lastPtCoord = {
+                x: null,
+                y: null
+            };
             selIndexes.forEach(function(selIndex) {
                 const stepSize = ev.shiftKey === true ? 5 / wpd.graphicsWidget.getZoomRatio() :
                     0.5 / wpd.graphicsWidget.getZoomRatio();
@@ -620,12 +624,17 @@ wpd.AdjustDataPointTool = (function() {
                     x,
                     y
                 } = wpd.graphicsWidget.getRotatedCoordinates(currentRotation, 0, x, y));
-
                 dataset.setPixelAt(selIndex, x, y);
-                wpd.graphicsWidget.updateZoomToImagePosn(x, y);
+                lastPtCoord = {
+                    x: x,
+                    y: y
+                };
             }.bind(this));
 
             wpd.graphicsWidget.forceHandlerRepaint();
+            if (lastPtCoord.x != null) {
+                wpd.graphicsWidget.updateZoomToImagePosn(lastPtCoord.x, lastPtCoord.y);
+            }
             ev.preventDefault();
             ev.stopPropagation();
         };
