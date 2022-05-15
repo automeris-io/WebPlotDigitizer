@@ -568,8 +568,7 @@ wpd.alignAxes = (function() {
                 },
                 deleteAxes,
             );
-        }
-        else {
+        } else {
             // otherwise, proceed to delete the axes
             deleteAxes();
         }

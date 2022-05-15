@@ -81,11 +81,13 @@ wpd.zoomView = (function() {
         };
     }
 
-    function setZoomImage(imgData, x0, y0, zwidth, zheight) {
+    function setZoomImage(imgData, x0, y0, zwidth, zheight, matrix) {
         tempCanvas.width = zwidth / zoomRatio;
         tempCanvas.height = zheight / zoomRatio;
         tctx.putImageData(imgData, 0, 0);
         zCanvas.width = zCanvas.width;
+        // rotate zoom canvas after reset (setting width resets)
+        zctx.setTransform(matrix);
         zctx.drawImage(tempCanvas, x0, y0, zwidth, zheight);
     }
 

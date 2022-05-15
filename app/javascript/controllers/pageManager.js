@@ -28,6 +28,7 @@ wpd.PageManager = class {
         this.minPage = 0;
         this.maxPage = 0;
         this.customLabelsByPage = {};
+        this.rotationsByPage = {};
         this.axesByPage = {};
         this.datasetsByPage = {};
         this.measurementsByPage = {};
@@ -142,6 +143,14 @@ wpd.PageManager = class {
         this._initializeInput();
         wpd.popup.close('image-page-relabel-popup');
         this._resetRelabelPopup();
+    }
+
+    setRotation(rotation) {
+        this.rotationsByPage[this.curPage] = rotation;
+    }
+
+    getRotation() {
+        return this.rotationsByPage[this.curPage] ?? 0;
     }
 
     get() {
@@ -273,11 +282,22 @@ wpd.PageManager = class {
         return this.customLabelsByPage;
     }
 
+    getRotationMap() {
+        return this.rotationsByPage;
+    }
+
     loadPageData(data) {
         this.axesByPage = data.axes || {};
         this.datasetsByPage = data.datasets || {};
         this.measurementsByPage = data.measurements || {};
         this.customLabelsByPage = data.pageLabels || {};
+        this.rotationsByPage = data.rotations || {};
+
+        // set graphics widget rotation if the loaded page has rotation data
+        if (Object.keys(this.rotationsByPage).length) {
+            wpd.graphicsWidget.setRotation(this.getRotation());
+            wpd.graphicsWidget.rotateAndResize();
+        }
     }
 };
 
@@ -295,6 +315,7 @@ wpd.PDFManager = class extends wpd.PageManager {
     }
 
     _pageRenderer(page, resolve, reject) {
+        const self = this;
         let scale = 3;
         let viewport = page.getViewport({
             scale: scale
@@ -310,7 +331,11 @@ wpd.PDFManager = class extends wpd.PageManager {
             .promise.then(
                 function() {
                     let url = $canvas.toDataURL();
-                    wpd.imageManager.loadFromURL(url, true).then(resolve);
+                    wpd.imageManager.loadFromURL(url, true).then(() => {
+                        wpd.graphicsWidget.setRotation(self.getRotation());
+                        wpd.graphicsWidget.rotateAndResize();
+                        resolve();
+                    });
                 },
                 function(err) {
                     console.log(err);

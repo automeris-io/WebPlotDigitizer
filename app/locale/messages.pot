@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-03-29 11:21-0400\n"
+"POT-Creation-Date: 2022-04-28 14:14-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -31,7 +31,7 @@ msgid ""
 "Firefox, Safari or Microsoft Edge installed."
 msgstr ""
 
-#: templates/_base.html:76
+#: templates/_base.html:78
 msgid "Fit"
 msgstr ""
 
@@ -1087,7 +1087,9 @@ msgid "Clear data points?"
 msgstr ""
 
 #: templates/_strings.html:13
-msgid "This will delete all data points from this dataset"
+msgid ""
+"This will delete all data points and point group definitions from this "
+"dataset"
 msgstr ""
 
 #: templates/_strings.html:15

@@ -149,3 +149,10 @@ An event system is available to attach listeners to various actions taken in Web
         - `axes`: `Axes` - Axes selected data point belongs to
         - `dataset`: `Dataset` - Data set selected data point belongs to
         - `indexes`: `Array` - Array containing indexes of selected data points in data set (for use with `Dataset.prototype.getPixel`)
+
+**`wpd.image.rotate`**
+> Fires when the image has been rotated
+
+- Payload:
+    - `Object`
+        - `rotation`: `Integer` - New rotation of image in degrees

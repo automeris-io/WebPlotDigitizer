@@ -77,10 +77,13 @@ wpd.CropImageAction = class extends wpd.ReversibleAction {
         let imageSize = wpd.graphicsWidget.getImageSize();
         this._originalImage = ctx.oriImageCtx.getImageData(0, 0, imageSize.width, imageSize.height);
 
+        const width = this._x1 - this._x0;
+        const height = this._y1 - this._y0;
+
         // crop image
-        let croppedImage = ctx.oriImageCtx.getImageData(this._x0, this._y0, this._x1, this._y1);
-        let croppedWidth = this._x1 - this._x0;
-        let croppedHeight = this._y1 - this._y0;
+        let croppedImage = ctx.oriImageCtx.getImageData(this._x0, this._y0, width, height);
+        let croppedWidth = Math.abs(width);
+        let croppedHeight = Math.abs(height);
 
         // replace current image with cropped image
         let imageOp = function(imageData, width, height) {
