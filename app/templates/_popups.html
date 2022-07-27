@@ -179,11 +179,15 @@
 </div>
 
 <!-- Map Alignment -->
-<div id="mapAlignment" class="popup" style="width: 200px;">
-    <div class="popupheading">{{ _("Scale Size") }}</div>
-    <p>&nbsp;</p>
+<div id="mapAlignment" class="popup" style="width: 350px;">
+    <div class="popupheading">{{ _("Map Axes Calibration") }}</div>    
+    <p align="left">Map Scale Size:</p>
     <p align="center"><input type="text" size="6" id="scaleLength" value="1"> <input type="text" size="6" id="scaleUnits" value="{{ _("Units") }}" /></p>
     <p>&nbsp;</p>
+    <p align="left">Origin location:</p>
+    <p align="left" style="text-indent:30px;"><label><input name="map-origin-radio" type="radio" id="map-origin-bottom-left" checked />Bottom left</label></p>
+    <p align="left" style="text-indent:30px;"><label><input name="map-origin-radio" type="radio" if="map-origin-top-left" />Top Left</label></p>
+    <br/>
     <p align="center"><input type="button" id="xybtn" value="{{ _("OK") }}" onclick="wpd.alignAxes.align();"></p>
 </div>
 

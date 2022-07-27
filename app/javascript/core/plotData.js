@@ -251,7 +251,7 @@ wpd.PlotData = class {
             calibration.labelPositions = ['S', 'S'];
             calibration.maxPointCount = 2;
             axes.calibrate(calibration, data.axesParameters.scaleLength,
-                data.axesParameters.unitString);
+                data.axesParameters.unitString, "top-left", 0);
         } else if (data.axesType === "ImageAxes") {
             axes = new wpd.ImageAxes();
         }
@@ -380,7 +380,9 @@ wpd.PlotData = class {
                     calibration.labels = ['P1', 'P2'];
                     calibration.labelPositions = ['S', 'S'];
                     calibration.maxPointCount = 2;
-                    axes.calibrate(calibration, axData.scaleLength, axData.unitString);
+                    let originLocation = axData.originLocation != null ? axData.originLocation : "top-left";
+                    let imageHeight = axData.imageHeight != null ? parseInt(axData.imageHeight, 10) : 0;
+                    axes.calibrate(calibration, axData.scaleLength, axData.unitString, originLocation, imageHeight);
                 } else if (axData.type === "ImageAxes") {
                     axes = new wpd.ImageAxes();
                 } else if (axData.type === "CircularChartRecorderAxes") {
@@ -598,6 +600,8 @@ wpd.PlotData = class {
                 axData.type = "MapAxes";
                 axData.scaleLength = axes.getScaleLength();
                 axData.unitString = axes.getUnits();
+                axData.originLocation = axes.getOriginLocation();
+                axData.imageHeight = axes.getImageHeight();
             } else if (axes instanceof wpd.ImageAxes) {
                 axData.type = "ImageAxes";
             } else if (axes instanceof wpd.CircularChartRecorderAxes) {

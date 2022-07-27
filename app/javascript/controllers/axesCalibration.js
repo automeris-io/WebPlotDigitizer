@@ -292,9 +292,12 @@ wpd.MapAxesCalibrator = class extends wpd.AxesCalibrator {
     align() {
         let scaleLength = parseFloat(document.getElementById('scaleLength').value);
         let scaleUnits = document.getElementById('scaleUnits').value;
+        let isOriginLocationBottomLeft = document.getElementById('map-origin-bottom-left').checked;
+        let originLocation = isOriginLocationBottomLeft ? "bottom-left" : "top-left";
+        let imageHeight = wpd.graphicsWidget.getImageSize().height;
         let axes = this._isEditing ? wpd.tree.getActiveAxes() : new wpd.MapAxes();
 
-        axes.calibrate(this._calibration, scaleLength, scaleUnits);
+        axes.calibrate(this._calibration, scaleLength, scaleUnits, originLocation, imageHeight);
         if (!this._isEditing) {
             axes.name = wpd.alignAxes.makeAxesName(wpd.MapAxes);
             let plot = wpd.appData.getPlotData();
