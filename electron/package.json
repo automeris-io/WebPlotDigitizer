@@ -16,13 +16,13 @@
   "author": "Ankit Rohatgi",
   "license": "AGPL-3.0",
   "devDependencies": {
-    "electron": "^13.1.4"
+    "electron": "^19.0.9"
   },
   "dependencies": {
-    "electron-packager": ">=15.2.0",
+    "electron-packager": "^13.1.1",
     "is-builtin-module": "^3.1.0",
     "npm": ">=7.19.0",
     "pdfjs-dist": "~2.9.359",
-    "tarballjs" : "https://github.com/ankitrohatgi/tarballjs.git"
+    "tarballjs": "https://github.com/ankitrohatgi/tarballjs.git"
   }
 }
