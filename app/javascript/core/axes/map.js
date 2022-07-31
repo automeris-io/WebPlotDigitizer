@@ -36,8 +36,8 @@ wpd.MapAxes = (function() {
                     (cp0.py - cp1.py) * (cp0.py - cp1.py));
                 scaleLength = parseFloat(scale_length);
                 scaleUnits = scale_units;
-                originLocation = origin_location;
-                imageHeight = image_height;
+                originLocation = origin_location != null ? origin_location : "top-left";
+                imageHeight = parseFloat(image_height);
                 return true;
             };
 
