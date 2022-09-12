@@ -198,7 +198,11 @@ wpd.graphicsWidget = (function() {
     }
 
     function copyImageDataLayerToScreen() {
-        dataCtx.drawImage($oriDataCanvas, 0, 0, width, height);
+        if (rotation % 180 === 0) {
+            dataCtx.drawImage($oriDataCanvas, 0, 0, width, height);
+        } else {
+            dataCtx.drawImage($oriDataCanvas, 0, 0, height, width);
+        }
     }
 
     function getRotationMatrix(degrees, dx, dy) {
