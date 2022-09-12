@@ -163,6 +163,10 @@ wpd.AutoDetectionData = class {
             this.generateBinaryDataFromMask(imageData);
         }
     }
+
+    setMask(mask) {
+        this.mask = mask;
+    }
 };
 
 wpd.GridDetectionData = class {

@@ -310,7 +310,6 @@ wpd.MaskPainter = (function() {
         };
 
         this.onAttach = function() {
-            wpd.graphicsWidget.resetData();
             painter();
         };
     };

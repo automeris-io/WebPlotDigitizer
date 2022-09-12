@@ -210,7 +210,7 @@ wpd.dataMask = (function() {
             }
         }
 
-        autoDetector.mask = maskData;
+        autoDetector.setMask(maskData);
     }
 
     function markBox() {

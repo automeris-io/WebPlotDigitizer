@@ -206,6 +206,7 @@ wpd.colorPicker = (function() {
 
     function testColorDetection() {
         wpd.graphicsWidget.removeTool();
+        wpd.graphicsWidget.removeRepainter();
         wpd.graphicsWidget.resetData();
         wpd.graphicsWidget.setRepainter(new wpd.ColorFilterRepainter());
 
