@@ -52,6 +52,8 @@ wpd.CropTool = class {
 
     onMouseDown(e, pos, imagePos) {
         if (!this._hasCropBox) {
+            this._screenPos = pos;
+            this._imagePos = imagePos;
             this._isDrawing = true;
             this._topImageCorner = imagePos;
             this._topScreenCorner = pos;
