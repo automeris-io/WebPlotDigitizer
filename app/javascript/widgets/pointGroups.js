@@ -44,7 +44,7 @@ wpd.pointGroups = (function() {
             const $editPointGroupsButton = document.querySelector(editPointGroupsButtonSelector);
             let axes = wpd.appData.getPlotData().getAxesForDataset(payload.dataset);
             if (axes != null) {
-                $editPointGroupsButton.hidden = (axes.name === "Map");
+                $editPointGroupsButton.hidden = (axes instanceof wpd.MapAxes);
             }
         });
     };
