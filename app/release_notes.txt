@@ -2,7 +2,7 @@ RELEASE NOTES
 
 Version 4.6
 ===========
-TBD
+September 16, 2022
 
 New Features:
 - Experimental support for Circular Chart Recorders
