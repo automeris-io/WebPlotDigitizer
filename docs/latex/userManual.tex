@@ -142,7 +142,7 @@ Like most computer programs, WebPlotDigitizer accepts integers (e.g. 1, 2, 3 etc
 \begin{enumerate}
 \item{Fractions are not computed as numbers. Entering $1/2$ (for example), will not be considered as 0.5.}
 \item{For exponentials, the caret symbol (\^{}) is not recognized and the values have to be entered as 1.45e-10 for $1.45 \times 10^{-10}$ (for example).}
-\item{{\bf Dates:} This is enabled only for 2D (X-Y) Plots. At the time of calibration, the dates have to be entered in the format shown below. With the final digitized data, however, results can be formatted in many different ways (see Section \ref{sec:formattingDatesCSV}).
+\item{{\bf Dates:} This is enabled only for 2D (X-Y) Plots. At the time of calibration, the dates have to be entered in the format shown below. With the final digitized data, however, results can be formatted in many different ways (see section~\ref{sec:formattingDatesCSV}).
 \begin{center}
 \begin{table}[h]	
 \caption{Input format for dates in a 2D (X-Y) Plot.}
@@ -310,13 +310,13 @@ WebPlotDigitizer should also show a side panel with the data acquisition control
 \subsection{Manual Mode}
 The controls available in this mode are as follows:
 \begin{enumerate}
-\item{{\bf Dataset: }Pick the dataset from the list to specify the data series the data points are to be added to (or modified). See section \ref{sec:multipleDatasets} for further details.}
+\item{{\bf Dataset: }Pick the dataset from the list to specify the data series the data points are to be added to (or modified). See section~\ref{sec:multipleDatasets} for further details.}
 \item{{\bf Automatic Mode: }Switch to automatic extraction mode.}
 \item{{\bf Add Point (A): }After clicking this button or pressing the 'A' key, you can click in the image area to add data points. Any point added on the image will automatically be converted from on-screen pixels to data values utilizing the axes calibration.}
 \item{{\bf Adjust Point (S): }After clicking this or pressing the 'S' key, you can click on an existing data point to select it. The selected point can then be repositioned using the cursor keys on the keyboard. Press Shift+Cursor key for a faster rate of movement.}
 \item{{\bf Delete Point (D): }After clicking this button or pressing the 'D' key, you can click on a previously added data point to delete it.}
 \item{{\bf Clear Points: }This deletes all data points added on the image. This does not clear the axes calibration.}
-\item{{\bf View Data: }This launches a popup dialog where the collected data can be viewed, exported to a CSV file or Plotly. See section \ref{sec:csvData} for details.}
+\item{{\bf View Data: }This launches a popup dialog where the collected data can be viewed, exported to a CSV file or Plotly. See section~\ref{sec:csvData} for details.}
 \item{{\bf Edit Labels: }This option is only available for 2D Bar Plots. After clicking this button, you can edit the labels for a data points by clicking on them.}
 \end{enumerate}
 
@@ -339,7 +339,7 @@ The extraction algorithms also need to know the region of the image to be search
 
 \begin{enumerate}
 \item{{\bf Manual Mode: }Switch to manual mode. You can switch between these modes at any time.}
-\item{{\bf Dataset: }Pick the dataset from the list to specify the data series the data points are to be added to (or modified). See section \ref{sec:multipleDatasets} for further details.}
+\item{{\bf Dataset: }Pick the dataset from the list to specify the data series the data points are to be added to (or modified). See section~\ref{sec:multipleDatasets} for further details.}
 \item{{\bf Mask Controls:} These controls are to be used to mark the search region for the extraction algorithms. Use the following drawing tools to highlight the approximate region containing data. You should try to exclude all features that are similar in color to the desired data points.}
 \begin{enumerate}
     \item{{\bf Box: }This is used to mark a rectangular region to be used during the search for data points.}
@@ -356,7 +356,7 @@ The extraction algorithms also need to know the region of the image to be search
 \item{{\bf Algorithm Selection: }Select the appropriate algorithm depending on the application. Each algorithm is described in detail the next section.}
 \item{{\bf Run: }Start the auto-detection algorithm. After this is completed, the detected points should appear over the image. If necessary, adjust the parameters of the extraction algorithm, mask or color settings and run the algorithm until you are satisfied. You can also switch to manual mode and edit these data points.}
 \item{{\bf Clear All: }Clear all data points in the current dataset.}
-\item{{\bf View Data: }This launches a popup dialog where the data can be viewed and exported to a CSV file or Plotly. See section \ref{sec:csvData} for details.}
+\item{{\bf View Data: }This launches a popup dialog where the data can be viewed and exported to a CSV file or Plotly. See section~\ref{sec:csvData} for details.}
 \end{enumerate}
 
 \subsection{Digitization Algorithms}
@@ -387,7 +387,7 @@ This algorithm is useful for counting number of objects, determining the locatio
 
 \section{Multiple Datasets}
 \label{sec:multipleDatasets}
-For plots that have multiple sets of data, you can capture data for one dataset, export the CSV file, then clear all the data points and start over to collect data for the next set. This may be acceptable in many cases, but this is can be somewhat inconvenient if you wish to return to an old dataset and modify some data points. Also, this way, you will not be able to store data for all the datasets in an exported JSON file (see section \ref{sec:csvData}). 
+For plots that have multiple sets of data, you can capture data for one dataset, export the CSV file, then clear all the data points and start over to collect data for the next set. This may be acceptable in many cases, but this is can be somewhat inconvenient if you wish to return to an old dataset and modify some data points. Also, this way, you will not be able to store data for all the datasets in an exported JSON file (see section~\ref{sec:csvData}). 
 
 A better option is to create a separate dataset for each series you wish to capture by selecting the \emph{Add} option in the \emph{Manage Dataset} popup that can be accessed from the \emph{Data} menu (Figure~\ref{fig:manageDatasets}). From this popup, you can also delete or rename a dataset. After adding multiple sets, you can then switch between these from the dataset menus available in the manual and automatic extraction controls and also in the \emph{View Data} window. By default, one dataset called "Default Dataset" is available.
 \begin{figure}[h]
