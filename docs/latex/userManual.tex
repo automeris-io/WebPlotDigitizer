@@ -31,7 +31,7 @@ A large quantity of technical data is available only in the form of plots and im
 \item{Closed source or no freedom to modify the code.}
 \end{itemize}
 
-Because of the above limitations with the current digitizing tools, WebPlotDigitizer was developed to facilitate easy and accurate data extraction from a variety of plot types. This program has been built using HTML5 which allows it to run within most popular web browsers and does not require to be installed by the user (desktop versions are also available for offline usage). This is distributed free of charge as an opensource software and since its creation in 2011, this tool has gained thousands of users and has been cited in many published articles. A screenshot of a typical session of the software is shown in Figure \ref{fig:screenshot}.
+Because of the above limitations with the current digitizing tools, WebPlotDigitizer was developed to facilitate easy and accurate data extraction from a variety of plot types. This program has been built using HTML5 which allows it to run within most popular web browsers and does not require to be installed by the user (desktop versions are also available for offline usage). This is distributed free of charge as an opensource software and since its creation in 2011, this tool has gained thousands of users and has been cited in many published articles. A screenshot of a typical session of the software is shown in Figure~\ref{fig:screenshot}.
 
 \begin{figure}
 \begin{center}
@@ -103,7 +103,7 @@ WebPlotDigitizer relies on the image formats supported by the HTML5 \emph{canvas
 
 \section{Calibrate Axes}
 
-After loading the desired image, you should specify the type of axes that is used in the plot. This step is required for the software to correctly map the image pixels to the corresponding data values in the image. Depending on the plot type, you will have to select a few known points on the axes. On clicking the \emph{Axes $\rightarrow$ Calibrate Axes} menu item, you should be presented with the menu shown in Figure \ref{fig:defineAxesPopup}.
+After loading the desired image, you should specify the type of axes that is used in the plot. This step is required for the software to correctly map the image pixels to the corresponding data values in the image. Depending on the plot type, you will have to select a few known points on the axes. On clicking the \emph{Axes $\rightarrow$ Calibrate Axes} menu item, you should be presented with the menu shown in Figure~\ref{fig:defineAxesPopup}.
 \begin{figure}
 \begin{center}
 \fbox{\includegraphics[width=3in]{./figures/defineAxesPopup.png}}
@@ -166,7 +166,7 @@ Year & yyyy & 2012 (treated as any integer)\\
 \subsection{Bar Charts}
 
 \subsubsection{Bar Charts vs. Histograms}
-For bar charts with a continuous variation of data along the data axis, but with only a discrete set of labels on the other, select the \emph{2D Bar Plot} option when calibrating the axes. For plots such as histograms where both the axes are continuously varying, you should still select the \emph{2D (X-Y) Plot} option and use the manual mode or the \emph{histogram} algorithm for data extraction (see Figure \ref{fig:barVsHistogram}).
+For bar charts with a continuous variation of data along the data axis, but with only a discrete set of labels on the other, select the \emph{2D Bar Plot} option when calibrating the axes. For plots such as histograms where both the axes are continuously varying, you should still select the \emph{2D (X-Y) Plot} option and use the manual mode or the \emph{histogram} algorithm for data extraction (see Figure~\ref{fig:barVsHistogram}).
 
 \begin{figure}[h]
 \centering
@@ -185,7 +185,7 @@ For bar charts with a continuous variation of data along the data axis, but with
 
 
 \subsubsection{Axes Calibration for Bar Charts}
-Select the \emph{2D Bar Plot} option when calibrating the axes and follow the instructions to select two points on the continuously varying data axis that is along the bars. Next, specify the values at these two points so that WebPlotDigitizer can construct a mathematical relationship between the pixel position along this axis and the corresponding data value (see Figure \ref{fig:barAlignment}).
+Select the \emph{2D Bar Plot} option when calibrating the axes and follow the instructions to select two points on the continuously varying data axis that is along the bars. Next, specify the values at these two points so that WebPlotDigitizer can construct a mathematical relationship between the pixel position along this axis and the corresponding data value (see Figure~\ref{fig:barAlignment}).
 
 After calibration, you can manually click on the bars to mark the points or use the automatic extraction mode where you can use the color of the bars to extract data points. For bar charts, you can also edit the labels of each individual data point.
 
@@ -207,7 +207,7 @@ After calibration, you can manually click on the bars to mark the points or use 
 
 
 \subsection{Polar Diagram}
-Select this option if the data points in the image are plotted on a polar axes. On selecting this, you will be required to click on three known points including the center of the polar diagram (Figure \ref{fig:polarAlignment}). After clicking on 3 points, you can also select the axes orientation and select Degrees or Radians for the angle. For log-polar diagrams, you can select the log scale option. The values entered here also have to follow the format similar to 2D (X-Y) Plots. Dates can not be used for values in this case.
+Select this option if the data points in the image are plotted on a polar axes. On selecting this, you will be required to click on three known points including the center of the polar diagram (Figure~\ref{fig:polarAlignment}). After clicking on 3 points, you can also select the axes orientation and select Degrees or Radians for the angle. For log-polar diagrams, you can select the log scale option. The values entered here also have to follow the format similar to 2D (X-Y) Plots. Dates can not be used for values in this case.
 
 \begin{figure}[h]
 \centering
@@ -226,7 +226,7 @@ Select this option if the data points in the image are plotted on a polar axes. 
 \end{figure}
  
 \subsection{Ternary Diagram}
-Ternary phase diagrams are harder to interpret than simple two dimensional cartesian or polar plots. Using this software to recover data makes the process of data recovery extremely straightforward and thus reduces the possibility of misinterpreting the data. For this type of plot, simply mark the three corners as shown in the instructions and then specify the range of variables and orientation of the diagram (Figure \ref{fig:ternaryAlignment}).
+Ternary phase diagrams are harder to interpret than simple two dimensional cartesian or polar plots. Using this software to recover data makes the process of data recovery extremely straightforward and thus reduces the possibility of misinterpreting the data. For this type of plot, simply mark the three corners as shown in the instructions and then specify the range of variables and orientation of the diagram (Figure~\ref{fig:ternaryAlignment}).
 
 \begin{figure}[h]
 \centering
@@ -244,7 +244,7 @@ Ternary phase diagrams are harder to interpret than simple two dimensional carte
 \end{figure}
 
 \subsection{Maps/Microscope Images}
-The \emph{Map with Scale Bar} option is similar to 2D (X-Y) Plots and is to be used for images that only have scale information (e.g. microscope images or maps). To calibrate the pixels to the scale bar in these images, simply click on the two ends of the scale bar and enter the scale value. You can also specify the label to be used for the unit (Figure \ref{fig:mapAlignment}). The coordinates reported by the software assume the origin to be located at the top left of the image with positive y-axes pointing downwards. The (x,y) values that are generated are scaled using the value entered during calibration.
+The \emph{Map with Scale Bar} option is similar to 2D (X-Y) Plots and is to be used for images that only have scale information (e.g. microscope images or maps). To calibrate the pixels to the scale bar in these images, simply click on the two ends of the scale bar and enter the scale value. You can also specify the label to be used for the unit (Figure~\ref{fig:mapAlignment}). The coordinates reported by the software assume the origin to be located at the top left of the image with positive y-axes pointing downwards. The (x,y) values that are generated are scaled using the value entered during calibration.
 
 \begin{figure}
 \centering
@@ -267,7 +267,7 @@ This plot type is similar to the Map plot type and is provided just as a conveni
 \section{Grid Removal}
 The automatic extraction algorithms of WebPlotDigitizer rely on the color differences between the data points or curves and the background. This approach works only when there are very few background artifacts of the same color as the data. In many plots with grid lines, it is difficult for the extraction algorithms to distinguish between the background grid lines and the data curves (often in the same color). For such plots, a grid removal tool has been added, that can be used to remove the interfering horizontal and vertical lines present in the image before data extraction.
 
-To perform a grid removal operation, select the \emph{Remove Grid} option from the \emph{Axes} menu. A new set of controls should appear on the side as shown in Figure \ref{fig:gridRemoval}.
+To perform a grid removal operation, select the \emph{Remove Grid} option from the \emph{Axes} menu. A new set of controls should appear on the side as shown in Figure~\ref{fig:gridRemoval}.
 \begin{itemize}
 \item{{\bf Mask Editing}: Mark a rectangular region on the image after clicking the \emph{Box} button. This will specify the region in which grid removal is to be performed. Use the \emph{Clear} button to delete the selection. \emph{View} button will simply display the box selection.}
 \item{{\bf Color Selection}: Use the \emph{Pick} button and specify the background color of the plot. If the \emph{Background Mode} option is unchecked, then the selected color should be the foreground color of the grid lines. The number next to the \emph{Pick} button is the acceptable distance from the selected color. With some hit-and-trial, you pick the distance that works the best. The \emph{Test} button can be used to test the color detection.}
@@ -288,7 +288,7 @@ To run the grid line removal tool, press the \emph{Detect} button. If the result
 
 Once the plot axes have been calibrated, you can begin selecting data points on the image. Also note that the numbers below the zoom window reflect actual data coordinates corresponding to your mouse position on the image. If you see incorrect numbers here, then perhaps incorrect calibration values were entered. You must repeat the axes calibration in this situation. 
 
-WebPlotDigitizer should also show a side panel with the data acquisition controls (Figure \ref{fig:acquireData}) when the axes are aligned. This sidebar can also be brought up by selecting the \emph{Acquire Data} option in the \emph{Data} menu. The data acquisition can be performed in either manual or automatic mode. You can alternate between the two modes at any time. In the manual mode you can add, adjust or remove data points by manually clicking at the desired locations. In the automatic mode, you can set up and execute an extraction algorithm that can differentiate between the data points and the image background and identify several data points in a short time.
+WebPlotDigitizer should also show a side panel with the data acquisition controls (Figure~\ref{fig:acquireData}) when the axes are aligned. This sidebar can also be brought up by selecting the \emph{Acquire Data} option in the \emph{Data} menu. The data acquisition can be performed in either manual or automatic mode. You can alternate between the two modes at any time. In the manual mode you can add, adjust or remove data points by manually clicking at the desired locations. In the automatic mode, you can set up and execute an extraction algorithm that can differentiate between the data points and the image background and identify several data points in a short time.
 
 \begin{figure}
 \centering
@@ -325,7 +325,7 @@ The controls available in the automatic mode are used for selecting the appropri
 
 Automatic data extraction relies on separating the color of the data points or curves from the background in the image. The extraction algorithms can work in two modes of color extraction: Foreground mode and Background mode. In the foreground mode, the algorithms look for the foreground color specified for the data and ignore everything else. In the background mode, the algorithms include everything except the background color as potential data points. If the data points or curves of interest are uniformly colored (approximately), then the foreground mode may be more suitable. Otherwise if the background is uniformly colored (approximately) and the curve or data points are not then the background mode may me more suitable.
 
-The extraction algorithms also need to know the region of the image to be searched for the specified colors. The software does not search the entire image as in many cases the data point or the curve colors may be present in non-data parts of the image as well. To specify the region of interest, use the \emph{Box}, \emph{Pen} and \emph{Erase} tools (described below) to paint over a yellow mask over the data part of the image as shown in Figure \ref{fig:markRegion}. The extraction algorithms will look for data only under the yellow colored region. The various controls available in this mode are as follows:
+The extraction algorithms also need to know the region of the image to be searched for the specified colors. The software does not search the entire image as in many cases the data point or the curve colors may be present in non-data parts of the image as well. To specify the region of interest, use the \emph{Box}, \emph{Pen} and \emph{Erase} tools (described below) to paint over a yellow mask over the data part of the image as shown in Figure~\ref{fig:markRegion}. The extraction algorithms will look for data only under the yellow colored region. The various controls available in this mode are as follows:
 \begin{figure}
 \begin{center}
 \includegraphics[width=4in]{./figures/markRegion.png}
@@ -360,7 +360,7 @@ The extraction algorithms also need to know the region of the image to be search
 \end{enumerate}
 
 \subsection{Digitization Algorithms}
-Four different digitization algorithms are available in WebPlotDigitizer as shown in Figure \ref{fig:autoExtractAlgos}. The \emph{Averaging Window} algorithm is set as the default as it is usually suitable in most simple cases.
+Four different digitization algorithms are available in WebPlotDigitizer as shown in Figure~\ref{fig:autoExtractAlgos}. The \emph{Averaging Window} algorithm is set as the default as it is usually suitable in most simple cases.
 \begin{figure}
 \begin{center}
 \fbox{\includegraphics[width=2.5in]{./figures/wpd_algos.png}}
@@ -389,7 +389,7 @@ This algorithm is useful for counting number of objects, determining the locatio
 \label{sec:multipleDatasets}
 For plots that have multiple sets of data, you can capture data for one dataset, export the CSV file, then clear all the data points and start over to collect data for the next set. This may be acceptable in many cases, but this is can be somewhat inconvenient if you wish to return to an old dataset and modify some data points. Also, this way, you will not be able to store data for all the datasets in an exported JSON file (see section \ref{sec:csvData}). 
 
-A better option is to create a separate dataset for each series you wish to capture by selecting the \emph{Add} option in the \emph{Manage Dataset} popup that can be accessed from the \emph{Data} menu (Figure \ref{fig:manageDatasets}). From this popup, you can also delete or rename a dataset. After adding multiple sets, you can then switch between these from the dataset menus available in the manual and automatic extraction controls and also in the \emph{View Data} window. By default, one dataset called "Default Dataset" is available.
+A better option is to create a separate dataset for each series you wish to capture by selecting the \emph{Add} option in the \emph{Manage Dataset} popup that can be accessed from the \emph{Data} menu (Figure~\ref{fig:manageDatasets}). From this popup, you can also delete or rename a dataset. After adding multiple sets, you can then switch between these from the dataset menus available in the manual and automatic extraction controls and also in the \emph{View Data} window. By default, one dataset called "Default Dataset" is available.
 \begin{figure}[h]
 \begin{center}
 \fbox{\includegraphics[width=3.5in]{./figures/manageDatasets.png}}
@@ -401,7 +401,7 @@ A better option is to create a separate dataset for each series you wish to capt
  
 \section{Handling Digitized Data}
 \label{sec:csvData}
-Once the required data points are marked on the image using the manual mode, automatic mode or a combination of both, the digitized values can be seen by clicking the \emph{View Data} button. This presents a popup window as shown in Figure \ref{fig:csvOutput}. Here, the digitized values can be sorted by the variable or in order of the distance between the points (Nearest Neighbor). The values can also be copied and used in common data analysis softwares. Recently, an option to send these values over to another cloud based data analysis and graphing software called Plotly (\url{https://plot.ly}) has also been added.
+Once the required data points are marked on the image using the manual mode, automatic mode or a combination of both, the digitized values can be seen by clicking the \emph{View Data} button. This presents a popup window as shown in Figure~\ref{fig:csvOutput}. Here, the digitized values can be sorted by the variable or in order of the distance between the points (Nearest Neighbor). The values can also be copied and used in common data analysis softwares. Recently, an option to send these values over to another cloud based data analysis and graphing software called Plotly (\url{https://plot.ly}) has also been added.
  
 \begin{figure}
 \begin{center}
@@ -414,7 +414,7 @@ Once the required data points are marked on the image using the manual mode, aut
 The digitized data can be left unsorted (Raw Output) or by one of the axes variables in ascending or descending order. The Nearest Neighbor option sorts the data depending on the distance of the points from each other.
 \subsection{Formatting Dates}
 \label{sec:formattingDatesCSV}
-If one or both of the axes in a 2D (X-Y) plot contain dates then fields to specify the output format of the values are also shown (Figure \ref{fig:dateFormat}). In these fields, the following pieces of text are replaced with the corresponding part of the date to format the text (case insensitive):
+If one or both of the axes in a 2D (X-Y) plot contain dates then fields to specify the output format of the values are also shown (Figure~\ref{fig:dateFormat}). In these fields, the following pieces of text are replaced with the corresponding part of the date to format the text (case insensitive):
 \begin{figure}
 \begin{center}
 \fbox{\includegraphics[width=3in]{./figures/dateFormat.png}}
