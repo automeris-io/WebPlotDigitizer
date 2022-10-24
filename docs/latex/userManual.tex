@@ -20,6 +20,7 @@
 \maketitle
 \tableofcontents
 \newpage
+
 \section{Introduction}
 A large quantity of technical data is available only in the form of plots and images. In these images, it is easy to visualize the relationship between the variables involved, but recovering the exact numerical values of the data is usually a tedious and error prone process. To aid this time consuming task of data recovery, many digitization tools have been developed over the years, but this task remains daunting and prone to errors. The common complains with the existing tools are as follows:
 
@@ -91,6 +92,7 @@ WebPlotDigitizer is not funded by any organization. This project is entirely sup
 
 \section{Loading Plots}
 The image file containing the figure to be analyzed can be loaded into the software in the following ways:
+
 \begin{enumerate}
 \item{{\bf Drag \& Drop Operation:} Image can be dragged and dropped from the file browser on to the image viewing area of the application.}
 \item{{\bf File Menu $\rightarrow$ Load Image:} Browse for a file on the hard disk to load.}
@@ -104,6 +106,7 @@ WebPlotDigitizer relies on the image formats supported by the HTML5 \emph{canvas
 \section{Calibrate Axes}
 
 After loading the desired image, you should specify the type of axes that is used in the plot. This step is required for the software to correctly map the image pixels to the corresponding data values in the image. Depending on the plot type, you will have to select a few known points on the axes. On clicking the \emph{Axes $\rightarrow$ Calibrate Axes} menu item, you should be presented with the menu shown in Figure~\ref{fig:defineAxesPopup}.
+
 \begin{figure}
 \begin{center}
 \fbox{\includegraphics[width=3in]{./figures/defineAxesPopup.png}}
@@ -139,6 +142,7 @@ After the four points have been clicked on, press \emph{Continue} and another po
 \subsubsection{Calibration Value Format}
 \label{sec:formattingInput}
 Like most computer programs, WebPlotDigitizer accepts integers (e.g. 1, 2, 3 etc.) or floating point numbers (e.g. 3.14159). Some extra things to keep in mind are as follows:
+
 \begin{enumerate}
 \item{Fractions are not computed as numbers. Entering $1/2$ (for example), will not be considered as 0.5.}
 \item{For exponentials, the caret symbol (\^{}) is not recognized and the values have to be entered as 1.45e-10 for $1.45 \times 10^{-10}$ (for example).}
@@ -244,7 +248,7 @@ Ternary phase diagrams are harder to interpret than simple two dimensional carte
 \end{figure}
 
 \subsection{Maps/Microscope Images}
-The \emph{Map with Scale Bar} option is similar to 2D (X-Y) Plots and is to be used for images that only have scale information (e.g. microscope images or maps). To calibrate the pixels to the scale bar in these images, simply click on the two ends of the scale bar and enter the scale value. You can also specify the label to be used for the unit (Figure~\ref{fig:mapAlignment}). The coordinates reported by the software assume the origin to be located at the top left of the image with positive y-axes pointing downwards. The (x,y) values that are generated are scaled using the value entered during calibration.
+The \emph{Map with Scale Bar} option is similar to 2D (X-Y) Plots and is to be used for images that only have scale information (e.g. microscope images or maps). To calibrate the pixels to the scale bar in these images, simply click on the two ends of the scale bar and enter the scale value. You can also specify the label to be used for the unit (Figure~\ref{fig:mapAlignment}). The coordinates reported by the software assume the origin to be located at the top left of the image with positive $y$-axes pointing downwards. The $(x,y)$ values that are generated are scaled using the value entered during calibration.
 
 \begin{figure}
 \centering
@@ -268,6 +272,7 @@ This plot type is similar to the Map plot type and is provided just as a conveni
 The automatic extraction algorithms of WebPlotDigitizer rely on the color differences between the data points or curves and the background. This approach works only when there are very few background artifacts of the same color as the data. In many plots with grid lines, it is difficult for the extraction algorithms to distinguish between the background grid lines and the data curves (often in the same color). For such plots, a grid removal tool has been added, that can be used to remove the interfering horizontal and vertical lines present in the image before data extraction.
 
 To perform a grid removal operation, select the \emph{Remove Grid} option from the \emph{Axes} menu. A new set of controls should appear on the side as shown in Figure~\ref{fig:gridRemoval}.
+
 \begin{itemize}
 \item{{\bf Mask Editing}: Mark a rectangular region on the image after clicking the \emph{Box} button. This will specify the region in which grid removal is to be performed. Use the \emph{Clear} button to delete the selection. \emph{View} button will simply display the box selection.}
 \item{{\bf Color Selection}: Use the \emph{Pick} button and specify the background color of the plot. If the \emph{Background Mode} option is unchecked, then the selected color should be the foreground color of the grid lines. The number next to the \emph{Pick} button is the acceptable distance from the selected color. With some hit-and-trial, you pick the distance that works the best. The \emph{Test} button can be used to test the color detection.}
@@ -309,6 +314,7 @@ WebPlotDigitizer should also show a side panel with the data acquisition control
 
 \subsection{Manual Mode}
 The controls available in this mode are as follows:
+
 \begin{enumerate}
 \item{{\bf Dataset: }Pick the dataset from the list to specify the data series the data points are to be added to (or modified). See section~\ref{sec:multipleDatasets} for further details.}
 \item{{\bf Automatic Mode: }Switch to automatic extraction mode.}
@@ -326,6 +332,7 @@ The controls available in the automatic mode are used for selecting the appropri
 Automatic data extraction relies on separating the color of the data points or curves from the background in the image. The extraction algorithms can work in two modes of color extraction: Foreground mode and Background mode. In the foreground mode, the algorithms look for the foreground color specified for the data and ignore everything else. In the background mode, the algorithms include everything except the background color as potential data points. If the data points or curves of interest are uniformly colored (approximately), then the foreground mode may be more suitable. Otherwise if the background is uniformly colored (approximately) and the curve or data points are not then the background mode may me more suitable.
 
 The extraction algorithms also need to know the region of the image to be searched for the specified colors. The software does not search the entire image as in many cases the data point or the curve colors may be present in non-data parts of the image as well. To specify the region of interest, use the \emph{Box}, \emph{Pen} and \emph{Erase} tools (described below) to paint over a yellow mask over the data part of the image as shown in Figure~\ref{fig:markRegion}. The extraction algorithms will look for data only under the yellow colored region. The various controls available in this mode are as follows:
+
 \begin{figure}
 \begin{center}
 \includegraphics[width=4in]{./figures/markRegion.png}
@@ -333,9 +340,6 @@ The extraction algorithms also need to know the region of the image to be search
 \label{fig:markRegion}
 \end{center}
 \end{figure}
-
-
-
 
 \begin{enumerate}
 \item{{\bf Manual Mode: }Switch to manual mode. You can switch between these modes at any time.}
@@ -361,6 +365,7 @@ The extraction algorithms also need to know the region of the image to be search
 
 \subsection{Digitization Algorithms}
 Four different digitization algorithms are available in WebPlotDigitizer as shown in Figure~\ref{fig:autoExtractAlgos}. The \emph{Averaging Window} algorithm is set as the default as it is usually suitable in most simple cases.
+
 \begin{figure}
 \begin{center}
 \fbox{\includegraphics[width=2.5in]{./figures/wpd_algos.png}}
@@ -368,17 +373,18 @@ Four different digitization algorithms are available in WebPlotDigitizer as show
 \label{fig:autoExtractAlgos}
 \end{center}
 \end{figure}
+
 \subsubsection{Averaging Window}
 As mentioned above, this is probably the most useful algorithm and is useful across many plot types. The data points detected by this algorithm are determined by calculating the average locations of pixels with acceptable color that lie in small regions that are $\Delta X$ pixels (on-screen) wide and $\Delta Y$ pixels (on-screen) tall. As a user, you should increase the size of this window for thick lines or large data points and decrease it for thin lines. If you see multiple points incorrectly detected across the width of a thick data curve, then you need to increase the numbers specified here. The fact that this requires on-screen pixels may be changed in the future so that the values in actual units in the current axes can be specified.
 
 \subsubsection{X Step with Interpolation}
-This algorithm is available only for non log-scale 2D (X-Y) axes plots. In the future, this will be extended to other axes types. This algorithm can identify data points at regular intervals on the X-axis that fall between $X_{min}$ and $X_{max}$ and $Y_{min}$ and $Y_{max}$. The data points are spaced at an interval $\Delta X$ units apart. This algorithm interpolates over missing data using cubic splines and is therefore suitable even for curves with dotted lines or a series with just data points. The \emph{Smoothing} value can be increased from zero (for example, try 0.5) to average over a larger neighborhood around the data points. This is useful for reducing noise in the captured data. (Also see: \url{https://automeris.io/WebPlotDigitizer/blog/posts/discontinuous_data.html})
+This algorithm is available only for non log-scale 2D (X-Y) axes plots. In the future, this will be extended to other axes types. This algorithm can identify data points at regular intervals on the $x$-axis that fall between $X_{\mathrm{min}}$ and $X_{\matrhm{max}}$ and $Y_{\mathrm{min}}$ and $Y_{\mathrm{max}}$. The data points are spaced at an interval $\Delta X$ units apart. This algorithm interpolates over missing data using cubic splines and is therefore suitable even for curves with dotted lines or a series with just data points. The \emph{Smoothing} value can be increased from zero (for example, try 0.5) to average over a larger neighborhood around the data points. This is useful for reducing noise in the captured data. (Also see: \url{https://automeris.io/WebPlotDigitizer/blog/posts/discontinuous_data.html})
 
 \subsubsection{Custom Independents}
 This algorithm is only available for 2D (X-Y) axes plots (without dates) for now. This allows the user to specify custom X values at which automatic digitization should be attempted. Use the \emph{Curve Width} option to account for thicker curves (or noisy data points).
 
 \subsubsection{X Step}
-This is a simplified version of the \emph{X Step with Interpolation} algorithm. This does not use cubic splines to interpolate over data. The \emph{Line Width} parameter is the y-direction thickness of the curve in on-screen pixels (In future, this will be updated to use the appropriate units in Y). 
+This is a simplified version of the \emph{X Step with Interpolation} algorithm. This does not use cubic splines to interpolate over data. The \emph{Line Width} parameter is the $y$-direction thickness of the curve in on-screen pixels (In future, this will be updated to use the appropriate units in Y). 
 
 \subsubsection{Blob Detector}
 This algorithm is useful for counting number of objects, determining the location of their centroids, calculating areas and also first moments of continuous objects. All objects that are within the \emph{Min Diameter} and \emph{Max Diameter} range are added as data points. (Also see: \url{https://automeris.io/WebPlotDigitizer/blog/posts/blob_detection.html})
@@ -390,6 +396,7 @@ This algorithm is useful for counting number of objects, determining the locatio
 For plots that have multiple sets of data, you can capture data for one dataset, export the CSV file, then clear all the data points and start over to collect data for the next set. This may be acceptable in many cases, but this is can be somewhat inconvenient if you wish to return to an old dataset and modify some data points. Also, this way, you will not be able to store data for all the datasets in an exported JSON file (see section~\ref{sec:csvData}). 
 
 A better option is to create a separate dataset for each series you wish to capture by selecting the \emph{Add} option in the \emph{Manage Dataset} popup that can be accessed from the \emph{Data} menu (Figure~\ref{fig:manageDatasets}). From this popup, you can also delete or rename a dataset. After adding multiple sets, you can then switch between these from the dataset menus available in the manual and automatic extraction controls and also in the \emph{View Data} window. By default, one dataset called "Default Dataset" is available.
+
 \begin{figure}[h]
 \begin{center}
 \fbox{\includegraphics[width=3.5in]{./figures/manageDatasets.png}}
@@ -410,11 +417,14 @@ Once the required data points are marked on the image using the manual mode, aut
 \label{fig:csvOutput}
 \end{center}
 \end{figure}
+
 \subsection{Sort Data}
 The digitized data can be left unsorted (Raw Output) or by one of the axes variables in ascending or descending order. The Nearest Neighbor option sorts the data depending on the distance of the points from each other.
+
 \subsection{Formatting Dates}
 \label{sec:formattingDatesCSV}
 If one or both of the axes in a 2D (X-Y) plot contain dates then fields to specify the output format of the values are also shown (Figure~\ref{fig:dateFormat}). In these fields, the following pieces of text are replaced with the corresponding part of the date to format the text (case insensitive):
+
 \begin{figure}
 \begin{center}
 \fbox{\includegraphics[width=3in]{./figures/dateFormat.png}}
@@ -460,18 +470,19 @@ mmm 'yy & Oct '12\\
 
 \subsection{Number Formatting}
 The number formatting of the digitized data columns can be changed by specifying the number of digits and the formatting style from the menu. Three formatting styles are available at the moment: 
+
 \begin{enumerate}
 \item{{\bf Fixed:} Use this to display the desired number of digits after the decimal.}
 \item{{\bf Precision:} Use this to set the number of significant digits.}
 \item{{\bf Exponential: } Use scientific notation with the desired number of digits after the decimal.}
 \end{enumerate}
-The \emph{Ignore} option disables the number formatting.
+
+\noindent{}The \emph{Ignore} option disables the number formatting.
 
 \subsection{Export to .CSV File}
 Comma-Separated Values (CSV) format files are simple text files containing tabular data. Each row of line corresponds to a table row and the column values are separated by a character or a string (usually just a comma)\footnote{For more information on CSV format, check out \url{https://en.wikipedia.org/wiki/Comma-separated_values}}. Due to its simplicity, CSV format is supported in most data analysis softwares like Microsoft Excel, Matlab etc.
 
-To save the values from WebPlotDigitizer into a CSV file, all you have to do is open your favorite text editor (e.g. Notepad on Microsoft Windows) and Copy-Paste the values shown in the results popup window. Save the file with a .CSV file extension. You can now use this file in your favorite data analysis software.
-
+To save the values from WebPlotDigitizer into a CSV file, all you have to do is open your favorite text editor (e.g. Notepad on Microsoft Windows) and copy-paste the values shown in the results popup window. Save the file with a .csv file extension. You can now use this file in your favorite data analysis software.
 
 \section{Distance and Angle Measurements}
 Besides extracting data points from plots, WebPlotDigitizer can also be used to make some simple distance and angle measurements on images. In the future, many more advanced analysis tools will be added. To make distance or angle measurements, choose the appropriate option from the \emph{Analysis} menu.
