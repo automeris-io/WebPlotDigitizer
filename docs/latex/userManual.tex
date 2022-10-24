@@ -43,7 +43,7 @@ Because of the above limitations with the current digitizing tools, WebPlotDigit
 \end{figure}
 
 \subsection{History}
-WebPlotDigitizer was initially developed while working on my graduate studies at the University of Notre Dame. Having to extract data from many publications for comparing and contrasting my own findings in the lab was a time consuming task. The search for a tool to aid this process usually ended in realizing that most of the existing tools for this purpose did not fulfill many of the requirements. 
+WebPlotDigitizer was initially developed while working on my graduate studies at the University of Notre Dame. Having to extract data from many publications for comparing and contrasting my own findings in the lab was a time consuming task. The search for a tool to aid this process usually ended in realizing that most of the existing tools for this purpose did not fulfill many of the requirements.
 
 Some of the experimental work in the lab required me to learn some basic image processing techniques which eventually formed the basis of the automatic detection algorithms used here. Image processing knowledge along with some interest in learning the very popular HTML5 APIs were a perfect match to create a web based data extraction tool like this.
 
@@ -56,10 +56,10 @@ This user manual describes the various capabilities of the software and aims to 
 WebPlotDigitizer is distributed under the GNU Affero General Public License version 3 by Ankit Rohatgi. For the complete terms and conditions, please refer to \url{https://www.gnu.org/licenses/agpl-3.0.html}
 
 \subsection{Source Code}
-WebPlotDigitizer is an open source software (see above). The source code can be obtained from GitHub (\url{https://github.com/ankitrohatgi/WebPlotDigitizer/}). Feel free to contact via email if you wish to contribute to this project.
+WebPlotDigitizer is an open source software (see above). The source code can be obtained from GitHub (\url{https://github.com/ankitrohatgi/WebPlotDigitizer/}).\footnote{For an efficient management of e.g., the illustrations of the documentation, this project uses git's Large File Storage (\url{https://git-lfs.github.com/}). For a successful local checkout of the repository, this typically requires an additional package (example Debian, \url{https://tracker.debian.org/pkg/git-lfs}) to the installation of git itself.} Desktop versions are also available for Windows, Linux and Mac OS on the website \url{https://automeris.io/WebPlotDigitizer/download.html}. Feel free to contact via email if you wish to contribute to this project.
 
 \subsection{Availability}
-The latest stable version of the software can be used directly from the website \url{https://automeris.io/WebPlotDigitizer}. Desktop versions are also available for Windows, Linux and Mac OS on the website \url{https://automeris.io/WebPlotDigitizer/download.html}.
+The latest stable version of the software can be used directly from the website \url{https://automeris.io/WebPlotDigitizer}.
 
 \subsection{Supported Browsers}
 Online version of WebPlotDigitizer should be compatible with most recent versions of popular browsers such as Google Chrome, Firefox and Safari. Internet Explorer and Microsoft Edge are not tested.
@@ -82,7 +82,7 @@ Location & Pacifica, CA, USA\\
 \end{center}
 
 \subsection{Reporting Issues}
-Feel free to contact via e-mail to report issues or offer suggestions. If you are comfortable with GitHub, then please use the issue tracker for this project: \url{https://github.com/ankitrohatgi/WebPlotDigitizer/issues}. Note, for an efficient management of e.g., the illustrations of the documentation, this project uses git's Large File Storage (\url{https://git-lfs.github.com/}. For a successful local checkout of the repository, this typically requires an additional package (example Debian, \url{https://tracker.debian.org/pkg/git-lfs}) to git itself.
+Feel free to contact via e-mail to report issues or offer suggestions. If you are comfortable with GitHub, then please use the issue tracker for this project: \url{https://github.com/ankitrohatgi/WebPlotDigitizer/issues}.
 
 \subsection{Data Privacy}
 WebPlotDigitizer's image analysis code runs entirely on the user's computer and does not store the loaded images or data on to any server. When \emph{Graph in Plotly} option is selected, the digitized data is transmitted to Plotly (\url{https://plot.ly}) servers. For a detailed privacy policy, please refer to \url{https://automeris.io/WebPlotDigitizer/privacy.html}.
@@ -97,7 +97,7 @@ The image file containing the figure to be analyzed can be loaded into the softw
 \item{{\bf Drag \& Drop Operation:} Image can be dragged and dropped from the file browser on to the image viewing area of the application.}
 \item{{\bf File Menu $\rightarrow$ Load Image:} Browse for a file on the hard disk to load.}
 \item{{\bf Copy-Paste from Clipboard:} This is only supported in Google Chrome web browser. An image selected by copying in a PDF or an image viewer can be pasted on to the software via a simple copy-paste operation.}
-\item{{\bf File Menu $\rightarrow$ Webcam Capture:} A snapshot taken from the webcam can also be used. For best results, the webcam should be pointed directly along the normal to the plot surface. In the future, some perspective transformation tools might be added to WebPlotDigitizer to compensate for the distortions when the camera is not perfectly aligned.}  
+\item{{\bf File Menu $\rightarrow$ Webcam Capture:} A snapshot taken from the webcam can also be used. For best results, the webcam should be pointed directly along the normal to the plot surface. In the future, some perspective transformation tools might be added to WebPlotDigitizer to compensate for the distortions when the camera is not perfectly aligned.}
 \end{enumerate}
 
 \subsection{Supported Image Formats}
@@ -148,14 +148,14 @@ Like most computer programs, WebPlotDigitizer accepts integers (e.g. 1, 2, 3 etc
 \item{For exponentials, the caret symbol (\^{}) is not recognized and the values have to be entered as 1.45e-10 for $1.45 \times 10^{-10}$ (for example).}
 \item{{\bf Dates:} This is enabled only for 2D (X-Y) Plots. At the time of calibration, the dates have to be entered in the format shown below. With the final digitized data, however, results can be formatted in many different ways (see section~\ref{sec:formattingDatesCSV}).
 \begin{center}
-\begin{table}[h]	
+\begin{table}[h]
 \caption{Input format for dates in a 2D (X-Y) Plot.}
 \begin{tabular}{|c|c|c|}
 \hline
 Date & Format & Examples\\
 \hline
 Year, Month, Date and Time & yyyy/mm/dd hh:ii:ss & 2012/10/23 05:11:06.25\\
-Year, Month, Date and Hour & yyyy/mm/dd hh & 2012/10/23 05\\ 
+Year, Month, Date and Hour & yyyy/mm/dd hh & 2012/10/23 05\\
 Year, Month and Date & yyyy/mm/dd & 2012/10/23, 2012/10/5 or 2012/10/05\\
 Year, Month & yyyy/mm & 2012/10 or 1989/5\\
 Year & yyyy & 2012 (treated as any integer)\\
@@ -228,7 +228,7 @@ Select this option if the data points in the image are plotted on a polar axes. 
 \caption{Alignment for Polar Diagram.}
 \label{fig:polarAlignment}
 \end{figure}
- 
+
 \subsection{Ternary Diagram}
 Ternary phase diagrams are harder to interpret than simple two dimensional cartesian or polar plots. Using this software to recover data makes the process of data recovery extremely straightforward and thus reduces the possibility of misinterpreting the data. For this type of plot, simply mark the three corners as shown in the instructions and then specify the range of variables and orientation of the diagram (Figure~\ref{fig:ternaryAlignment}).
 
@@ -291,7 +291,7 @@ To run the grid line removal tool, press the \emph{Detect} button. If the result
 
 \section{Acquire Data}
 
-Once the plot axes have been calibrated, you can begin selecting data points on the image. Also note that the numbers below the zoom window reflect actual data coordinates corresponding to your mouse position on the image. If you see incorrect numbers here, then perhaps incorrect calibration values were entered. You must repeat the axes calibration in this situation. 
+Once the plot axes have been calibrated, you can begin selecting data points on the image. Also note that the numbers below the zoom window reflect actual data coordinates corresponding to your mouse position on the image. If you see incorrect numbers here, then perhaps incorrect calibration values were entered. You must repeat the axes calibration in this situation.
 
 WebPlotDigitizer should also show a side panel with the data acquisition controls (Figure~\ref{fig:acquireData}) when the axes are aligned. This sidebar can also be brought up by selecting the \emph{Acquire Data} option in the \emph{Data} menu. The data acquisition can be performed in either manual or automatic mode. You can alternate between the two modes at any time. In the manual mode you can add, adjust or remove data points by manually clicking at the desired locations. In the automatic mode, you can set up and execute an extraction algorithm that can differentiate between the data points and the image background and identify several data points in a short time.
 
@@ -327,7 +327,7 @@ The controls available in this mode are as follows:
 \end{enumerate}
 
 \subsection{Automatic Mode}
-The controls available in the automatic mode are used for selecting the appropriate algorithm and providing the necessary inputs required for automated extraction of data points. 
+The controls available in the automatic mode are used for selecting the appropriate algorithm and providing the necessary inputs required for automated extraction of data points.
 
 Automatic data extraction relies on separating the color of the data points or curves from the background in the image. The extraction algorithms can work in two modes of color extraction: Foreground mode and Background mode. In the foreground mode, the algorithms look for the foreground color specified for the data and ignore everything else. In the background mode, the algorithms include everything except the background color as potential data points. If the data points or curves of interest are uniformly colored (approximately), then the foreground mode may be more suitable. Otherwise if the background is uniformly colored (approximately) and the curve or data points are not then the background mode may me more suitable.
 
@@ -378,13 +378,13 @@ Four different digitization algorithms are available in WebPlotDigitizer as show
 As mentioned above, this is probably the most useful algorithm and is useful across many plot types. The data points detected by this algorithm are determined by calculating the average locations of pixels with acceptable color that lie in small regions that are $\Delta X$ pixels (on-screen) wide and $\Delta Y$ pixels (on-screen) tall. As a user, you should increase the size of this window for thick lines or large data points and decrease it for thin lines. If you see multiple points incorrectly detected across the width of a thick data curve, then you need to increase the numbers specified here. The fact that this requires on-screen pixels may be changed in the future so that the values in actual units in the current axes can be specified.
 
 \subsubsection{X Step with Interpolation}
-This algorithm is available only for non log-scale 2D (X-Y) axes plots. In the future, this will be extended to other axes types. This algorithm can identify data points at regular intervals on the $x$-axis that fall between $X_{\mathrm{min}}$ and $X_{\matrhm{max}}$ and $Y_{\mathrm{min}}$ and $Y_{\mathrm{max}}$. The data points are spaced at an interval $\Delta X$ units apart. This algorithm interpolates over missing data using cubic splines and is therefore suitable even for curves with dotted lines or a series with just data points. The \emph{Smoothing} value can be increased from zero (for example, try 0.5) to average over a larger neighborhood around the data points. This is useful for reducing noise in the captured data. (Also see: \url{https://automeris.io/WebPlotDigitizer/blog/posts/discontinuous_data.html})
+This algorithm is available only for non log-scale 2D (X-Y) axes plots. In the future, this will be extended to other axes types. This algorithm can identify data points at regular intervals on the $x$-axis that fall between $X_{\mathrm{min}}$ and $X_{\mathrm{max}}$ and $Y_{\mathrm{min}}$ and $Y_{\mathrm{max}}$. The data points are spaced at an interval $\Delta X$ units apart. This algorithm interpolates over missing data using cubic splines and is therefore suitable even for curves with dotted lines or a series with just data points. The \emph{Smoothing} value can be increased from zero (for example, try 0.5) to average over a larger neighborhood around the data points. This is useful for reducing noise in the captured data. (Also see: \url{https://automeris.io/WebPlotDigitizer/blog/posts/discontinuous_data.html})
 
 \subsubsection{Custom Independents}
 This algorithm is only available for 2D (X-Y) axes plots (without dates) for now. This allows the user to specify custom X values at which automatic digitization should be attempted. Use the \emph{Curve Width} option to account for thicker curves (or noisy data points).
 
 \subsubsection{X Step}
-This is a simplified version of the \emph{X Step with Interpolation} algorithm. This does not use cubic splines to interpolate over data. The \emph{Line Width} parameter is the $y$-direction thickness of the curve in on-screen pixels (In future, this will be updated to use the appropriate units in Y). 
+This is a simplified version of the \emph{X Step with Interpolation} algorithm. This does not use cubic splines to interpolate over data. The \emph{Line Width} parameter is the $y$-direction thickness of the curve in on-screen pixels (In future, this will be updated to use the appropriate units in Y).
 
 \subsubsection{Blob Detector}
 This algorithm is useful for counting number of objects, determining the location of their centroids, calculating areas and also first moments of continuous objects. All objects that are within the \emph{Min Diameter} and \emph{Max Diameter} range are added as data points. (Also see: \url{https://automeris.io/WebPlotDigitizer/blog/posts/blob_detection.html})
@@ -393,7 +393,7 @@ This algorithm is useful for counting number of objects, determining the locatio
 
 \section{Multiple Datasets}
 \label{sec:multipleDatasets}
-For plots that have multiple sets of data, you can capture data for one dataset, export the CSV file, then clear all the data points and start over to collect data for the next set. This may be acceptable in many cases, but this is can be somewhat inconvenient if you wish to return to an old dataset and modify some data points. Also, this way, you will not be able to store data for all the datasets in an exported JSON file (see section~\ref{sec:csvData}). 
+For plots that have multiple sets of data, you can capture data for one dataset, export the CSV file, then clear all the data points and start over to collect data for the next set. This may be acceptable in many cases, but this is can be somewhat inconvenient if you wish to return to an old dataset and modify some data points. Also, this way, you will not be able to store data for all the datasets in an exported JSON file (see section~\ref{sec:csvData}).
 
 A better option is to create a separate dataset for each series you wish to capture by selecting the \emph{Add} option in the \emph{Manage Dataset} popup that can be accessed from the \emph{Data} menu (Figure~\ref{fig:manageDatasets}). From this popup, you can also delete or rename a dataset. After adding multiple sets, you can then switch between these from the dataset menus available in the manual and automatic extraction controls and also in the \emph{View Data} window. By default, one dataset called "Default Dataset" is available.
 
@@ -405,11 +405,11 @@ A better option is to create a separate dataset for each series you wish to capt
 \end{center}
 \end{figure}
 
- 
+
 \section{Handling Digitized Data}
 \label{sec:csvData}
 Once the required data points are marked on the image using the manual mode, automatic mode or a combination of both, the digitized values can be seen by clicking the \emph{View Data} button. This presents a popup window as shown in Figure~\ref{fig:csvOutput}. Here, the digitized values can be sorted by the variable or in order of the distance between the points (Nearest Neighbor). The values can also be copied and used in common data analysis softwares. Recently, an option to send these values over to another cloud based data analysis and graphing software called Plotly (\url{https://plot.ly}) has also been added.
- 
+
 \begin{figure}
 \begin{center}
 \fbox{\includegraphics[width=6in]{./figures/wpd_formatting.png}}
@@ -469,7 +469,7 @@ mmm 'yy & Oct '12\\
 \end{center}
 
 \subsection{Number Formatting}
-The number formatting of the digitized data columns can be changed by specifying the number of digits and the formatting style from the menu. Three formatting styles are available at the moment: 
+The number formatting of the digitized data columns can be changed by specifying the number of digits and the formatting style from the menu. Three formatting styles are available at the moment:
 
 \begin{enumerate}
 \item{{\bf Fixed:} Use this to display the desired number of digits after the decimal.}
