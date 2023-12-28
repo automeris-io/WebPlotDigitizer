@@ -43,6 +43,98 @@ td {
     padding: 0;
 }
 
+#landingPage {
+    position: absolute; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 49; 
+    width: 100%; 
+    height: 100%; 
+    background-color: white;
+}
+
+#title {
+    font-size: 54px;
+    font-weight: 900;
+    margin: 0 0 30px;
+    text-align: center;
+}
+
+#subtitle {
+    font-size: 26px;
+    font-weight: 500;
+    margin: 0 0 50px;
+    text-align: center;
+}
+
+#landingButtons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.arrow-button {
+    display: flex;
+    width: 225px;
+    padding: 20px 16px;
+    color: #FFFFFF;
+    background-color: #7D63A9;
+    border: 0;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    align-items: center;
+    cursor: pointer;
+    transition: all .2s ease;
+}
+
+.arrow-button > .arrow {
+    width: 6px;
+    height: 6px;
+    border-right: 3px solid #FFFFFF;
+    border-bottom: 3px solid #FFFFFF;
+    position: relative;
+    transform: rotate(-45deg);
+    margin: 0 6px;
+    transition: all .2s ease;
+}
+
+.arrow-button > .arrow::before {
+    display: block;
+    background-color: currentColor;
+    height: 2px;
+    width: 3px;
+    transform-origin: bottom right;
+    position: absolute;
+    right: 0;
+    opacity: 0;
+    bottom: calc(-2px / 2);
+    transform: rotate(45deg);
+    transition: all .2s ease;
+    content: "";
+}
+
+.arrow-button:hover > .arrow {
+    transform: rotate(-45deg) translate(4px, 4px);
+    border-right-color: #F2F2F2;
+    border-bottom-color: #F2F2F2;
+}
+
+.arrow-button:hover > .arrow::before {
+    opacity: 1;
+    width: 8px;
+}
+
+.arrow-button:hover {
+    background-color: #45375C;
+    color: #F2F2F2;
+    border: 0;
+}
+
 #allContainer {
     width: 100%;
     height: 100%;

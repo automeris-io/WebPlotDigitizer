@@ -27,7 +27,6 @@ wpd.initApp = function() { // This is run when the page loads.
     wpd.handleLaunchArgs();
     wpd.log();
     document.getElementById('loadingCurtain').style.display = 'none';
-
 };
 
 wpd.loadDefaultImage = function() {

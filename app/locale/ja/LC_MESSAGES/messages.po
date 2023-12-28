@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-07-08 23:31-0700\n"
+"POT-Creation-Date: 2023-12-27 22:34-0800\n"
 "PO-Revision-Date: 2016-12-18 10:38-0600\n"
 "Last-Translator: \n"
 "Language: ja\n"
@@ -19,33 +19,39 @@ msgstr ""
 "Generated-By: Babel 2.8.0\n"
 
 #: templates/_base.html:27
-msgid "Web based tool to extract numerical data from plots and graph images."
+msgid ""
+"Web based tool to extract numerical data from plots and graph images with"
+" more user-friendly UI enhancements."
 msgstr ""
 
-#: templates/_base.html:51
+#: templates/_base.html:50
 msgid "Loading application, please wait..."
 msgstr ""
 
-#: templates/_base.html:54
+#: templates/_base.html:53
 msgid ""
 "Problems loading? Make sure you have a recent version of Google Chrome, "
 "Firefox, Safari or Microsoft Edge installed."
 msgstr ""
 
-#: templates/_base.html:78
+#: templates/_base.html:64 templates/_menubar.html:5
+msgid "Load Image(s)"
+msgstr ""
+
+#: templates/_base.html:68 templates/_menubar.html:6
+msgid "Load Project"
+msgstr ""
+
+#: templates/_base.html:72
+msgid "Explore Demo"
+msgstr ""
+
+#: templates/_base.html:99
 msgid "Fit"
 msgstr ""
 
 #: templates/_menubar.html:2
 msgid "File"
-msgstr ""
-
-#: templates/_menubar.html:5
-msgid "Load Image(s)"
-msgstr ""
-
-#: templates/_menubar.html:6
-msgid "Load Project"
 msgstr ""
 
 #: templates/_menubar.html:7
@@ -2793,5 +2799,14 @@ msgstr ""
 #~ "point group, enter a name in the"
 #~ " text input below. Create additional "
 #~ "point groups as necessary."
+#~ msgstr ""
+
+#~ msgid "File in Here"
+#~ msgstr ""
+
+#~ msgid "Explore Demo"
+#~ msgstr ""
+
+#~ msgid "Explore a Demo"
 #~ msgstr ""
 

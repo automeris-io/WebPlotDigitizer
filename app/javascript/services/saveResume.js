@@ -186,8 +186,10 @@ wpd.saveResume = (function() {
             }
             if (fileType == "application/json") {
                 readJSONFileOnly(file);
+                wpd.navigateToApp();
             } else if (fileType == "application/x-tar") {
                 readProjectFile(file);
+                wpd.navigateToApp();
             } else {
                 wpd.messagePopup.show(wpd.gettext("invalid-project"),
                     wpd.gettext("invalid-project-msg"));

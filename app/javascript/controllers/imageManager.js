@@ -39,7 +39,9 @@ wpd.imageManager = (function() {
             _newLoad = true;
             initializeFileManager($input.files);
             wpd.appData.setPageManager(null);
-            loadFromFile($input.files[0]);
+            loadFromFile($input.files[0]).then(() => {
+                wpd.navigateToApp();
+            })
         }
         wpd.popup.close('loadNewImage');
     }
@@ -75,6 +77,7 @@ wpd.imageManager = (function() {
                 console.log(imageFile.type);
                 wpd.messagePopup.show(wpd.gettext('invalid-file'),
                     wpd.gettext('invalid-file-text'));
+                reject(new Error(`Invalid file type: ${imageFile.type}`));
             }
         });
     }
