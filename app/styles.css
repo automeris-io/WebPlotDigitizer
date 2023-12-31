@@ -18,6 +18,11 @@
     You should have received a copy of the GNU Affero General Public License
     along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
 */
+:root { 
+  --primary-color: #7D63A9; 
+  --secondary-color: #45375C;
+  --off-white: #F2F2F2;
+}
 
 html {
     height: 100%;
@@ -56,6 +61,8 @@ td {
 }
 
 #title {
+    display: inline-block;
+    line-height: 1;
     font-size: 54px;
     font-weight: 900;
     margin: 0 0 30px;
@@ -63,7 +70,8 @@ td {
 }
 
 #subtitle {
-    font-size: 26px;
+    line-height: 1;
+    font-size: 24px;
     font-weight: 500;
     margin: 0 0 50px;
     text-align: center;
@@ -81,8 +89,8 @@ td {
     display: flex;
     width: 225px;
     padding: 20px 16px;
-    color: #FFFFFF;
-    background-color: #7D63A9;
+    color: white;
+    background-color: var(--primary-color);
     border: 0;
     border-radius: 10px;
     font-size: 16px;
@@ -95,8 +103,8 @@ td {
 .arrow-button > .arrow {
     width: 6px;
     height: 6px;
-    border-right: 3px solid #FFFFFF;
-    border-bottom: 3px solid #FFFFFF;
+    border-right: 3px solid white;
+    border-bottom: 3px solid white;
     position: relative;
     transform: rotate(-45deg);
     margin: 0 6px;
@@ -120,8 +128,8 @@ td {
 
 .arrow-button:hover > .arrow {
     transform: rotate(-45deg) translate(4px, 4px);
-    border-right-color: #F2F2F2;
-    border-bottom-color: #F2F2F2;
+    border-right-color: var(--off-white);
+    border-bottom-color: var(--off-white);
 }
 
 .arrow-button:hover > .arrow::before {
@@ -130,7 +138,7 @@ td {
 }
 
 .arrow-button:hover {
-    background-color: #45375C;
+    background-color: var(--secondary-color);
     color: #F2F2F2;
     border: 0;
 }
@@ -262,8 +270,8 @@ select {
     font-size: 14px;
     text-align: left;
     cursor: move;
-    background-color: gold;
-    color: black;
+    background-color: var(--primary-color);
+    color: white;
     margin: 0 -5px 0 -5px;
     padding: 5px;
 }
@@ -272,12 +280,14 @@ select {
     padding: 0px 5px 12px 5px;
     margin: 0;
     border: thin #444444 solid;
+    border-radius: 10px;
     background: white;
     z-index: 100;
     position: absolute;
     top: 0;
     left: 0;
     visibility: hidden;
+    overflow: hidden;
 }
 
 .popup p {
