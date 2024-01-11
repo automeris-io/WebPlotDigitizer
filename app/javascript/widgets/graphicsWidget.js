@@ -85,7 +85,14 @@ wpd.graphicsWidget = (function() {
                 y: screenY
             };
         } else {
-            return getRotatedCoordinates(rotation, 0, screenX, screenY);
+            // divide by zoomRatio to end up into image scale. Then rotate to get into canvas orientation
+            let coords = getRotatedCoordinates(rotation, 0, screenX / zoomRatio, screenY / zoomRatio);
+
+            // scale with zoom ratio to get to canvas scale
+            return {
+                x: coords.x * zoomRatio,
+                y: coords.y * zoomRatio,
+            };
         }
     }
 
