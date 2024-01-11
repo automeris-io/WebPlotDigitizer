@@ -2,7 +2,7 @@
 
 Please note the following before you begin:
 - By contributing to WebPlotDigitizer, you are automatically agreeing to the [Contributor License Agreement](CONTRIBUTING.md).
-- Opensource doesn't automatically imply that this project is open for all kinds of contributions. Please consult with Ankit Rohatgi before considering to make any large contributions.
+- Please consult with Ankit Rohatgi before considering to make any large contributions.
 
 ## Where to start?
 
