@@ -26,15 +26,15 @@ wpd.BoxMaskTool = (function() {
         var isDrawing = false,
             topImageCorner, topScreenCorner,
             ctx = wpd.graphicsWidget.getAllContexts(),
-            moveTimer, screen_pos,
+            moveTimer, screen_pos, canvas_pos,
 
             mouseMoveHandler =
             function() {
                 wpd.graphicsWidget.resetHover();
                 ctx.hoverCtx.strokeStyle = "rgb(0,0,0)";
                 ctx.hoverCtx.strokeRect(topScreenCorner.x, topScreenCorner.y,
-                    screen_pos.x - topScreenCorner.x,
-                    screen_pos.y - topScreenCorner.y);
+                    canvas_pos.x - topScreenCorner.x,
+                    canvas_pos.y - topScreenCorner.y);
             },
 
             mouseUpHandler =
@@ -46,8 +46,9 @@ wpd.BoxMaskTool = (function() {
                 isDrawing = false;
                 wpd.graphicsWidget.resetHover();
                 ctx.dataCtx.fillStyle = "rgba(255,255,0,1)";
+                let canvasPos = wpd.graphicsWidget.canvasPx(pos.x, pos.y);
                 ctx.dataCtx.fillRect(topScreenCorner.x, topScreenCorner.y,
-                    pos.x - topScreenCorner.x, pos.y - topScreenCorner.y);
+                    canvasPos.x - topScreenCorner.x, canvasPos.y - topScreenCorner.y);
                 ctx.oriDataCtx.fillStyle = "rgba(255,255,0,1)";
                 ctx.oriDataCtx.fillRect(topImageCorner.x, topImageCorner.y,
                     imagePos.x - topImageCorner.x,
@@ -68,13 +69,13 @@ wpd.BoxMaskTool = (function() {
                 return;
             isDrawing = true;
             topImageCorner = imagePos;
-            topScreenCorner = pos;
+            topScreenCorner = wpd.graphicsWidget.canvasPx(pos.x, pos.y);
         };
 
         this.onMouseMove = function(ev, pos, imagePos) {
             if (isDrawing === false)
                 return;
-            screen_pos = pos;
+            canvas_pos = wpd.graphicsWidget.canvasPx(pos.x, pos.y);
             clearTimeout(moveTimer);
             moveTimer = setTimeout(mouseMoveHandler, 2);
         };
@@ -115,9 +116,9 @@ wpd.PenMaskTool = (function() {
         var strokeWidth, ctx = wpd.graphicsWidget.getAllContexts(),
             isDrawing = false,
             moveTimer,
-            screen_pos, image_pos, mouseMoveHandler = function() {
+            screen_pos, canvas_pos, image_pos, mouseMoveHandler = function() {
                 ctx.dataCtx.strokeStyle = "rgba(255,255,0,1)";
-                ctx.dataCtx.lineTo(screen_pos.x, screen_pos.y);
+                ctx.dataCtx.lineTo(canvas_pos.x, canvas_pos.y);
                 ctx.dataCtx.stroke();
 
                 ctx.oriDataCtx.strokeStyle = "rgba(255,255,0,1)";
@@ -135,12 +136,13 @@ wpd.PenMaskTool = (function() {
         this.onMouseDown = function(ev, pos, imagePos) {
             if (isDrawing === true)
                 return;
-            var lwidth = parseInt(document.getElementById('paintThickness').value, 10);
+            let lwidth = parseInt(document.getElementById('paintThickness').value, 10);
+            let canvasPos = wpd.graphicsWidget.canvasPx(pos.x, pos.y);
             isDrawing = true;
             ctx.dataCtx.strokeStyle = "rgba(255,255,0,1)";
             ctx.dataCtx.lineWidth = lwidth * wpd.graphicsWidget.getZoomRatio();
             ctx.dataCtx.beginPath();
-            ctx.dataCtx.moveTo(pos.x, pos.y);
+            ctx.dataCtx.moveTo(canvasPos.x, canvasPos.y);
 
             ctx.oriDataCtx.strokeStyle = "rgba(255,255,0,1)";
             ctx.oriDataCtx.lineWidth = lwidth;
@@ -152,6 +154,7 @@ wpd.PenMaskTool = (function() {
             if (isDrawing === false)
                 return;
             screen_pos = pos;
+            canvas_pos = wpd.graphicsWidget.canvasPx(pos.x, pos.y);
             image_pos = imagePos;
             clearTimeout(moveTimer);
             moveTimer = setTimeout(mouseMoveHandler, 2);
@@ -186,12 +189,12 @@ wpd.EraseMaskTool = (function() {
         var strokeWidth, ctx = wpd.graphicsWidget.getAllContexts(),
             isDrawing = false,
             moveTimer,
-            screen_pos, image_pos, mouseMoveHandler = function() {
+            screen_pos, canvas_pos, image_pos, mouseMoveHandler = function() {
                 ctx.dataCtx.globalCompositeOperation = "destination-out";
                 ctx.oriDataCtx.globalCompositeOperation = "destination-out";
 
                 ctx.dataCtx.strokeStyle = "rgba(255,255,0,1)";
-                ctx.dataCtx.lineTo(screen_pos.x, screen_pos.y);
+                ctx.dataCtx.lineTo(canvas_pos.x, canvas_pos.y);
                 ctx.dataCtx.stroke();
 
                 ctx.oriDataCtx.strokeStyle = "rgba(255,255,0,1)";
@@ -209,7 +212,8 @@ wpd.EraseMaskTool = (function() {
         this.onMouseDown = function(ev, pos, imagePos) {
             if (isDrawing === true)
                 return;
-            var lwidth = parseInt(document.getElementById('eraseThickness').value, 10);
+            let lwidth = parseInt(document.getElementById('eraseThickness').value, 10);
+            let canvasPos = wpd.graphicsWidget.canvasPx(pos.x, pos.y);
             isDrawing = true;
             ctx.dataCtx.globalCompositeOperation = "destination-out";
             ctx.oriDataCtx.globalCompositeOperation = "destination-out";
@@ -217,7 +221,7 @@ wpd.EraseMaskTool = (function() {
             ctx.dataCtx.strokeStyle = "rgba(0,0,0,1)";
             ctx.dataCtx.lineWidth = lwidth * wpd.graphicsWidget.getZoomRatio();
             ctx.dataCtx.beginPath();
-            ctx.dataCtx.moveTo(pos.x, pos.y);
+            ctx.dataCtx.moveTo(canvasPos.x, canvasPos.y);
 
             ctx.oriDataCtx.strokeStyle = "rgba(0,0,0,1)";
             ctx.oriDataCtx.lineWidth = lwidth;
@@ -230,6 +234,7 @@ wpd.EraseMaskTool = (function() {
                 return;
             screen_pos = pos;
             image_pos = imagePos;
+            canvas_pos = wpd.graphicsWidget.canvasPx(pos.x, pos.y);
             clearTimeout(moveTimer);
             moveTimer = setTimeout(mouseMoveHandler, 2);
         };

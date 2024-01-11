@@ -126,18 +126,15 @@ wpd.AddMeasurementTool = (function() {
 
                 // need to rotate the values to the current rotation before translating to screenPx
                 const currentRotation = wpd.graphicsWidget.getRotation();
-                const {
-                    x: px,
-                    y: py
-                } = wpd.graphicsWidget.getRotatedCoordinates(0, currentRotation,
-                    plist[(pointsCaptured - 1) * 2], plist[(pointsCaptured - 1) * 2 + 1]);
-
+                const px = plist[(pointsCaptured - 1) * 2];
+                const py = plist[(pointsCaptured - 1) * 2 + 1];
                 var prevScreenPx = wpd.graphicsWidget.screenPx(px, py);
 
                 ctx.hoverCtx.beginPath();
                 ctx.hoverCtx.strokeStyle = "rgb(0,0,0)";
                 ctx.hoverCtx.moveTo(prevScreenPx.x, prevScreenPx.y);
-                ctx.hoverCtx.lineTo(pos.x, pos.y);
+                let canvasPos = wpd.graphicsWidget.canvasPx(pos.x, pos.y);
+                ctx.hoverCtx.lineTo(canvasPos.x, canvasPos.y);
                 ctx.hoverCtx.stroke();
             }
         };

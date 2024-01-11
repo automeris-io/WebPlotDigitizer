@@ -77,6 +77,18 @@ wpd.graphicsWidget = (function() {
         }
     }
 
+    // get canvas coords from screen coords
+    function canvasPx(screenX, screenY) {
+        if (rotation === 0) {
+            return {
+                x: screenX,
+                y: screenY
+            };
+        } else {
+            return getRotatedCoordinates(rotation, 0, screenX, screenY);
+        }
+    }
+
     // get screen pixel when image pixel is provided
     function screenPx(imageX, imageY) {
         return {
@@ -346,7 +358,9 @@ wpd.graphicsWidget = (function() {
     }
 
     function resetHover() {
-        $hoverCanvas.width = $hoverCanvas.width;
+        // canvas could be rotated, so get max screenX and screenY
+        let canvasDims = screenPx(originalWidth, originalHeight);
+        hoverCtx.clearRect(0, 0, canvasDims.x, canvasDims.y);
     }
 
     function toggleExtendedCrosshair(ev) { // called when backslash is hit
@@ -857,6 +871,7 @@ wpd.graphicsWidget = (function() {
         resetHover: resetHover,
         imagePx: imagePx,
         screenPx: screenPx,
+        canvasPx: canvasPx,
         screenLength: screenLength,
 
         updateZoomOnEvent: updateZoomOnEvent,
