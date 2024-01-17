@@ -64,7 +64,7 @@ wpd.CircularChartRecorderAxes = class {
         }
         let date0 = new Date(this.time0);
         this.tStart = ip.parse(startTimeInput);
-        let dateEnd = new Date(this.tStart);        
+        let dateEnd = new Date(this.tStart);
 
         if (rotationTime === "week") {
             this.timeMax = parseFloat(date0.setDate(date0.getDate() + 7));
@@ -131,7 +131,7 @@ wpd.CircularChartRecorderAxes = class {
             timeVal = (this.tEnd - this.tStart) * (wpd.normalizeAngleDeg(thetacDeg - this.thetac0 - this.thetaStartOffset)) / 360.0 + this.tStart;
         } else if (this.rotationDirection === 'clockwise') {
             let thetac = thetap - alpha;
-            let thetacDeg = wpd.normalizeAngleDeg(thetac * 180.0 / Math.PI);            
+            let thetacDeg = wpd.normalizeAngleDeg(thetac * 180.0 / Math.PI);
             timeVal = (this.tEnd - this.tStart) * (wpd.normalizeAngleDeg(-(thetacDeg - this.thetac0) - this.thetaStartOffset)) / 360.0 + this.tStart;
         }
         data[0] = timeVal;
