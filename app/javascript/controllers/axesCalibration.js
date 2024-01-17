@@ -327,14 +327,18 @@ wpd.CircularChartRecorderCalibrator = class extends wpd.AxesCalibrator {
     getCornerValues() {
         wpd.popup.show('circularChartRecorderAlignment');
         if (this._isEditing) {
-            let axes = wpd.tree.getActiveAxes();
-            let prevCal = axes.calibration;
+            const axes = wpd.tree.getActiveAxes();
+            const prevCal = axes.calibration;
             if (prevCal.getCount() == 5) {
                 document.getElementById('circular-t0').value = prevCal.getPoint(0).dx;
                 document.getElementById('circular-r0').value = prevCal.getPoint(0).dy;
-                let startTime = axes.getStartTime();
+                const startTime = axes.getStartTime();
+                const rotationTime = axes.getRotationTime();
+                const rotationDirection = axes.getRotationDirection();
                 if (startTime != null) {
                     document.getElementById('circular-tstart').value = startTime;
+                    document.getElementById('circular-chart-recorder-rotation-time').value = rotationTime;
+                    document.getElementById('circular-chart-rotation-direction').value = rotationDirection;
                 }
                 document.getElementById('circular-r2').value = prevCal.getPoint(2).dy;
             }
@@ -342,11 +346,13 @@ wpd.CircularChartRecorderCalibrator = class extends wpd.AxesCalibrator {
     }
 
     align() {
-        let t0 = document.getElementById('circular-t0').value;
-        let r0 = parseFloat(document.getElementById('circular-r0').value);
-        let r2 = parseFloat(document.getElementById('circular-r2').value);
-        let tstart = document.getElementById('circular-tstart').value;
-        let axes = this._isEditing ? wpd.tree.getActiveAxes() : new wpd.CircularChartRecorderAxes();
+        const t0 = document.getElementById('circular-t0').value;
+        const r0 = parseFloat(document.getElementById('circular-r0').value);
+        const r2 = parseFloat(document.getElementById('circular-r2').value);
+        const tstart = document.getElementById('circular-tstart').value;
+        const rotationTime = document.getElementById('circular-chart-recorder-rotation-time').value;
+        const rotationDirection = document.getElementById('circular-chart-rotation-direction').value;
+        const axes = this._isEditing ? wpd.tree.getActiveAxes() : new wpd.CircularChartRecorderAxes();
 
         this._calibration.setDataAt(0, t0, r0);
         this._calibration.setDataAt(1, t0, 0);
@@ -354,10 +360,10 @@ wpd.CircularChartRecorderCalibrator = class extends wpd.AxesCalibrator {
         this._calibration.setDataAt(3, 0, r2);
         this._calibration.setDataAt(4, 0, r2);
 
-        axes.calibrate(this._calibration, tstart);
+        axes.calibrate(this._calibration, tstart, rotationTime, rotationDirection);
         if (!this._isEditing) {
             axes.name = wpd.alignAxes.makeAxesName(wpd.CircularChartRecorderAxes);
-            let plot = wpd.appData.getPlotData();
+            const plot = wpd.appData.getPlotData();
             plot.addAxes(axes, wpd.appData.isMultipage());
             wpd.alignAxes.postProcessAxesAdd(axes);
         }

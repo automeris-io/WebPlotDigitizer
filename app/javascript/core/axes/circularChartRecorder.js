@@ -45,8 +45,10 @@ wpd.CircularChartRecorderAxes = class {
     timeMax = 0;
     tStart = null;
     tEnd = null;
+    rotationDirection = 'anticlockwise';
+    rotationTime = 'week';
 
-    calibrate(calib, startTimeInput) {
+    calibrate(calib, startTimeInput, rotationTime, rotationDirection) {
 
         let cp0 = calib.getPoint(0);
         let cp1 = calib.getPoint(1);
@@ -61,10 +63,16 @@ wpd.CircularChartRecorderAxes = class {
             this.timeFormat = ip.formatting;
         }
         let date0 = new Date(this.time0);
-        this.timeMax = parseFloat(date0.setDate(date0.getDate() + 7));
         this.tStart = ip.parse(startTimeInput);
-        let dateEnd = new Date(this.tStart);
-        this.tEnd = parseFloat(dateEnd.setDate(dateEnd.getDate() + 7));
+        let dateEnd = new Date(this.tStart);        
+
+        if (rotationTime === "week") {
+            this.timeMax = parseFloat(date0.setDate(date0.getDate() + 7));
+            this.tEnd = parseFloat(dateEnd.setDate(dateEnd.getDate() + 7));
+        } else if (rotationTime === "day") {
+            this.timeMax = parseFloat(date0.setHours(date0.getHours() + 24));
+            this.tEnd = parseFloat(dateEnd.setHours(dateEnd.getHours() + 24));
+        }
 
         let r0 = cp0.dy;
         let r2 = cp2.dy;
@@ -98,7 +106,8 @@ wpd.CircularChartRecorderAxes = class {
         this.rMinPx = wpd.dist2d(cp0.px, cp0.py, chartCircle.x0, chartCircle.y0);
         this.rMaxPx = wpd.dist2d(cp2.px, cp2.py, chartCircle.x0, chartCircle.y0);
         this.chartToPenDist = wpd.dist2d(chartCircle.x0, chartCircle.y0, penCircle.x0, penCircle.y0);
-
+        this.rotationDirection = rotationDirection;
+        this.rotationTime = rotationTime;
         this.calibration = calib;
 
         return true;
@@ -115,10 +124,16 @@ wpd.CircularChartRecorderAxes = class {
         // calc time angle
         let thetap = wpd.taninverse(pyi - this.yChart, pxi - this.xChart);
         let alpha = Math.acos((this.chartToPenDist * this.chartToPenDist + rPx * rPx - this.rPen * this.rPen) / (2.0 * this.chartToPenDist * rPx));
-        let thetac = thetap + alpha;
-        let thetacDeg = wpd.normalizeAngleDeg(thetac * 180.0 / Math.PI);
-
-        let timeVal = (this.tEnd - this.tStart) * (wpd.normalizeAngleDeg(thetacDeg - this.thetac0 - this.thetaStartOffset)) / 360.0 + this.tStart;
+        let timeVal = 0;
+        if (this.rotationDirection === 'anticlockwise') {
+            let thetac = thetap + alpha;
+            let thetacDeg = wpd.normalizeAngleDeg(thetac * 180.0 / Math.PI);
+            timeVal = (this.tEnd - this.tStart) * (wpd.normalizeAngleDeg(thetacDeg - this.thetac0 - this.thetaStartOffset)) / 360.0 + this.tStart;
+        } else if (this.rotationDirection === 'clockwise') {
+            let thetac = thetap - alpha;
+            let thetacDeg = wpd.normalizeAngleDeg(thetac * 180.0 / Math.PI);            
+            timeVal = (this.tEnd - this.tStart) * (wpd.normalizeAngleDeg(-(thetacDeg - this.thetac0) - this.thetaStartOffset)) / 360.0 + this.tStart;
+        }
         data[0] = timeVal;
         data[1] = r;
 
@@ -156,6 +171,14 @@ wpd.CircularChartRecorderAxes = class {
             return null;
         }
         return wpd.dateConverter.formatDateNumber(this.tStart, this.timeFormat);
+    }
+
+    getRotationTime() {
+        return this.rotationTime;
+    }
+
+    getRotationDirection() {
+        return this.rotationDirection;
     }
 
     getTimeFormat() {

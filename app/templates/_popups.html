@@ -280,7 +280,25 @@
                 <td align="center"><b>{{ _("Chart Start Time (T_Start)") }}</b></td>
                 <td align="left"><input type="text" size="15" id="circular-tstart" value="0" /></td>
             </tr>
-
+            <tr>
+                <td>{{ _("Total Rotation Time") }}</td>
+                <td>
+                    <select id="circular-chart-recorder-rotation-time">
+                        <option value="week">{{ _("1 Week (7 days)") }}</option>
+                        <option value="day">{{ _("1 Day (24 hours)") }}</option>
+                        <!-- <option value="month">{{ _("1 Month") }}</option> -->
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>{{ _("Rotation Direction") }}</td>
+                <td>
+                    <select id="circular-chart-rotation-direction">
+                        <option value="anticlockwise">{{ _("Anti-Clockwise") }}</option>
+                        <option value="clockwise">{{ _("Clockwise") }}</option>                        
+                    </select>
+                </td>
+            </tr>
         </table>
     </center>
     <br />
