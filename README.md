@@ -8,7 +8,7 @@ A web based tool to extract numerical data from plot images. Supports XY, Polar,
 Contact
 -------
 
-To report issues, use GitHub Issues. For other queries, contact Ankit Rohatgi <ankitrohatgi@hotmail.com>
+To report issues, use GitHub Issues. For other queries, contact Ankit Rohatgi <plots@automeris.io>
 
 License
 -------
