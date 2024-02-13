@@ -4,6 +4,12 @@ Version 4.7
 ===========
 Coming soon
 
+New Features:
+- Made masks translucent for easier mask making.
+- Expanded support for circular chart recorders. Now support 1 day, 1 week and also both rotation directions.
+
+Bug Fixes:
+- Fixed bugs with mask creation when view is rotated.
 
 Version 4.6
 ===========
