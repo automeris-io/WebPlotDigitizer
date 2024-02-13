@@ -45,11 +45,13 @@ wpd.BoxMaskTool = (function() {
                 clearTimeout(moveTimer);
                 isDrawing = false;
                 wpd.graphicsWidget.resetHover();
-                ctx.dataCtx.fillStyle = "rgba(255,255,0,1)";
+                ctx.dataCtx.globalCompositeOperation = "xor";
+                ctx.oriDataCtx.globalCompositeOperation = "xor";
+                ctx.dataCtx.fillStyle = "rgba(255,255,0,0.5)";
                 let canvasPos = wpd.graphicsWidget.canvasPx(pos.x, pos.y);
                 ctx.dataCtx.fillRect(topScreenCorner.x, topScreenCorner.y,
                     canvasPos.x - topScreenCorner.x, canvasPos.y - topScreenCorner.y);
-                ctx.oriDataCtx.fillStyle = "rgba(255,255,0,1)";
+                ctx.oriDataCtx.fillStyle = "rgba(255,255,0,0.5)";
                 ctx.oriDataCtx.fillRect(topImageCorner.x, topImageCorner.y,
                     imagePos.x - topImageCorner.x,
                     imagePos.y - topImageCorner.y);
@@ -117,13 +119,17 @@ wpd.PenMaskTool = (function() {
             isDrawing = false,
             moveTimer,
             screen_pos, canvas_pos, image_pos, mouseMoveHandler = function() {
-                ctx.dataCtx.strokeStyle = "rgba(255,255,0,1)";
+                ctx.dataCtx.globalCompositeOperation = "xor";
+                ctx.oriDataCtx.globalCompositeOperation = "xor";
+                ctx.dataCtx.strokeStyle = "rgba(255,255,0,0.5)";
                 ctx.dataCtx.lineTo(canvas_pos.x, canvas_pos.y);
                 ctx.dataCtx.stroke();
 
-                ctx.oriDataCtx.strokeStyle = "rgba(255,255,0,1)";
+                ctx.oriDataCtx.strokeStyle = "rgba(255,255,0,0.5)";
                 ctx.oriDataCtx.lineTo(image_pos.x, image_pos.y);
                 ctx.oriDataCtx.stroke();
+                ctx.dataCtx.globalCompositeOperation = "source-over";
+                ctx.oriDataCtx.globalCompositeOperation = "source-over";
             };
 
         this.onAttach = function() {
@@ -139,15 +145,19 @@ wpd.PenMaskTool = (function() {
             let lwidth = parseInt(document.getElementById('paintThickness').value, 10);
             let canvasPos = wpd.graphicsWidget.canvasPx(pos.x, pos.y);
             isDrawing = true;
-            ctx.dataCtx.strokeStyle = "rgba(255,255,0,1)";
+            ctx.dataCtx.globalCompositeOperation = "xor";
+            ctx.oriDataCtx.globalCompositeOperation = "xor";
+            ctx.dataCtx.strokeStyle = "rgba(255,255,0,0.5)";
             ctx.dataCtx.lineWidth = lwidth * wpd.graphicsWidget.getZoomRatio();
             ctx.dataCtx.beginPath();
             ctx.dataCtx.moveTo(canvasPos.x, canvasPos.y);
 
-            ctx.oriDataCtx.strokeStyle = "rgba(255,255,0,1)";
+            ctx.oriDataCtx.strokeStyle = "rgba(255,255,0,0.5)";
             ctx.oriDataCtx.lineWidth = lwidth;
             ctx.oriDataCtx.beginPath();
             ctx.oriDataCtx.moveTo(imagePos.x, imagePos.y);
+            ctx.dataCtx.globalCompositeOperation = "source-over";
+            ctx.oriDataCtx.globalCompositeOperation = "source-over";
         };
 
         this.onMouseMove = function(ev, pos, imagePos) {
@@ -200,6 +210,8 @@ wpd.EraseMaskTool = (function() {
                 ctx.oriDataCtx.strokeStyle = "rgba(255,255,0,1)";
                 ctx.oriDataCtx.lineTo(image_pos.x, image_pos.y);
                 ctx.oriDataCtx.stroke();
+                ctx.dataCtx.globalCompositeOperation = "source-over";
+                ctx.oriDataCtx.globalCompositeOperation = "source-over";
             };
 
         this.onAttach = function() {
@@ -227,6 +239,8 @@ wpd.EraseMaskTool = (function() {
             ctx.oriDataCtx.lineWidth = lwidth;
             ctx.oriDataCtx.beginPath();
             ctx.oriDataCtx.moveTo(imagePos.x, imagePos.y);
+            ctx.dataCtx.globalCompositeOperation = "source-over";
+            ctx.oriDataCtx.globalCompositeOperation = "source-over";
         };
 
         this.onMouseMove = function(ev, pos, imagePos) {
@@ -300,7 +314,7 @@ wpd.MaskPainter = (function() {
                 imgData.data[img_index * 4] = 255;
                 imgData.data[img_index * 4 + 1] = 255;
                 imgData.data[img_index * 4 + 2] = 0;
-                imgData.data[img_index * 4 + 3] = 255;
+                imgData.data[img_index * 4 + 3] = 255 / 2;
             }
 
             ctx.oriDataCtx.putImageData(imgData, 0, 0);

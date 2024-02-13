@@ -199,6 +199,7 @@ wpd.graphicsWidget = (function() {
         if (repaintHandler != null && repaintHandler.onRemove != undefined) {
             repaintHandler.onRemove();
         }
+        resetDrawingLayers();
         repaintHandler = fhandle;
         if (repaintHandler != null && repaintHandler.onAttach != undefined) {
             repaintHandler.onAttach();
