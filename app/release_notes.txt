@@ -2,7 +2,7 @@ RELEASE NOTES
 
 Version 4.7
 ===========
-Coming soon
+February 13, 2024
 
 New Features:
 - Made masks translucent for easier mask making.
