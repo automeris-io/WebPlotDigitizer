@@ -5,18 +5,21 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version:  WebPlotDigitizer\n"
+"Project-Id-Version: WebPlotDigitizer\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2024-03-06 12:19-0800\n"
-"PO-Revision-Date: 2024-01-21 17:39+0800\n"
+"PO-Revision-Date: 2024-03-18 21:06+0800\n"
 "Last-Translator: nkh0472 <nkh0472@hotmail.com>\n"
-"Language: zh_CN\n"
 "Language-Team: zh_CN <LL@li.org>\n"
-"Plural-Forms: nplurals=1; plural=0\n"
+"Language: zh_CN\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 "Generated-By: Babel 2.8.0\n"
+"X-Generator: Poedit 3.4.2\n"
+"X-Language: zh_CN\n"
+"X-Source-Language: en\n"
 
 #: templates/_base.html:27
 msgid "Web based tool to extract numerical data from plots and graph images."
@@ -30,7 +33,9 @@ msgstr "启动中，请稍等……"
 msgid ""
 "Problems loading? Make sure you have a recent version of Google Chrome, "
 "Firefox, Safari or Microsoft Edge installed."
-msgstr "启动错误？ 请确认您安装了最新版本的Google Chrome，Firefox，Safari 或 Microsoft Edge。"
+msgstr ""
+"启动错误？ 请确认您安装了最新版本的Google Chrome，Firefox，Safari 或 "
+"Microsoft Edge。"
 
 #: templates/_base.html:78
 msgid "Fit"
@@ -218,8 +223,8 @@ msgstr "X 和 Y 轴标定"
 
 #: templates/_popups.html:127
 msgid ""
-"Enter X-values of the two points clicked on X-axis and Y-values of the "
-"two points clicked on Y-axes"
+"Enter X-values of the two points clicked on X-axis and Y-values of the two "
+"points clicked on Y-axes"
 msgstr "分别输入 X-轴上的两个标定点的 X-值和 Y-轴上的两个标定点的 Y-值"
 
 #: templates/_popups.html:132 templates/_popups.html:165
@@ -253,12 +258,13 @@ msgstr "假设轴与图像坐标完全对齐（跳过旋转校正）"
 
 #: templates/_popups.html:152
 msgid ""
-"*For dates, use yyyy/mm/dd hh:ii:ss format, where ii denotes minutes "
-"(e.g. 2013/10/23 or 2013/10 or 2013/10/23 10:15 or just 10:15). For "
-"exponents, enter values as 1e-3 for 10^-3."
+"*For dates, use yyyy/mm/dd hh:ii:ss format, where ii denotes minutes (e.g. "
+"2013/10/23 or 2013/10 or 2013/10/23 10:15 or just 10:15). For exponents, "
+"enter values as 1e-3 for 10^-3."
 msgstr ""
-"*对于日期，使用 yyyy/mm/dd hh:ii:ss 格式，其中 ii 表示分钟（例如 2013/10/23 或 2013/10 或 "
-"2013/10/23 10:15 或者只有 10:15）。对于指数，例如10^-3，请输入 1e-3 。"
+"*对于日期，使用 yyyy/mm/dd hh:ii:ss 格式，其中 ii 表示分钟（例如 2013/10/23 "
+"或 2013/10 或 2013/10/23 10:15 或者只有 10:15）。对于指数，例如10^-3，请输入 "
+"1e-3 。"
 
 #: templates/_popups.html:160
 msgid "Bar Chart Calibration"
@@ -266,8 +272,8 @@ msgstr "条形图标定"
 
 #: templates/_popups.html:161
 msgid ""
-"Enter the values at the two points selected on the continuous axes along "
-"the bars"
+"Enter the values at the two points selected on the continuous axes along the "
+"bars"
 msgstr "对于在沿条形图方向的连续轴上所选择的两个标定点，输入相应的数值"
 
 #: templates/_popups.html:183
@@ -394,17 +400,17 @@ msgstr "关闭"
 
 #: templates/_popups.html:326
 msgid ""
-"*Plotly is a secure data analysis and graphing site with data sharing and"
-" access controls."
+"*Plotly is a secure data analysis and graphing site with data sharing and "
+"access controls."
 msgstr "*Plotly 是一个安全的数据分析和绘图网站，并提供数据共享和访问控制功能。"
 
 #: templates/_popups.html:327
 msgid ""
-"Visit <a href=\"http://plot.ly\" "
-"target=\"plotlyWebsite\">http://plot.ly</a> for details."
+"Visit <a href=\"http://plot.ly\" target=\"plotlyWebsite\">http://plot.ly</a> "
+"for details."
 msgstr ""
-"访问 <a href=\"http://plot.ly\" target=\"plotlyWebsite\">http://plot.ly</a>"
-" 以了解更多。"
+"访问 <a href=\"http://plot.ly\" target=\"plotlyWebsite\">http://plot.ly</a> "
+"以了解更多。"
 
 #: templates/_popups.html:331
 msgid "Sort"
@@ -468,12 +474,11 @@ msgstr "校准 X-Y 坐标轴"
 
 #: templates/_popups.html:368
 msgid ""
-"Click four known points on the axes in the <font color=\"red\">order "
-"shown in red</font>. Two on the X axis (X1, X2) and two on the Y axis "
-"(Y1, Y2)"
+"Click four known points on the axes in the <font color=\"red\">order shown "
+"in red</font>. Two on the X axis (X1, X2) and two on the Y axis (Y1, Y2)"
 msgstr ""
-"在坐标轴上 <font color=\"red\">按红色所示顺序</font> 放置4个已知点。两个位于 X 轴 (X1, X2)，两个位于 Y"
-" 轴 (Y1, Y2)。"
+"在坐标轴上 <font color=\"red\">按红色所示顺序</font> 放置4个已知点。两个位于 "
+"X 轴 (X1, X2)，两个位于 Y 轴 (Y1, Y2)。"
 
 #: templates/_popups.html:370 templates/_popups.html:380
 #: templates/_popups.html:390 templates/_popups.html:400
@@ -486,7 +491,8 @@ msgid "Align Bar Chart Axes"
 msgstr "校准条形图坐标轴"
 
 #: templates/_popups.html:378
-msgid "Click on two known points (P1, P2) on the continuous axes along the bars"
+msgid ""
+"Click on two known points (P1, P2) on the continuous axes along the bars"
 msgstr "沿着条形图方向在连续轴上放置两个已知点 (P1, P2)"
 
 #: templates/_popups.html:385
@@ -515,12 +521,12 @@ msgstr "单击图表轴上的5个点，如图所示："
 
 #: templates/_popups.html:421
 msgid ""
-"First three (3) points at different maginitudes but the same known time "
-"(T0)."
+"First three (3) points at different maginitudes but the same known time (T0)."
 msgstr "前3个点有不同的大小但相同的已知时间（T0）。"
 
 #: templates/_popups.html:422
-msgid "Next two (2) points on any times (T1, T2) but at the same magnitude as R2."
+msgid ""
+"Next two (2) points on any times (T1, T2) but at the same magnitude as R2."
 msgstr "下2个点应在任意时间（T1，T2）上，但与R2大小相同。"
 
 #: templates/_popups.html:431
@@ -533,9 +539,9 @@ msgstr "版本"
 
 #: templates/_popups.html:434
 msgid ""
-"This program is distributed under the <a "
-"href=\"https://www.gnu.org/licenses/agpl-3.0-standalone.html\" "
-"target=\"_blank\">GNU Affero General Public License Version 3</a>."
+"This program is distributed under the <a href=\"https://www.gnu.org/licenses/"
+"agpl-3.0-standalone.html\" target=\"_blank\">GNU Affero General Public "
+"License Version 3</a>."
 msgstr ""
 "该程序在 <a href=\"https://www.gnu.org/licenses/agpl-3.0-standalone.html\" "
 "target=\"_blank\">GNU Affero General Public License Version 3</a> 下发布。"
@@ -569,7 +575,8 @@ msgid "Transformation Equations"
 msgstr "变换方程"
 
 #: templates/_popups.html:465
-msgid "The following relationships are being used to convert image pixels to data"
+msgid ""
+"The following relationships are being used to convert image pixels to data"
 msgstr "以下关系式用以将图像像素转换为数据"
 
 #: templates/_popups.html:473
@@ -579,12 +586,13 @@ msgstr "导出 JSON 或项目文件"
 #: templates/_popups.html:474
 msgid ""
 "Export a JSON file containing the axes calibrations, digitized data and "
-"measurements. This JSON file can be loaded to resume work at a later "
-"time. You can also download a combined 'project file' which includes this"
-" JSON and also the image in a single TAR file."
+"measurements. This JSON file can be loaded to resume work at a later time. "
+"You can also download a combined 'project file' which includes this JSON and "
+"also the image in a single TAR file."
 msgstr ""
-"导出包含坐标轴标定，数字化数据和测量结果的 JSON 文件。 稍后该 JSON 文件可被导入以恢复工作。 您还可以单个 TAR "
-"文件的形式下载包含此 JSON 和图像的打包“项目文件”。"
+"导出包含坐标轴标定，数字化数据和测量结果的 JSON 文件。 稍后该 JSON 文件可被导"
+"入以恢复工作。 您还可以单个 TAR 文件的形式下载包含此 JSON 和图像的打包“项目文"
+"件”。"
 
 #: templates/_popups.html:479
 msgid "Download JSON"
@@ -620,8 +628,8 @@ msgstr "键盘快捷键"
 
 #: templates/_popups.html:502
 msgid ""
-"Click to select a data point. The following keys can then be used to "
-"adjust the position"
+"Click to select a data point. The following keys can then be used to adjust "
+"the position"
 msgstr "单击以选择数据点。然后可以使用以下键来调整位置"
 
 #: templates/_popups.html:506
@@ -701,7 +709,8 @@ msgid "Edit Existing Calibration?"
 msgstr "编辑现有的标定？"
 
 #: templates/_popups.html:586
-msgid "Do you wish to tweak existing axes calibration or select a new axes type?"
+msgid ""
+"Do you wish to tweak existing axes calibration or select a new axes type?"
 msgstr "你想要调整现有的坐标轴标定或选择新的坐标轴类型？"
 
 #: templates/_popups.html:589
@@ -767,7 +776,9 @@ msgid ""
 "Relabel the current page number with an alphanumeric string. Optionally, "
 "relabel all page numbers in the image based on the current page (only "
 "supports integer values)."
-msgstr "用字母数字字符串重新标记当前页码。（可选）根据当前页面重新标记图像中的所有页码（仅支持整数值）。"
+msgstr ""
+"用字母数字字符串重新标记当前页码。（可选）根据当前页面重新标记图像中的所有页"
+"码（仅支持整数值）。"
 
 #: templates/_popups.html:666
 msgid "Relabel"
@@ -799,12 +810,15 @@ msgstr "要定义点编组，请在下面输入编组名称。根据需要创建
 
 #: templates/_popups.html:689
 msgid ""
-"E.g. Assume we have 3 point groups defined: Median, Standard error +1, "
-"and Standard error -1. Points would be entered in the order shown in the "
-"image to the right. For each set of points, the median value would first "
-"be recorded, then the standard error +1, and finally the standard error "
-"-1. The process would repeat for the next set of points."
-msgstr "例如，假设我们定义了3个点组：中位数、标准误差+1和标准误差-1。点将按照右侧图像中显示的顺序输入。对于每组点，首先记录中值，然后记录标准误差+1，最后记录标准误差-1。这一过程应将在每一组点上重复。"
+"E.g. Assume we have 3 point groups defined: Median, Standard error +1, and "
+"Standard error -1. Points would be entered in the order shown in the image "
+"to the right. For each set of points, the median value would first be "
+"recorded, then the standard error +1, and finally the standard error -1. The "
+"process would repeat for the next set of points."
+msgstr ""
+"例如，假设我们定义了3个点组：中位数、标准误差+1和标准误差-1。点将按照右侧图像"
+"中显示的顺序输入。对于每组点，首先记录中值，然后记录标准误差+1，最后记录标准"
+"误差-1。这一过程应将在每一组点上重复。"
 
 #: templates/_popups.html:704 templates/_strings.html:83
 msgid "Group"
@@ -830,7 +844,9 @@ msgstr "坐标轴标定"
 msgid ""
 "Click points to select and use cursor keys to adjust positions. Use "
 "Shift+Arrow for faster movement. Click complete when finished."
-msgstr "点击选中标定点，然后使用光标键调整位置。使用 Shift+方向键 快速移动。调整完毕后，请点击”完成“。"
+msgstr ""
+"点击选中标定点，然后使用光标键调整位置。使用 Shift+方向键 快速移动。调整完毕"
+"后，请点击”完成“。"
 
 #: templates/_sidebars.html:5
 msgid "Complete!"
@@ -882,7 +898,7 @@ msgstr "显示"
 
 #: templates/_sidebars.html:23 templates/_sidebars.html:26
 msgid "Width"
-msgstr "宽带"
+msgstr "宽度"
 
 #: templates/_sidebars.html:23
 msgid "Erase All"
@@ -1061,9 +1077,7 @@ msgstr "重做"
 msgid "Crop"
 msgstr "剪裁"
 
-# 固定透视？
 #: templates/_sidebars.html:187
-#, fuzzy
 msgid "Fix Perspective"
 msgstr "修复透视"
 
@@ -1073,7 +1087,7 @@ msgstr "旋转"
 
 #: templates/_sidebars.html:192
 msgid "?"
-msgstr ""
+msgstr "?"
 
 #: templates/_strings.html:2
 msgid "Unstable version warning!"
@@ -1081,8 +1095,8 @@ msgstr "警告：不稳定版本！"
 
 #: templates/_strings.html:3
 msgid ""
-"You are using a beta version of WebPlotDigitizer. There may be some "
-"issues with the software that are expected."
+"You are using a beta version of WebPlotDigitizer. There may be some issues "
+"with the software that are expected."
 msgstr "您正在使用 WebPlotDigitizer 测试版。该软件可能存在某些问题。"
 
 #: templates/_strings.html:5
@@ -1103,8 +1117,8 @@ msgstr "无效的对数坐标值"
 
 #: templates/_strings.html:9
 msgid ""
-"Values on a log scale axis can not be zero as log(0) is undefined. Please"
-" enter a non-zero value."
+"Values on a log scale axis can not be zero as log(0) is undefined. Please "
+"enter a non-zero value."
 msgstr "对数坐标的数值不能为 0，因为 log(0) 不存在。请输入非 0 数值。"
 
 #: templates/_strings.html:10
@@ -1123,18 +1137,18 @@ msgstr "清除数据点？"
 msgid ""
 "This will delete all data points and point group definitions from this "
 "dataset"
-msgstr ""
+msgstr "这将从此数据集中删除所有数据点和点编组定义"
 
 #: templates/_strings.html:15
 msgid ""
 "Your browser does not support webcam capture using HTML5 APIs. A recent "
 "version of Google Chrome is recommended."
-msgstr "您的浏览器不支持 webcam 拍照 HTML5 API，推荐使用最新版本的Google Chrome。"
+msgstr ""
+"您的浏览器不支持 webcam 拍照 HTML5 API，推荐使用最新版本的Google Chrome。"
 
 #: templates/_strings.html:17
 msgid ""
-"Transformation equations are available only after axes have been "
-"calibrated."
+"Transformation equations are available only after axes have been calibrated."
 msgstr "请先标定坐标轴，再查看变换公式。"
 
 #: templates/_strings.html:18
@@ -1143,8 +1157,8 @@ msgstr "不支持该功能！"
 
 #: templates/_strings.html:19
 msgid ""
-"This feature has not been implemented in the current version. This may be"
-" available in a future release."
+"This feature has not been implemented in the current version. This may be "
+"available in a future release."
 msgstr "该功能在当前版本中不可用。这可能会在未来版本中实现。"
 
 #: templates/_strings.html:20
@@ -1157,9 +1171,11 @@ msgstr "错误：无效文件！"
 
 #: templates/_strings.html:22
 msgid ""
-"Please load a valid image file. Common image formats such as JPG, PNG, "
-"BMP, GIF etc. should work. Word documents are not accepted."
-msgstr "请加载一个有效的图像文件。常见的图像格式，如JPG，PNG，BMP，GIF等应该可以工作。不接受Word文档。"
+"Please load a valid image file. Common image formats such as JPG, PNG, BMP, "
+"GIF etc. should work. Word documents are not accepted."
+msgstr ""
+"请加载一个有效的图像文件。常见的图像格式，如JPG，PNG，BMP，GIF等应该可以工"
+"作。不接受Word文档。"
 
 #: templates/_strings.html:23
 msgid "Raw"
@@ -1347,8 +1363,9 @@ msgid "Not a valid project file format!"
 msgstr "不是有效的项目文件格式！"
 
 #: templates/_strings.html:73
+#, fuzzy
 msgid "of"
-msgstr ""
+msgstr "/"
 
 #: templates/_strings.html:74
 msgid "Page"
@@ -1439,6 +1456,9 @@ msgstr "数据点数"
 msgid "Clear All"
 msgstr "清除所有"
 
+#~ msgid "Donate (PayPal)"
+#~ msgstr "资助我们（PayPal）"
+
 #~ msgid "Press Enter key to complete the polygon"
 #~ msgstr "按Enter键完成多边形"
 
@@ -1448,323 +1468,12 @@ msgstr "清除所有"
 #~ msgid "WebPlotDigitizer-Examples repository"
 #~ msgstr "WebPlotDigitizer - 范例库"
 
-#~ msgid "<<"
-#~ msgstr ""
-
-#~ msgid "<"
-#~ msgstr ""
-
-#~ msgid ">"
-#~ msgstr ""
-
-#~ msgid ">>"
-#~ msgstr ""
-
-#~ msgid "First Page"
-#~ msgstr ""
-
-#~ msgid "Last Page"
-#~ msgstr ""
-
 #~ msgid ""
-#~ "Please load a valid image file. "
-#~ "Common image formats such as JPG, "
-#~ "PNG, BMP, GIF etc. should work. "
-#~ "PDF or Word documents are not "
-#~ "accepted."
-#~ msgstr "请导入有效的图片文件。常见图像格式如JPG、PNG、BMP、GIF等。不支持 PDF 或 Word 文档。"
-
-#~ msgid "Go"
+#~ "Please load a valid image file. Common image formats such as JPG, PNG, "
+#~ "BMP, GIF etc. should work. PDF or Word documents are not accepted."
 #~ msgstr ""
-
-#~ msgid "Previous Page"
-#~ msgstr ""
-
-#~ msgid "Next Page"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Relabel the current page. Optionally, "
-#~ "relabel all pages in the image "
-#~ "based on the new label (only "
-#~ "integers are supported)."
-#~ msgstr ""
-
-#~ msgid "Relabel Page"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Relabel the current page number. "
-#~ "Optionally, relabel all pages in the "
-#~ "image based on the new label (only"
-#~ " integers values)."
-#~ msgstr ""
-
-#~ msgid "Submit"
-#~ msgstr ""
-
-#~ msgid "Override Value"
-#~ msgstr ""
-
-#~ msgid "Override X"
-#~ msgstr ""
-
-#~ msgid "Override Y"
-#~ msgstr ""
-
-#~ msgid "Override value (When Adjusting Non-Bar Chart or Ternary Diagram Points"
-#~ msgstr ""
-
-#~ msgid "Override value"
-#~ msgstr ""
-
-#~ msgid "(When Adjusting Non-Bar Chart or Ternary Diagram Points)"
-#~ msgstr ""
-
-#~ msgid "Revert"
-#~ msgstr ""
-
-#~ msgid "Override value (When Adjusting "
-#~ msgstr ""
-
-#~ msgid "Non-Bar Chart or Ternary "
-#~ msgstr ""
-
-#~ msgid "Diagram Points)"
-#~ msgstr ""
-
-#~ msgid "Clear Overrides"
-#~ msgstr ""
-
-#~ msgid "non-Bar Chart or non-Ternary "
-#~ msgstr ""
-
-#~ msgid "Diagram points)"
-#~ msgstr ""
-
-#~ msgid "Load Image File"
-#~ msgstr ""
-
-#~ msgid "Scale Size"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Click to select a data point. The"
-#~ " following keys can then be used "
-#~ "to the adjust the position"
-#~ msgstr ""
-
-#~ msgid "This will delete all data points from this dataset"
-#~ msgstr ""
+#~ "请导入有效的图片文件。常见图像格式如JPG、PNG、BMP、GIF等。不支持 PDF 或 "
+#~ "Word 文档。"
 
 #~ msgid "View Equations"
 #~ msgstr "查看方程"
-
-#~ msgid "Opensource Community Contributions"
-#~ msgstr ""
-
-#~ msgid "Configure Data Groups"
-#~ msgstr ""
-
-#~ msgid "Data Group Settings"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Configure point groups to add points "
-#~ "in tuples. Intended for plots with "
-#~ "error bars or confidence intervals."
-#~ msgstr ""
-
-#~ msgid "Configure point groups to add points in tuples."
-#~ msgstr ""
-
-#~ msgid "Intended for plots with error bars or confidence intervals."
-#~ msgstr ""
-
-#~ msgid "Add Group"
-#~ msgstr ""
-
-#~ msgid "Configure point groups to add points in tuples for plots"
-#~ msgstr ""
-
-#~ msgid "with error bars or confidence intervals."
-#~ msgstr ""
-
-#~ msgid "Point groups are related sets of points such as error"
-#~ msgstr ""
-
-#~ msgid "bars or confidence intervals."
-#~ msgstr ""
-
-#~ msgid "Set Point Groups"
-#~ msgstr ""
-
-#~ msgid "Skip Group"
-#~ msgstr ""
-
-#~ msgid "Previous Group"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Point groups are related sets of "
-#~ "points such as error bars or "
-#~ "confidence intervals."
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Configure point groups to add data "
-#~ "points in tuples. Data points will "
-#~ "be collected"
-#~ msgstr ""
-
-#~ msgid "in group order."
-#~ msgstr ""
-
-#~ msgid "Default Group"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Point groups are related data points "
-#~ "such as standard error or confidence"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "intervals. Configure point groups to add"
-#~ " related data points, in order, by"
-#~ " sets."
-#~ msgstr ""
-
-#~ msgid "Sets are bound to points in the primary group."
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Point groups are related data points "
-#~ "such as standard error or confidence "
-#~ "intervals."
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Configure point groups to add related"
-#~ " data points, in order, by sets. "
-#~ "Sets are bound"
-#~ msgstr ""
-
-#~ msgid "to points in the primary group."
-#~ msgstr ""
-
-#~ msgid ""
-#~ "intervals. Configure point groups to add"
-#~ " related data points, in order, by"
-#~ " sets. Sets"
-#~ msgstr ""
-
-#~ msgid "are bound to points in the primary group."
-#~ msgstr ""
-
-#~ msgid "Groups"
-#~ msgstr ""
-
-#~ msgid "Delete Points in Group"
-#~ msgstr ""
-
-#~ msgid "Delete all points in the group?"
-#~ msgstr ""
-
-#~ msgid "Ranges (R0, R1, R2)"
-#~ msgstr ""
-
-#~ msgid "Times (T1, T2)"
-#~ msgstr ""
-
-#~ msgid "Points would be entered in the order shown in the image above."
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Point groups are groups of related "
-#~ "data points such as standard error "
-#~ "or confidence"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "intervals. Configure point groups to add"
-#~ " related data points, in order, by"
-#~ " tuples."
-#~ msgstr ""
-
-#~ msgid "Tuples are bound by points in the primary group."
-#~ msgstr ""
-
-#~ msgid ""
-#~ "E.g. Assume we have 3 point groups"
-#~ " defined: Median, Upper Quartile, and "
-#~ "Lower Quartile."
-#~ msgstr ""
-
-#~ msgid "Points would be entered in the order shown in the image to the right."
-#~ msgstr ""
-
-#~ msgid ""
-#~ "E.g. Assume we have 3 point groups"
-#~ " defined: Median, Upper Quartile, and "
-#~ "Lower Quartile. Points would be entered"
-#~ " in the order shown in the "
-#~ "image to the right."
-#~ msgstr ""
-
-#~ msgid ""
-#~ "E.g. Assume we have 3 point groups"
-#~ " defined: Median, Standard error +1, "
-#~ "and Standard error -1. Points would "
-#~ "be entered in the order shown in"
-#~ " the image to the right."
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Point groups are groups of related "
-#~ "data points such as standard error "
-#~ "or confidence intervals. Configure point "
-#~ "groups to add related data points, "
-#~ "in order, by tuples. Tuples are "
-#~ "bound by points in the primary "
-#~ "group."
-#~ msgstr ""
-
-#~ msgid ""
-#~ "E.g. Assume we have 3 point groups"
-#~ " defined: Median, Standard error +1, "
-#~ "and Standard error -1. Points would "
-#~ "be entered in the order shown in"
-#~ " the image to the right. For "
-#~ "each tuple, the median value would "
-#~ "first be recorded, then the standard "
-#~ "error +1, and finally the standard "
-#~ "error -1."
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Point groups are groups of related "
-#~ "data points such as standard error "
-#~ "or confidence intervals. To create a "
-#~ "point group, enter a name in the"
-#~ " text input below. Additional point "
-#~ "groups may be added."
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Point groups are groups of related "
-#~ "data points such as standard error "
-#~ "or confidence intervals. To define a "
-#~ "point group, enter a name in the"
-#~ " text input below. Create additional "
-#~ "point groups as necessary."
-#~ msgstr ""
-
-#~ msgid "1 Week"
-#~ msgstr ""
-
-#~ msgid "1 Hour"
-#~ msgstr ""
-
-#~ msgid "Donate (PayPal)"
-#~ msgstr "资助我们（PayPal）"
-
