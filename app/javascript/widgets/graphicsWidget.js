@@ -559,7 +559,7 @@ wpd.graphicsWidget = (function() {
             let items = ev.clipboardData.items;
             if (items !== undefined) {
                 for (var i = 0; i < items.length; i++) {
-                    if (items[i].type.indexOf("image") !== -1) {
+                    if (items[i].kind === "file" && items[i].type.indexOf("image") !== -1) {
                         wpd.busyNote.show();
                         var imageFile = items[i].getAsFile();
                         wpd.imageManager.initializeFileManager([imageFile]);
