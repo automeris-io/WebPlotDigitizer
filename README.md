@@ -1,3 +1,13 @@
+NOTE
+====
+Work on this repository (v4 and earlier) has been paused in favor of v5 (closed source). For details, see: https://automeris.io/posts/
+
+You can still submit issues, but it is likely that fixes will only land in v5.
+
+PRs or any other contributions are not being accepted at this time.
+
+--------------
+
 WebPlotDigitizer
 ================
 
