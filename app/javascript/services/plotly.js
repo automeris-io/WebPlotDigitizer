@@ -29,7 +29,7 @@ wpd.plotly = (function() {
             jsonString;
 
         formElement.setAttribute('method', 'post');
-        formElement.setAttribute('action', 'https://plot.ly/external');
+        formElement.setAttribute('action', 'https://chart-studio.plotly.com/external');
         formElement.setAttribute('target', '_blank');
 
         formData.setAttribute('name', 'data');
