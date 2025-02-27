@@ -24,7 +24,6 @@ QUnit.test("getCircleFrom3Pts", function(assert) {
         "radius": 417.59805330481277
     };
     let circ2 = wpd.getCircleFrom3Pts(pts2);
-    console.log(circ2);
     assert.equal(Math.abs(circ2.radius - expectedRes2.radius) < 1e-10, true, "radius check2");
     assert.equal(Math.abs(circ2.x0 - expectedRes2.x0) < 1e-10, true, "x0 check2");
     assert.equal(Math.abs(circ2.y0 - expectedRes2.y0) < 1e-10, true, "y0 check2");

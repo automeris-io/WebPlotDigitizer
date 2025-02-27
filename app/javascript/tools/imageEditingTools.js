@@ -1,7 +1,7 @@
 /*
     WebPlotDigitizer - https://automeris.io/WebPlotDigitizer
 
-    Copyright 2010-2021 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+    Copyright 2010-2024 Ankit Rohatgi <plots@automeris.io>
 
     This file is part of WebPlotDigitizer.
 
@@ -52,6 +52,8 @@ wpd.CropTool = class {
 
     onMouseDown(e, pos, imagePos) {
         if (!this._hasCropBox) {
+            this._screenPos = pos;
+            this._imagePos = imagePos;
             this._isDrawing = true;
             this._topImageCorner = imagePos;
             this._topScreenCorner = pos;

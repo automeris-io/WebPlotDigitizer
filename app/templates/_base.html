@@ -3,7 +3,7 @@
 <!--
 	WebPlotDigitizer - https://automeris.io/WebPlotDigitizer
 
-	Copyright 2010-2021 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+	Copyright 2010-2024 Ankit Rohatgi <plots@automeris.io>
 
 	This file is part of WebPlotDigitizer.
 
@@ -20,7 +20,7 @@
     You should have received a copy of the GNU Affero General Public License
     along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
 -->
-{% set wpdVersion = '4.6' %}
+{% set wpdVersion = '4.8' %}
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -30,7 +30,7 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
-    <title>WebPlotDigitizer - Copyright 2010-2021 Ankit Rohatgi</title>
+    <title>WebPlotDigitizer - Copyright 2010-2024 Ankit Rohatgi</title>
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     <link rel="stylesheet" href="styles.css" type="text/css" media="screen" />
     <link rel="stylesheet" href="widgets.css" type="text/css" media="screen" />
@@ -69,7 +69,9 @@
                     </div>
                 </div>
 
-                <div style="display:inline-block; position: absolute; top: 5px; right: 290px;">
+                <div style="display: inline-flex; justify-content: space-between; width: 200px; position: absolute; top: 9px; right: 290px;">
+                    <button type="button" title="Rotate 90° counter-clockwise" onclick="wpd.graphicsWidget.rotateCounterClockwise();" style="border:none; width:20px; font-size:16px; display:inline-flex; align-items:self-end; justify-content:center;">↺</button>
+                    <button type="button" title="Rotate 90° clockwise" onclick="wpd.graphicsWidget.rotateClockwise();" style="border:none; width:20px; font-size:16px; display:inline-flex; align-items:self-end; justify-content:center;">↻</button>
                     <button type="button" title="Zoom in" onclick="wpd.graphicsWidget.zoomIn();" style="border:none; width:20px;">+</button>
                     <button type="button" title="Zoom out" onclick="wpd.graphicsWidget.zoomOut();" style="border:none; width:20px;">-</button>
                     <button type="button" title="View actual size" onclick="wpd.graphicsWidget.zoom100perc();" style="border:none;">100%</button>

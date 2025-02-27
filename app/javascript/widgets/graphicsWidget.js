@@ -1,7 +1,7 @@
 /*
     WebPlotDigitizer - https://automeris.io/WebPlotDigitizer
 
-    Copyright 2010-2021 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+    Copyright 2010-2024 Ankit Rohatgi <plots@automeris.io>
 
     This file is part of WebPlotDigitizer.
 
@@ -40,14 +40,16 @@ wpd.graphicsWidget = (function() {
 
         aspectRatio, displayAspectRatio,
 
-        originalImageData, scaledImage, zoomRatio, extendedCrosshair = false,
+        originalImageData, zoomRatio, extendedCrosshair = false,
         hoverTimer,
 
         activeTool, repaintHandler,
 
         isCanvasInFocus = false,
 
-        firstLoad = true;
+        firstLoad = true,
+
+        rotation = 0;
 
     function posn(ev) { // get screen pixel from event
         let mainCanvasPosition = $mainCanvas.getBoundingClientRect();
@@ -59,10 +61,39 @@ wpd.graphicsWidget = (function() {
 
     // get image pixel when screen pixel is provided
     function imagePx(screenX, screenY) {
-        return {
-            x: screenX / zoomRatio,
-            y: screenY / zoomRatio
-        };
+        const imageX = screenX / zoomRatio;
+        const imageY = screenY / zoomRatio;
+
+        if (rotation === 0) {
+            // this function is often called frequently
+            // do not do extra work if canvases have not been rotated
+            return {
+                x: imageX,
+                y: imageY
+            };
+        } else {
+            // rotate given x and y after dividing by zoom ratio
+            return getRotatedCoordinates(rotation, 0, imageX, imageY);
+        }
+    }
+
+    // get canvas coords from screen coords
+    function canvasPx(screenX, screenY) {
+        if (rotation === 0) {
+            return {
+                x: screenX,
+                y: screenY
+            };
+        } else {
+            // divide by zoomRatio to end up into image scale. Then rotate to get into canvas orientation
+            let coords = getRotatedCoordinates(rotation, 0, screenX / zoomRatio, screenY / zoomRatio);
+
+            // scale with zoom ratio to get to canvas scale
+            return {
+                x: coords.x * zoomRatio,
+                y: coords.y * zoomRatio,
+            };
+        }
     }
 
     // get screen pixel when image pixel is provided
@@ -104,7 +135,6 @@ wpd.graphicsWidget = (function() {
     }
 
     function resize(cwidth, cheight) {
-
         cwidth = parseInt(cwidth, 10);
         cheight = parseInt(cheight, 10);
 
@@ -127,8 +157,6 @@ wpd.graphicsWidget = (function() {
 
         width = cwidth;
         height = cheight;
-
-        drawImage();
     }
 
     function resetAllLayers() {
@@ -144,13 +172,13 @@ wpd.graphicsWidget = (function() {
         $oriDataCanvas.width = $oriDataCanvas.width;
     }
 
-    function drawImage() {
+    function drawImage(dx, dy) {
         if (originalImageData == null)
             return;
 
         mainCtx.fillStyle = "rgb(255, 255, 255)";
-        mainCtx.fillRect(0, 0, width, height);
-        mainCtx.drawImage($oriImageCanvas, 0, 0, width, height);
+        mainCtx.fillRect(0, 0, dx, dy);
+        mainCtx.drawImage($oriImageCanvas, 0, 0, dx, dy);
 
         if (repaintHandler != null && repaintHandler.onRedraw != undefined) {
             repaintHandler.onRedraw();
@@ -171,6 +199,7 @@ wpd.graphicsWidget = (function() {
         if (repaintHandler != null && repaintHandler.onRemove != undefined) {
             repaintHandler.onRemove();
         }
+        resetDrawingLayers();
         repaintHandler = fhandle;
         if (repaintHandler != null && repaintHandler.onAttach != undefined) {
             repaintHandler.onAttach();
@@ -189,7 +218,109 @@ wpd.graphicsWidget = (function() {
     }
 
     function copyImageDataLayerToScreen() {
-        dataCtx.drawImage($oriDataCanvas, 0, 0, width, height);
+        if (rotation % 180 === 0) {
+            dataCtx.drawImage($oriDataCanvas, 0, 0, width, height);
+        } else {
+            dataCtx.drawImage($oriDataCanvas, 0, 0, height, width);
+        }
+    }
+
+    function getRotationMatrix(degrees, dx, dy) {
+        // determine translation (moves origin)
+        let xTranslation, yTranslation;
+        switch (degrees) {
+            case 90:
+                xTranslation = dy ?? 0;
+                yTranslation = 0;
+                break;
+            case 180:
+                xTranslation = dx ?? 0;
+                yTranslation = dy ?? 0;
+                break;
+            case 270:
+                xTranslation = 0;
+                yTranslation = dx ?? 0;
+                break;
+            default:
+                xTranslation = 0;
+                yTranslation = 0;
+                break;
+        }
+
+        // convert degrees to radians
+        const radians = degrees * Math.PI / 180;
+
+        // define transformation matrix [a, b, c, d, e, f]
+        // matrix format:
+        //   a c e 0
+        //   b d f 0
+        //   0 0 1 0
+        //   0 0 0 1
+        return new DOMMatrix([
+            Math.cos(radians),
+            Math.sin(radians),
+            -Math.sin(radians),
+            Math.cos(radians),
+            xTranslation,
+            yTranslation,
+        ]);
+    };
+
+    function rotateClockwise() {
+        rotateAndResize(90);
+    }
+
+    function rotateCounterClockwise() {
+        rotateAndResize(-90);
+    }
+
+    function rotateAndResize(deltaDegrees = 0, newWidth = null, newHeight = null) {
+        // do nothing if delta degrees value is not a multiple of 90
+        if (Math.abs(deltaDegrees) % 90 !== 0) {
+            return;
+        }
+
+        // use provided width and height, if available
+        // otherwise, use current zoomed width and height values
+        const displayWidth = newWidth ?? (originalWidth * zoomRatio);
+        const displayHeight = newHeight ?? (originalHeight * zoomRatio);
+
+        // add delta degrees to rotation
+        // if rotation is 0 start at 360
+        // modulo to make sure it is 0 <= d < 360
+        rotation = ((rotation || 360) + deltaDegrees) % 360;
+
+        // determine if it is necessary to swap canvas width and height
+        const dimensions = rotation % 180 === 0 ? [displayWidth, displayHeight] : [displayHeight, displayWidth];
+
+        // setting size clears canvases, update the size of the canvases before transforming
+        resize(...dimensions);
+
+        // get transformation matrix and set transform on canvas context
+        const matrix = getRotationMatrix(rotation, displayWidth, displayHeight);
+        mainCtx.setTransform(matrix);
+        dataCtx.setTransform(matrix);
+        drawCtx.setTransform(matrix);
+        hoverCtx.setTransform(matrix);
+        topCtx.setTransform(matrix);
+
+        // draw the image with the rotation independent dimensions
+        drawImage(displayWidth, displayHeight);
+
+        // fire rotation event if image has been rotated
+        if (deltaDegrees !== 0) {
+            wpd.events.dispatch("wpd.image.rotate", {
+                rotation: rotation
+            });
+        }
+    }
+
+    function getRotation() {
+        return rotation;
+    }
+
+    function setRotation(degrees) {
+        rotation = degrees;
     }
 
     function zoomIn() {
@@ -206,10 +337,10 @@ wpd.graphicsWidget = (function() {
 
         if (newAspectRatio > aspectRatio) {
             zoomRatio = viewportSize.height / (originalHeight * 1.0);
-            resize(viewportSize.height * aspectRatio, viewportSize.height);
+            rotateAndResize(0, viewportSize.height * aspectRatio, viewportSize.height);
         } else {
             zoomRatio = viewportSize.width / (originalWidth * 1.0);
-            resize(viewportSize.width, viewportSize.width / aspectRatio);
+            rotateAndResize(0, viewportSize.width, viewportSize.width / aspectRatio);
         }
     }
 
@@ -219,7 +350,7 @@ wpd.graphicsWidget = (function() {
 
     function setZoomRatio(zratio) {
         zoomRatio = zratio;
-        resize(originalWidth * zoomRatio, originalHeight * zoomRatio);
+        rotateAndResize(0, originalWidth * zoomRatio, originalHeight * zoomRatio);
     }
 
     function getZoomRatio() {
@@ -229,10 +360,15 @@ wpd.graphicsWidget = (function() {
     function resetData() {
         $oriDataCanvas.width = $oriDataCanvas.width;
         $dataCanvas.width = $dataCanvas.width;
+
+        // re-rotate canvases
+        rotateAndResize();
     }
 
     function resetHover() {
-        $hoverCanvas.width = $hoverCanvas.width;
+        // canvas could be rotated, so get max screenX and screenY
+        let canvasDims = screenPx(originalWidth, originalHeight);
+        hoverCtx.clearRect(0, 0, canvasDims.x, canvasDims.y);
     }
 
     function toggleExtendedCrosshair(ev) { // called when backslash is hit
@@ -272,6 +408,59 @@ wpd.graphicsWidget = (function() {
 
         setZoomImage(imagePos.x, imagePos.y);
         wpd.zoomView.setCoords(imagePos.x, imagePos.y);
+    }
+
+    function getRotatedCoordinates(sourceDegrees, targetDegrees, x, y) {
+        // get the delta degrees
+        const deltaDegrees = targetDegrees - sourceDegrees;
+
+        // short-circuit
+        // return original x and y if delta degrees is not a multiple of 90
+        if (Math.abs(deltaDegrees) % 90 !== 0) {
+            return {
+                x: x,
+                y: y
+            };
+        }
+
+        // determine source rotation image dimensions
+        const dimensions = sourceDegrees % 180 === 0 ? {
+            x: originalWidth,
+            y: originalHeight
+        } : {
+            x: originalHeight,
+            y: originalWidth
+        };
+
+        let rotatedX, rotatedY;
+        switch (deltaDegrees) {
+            case 90:
+            case -270:
+                rotatedX = dimensions.y - y;
+                rotatedY = x;
+                break;
+            case 180:
+            case -180:
+                rotatedX = dimensions.x - x;
+                rotatedY = dimensions.y - y;
+                break;
+            case 270:
+            case -90:
+                rotatedX = y;
+                rotatedY = dimensions.x - x;
+                break;
+            case 360:
+            case 0:
+            default:
+                rotatedX = x;
+                rotatedY = y;
+                break;
+        }
+
+        return {
+            x: rotatedX,
+            y: rotatedY
+        };
     }
 
     function setZoomImage(ix, iy) {
@@ -334,7 +523,7 @@ wpd.graphicsWidget = (function() {
         ycorr = zratio * (parseInt(iymin, 10) - iymin);
 
         wpd.zoomView.setZoomImage(idata, parseInt(zxmin + xcorr, 10), parseInt(zymin + ycorr, 10),
-            parseInt(zxmax - zxmin, 10), parseInt(zymax - zymin, 10));
+            parseInt(zxmax - zxmin, 10), parseInt(zymax - zymin, 10), getRotationMatrix(rotation, zxmax, zymax));
     }
 
     function updateZoomOnEvent(ev) {
@@ -370,7 +559,7 @@ wpd.graphicsWidget = (function() {
             let items = ev.clipboardData.items;
             if (items !== undefined) {
                 for (var i = 0; i < items.length; i++) {
-                    if (items[i].type.indexOf("image") !== -1) {
+                    if (items[i].kind === "file" && items[i].type.indexOf("image") !== -1) {
                         wpd.busyNote.show();
                         var imageFile = items[i].getAsFile();
                         wpd.imageManager.initializeFileManager([imageFile]);
@@ -451,7 +640,7 @@ wpd.graphicsWidget = (function() {
         }, false);
     }
 
-    function loadImage(originalImage) {
+    function loadImage(originalImage, savedRotation) {
         if ($mainCanvas == null) {
             init();
         }
@@ -466,6 +655,7 @@ wpd.graphicsWidget = (function() {
         $oriDataCanvas.height = originalHeight;
         oriImageCtx.drawImage(originalImage, 0, 0, originalWidth, originalHeight);
         originalImageData = oriImageCtx.getImageData(0, 0, originalWidth, originalHeight);
+        setRotation(savedRotation);
         resetAllLayers();
         zoomFit();
         return originalImageData;
@@ -671,6 +861,14 @@ wpd.graphicsWidget = (function() {
         setZoomRatio: setZoomRatio,
         getZoomRatio: getZoomRatio,
 
+        rotateClockwise: rotateClockwise,
+        rotateCounterClockwise: rotateCounterClockwise,
+        rotateAndResize: rotateAndResize,
+        getRotation: getRotation,
+        setRotation: setRotation,
+        getRotationMatrix: getRotationMatrix,
+        getRotatedCoordinates: getRotatedCoordinates,
+
         runImageOp: runImageOp,
 
         setTool: setTool,
@@ -681,6 +879,7 @@ wpd.graphicsWidget = (function() {
         resetHover: resetHover,
         imagePx: imagePx,
         screenPx: screenPx,
+        canvasPx: canvasPx,
         screenLength: screenLength,
 
         updateZoomOnEvent: updateZoomOnEvent,

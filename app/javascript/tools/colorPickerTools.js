@@ -1,7 +1,7 @@
 /*
     WebPlotDigitizer - https://automeris.io/WebPlotDigitizer
 
-    Copyright 2010-2021 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+    Copyright 2010-2024 Ankit Rohatgi <plots@automeris.io>
 
     This file is part of WebPlotDigitizer.
 
@@ -51,7 +51,8 @@ wpd.ColorFilterRepainter = (function() {
         this.painterName = 'colorFilterRepainter';
 
         this.onRedraw = function() {
-            var autoDetector = wpd.appData.getPlotData().getAutoDetector();
+            let ds = wpd.tree.getActiveDataset();
+            let autoDetector = wpd.appData.getPlotData().getAutoDetectionDataForDataset(ds);
             wpd.colorSelectionWidget.paintFilteredColor(autoDetector.binaryData, autoDetector.mask);
         };
     };

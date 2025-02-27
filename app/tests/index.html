@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
   <title>WPD Tests</title>
-  <link rel="stylesheet" href="https://code.jquery.com/qunit/qunit-2.12.0.css">
+  <link rel="stylesheet" href="../node_modules/qunit/qunit/qunit.css">
 
   <!-- WPD -->
   <script src="../javascript/controllers/appData.js"></script>
@@ -82,12 +82,14 @@
 <body>
   <div id="qunit"></div>
   <div id="qunit-fixture"></div>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/sinon.js/9.2.1/sinon.min.js"></script>
-  <script src="https://code.jquery.com/qunit/qunit-2.12.0.js"></script>
-  <script src="../thirdparty/pdfjs/build/pdf.js"></script>
+  <script src="../node_modules/sinon/pkg/sinon.js"></script>
+  <script src="../node_modules/qunit/qunit/qunit.js"></script>
+  <script src="../node_modules/pdfjs-dist/build/pdf.js"></script>
   <script src="testhelpers.js"></script>
   <script src="app_data_tests.js"></script>
   <script src="axes_tests.js"></script>
+  <script src="xy_axes_tests.js"></script>
+  <script src="map_axes_tests.js"></script>
   <script src="bar_extraction_tests.js"></script>
   <script src="circular_chart_recorder_tests.js"></script>
   <script src="custom_independents_tests.js"></script>
@@ -96,6 +98,7 @@
   <script src="date_tests.js"></script>
   <script src="events_tests.js"></script>
   <script src="file_manager_tests.js"></script>
+  <script src="graphics_widget_tests.js"></script>
   <script src="math_functions_tests.js"></script>
   <script src="manual_detection_tools_tests.js"></script>
   <script src="point_groups_tests.js"></script>

@@ -1,7 +1,7 @@
 /*
     WebPlotDigitizer - https://automeris.io/WebPlotDigitizer
 
-    Copyright 2010-2021 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+    Copyright 2010-2024 Ankit Rohatgi <plots@automeris.io>
 
     This file is part of WebPlotDigitizer.
 
@@ -302,17 +302,20 @@ wpd.dataTable = (function() {
                     if (typeof sortedData[rowi][coli] === 'string') {
                         rowValues[coli] = sortedData[rowi][coli];
                     } else {
-                        if (numFormattingStyle === 'fixed' && numFormattingDigits >= 0) {
-                            rowValues[coli] = sortedData[rowi][coli].toFixed(numFormattingDigits);
-                        } else if (numFormattingStyle === 'precision' && numFormattingDigits >= 0) {
-                            rowValues[coli] =
-                                sortedData[rowi][coli].toPrecision(numFormattingDigits);
-                        } else if (numFormattingStyle === 'exponential' &&
-                            numFormattingDigits >= 0) {
-                            rowValues[coli] =
-                                sortedData[rowi][coli].toExponential(numFormattingDigits);
+                        let columnValue = sortedData[rowi][coli];
+                        if (columnValue == null) {
+                            rowValues[coli] = null;
                         } else {
-                            rowValues[coli] = sortedData[rowi][coli];
+                            if (numFormattingStyle === 'fixed' && numFormattingDigits >= 0) {
+                                rowValues[coli] = columnValue.toFixed(numFormattingDigits);
+                            } else if (numFormattingStyle === 'precision' && numFormattingDigits >= 0) {
+                                rowValues[coli] = columnValue.toPrecision(numFormattingDigits);
+                            } else if (numFormattingStyle === 'exponential' &&
+                                numFormattingDigits >= 0) {
+                                rowValues[coli] = columnValue.toExponential(numFormattingDigits);
+                            } else {
+                                rowValues[coli] = columnValue;
+                            }
                         }
                     }
                     if (rowValues[coli] === null) {

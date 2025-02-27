@@ -1,7 +1,7 @@
 /*
    WebPlotDigitizer - http://arohatgi.info/WebPlotdigitizer
 
-   Copyright 2010-2021 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+   Copyright 2010-2021 Ankit Rohatgi <plots@automeris.io>
 
    This file is part of WebPlotDigitizer.
 

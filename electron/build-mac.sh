@@ -6,8 +6,7 @@
 # This works on Linux and has not tested on Mac or Windows
 cd ..
 echo "Packaging..."
-APPNAME=WebPlotDigitizer-4.6
-electron-packager ./electron $APPNAME --platform=darwin --icon=app/images/icon/wpd.icns --arch=x64 --overwrite
+APPNAME=WebPlotDigitizer-4.8
 
 # mac
 electron-packager ./electron $APPNAME --platform=darwin --icon=app/images/icon/wpd.icns --arch=x64 --overwrite

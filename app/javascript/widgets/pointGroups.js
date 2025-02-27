@@ -1,7 +1,7 @@
 /*
     WebPlotDigitizer - https://automeris.io/WebPlotDigitizer
 
-    Copyright 2010-2021 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+    Copyright 2010-2024 Ankit Rohatgi <plots@automeris.io>
 
     This file is part of WebPlotDigitizer.
 
@@ -42,10 +42,9 @@ wpd.pointGroups = (function() {
         datasetSelectHandler = wpd.events.addListener("wpd.dataset.select", payload => {
             // hide edit point groups button if dataset is associated with a map axes
             const $editPointGroupsButton = document.querySelector(editPointGroupsButtonSelector);
-            if (wpd.appData.getPlotData().getAxesForDataset(payload.dataset).name === "Map") {
-                $editPointGroupsButton.hidden = true;
-            } else {
-                $editPointGroupsButton.hidden = false;
+            let axes = wpd.appData.getPlotData().getAxesForDataset(payload.dataset);
+            if (axes != null) {
+                $editPointGroupsButton.hidden = (axes instanceof wpd.MapAxes);
             }
         });
     };

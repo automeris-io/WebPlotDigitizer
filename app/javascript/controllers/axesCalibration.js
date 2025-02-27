@@ -1,7 +1,7 @@
 /*
     WebPlotDigitizer - https://automeris.io/WebPlotDigitizer
 
-    Copyright 2010-2021 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+    Copyright 2010-2024 Ankit Rohatgi <plots@automeris.io>
 
     This file is part of WebPlotDigitizer.
 
@@ -292,9 +292,12 @@ wpd.MapAxesCalibrator = class extends wpd.AxesCalibrator {
     align() {
         let scaleLength = parseFloat(document.getElementById('scaleLength').value);
         let scaleUnits = document.getElementById('scaleUnits').value;
+        let isOriginLocationBottomLeft = document.getElementById('map-origin-bottom-left').checked;
+        let originLocation = isOriginLocationBottomLeft ? "bottom-left" : "top-left";
+        let imageHeight = wpd.graphicsWidget.getImageSize().height;
         let axes = this._isEditing ? wpd.tree.getActiveAxes() : new wpd.MapAxes();
 
-        axes.calibrate(this._calibration, scaleLength, scaleUnits);
+        axes.calibrate(this._calibration, scaleLength, scaleUnits, originLocation, imageHeight);
         if (!this._isEditing) {
             axes.name = wpd.alignAxes.makeAxesName(wpd.MapAxes);
             let plot = wpd.appData.getPlotData();
@@ -324,14 +327,18 @@ wpd.CircularChartRecorderCalibrator = class extends wpd.AxesCalibrator {
     getCornerValues() {
         wpd.popup.show('circularChartRecorderAlignment');
         if (this._isEditing) {
-            let axes = wpd.tree.getActiveAxes();
-            let prevCal = axes.calibration;
+            const axes = wpd.tree.getActiveAxes();
+            const prevCal = axes.calibration;
             if (prevCal.getCount() == 5) {
                 document.getElementById('circular-t0').value = prevCal.getPoint(0).dx;
                 document.getElementById('circular-r0').value = prevCal.getPoint(0).dy;
-                let startTime = axes.getStartTime();
+                const startTime = axes.getStartTime();
+                const rotationTime = axes.getRotationTime();
+                const rotationDirection = axes.getRotationDirection();
                 if (startTime != null) {
                     document.getElementById('circular-tstart').value = startTime;
+                    document.getElementById('circular-chart-recorder-rotation-time').value = rotationTime;
+                    document.getElementById('circular-chart-rotation-direction').value = rotationDirection;
                 }
                 document.getElementById('circular-r2').value = prevCal.getPoint(2).dy;
             }
@@ -339,11 +346,13 @@ wpd.CircularChartRecorderCalibrator = class extends wpd.AxesCalibrator {
     }
 
     align() {
-        let t0 = document.getElementById('circular-t0').value;
-        let r0 = parseFloat(document.getElementById('circular-r0').value);
-        let r2 = parseFloat(document.getElementById('circular-r2').value);
-        let tstart = document.getElementById('circular-tstart').value;
-        let axes = this._isEditing ? wpd.tree.getActiveAxes() : new wpd.CircularChartRecorderAxes();
+        const t0 = document.getElementById('circular-t0').value;
+        const r0 = parseFloat(document.getElementById('circular-r0').value);
+        const r2 = parseFloat(document.getElementById('circular-r2').value);
+        const tstart = document.getElementById('circular-tstart').value;
+        const rotationTime = document.getElementById('circular-chart-recorder-rotation-time').value;
+        const rotationDirection = document.getElementById('circular-chart-rotation-direction').value;
+        const axes = this._isEditing ? wpd.tree.getActiveAxes() : new wpd.CircularChartRecorderAxes();
 
         this._calibration.setDataAt(0, t0, r0);
         this._calibration.setDataAt(1, t0, 0);
@@ -351,10 +360,10 @@ wpd.CircularChartRecorderCalibrator = class extends wpd.AxesCalibrator {
         this._calibration.setDataAt(3, 0, r2);
         this._calibration.setDataAt(4, 0, r2);
 
-        axes.calibrate(this._calibration, tstart);
+        axes.calibrate(this._calibration, tstart, rotationTime, rotationDirection);
         if (!this._isEditing) {
             axes.name = wpd.alignAxes.makeAxesName(wpd.CircularChartRecorderAxes);
-            let plot = wpd.appData.getPlotData();
+            const plot = wpd.appData.getPlotData();
             plot.addAxes(axes, wpd.appData.isMultipage());
             wpd.alignAxes.postProcessAxesAdd(axes);
         }
@@ -518,21 +527,60 @@ wpd.alignAxes = (function() {
     }
 
     function deleteCalibration() {
-        wpd.okCancelPopup.show(wpd.gettext("delete-axes"), wpd.gettext("delete-axes-text"),
-            function() {
-                const plotData = wpd.appData.getPlotData();
-                const axes = wpd.tree.getActiveAxes();
-                plotData.deleteAxes(axes);
-                if (wpd.appData.isMultipage()) {
-                    wpd.appData.getPageManager().deleteAxesFromCurrentPage([axes]);
-                }
-                wpd.tree.refresh();
-                wpd.tree.selectPath("/" + wpd.gettext("axes"));
-                // dispatch axes delete event
-                wpd.events.dispatch("wpd.axes.delete", {
-                    axes: axes
-                });
+        wpd.okCancelPopup.show(wpd.gettext("delete-axes"), wpd.gettext("delete-axes-text"), deleteAssociatedDatasets);
+    }
+
+    function deleteAssociatedDatasets() {
+        const deleteAxes = () => {
+            const plotData = wpd.appData.getPlotData();
+            const axes = wpd.tree.getActiveAxes();
+            plotData.deleteAxes(axes);
+            if (wpd.appData.isMultipage()) {
+                wpd.appData.getPageManager().deleteAxesFromCurrentPage([axes]);
+            }
+            wpd.tree.refresh();
+            wpd.tree.selectPath("/" + wpd.gettext("axes"));
+            // dispatch axes delete event
+            wpd.events.dispatch("wpd.axes.delete", {
+                axes: axes
             });
+        };
+
+        const plotData = wpd.appData.getPlotData();
+        const axes = wpd.tree.getActiveAxes();
+
+        // get all datasets and filter to datasets of active axes
+        const datasets = plotData.getDatasets();
+        const axesDatasets = datasets.filter((ds) => plotData.getAxesForDataset(ds) === axes);
+
+        if (axesDatasets.length > 0) {
+            // only display delete associated datasets popup if they exist
+            wpd.okCancelPopup.show(
+                wpd.gettext("delete-associated-datasets"),
+                wpd.gettext("delete-associated-datasets-text"),
+                () => {
+                    for (const dataset of axesDatasets) {
+                        plotData.deleteDataset(dataset);
+                        wpd.appData.getFileManager().deleteDatasetsFromCurrentFile([dataset]);
+                        if (wpd.appData.isMultipage()) {
+                            wpd.appData.getPageManager().deleteDatasetsFromCurrentPage([dataset]);
+                        }
+                        // dispatch dataset delete event
+                        wpd.events.dispatch("wpd.dataset.delete", {
+                            dataset: dataset
+                        });
+
+                        // no need to refresh the tree here
+                    }
+
+                    deleteAxes();
+                },
+                deleteAxes,
+            );
+        } else {
+            // otherwise, proceed to delete the axes
+            deleteAxes();
+        }
     }
 
     function showRenameAxes() {

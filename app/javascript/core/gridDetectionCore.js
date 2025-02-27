@@ -1,7 +1,7 @@
 /*
     WebPlotDigitizer - https://automeris.io/WebPlotDigitizer
 
-    Copyright 2010-2021 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+    Copyright 2010-2024 Ankit Rohatgi <plots@automeris.io>
 
     This file is part of WebPlotDigitizer.
 
@@ -72,14 +72,14 @@ wpd.gridDetectionCore = (function() {
         return gridData;
     }
 
-    function setHorizontalParameters(has_horizontal, y_perc) {
+    function setHorizontalParameters(has_horizontal, x_perc) {
         hasHorizontal = has_horizontal;
-        yFrac = Math.abs(parseFloat(y_perc) / 100.0);
+        xFrac = Math.abs(parseFloat(x_perc) / 100.0);
     }
 
-    function setVerticalParameters(has_vertical, x_perc) {
+    function setVerticalParameters(has_vertical, y_perc) {
         hasVertical = has_vertical;
-        xFrac = Math.abs(parseFloat(x_perc) / 100.0);
+        yFrac = Math.abs(parseFloat(y_perc) / 100.0);
     }
 
     return {

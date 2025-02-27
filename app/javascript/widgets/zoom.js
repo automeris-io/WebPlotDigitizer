@@ -1,7 +1,7 @@
 /*
     WebPlotDigitizer - https://automeris.io/WebPlotDigitizer
 
-    Copyright 2010-2021 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+    Copyright 2010-2024 Ankit Rohatgi <plots@automeris.io>
 
     This file is part of WebPlotDigitizer.
 
@@ -81,11 +81,13 @@ wpd.zoomView = (function() {
         };
     }
 
-    function setZoomImage(imgData, x0, y0, zwidth, zheight) {
+    function setZoomImage(imgData, x0, y0, zwidth, zheight, matrix) {
         tempCanvas.width = zwidth / zoomRatio;
         tempCanvas.height = zheight / zoomRatio;
         tctx.putImageData(imgData, 0, 0);
         zCanvas.width = zCanvas.width;
+        // rotate zoom canvas after reset (setting width resets)
+        zctx.setTransform(matrix);
         zctx.drawImage(tempCanvas, x0, y0, zwidth, zheight);
     }
 

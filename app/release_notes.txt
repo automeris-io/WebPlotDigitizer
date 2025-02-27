@@ -1,5 +1,33 @@
 RELEASE NOTES
 
+Version 4.8
+===========
+Under development :)
+
+Version 4.7
+===========
+February 13, 2024
+
+New Features:
+- Made masks translucent for easier mask making.
+- Expanded support for circular chart recorders. Now support 1 day, 1 week and also both rotation directions.
+
+Bug Fixes:
+- Fixed bugs with mask creation when view is rotated.
+
+Version 4.6
+===========
+September 16, 2022
+
+New Features:
+- Experimental support for Circular Chart Recorders
+- Apple Silicon support for desktop application
+- Ability to rotate images in addition to zoom (contribution from Eric Chow)
+
+Code Cleanup:
+- Remove dependence on closure compiler, use NPM to manage builds
+- Several bug fixes and additional unit tests
+
 Version 4.5
 ===========
 August 15, 2021

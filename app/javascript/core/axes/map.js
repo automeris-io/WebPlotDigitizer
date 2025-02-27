@@ -1,7 +1,7 @@
 /*
     WebPlotDigitizer - https://automeris.io/WebPlotDigitizer
 
-    Copyright 2010-2021 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+    Copyright 2010-2024 Ankit Rohatgi <plots@automeris.io>
 
     This file is part of WebPlotDigitizer.
 
@@ -27,15 +27,17 @@ wpd.MapAxes = (function() {
 
             metadata = {},
 
-            scaleLength, scaleUnits, dist,
+            scaleLength, scaleUnits, dist, originLocation, imageHeight,
 
-            processCalibration = function(cal, scale_length, scale_units) {
+            processCalibration = function(cal, scale_length, scale_units, origin_location, image_height) {
                 var cp0 = cal.getPoint(0),
                     cp1 = cal.getPoint(1);
                 dist = Math.sqrt((cp0.px - cp1.px) * (cp0.px - cp1.px) +
                     (cp0.py - cp1.py) * (cp0.py - cp1.py));
                 scaleLength = parseFloat(scale_length);
                 scaleUnits = scale_units;
+                originLocation = origin_location != null ? origin_location : "top-left";
+                imageHeight = parseFloat(image_height);
                 return true;
             };
 
@@ -45,16 +47,20 @@ wpd.MapAxes = (function() {
             return isCalibrated;
         };
 
-        this.calibrate = function(calib, scale_length, scale_units) {
+        this.calibrate = function(calib, scale_length, scale_units, origin_location, image_height) {
             this.calibration = calib;
-            isCalibrated = processCalibration(calib, scale_length, scale_units);
+            isCalibrated = processCalibration(calib, scale_length, scale_units, origin_location, image_height);
             return isCalibrated;
         };
 
         this.pixelToData = function(pxi, pyi) {
             var data = [];
             data[0] = pxi * scaleLength / dist;
-            data[1] = pyi * scaleLength / dist;
+            if (originLocation === "top-left") {
+                data[1] = pyi * scaleLength / dist;
+            } else if (originLocation === "bottom-left") {
+                data[1] = (imageHeight - pyi - 1) * scaleLength / dist;
+            }
             return data;
         };
 
@@ -85,6 +91,14 @@ wpd.MapAxes = (function() {
 
         this.getUnits = function() {
             return scaleUnits;
+        };
+
+        this.getOriginLocation = function() {
+            return originLocation;
+        };
+
+        this.getImageHeight = function() {
+            return imageHeight;
         };
 
         this.getMetadata = function() {

@@ -10,6 +10,9 @@
 /app/node_modules/*
 /app/package-lock.json
 
+# app directory exclusion exceptions
+!/app/karma.conf.js
+
 # electron directory exclusions
 /electron/node_modules/
 /electron/package-lock.json

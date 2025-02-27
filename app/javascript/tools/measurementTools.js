@@ -1,7 +1,7 @@
 /*
     WebPlotDigitizer - https://automeris.io/WebPlotDigitizer
 
-    Copyright 2010-2021 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+    Copyright 2010-2024 Ankit Rohatgi <plots@automeris.io>
 
     This file is part of WebPlotDigitizer.
 
@@ -72,6 +72,12 @@ wpd.AddMeasurementTool = (function() {
                 plist[pointsCaptured * 2 + 1] = imagePos.y;
                 pointsCaptured = pointsCaptured + 1;
 
+                // get new pos by translating imagePos
+                const {
+                    x,
+                    y
+                } = wpd.graphicsWidget.screenPx(imagePos.x, imagePos.y);
+
                 if (pointsCaptured === mode.connectivity) {
                     isCapturing = false;
                     mode.getData().addConnection(plist);
@@ -85,10 +91,11 @@ wpd.AddMeasurementTool = (function() {
                     // draw line from previous point to current
                     var prevScreenPx = wpd.graphicsWidget.screenPx(
                         plist[(pointsCaptured - 2) * 2], plist[(pointsCaptured - 2) * 2 + 1]);
+
                     ctx.dataCtx.beginPath();
                     ctx.dataCtx.strokeStyle = "rgb(0,0,10)";
                     ctx.dataCtx.moveTo(prevScreenPx.x, prevScreenPx.y);
-                    ctx.dataCtx.lineTo(pos.x, pos.y);
+                    ctx.dataCtx.lineTo(x, y);
                     ctx.dataCtx.stroke();
 
                     ctx.oriDataCtx.beginPath();
@@ -102,7 +109,7 @@ wpd.AddMeasurementTool = (function() {
                 // draw current point
                 ctx.dataCtx.beginPath();
                 ctx.dataCtx.fillStyle = "rgb(200, 0, 0)";
-                ctx.dataCtx.arc(pos.x, pos.y, 3, 0, 2.0 * Math.PI, true);
+                ctx.dataCtx.arc(x, y, 3, 0, 2.0 * Math.PI, true);
                 ctx.dataCtx.fill();
 
                 ctx.oriDataCtx.beginPath();
@@ -116,13 +123,18 @@ wpd.AddMeasurementTool = (function() {
         this.onMouseMove = function(ev, pos, imagePos) {
             if (isCapturing && pointsCaptured >= 1) {
                 wpd.graphicsWidget.resetHover();
-                var prevScreenPx = wpd.graphicsWidget.screenPx(plist[(pointsCaptured - 1) * 2],
-                    plist[(pointsCaptured - 1) * 2 + 1]);
+
+                // need to rotate the values to the current rotation before translating to screenPx
+                const currentRotation = wpd.graphicsWidget.getRotation();
+                const px = plist[(pointsCaptured - 1) * 2];
+                const py = plist[(pointsCaptured - 1) * 2 + 1];
+                var prevScreenPx = wpd.graphicsWidget.screenPx(px, py);
 
                 ctx.hoverCtx.beginPath();
                 ctx.hoverCtx.strokeStyle = "rgb(0,0,0)";
                 ctx.hoverCtx.moveTo(prevScreenPx.x, prevScreenPx.y);
-                ctx.hoverCtx.lineTo(pos.x, pos.y);
+                let canvasPos = wpd.graphicsWidget.canvasPx(pos.x, pos.y);
+                ctx.hoverCtx.lineTo(canvasPos.x, canvasPos.y);
                 ctx.hoverCtx.stroke();
             }
         };
@@ -195,22 +207,34 @@ wpd.AdjustMeasurementTool = (function() {
                     pointPx = measurementData.getPointAt(selectedPt.connectionIndex,
                         selectedPt.pointIndex);
 
+                // rotate to current rotation
+                const currentRotation = wpd.graphicsWidget.getRotation();
+                let {
+                    x,
+                    y
+                } = wpd.graphicsWidget.getRotatedCoordinates(0, currentRotation, pointPx.x, pointPx.y);
+
                 if (wpd.keyCodes.isUp(ev.keyCode)) {
-                    pointPx.y = pointPx.y - stepSize;
+                    y = y - stepSize;
                 } else if (wpd.keyCodes.isDown(ev.keyCode)) {
-                    pointPx.y = pointPx.y + stepSize;
+                    y = y + stepSize;
                 } else if (wpd.keyCodes.isLeft(ev.keyCode)) {
-                    pointPx.x = pointPx.x - stepSize;
+                    x = x - stepSize;
                 } else if (wpd.keyCodes.isRight(ev.keyCode)) {
-                    pointPx.x = pointPx.x + stepSize;
+                    x = x + stepSize;
                 } else {
                     return;
                 }
 
-                measurementData.setPointAt(selectedPt.connectionIndex, selectedPt.pointIndex,
-                    pointPx.x, pointPx.y);
+                // rotate back to original rotation
+                ({
+                    x,
+                    y
+                } = wpd.graphicsWidget.getRotatedCoordinates(currentRotation, 0, x, y));
+
+                measurementData.setPointAt(selectedPt.connectionIndex, selectedPt.pointIndex, x, y);
                 wpd.graphicsWidget.forceHandlerRepaint();
-                wpd.graphicsWidget.updateZoomToImagePosn(pointPx.x, pointPx.y);
+                wpd.graphicsWidget.updateZoomToImagePosn(x, y);
                 ev.preventDefault();
                 ev.stopPropagation();
             }

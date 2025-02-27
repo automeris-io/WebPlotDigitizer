@@ -20,7 +20,7 @@ RUN apt-get update \
     && DEBIAN_FRONTEND=noninteractive \
        dpkg-reconfigure --frontend noninteractive tzdata
 
-ARG GITREPO=https://github.com/ankitrohatgi/WebPlotDigitizer.git
+ARG GITREPO=https://github.com/automeris-io/WebPlotDigitizer.git
 ARG GITBRANCH=master
 
 RUN git clone $GITREPO \

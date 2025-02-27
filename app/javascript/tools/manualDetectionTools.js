@@ -1,7 +1,7 @@
 /*
     WebPlotDigitizer - https://automeris.io/WebPlotDigitizer
 
-    Copyright 2010-2021 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+    Copyright 2010-2024 Ankit Rohatgi <plots@automeris.io>
 
     This file is part of WebPlotDigitizer.
 
@@ -129,14 +129,21 @@ wpd.ManualSelectionTool = (function() {
                 lastPt = dataset.getPixel(lastPtIndex),
                 stepSize = 0.5 / wpd.graphicsWidget.getZoomRatio();
 
+            // rotate to current rotation
+            const currentRotation = wpd.graphicsWidget.getRotation();
+            let {
+                x,
+                y
+            } = wpd.graphicsWidget.getRotatedCoordinates(0, currentRotation, lastPt.x, lastPt.y);
+
             if (wpd.keyCodes.isUp(ev.keyCode)) {
-                lastPt.y = lastPt.y - stepSize;
+                y = y - stepSize;
             } else if (wpd.keyCodes.isDown(ev.keyCode)) {
-                lastPt.y = lastPt.y + stepSize;
+                y = y + stepSize;
             } else if (wpd.keyCodes.isLeft(ev.keyCode)) {
-                lastPt.x = lastPt.x - stepSize;
+                x = x - stepSize;
             } else if (wpd.keyCodes.isRight(ev.keyCode)) {
-                lastPt.x = lastPt.x + stepSize;
+                x = x + stepSize;
             } else if (wpd.keyCodes.isComma(ev.keyCode)) {
                 wpd.pointGroups.previousGroup();
                 return;
@@ -150,7 +157,13 @@ wpd.ManualSelectionTool = (function() {
                 return;
             }
 
-            dataset.setPixelAt(lastPtIndex, lastPt.x, lastPt.y);
+            // rotate back to original rotation
+            ({
+                x,
+                y
+            } = wpd.graphicsWidget.getRotatedCoordinates(currentRotation, 0, x, y));
+
+            dataset.setPixelAt(lastPtIndex, x, y);
             wpd.graphicsWidget.resetData();
             wpd.graphicsWidget.forceHandlerRepaint();
             wpd.graphicsWidget.updateZoomToImagePosn(lastPt.x, lastPt.y);
@@ -521,6 +534,10 @@ wpd.AdjustDataPointTool = (function() {
             }
 
             // key strokes that need each point processed
+            let lastPtCoord = {
+                x: null,
+                y: null
+            };
             selIndexes.forEach(function(selIndex) {
                 const stepSize = ev.shiftKey === true ? 5 / wpd.graphicsWidget.getZoomRatio() :
                     0.5 / wpd.graphicsWidget.getZoomRatio();
@@ -529,14 +546,21 @@ wpd.AdjustDataPointTool = (function() {
                     pointPx = selPoint.x,
                     pointPy = selPoint.y;
 
+                // rotate to current rotation
+                const currentRotation = wpd.graphicsWidget.getRotation();
+                let {
+                    x,
+                    y
+                } = wpd.graphicsWidget.getRotatedCoordinates(0, currentRotation, pointPx, pointPy);
+
                 if (wpd.keyCodes.isUp(ev.keyCode)) {
-                    pointPy = pointPy - stepSize;
+                    y = y - stepSize;
                 } else if (wpd.keyCodes.isDown(ev.keyCode)) {
-                    pointPy = pointPy + stepSize;
+                    y = y + stepSize;
                 } else if (wpd.keyCodes.isLeft(ev.keyCode)) {
-                    pointPx = pointPx - stepSize;
+                    x = x - stepSize;
                 } else if (wpd.keyCodes.isRight(ev.keyCode)) {
-                    pointPx = pointPx + stepSize;
+                    x = x + stepSize;
                 } else if (selIndexes.length === 1) {
                     // single selected point operations
                     if (wpd.keyCodes.isAlphabet(ev.keyCode, 'q')) {
@@ -545,12 +569,20 @@ wpd.AdjustDataPointTool = (function() {
                         selPoint = dataset.getPixel(selIndex);
                         pointPx = selPoint.x;
                         pointPy = selPoint.y;
+                        ({
+                            x,
+                            y
+                        } = wpd.graphicsWidget.getRotatedCoordinates(0, currentRotation, pointPx, pointPy));
                     } else if (wpd.keyCodes.isAlphabet(ev.keyCode, 'w')) {
                         dataset.selectNextPixel();
                         selIndex = dataset.getSelectedPixels()[0];
                         selPoint = dataset.getPixel(selIndex);
                         pointPx = selPoint.x;
                         pointPy = selPoint.y;
+                        ({
+                            x,
+                            y
+                        } = wpd.graphicsWidget.getRotatedCoordinates(0, currentRotation, pointPx, pointPy));
                     } else if (wpd.keyCodes.isAlphabet(ev.keyCode, 'e')) {
                         if (axes.dataPointsHaveLabels) {
                             selIndex = dataset.getSelectedPixels()[0];
@@ -568,6 +600,10 @@ wpd.AdjustDataPointTool = (function() {
                             selPoint = dataset.getPixel(selIndex);
                             pointPx = selPoint.x;
                             pointPy = selPoint.y;
+                            ({
+                                x,
+                                y
+                            } = wpd.graphicsWidget.getRotatedCoordinates(0, currentRotation, pointPx, pointPy));
                         }
                         wpd.graphicsWidget.resetData();
                         wpd.graphicsWidget.forceHandlerRepaint();
@@ -583,11 +619,22 @@ wpd.AdjustDataPointTool = (function() {
                     return;
                 }
 
-                dataset.setPixelAt(selIndex, pointPx, pointPy);
-                wpd.graphicsWidget.updateZoomToImagePosn(pointPx, pointPy);
+                // rotate back to original rotation
+                ({
+                    x,
+                    y
+                } = wpd.graphicsWidget.getRotatedCoordinates(currentRotation, 0, x, y));
+                dataset.setPixelAt(selIndex, x, y);
+                lastPtCoord = {
+                    x: x,
+                    y: y
+                };
             }.bind(this));
 
             wpd.graphicsWidget.forceHandlerRepaint();
+            if (lastPtCoord.x != null) {
+                wpd.graphicsWidget.updateZoomToImagePosn(lastPtCoord.x, lastPtCoord.y);
+            }
             ev.preventDefault();
             ev.stopPropagation();
         };
