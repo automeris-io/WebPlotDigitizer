@@ -1,0 +1,12 @@
+services:
+  wpd:
+    container_name: wpd
+    build:
+      context: .
+    volumes:
+      - ./:/usr/src/app
+    environment:
+      NODE_ENV: development
+    ports:
+      - 8080:8080
+
