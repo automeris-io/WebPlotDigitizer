@@ -1,0 +1,108 @@
+{#
+    WebPlotDigitizer - web based chart data extraction software (and more)
+
+    Copyright (C) 2025 Ankit Rohatgi
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>
+#}
+
+<div class="i18n-string" id="i18n-string-wpd">WebPlotDigitizer</div>
+<div class="i18n-string" id="i18n-string-unstable-version-warning">{{ _("Unstable version warning!") }}</div>
+<div class="i18n-string" id="i18n-string-unstable-version-warning-text">{{ _("You are using a beta version of WebPlotDigitizer. There may be some issues with the software that are expected.") }}</div>
+<div class="i18n-string" id="i18n-string-import-json">{{ _("Import JSON/Project") }}</div>
+<div class="i18n-string" id="i18n-string-json-data-loaded">{{ _("JSON/Project data has been loaded!") }}</div>
+<div class="i18n-string" id="i18n-string-calibration-invalid-inputs">{{ _("Invalid Inputs") }}</div>
+<div class="i18n-string" id="i18n-string-calibration-enter-valid">{{ _("Please enter valid values for calibration.") }}</div>
+<div class="i18n-string" id="i18n-string-calibration-invalid-log-inputs">{{ _("Invalid Log Scale Value") }}</div>
+<div class="i18n-string" id="i18n-string-calibration-enter-valid-log">{{ _("Values on a log scale axis can not be zero as log(0) is undefined. Please enter a non-zero value.") }}</div>
+<div class="i18n-string" id="i18n-string-acquire-data">{{ _("Acquire Data") }}</div>
+<div class="i18n-string" id="i18n-string-acquire-data-calibration">{{ _("Please calibrate the axes before acquiring data.") }}</div>
+<div class="i18n-string" id="i18n-string-clear-data-points">{{ _("Clear data points?") }}</div>
+<div class="i18n-string" id="i18n-string-clear-data-points-text">{{ _("This will delete all data points and point group definitions from this dataset") }}</div>
+<div class="i18n-string" id="i18n-string-webcam-capture">{{ _("Webcam Capture") }}</div>
+<div class="i18n-string" id="i18n-string-webcam-capture-text">{{ _("Your browser does not support webcam capture using HTML5 APIs. A recent version of Google Chrome is recommended.") }}</div>
+<div class="i18n-string" id="i18n-string-transformation-eqns">{{ _("Transformation Equations") }}</div>
+<div class="i18n-string" id="i18n-string-transformation-eqns-text">{{ _("Transformation equations are available only after axes have been calibrated.") }}</div>
+<div class="i18n-string" id="i18n-string-unsupported">{{ _("Unsupported Feature!") }}</div>
+<div class="i18n-string" id="i18n-string-unsupported-text">{{ _("This feature has not been implemented in the current version. This may be available in a future release.") }}</div>
+<div class="i18n-string" id="i18n-string-processing">{{ _("Processing") }}</div>
+<div class="i18n-string" id="i18n-string-invalid-file">{{ _("ERROR: Invalid File!") }}</div>
+<div class="i18n-string" id="i18n-string-invalid-file-text">{{ _("Please load a valid image file. Common image formats such as JPG, PNG, BMP, GIF etc. should work. Word documents are not accepted.") }}</div>
+<div class="i18n-string" id="i18n-string-raw">{{ _("Raw") }}</div>
+<div class="i18n-string" id="i18n-string-nearest-neighbor">{{ _("Nearest Neighbor") }}</div>
+<div class="i18n-string" id="i18n-string-manage-datasets">{{ _("Manage Datasets") }}</div>
+<div class="i18n-string" id="i18n-string-manage-datasets-text">{{ _("Please calibrate the axes before managing datasets.") }}</div>
+<div class="i18n-string" id="i18n-string-delete-dataset">{{ _("Delete Dataset") }}</div>
+<div class="i18n-string" id="i18n-string-delete-dataset-text">{{ _("Are you sure you want to delete this dataset?") }}</div>
+<div class="i18n-string" id="i18n-string-delete-associated-datasets">{{ _("Delete Associated Datasets") }}</div>
+<div class="i18n-string" id="i18n-string-delete-associated-datasets-text">{{ _("Delete all datasets associated with this axes?") }}</div>
+<div class="i18n-string" id="i18n-string-delete-axes">{{ _("Delete Axes") }}</div>
+<div class="i18n-string" id="i18n-string-delete-axes-text">{{ _("Are you sure you want to delete this axes?") }}</div>
+<div class="i18n-string" id="i18n-string-averaging-window">{{ _("Averaging Window") }}</div>
+<div class="i18n-string" id="i18n-string-x-step-with-interpolation">{{ _("X Step w/ Interpolation") }}</div>
+<div class="i18n-string" id="i18n-string-custom-independents">{{ _("Custom Independents") }}</div>
+<div class="i18n-string" id="i18n-string-x-step">{{ _("X Step") }}</div>
+<div class="i18n-string" id="i18n-string-blob-detector">{{ _("Blob Detector") }}</div>
+<div class="i18n-string" id="i18n-string-bar-extraction">{{ _("Bar Extraction") }}</div>
+<div class="i18n-string" id="i18n-string-histogram">{{ _("Histogram") }}</div>
+<div class="i18n-string" id="i18n-string-specify-foreground-color">{{ _("Specify Plot (Foreground) Color") }}</div>
+<div class="i18n-string" id="i18n-string-specify-background-color">{{ _("Specify Background Color") }}</div>
+<div class="i18n-string" id="i18n-string-no-datasets-to-export">{{ _("Please add some data before exporting.") }}</div>
+<div class="i18n-string" id="i18n-string-no-datasets-to-export-error">{{ _("Error: No datasets to export!") }}</div>
+<div class="i18n-string" id="i18n-string-add-dataset-error">{{ _("Add Dataset Error!") }}</div>
+<div class="i18n-string" id="i18n-string-rename-dataset-error">{{ _("Rename Dataset Error!") }}</div>
+<div class="i18n-string" id="i18n-string-dataset-exists-error">{{ _("Dataset with this name already exists. Please pick a different name.") }}</div>
+<div class="i18n-string" id="i18n-string-rename-axes-error">{{ _("Rename Axes Error!") }}</div>
+<div class="i18n-string" id="i18n-string-axes-exists-error">{{ _("Axes with this name already exists. Please pick a different name.") }}</div>
+<div class="i18n-string" id="i18n-string-add-dataset-count-error">{{ _("Specify a valid number of datasets to add!") }}</div>
+<div class="i18n-string" id="i18n-string-dataset">{{ _("Dataset") }}</div>
+<div class="i18n-string" id="i18n-string-datasets">{{ _("Datasets") }}</div>
+<div class="i18n-string" id="i18n-string-measurements">{{ _("Measurements") }}</div>
+<div class="i18n-string" id="i18n-string-axes">{{ _("Axes") }}</div>
+<div class="i18n-string" id="i18n-string-distance">{{ _("Distance") }}</div>
+<div class="i18n-string" id="i18n-string-angle">{{ _("Angle") }}</div>
+<div class="i18n-string" id="i18n-string-area">{{ _("Area/Perimeter") }}</div>
+<div class="i18n-string" id="i18n-string-axes-name-xy">{{ _("XY") }}</div>
+<div class="i18n-string" id="i18n-string-axes-name-image">{{ _("Image") }}</div>
+<div class="i18n-string" id="i18n-string-axes-name-bar">{{ _("Bar") }}</div>
+<div class="i18n-string" id="i18n-string-axes-name-polar">{{ _("Polar") }}</div>
+<div class="i18n-string" id="i18n-string-axes-name-ternary">{{ _("Ternary") }}</div>
+<div class="i18n-string" id="i18n-string-axes-name-map">{{ _("Map") }}</div>
+<div class="i18n-string" id="i18n-string-axes-name-circular-chart-recorder">{{ _("Circular Chart") }}</div>
+<div class="i18n-string" id="i18n-string-project">{{ _("Project") }}</div>
+<div class="i18n-string" id="i18n-string-distance-measurements">{{ _("Distance Measurements") }}</div>
+<div class="i18n-string" id="i18n-string-angle-measurements">{{ _("Angle Measurements") }}</div>
+<div class="i18n-string" id="i18n-string-area-measurements">{{ _("Area Measurements") }}</div>
+<div class="i18n-string" id="i18n-string-dataset-no-calibration">{{ _("Uncalibrated Dataset!") }}</div>
+<div class="i18n-string" id="i18n-string-calibrate-dataset">{{ _("Assign an axes calibration to this dataset!") }}</div>
+<div class="i18n-string" id="i18n-string-invalid-project">{{ _("Invalid Project!") }}</div>
+<div class="i18n-string" id="i18n-string-invalid-project-msg">{{ _("Not a valid project file format!") }}</div>
+<div class="i18n-string" id="i18n-string-image">{{ _("Image") }}</div>
+<div class="i18n-string" id="i18n-string-image-of">{{ _("of") }}</div>
+<div class="i18n-string" id="i18n-string-image-page">{{ _("Page") }}</div>
+<div class="i18n-string" id="i18n-string-ok">{{ _("OK") }}</div>
+<div class="i18n-string" id="i18n-string-cancel">{{ _("Cancel") }}</div>
+<div class="i18n-string" id="i18n-string-yes">{{ _("Yes") }}</div>
+<div class="i18n-string" id="i18n-string-no">{{ _("No") }}</div>
+<div class="i18n-string" id="i18n-string-tuple-delete-title">{{ _("Delete Point Tuple") }}</div>
+<div class="i18n-string" id="i18n-string-tuple-delete-text">{{ _("Delete all points in the tuple?") }}</div>
+<div class="i18n-string" id="i18n-string-group-delete-title">{{ _("Delete Group") }}</div>
+<div class="i18n-string" id="i18n-string-group-delete-text">{{ _("Delete all points in deleted groups?") }}</div>
+<div class="i18n-string" id="i18n-string-point-group-group">{{ _("Group") }}</div>
+<div class="i18n-string" id="i18n-string-point-group-delete-group">{{ _("Delete Group") }}</div>
+<div class="i18n-string" id="i18n-string-point-group-primary-group">{{ _("Primary Group") }}</div>
+<div class="i18n-string" id="i18n-string-point-group-new-tuple">{{ _("new tuple") }}</div>
+<div class="i18n-string" id="i18n-string-template-matcher">{{ _("Template Matching") }}</div>
+<div class="i18n-string" id="i18n-string-ai-assist-title">{{ _("AI Assist") }}</div>
+<div class="i18n-string" id="i18n-string-ai-assist-failed">{{ _("AI Assist failed! Please try again later.") }}</div>

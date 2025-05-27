@@ -1,0 +1,9 @@
+:root {
+    --wpd-widget-hover-color: #ffe4d4;
+    --wpd-widget-active-color: #FF9466;
+    --wpd-dialog-title-background: gold;
+    --wpd-dialog-title-text-color: black;
+    --wpd-button-background: #f1f1f1;
+    --wpd-font-family: ui-sans-serif, system-ui, sans-serif;
+    --wpd-font-size: 14px;
+}

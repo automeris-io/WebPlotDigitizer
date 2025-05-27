@@ -1,0 +1,280 @@
+@import url("constants.css");
+
+/* Generic Menus */
+
+.wpd-menu {
+    font-size: var(--wpd-font-size);
+    display: inline-block;
+    position: relative;
+    cursor: default;
+}
+
+.wpd-menu:hover>.wpd-menu-dropdown {
+    visibility: visible;
+    z-index: 50;
+}
+
+.wpd-menu:hover>.wpd-menu-header,
+.wpd-menu-dropdown>ul>li:hover {
+    background: var(--wpd-widget-hover-color);
+}
+
+.wpd-menu-dropdown>ul>li:active {
+    background-color: var(--wpd-widget-active-color);
+}
+
+.wpd-menu-header {
+    position: relative;
+    padding: 5px;
+    height: 24px;
+}
+
+.wpd-menu-dropdown {
+    visibility: hidden;
+    display: inline-block;
+    position: absolute;
+    background: white;
+    padding: 0px;
+}
+
+.wpd-menu-dropdown>ul {
+    list-style: none;
+    list-style-type: none;
+    padding: 1px;
+    margin: 0px;
+    white-space: nowrap;
+    border: thin #ccc solid;
+}
+
+.wpd-menu-dropdown>ul>li {
+    padding: 3px 8px 3px 8px;
+    cursor: pointer;
+}
+
+.wpd-disabled-menu-item {
+    color: grey;
+}
+
+#wpd-tooltip {
+    position: absolute;
+    background: lightgray;
+    padding: 5px;
+    color: black;
+    display: none;
+    z-index: 500;
+    top: 0px;
+    left: 0px;
+}
+
+textarea {
+    resize: none;
+}
+
+input[type="button"],
+button {
+    font-family: var(--wpd-font-family);
+    padding: 2px 3px 2px 3px;
+    font-size: 13px;
+    font-weight: 400;
+    color: black;
+    background-color: var(--wpd-button-background);
+    border: thin #bbbbbb solid;
+    height: 26px;
+    margin: 0px;
+    min-width: 28px;
+    border-radius: 2px;
+}
+
+input[type="button"]:hover,
+button:hover {
+    background-color: var(--wpd-widget-hover-color);
+    border: thin black solid;
+}
+
+input[type="button"]:active,
+button:active {
+    background-color: var(--wpd-widget-active-color);
+}
+
+input[type="button"].pressed-button,
+button.pressed-button {
+    background-color: var(--wpd-widget-active-color);
+}
+
+input[type="button"]:focus,
+button:focus {
+    outline-width: 0;
+}
+
+input[type="button"]:disabled,
+button:disabled {
+    color: grey;
+}
+
+/* Sort of a hack to make button look right in Firefox */
+input[type="button"]::-moz-focus-inner {
+    margin-top: -1px;
+}
+
+input[type="checkbox"] {
+    height: 20px;
+    width: 20px;
+    border: thin black solid;
+    background: white;
+    border-radius: 2px;
+}
+
+input[type="text"] {
+    font-family: var(--wpd-font-family);
+    font-size: 13px;
+    background: white;
+    border: thin #aaaaaa solid;
+    height: 20px;
+    border-radius: 2px;
+}
+
+input[type="range"] {
+    height: 13px;
+    background: white;
+    border: thin lightgrey solid;
+}
+
+input[type=range]::-moz-range-track {
+    background: grey;
+}
+
+input[type="file"] {
+    font-size: 14px;
+    border-radius: 2px;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+hr {
+    height: 1px;
+    border: none;
+    background-color: #dddddd;
+}
+
+select {
+    border: thin grey solid;
+    border-radius: 2px;
+}
+
+.tree-item {
+    cursor: pointer;
+    padding: 2px;
+    display: block;
+}
+
+.tree-folder {
+    cursor: pointer;
+    padding: 2px;
+    display: block;
+}
+
+.tree-list {
+    list-style: none;
+    padding-left: 15px;
+    font-family: var(--wpd-font-family);
+    font-size: 11pt;
+}
+
+.tree-list>li {
+    margin-bottom: 2px;
+}
+
+.tree-list-root {
+    list-style: none;
+    padding-left: 1px;
+    font-family: var(--wpd-font-family);
+    font-size: 11pt;
+    margin-top: 10px;
+}
+
+.tree-list-root>li {
+    margin-bottom: 2px;
+}
+
+.tree-item:hover,
+.tree-folder:hover {
+    background: var(--wpd-widget-hover-color);
+}
+
+.tree-selected {
+    background: var(--wpd-widget-active-color);
+}
+
+.tree-selected:hover {
+    background: var(--wpd-widget-active-color);
+}
+
+.tree-item:active,
+.tree-folder:active,
+.tree-item::selection {
+    background: var(--wpd-widget-active-color);
+}
+
+.tree-widget {
+    display: none;
+    font-size: 13px;
+}
+
+.tree-widget p {
+    margin: 5px 0px 5px 0px;
+}
+
+.tree-item-icon {
+    width: 10px;
+    height: 10px;
+    background-color: red;
+    display: inline-block;
+    margin-right: 3px;
+}
+
+.selectable-list {
+    list-style: none;
+    cursor: pointer;
+    line-height: 160%;
+    padding-left: 0;
+    margin-left: 0;
+}
+
+.selectable-list>li {
+    padding-left: 3px;
+}
+
+.selectable-list>li:not(.selectable-item-selected):hover {
+    background: var(--wpd-widget-hover-color);
+}
+
+.selectable-list>li:active {
+    background: var(--wpd-widget-active-color);
+}
+
+.selectable-item-selected,
+.selectable-item-selected:hover {
+    background: var(--wpd-widget-active-color);
+}
+
+.toolbar-button {
+    border: thin var(--wpd-button-background) solid;
+    min-width: 24px;
+}
+
+.calibrate-axes-option-info {
+    display: none;
+}
+
+.algo-controls {
+    display: none;
+    margin-left: 2px;
+}

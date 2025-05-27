@@ -1,0 +1,563 @@
+{#
+    WebPlotDigitizer - web based chart data extraction software (and more)
+
+    Copyright (C) 2025 Ankit Rohatgi
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>
+#}
+
+<!-- Background curtain for popups -->
+<div id="shadow" style="width:100%; height:100%; background-color: rgba(0,0,0,0.3); position:absolute; top:0px; left:0px; z-index:50; visibility:hidden;">
+</div>
+
+<!-- busy note -->
+<div id="wait">
+    <p>Processing...</p>
+</div>
+
+<!-- Load Image -->
+<div id="loadNewImage" class="popup" style="width: 400px;">
+    <div class="popupheading">{{ _("Load Image File(s)") }}</div>
+    <p align="center">Select image files or PDF documents</p>
+    <p>&nbsp;</p>
+    <p align="center">
+        <input type="file" id="fileLoadBox" multiple onchange="wpd.imageManager.load();" />
+    </p>
+    <p>&nbsp;</p>
+    <p align="center">You can also drag and drop or paste images</p>
+    <p>&nbsp;</p>
+    <p align="center">
+        <input type="button" value="{{ _("Load") }}" onclick="wpd.imageManager.load();" />
+        &nbsp;&nbsp;
+        <input type="button" value="{{ _("Cancel") }}" onclick="wpd.popup.close('loadNewImage');" />
+    </p>
+</div>
+
+<!-- Zoom Settings -->
+<div id="zoom-settings-popup" class="popup" style="width: 300px;">
+    <div class="popupheading">{{ _("Magnified View Settings") }}</div>
+    <p>&nbsp;</p>
+    <center>
+        <table>
+            <tr>
+                <td>
+                    <p>{{ _("Magnification") }}: </p>
+                </td>
+                <td>
+                    <p><input type="text" id="zoom-magnification-value" size="3" />{{ _("Times") }}</p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p>{{ _("Crosshair Color") }}: </p>
+                </td>
+                <td>
+                    <p>
+                        <select id="zoom-crosshair-color-value">
+                            <option value="black">{{ _("Black") }}</option>
+                            <option value="red">{{ _("Red") }}</option>
+                            <option value="yellow">{{ _("Yellow") }}</option>
+                        </select>
+                </td>
+            </tr>
+        </table>
+    </center>
+    <p>&nbsp;</p>
+    <p align="center"><input type="button" value="Apply" onclick="wpd.zoomView.applySettings();" /> <input type="button" value="{{ _("Cancel") }}" onclick="wpd.popup.close('zoom-settings-popup');" /></p>
+</div>
+
+<!-- Run Script -->
+<div id="runScriptPopup" class="popup" style="width: 500px;">
+    <div class="popupheading">{{ _("Run Script") }}</div>
+    <p align="left">{{ _("Load a Javascript file to further extend the capabilities of WebPlotDigitizer.") }}</p>
+    <p align="left">{{ _("For examples, visit the") }} <a href="https://github.com/ankitrohatgi/WebPlotDigitizer/tree/master/script_examples" target="_blank">{{ _("WebPlotDigitizer repository") }}</a>.</p>
+    <p>&nbsp;</p>
+    <p align="center"><input type="file" id="runScriptFileInput" /></p>
+    <p>&nbsp;</p>
+    <p align="center"><input type="button" value="{{ _("Run") }}" onclick="wpd.scriptInjector.load();" /> <input type="button" value="{{ _("Cancel") }}" onclick="wpd.scriptInjector.cancel();" /></p>
+</div>
+
+<!-- Webcam Capture -->
+<div id="webcamCapture" class="popup" style="width: 650px;">
+    <div class="popupheading">{{ _("Webcam Capture") }}</div>
+    <p>&nbsp;</p>
+    <p align="center"><video id="webcamVideo" autoplay="true" height="350"></video></p>
+    <p align="center"><input type="button" value="{{ _("Capture") }}" onclick="wpd.webcamCapture.capture();" /> <input type="button" value="{{ _("Cancel") }}" onclick="wpd.webcamCapture.cancel();" /></p>
+</div>
+
+<!-- Generic Message Popup -->
+<div id="messagePopup" class="popup" style="width: 400px;">
+    <div id="message-popup-heading" class="popupheading"></div>
+    <p>&nbsp;</p>
+    <p align="center" id="message-popup-text"></p>
+    <p>&nbsp;</p>
+    <p align="center"><input type="button" value="{{ _("OK") }}" onclick="wpd.messagePopup.close()" /></p>
+</div>
+
+<!-- Generic Ok/Cancel Popup -->
+<div id="okCancelPopup" class="popup" style="width: 400px; z-index: 110;">
+    <div id="ok-cancel-popup-heading" class="popupheading"></div>
+    <p>&nbsp;</p>
+    <p align="center" id="ok-cancel-popup-text"></p>
+    <p>&nbsp;</p>
+    <p align="center">
+        <input id="ok-cancel-popup-ok-button" type="button" onclick="wpd.okCancelPopup.ok()" />
+        <input id="ok-cancel-popup-cancel-button" type="button" onclick="wpd.okCancelPopup.cancel()" />
+    </p>
+</div>
+
+<!-- View Data -->
+<div id="csvWindow" class="popup" style="width: 800px; height: 480px;">
+    <div class="popupheading">{{ _("Acquired Data") }}</div>
+    <table style="width:780px;">
+        <tr>
+            <td>
+                <!-- left panel -->
+                <span id="data-table-dataset-control">
+                    <p>{{ _("Dataset") }}: <select id="data-table-dataset-list" onchange="wpd.dataTable.changeDataset();"></select></p>
+                </span>
+                <p align="center">{{ _("Variables") }}: <span id="dataVariables"></span></p>
+                <p align="center"><textarea id="digitizedDataTable" style="width: 480px; height: 250px;"></textarea></p>
+                <p align="center">
+                    <input type="button" value="{{ _("Copy to Clipboard") }}" onclick="wpd.dataTable.copyToClipboard();" />
+                    <input type="button" value="{{ _("Download .CSV") }}" onclick="wpd.dataTable.generateCSV();" />
+                    <input type="button" value="{{ _("Graph in Plotly*") }}" onclick="wpd.dataTable.exportToPlotly();" />
+                    <input type="button" value="{{ _("Close") }}" onclick="wpd.popup.close('csvWindow');" />
+                </p>
+                <p align="center" class="footnote">{{ _("*Plotly is a secure data analysis and graphing site with data sharing and access controls.") }}</p>
+                <p align="center" class="footnote">{{ _("Visit <a href=\"http://plot.ly\" target=\"plotlyWebsite\">http://plot.ly</a> for details.") }}</p>
+            </td>
+            <td valign="top" style="width:250px;">
+                <!-- data side controls -->
+                <p><b>{{ _("Sort") }}</b></p>
+                <p class="leftIndent">{{ _("Sort by") }}: <select id="data-sort-variables" onchange="wpd.dataTable.reSort();"></select></p>
+                <p class="leftIndent">{{ _("Order") }}:
+                    <select id="data-sort-order" onchange="wpd.dataTable.reSort();">
+                        <option value="ascending">{{ _("Ascending") }}</option>
+                        <option value="descending">{{ _("Descending") }}</option>
+                    </select>
+                </p>
+                <hr />
+                <p><b>{{ _("Format") }}</b></p>
+                <p class="leftIndent">
+                    <span id="data-date-formatting-container">
+                        {{ _("Date Formatting") }}:
+                        <span id="data-date-formatting"></span>
+                    </span>
+                </p>
+                <p class="leftIndent">{{ _("Number Formatting") }}:</p>
+                <p>{{ _("Digits") }}: <input type="text" value="5" size="2" id="data-number-format-digits" />
+                    <select id="data-number-format-style">
+                        <option value="ignore">{{ _("Ignore") }}</option>
+                        <option value="fixed">{{ _("Fixed") }}</option>
+                        <option value="precision">{{ _("Precision") }}</option>
+                        <option value="exponential">{{ _("Exponential") }}</option>
+                    </select>
+                </p>
+                <p>{{ _("Column Separator") }}: <input type="text" value=", " size="2" id="data-number-format-separator" /></p>
+                <p align="right"><input type="button" value="Format" onclick="wpd.dataTable.reSort();" /></p>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<!-- About WPD -->
+<div id="helpWindow" class="popup" style="width: 600px;">
+    <div class="popupheading">{{ _("WebPlotDigitizer - Extract Data From Charts") }}</div>
+    <div style="margin:auto; width:100px; height:100px; display: block;">
+        <img src="images/icon/icon.svg" width="100" heigh="100" />
+    </div>
+    <p align="center">WebPlotDigitizer {{ wpdVersion }}</p>
+    <p>&nbsp;</p>
+    <p align="center">Copyright 2025 Automeris LLC, California, USA &lt;plots@automeris.io&gt;</p>
+    <p align="center"><a href="https://automeris.io" target="_blank">https://automeris.io</a></p>
+    <p>&nbsp;</p>
+    <p align="center"><input type="button" value="{{ _("Close") }}" onclick="wpd.popup.close('helpWindow');"></p>
+</div>
+
+<!-- Export JSON -->
+<div id="export-json-window" class="popup" style="width:500px;">
+    <div class="popupheading">{{ _("Export JSON or Project File") }}</div>
+    <p>{{ _("Export a JSON file containing the axes calibrations, digitized data and measurements. This JSON file can be loaded to resume work at a later time. You can also download a combined 'project file' which includes this JSON and also the image in a single TAR file.") }}</p>
+    <br />
+    <p align="center">Project name: <input type="text" value="wpd_project" id="project-name-input" />.json/.tar</p>
+    <br />
+    <p align="center">
+        <input type="button" value="{{ _("Download JSON") }}" onclick="wpd.saveResume.downloadJSON();" />
+        <input type="button" value="{{ _("Download Project File (.tar)") }}" onclick="wpd.saveResume.downloadProject();" />
+        <input type="button" value="{{ _("Cancel") }}" onclick="wpd.popup.close('export-json-window');" />
+    </p>
+</div>
+
+<!-- Import JSON -->
+<div id="import-json-window" class="popup" style="width:500px;">
+    <div class="popupheading">{{ _("Import JSON/Project") }}</div>
+    <p>{{ _("Load a previously exported JSON or project file (.tar)") }} </p>
+    <p>{{ _("(Note: This will clear any unsaved data in the current plot.)") }}</p>
+    <p>&nbsp;</p>
+    <p align="center">{{ _("JSON/Project File") }}: <input type="file" id="import-json-file" onchange="wpd.saveResume.read();" /></p>
+    <p>&nbsp;</p>
+    <p align="center">
+        <input type="button" value="{{ _("Import") }}" onclick="wpd.saveResume.read();" />
+        <input type="button" value="{{ _("Cancel") }}" onclick="wpd.popup.close('import-json-window');" />
+    </p>
+</div>
+
+<!-- Adjust Data Points Keyboard Shortcuts -->
+<div id="adjust-data-points-keyboard-shortcuts-window" class="popup" style="width:500px;">
+    <div class="popupheading">{{ _("Keyboard Shortcuts") }}</div>
+    <p>{{ _("Click to select a data point. The following keys can then be used to adjust the position") }}:</p>
+    <center>
+        <table cellspacing="5" border="0">
+            <tr>
+                <td align="right">{{ _("Cursor (Arrows)") }} -</td>
+                <td>{{ _("Move up/down/right/left") }}</td>
+            </tr>
+            <tr>
+                <td align="right">{{ _("Shift + Cursor") }} -</td>
+                <td>{{ _("Faster rate of movement") }}</td>
+            </tr>
+            <tr>
+                <td align="right">Q -</td>
+                <td>{{ _("Select next point") }}</td>
+            </tr>
+            <tr>
+                <td align="right">W -</td>
+                <td>{{ _("Select previous point") }}</td>
+            </tr>
+            <tr>
+                <td align="right">{{ _("Del/Backspace") }} -</td>
+                <td>{{ _("Delete point") }}</td>
+            </tr>
+            <tr>
+                <td align="right">E -</td>
+                <td>{{ _("Edit label (Bar Chart)") }}</td>
+            </tr>
+            <tr>
+                <td align="right" style="vertical-align: top;">R -</td>
+                <td>
+                    {{ _("Override value (When adjusting ") }}
+                    <br />
+                    {{ _("non-Bar Chart points") }}
+                </td>
+            </tr>
+        </table>
+    </center>
+    <p>&nbsp;</p>
+    <p align="center"><input type="button" value="{{ _("Close") }}" onclick="wpd.popup.close('adjust-data-points-keyboard-shortcuts-window');" /></p>
+</div>
+
+<!-- Data point label editor -->
+<div id="data-point-label-editor" class="popup" style="width:280px;">
+    <div class="popupheading">{{ _("Edit Label") }}</div>
+    <p>&nbsp;</p>
+    <p align="center">{{ _("Label") }}: <input type="text" value="{{ _("Data Point") }}" id="data-point-label-field" onkeydown="wpd.dataPointLabelEditor.keydown(event);" /></p>
+    <p>&nbsp;</p>
+    <p align="center">
+        <input type="button" value="{{ _("OK") }}" onclick="wpd.dataPointLabelEditor.ok();" />
+        <input type="button" value="{{ _("Cancel") }}" onclick="wpd.dataPointLabelEditor.cancel();" />
+    </p>
+</div>
+
+<!-- Data point value editor -->
+<div id="data-point-value-override-editor" class="popup" style="width:280px;">
+    <div class="popupheading">{{ _("Override Point Values") }}</div>
+    <p>&nbsp;</p>
+    <table style="margin-left: 35px;" id="data-point-value-override-editor-table"></table>
+    <p>&nbsp;</p>
+    <p align="center">
+        <input type="hidden" id="data-point-value-override-revert-flag" value="0" />
+        <input type="button" value="{{ _("OK") }}" onclick="wpd.dataPointValueOverrideEditor.ok();" />
+        <input type="button" value="{{ _("Cancel") }}" onclick="wpd.dataPointValueOverrideEditor.cancel();" />
+        <input type="button" value="{{ _("Clear") }}" onclick="wpd.dataPointValueOverrideEditor.clear();" />
+    </p>
+</div>
+
+<!-- Perspective Transform Instructions -->
+<div id="perspective-info" class="popup" style="width:500px;">
+    <div class="popupheading">{{ _("Perspective Transformation") }}</div>
+    <p align="center"><img src="images/perspective.png" width="350"></p>
+    <br />
+    <p align="center">{{ _("Click on four corners of the region to be transformed as shown.") }}</p>
+    <br />
+    <p align="center">
+        <input type="button" value="{{ _("OK") }}" onclick="wpd.perspective.pickCorners();" />
+        <input type="button" value="{{ _("Cancel") }}" onclick="wpd.popup.close('perspective-info');" />
+    </p>
+</div>
+
+<!-- Edit or Reset Calibration Dialog -->
+<div id="edit-or-reset-calibration-popup" class="popup" style="width:500px;">
+    <div class="popupheading">{{ _("Edit Existing Calibration?") }}</div>
+    <br />
+    <p align="center">{{ _("Do you wish to tweak existing axes calibration or select a new axes type?") }}</p>
+    <br />
+    <p align="center">
+        <input type="button" value="{{ _("Edit Calibration") }}" onclick="wpd.alignAxes.reloadCalibrationForEditing();" />
+
+        <input type="button" value="{{ _("Change Axes Type") }}" onclick="wpd.popup.close('edit-or-reset-calibration-popup');wpd.calibrateAxesDialog.open();" />
+
+        <input type="button" value="{{ _("Cancel") }}" onclick="wpd.popup.close('edit-or-reset-calibration-popup');" />
+    </p>
+</div>
+
+<!-- Export all data dialog -->
+<div id="export-all-data-popup" class="popup" style="width:400px;">
+    <div class="popupheading">{{ _("Export All Datasets") }}</div>
+    <p>{{ _("Export data from all datasets") }}</p>
+    <br />
+    <p align="center">
+        <input type="button" value="{{ _("Download .CSV") }}" onclick="wpd.dataExport.generateCSV();" />
+        <input type="button" value="{{ _("Export to Plotly") }}" onclick="wpd.dataExport.exportToPlotly();" />
+        <input type="button" value="{{ _("Cancel") }}" onclick="wpd.popup.close('export-all-data-popup');" />
+    </p>
+</div>
+
+<!-- Add dataset -->
+<div id="add-dataset-popup" class="popup" style="width:450px;">
+    <div class="popupheading">{{ _("Add Dataset") }}</div>
+    <p>{{ _("Name") }}: <input type="text" id="add-single-dataset-name-input" value="New Dataset" /> <input type="button" value="{{ _("Add Single Dataset") }}" onclick="wpd.dataSeriesManagement.addSingleDataset();" /></p>
+    <br />
+    <p>{{ _("Count") }}: <input type="text" id="add-multiple-datasets-count-input" value="1" /> <input type="button" value="{{ _("Add Multiple Datasets") }}" onclick="wpd.dataSeriesManagement.addMultipleDatasets();" /></p>
+    <br />
+    <p align="center"><input type="button" value="{{ _("Cancel") }}" onclick="wpd.popup.close('add-dataset-popup');" /></p>
+</div>
+
+<!-- Rename dataset -->
+<div id="rename-dataset-popup" class="popup" style="width:400px;">
+    <div class="popupheading">{{ _("Rename Dataset") }}</div>
+    <center>
+        <br />
+        <p>{{ _("Name") }}: <input type="text" id="rename-dataset-name-input" value="Dataset" onkeypress="wpd.dataSeriesManagement.renameKeypress(event);" /></p>
+        <br />
+        <p><input type="button" value="{{ _("Rename") }}" onclick="wpd.dataSeriesManagement.renameDataset();" /> <input type="button" value="{{ _("Cancel") }}" onclick="wpd.popup.close('rename-dataset-popup');" /></p>
+    </center>
+</div>
+
+<!-- Rename axes -->
+<div id="rename-axes-popup" class="popup" style="width:400px;">
+    <div class="popupheading">{{ _("Rename Axes") }}</div>
+    <center>
+        <br />
+        <p>{{ _("Name") }}: <input type="text" id="rename-axes-name-input" value="Axes" onkeypress="wpd.alignAxes.renameKeypress(event);" /></p>
+        <br />
+        <p><input type="button" value="{{ _("Rename") }}" onclick="wpd.alignAxes.renameAxes();" /> <input type="button" value="{{ _("Cancel") }}" onclick="wpd.popup.close('rename-axes-popup');" /></p>
+    </center>
+</div>
+
+<!-- Image info -->
+<div id="image-info-popup" class="popup" style="width:400px;">
+    <div class="popupheading">{{ _("Image Info") }}</div>
+    <center>
+        <br />
+        <p>Dimensions: <span id="image-info-dimensions"></span> pixels</p>
+        <p class="paged" hidden>Pages: <span id="image-info-pages"></span> pages</p>
+        <br />
+        <p><input type="button" value="{{ _("OK") }}" onclick="wpd.popup.close('image-info-popup');" /></p>
+    </center>
+</div>
+
+<!-- Page relabelling -->
+<div id="image-page-relabel-popup" class="popup" style="width:400px;">
+    <div class="popupheading">{{ _("Page Labels") }}</div>
+    <p>{{ _("Relabel the current page number with an alphanumeric string. Optionally, relabel all page numbers in the image based on the current page (only supports integer values).") }}</p>
+    <br />
+    <p>New page label: <input id="image-page-relabel-input" type="text" onkeyup="wpd.appData.getPageManager().validateLabel(this.value)" /></p>
+    <center>
+        <p style="color: lightgray;">
+            <input id="image-page-relabel-all-checkbox" type="checkbox" disabled />
+            <label for="image-page-relabel-all-checkbox">Relabel all pages</label>
+        </p>
+        <br />
+        <p>
+            <input id="image-page-relabel-set-button" type="button" value="{{ _("Relabel") }}" onclick="wpd.appData.getPageManager().setLabel();" disabled />
+            <input id="image-page-relabel-delete-button" type="button" value="{{ _("Reset") }}" onclick="wpd.appData.getPageManager().deleteLabel();" disabled />
+            <input id="image-page-relabel-delete-all-button" type="button" value="{{ _("Reset All") }}" onclick="wpd.appData.getPageManager().deleteLabel(true);" disabled />
+            <input id="image-page-relabel-cancel-button" type="button" value="{{ _("Cancel") }}" onclick="wpd.popup.close('image-page-relabel-popup');" />
+        </p>
+    </center>
+</div>
+
+<!-- Data point group settings -->
+<div id="point-group-settings-popup" class="popup" style="width: 600px;">
+    <div class="popupheading">{{ _("Point Groups") }}</div>
+    <table style="margin: 0 auto;">
+        <tr>
+            <td style="vertical-align: top;">
+                <p>
+                    {{ _("Point groups are groups of related data points such as standard error or confidence intervals.") }}
+                </p>
+                <br />
+                <p>
+                    {{ _("To define a point group, enter a name in the text input below. Create additional point groups as necessary.") }}
+                </p>
+                <br />
+                <p>
+                    {{ _("E.g. Assume we have 3 point groups defined: Median, Standard error +1, and Standard error -1. Points would be entered in the order shown in the image to the right. For each set of points, the median value would first be recorded, then the standard error +1, and finally the standard error -1. The process would repeat for the next set of points.") }}
+                </p>
+            </td>
+            <td>
+                <center>
+                    <img src="images/pointgroups.png" width="300px">
+                </center>
+            </td>
+        </tr>
+    </table>
+    <br />
+    <table style="margin: 0 auto;">
+        <tbody id="point-group-table">
+            <tr>
+                <td>
+                    {{ _("Group") }} <span>0</span>:
+                </td>
+                <td>
+                    <input id="point-group-0" placeholder="{{_("Primary Group")}}" type="text" />
+                </td>
+                <td>&nbsp;</td>
+            </tr>
+        </tbody>
+    </table>
+    <br />
+    <p style="text-align: center;">
+        <input id="point-group-add-button" type="button" value="{{_("Add New Group")}}" onclick="wpd.pointGroups.addSettingsRow(true);" />
+    </p>
+    <p style="text-align: center;">
+        <input id="point-group-save-button" type="button" value="{{ _("Save") }}" onclick="wpd.pointGroups.saveSettings();" />
+        <input id="point-group-cancel-button" type="button" value="{{ _("Cancel") }}" onclick="wpd.pointGroups.closeSettingsPopup();" />
+    </p>
+</div>
+
+<div id="calibrate-axes-options" class="popup" style="width: 600px;">
+    <div class="popupheading">{{ _("Select Axes Type") }}</div>
+    <div style="display: flex;">
+        <div style="flex: 30%; border-right: thin lightgray solid;">
+            <ul class="selectable-list">
+                <li class="calibrate-axes-item" id="calibrate-axes-option-xy">{{ _("2D XY Axes") }}</li>
+                <li class="calibrate-axes-item" id="calibrate-axes-option-bar">{{ _("Bar Chart") }}</li>
+                <li class="calibrate-axes-item" id="calibrate-axes-option-polar">{{ _("Polar Diagram") }}</li>
+                <li class="calibrate-axes-item" id="calibrate-axes-option-ternary">{{ _("Ternary Diagram") }}</li>
+                <li class="calibrate-axes-item" id="calibrate-axes-option-map">{{ _("Map (Scale Bar)") }}</li>
+                <li class="calibrate-axes-item" id="calibrate-axes-option-image">{{ _("Image") }}</li>
+                <li class="calibrate-axes-item" id="calibrate-axes-option-circular-chart-recorder">{{ _("Circular Chart Recorder") }}</li>
+            </ul>
+        </div>
+
+        <div style="flex: 70%; height: 360px;">
+            <!-- XY -->
+            <div class="calibrate-axes-option-info" id="calibrate-axes-info-xy">
+                <p align="center"><img src="images/xyaxes.png" width="220" /></p>
+                <p align="center">{{ _("Click four known points on the axes in the <font color=\"red\">order shown in red</font>. Two on the X axis (X1, X2) and two on the Y axis (Y1, Y2)") }}.</p>
+            </div>
+            <!-- BAR -->
+            <div class="calibrate-axes-option-info" id="calibrate-axes-info-bar">
+                <p align="center"><img src="images/baraxes.png" width="250" /></p>
+                <p align="center">{{ _("Click on two known points (P1, P2) on the continuous axes along the bars") }}</p>
+            </div>
+            <!-- POLAR -->
+            <div class="calibrate-axes-option-info" id="calibrate-axes-info-polar">
+                <p align="center"><img src="images/polaraxes.png" width="280" style="margin-top: 30px;" /></p>
+                <p align="center">{{ _("Click on the center, followed by two known points.") }}</p>
+            </div>
+            <!-- MAP -->
+            <div class="calibrate-axes-option-info" id="calibrate-axes-info-map">
+                <p align="center"><img src="images/map.png" /></p>
+                <p align="center">{{ _("Click on the two ends of the scale bar on the map.") }}</p>
+            </div>
+            <!-- TERNARY -->
+            <div class="calibrate-axes-option-info" id="calibrate-axes-info-ternary">
+                <p align="center"><img src="images/ternaryaxes.png" width="280" style="margin-top: 30px;" /></p>
+                <p align="center">{{ _("Click on the three corners in the order shown above.") }}</p>
+            </div>
+            <!-- IMAGE -->
+            <div class="calibrate-axes-option-info" id="calibrate-axes-info-image">
+                <p align="center">
+                    <i class="bi bi-card-image" style="font-size: 220px; color: lightgray;"></i>
+                </p>
+                <p>Click 'Calibrate' to set up a 1:1 mapping from image pixels to data</p>
+            </div>
+            <!-- CIRCULAR CHART RECORDER -->
+            <div class="calibrate-axes-option-info" id="calibrate-axes-info-circular-chart-recorder">
+                <p align="center"><img src="images/circular_chart_recorder_axes.png" width="230" /></p>
+                <p align="left">{{ _("Click on five points on the chart axes as shown:") }}</p>
+                <p align="left">
+                <ul>
+                    <li>{{ _("First three points at different radial positions but the same known time (T0).") }}</li>
+                    <li>{{ _("Next two points on any times (T1, T2) but at the same radial position as R2.") }}</li>
+                </ul>
+                </p>
+            </div>
+        </div>
+
+    </div>
+    <div>
+        <p style="text-align: center;">
+            <input type="button" value="{{ _("Calibrate") }}" onclick="wpd.calibrateAxesDialog.calibrate();" />
+            &nbsp;
+            &nbsp;
+            <input type="button" value="{{ _("Cancel") }}" onclick="wpd.calibrateAxesDialog.cancel();" />
+        </p>
+    </div>
+</div>
+
+<div id="ai-assist-dialog" class="popup" style="width:400px;">
+    <div class="popupheading">{{ _("AI Assist (Experimental)") }}</div>
+    <p>{{ _("AI assist is an experimental feature that uses state-of-the-art multimodal AI models on your image to auto detect axes information and datasets. This feature is under active development and more capabilities will be added soon.") }}</p>
+    <p>{{ _("Click run to attempt auto-generating Axes and Datasets for your image.") }}</p>
+    <p>&nbsp;</p>
+    <p align="center">{{ _("Quota used:") }} <span id="ai-assist-quota"></span></p>
+    <p align="center"><span id="ai-assist-status" style="color: blue;"></span></p>
+    <p>&nbsp;</p>
+    <p align="center">
+        <input type="button" value="{{ _("Run") }}" onclick="wpd.ai.runQuery();" id="ai-assist-run-btn" />
+        &nbsp;
+        <input type="button" value="{{ _("Cancel") }}" onclick="wpd.popup.close('ai-assist-dialog');" />
+    </p>
+</div>
+
+<div id="custom-indeps-dialog" class="popup" style="width:400px;">
+    <div class="popupheading">{{ _("Custom X Values") }}</div>
+    <p>{{ _("Specify X values for data extraction, for example") }}
+    <pre>[1, 2, 3]</pre>
+    </p>
+    <textarea rows="10" cols="40" id="custom-indeps-x-input"></textarea>
+    <p align="center"><button onclick="wpd.algoManager.setCustomXValues();">{{ _("OK") }}</button></p>
+</div>
+
+<div id="user-prefs-dialog" class="popup" style="width:500px;">
+    <div class="popupheading">{{ _("Preferences") }}</div>
+    <p align="center">
+        {{ _("Language") }}: &nbsp;
+        <select id="user-prefs-language">
+            <option value="english">{{ _("English") }}</option>
+            <option value="chinese">{{ _("Simplified Chinese") }}</option>
+        </select>
+    </p>
+    <p>&nbsp;</p>
+    <p>{{ _("Note: You may need to hard-reload this page after saving changes") }} (<a href="https://filecamp.com/support/problem-solving/hard-refresh/" target="_blank">{{ _("see how") }}</a>).</p>
+    <p>&nbsp;</p>
+    <p align="center"><button onclick="wpd.savePrefs();">{{ _("Save") }}</button> &nbsp; <button onclick="wpd.cancelPrefs();">{{ _("Cancel") }}</button></p>
+</div>
+
+<!-- Unit testing -->
+{% if enableTesting == True %}
+<div id="tests-popup" class="popup" style="width:1000px;">
+    <div class="popupheading">Unit Tests</div>
+    <p align="center"><button onclick="wpd.popup.close('tests-popup');">Close</button></p>
+    <br />
+    <div style="width:1000px; height: 800px; overflow-y: auto;">
+        <div id="qunit"></div>
+        <div id="qunit-fixture"></div>
+    </div>
+</div>
+{% endif %}

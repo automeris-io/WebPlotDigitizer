@@ -1,0 +1,104 @@
+{#
+    WebPlotDigitizer - web based chart data extraction software (and more)
+
+    Copyright (C) 2025 Ankit Rohatgi
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>
+#}
+
+{% extends "_base.html" %}
+{% set app_mode = 'local' %}
+{% block scripts %}
+<!-- Individual, uncompressed javascript files -->
+<script src="javascript/controllers/appData.js"></script>
+<script src="javascript/controllers/autoDetection.js"></script>
+<script src="javascript/controllers/axesCalibration.js"></script>
+<script src="javascript/controllers/browserInfo.js"></script>
+<script src="javascript/controllers/colorPicker.js"></script>
+<script src="javascript/controllers/datasetManagement.js"></script>
+<script src="javascript/controllers/fileManager.js"></script>
+<script src="javascript/controllers/gridDetection.js"></script>
+<script src="javascript/controllers/i18n.js"></script>
+<script src="javascript/controllers/imageEditing.js"></script>
+<script src="javascript/controllers/imageManager.js"></script>
+<script src="javascript/controllers/manualDetection.js"></script>
+<script src="javascript/controllers/measurements.js"></script>
+<script src="javascript/controllers/pageManager.js"></script>
+<script src="javascript/controllers/undoManager.js"></script>
+<script src="javascript/controllers/utils.js"></script>
+<script src="javascript/core/autoDetection.js"></script>
+<script src="javascript/core/axes/bar.js"></script>
+<script src="javascript/core/axes/circularChartRecorder.js"></script>
+<script src="javascript/core/axes/image.js"></script>
+<script src="javascript/core/axes/map.js"></script>
+<script src="javascript/core/axes/polar.js"></script>
+<script src="javascript/core/axes/ternary.js"></script>
+<script src="javascript/core/axes/xy.js"></script>
+<script src="javascript/core/calibration.js"></script>
+<script src="javascript/core/color.js"></script>
+<script src="javascript/core/colorAnalysis.js"></script>
+<script src="javascript/core/connectedPoints.js"></script>
+<script src="javascript/core/curve_detection/averagingWindow.js"></script>
+<script src="javascript/core/curve_detection/averagingWindowCore.js"></script>
+<script src="javascript/core/curve_detection/averagingWindowWithStepSize.js"></script>
+<script src="javascript/core/curve_detection/barExtraction.js"></script>
+<script src="javascript/core/curve_detection/blobdetector.js"></script>
+<script src="javascript/core/curve_detection/customIndependents.js"></script>
+<script src="javascript/core/curve_detection/xStepWithInterpolation.js"></script>
+<script src="javascript/core/dataProviders.js"></script>
+<script src="javascript/core/dataset.js"></script>
+<script src="javascript/core/dateConversion.js"></script>
+<script src="javascript/core/gridDetectionCore.js"></script>
+<script src="javascript/core/inputParser.js"></script>
+<script src="javascript/core/mathFunctions.js"></script>
+<script src="javascript/core/plotData.js"></script>
+<script src="javascript/core/point_detection/templateMatcherAlgo.js"></script>
+<script src="javascript/core/rle.js"></script>
+<script src="javascript/main.js"></script>
+<script src="javascript/services/ai.js"></script>
+<script src="javascript/services/args.js"></script>
+<script src="javascript/services/cloud.js"></script>
+<script src="javascript/services/dataExport.js"></script>
+<script src="javascript/services/download.js"></script>
+<script src="javascript/services/events.js"></script>
+<script src="javascript/services/log.js"></script>
+<script src="javascript/services/plotly.js"></script>
+<script src="javascript/services/prefs.js"></script>
+<script src="javascript/services/saveResume.js"></script>
+<script src="javascript/services/scriptInjection.js"></script>
+<script src="javascript/tools/base/boundingBoxTool.js"></script>
+<script src="javascript/tools/algoInputTools.js"></script>
+<script src="javascript/tools/axesCalibrationTools.js"></script>
+<script src="javascript/tools/colorPickerTools.js"></script>
+<script src="javascript/tools/graphicsHelper.js"></script>
+<script src="javascript/tools/gridDetectionTools.js"></script>
+<script src="javascript/tools/imageEditingTools.js"></script>
+<script src="javascript/tools/imageOps.js"></script>
+<script src="javascript/tools/keyCodes.js"></script>
+<script src="javascript/tools/manualDetectionTools.js"></script>
+<script src="javascript/tools/maskTools.js"></script>
+<script src="javascript/tools/measurementTools.js"></script>
+<script src="javascript/widgets/calibrateAxesDialog.js"></script>
+<script src="javascript/widgets/dataTable.js"></script>
+<script src="javascript/widgets/graphicsWidget.js"></script>
+<script src="javascript/widgets/layoutManager.js"></script>
+<script src="javascript/widgets/pointGroups.js"></script>
+<script src="javascript/widgets/popups.js"></script>
+<script src="javascript/widgets/sidebars.js"></script>
+<script src="javascript/widgets/toolbars.js"></script>
+<script src="javascript/widgets/tree.js"></script>
+<script src="javascript/widgets/webcam.js"></script>
+<script src="javascript/widgets/tooltip.js"></script>
+<script src="javascript/widgets/zoom.js"></script>
+{% endblock %}

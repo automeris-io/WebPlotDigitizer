@@ -1,0 +1,1973 @@
+# Chinese (Simplified, China) translations for .
+# Copyright (C) 2016 ORGANIZATION
+# This file is distributed under the same license as the  project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2016.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version:  WebPlotDigitizer\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2025-05-25 03:46+0000\n"
+"PO-Revision-Date: 2024-03-18 21:06+0800\n"
+"Last-Translator: nkh0472 <nkh0472@hotmail.com>\n"
+"Language: zh_CN\n"
+"Language-Team: zh_CN <LL@li.org>\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.16.0\n"
+
+#: templates/_base.html:26
+msgid "Web based tool to extract numerical data from plots and graph images."
+msgstr "基于Web的工具，用于从绘图和图形图像中提取数据。"
+
+#: templates/_base.html:47
+msgid "Loading application, please wait..."
+msgstr "启动中，请稍等……"
+
+#: templates/_base.html:50
+msgid ""
+"Problems loading? Make sure you have a recent version of Google Chrome, "
+"Firefox, Safari or Microsoft Edge installed."
+msgstr "启动错误？ 请确认您安装了最新版本的Google Chrome，Firefox，Safari 或 Microsoft Edge。"
+
+#: templates/_base.html:86
+msgid "Fit"
+msgstr "适合"
+
+#: templates/_menubar.html:21
+msgid "File"
+msgstr ""
+
+#: templates/_menubar.html:24
+#, fuzzy
+msgid "Load Image(s)/PDF(s)"
+msgstr "加载图像"
+
+#: templates/_menubar.html:25
+msgid "Load Project From Disk"
+msgstr ""
+
+#: templates/_menubar.html:26
+#, fuzzy
+msgid "Save Project To Disk"
+msgstr "保存项目"
+
+#: templates/_menubar.html:28
+msgid "Quit"
+msgstr ""
+
+#: templates/_menubar.html:35
+msgid "Help"
+msgstr "帮助"
+
+#: templates/_menubar.html:38
+msgid "About WebPlotDigitizer"
+msgstr "关于 WebPlotDigitizer"
+
+#: templates/_menubar.html:40 templates/_menubar.html:44
+#: templates/_sidebars.html:223
+msgid "User Manual"
+msgstr "用户手册"
+
+#: templates/_navbar.html:27
+msgid "Previous"
+msgstr "前一项"
+
+#: templates/_navbar.html:28
+msgid "Next"
+msgstr "下一项"
+
+#: templates/_navbar.html:29 templates/_popups.html:373
+msgid "Page Labels"
+msgstr "页面标签"
+
+#: templates/_popups.html:31
+msgid "Load Image File(s)"
+msgstr ""
+
+#: templates/_popups.html:41
+msgid "Load"
+msgstr ""
+
+#: templates/_popups.html:43 templates/_popups.html:77
+#: templates/_popups.html:88 templates/_popups.html:96
+#: templates/_popups.html:199 templates/_popups.html:213
+#: templates/_popups.html:269 templates/_popups.html:282
+#: templates/_popups.html:296 templates/_popups.html:311
+#: templates/_popups.html:323 templates/_popups.html:334
+#: templates/_popups.html:344 templates/_popups.html:355
+#: templates/_popups.html:387 templates/_popups.html:437
+#: templates/_popups.html:508 templates/_popups.html:524
+#: templates/_popups.html:549 templates/_strings.html:95
+msgid "Cancel"
+msgstr "取消"
+
+#: templates/_popups.html:49
+msgid "Magnified View Settings"
+msgstr ""
+
+#: templates/_popups.html:55
+msgid "Magnification"
+msgstr ""
+
+#: templates/_popups.html:58
+msgid "Times"
+msgstr ""
+
+#: templates/_popups.html:63
+msgid "Crosshair Color"
+msgstr ""
+
+#: templates/_popups.html:68
+msgid "Black"
+msgstr ""
+
+#: templates/_popups.html:69
+msgid "Red"
+msgstr ""
+
+#: templates/_popups.html:70
+msgid "Yellow"
+msgstr ""
+
+#: templates/_popups.html:82
+msgid "Run Script"
+msgstr ""
+
+#: templates/_popups.html:83
+msgid ""
+"Load a Javascript file to further extend the capabilities of "
+"WebPlotDigitizer."
+msgstr ""
+
+#: templates/_popups.html:84
+msgid "For examples, visit the"
+msgstr ""
+
+#: templates/_popups.html:84
+msgid "WebPlotDigitizer repository"
+msgstr ""
+
+#: templates/_popups.html:88 templates/_popups.html:522
+#: templates/_sidebars.html:80
+msgid "Run"
+msgstr "运行"
+
+#: templates/_popups.html:93 templates/_strings.html:33
+msgid "Webcam Capture"
+msgstr "摄像头拍照"
+
+#: templates/_popups.html:96
+#, fuzzy
+msgid "Capture"
+msgstr "摄像头拍照"
+
+#: templates/_popups.html:105 templates/_popups.html:268
+#: templates/_popups.html:281 templates/_popups.html:295
+#: templates/_popups.html:367 templates/_popups.html:534
+#: templates/_strings.html:94
+msgid "OK"
+msgstr "确认"
+
+#: templates/_popups.html:122
+#, fuzzy
+msgid "Acquired Data"
+msgstr "采集数据"
+
+#: templates/_popups.html:128 templates/_strings.html:69
+#: templates/_tree.html:69
+msgid "Dataset"
+msgstr "数据集"
+
+#: templates/_popups.html:130
+msgid "Variables"
+msgstr ""
+
+#: templates/_popups.html:133
+msgid "Copy to Clipboard"
+msgstr ""
+
+#: templates/_popups.html:134 templates/_popups.html:321
+msgid "Download .CSV"
+msgstr ""
+
+#: templates/_popups.html:135
+msgid "Graph in Plotly*"
+msgstr ""
+
+#: templates/_popups.html:136 templates/_popups.html:186
+#: templates/_popups.html:258
+msgid "Close"
+msgstr ""
+
+#: templates/_popups.html:138
+msgid ""
+"*Plotly is a secure data analysis and graphing site with data sharing and"
+" access controls."
+msgstr ""
+
+#: templates/_popups.html:139
+msgid ""
+"Visit <a href=\"http://plot.ly\" "
+"target=\"plotlyWebsite\">http://plot.ly</a> for details."
+msgstr ""
+
+#: templates/_popups.html:143
+msgid "Sort"
+msgstr ""
+
+#: templates/_popups.html:144
+msgid "Sort by"
+msgstr ""
+
+#: templates/_popups.html:145
+msgid "Order"
+msgstr ""
+
+#: templates/_popups.html:147
+msgid "Ascending"
+msgstr ""
+
+#: templates/_popups.html:148
+msgid "Descending"
+msgstr ""
+
+#: templates/_popups.html:152
+msgid "Format"
+msgstr ""
+
+#: templates/_popups.html:155
+msgid "Date Formatting"
+msgstr ""
+
+#: templates/_popups.html:159
+msgid "Number Formatting"
+msgstr ""
+
+#: templates/_popups.html:160
+msgid "Digits"
+msgstr ""
+
+#: templates/_popups.html:162
+msgid "Ignore"
+msgstr ""
+
+#: templates/_popups.html:163
+msgid "Fixed"
+msgstr ""
+
+#: templates/_popups.html:164
+msgid "Precision"
+msgstr ""
+
+#: templates/_popups.html:165
+msgid "Exponential"
+msgstr ""
+
+#: templates/_popups.html:168
+msgid "Column Separator"
+msgstr ""
+
+#: templates/_popups.html:177
+msgid "WebPlotDigitizer - Extract Data From Charts"
+msgstr ""
+
+#: templates/_popups.html:191
+msgid "Export JSON or Project File"
+msgstr ""
+
+#: templates/_popups.html:192
+msgid ""
+"Export a JSON file containing the axes calibrations, digitized data and "
+"measurements. This JSON file can be loaded to resume work at a later "
+"time. You can also download a combined 'project file' which includes this"
+" JSON and also the image in a single TAR file."
+msgstr ""
+
+#: templates/_popups.html:197
+msgid "Download JSON"
+msgstr ""
+
+#: templates/_popups.html:198
+#, fuzzy
+msgid "Download Project File (.tar)"
+msgstr "不是有效的项目文件格式！"
+
+#: templates/_popups.html:205 templates/_strings.html:23
+msgid "Import JSON/Project"
+msgstr "导入 JSON / 项目"
+
+#: templates/_popups.html:206
+msgid "Load a previously exported JSON or project file (.tar)"
+msgstr ""
+
+#: templates/_popups.html:207
+msgid "(Note: This will clear any unsaved data in the current plot.)"
+msgstr ""
+
+#: templates/_popups.html:209
+msgid "JSON/Project File"
+msgstr ""
+
+#: templates/_popups.html:212
+msgid "Import"
+msgstr ""
+
+#: templates/_popups.html:219
+#, fuzzy
+msgid "Keyboard Shortcuts"
+msgstr "查看键盘快捷键"
+
+#: templates/_popups.html:220
+msgid ""
+"Click to select a data point. The following keys can then be used to "
+"adjust the position"
+msgstr ""
+
+#: templates/_popups.html:224
+msgid "Cursor (Arrows)"
+msgstr ""
+
+#: templates/_popups.html:225
+msgid "Move up/down/right/left"
+msgstr ""
+
+#: templates/_popups.html:228
+msgid "Shift + Cursor"
+msgstr ""
+
+#: templates/_popups.html:229
+msgid "Faster rate of movement"
+msgstr ""
+
+#: templates/_popups.html:233
+#, fuzzy
+msgid "Select next point"
+msgstr "删除点"
+
+#: templates/_popups.html:237
+#, fuzzy
+msgid "Select previous point"
+msgstr "删除点"
+
+#: templates/_popups.html:240
+msgid "Del/Backspace"
+msgstr ""
+
+#: templates/_popups.html:241
+#, fuzzy
+msgid "Delete point"
+msgstr "删除点"
+
+#: templates/_popups.html:245
+msgid "Edit label (Bar Chart)"
+msgstr ""
+
+#: templates/_popups.html:250
+msgid "Override value (When adjusting "
+msgstr ""
+
+#: templates/_popups.html:252
+#, fuzzy
+msgid "non-Bar Chart points"
+msgstr "清除数据点？"
+
+#: templates/_popups.html:263
+#, fuzzy
+msgid "Edit Label"
+msgstr "编辑标签"
+
+#: templates/_popups.html:265
+msgid "Label"
+msgstr ""
+
+#: templates/_popups.html:265
+#, fuzzy
+msgid "Data Point"
+msgstr "数据点数"
+
+#: templates/_popups.html:275
+#, fuzzy
+msgid "Override Point Values"
+msgstr "覆盖值"
+
+#: templates/_popups.html:283 templates/_sidebars.html:178
+msgid "Clear"
+msgstr "清除"
+
+#: templates/_popups.html:289
+msgid "Perspective Transformation"
+msgstr ""
+
+#: templates/_popups.html:292
+msgid "Click on four corners of the region to be transformed as shown."
+msgstr ""
+
+#: templates/_popups.html:302
+#, fuzzy
+msgid "Edit Existing Calibration?"
+msgstr "坐标轴标定"
+
+#: templates/_popups.html:304
+msgid "Do you wish to tweak existing axes calibration or select a new axes type?"
+msgstr ""
+
+#: templates/_popups.html:307
+#, fuzzy
+msgid "Edit Calibration"
+msgstr "添加标定"
+
+#: templates/_popups.html:309
+msgid "Change Axes Type"
+msgstr ""
+
+#: templates/_popups.html:317
+#, fuzzy
+msgid "Export All Datasets"
+msgstr "导出所有数据"
+
+#: templates/_popups.html:318
+msgid "Export data from all datasets"
+msgstr ""
+
+#: templates/_popups.html:322
+msgid "Export to Plotly"
+msgstr ""
+
+#: templates/_popups.html:329 templates/_tree.html:54
+msgid "Add Dataset"
+msgstr "添加数据集"
+
+#: templates/_popups.html:330 templates/_popups.html:342
+#: templates/_popups.html:353
+#, fuzzy
+msgid "Name"
+msgstr "重命名"
+
+#: templates/_popups.html:330
+#, fuzzy
+msgid "Add Single Dataset"
+msgstr "管理数据集"
+
+#: templates/_popups.html:332
+msgid "Count"
+msgstr ""
+
+#: templates/_popups.html:332
+msgid "Add Multiple Datasets"
+msgstr ""
+
+#: templates/_popups.html:339 templates/_tree.html:74
+msgid "Rename Dataset"
+msgstr "重命名数据集"
+
+#: templates/_popups.html:344 templates/_popups.html:355
+#: templates/_tree.html:46
+msgid "Rename"
+msgstr "重命名"
+
+#: templates/_popups.html:350
+#, fuzzy
+msgid "Rename Axes"
+msgstr "重命名数据集"
+
+#: templates/_popups.html:361 templates/_tree.html:29
+msgid "Image Info"
+msgstr "图像信息"
+
+#: templates/_popups.html:374
+msgid ""
+"Relabel the current page number with an alphanumeric string. Optionally, "
+"relabel all page numbers in the image based on the current page (only "
+"supports integer values)."
+msgstr ""
+
+#: templates/_popups.html:384
+msgid "Relabel"
+msgstr ""
+
+#: templates/_popups.html:385 templates/_sidebars.html:213
+msgid "Reset"
+msgstr "重置"
+
+#: templates/_popups.html:386
+#, fuzzy
+msgid "Reset All"
+msgstr "全部清除"
+
+#: templates/_popups.html:394 templates/_sidebars.html:84
+msgid "Point Groups"
+msgstr "点编组"
+
+#: templates/_popups.html:399
+msgid ""
+"Point groups are groups of related data points such as standard error or "
+"confidence intervals."
+msgstr ""
+
+#: templates/_popups.html:403
+msgid ""
+"To define a point group, enter a name in the text input below. Create "
+"additional point groups as necessary."
+msgstr ""
+
+#: templates/_popups.html:407
+msgid ""
+"E.g. Assume we have 3 point groups defined: Median, Standard error +1, "
+"and Standard error -1. Points would be entered in the order shown in the "
+"image to the right. For each set of points, the median value would first "
+"be recorded, then the standard error +1, and finally the standard error "
+"-1. The process would repeat for the next set of points."
+msgstr ""
+
+#: templates/_popups.html:422 templates/_strings.html:102
+msgid "Group"
+msgstr "编组"
+
+#: templates/_popups.html:425 templates/_strings.html:104
+msgid "Primary Group"
+msgstr "主要组"
+
+#: templates/_popups.html:433
+msgid "Add New Group"
+msgstr ""
+
+#: templates/_popups.html:436 templates/_popups.html:549
+msgid "Save"
+msgstr ""
+
+#: templates/_popups.html:442
+msgid "Select Axes Type"
+msgstr ""
+
+#: templates/_popups.html:446
+msgid "2D XY Axes"
+msgstr ""
+
+#: templates/_popups.html:447
+#, fuzzy
+msgid "Bar Chart"
+msgstr "循环制图"
+
+#: templates/_popups.html:448
+msgid "Polar Diagram"
+msgstr ""
+
+#: templates/_popups.html:449
+msgid "Ternary Diagram"
+msgstr ""
+
+#: templates/_popups.html:450
+msgid "Map (Scale Bar)"
+msgstr ""
+
+#: templates/_popups.html:451 templates/_strings.html:77
+#: templates/_strings.html:91 templates/_tree.html:27
+msgid "Image"
+msgstr "像素图"
+
+#: templates/_popups.html:452
+#, fuzzy
+msgid "Circular Chart Recorder"
+msgstr "循环制图"
+
+#: templates/_popups.html:460
+msgid ""
+"Click four known points on the axes in the <font color=\"red\">order "
+"shown in red</font>. Two on the X axis (X1, X2) and two on the Y axis "
+"(Y1, Y2)"
+msgstr ""
+
+#: templates/_popups.html:465
+msgid "Click on two known points (P1, P2) on the continuous axes along the bars"
+msgstr ""
+
+#: templates/_popups.html:470
+msgid "Click on the center, followed by two known points."
+msgstr ""
+
+#: templates/_popups.html:475
+msgid "Click on the two ends of the scale bar on the map."
+msgstr ""
+
+#: templates/_popups.html:480
+msgid "Click on the three corners in the order shown above."
+msgstr ""
+
+#: templates/_popups.html:492
+msgid "Click on five points on the chart axes as shown:"
+msgstr ""
+
+#: templates/_popups.html:495
+msgid ""
+"First three points at different radial positions but the same known time "
+"(T0)."
+msgstr ""
+
+#: templates/_popups.html:496
+msgid ""
+"Next two points on any times (T1, T2) but at the same radial position as "
+"R2."
+msgstr ""
+
+#: templates/_popups.html:505
+#, fuzzy
+msgid "Calibrate"
+msgstr "未经标定的数据集！"
+
+#: templates/_popups.html:514
+msgid "AI Assist (Experimental)"
+msgstr ""
+
+#: templates/_popups.html:515
+msgid ""
+"AI assist is an experimental feature that uses state-of-the-art "
+"multimodal AI models on your image to auto detect axes information and "
+"datasets. This feature is under active development and more capabilities "
+"will be added soon."
+msgstr ""
+
+#: templates/_popups.html:516
+msgid "Click run to attempt auto-generating Axes and Datasets for your image."
+msgstr ""
+
+#: templates/_popups.html:518
+msgid "Quota used:"
+msgstr ""
+
+#: templates/_popups.html:529
+msgid "Custom X Values"
+msgstr ""
+
+#: templates/_popups.html:530
+msgid "Specify X values for data extraction, for example"
+msgstr ""
+
+#: templates/_popups.html:538
+msgid "Preferences"
+msgstr ""
+
+#: templates/_popups.html:540
+msgid "Language"
+msgstr ""
+
+#: templates/_popups.html:542
+msgid "English"
+msgstr ""
+
+#: templates/_popups.html:543
+msgid "Simplified Chinese"
+msgstr ""
+
+#: templates/_popups.html:547
+msgid "Note: You may need to hard-reload this page after saving changes"
+msgstr ""
+
+#: templates/_popups.html:547
+msgid "see how"
+msgstr ""
+
+#: templates/_sidebars.html:22
+msgid "Axes Calibration"
+msgstr "坐标轴标定"
+
+#: templates/_sidebars.html:23
+msgid ""
+"Click points to select and use cursor keys to adjust positions. Use "
+"Shift+Arrow for faster movement. Click complete when finished."
+msgstr "点击选中标定点，然后使用光标键调整位置。使用 Shift+方向键 快速移动。调整完毕后，请点击”完成“。"
+
+#: templates/_sidebars.html:24
+msgid "Complete!"
+msgstr "完成！"
+
+#: templates/_sidebars.html:29
+msgid "Manual Extraction"
+msgstr "手动提取"
+
+#: templates/_sidebars.html:31
+msgid "Add Point"
+msgstr "增加点"
+
+#: templates/_sidebars.html:32
+msgid "Adjust Point"
+msgstr "调整点"
+
+#: templates/_sidebars.html:35
+msgid "Delete Point"
+msgstr "删除点"
+
+#: templates/_sidebars.html:36
+msgid "Edit Labels"
+msgstr "编辑标签"
+
+#: templates/_sidebars.html:39
+msgid "Automatic Extraction"
+msgstr "自动提取"
+
+#: templates/_sidebars.html:40 templates/_sidebars.html:176
+msgid "Mask"
+msgstr "蒙板"
+
+#: templates/_sidebars.html:40 templates/_sidebars.html:177
+msgid "Box"
+msgstr "方块"
+
+#: templates/_sidebars.html:40
+msgid "Pen"
+msgstr "画笔"
+
+#: templates/_sidebars.html:40
+msgid "Erase"
+msgstr "擦除"
+
+#: templates/_sidebars.html:40 templates/_sidebars.html:179
+msgid "View"
+msgstr "显示"
+
+#: templates/_sidebars.html:42 templates/_sidebars.html:45
+msgid "Width"
+msgstr "宽度"
+
+#: templates/_sidebars.html:42
+msgid "Erase All"
+msgstr "全部清除"
+
+#: templates/_sidebars.html:48 templates/_sidebars.html:183
+msgid "Color"
+msgstr "颜色"
+
+#: templates/_sidebars.html:49
+msgid "Pick a color from the image"
+msgstr ""
+
+#: templates/_sidebars.html:54
+#, fuzzy
+msgid "Foreground"
+msgstr "前景色"
+
+#: templates/_sidebars.html:55
+#, fuzzy
+msgid "Background"
+msgstr "背景模式"
+
+#: templates/_sidebars.html:59 templates/_strings.html:73
+#: templates/_tree.html:62 templates/_tree.html:84
+msgid "Distance"
+msgstr "距离"
+
+#: templates/_sidebars.html:60
+msgid "Filter Colors"
+msgstr "颜色过滤"
+
+#: templates/_sidebars.html:63
+msgid "Algorithm"
+msgstr "算法"
+
+#: templates/_sidebars.html:88
+msgid "Prev Group"
+msgstr "前一组"
+
+#: templates/_sidebars.html:89
+msgid "Next Group"
+msgstr "下一组"
+
+#: templates/_sidebars.html:94
+msgid "Overrides"
+msgstr "覆盖"
+
+#: templates/_sidebars.html:96
+msgid "Override Values"
+msgstr "覆盖值"
+
+#: templates/_sidebars.html:104
+msgid "RGB"
+msgstr ""
+
+#: templates/_sidebars.html:113
+msgid "Dominant Colors"
+msgstr "主色"
+
+#: templates/_sidebars.html:119
+msgid "Edit Image"
+msgstr "编辑图像"
+
+#: templates/_sidebars.html:128
+msgid "Measure Distances"
+msgstr "测量距离"
+
+#: templates/_sidebars.html:130
+msgid "Add Pair"
+msgstr "新增测量"
+
+#: templates/_sidebars.html:131
+msgid "Delete Pair"
+msgstr "删除测量"
+
+#: templates/_sidebars.html:137
+msgid "Measure Angles"
+msgstr "测量角度"
+
+#: templates/_sidebars.html:139
+msgid "Add Angle"
+msgstr "新增测量"
+
+#: templates/_sidebars.html:140
+msgid "Delete Angle"
+msgstr "删除测量"
+
+#: templates/_sidebars.html:146
+msgid "Measure Area/Perimeter"
+msgstr "测量面积/周长"
+
+#: templates/_sidebars.html:147
+msgid "Add Polygon"
+msgstr "添加多边形"
+
+#: templates/_sidebars.html:148
+msgid "Delete Polygon"
+msgstr "删除多边形"
+
+#: templates/_sidebars.html:150
+msgid "Press Enter or Esc key to complete the polygon"
+msgstr "按Enter或Esc键完成多边形"
+
+#: templates/_sidebars.html:156
+msgid "Measure Path"
+msgstr "测量路径"
+
+#: templates/_sidebars.html:158 templates/_sidebars.html:167
+msgid "Add Path"
+msgstr "新增测量"
+
+#: templates/_sidebars.html:159 templates/_sidebars.html:168
+msgid "Delete Path"
+msgstr "删除测量"
+
+#: templates/_sidebars.html:165
+msgid "Measure Closed Path"
+msgstr "测量闭环"
+
+#: templates/_sidebars.html:174
+msgid "Detect Grid"
+msgstr "检测网格"
+
+#: templates/_sidebars.html:184
+msgid "Pick"
+msgstr "拾取"
+
+#: templates/_sidebars.html:186
+msgid "Test"
+msgstr "测试"
+
+#: templates/_sidebars.html:189
+msgid "Background Mode"
+msgstr "背景模式"
+
+#: templates/_sidebars.html:193
+msgid "Horizontal"
+msgstr "横轴"
+
+#: templates/_sidebars.html:197
+msgid "X%"
+msgstr "X%"
+
+#: templates/_sidebars.html:201
+msgid "Vertical"
+msgstr "纵轴"
+
+#: templates/_sidebars.html:205
+msgid "Y%"
+msgstr "Y%"
+
+#: templates/_sidebars.html:211
+msgid "Detect"
+msgstr "检测"
+
+#: templates/_sidebars.html:222
+msgid "Load Image"
+msgstr "导入图片"
+
+#: templates/_sidebars.html:229
+msgid "Image Editing"
+msgstr "图像编辑"
+
+#: templates/_sidebars.html:233
+msgid "Undo"
+msgstr "撤销"
+
+#: templates/_sidebars.html:234
+msgid "Redo"
+msgstr "重做"
+
+#: templates/_sidebars.html:238
+msgid "Crop"
+msgstr "剪裁"
+
+#: templates/_sidebars.html:239
+msgid "Fix Perspective"
+msgstr "修复透视"
+
+#: templates/_sidebars.html:243
+msgid "Rotate"
+msgstr "旋转"
+
+#: templates/_sidebars.html:244
+msgid "?"
+msgstr "?"
+
+#: templates/_sidebars.html:476
+msgid "Chart Start Time (T_Start)"
+msgstr "图表开始时间（T_Start）"
+
+#: templates/_sidebars.html:480
+#, fuzzy
+msgid "Time (T_0)"
+msgstr "时间（T0）"
+
+#: templates/_sidebars.html:484
+#, fuzzy
+msgid "Rotation Time"
+msgstr "总旋转时间"
+
+#: templates/_sidebars.html:487
+msgid "1 Week (7 days)"
+msgstr "1周（7天）"
+
+#: templates/_sidebars.html:488
+msgid "1 Day (24 hours)"
+msgstr "1天（24小时）"
+
+#: templates/_sidebars.html:489
+msgid "1 Month"
+msgstr "1个月"
+
+#: templates/_sidebars.html:494
+msgid "Rotation Direction"
+msgstr "旋转方向"
+
+#: templates/_sidebars.html:497
+msgid "Anti-Clockwise"
+msgstr "逆时针方向"
+
+#: templates/_sidebars.html:498
+msgid "Clockwise"
+msgstr "顺时针"
+
+#: templates/_strings.html:21
+msgid "Unstable version warning!"
+msgstr "警告：不稳定版本！"
+
+#: templates/_strings.html:22
+msgid ""
+"You are using a beta version of WebPlotDigitizer. There may be some "
+"issues with the software that are expected."
+msgstr "您正在使用 WebPlotDigitizer 测试版。该软件可能存在某些问题。"
+
+#: templates/_strings.html:24
+msgid "JSON/Project data has been loaded!"
+msgstr "JSON / 项目 数据已加载！"
+
+#: templates/_strings.html:25
+msgid "Invalid Inputs"
+msgstr "无效输入"
+
+#: templates/_strings.html:26
+msgid "Please enter valid values for calibration."
+msgstr "请输入用于标定的有效值。"
+
+#: templates/_strings.html:27
+msgid "Invalid Log Scale Value"
+msgstr "无效的对数坐标值"
+
+#: templates/_strings.html:28
+msgid ""
+"Values on a log scale axis can not be zero as log(0) is undefined. Please"
+" enter a non-zero value."
+msgstr "对数坐标的数值不能为 0，因为 log(0) 不存在。请输入非 0 数值。"
+
+#: templates/_strings.html:29
+msgid "Acquire Data"
+msgstr "采集数据"
+
+#: templates/_strings.html:30
+msgid "Please calibrate the axes before acquiring data."
+msgstr "请先校准坐标轴，再开始采集数据。"
+
+#: templates/_strings.html:31
+msgid "Clear data points?"
+msgstr "清除数据点？"
+
+#: templates/_strings.html:32
+msgid ""
+"This will delete all data points and point group definitions from this "
+"dataset"
+msgstr "这将从此数据集中删除所有数据点和点编组定义"
+
+#: templates/_strings.html:34
+msgid ""
+"Your browser does not support webcam capture using HTML5 APIs. A recent "
+"version of Google Chrome is recommended."
+msgstr "您的浏览器不支持 webcam 拍照 HTML5 API，推荐使用最新版本的Google Chrome。"
+
+#: templates/_strings.html:35
+msgid "Transformation Equations"
+msgstr "变换方程"
+
+#: templates/_strings.html:36
+msgid ""
+"Transformation equations are available only after axes have been "
+"calibrated."
+msgstr "请先标定坐标轴，再查看变换公式。"
+
+#: templates/_strings.html:37
+msgid "Unsupported Feature!"
+msgstr "不支持该功能！"
+
+#: templates/_strings.html:38
+msgid ""
+"This feature has not been implemented in the current version. This may be"
+" available in a future release."
+msgstr "该功能在当前版本中不可用。这可能会在未来版本中实现。"
+
+#: templates/_strings.html:39
+msgid "Processing"
+msgstr "处理中"
+
+#: templates/_strings.html:40
+msgid "ERROR: Invalid File!"
+msgstr "错误：无效文件！"
+
+#: templates/_strings.html:41
+msgid ""
+"Please load a valid image file. Common image formats such as JPG, PNG, "
+"BMP, GIF etc. should work. Word documents are not accepted."
+msgstr "请加载一个有效的图像文件。常见的图像格式，如JPG，PNG，BMP，GIF等应该可以工作。不接受Word文档。"
+
+#: templates/_strings.html:42
+msgid "Raw"
+msgstr "原始数据"
+
+#: templates/_strings.html:43
+msgid "Nearest Neighbor"
+msgstr "最近邻点"
+
+#: templates/_strings.html:44
+msgid "Manage Datasets"
+msgstr "管理数据集"
+
+#: templates/_strings.html:45
+msgid "Please calibrate the axes before managing datasets."
+msgstr "请先标定坐标轴，再开始整理数据集。"
+
+#: templates/_strings.html:46 templates/_tree.html:75
+msgid "Delete Dataset"
+msgstr "删除数据集"
+
+#: templates/_strings.html:47
+msgid "Are you sure you want to delete this dataset?"
+msgstr "你确定要删除这个数据集吗？"
+
+#: templates/_strings.html:48
+msgid "Delete Associated Datasets"
+msgstr "删除关联的数据集"
+
+#: templates/_strings.html:49
+msgid "Delete all datasets associated with this axes?"
+msgstr "是否删除与此轴关联的所有数据集？"
+
+#: templates/_strings.html:50
+msgid "Delete Axes"
+msgstr "删除坐标轴"
+
+#: templates/_strings.html:51
+msgid "Are you sure you want to delete this axes?"
+msgstr "你确定要删除这个坐标轴吗？"
+
+#: templates/_strings.html:52
+msgid "Averaging Window"
+msgstr "平均窗口"
+
+#: templates/_strings.html:53
+msgid "X Step w/ Interpolation"
+msgstr "X 步进和插值"
+
+#: templates/_strings.html:54
+msgid "Custom Independents"
+msgstr "自定义独立项"
+
+#: templates/_strings.html:55
+msgid "X Step"
+msgstr "X 步进"
+
+#: templates/_strings.html:56
+msgid "Blob Detector"
+msgstr "Blob 检测"
+
+#: templates/_strings.html:57
+msgid "Bar Extraction"
+msgstr "条形图提取"
+
+#: templates/_strings.html:58
+msgid "Histogram"
+msgstr "直方图"
+
+#: templates/_strings.html:59
+msgid "Specify Plot (Foreground) Color"
+msgstr "指定绘图（前景）颜色"
+
+#: templates/_strings.html:60
+msgid "Specify Background Color"
+msgstr "选定背景颜色"
+
+#: templates/_strings.html:61
+msgid "Please add some data before exporting."
+msgstr "导出数据前，请先采集数据点。"
+
+#: templates/_strings.html:62
+msgid "Error: No datasets to export!"
+msgstr "错误：没有数据集可以导出！"
+
+#: templates/_strings.html:63
+msgid "Add Dataset Error!"
+msgstr "添加数据集错误！"
+
+#: templates/_strings.html:64
+msgid "Rename Dataset Error!"
+msgstr "重命名数据集错误！"
+
+#: templates/_strings.html:65
+msgid "Dataset with this name already exists. Please pick a different name."
+msgstr "已存在相同名称的数据集。请选择一个不同的名称。"
+
+#: templates/_strings.html:66
+msgid "Rename Axes Error!"
+msgstr "重命名坐标轴错误！"
+
+#: templates/_strings.html:67
+msgid "Axes with this name already exists. Please pick a different name."
+msgstr "已存在相同名称的坐标轴，请选择一个不同的名称。"
+
+#: templates/_strings.html:68
+msgid "Specify a valid number of datasets to add!"
+msgstr "指定要添加的数据集个数的有效值！"
+
+#: templates/_strings.html:70 templates/_tree.html:52
+msgid "Datasets"
+msgstr "数据集"
+
+#: templates/_strings.html:71 templates/_tree.html:60
+msgid "Measurements"
+msgstr "测量"
+
+#: templates/_strings.html:72 templates/_tree.html:34 templates/_tree.html:44
+#: templates/_tree.html:71 templates/_tree.html:86 templates/_tree.html:103
+msgid "Axes"
+msgstr "坐标轴"
+
+#: templates/_strings.html:74 templates/_tree.html:63 templates/_tree.html:93
+msgid "Angle"
+msgstr "角度"
+
+#: templates/_strings.html:75 templates/_tree.html:64 templates/_tree.html:101
+msgid "Area/Perimeter"
+msgstr "面积/周长"
+
+#: templates/_strings.html:76
+msgid "XY"
+msgstr "XY"
+
+#: templates/_strings.html:78
+msgid "Bar"
+msgstr "条形图"
+
+#: templates/_strings.html:79
+msgid "Polar"
+msgstr "极坐标图"
+
+#: templates/_strings.html:80
+msgid "Ternary"
+msgstr "三元图"
+
+#: templates/_strings.html:81
+msgid "Map"
+msgstr "地图"
+
+#: templates/_strings.html:82
+msgid "Circular Chart"
+msgstr "循环制图"
+
+#: templates/_strings.html:83
+msgid "Project"
+msgstr "项目"
+
+#: templates/_strings.html:84
+msgid "Distance Measurements"
+msgstr "距离测量"
+
+#: templates/_strings.html:85
+msgid "Angle Measurements"
+msgstr "角度测量"
+
+#: templates/_strings.html:86
+msgid "Area Measurements"
+msgstr "面积测量"
+
+#: templates/_strings.html:87
+msgid "Uncalibrated Dataset!"
+msgstr "未经标定的数据集！"
+
+#: templates/_strings.html:88
+msgid "Assign an axes calibration to this dataset!"
+msgstr "为该数据集指定一个坐标轴标定！"
+
+#: templates/_strings.html:89
+msgid "Invalid Project!"
+msgstr "无效的项目！"
+
+#: templates/_strings.html:90
+msgid "Not a valid project file format!"
+msgstr "不是有效的项目文件格式！"
+
+#: templates/_strings.html:92
+#, fuzzy
+msgid "of"
+msgstr "/"
+
+#: templates/_strings.html:93
+msgid "Page"
+msgstr "页"
+
+#: templates/_strings.html:96
+msgid "Yes"
+msgstr "是"
+
+#: templates/_strings.html:97
+msgid "No"
+msgstr "否"
+
+#: templates/_strings.html:98
+msgid "Delete Point Tuple"
+msgstr "删除点元组"
+
+#: templates/_strings.html:99
+msgid "Delete all points in the tuple?"
+msgstr "是否删除元组中的所有点？"
+
+#: templates/_strings.html:100 templates/_strings.html:103
+msgid "Delete Group"
+msgstr "删除编组"
+
+#: templates/_strings.html:101
+msgid "Delete all points in deleted groups?"
+msgstr "是否删除编组中的所有点？"
+
+#: templates/_strings.html:105
+msgid "new tuple"
+msgstr "添加新元组"
+
+#: templates/_strings.html:106
+#, fuzzy
+msgid "Template Matching"
+msgstr "设置日期格式"
+
+#: templates/_strings.html:107
+msgid "AI Assist"
+msgstr ""
+
+#: templates/_strings.html:108
+msgid "AI Assist failed! Please try again later."
+msgstr ""
+
+#: templates/_toolbars.html:44
+msgid "View Keyboard Shortcuts"
+msgstr "查看键盘快捷键"
+
+#: templates/_tree.html:36
+msgid "Add Calibration"
+msgstr "添加标定"
+
+#: templates/_tree.html:37
+msgid "Remove Grid"
+msgstr "清除网格"
+
+#: templates/_tree.html:38
+msgid "Import Calibration"
+msgstr "导入标定"
+
+#: templates/_tree.html:39
+msgid "Export Calibration"
+msgstr "导出标定"
+
+#: templates/_tree.html:47
+msgid "Delete"
+msgstr "删除"
+
+#: templates/_tree.html:55
+msgid "Export All Data"
+msgstr "导出所有数据"
+
+#: templates/_tree.html:72
+msgid "Display Color"
+msgstr "显示颜色"
+
+#: templates/_tree.html:76
+msgid "Edit Point Groups"
+msgstr "编辑点编组"
+
+#: templates/_tree.html:77 templates/_tree.html:88 templates/_tree.html:96
+#: templates/_tree.html:105
+msgid "View Data"
+msgstr "查看数据"
+
+#: templates/_tree.html:78
+msgid "Clear Data"
+msgstr "清除数据"
+
+#: templates/_tree.html:79
+msgid "Data Points"
+msgstr "数据点数"
+
+#: templates/_tree.html:87 templates/_tree.html:95 templates/_tree.html:104
+msgid "Clear All"
+msgstr "清除所有"
+
+#: templates/_tree.html:110
+msgid "Support WPD"
+msgstr ""
+
+#~ msgid "Donate (PayPal)"
+#~ msgstr "资助我们（PayPal）"
+
+#~ msgid "Press Enter key to complete the polygon"
+#~ msgstr "按Enter键完成多边形"
+
+#~ msgid "Stroke Width"
+#~ msgstr "笔画宽度"
+
+#~ msgid "WebPlotDigitizer-Examples repository"
+#~ msgstr "WebPlotDigitizer - 范例库"
+
+#~ msgid ""
+#~ "Please load a valid image file. "
+#~ "Common image formats such as JPG, "
+#~ "PNG, BMP, GIF etc. should work. "
+#~ "PDF or Word documents are not "
+#~ "accepted."
+#~ msgstr "请导入有效的图片文件。常见图像格式如JPG、PNG、BMP、GIF等。不支持 PDF 或 Word 文档。"
+
+#~ msgid "View Equations"
+#~ msgstr "查看方程"
+
+#~ msgid ""
+#~ "This program is distributed under the"
+#~ " <a "
+#~ "href=\"https://www.gnu.org/licenses/agpl-3.0-standalone.html\" "
+#~ "target=\"_blank\">GNU Affero General Public "
+#~ "License Version 3</a>."
+#~ msgstr ""
+#~ "该程序在 <a "
+#~ "href=\"https://www.gnu.org/licenses/agpl-3.0-standalone.html\" "
+#~ "target=\"_blank\">GNU Affero General Public "
+#~ "License Version 3</a> 下发布。"
+
+#~ msgid "Copyright"
+#~ msgstr "版权"
+
+#~ msgid "List of Contributors"
+#~ msgstr "贡献者列表"
+
+#~ msgid "GitHub Page"
+#~ msgstr "GitHub 页面"
+
+#~ msgid "Report Issues"
+#~ msgstr "反馈问题"
+
+#~ msgid "Visit Website"
+#~ msgstr "访问网站"
+
+#~ msgid "Visit GitHub"
+#~ msgstr "访问 GitHub"
+
+#~ msgid "File"
+#~ msgstr "文件"
+
+#~ msgid "Load Project"
+#~ msgstr "加载项目"
+
+#~ msgid "Actions"
+#~ msgstr "放大比例"
+
+#~ msgid "Cloud"
+#~ msgstr ""
+
+#~ msgid "Align X-Y Axes"
+#~ msgstr "校准 X-Y 坐标轴"
+
+#~ msgid "Proceed"
+#~ msgstr "继续"
+
+#~ msgid "Align Bar Chart Axes"
+#~ msgstr "校准条形图坐标轴"
+
+#~ msgid "Align Map To Scale Bar"
+#~ msgstr "按比例尺校准地图"
+
+#~ msgid "Align Ternary Axes"
+#~ msgstr "校准三元轴"
+
+#~ msgid "X and Y Axes Calibration"
+#~ msgstr "X 和 Y 轴标定"
+
+#~ msgid ""
+#~ "Enter X-values of the two points "
+#~ "clicked on X-axis and Y-values of "
+#~ "the two points clicked on Y-axes"
+#~ msgstr "分别输入 X-轴上的两个标定点的 X-值和 Y-轴上的两个标定点的 Y-值"
+
+#~ msgid "X-Axis"
+#~ msgstr "X-轴"
+
+#~ msgid "Y-Axis"
+#~ msgstr "Y-轴"
+
+#~ msgid ""
+#~ "Assume axes are perfectly aligned with"
+#~ " image coordinates (skip rotation "
+#~ "correction)"
+#~ msgstr "假设轴与图像坐标完全对齐（跳过旋转校正）"
+
+#~ msgid ""
+#~ "*For dates, use yyyy/mm/dd hh:ii:ss "
+#~ "format, where ii denotes minutes (e.g."
+#~ " 2013/10/23 or 2013/10 or 2013/10/23 "
+#~ "10:15 or just 10:15). For exponents, "
+#~ "enter values as 1e-3 for 10^-3."
+#~ msgstr ""
+#~ "*对于日期，使用 yyyy/mm/dd hh:ii:ss 格式，其中 ii "
+#~ "表示分钟（例如 2013/10/23 或 2013/10 或 "
+#~ "2013/10/23 10:15 或者只有 10:15）。对于指数，例如10^-3，请输入 "
+#~ "1e-3 。"
+
+#~ msgid "Bar Chart Calibration"
+#~ msgstr "条形图标定"
+
+#~ msgid ""
+#~ "Enter the values at the two points"
+#~ " selected on the continuous axes "
+#~ "along the bars"
+#~ msgstr "对于在沿条形图方向的连续轴上所选择的两个标定点，输入相应的数值"
+
+#~ msgid "Choose Plot Type"
+#~ msgstr "选择绘图类型"
+
+#~ msgid "2D (X-Y) Plot"
+#~ msgstr "二维 (X-Y) 图"
+
+#~ msgid "2D Bar Plot"
+#~ msgstr "二维条形图"
+
+#~ msgid "Polar Diagram"
+#~ msgstr ""
+
+#~ msgid "Ternary Diagram"
+#~ msgstr ""
+
+#~ msgid "Map With Scale Bar"
+#~ msgstr "地图（含比例尺）"
+
+#~ msgid "Circular Chart Recorder"
+#~ msgstr "循环制图"
+
+#~ msgid "Align Axes"
+#~ msgstr "对齐轴"
+
+#~ msgid "Map Axes Calibration"
+#~ msgstr "标测轴标定"
+
+#~ msgid "Units"
+#~ msgstr "单位"
+
+#~ msgid "Align Polar Axes"
+#~ msgstr "极坐标轴对齐"
+
+#~ msgid "Point 1"
+#~ msgstr "标定点 1"
+
+#~ msgid "Point 2"
+#~ msgstr "标定点 2"
+
+#~ msgid "Log Scale"
+#~ msgstr "对数刻度"
+
+#~ msgid "Degrees"
+#~ msgstr "角度"
+
+#~ msgid "Radians"
+#~ msgstr "弧度"
+
+#~ msgid "Select Range of Variables"
+#~ msgstr "选择变量范围"
+
+#~ msgid "Axes Orientation"
+#~ msgstr "坐标轴方向"
+
+#~ msgid "Normal"
+#~ msgstr "正向"
+
+#~ msgid "Reverse"
+#~ msgstr "反向"
+
+#~ msgid "Range of Variables"
+#~ msgstr "变量范围"
+
+#~ msgid "0 to 1"
+#~ msgstr "0 到 1"
+
+#~ msgid "0 to 100"
+#~ msgstr "0 到 100"
+
+#~ msgid "Align Circular Chart Recorder Axes"
+#~ msgstr "对齐循环制图记录仪轴"
+
+#~ msgid "Time (T0)"
+#~ msgstr "时间（T0）"
+
+#~ msgid "Ranges (R0, R2)"
+#~ msgstr "范围（R0、R2）"
+
+#~ msgid "Total Rotation Time"
+#~ msgstr "总旋转时间"
+
+#~ msgid "Specify Color"
+#~ msgstr "指定颜色"
+
+#~ msgid "Color Picker"
+#~ msgstr "拾色器"
+
+#~ msgid "Done"
+#~ msgstr "完成"
+
+#~ msgid ""
+#~ "The following relationships are being "
+#~ "used to convert image pixels to "
+#~ "data"
+#~ msgstr "以下关系式用以将图像像素转换为数据"
+
+#~ msgid "Background Color"
+#~ msgstr "背景色"
+
+#~ msgid "Click to change color"
+#~ msgstr "单击选择颜色"
+
+#~ msgid "Tweak Calibration"
+#~ msgstr "调整标定"
+
+#~ msgid "Tutorials"
+#~ msgstr "新手教程"
+
+#~ msgid "Version"
+#~ msgstr "版本"
+
+#~ msgid "Tutorial Video"
+#~ msgstr "视频教程"
+
+#~ msgid "AI Assist"
+#~ msgstr ""
+
+#~ msgid "Load Image File(s)"
+#~ msgstr "加载图像文件"
+
+#~ msgid "Load"
+#~ msgstr "加载"
+
+#~ msgid "Magnified View Settings"
+#~ msgstr "放大视图设置"
+
+#~ msgid "Magnification"
+#~ msgstr "放大比例"
+
+#~ msgid "Times"
+#~ msgstr "倍"
+
+#~ msgid "Crosshair Color"
+#~ msgstr "十字准线颜色"
+
+#~ msgid "Black"
+#~ msgstr "黑色"
+
+#~ msgid "Red"
+#~ msgstr "红色"
+
+#~ msgid "Yellow"
+#~ msgstr "黄色"
+
+#~ msgid "Run Script"
+#~ msgstr "运行脚本"
+
+#~ msgid ""
+#~ "Load a Javascript file to further "
+#~ "extend the capabilities of WebPlotDigitizer."
+#~ msgstr "加载 Javascript 文件以进一步扩展 WebPlotDigitizer 的功能。"
+
+#~ msgid "For examples, visit the"
+#~ msgstr "如需示例，请访问"
+
+#~ msgid "WebPlotDigitizer repository"
+#~ msgstr "WebPlotDigitizer 存储库"
+
+#~ msgid "Capture"
+#~ msgstr "拍照"
+
+#~ msgid "Acquired Data"
+#~ msgstr "采集的数据"
+
+#~ msgid "Variables"
+#~ msgstr "变量"
+
+#~ msgid "Copy to Clipboard"
+#~ msgstr "复制到剪贴板"
+
+#~ msgid "Download .CSV"
+#~ msgstr "下载 .CSV 文件"
+
+#~ msgid "Graph in Plotly*"
+#~ msgstr "绘图（Plotly*）"
+
+#~ msgid "Close"
+#~ msgstr "关闭"
+
+#~ msgid ""
+#~ "*Plotly is a secure data analysis "
+#~ "and graphing site with data sharing "
+#~ "and access controls."
+#~ msgstr "*Plotly 是一个安全的数据分析和绘图网站，并提供数据共享和访问控制功能。"
+
+#~ msgid ""
+#~ "Visit <a href=\"http://plot.ly\" "
+#~ "target=\"plotlyWebsite\">http://plot.ly</a> for details."
+#~ msgstr ""
+#~ "访问 <a href=\"http://plot.ly\" "
+#~ "target=\"plotlyWebsite\">http://plot.ly</a> 以了解更多。"
+
+#~ msgid "Sort"
+#~ msgstr "排序"
+
+#~ msgid "Sort by"
+#~ msgstr "排序依据"
+
+#~ msgid "Order"
+#~ msgstr "次序"
+
+#~ msgid "Ascending"
+#~ msgstr "升序"
+
+#~ msgid "Descending"
+#~ msgstr "降序"
+
+#~ msgid "Format"
+#~ msgstr "格式"
+
+#~ msgid "Date Formatting"
+#~ msgstr "设置日期格式"
+
+#~ msgid "Number Formatting"
+#~ msgstr "设置数字格式"
+
+#~ msgid "Digits"
+#~ msgstr "位数"
+
+#~ msgid "Ignore"
+#~ msgstr "忽略"
+
+#~ msgid "Fixed"
+#~ msgstr "固定"
+
+#~ msgid "Precision"
+#~ msgstr "有效数字"
+
+#~ msgid "Exponential"
+#~ msgstr "科学计数"
+
+#~ msgid "Column Separator"
+#~ msgstr "列分隔符"
+
+#~ msgid "WebPlotDigitizer - Extract Data From Charts"
+#~ msgstr "WebPlotDigitizer - 基于Web的图像数字化工具"
+
+#~ msgid "Export JSON or Project File"
+#~ msgstr "导出 JSON 或项目文件"
+
+#~ msgid ""
+#~ "Export a JSON file containing the "
+#~ "axes calibrations, digitized data and "
+#~ "measurements. This JSON file can be "
+#~ "loaded to resume work at a later"
+#~ " time. You can also download a "
+#~ "combined 'project file' which includes "
+#~ "this JSON and also the image in"
+#~ " a single TAR file."
+#~ msgstr ""
+#~ "导出包含坐标轴标定，数字化数据和测量结果的 JSON 文件。 稍后该 JSON "
+#~ "文件可被导入以恢复工作。 您还可以单个 TAR 文件的形式下载包含此 JSON "
+#~ "和图像的打包“项目文件”。"
+
+#~ msgid "Download JSON"
+#~ msgstr "下载 JSON"
+
+#~ msgid "Download Project File (.tar)"
+#~ msgstr "下载项目文件（.tar）"
+
+#~ msgid "Load a previously exported JSON or project file (.tar)"
+#~ msgstr "加载之前导出的 JSON 或项目文件（.tar）"
+
+#~ msgid "(Note: This will clear any unsaved data in the current plot.)"
+#~ msgstr "（注意：这将清除当前绘图中任何未保存的数据。）"
+
+#~ msgid "JSON/Project File"
+#~ msgstr "JSON / 项目文件"
+
+#~ msgid "Import"
+#~ msgstr "导入"
+
+#~ msgid "Keyboard Shortcuts"
+#~ msgstr "键盘快捷键"
+
+#~ msgid ""
+#~ "Click to select a data point. The"
+#~ " following keys can then be used "
+#~ "to adjust the position"
+#~ msgstr "单击以选择数据点。然后可以使用以下键来调整位置"
+
+#~ msgid "Cursor (Arrows)"
+#~ msgstr "光标（箭头）"
+
+#~ msgid "Move up/down/right/left"
+#~ msgstr "向上/向下/向右/向左 移动"
+
+#~ msgid "Shift + Cursor"
+#~ msgstr "Shift + 光标"
+
+#~ msgid "Faster rate of movement"
+#~ msgstr "快速移动"
+
+#~ msgid "Select next point"
+#~ msgstr "选择下一个点"
+
+#~ msgid "Select previous point"
+#~ msgstr "选择上一个点"
+
+#~ msgid "Del/Backspace"
+#~ msgstr "删除/退格"
+
+#~ msgid "Delete point"
+#~ msgstr "删除点"
+
+#~ msgid "Edit label (Bar Chart)"
+#~ msgstr "编辑标签（条形图）"
+
+#~ msgid "Override value (When adjusting "
+#~ msgstr "覆盖值（当调整 "
+
+#~ msgid "non-Bar Chart points"
+#~ msgstr "非条形图点"
+
+#~ msgid "Edit Label"
+#~ msgstr "编辑标签"
+
+#~ msgid "Label"
+#~ msgstr "标签"
+
+#~ msgid "Data Point"
+#~ msgstr "数据点"
+
+#~ msgid "Override Point Values"
+#~ msgstr "覆盖点值"
+
+#~ msgid "Perspective Transformation"
+#~ msgstr "透视变换"
+
+#~ msgid "Click on four corners of the region to be transformed as shown."
+#~ msgstr "如图所示，点击要变换区域的四个角。"
+
+#~ msgid "Edit Existing Calibration?"
+#~ msgstr "编辑现有的标定？"
+
+#~ msgid ""
+#~ "Do you wish to tweak existing axes"
+#~ " calibration or select a new axes "
+#~ "type?"
+#~ msgstr "你想要调整现有的坐标轴标定或选择新的坐标轴类型？"
+
+#~ msgid "Edit Calibration"
+#~ msgstr "编辑标定"
+
+#~ msgid "Change Axes Type"
+#~ msgstr "更改坐标轴类型"
+
+#~ msgid "Export All Datasets"
+#~ msgstr "导出所有数据集"
+
+#~ msgid "Export data from all datasets"
+#~ msgstr "导出所有数据集"
+
+#~ msgid "Export to Plotly"
+#~ msgstr "导出到 Plotly"
+
+#~ msgid "Name"
+#~ msgstr "名称"
+
+#~ msgid "Add Single Dataset"
+#~ msgstr "添加单个数据集"
+
+#~ msgid "Count"
+#~ msgstr "数量"
+
+#~ msgid "Add Multiple Datasets"
+#~ msgstr "添加多个数据集"
+
+#~ msgid "Rename Axes"
+#~ msgstr "重命名坐标轴"
+
+#~ msgid ""
+#~ "Relabel the current page number with "
+#~ "an alphanumeric string. Optionally, relabel"
+#~ " all page numbers in the image "
+#~ "based on the current page (only "
+#~ "supports integer values)."
+#~ msgstr "用字母数字字符串重新标记当前页码。（可选）根据当前页面重新标记图像中的所有页码（仅支持整数值）。"
+
+#~ msgid "Relabel"
+#~ msgstr "重新标记"
+
+#~ msgid "Reset All"
+#~ msgstr "全部重置"
+
+#~ msgid ""
+#~ "Point groups are groups of related "
+#~ "data points such as standard error "
+#~ "or confidence intervals."
+#~ msgstr "点编组是相关数据点的组，例如标准误差或置信区间。"
+
+#~ msgid ""
+#~ "To define a point group, enter a"
+#~ " name in the text input below. "
+#~ "Create additional point groups as "
+#~ "necessary."
+#~ msgstr "要定义点编组，请在下面输入编组名称。根据需要创建其他点编组。"
+
+#~ msgid ""
+#~ "E.g. Assume we have 3 point groups"
+#~ " defined: Median, Standard error +1, "
+#~ "and Standard error -1. Points would "
+#~ "be entered in the order shown in"
+#~ " the image to the right. For "
+#~ "each set of points, the median "
+#~ "value would first be recorded, then "
+#~ "the standard error +1, and finally "
+#~ "the standard error -1. The process "
+#~ "would repeat for the next set of"
+#~ " points."
+#~ msgstr "例如，假设我们定义了3个点组：中位数、标准误差+1和标准误差-1。点将按照右侧图像中显示的顺序输入。对于每组点，首先记录中值，然后记录标准误差+1，最后记录标准误差-1。这一过程应将在每一组点上重复。"
+
+#~ msgid "Add New Group"
+#~ msgstr "添加新组"
+
+#~ msgid "Save"
+#~ msgstr "保存"
+
+#~ msgid "Select Axes Type"
+#~ msgstr ""
+
+#~ msgid "2D XY Axes"
+#~ msgstr ""
+
+#~ msgid "Bar Chart"
+#~ msgstr "循环制图"
+
+#~ msgid "Map (Scale Bar)"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Click four known points on the "
+#~ "axes in the <font color=\"red\">order "
+#~ "shown in red</font>. Two on the X"
+#~ " axis (X1, X2) and two on the"
+#~ " Y axis (Y1, Y2)"
+#~ msgstr ""
+#~ "在坐标轴上 <font color=\"red\">按红色所示顺序</font> "
+#~ "放置4个已知点。两个位于 X 轴 (X1, X2)，两个位于 Y 轴"
+#~ " (Y1, Y2)。"
+
+#~ msgid ""
+#~ "Click on two known points (P1, P2)"
+#~ " on the continuous axes along the "
+#~ "bars"
+#~ msgstr "沿着条形图方向在连续轴上放置两个已知点 (P1, P2)"
+
+#~ msgid "Click on the center, followed by two known points."
+#~ msgstr "点击中心点，然后是两个已知点。"
+
+#~ msgid "Click on the two ends of the scale bar on the map."
+#~ msgstr "点击地图上比例尺的两端。"
+
+#~ msgid "Click on the three corners in the order shown above."
+#~ msgstr "按照如上所示顺序，依次点击三个角。"
+
+#~ msgid "Click on five points on the chart axes as shown:"
+#~ msgstr "单击图表轴上的5个点，如图所示："
+
+#~ msgid ""
+#~ "First three points at different radial"
+#~ " positions but the same known time"
+#~ " (T0)."
+#~ msgstr "前3个点有不同的大小但相同的已知时间（T0）。"
+
+#~ msgid ""
+#~ "Next two points on any times (T1,"
+#~ " T2) but at the same radial "
+#~ "position as R2."
+#~ msgstr "下2个点应在任意时间（T1，T2）上，但与R2大小相同。"
+
+#~ msgid "Calibrate"
+#~ msgstr "添加标定"
+
+#~ msgid "AI Assist (Experimental)"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "AI assist is an experimental feature "
+#~ "that uses state-of-the-art "
+#~ "multimodal AI models on your image "
+#~ "to auto detect axes information and "
+#~ "datasets. This feature is under active"
+#~ " development and more capabilities will "
+#~ "be added soon."
+#~ msgstr ""
+
+#~ msgid "Click run to attempt auto-generating Axes and Datasets for your image."
+#~ msgstr ""
+
+#~ msgid "Quota used:"
+#~ msgstr ""
+
+#~ msgid "Custom X Values"
+#~ msgstr ""
+
+#~ msgid "Specify X values for data extraction, for example"
+#~ msgstr ""
+
+#~ msgid "Preferences"
+#~ msgstr ""
+
+#~ msgid "Language (needs reload)"
+#~ msgstr ""
+
+#~ msgid "English"
+#~ msgstr ""
+
+#~ msgid "Simplified Chinese"
+#~ msgstr ""
+

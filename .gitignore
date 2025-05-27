@@ -1,28 +1,7 @@
-# app directory exclusions
-/app/locale/*
-/app/combined*
-/app/*.out
-/app/*.html
-/app/thirdparty/*/
-/app/*.js
-/app/*.wasm
-/app/wpd*
-/app/node_modules/*
-/app/package-lock.json
-
-# app directory exclusion exceptions
-!/app/karma.conf.js
-
-# electron directory exclusions
-/electron/node_modules/
-/electron/package-lock.json
-
-# webserver directory exclusions
-/webserver/settings.json
-/webserver/webserver
-
-# generated directories
-/WebPlotDigitizer-*
-
-# general
 .DS_Store
+node_modules
+combined.js
+/*.html
+wpd.min.js
+wpd_node.js
+experiments
