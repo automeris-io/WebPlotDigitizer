@@ -1,0 +1,528 @@
+{#
+    WebPlotDigitizer - web based chart data extraction software (and more)
+
+    Copyright (C) 2025 Ankit Rohatgi
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>
+#}
+
+<!-- axes calibration -->
+<div id="axes-calibration-sidebar" class="sidebar">
+    <p class="sidebar-title">{{ _("Axes Calibration") }}</p>
+    <p>{{ _("Click points to select and use cursor keys to adjust positions. Use Shift+Arrow for faster movement. Click complete when finished.") }}</p>
+    <p align="center"><input type="button" value="{{ _("Complete!") }}" style="width: 120px;" onclick="wpd.alignAxes.getCornerValues();" /></p>
+</div>
+
+<!-- acquire data -->
+<div id="acquireDataSidebar" class="sidebar">
+    <p class="sidebar-title">{{ _("Manual Extraction") }}</p>
+    <p>
+        <input type="button" value="{{ _("Add Point") }} (A)" onclick="wpd.acquireData.manualSelection();" style="width:115px;" id="manual-select-button">
+        <input type="button" value="{{ _("Adjust Point") }} (S)" onClick="wpd.acquireData.adjustPoints();" style="width: 115px;" id="manual-adjust-button">
+    </p>
+    <p>
+        <input type="button" value="{{ _("Delete Point") }} (D)" onclick="wpd.acquireData.deletePoint();" style="width: 115px;" id="delete-point-button">
+        <input type="button" value="{{ _("Edit Labels") }} (E)" id="edit-data-labels" onclick="wpd.acquireData.editLabels();" style="display: none; width: 115px;">
+    </p>
+    <br />
+    <p class="sidebar-title">{{ _("Automatic Extraction") }}</p>
+    <p>{{ _("Mask") }} <input type="button" value="{{ _("Box") }}" style="width:50px;" onclick="wpd.dataMask.markBox();" id="box-mask"><input type="button" value="{{ _("Pen") }}" style="width:45px;" onClick="wpd.dataMask.markPen();" id="pen-mask"><input type="button" value="{{ _("Erase") }}" style="width:50px;" onClick="wpd.dataMask.eraseMarks();" id="erase-mask"><input type="button" value="{{ _("View") }}" style="width:40px;" onclick="wpd.dataMask.viewMask();" id="view-mask" /></p>
+    <div id="mask-erase-container" class="sidebar-extras">
+        <p align="center">{{ _("Width") }} <input type="range" id="eraseThickness" min="1" max="150" value="20" style="width:80px;"> <input type="button" id="clearMaskBtn" value="{{ _("Erase All") }}" style="width:80px;" onclick="wpd.dataMask.clearMask();" /></p>
+    </div>
+    <div id="mask-paint-container" class="sidebar-extras">
+        <p align="center">{{ _("Width") }} <input type="range" id="paintThickness" min="1" max="150" value="20" style="width:120px;"></p>
+    </div>
+    <hr />
+    <p>{{ _("Color") }}
+        <button id="color-button" onclick="wpd.colorPicker.startPicker();" style="width: 25px;" class="has-tooltip" data-tooltip="{{ _("Pick a color from the image") }}">
+            <i class="bi bi-eyedropper"></i>
+        </button>
+
+        <select id="color-detection-mode-select" onchange="wpd.colorPicker.changeDetectionMode();">
+            <option value="fg">{{ _("Foreground") }}</option>
+            <option value="bg">{{ _("Background") }}</option>
+        </select>
+    </p>
+    <div id="dataset-color-picker-container"></div>
+    <p>{{ _("Distance") }} <input type="text" size="3" id="color-distance-value" onchange="wpd.colorPicker.changeColorDistance();" />
+        <input type="button" value="{{ _("Filter Colors") }}" onclick="wpd.colorPicker.testColorDetection();" style="width: 90px;">
+    </p>
+    <hr />
+    <p>{{ _("Algorithm") }}
+        <select id="auto-extract-algo-name" onchange="wpd.algoManager.applyAlgoSelection();"></select>
+    </p>
+    <div id="algo-parameter-container" style="margin-left: 10px; margin-top: 5px;"></div>
+    <div id="template-matcher-controls" class="algo-controls">
+        <p>
+            Template
+            <button id="template-selection-point-btn" onclick="wpd.algoManager.selectTemplate('point');">Point</button>
+            <button id="template-selection-box-btn" onclick="wpd.algoManager.selectTemplate('box');">Box</button>
+        </p>
+    </div>
+    <div id="custom-indeps-controls" class="algo-controls">
+        <p>
+            <button onclick="wpd.algoManager.getCustomXValues();">Set Custom X Values</button>
+        </p>
+    </div>
+    <p style="margin-top: 5px;">
+        <input type="button" value="{{ _("Run") }}" id="algo-run-btn" style="width:40px;" onclick="wpd.algoManager.run();" />
+    </p>
+    <div id="point-groups-controls" hidden>
+        <br />
+        <p class="sidebar-title">{{ _("Point Groups") }}</p>
+        <p>Current Tuple: <span id="current-point-tuple-index" style="font-weight: bold;"></span></p>
+        <p>Current Group: <span id="current-point-group-name" style="font-weight: bold;"></span></p>
+        <p>
+            <input type="button" value="{{ _("Prev Group") }} (,)" onclick="wpd.pointGroups.previousGroup();" style="width: 115px;">
+            <input type="button" value="{{ _("Next Group") }} (.)" onclick="wpd.pointGroups.nextGroup();" style="width: 115px;">
+        </p>
+    </div>
+    <div id="value-overrides-controls" hidden>
+        <br />
+        <p class="sidebar-title">{{ _("Overrides") }}</p>
+        <p>
+            <input type="button" value="{{ _("Override Values") }} (R)" id="override-data-values" style="width: 140px;">
+            <span id="overridden-data-indicator" hidden>&#8682;</span>
+        </p>
+    </div>
+</div>
+
+<!-- color picker -->
+<div id="color-picker-widget" class="sidebar-extras">
+    <p>{{ _("RGB") }}: </p>
+    <div style="float: right; position: absolute; top: 2px; right: 2px;">
+        <button onclick="wpd.colorSelectionWidget.closePicker();">X</button>
+    </div>
+    <p>
+        <input type="text" size="3" value="255" id="color-picker-red" onchange="wpd.colorSelectionWidget.setColor();" />,
+        <input type="text" size="3" value="255" id="color-picker-green" onchange="wpd.colorSelectionWidget.setColor();" />,
+        <input type="text" size="3" value="255" id="color-picker-blue" onchange="wpd.colorSelectionWidget.setColor();" />
+    </p>
+    <p>{{ _("Dominant Colors") }}:</p>
+    <div id="color-picker-dominant-colors"></div>
+</div>
+
+<!-- edit image -->
+<div id="editImageToolbar" class="sidebar">
+    <p align="center"><b>{{ _("Edit Image") }}</b></p>
+    <p align="center"><input type="button" value="H. Flip" style="width: 75px;" onclick="hflip();"><input type="button" value="V. Flip" style="width: 75px;" onClick="vflip();"></p>
+    <p align="center"><input type="button" value="Crop" style="width: 150px;" onclick="cropPlot();"></p>
+    <p align="center"><input type="button" value="Restore" style="width: 150px;" onclick="restoreOriginalImage();"></p>
+    <p align="center"><input type="button" value="Save .PNG" style="width: 150px;" onclick="savePNG();"></p>
+</div>
+
+<!-- distance measurement -->
+<div id="measure-distances-sidebar" class="sidebar">
+    <p class="sidebar-title">{{ _("Measure Distances") }}</p>
+    <p>
+        <input type="button" value="{{ _("Add Pair") }} (A)" style="width: 115px;" id="add-pair-button" onclick="wpd.measurement.addItem();" />
+        <input type="button" value="{{ _("Delete Pair") }} (D)" style="width: 115px;" id="delete-pair-button" onclick="wpd.measurement.deleteItem();" />
+    </p>
+</div>
+
+<!-- angle measurement -->
+<div id="measure-angles-sidebar" class="sidebar">
+    <p class="sidebar-title">{{ _("Measure Angles") }}</p>
+    <p>
+        <input type="button" value="{{ _("Add Angle") }} (A)" style="width: 115px;" id="add-angle-button" onclick="wpd.measurement.addItem();" />
+        <input type="button" value="{{ _("Delete Angle") }} (D)" style="width: 115px;" id="delete-angle-button" onclick="wpd.measurement.deleteItem();" />
+    </p>
+</div>
+
+<!-- distance measurement -->
+<div id="measure-area-sidebar" class="sidebar">
+    <p class="sidebar-title">{{ _("Measure Area/Perimeter") }}</p>
+    <p align="center"><input type="button" value="{{ _("Add Polygon") }} (A)" style="width: 145px;" id="add-polygon-button" onclick="wpd.measurement.addItem();" /></p>
+    <p align="center"><input type="button" value="{{ _("Delete Polygon") }} (D)" style="width: 145px;" id="delete-polygon-button" onclick="wpd.measurement.deleteItem();" /></p>
+    <br />
+    <p><span id="add-polygon-info">{{ _("Press Enter or Esc key to complete the polygon") }}</span></p>
+</div>
+
+
+<!-- open path measurement -->
+<div id="measure-open-path-sidebar" class="sidebar">
+    <p class="sidebar-title">{{ _("Measure Path") }}</p>
+    <p>
+        <input type="button" value="{{ _("Add Path") }} (A)" style="width: 115px;" id="add-open-path-button" onclick="wpd.measurement.addItem();" />
+        <input type="button" value="{{ _("Delete Path") }} (D)" style="width: 115px;" id="delete-open-path-button" onclick="wpd.measurement.deleteItem();" />
+    </p>
+</div>
+
+<!-- closed path measurement -->
+<div id="measure-closed-path-sidebar" class="sidebar">
+    <p class="sidebar-title">{{ _("Measure Closed Path") }}</p>
+    <p>
+        <input type="button" value="{{ _("Add Path") }} (A)" style="width: 115px;" id="add-closed-path-button" onclick="wpd.measurement.addItem();" />
+        <input type="button" value="{{ _("Delete Path") }} (D)" style="width: 115px;" id="delete-closed-path-button" onclick="wpd.measurement.deleteItem();" />
+    </p>
+</div>
+
+<!-- grid detection -->
+<div id="grid-detection-sidebar" class="sidebar">
+    <p class="sidebar-title">{{ _("Detect Grid") }}</p>
+    <p>
+        {{ _("Mask") }}
+        <input type="button" value="{{ _("Box") }}" style="width: 60px;" id="grid-mask-box" onclick="wpd.gridDetection.markBox();" />
+        <input type="button" value="{{ _("Clear") }}" style="width: 60px;" id="grid-mask-clear" onclick="wpd.gridDetection.clearMask();" />
+        <input type="button" value="{{ _("View") }}" style="width: 60px;" id="grid-mask-view" onclick="wpd.gridDetection.viewMask();" />
+    </p>
+    <hr />
+    <p>
+        {{ _("Color") }}
+        <input type="button" value="{{ _("Pick") }}" style="width: 60px;" id="grid-color-picker-button" onclick="wpd.gridDetection.startColorPicker();" />
+        <input type="text" value="10" style="width: 60px;" id="grid-color-distance" onchange="wpd.gridDetection.changeColorDistance();" />
+        <input type="button" value="{{ _("Test") }}" style="width: 60px;" id="grid-color-test" onclick="wpd.gridDetection.testColor();" />
+    </p>
+    <div id="grid-color-picker-container"></div>
+    <p align="center"><input type="checkbox" id="grid-background-mode" checked onchange="wpd.gridDetection.changeBackgroundMode();" /> {{ _("Background Mode") }}</p>
+    <hr />
+    <table>
+        <tr>
+            <td align="right">{{ _("Horizontal") }} </td>
+            <td><input type="checkbox" id="grid-horiz-enable" checked /></td>
+        </tr>
+        <tr>
+            <td align="right">{{ _("X%") }} </td>
+            <td>&nbsp; <input type="text" value="80" id="grid-horiz-perc" style="width: 40px;" /></td>
+        </tr>
+        <tr>
+            <td align="right">{{ _("Vertical") }} </td>
+            <td><input type="checkbox" id="grid-vert-enable" checked /></td>
+        </tr>
+        <tr>
+            <td align="right">{{ _("Y%") }} </td>
+            <td>&nbsp; <input type="text" value="80" id="grid-vert-perc" style="width: 40px;" /></td>
+        </tr>
+    </table>
+    <hr />
+    <p align="center">
+        <input type="button" value="{{ _("Detect") }}" style="width: 100px;" onclick="wpd.gridDetection.run();" />
+        &nbsp;
+        <input type="button" value="{{ _("Reset") }}" style="width: 100px;" onclick="wpd.gridDetection.reset();" />
+    </p>
+</div>
+
+<!-- startup sidebar -->
+<div id="start-sidebar" class="sidebar">
+    <p class="sidebar-title">WebPlotDigitizer {{ wpdVersion }}</p>
+    <br />
+    <center>
+        <p><input type="button" value="{{ _("Load Image") }}" style="width: 180px;" onclick="wpd.popup.show('loadNewImage');" /></p>
+        <p><input type="button" value="{{ _("User Manual") }}" style="width: 180px;" onclick="window.open('/docs/','_blank');" /></p>
+    </center>
+</div>
+
+<!-- image editing sidebar -->
+<div id="image-editing-sidebar" class="sidebar">
+    <p class="sidebar-title">{{ _("Image Editing") }}</p>
+    <br />
+    <center>
+        <p align="center">
+            <input type="button" value="{{ _("Undo") }}" style="width: 120px;" onclick="wpd.imageEditing.undo()" id="image-editing-undo" />
+            <input type="button" value="{{ _("Redo") }}" style="width: 120px;" onclick="wpd.imageEditing.redo()" id="image-editing-redo" />
+        </p>
+        <br />
+        <p align="center">
+            <input type="button" value="{{ _("Crop") }}" style="width: 120px;" onclick="wpd.imageEditing.startImageCrop()" id="image-editing-crop" />
+            <!-- <input type="button" value="{{ _("Fix Perspective") }}" style="width: 120px;" onclick="wpd.imageEditing.startPerspective()" id="image-editing-perspective" /> -->
+        </p>
+        <!--
+        <p align="center">
+            <input type="button" value="{{ _("Rotate") }}" style="width: 120px;" onclick="" id="image-editing-rotate" />
+            <input type="button" value="{{ _("?") }}" style="width: 120px;" onclick="" id="image-editing-misc" />
+        </p>
+        -->
+        <p><span id="image-editing-crop-info">Click and drag to mark the crop region. Press Enter to complete cropping, Esc to cancel</span></p>
+    </center>
+</div>
+
+<div id="xy-axes-sidebar" class="sidebar">
+    <p class="sidebar-title">XY Axes Calibration</p>
+    <p>Specify four points: X1, X2 on X-axis and Y1, Y2 on Y-axis</p>
+    <table style="padding: 10px;">
+        <tr>
+            <td style="text-align: right;">X-Axis</td>
+            <td style="padding-left: 10px;">
+                <select style="width:120px;" id="xy-axes-xscale">
+                    <option value="linear">Linear</option>
+                    <option value="log">Log (any base)</option>
+                    <option value="date">Date/Time</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: right;">X1</td>
+            <td style="padding-left: 10px;"><input type="text" value="0" style="width:120px;" id="xy-axes-x1" /></td>
+        </tr>
+        <tr>
+            <td style="text-align: right;">X2</td>
+            <td style="padding-left: 10px;"><input type="text" value="1" style="width:120px;" id="xy-axes-x2" /></td>
+        </tr>
+        <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td style="text-align: right;">Y-Axis</td>
+            <td style="padding-left: 10px;">
+                <select style="width:120px;" id="xy-axes-yscale">
+                    <option value="linear">Linear</option>
+                    <option value="log">Log (any base)</option>
+                    <option value="date">Date/Time</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: right;">Y1</td>
+            <td style="padding-left: 10px;"><input type="text" value="0" style="width:120px;" id="xy-axes-y1" /></td>
+        </tr>
+        <tr>
+            <td style="text-align: right;">Y2</td>
+            <td style="padding-left: 10px;"><input type="text" value="1" style="width:120px;" id="xy-axes-y2" /></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <p><label><input type="checkbox" id="xy-axes-skip-rotation"> Skip rotation correction</label></p>
+            </td>
+        </tr>
+    </table>
+    <p align="center">
+        <button id="xy-axes-calibrate" onclick="wpd.alignAxes.align();">Calibrate</button>
+    </p>
+    <p>&nbsp;</p>
+    <hr>
+    <p class="footnote">Refer to the expected <a href="/docs/digitize/#input-format-for-calibration-values" target="_blank">input format for calibration values</a>, especially for dates and exponentials.</p>
+</div>
+
+<div id="bar-axes-sidebar" class="sidebar">
+    <p class="sidebar-title">Bar Chart Calibration</p>
+    <p>Specify two points on the axes along the bars (P1, P2)</p>
+    <table style="padding: 10px;">
+        <tr>
+            <td style="text-align: right;">Scale</td>
+            <td style="padding-left: 10px;">
+                <select style="width:120px;" id="bar-axes-scale">
+                    <option value="linear">Linear</option>
+                    <option value="log">Log (any base)</option>
+                    <option value="date">Date/Time</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: right;">P1</td>
+            <td style="padding-left: 10px;"><input type="text" value="0" style="width:120px;" id="bar-axes-p1" /></td>
+        </tr>
+        <tr>
+            <td style="text-align: right;">P2</td>
+            <td style="padding-left: 10px;"><input type="text" value="1" style="width:120px;" id="bar-axes-p2" /></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <p><label><input type="checkbox" id="bar-axes-rotated"> Rotated axes (not exactly vertical or horizontal)</label></p>
+            </td>
+        </tr>
+    </table>
+    <p align="center">
+        <button id="bar-axes-calibrate" onclick="wpd.alignAxes.align();">Calibrate</button>
+    </p>
+    <p>&nbsp;</p>
+    <hr>
+    <p class="footnote">Refer to the expected <a href="/docs/digitize/#input-format-for-calibration-values" target="_blank">input format for calibration values</a>, especially for dates and exponentials.</p>
+</div>
+
+<div id="map-axes-sidebar" class="sidebar">
+    <p class="sidebar-title">Map Calibration</p>
+    <p>Specify two points on the scale bar/reference dimension (P1, P2)</p>
+    <table style="padding: 10px;">
+        <tr>
+            <td style="text-align: right;">Origin</td>
+            <td style="padding-left: 10px;">
+                <select style="width:120px;" id="map-axes-origin">
+                    <option value="bottom-left">Bottom Left</option>
+                    <option value="top-left">Top Left</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: right;">Scale</td>
+            <td style="padding-left: 10px;"><input type="text" value="1" style="width:120px;" id="map-axes-scale" /></td>
+        </tr>
+        <tr>
+            <td style="text-align: right;">Units</td>
+            <td style="padding-left: 10px;"><input type="text" value="Units" style="width:120px;" id="map-axes-units" /></td>
+        </tr>
+    </table>
+    <p align="center">
+        <button id="map-axes-calibrate" onclick="wpd.alignAxes.align();">Calibrate</button>
+    </p>
+</div>
+
+<div id="polar-axes-sidebar" class="sidebar">
+    <p class="sidebar-title">Polar Diagram Calibration</p>
+    <p>Specify origin and two known points (P1, P2)</p>
+    <table style="padding: 10px;">
+        <tr>
+            <td>Radial</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td style="text-align: right;">Scale</td>
+            <td style="padding-left: 10px;">
+                <select style="width:120px;" id="polar-axes-scale">
+                    <option value="linear">Linear</option>
+                    <option value="log">Log</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: right;">R1</td>
+            <td style="padding-left: 10px;"><input type="text" value="1" style="width:120px;" id="polar-axes-r1" /></td>
+        </tr>
+        <tr>
+            <td style="text-align: right;">R2</td>
+            <td style="padding-left: 10px;"><input type="text" value="1" style="width:120px;" id="polar-axes-r2" /></td>
+        </tr>
+        <tr>
+            <td colspan="2">&nbsp;</td>
+        </tr>
+        <tr>
+            <td>Angular</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td style="text-align: right;">Unit</td>
+            <td style="padding-left: 10px;">
+                <select style="width:120px;" id="polar-axes-angular-units">
+                    <option value="degrees">Degrees</option>
+                    <option value="radians">Radians</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: right;">Orientation</td>
+            <td style="padding-left: 10px;">
+                <select style="width:120px;" id="polar-axes-angular-orientation">
+                    <option value="anticlockwise">Anti-Clockwise</option>
+                    <option value="clockwise">Clockwise</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: right;">Θ1</td>
+            <td style="padding-left: 10px;"><input type="text" value="1" style="width:120px;" id="polar-axes-theta1" /></td>
+        </tr>
+        <tr>
+            <td style="text-align: right;">Θ2</td>
+            <td style="padding-left: 10px;"><input type="text" value="2" style="width:120px;" id="polar-axes-theta2" /></td>
+        </tr>
+    </table>
+    <p align="center">
+        <button id="polar-axes-calibrate" onclick="wpd.alignAxes.align();">Calibrate</button>
+    </p>
+</div>
+
+<div id="ternary-axes-sidebar" class="sidebar">
+    <p class="sidebar-title">Ternary Diagram Calibration</p>
+    <p>Specify three points on corners of the ternary diagram (A, B, C)</p>
+    <table style="padding: 10px;">
+        <tr>
+            <td style="text-align: right;">Scale</td>
+            <td style="padding-left: 10px;">
+                <select style="width:120px;" id="ternary-axes-scale">
+                    <option value="scale1">0 to 1</option>
+                    <option value="scale100">0 to 100</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: right; vertical-align: center;"><label>Normal<input type="radio" id="ternary-axes-normal" name="ternary-axes-orientation" checked></label></td>
+            <td>
+                <img src="images/ternarynormal.png" width="150">
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: right; vertical-align: center;"><label>Reverse<input type="radio" id="ternary-axes-reverse" name="ternary-axes-orientation"></label></td>
+            <td>
+                <img src="images/ternaryreverse.png" width="150">
+            </td>
+        </tr>
+    </table>
+    <p align="center">
+        <button id="ternary-axes-calibrate" onclick="wpd.alignAxes.align();">Calibrate</button>
+    </p>
+</div>
+
+<div id="ccr-axes-sidebar" class="sidebar">
+    <p class="sidebar-title">Circular Chart Calibration</p>
+    <p>Specify 5 points: 3 at different values, but same time. 2 at different times, but same value as R2</p>
+    <table style="padding: 10px;">
+        <tr>
+            <td>Time</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td style="text-align: right;">{{ _("Chart Start Time (T_Start)") }}</td>
+            <td style="padding-left: 10px;"><input type="text" value="0" style="width:120px;" id="ccr-tstart" /></td>
+        </tr>
+        <tr>
+            <td style="text-align: right;">{{ _("Time (T_0)") }}</td>
+            <td style="padding-left: 10px;"><input type="text" value="0" style="width:120px;" id="ccr-t0" /></td>
+        </tr>
+        <tr>
+            <td style="text-align: right;">{{ _("Rotation Time") }}</td>
+            <td style="padding-left: 10px;">
+                <select id="ccr-rotation-time">
+                    <option value="week">{{ _("1 Week (7 days)") }}</option>
+                    <option value="day">{{ _("1 Day (24 hours)") }}</option>
+                    <!-- <option value="month">{{ _("1 Month") }}</option> -->
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: right;">{{ _("Rotation Direction") }}</td>
+            <td style="padding-left: 10px;">
+                <select id="ccr-direction">
+                    <option value="anticlockwise">{{ _("Anti-Clockwise") }}</option>
+                    <option value="clockwise">{{ _("Clockwise") }}</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2"></td>
+        </tr>
+        <tr>
+            <td>Value Range</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td style="text-align: right;">R0</td>
+            <td style="padding-left: 10px;">
+                <input type="text" size="6" id="ccr-r0" value="0" />
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: right;">R2</td>
+            <td style="padding-left: 10px;">
+                <input type="text" size="6" id="ccr-r2" value="0" />
+            </td>
+        </tr>
+    </table>
+    <p align="center">
+        <button id="ccr-axes-calibrate" onclick="wpd.alignAxes.align();">Calibrate</button>
+    </p>
+    <p>&nbsp;</p>
+    <hr>
+    <p class="footnote">Refer to the expected <a href="/docs/digitize/#input-format-for-calibration-values" target="_blank">input format for calibration values</a>, especially for dates and exponentials.</p>
+</div>

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<!--
+    WebPlotDigitizer - web based chart data extraction software (and more)
+
+    Copyright (C) 2025 Ankit Rohatgi
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>
+-->
+<html>
+
+{% set wpdVersion = '5.3' %}
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="Description" content="WebPlotDigitizer v{{ wpdVersion }} - {{ _("Web based tool to extract numerical data from plots and graph images.") }}" />
+    <meta name="Keywords" content="Plot, Digitizer, WebPlotDigitizer, Ankit Rohatgi, Extract Data, Convert Plots, XY, Polar, Ternary, Map, HTML5" />
+    <meta name="Author" content="Ankit Rohatgi" />
+    <meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="pragma" content="no-cache" />
+    <meta http-equiv="expires" content="-1" />
+    <title>WebPlotDigitizer - Copyright 2010-2025 Ankit Rohatgi</title>
+    <link rel="stylesheet" href="node_modules/bootstrap-icons/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="styles/styles.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="styles/widgets.css" type="text/css" media="screen" />
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    {% block scripts %}{% endblock %}
+
+    <!-- thirdparty -->
+    <script type="module" src="node_modules/pdfjs-dist/build/pdf.min.mjs"></script>
+    <script src="node_modules/tarballjs/tarball.js"></script>
+</head>
+
+<body>
+
+    <div id="loadingCurtain" style="position: absolute; top: 0px; left: 0px; z-index: 100; width: 100%; height: 100%; background-color: white;">
+        {{ _("Loading application, please wait...") }}
+        <br />
+        <br />
+        {{ _("Problems loading? Make sure you have a recent version of Google Chrome, Firefox, Safari or Microsoft Edge installed.") }}
+    </div>
+
+    <div id="wpd-tooltip"></div>
+
+    <div id="allContainer">
+        <!-- toolbar + graphics -->
+        <div id="mainContainer">
+            <div id="topContainer">
+                <div style="display: inline-block; width: 170px; text-align: center; padding-top: 9px;">
+
+                    <img src="images/icon/icon.svg" width="18" height="18" style="vertical-align: middle;" />
+
+                    <a href="https://automeris.io" target="_blank" style="text-decoration: none; color: black; vertical-align: middle;">automeris.io</a>
+                </div>
+                <div id="menuButtonsContainer">{% include "_menubar.html" %}</div>
+
+
+                <div id="topToolbarContainer">
+                    <!-- controls that show on top -->
+                    <div style="position:relative;">
+                        <!-- Extra toolbars go here -->
+                        {% include "_toolbars.html" %}
+                    </div>
+                </div>
+
+                <div style="display: inline-block; width: 220px; text-align: right; padding-top: 9px;">
+                    <button type="button" onclick="wpd.graphicsWidget.rotateCounterClockwise();" class="toolbar-button has-tooltip" data-tooltip="Rotate 90° counter-clockwise">
+                        <i class="bi bi-arrow-counterclockwise"></i>
+                    </button>
+                    <button type="button" onclick="wpd.graphicsWidget.rotateClockwise();" class="toolbar-button has-tooltip" data-tooltip="Rotate 90° clockwise">
+                        <i class="bi bi-arrow-clockwise"></i>
+                    </button>
+                    <button type="button" onclick="wpd.graphicsWidget.zoomIn();" class="toolbar-button has-tooltip" data-tooltip="Zoom In">+</button>
+                    <button type="button" onclick="wpd.graphicsWidget.zoomOut();" class="toolbar-button has-tooltip" data-tooltip="Zoom Out">-</button>
+                    <button type="button" onclick="wpd.graphicsWidget.zoom100perc();" class="toolbar-button has-tooltip" data-tooltip="View actual size">100%</button>
+                    <button type="button" onclick="wpd.graphicsWidget.zoomFit();" class="toolbar-button has-tooltip" data-tooltip="Fit image to screen">{{ _("Fit") }}</button>
+                    <button onclick="wpd.graphicsWidget.toggleExtendedCrosshairBtn();" class="toolbar-button has-tooltip" style="background-image: url('images/crosshair.png'); background-repeat: no-repeat; background-position: center;" id="extended-crosshair-btn" data-tooltip="Toggle extended crosshair">&nbsp;</button>
+                </div>
+
+            </div>
+
+            <div style="display: flex;">
+                <div id="left-side-container" style="width:200px; flex: 0 0 169px;">
+                    <!-- tree control -->
+                    {% include "_tree.html" %}
+                </div>
+
+                <div id="graphicsContainer" style="flex: 1;">
+                    <!-- the main canvas goes here -->
+                    <div id="canvasDiv" style="position:relative;">
+                        <canvas id="mainCanvas" class="canvasLayers" style="z-index:1;"></canvas>
+                        <canvas id="dataCanvas" class="canvasLayers" style="z-index:2;"></canvas>
+                        <canvas id="drawCanvas" class="canvasLayers" style="z-index:3;"></canvas>
+                        <canvas id="hoverCanvas" class="canvasLayers" style="z-index:4;"></canvas>
+                        <canvas id="topCanvas" class="canvasLayers" style="z-index:5;"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div id="bottomContainer">
+                <div id="bottomNavbarContainer">{% include "_navbar.html" %}</div>
+            </div>
+        </div>
+
+        <!-- sidebar + zoom -->
+        <div id="sidebarContainer">
+            <!-- zoom window goes here -->
+            <div style="position:relative;" id="zoomDiv">
+                <canvas id="zoomCanvas" class="zoomLayers" width=250 height=250 style="position:relative; top: 0px; left: 0px; z-index:1;"></canvas>
+                <canvas id="zoomCrossHair" class="zoomLayers" width=250 height=250 style="position:absolute; top: 0px; left: 0px; z-index:2; background:transparent;"></canvas>
+                <div id="cursorPosition" style="position:relative;">
+                    [<span id="mousePosition"></span>]
+                </div>
+            </div>
+
+            <div id="zoom-settings-container">
+                <button id="zoom-settings-button" class="has-tooltip" onclick="wpd.zoomView.showSettingsWindow();" data-tooltip="Change zoom settings">
+                    <i class="bi bi-gear-fill"></i>
+                </button>
+            </div>
+
+            <div style="position:relative;" id="sidebarControlsContainer">
+                <!-- side bars go here -->
+                {% include "_sidebars.html" %}
+            </div>
+
+        </div>
+    </div>
+
+    <!-- popup windows go here -->
+    {% include "_popups.html" %}
+
+    <!-- strings for translation -->
+    {% include "_strings.html" %}
+
+</body>
+
+</html>

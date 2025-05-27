@@ -1,0 +1,113 @@
+{#
+    WebPlotDigitizer - web based chart data extraction software (and more)
+
+    Copyright (C) 2025 Ankit Rohatgi
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>
+#}
+
+<div style="display: flex; flex-direction: column; width: 168px; max-height:100%;">
+    <div id="tree-container" style="flex: 1; overflow-y: auto; outline:none;" tabindex="1">
+        <!-- tree -->
+    </div>
+
+    <!-- tree widgets -->
+    <div id="image-item-tree-widget" class="tree-widget" style="flex: 0 0 100px;">
+        <p class="sidebar-title">{{ _("Image") }}</p>
+        <center>
+            <p><input type="button" value="{{ _("Image Info") }}" style="width:150px;" onclick="wpd.imageEditing.showImageInfo();" /></p>
+        </center>
+    </div>
+
+    <div id="axes-group-tree-widget" class="tree-widget" style="flex: 0 0 100px;">
+        <p class="sidebar-title">{{ _("Axes") }}</p>
+        <center>
+            <p><input type="button" value="{{ _("Add Calibration") }}" style="width:150px;" onclick="wpd.alignAxes.addCalibration();" /></p>
+            <p><input type="button" value="{{ _("Remove Grid") }}" style="width:150px;" onclick="wpd.gridDetection.start();" /></p>
+            <!-- <p><input type="button" value="{{ _("Import Calibration") }}" style="width:150px;"/></p> -->
+            <!-- <p><input type="button" value="{{ _("Export Calibration") }}" style="width:150px;"/></p> -->
+        </center>
+    </div>
+
+    <div id="axes-item-tree-widget" class="tree-widget" style="flex: 0 0 100px;">
+        <p class="sidebar-title">{{ _("Axes") }}</p>
+        <center>
+            <p><input type="button" value="{{ _("Rename") }}" style="width:150px;" onclick="wpd.alignAxes.showRenameAxes();" /></p>
+            <p><input type="button" value="{{ _("Delete") }}" style="width:150px;" onclick="wpd.alignAxes.deleteCalibration();" /></p>
+        </center>
+    </div>
+
+    <div id="dataset-group-tree-widget" class="tree-widget" style="flex: 0 0 100px;">
+        <p class="sidebar-title">{{ _("Datasets") }}</p>
+        <center>
+            <p><input type="button" value="{{ _("Add Dataset") }}" style="width:150px;" onclick="wpd.dataSeriesManagement.showAddDataset();" /></p>
+            <p><input type="button" value="{{ _("Export All Data") }}" style="width:150px;" onclick="wpd.popup.show('export-all-data-popup');" /></p>
+        </center>
+    </div>
+
+    <div id="measurement-group-tree-widget" class="tree-widget" style="flex: 0 0 100px;">
+        <p class="sidebar-title">{{ _("Measurements") }}</p>
+        <center>
+            <p><input type="button" value="{{ _("Distance") }}" style="width:150px;" onclick="wpd.tree.addMeasurement(wpd.measurementModes.distance);" /></p>
+            <p><input type="button" value="{{ _("Angle") }}" style="width:150px;" onclick="wpd.tree.addMeasurement(wpd.measurementModes.angle);" /></p>
+            <p><input type="button" value="{{ _("Area/Perimeter") }}" style="width:150px;" onclick="wpd.tree.addMeasurement(wpd.measurementModes.area);" /></p>
+        </center>
+    </div>
+
+    <div id="dataset-item-tree-widget" class="tree-widget" style="flex: 0 0 100px;">
+        <p class="sidebar-title">{{ _("Dataset") }}</p>
+        <center>
+            <p>{{ _("Axes") }}: <select id="dataset-item-axes-select" style="min-width:100px; max-width:150px;" onchange="wpd.dataSeriesManagement.changeAxes(this.value);"></select></p>
+            <p><input type="button" value="{{ _("Display Color") }}" style="width: 150px;" id="dataset-display-color-picker-button" onclick="wpd.dataSeriesManagement.startColorPicker();" /></p>
+            <div id="dataset-display-color-picker-container"></div>
+            <p><input type="button" value="{{ _("Rename Dataset") }}" style="width:150px;" onclick="wpd.dataSeriesManagement.showRenameDataset();" /></p>
+            <p><input type="button" value="{{ _("Delete Dataset") }}" style="width:150px;" onclick="wpd.dataSeriesManagement.deleteDataset();" /></p>
+            <p><input type="button" value="{{ _("Edit Point Groups") }}" id="dataset-edit-point-groups-button" style="width: 150px;" onclick="wpd.pointGroups.showSettingsPopup();" /></p>
+            <p><input type="button" value="{{ _("View Data") }}" style="width:150px;" onclick="wpd.dataTable.showTable();" /></p>
+            <p><input type="button" value="{{ _("Clear Data") }}" style="width:150px;" onclick="wpd.acquireData.clearAll();" /></p>
+            <p>{{ _("Data Points") }}: <span class="data-point-counter">0</span></p>
+        </center>
+    </div>
+
+    <div id="distance-item-tree-widget" class="tree-widget" style="flex: 0 0 100px;">
+        <p class="sidebar-title">{{ _("Distance") }}</p>
+        <center>
+            <p>{{ _("Axes") }}: <select id="distance-item-axes-select" style="min-width:100px; max-width:150px;" onchange="wpd.measurement.changeAxes(this.value);"></select></p>
+            <p><input type="button" value="{{ _("Clear All") }}" style="width:150px;" onclick="wpd.measurement.clearAll();" /></p>
+            <p><input type="button" value="{{ _("View Data") }}" style="width:150px;" onclick="wpd.dataTable.showDistanceData();" /></p>
+        </center>
+    </div>
+
+    <div id="angle-item-tree-widget" class="tree-widget" style="flex: 0 0 100px;">
+        <p class="sidebar-title">{{ _("Angle") }}</p>
+        <center>
+            <p><input type="button" value="{{ _("Clear All") }}" style="width:150px;" onclick="wpd.measurement.clearAll();" /></p>
+            <p><input type="button" value="{{ _("View Data") }}" style="width:150px;" onclick="wpd.dataTable.showAngleData();" /></p>
+        </center>
+    </div>
+
+    <div id="area-item-tree-widget" class="tree-widget" style="flex: 0 0 100px;">
+        <p class="sidebar-title">{{ _("Area/Perimeter") }}</p>
+        <center>
+            <p>{{ _("Axes") }}: <select id="area-item-axes-select" style="min-width:100px; max-width:150px;" onchange="wpd.measurement.changeAxes(this.value);"></select></p>
+            <p><input type="button" value="{{ _("Clear All") }}" style="width:150px;" onclick="wpd.measurement.clearAll();" /></p>
+            <p><input type="button" value="{{ _("View Data") }}" style="width:150px;" onclick="wpd.dataTable.showAreaData();" /></p>
+        </center>
+    </div>
+
+    <div style="flex: 0 0 100px;">
+        <p class="sidebar-title">{{ _("Support WPD") }}</p>
+        <a href='https://ko-fi.com/L4L010CWIY' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://storage.ko-fi.com/cdn/kofi6.png?v=6' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
+    </div>
+</div>

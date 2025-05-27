@@ -1,0 +1,31 @@
+{
+  "name": "webplotdigitizer",
+  "version": "5.0.0",
+  "description": "Extract data from charts",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron-forge start",
+    "package": "electron-forge package",
+    "make": "electron-forge make"
+  },
+  "author": "Ankit Rohatgi",
+  "license": "ISC",
+  "devDependencies": {
+    "@electron-forge/cli": "^7.4.0",
+    "@electron-forge/maker-deb": "^7.4.0",
+    "@electron-forge/maker-rpm": "^7.4.0",
+    "@electron-forge/maker-squirrel": "^7.4.0",
+    "@electron-forge/maker-zip": "^7.4.0",
+    "@electron-forge/plugin-auto-unpack-natives": "^7.4.0",
+    "@electron-forge/plugin-fuses": "^7.4.0",
+    "@electron/fuses": "^1.8.0",
+    "electron": "^31.1.0"
+  },
+  "dependencies": {
+    "bootstrap-icons": "^1.11.3",
+    "electron-squirrel-startup": "^1.0.1",
+    "pdfjs-dist": "^4.2.67",
+    "tarballjs": "https://github.com/ankitrohatgi/tarballjs.git#v1.0"
+  }
+}

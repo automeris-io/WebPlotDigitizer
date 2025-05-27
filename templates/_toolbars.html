@@ -1,0 +1,45 @@
+{#
+    WebPlotDigitizer - web based chart data extraction software (and more)
+
+    Copyright (C) 2025 Ankit Rohatgi
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>
+#}
+
+<div id="quick-actions-toolbar" class="toolbar permanent-toolbar">
+    <p>
+        <button onclick="wpd.popup.show('loadNewImage');" class="toolbar-button has-tooltip" data-tooltip="Load Image/PDF">
+            <i class="bi-image"></i> <span class="toolbar-button-label"></span>
+        </button>
+        <button onclick="wpd.saveResume.save();" class="toolbar-button has-tooltip" data-tooltip="Save Project">
+            <i class="bi-save"></i> <span class="toolbar-button-label"></span>
+        </button>
+        <button onclick="wpd.calibrateAxesDialog.open();" class="toolbar-button has-tooltip" data-tooltip="Add Axes Calibration">
+            <i class="bi-plus-square"></i> <span class="toolbar-button-label"></span>
+        </button>
+        <button onclick="wpd.dataSeriesManagement.showAddDataset();" class="toolbar-button has-tooltip" data-tooltip="Add Dataset">
+            <i class="bi-database-add"></i> <span class="toolbar-button-label"></span>
+        </button>
+        {% if app_mode == "online" %}
+        <button onclick="wpd.ai.assist();" class="toolbar-button has-tooltip" data-tooltip="Autogenerate Calibration and Datasets (Experimental)">
+            AI Assist
+        </button>
+        {% endif %}
+    </p>
+</div>
+
+<!-- Adjust Points Toolbar -->
+<div id="adjustDataPointsToolbar" class="toolbar">
+    <p><input type="button" value="{{ _("View Keyboard Shortcuts") }}" onclick="wpd.popup.show('adjust-data-points-keyboard-shortcuts-window');" /></p>
+</div>

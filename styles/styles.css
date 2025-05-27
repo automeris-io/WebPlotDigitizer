@@ -1,0 +1,317 @@
+@import url("constants.css");
+
+html {
+    height: 100%;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    font-size: var(--wpd-font-size);
+    font-family: var(--wpd-font-family);
+    line-height: 150%;
+    background: white;
+    overflow: hidden;
+}
+
+tr,
+td {
+    margin: 0;
+    padding: 0;
+}
+
+#allContainer {
+    width: 100%;
+    height: 100%;
+    margin-left: 5px;
+}
+
+#mainContainer {
+    float: left;
+}
+
+#topContainer {
+    border-bottom: thin lightgrey solid;
+    line-height: 28px;
+    padding-bottom: 10px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#left-side-container {
+    border-right: thin lightgray solid;
+}
+
+#menuButtonsContainer {
+    padding-top: 4px;
+    padding-left: 5px;
+    padding-right: 5px;
+    display: inline-block;
+}
+
+#topToolbarContainer {
+    display: inline-block;
+    flex-grow: 4;
+    padding-top: 9px;
+}
+
+#graphicsContainer {
+    overflow: auto;
+    display: inline-block;
+}
+
+#sidebarContainer {
+    float: right;
+    width: 260px;
+    height: 100%;
+    border-left: thin lightgray solid;
+}
+
+#bottomContainer {
+    width: 100%;
+    height: 40px;
+    border-top: thin lightgrey solid;
+}
+
+#canvasDiv {
+    height: 400px;
+    /* temporary */
+    width: 600px;
+    /* temporary */
+    background: white;
+    padding: 0;
+    margin: 0;
+}
+
+#mainCanvas {
+    background: white;
+}
+
+#canvasDiv:hover {
+    cursor: crosshair;
+}
+
+.canvasLayers {
+    background: transparent;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+}
+
+.zoomLayers {
+    border: thin grey solid;
+    margin: 0;
+    padding: 0;
+}
+
+#zoomDiv {
+    margin: 0px;
+    margin-bottom: 5px;
+    padding: 0px;
+    width: 251px;
+    text-align: center;
+}
+
+#cursorPosition {
+    padding: 0px 0px;
+    margin: 0;
+    margin-top: -5px;
+    background: white;
+    width: 250px;
+    top: 0px;
+    font-size: 12px;
+    text-align: center;
+}
+
+select {
+    height: 24px;
+    font-size: var(--wpd-font-size);
+    font-family: var(--wpd-font-family);
+    ;
+    border: thin grey solid;
+}
+
+select>option {
+    font-size: 15px;
+}
+
+.standardToolbar {
+    height: 25px;
+    padding: 0 0px;
+    margin: 0 0px;
+}
+
+.toolbar {
+    padding: 0 10px;
+    margin: 0;
+    height: 25px;
+    z-index: 4;
+    display: none;
+}
+
+.toolbar p {
+    padding: 0;
+    margin: 0;
+}
+
+.popupheading {
+    font-size: 14px;
+    text-align: left;
+    cursor: move;
+    background-color: var(--wpd-dialog-title-background);
+    color: var(--wpd-dialog-title-text-color);
+    margin: 0 -5px 10px -5px;
+    padding: 8px;
+    border-radius: 2px;
+}
+
+.popup {
+    padding: 0px 5px 12px 5px;
+    margin: 0;
+    border: thin #444 solid;
+    border-radius: 2px;
+    background: white;
+    z-index: 100;
+    position: absolute;
+    top: 0;
+    left: 0;
+    visibility: hidden;
+}
+
+.popup p {
+    padding: 0;
+    margin: 5px 5px;
+}
+
+.popup-drag-mask {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    background: none;
+    z-index: 5000;
+    display: none;
+}
+
+
+.sidebar p {
+    padding: 2px 0px 2px 8px;
+    margin: 2px 1px 2px 1px;
+    font-size: 13px;
+}
+
+.sidebar-title {
+    background: #ddd;
+    color: black;
+    padding: 2px;
+}
+
+.sidebar {
+    padding: 0px 0px;
+    margin: 0;
+    background: white;
+    width: 250px;
+    display: none;
+    font-size: 13px;
+    overflow: auto;
+}
+
+.footnote {
+    font-size: 10px;
+}
+
+.leftIndent {
+    margin-left: 10px;
+}
+
+#zoom-settings-container {
+    position: absolute;
+    top: 5px;
+    right: 20px;
+    z-index: 3;
+}
+
+#zoom-settings-button {
+    width: 20px;
+    height: 20px;
+    font-size: 14px;
+    padding: 0px;
+}
+
+.colorOptionBox {
+    display: inline-block;
+    height: 20px;
+    width: 20px;
+    border: thin black solid;
+    margin-left: 5px;
+}
+
+.largeColorBox {
+    display: inline-block;
+    height: 40px;
+    width: 40px;
+    border: thin black solid;
+}
+
+#wait {
+    position: absolute;
+    top: 0px;
+    left: 400px;
+    background: #666666;
+    color: lightgreen;
+    width: 200px;
+    margin: 0px;
+    padding: 0px;
+    z-index: 100;
+    visibility: hidden;
+}
+
+#wait>p {
+    margin: 3px;
+    padding: 0px;
+}
+
+.i18n-string {
+    display: none;
+}
+
+.sidebar-extras {
+    border: thin lightgray solid;
+    padding-top: 5px;
+    display: none;
+    position: relative;
+}
+
+#bottomNavbarContainer {
+    height: 100%;
+}
+
+#imageAndPageNavbar {
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+#imageAndPageNavbar .paged {
+    margin-left: 10px;
+}
+
+#imageAndPageNavbar .files {
+    margin-left: 10px;
+}
+
+#navSeparator {
+    height: 100%;
+    margin: 0px 10px 0px 20px;
+    border-left: thin lightgray solid;
+}
+
+label {
+    vertical-align: top;
+}

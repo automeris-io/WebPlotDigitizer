@@ -1,0 +1,30 @@
+{#
+    WebPlotDigitizer - web based chart data extraction software (and more)
+
+    Copyright (C) 2025 Ankit Rohatgi
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>
+#}
+
+<!-- Image and Page navigation bar -->
+<div id="imageAndPageNavbar">
+    <span class="files" hidden>Image: </span>
+    <div class="files" hidden><select id="image-file-select" style="width:100%;" onchange="wpd.appData.getFileManager().switch(this.value);"></select></div>
+    <div id="navSeparator" hidden></div>
+    <span class="paged" hidden>Page: </span>
+    <div class="paged" hidden><select id="image-page-nav-select" style="width:100%;" onchange="wpd.appData.getPageManager().switch(this.value);"></select></div>
+    <div class="paged" hidden><input type="button" value="{{ _("Previous") }}" style="width:100px;" onclick="wpd.appData.getPageManager().previous();" /></div>
+    <div class="paged" hidden><input type="button" value="{{ _("Next") }}" style="width:100px;" onclick="wpd.appData.getPageManager().next();" /></div>
+    <div class="paged" hidden><input type="button" value="{{ _("Page Labels") }}" style="width:100px;" onclick="wpd.popup.show('image-page-relabel-popup');" /></div>
+</div>

@@ -1,0 +1,63 @@
+{#
+    WebPlotDigitizer - web based chart data extraction software (and more)
+
+    Copyright (C) 2025 Ankit Rohatgi
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>
+#}
+
+<div class="wpd-menu">
+    <div class="wpd-menu-header">{{ _("File") }}</div>
+    <div class="wpd-menu-dropdown">
+        <ul>
+            <li onclick="wpd.popup.show('loadNewImage');">{{ _("Load Image(s)/PDF(s)") }}</li>
+            <li onclick="wpd.saveResume.load();">{{ _("Load Project From Disk") }}</li>
+            <li onclick="wpd.saveResume.save();">{{ _("Save Project To Disk") }}</li>
+            {% if app_mode == 'offline' %}
+            <li onclick="wpd.exit();">{{ _("Quit") }}</li>
+            {% endif %}
+        </ul>
+    </div>
+</div>
+
+<div class="wpd-menu">
+    <div class="wpd-menu-header">{{ _("Help") }}</div>
+    <div class="wpd-menu-dropdown">
+        <ul>
+            <li id="wpd-helpmenu-about" onclick="wpd.popup.show('helpWindow');">{{ _("About WebPlotDigitizer") }}</li>
+            {% if app_mode == 'cloud' %}
+            <li id="wpd-helpmenu-manual" onclick="window.open('/docs/', '_blank');">{{ _("User Manual") }}</li>
+            <li onclick="window.open('/feedback', '_blank');">Request Features</li>
+            <li onclick="window.open('/feedback', '_blank');">Report Issues</li>
+            {% else %}
+            <li id="wpd-helpmenu-manual" onclick="window.open('https://automeris.io/docs/', '_blank');">{{ _("User Manual") }}</li>
+            {% endif %}
+        </ul>
+    </div>
+</div>
+
+{% if app_mode == 'cloud' %}
+<div class="wpd-menu">
+    <div class="wpd-menu-header">
+        <span title="Your Account"><i class="bi bi-person-circle"></i></span>
+    </div>
+    <div class="wpd-menu-dropdown">
+        <ul>
+            <li onclick="window.open('/account', '_blank');">Account</li>
+            <li onclick="wpd.showPrefs();">Preferences</li>
+            <li onclick="window.open('/api/logout', '_self');">Sign out</li>
+        </ul>
+    </div>
+</div>
+{% endif %}

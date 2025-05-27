@@ -1,36 +1,55 @@
-NOTE
-====
-Work on this repository (v4 and earlier) has been paused in favor of v5 (closed source). For details, see: https://automeris.io/posts/
+# WebPlotDigitizer
 
-You can still submit issues, but it is likely that fixes will only land in v5.
+A large quantity of useful data is locked away in images of data visualizations. WebPlotDigitizer is a computer vision assisted software that helps extract numerical data from images of a variety of data visualizations.
 
-PRs or any other contributions are not being accepted at this time.
+WPD has been used by thousands in academia and industry since its creation in 2010 (Google Scholar Citations)
 
---------------
+To use WPD, sign-up on https://automeris.io
 
-WebPlotDigitizer
-================
+![WPD Screenshot](images/wpd5.png "WebPlotDigitizer UI")
 
-A web based tool to extract numerical data from plot images. Supports XY, Polar, Ternary diagrams and Maps. This is an opensource tool that is used by thousands and [cited in many published articles](https://scholar.google.com/scholar?as_vis=1&q=WebPlotDigitizer&hl=en&as_sdt=0,44). Checkout https://automeris.io/WebPlotDigitizer.html for more details.
+## Donate
 
-![WebPlotDigitizer Screenshot](screenshot.png?raw=true "WebPlotDigitizer")
+Donatations help keeping WPD free for thousands of scientists and researchers across the world.
 
-Contact
--------
+<a href='https://ko-fi.com/L4L010CWIY' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://storage.ko-fi.com/cdn/kofi6.png?v=6' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
 
-To report issues, use GitHub Issues. For other queries, contact Ankit Rohatgi <plots@automeris.io>
+## Documentation
 
-License
--------
+Visit: https://automeris.io/docs/
 
-WebPlotDigitizer is distributed under [GNU AGPL v3](https://www.gnu.org/licenses/agpl-3.0.en.html).
+## License
 
-Stable Versions
----------------
+WPD frontend is distributed under GNU AGPL v3 license (this repository). 
 
-The master branch in this repository is unstable and not recommended to be used in production. To access stable releases, check out: https://github.com/automeris-io/WebPlotDigitizer/releases
+Automeris "AI Assist" and other related cloud based systems are closed source and owned by Automeris LLC (owned by Ankit Rohatgi).
 
-Contributing
-------------
+## Contact
 
-To contribute to WebPlotDigitizer, please refer to the [developer guidelines](DEVELOPER_GUIDELINES.md).
+Primary Author and Maintainer: Ankit Rohatgi
+
+Email: plots@automeris.io
+
+## Contributions
+
+WPD does not have an official roadmap. Please consult before submitting contributions.
+
+
+## Local build (for development)
+
+With Docker:
+```
+docker compose up --build               # install depedencies, build and host
+docker compose run wpd npm run build    # rebuild
+docker compose run wpd npm run format   # autoformat code
+http://localhost:8080/tests             # run tests
+```
+
+Without Docker:
+```
+npm install     # install dependencies
+npm run build   # build artifacts
+npm start       # host locally
+npm run format  # autoformat code
+npm run test    # run tests
+```
