@@ -1,0 +1,31 @@
+{
+    "name": "webplotdigitzer-app",
+    "version": "5.3.0",
+    "description": "WebPlotDigitizer",
+    "main": "wpd.min.js",
+    "scripts": {
+        "prebuild": "./build.sh",
+        "build": "uglifyjs combined.js -cm -o wpd.min.js",
+        "format": "./format.sh",
+        "test": "./node_modules/karma/bin/karma start",
+        "start": "http-server -o"
+    },
+    "devDependencies": {
+        "http-server": "^14.1.1",
+        "js-beautify": ">=1.14.0",
+        "karma": ">=6.3.19",
+        "karma-chrome-launcher": ">=3.1.1",
+        "karma-edge-launcher": ">=0.4.2",
+        "karma-firefox-launcher": ">=2.1.2",
+        "karma-qunit": ">=4.1.2",
+        "karma-sinon": ">=1.0.5",
+        "qunit": ">=2.19.0",
+        "sinon": ">=13.0.2",
+        "uglify-js": ">=3.14.2"
+    },
+    "dependencies": {
+        "bootstrap-icons": "^1.11.3",
+        "pdfjs-dist": "^4.2.67",
+        "tarballjs": "https://github.com/ankitrohatgi/tarballjs.git#v1.0"
+    }
+}
