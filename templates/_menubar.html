@@ -38,10 +38,9 @@
             <li id="wpd-helpmenu-about" onclick="wpd.popup.show('helpWindow');">{{ _("About WebPlotDigitizer") }}</li>
             {% if app_mode == 'cloud' %}
             <li id="wpd-helpmenu-manual" onclick="window.open('/docs/', '_blank');">{{ _("User Manual") }}</li>
-            <li onclick="window.open('/feedback', '_blank');">Request Features</li>
-            <li onclick="window.open('/feedback', '_blank');">Report Issues</li>
             {% else %}
             <li id="wpd-helpmenu-manual" onclick="window.open('https://automeris.io/docs/', '_blank');">{{ _("User Manual") }}</li>
+            <li id="wpd-helpmenu-manual" onclick="window.open('https://github.com/automeris-io/WebPlotDigitizer/issues', '_blank');">{{ _("Report Issues") }}</li>
             {% endif %}
         </ul>
     </div>

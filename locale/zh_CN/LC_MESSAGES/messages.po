@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  WebPlotDigitizer\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-05-27 22:06-0700\n"
+"POT-Creation-Date: 2025-08-25 22:47-0700\n"
 "PO-Revision-Date: 2024-03-18 21:06+0800\n"
 "Last-Translator: nkh0472 <nkh0472@hotmail.com>\n"
 "Language: zh_CN\n"
@@ -66,10 +66,14 @@ msgstr "帮助"
 msgid "About WebPlotDigitizer"
 msgstr "关于 WebPlotDigitizer"
 
-#: templates/_menubar.html:40 templates/_menubar.html:44
+#: templates/_menubar.html:40 templates/_menubar.html:42
 #: templates/_sidebars.html:223
 msgid "User Manual"
 msgstr "用户手册"
+
+#: templates/_menubar.html:43
+msgid "Report Issues"
+msgstr ""
 
 #: templates/_navbar.html:27
 msgid "Previous"
