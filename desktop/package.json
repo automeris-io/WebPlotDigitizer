@@ -20,7 +20,7 @@
     "@electron-forge/plugin-auto-unpack-natives": "^7.4.0",
     "@electron-forge/plugin-fuses": "^7.4.0",
     "@electron/fuses": "^1.8.0",
-    "electron": "^31.1.0"
+    "electron": "^35.7.5"
   },
   "dependencies": {
     "bootstrap-icons": "^1.11.3",
