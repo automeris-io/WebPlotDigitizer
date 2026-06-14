@@ -332,7 +332,7 @@ wpd.FileManager = class {
                     filePromise = new Promise((resolve, reject) => {
                         let reader = new FileReader();
                         reader.onload = function() {
-                            pdfjsLib.getDocument(reader.result).promise.then(pdf => resolve(pdf));
+                            pdfjsLib.getDocument({ url: reader.result }).promise.then(pdf => resolve(pdf));
                         };
                         reader.readAsDataURL(this.files[index]);
                     });
