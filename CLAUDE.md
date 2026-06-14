@@ -331,5 +331,5 @@ WebPlotDigitizer/
 
 - **Frontend**: GNU AGPL v3
 - **Author**: Ankit Rohatgi
-- **Copyright**: 2010-2025
+- **Copyright**: 2010-2026
 
