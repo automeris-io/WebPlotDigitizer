@@ -1,6 +1,6 @@
 {
     "name": "webplotdigitzer-app",
-    "version": "5.3.0",
+    "version": "5.4.0",
     "description": "WebPlotDigitizer",
     "main": "wpd.min.js",
     "scripts": {
