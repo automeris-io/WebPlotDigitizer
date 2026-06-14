@@ -25,7 +25,7 @@
     },
     "dependencies": {
         "bootstrap-icons": "^1.13.1",
-        "pdfjs-dist": "^4.10.38",
+        "pdfjs-dist": "^6.0.227",
         "tarballjs": "https://github.com/ankitrohatgi/tarballjs.git#v1.0"
     }
 }
