@@ -516,16 +516,6 @@
     </div>
 </div>
 
-<div id="ai-assist-login-dialog" class="popup" style="width:400px;">
-    <div class="popupheading">{{ _("AI Assist — Login Required") }}</div>
-    <p>{{ _("You need to be logged in to use AI Assist. Please open the login page in a new tab, sign in, and then return here to use AI Assist.") }}</p>
-    <p align="center">
-        <input type="button" value="{{ _("Open Login Page") }}" onclick="window.open('/login', '_blank');" />
-        &nbsp;
-        <input type="button" value="{{ _("Close") }}" onclick="wpd.popup.close('ai-assist-login-dialog');" />
-    </p>
-</div>
-
 <div id="ai-assist-dialog" class="popup" style="width:400px;">
     <div class="popupheading">{{ _("AI Assist (Experimental)") }}</div>
     <p>{{ _("AI assist is an experimental feature that uses state-of-the-art multimodal AI models on your image to auto detect axes information and datasets. This feature is under active development and more capabilities will be added soon.") }}</p>
