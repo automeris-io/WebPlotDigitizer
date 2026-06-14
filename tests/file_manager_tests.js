@@ -751,3 +751,46 @@ QUnit.test("Load metadata from JSON", async (assert) => {
     // revert pdfjsLib
     window.pdfjsLib = pdfjsLibBackup;
 });
+
+QUnit.test("getDocument called with object parameter, not a plain string", async (assert) => {
+    const fileManager = createInstance();
+    assert.timeout(500);
+    const done = assert.async();
+
+    const pdf = new File([], "test.pdf", { type: "application/pdf" });
+
+    sinon.stub(fileManager, "_initializeInput");
+    sinon.stub(fileManager, "_hideFileInfo");
+    sinon.stub(fileManager, "_showFileInfo");
+    sinon.stub(wpd.appData, "getPlotData").returns({
+        getAxesColl: () => [],
+        getDatasets: () => [],
+        getMeasurementColl: () => [],
+    });
+    sinon.stub(wpd.appData, "getPageManager").returns(null);
+    sinon.stub(wpd.imageManager, "initializePDFManager").returns({
+        loadPageData: sinon.spy(),
+        refreshInput: () => {}
+    });
+
+    // Use a spy so we can inspect what argument getDocument receives
+    const getDocumentStub = sinon.stub().returns({
+        promise: Promise.resolve()
+    });
+    const pdfjsLibBackup = window.pdfjsLib;
+    window.pdfjsLib = { getDocument: getDocumentStub };
+
+    // Two PDFs: index 0 uses the existing page manager path, index 1 calls getDocument
+    fileManager.set([pdf, pdf]);
+
+    sinon.stub(wpd.tree, "refresh").callsFake(() => {
+        assert.true(getDocumentStub.calledOnce, "getDocument was called for the second PDF");
+        const arg = getDocumentStub.getCall(0).args[0];
+        assert.equal(typeof arg, "object", "getDocument received an object, not a plain string");
+        assert.true("url" in arg, "getDocument argument has a 'url' property");
+        window.pdfjsLib = pdfjsLibBackup;
+        done();
+    });
+
+    await fileManager.loadMetadata({});
+});
