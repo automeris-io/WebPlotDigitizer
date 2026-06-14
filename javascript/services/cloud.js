@@ -51,15 +51,12 @@ wpd.isUserLoggedIn = function() {
     });
 }
 
-// check if user is logged in on-load
-if (!wpd.isOffline() && !wpd.isLocalhost()) {
-    wpd.isUserLoggedIn().then(() => {
-        console.log("logged in");
-    }, (err) => {
-        console.log(err);
-        window.location = "/login";
-    });
-}
+wpd.checkLoginForAI = function() {
+    if (wpd.isOffline() || wpd.isLocalhost()) {
+        return Promise.resolve(true);
+    }
+    return wpd.isUserLoggedIn().then(() => true, () => false);
+};
 
 wpd.getQuotaLimits = function() {
     return new Promise((resolve, reject) => {

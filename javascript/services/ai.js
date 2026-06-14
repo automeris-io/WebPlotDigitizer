@@ -35,16 +35,22 @@ wpd.ai = (function() {
     }
 
     function assist() {
-        showQuota();
-        wpd.popup.show('ai-assist-dialog');
-        if ($status == null) {
-            $status = document.getElementById("ai-assist-status");
-        }
-        if ($runBtn == null) {
-            $runBtn = document.getElementById("ai-assist-run-btn");
-        }
-        $status.innerHTML = "";
-        $runBtn.disabled = false;
+        wpd.checkLoginForAI().then((loggedIn) => {
+            if (!loggedIn) {
+                wpd.popup.show('ai-assist-login-dialog');
+                return;
+            }
+            showQuota();
+            wpd.popup.show('ai-assist-dialog');
+            if ($status == null) {
+                $status = document.getElementById("ai-assist-status");
+            }
+            if ($runBtn == null) {
+                $runBtn = document.getElementById("ai-assist-run-btn");
+            }
+            $status.innerHTML = "";
+            $runBtn.disabled = false;
+        });
     }
 
     async function runQuery() {
