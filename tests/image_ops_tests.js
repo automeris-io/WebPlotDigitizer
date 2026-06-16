@@ -66,16 +66,25 @@ QUnit.test("hflip: returns correct dimensions", (assert) => {
     assert.equal(result.height, 1, "height preserved");
 });
 
-QUnit.test("vflip: returns correct dimensions", (assert) => {
+QUnit.test("vflip: 1×2 image swaps top and bottom pixels", (assert) => {
     const op = captureOp(() => wpd.imageOps.vflip());
-    const result = op(makeImageData([0, 0, 0, 255, 0, 0, 0, 255]), 1, 2);
-    assert.equal(result.width, 1, "width preserved");
-    assert.equal(result.height, 2, "height preserved");
+    // Red pixel at row 0, Blue pixel at row 1
+    const imgData = makeImageData([255, 0, 0, 255, 0, 0, 255, 255]);
+    const result = op(imgData, 1, 2);
+    // After vflip: row 0 should be blue, row 1 should be red
+    assert.equal(result.imageData.data[0], 0, "row 0 R is now 0 (was blue)");
+    assert.equal(result.imageData.data[2], 255, "row 0 B is now 255");
+    assert.equal(result.imageData.data[4], 255, "row 1 R is now 255 (was red)");
+    assert.equal(result.imageData.data[6], 0, "row 1 B is now 0");
 });
 
-QUnit.test("vflip: 1×1 image returns correct dimensions", (assert) => {
+QUnit.test("vflip: 1×1 image is unchanged", (assert) => {
     const op = captureOp(() => wpd.imageOps.vflip());
-    const result = op(makeImageData([100, 150, 200, 255]), 1, 1);
+    const imgData = makeImageData([100, 150, 200, 255]);
+    const result = op(imgData, 1, 1);
+    assert.equal(result.imageData.data[0], 100, "R unchanged");
+    assert.equal(result.imageData.data[1], 150, "G unchanged");
+    assert.equal(result.imageData.data[2], 200, "B unchanged");
     assert.equal(result.width, 1, "width preserved");
     assert.equal(result.height, 1, "height preserved");
 });
