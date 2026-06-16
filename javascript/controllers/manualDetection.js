@@ -19,7 +19,7 @@
 
 var wpd = wpd || {};
 wpd.acquireData = (function() {
-    var dataset, axes;
+    let dataset, axes;
 
     function load() {
         dataset = getActiveDataset();
@@ -53,12 +53,12 @@ wpd.acquireData = (function() {
     }
 
     function manualSelection() {
-        var tool = new wpd.ManualSelectionTool(axes, dataset);
+        const tool = new wpd.ManualSelectionTool(axes, dataset);
         wpd.graphicsWidget.setTool(tool);
     }
 
     function deletePoint() {
-        var tool = new wpd.DeleteDataPointTool(axes, dataset);
+        const tool = new wpd.DeleteDataPointTool(axes, dataset);
         wpd.graphicsWidget.setTool(tool);
     }
 
@@ -94,7 +94,7 @@ wpd.acquireData = (function() {
     }
 
     function updateControlVisibility() {
-        var $editLabelsBtn = document.getElementById('edit-data-labels');
+        const $editLabelsBtn = document.getElementById('edit-data-labels');
         if (axes instanceof wpd.BarAxes) {
             $editLabelsBtn.style.display = 'inline-block';
         } else {
@@ -155,7 +155,7 @@ wpd.acquireData = (function() {
 })();
 
 wpd.dataPointLabelEditor = (function() {
-    var ds, ptIndex, tool;
+    let ds, ptIndex, tool;
 
     function show(dataset, pointIndex, initTool) {
         const pixel = dataset.getPixel(pointIndex),
@@ -175,7 +175,7 @@ wpd.dataPointLabelEditor = (function() {
     }
 
     function ok() {
-        var newLabel = document.getElementById('data-point-label-field').value;
+        const newLabel = document.getElementById('data-point-label-field').value;
 
         if (newLabel != null && newLabel.length > 0) {
             // fetch metadata and override values

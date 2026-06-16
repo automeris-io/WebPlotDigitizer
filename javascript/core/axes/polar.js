@@ -31,7 +31,7 @@ wpd.PolarAxes = (function() {
             x0, y0, x1, y1, x2, y2, r1, theta1, r2, theta2, dist10, dist20, dist12, phi0, alpha0;
 
         let processCalibration = function(cal, is_degrees, is_clockwise, is_log_r) {
-            var cp0 = cal.getPoint(0),
+            const cp0 = cal.getPoint(0),
                 cp1 = cal.getPoint(1),
                 cp2 = cal.getPoint(2);
             x0 = cp0.px;
@@ -106,7 +106,7 @@ wpd.PolarAxes = (function() {
         };
 
         this.pixelToData = function(pxi, pyi) {
-            var data = [],
+            let data = [],
                 rp, thetap;
 
             let xp = parseFloat(pxi);
@@ -148,7 +148,7 @@ wpd.PolarAxes = (function() {
         };
 
         this.pixelToLiveString = function(pxi, pyi) {
-            var dataVal = this.pixelToData(pxi, pyi);
+            const dataVal = this.pixelToData(pxi, pyi);
             return dataVal[0].toExponential(4) + ', ' + dataVal[1].toExponential(4);
         };
 

@@ -1,6 +1,6 @@
 /*
     WebPlotDigitizer - web based chart data extraction software (and more)
-    
+
     Copyright (C) 2026 Ankit Rohatgi
 
     This program is free software: you can redistribute it and/or modify
@@ -82,7 +82,7 @@ wpd.BoxMaskTool = class {
             return;
         this.canvasPos = wpd.graphicsWidget.imageToCanvasPx(imagePos.x, imagePos.y);
         this.mouseMoveHandler();
-    };
+    }
 
     onMouseOut(ev, pos, imagePos) {
         if (this.isDrawing === true) {
@@ -90,7 +90,7 @@ wpd.BoxMaskTool = class {
             this.mouseOutPos = pos;
             this.mouseOutImagePos = imagePos;
         }
-    };
+    }
 
     onDocumentMouseUp(ev, pos, imagePos) {
         if (this.mouseOutPos != null && this.mouseOutImagePos != null) {
@@ -100,244 +100,242 @@ wpd.BoxMaskTool = class {
         }
         this.mouseOutPos = null;
         this.mouseOutImagePos = null;
-    };
+    }
 
     onMouseUp(ev, pos, imagePos) {
         this.mouseUpHandler(ev, pos, imagePos);
-    };
+    }
 
     onRemove() {
         document.getElementById('box-mask').classList.remove('pressed-button');
         document.getElementById('view-mask').classList.remove('pressed-button');
         wpd.dataMask.grabMask();
-    };
-
+    }
 };
 
-wpd.PenMaskTool = (function() {
-    var Tool = function() {
-        var strokeWidth, ctx = wpd.graphicsWidget.getAllContexts(),
-            isDrawing = false,
-            moveTimer,
-            screen_pos, canvas_pos, image_pos, mouseMoveHandler = function() {
-                ctx.dataCtx.globalCompositeOperation = "xor";
-                ctx.oriDataCtx.globalCompositeOperation = "xor";
-                ctx.dataCtx.strokeStyle = "rgba(255,255,0,0.5)";
-                ctx.dataCtx.lineTo(canvas_pos.x, canvas_pos.y);
-                ctx.dataCtx.stroke();
+wpd.PenMaskTool = class {
+    constructor() {
+        this._ctx = wpd.graphicsWidget.getAllContexts();
+        this._isDrawing = false;
+        this._moveTimer = null;
+        this._screenPos = null;
+        this._canvasPos = null;
+        this._imagePos = null;
+    }
 
-                ctx.oriDataCtx.strokeStyle = "rgba(255,255,0,0.5)";
-                ctx.oriDataCtx.lineTo(image_pos.x, image_pos.y);
-                ctx.oriDataCtx.stroke();
-                ctx.dataCtx.globalCompositeOperation = "source-over";
-                ctx.oriDataCtx.globalCompositeOperation = "source-over";
-            };
+    _mouseMoveHandler() {
+        this._ctx.dataCtx.globalCompositeOperation = "xor";
+        this._ctx.oriDataCtx.globalCompositeOperation = "xor";
+        this._ctx.dataCtx.strokeStyle = "rgba(255,255,0,0.5)";
+        this._ctx.dataCtx.lineTo(this._canvasPos.x, this._canvasPos.y);
+        this._ctx.dataCtx.stroke();
 
-        this.onAttach = function() {
-            wpd.graphicsWidget.setRepainter(new wpd.MaskPainter());
-            document.getElementById('pen-mask').classList.add('pressed-button');
-            document.getElementById('view-mask').classList.add('pressed-button');
-            document.getElementById('mask-paint-container').style.display = 'block';
-        };
+        this._ctx.oriDataCtx.strokeStyle = "rgba(255,255,0,0.5)";
+        this._ctx.oriDataCtx.lineTo(this._imagePos.x, this._imagePos.y);
+        this._ctx.oriDataCtx.stroke();
+        this._ctx.dataCtx.globalCompositeOperation = "source-over";
+        this._ctx.oriDataCtx.globalCompositeOperation = "source-over";
+    }
 
-        this.onMouseDown = function(ev, pos, imagePos) {
-            if (isDrawing === true)
-                return;
-            let lwidth = parseInt(document.getElementById('paintThickness').value, 10);
-            let canvasPos = wpd.graphicsWidget.screenToCanvasPx(pos.x, pos.y);
-            isDrawing = true;
-            ctx.dataCtx.globalCompositeOperation = "xor";
-            ctx.oriDataCtx.globalCompositeOperation = "xor";
-            ctx.dataCtx.strokeStyle = "rgba(255,255,0,0.5)";
-            ctx.dataCtx.lineWidth = lwidth * wpd.graphicsWidget.getZoomRatio();
-            ctx.dataCtx.beginPath();
-            ctx.dataCtx.moveTo(canvasPos.x, canvasPos.y);
+    onAttach() {
+        wpd.graphicsWidget.setRepainter(new wpd.MaskPainter());
+        document.getElementById('pen-mask').classList.add('pressed-button');
+        document.getElementById('view-mask').classList.add('pressed-button');
+        document.getElementById('mask-paint-container').style.display = 'block';
+    }
 
-            ctx.oriDataCtx.strokeStyle = "rgba(255,255,0,0.5)";
-            ctx.oriDataCtx.lineWidth = lwidth;
-            ctx.oriDataCtx.beginPath();
-            ctx.oriDataCtx.moveTo(imagePos.x, imagePos.y);
-            ctx.dataCtx.globalCompositeOperation = "source-over";
-            ctx.oriDataCtx.globalCompositeOperation = "source-over";
-        };
+    onMouseDown(ev, pos, imagePos) {
+        if (this._isDrawing === true)
+            return;
+        const lwidth = parseInt(document.getElementById('paintThickness').value, 10);
+        const canvasPos = wpd.graphicsWidget.screenToCanvasPx(pos.x, pos.y);
+        this._isDrawing = true;
+        this._ctx.dataCtx.globalCompositeOperation = "xor";
+        this._ctx.oriDataCtx.globalCompositeOperation = "xor";
+        this._ctx.dataCtx.strokeStyle = "rgba(255,255,0,0.5)";
+        this._ctx.dataCtx.lineWidth = lwidth * wpd.graphicsWidget.getZoomRatio();
+        this._ctx.dataCtx.beginPath();
+        this._ctx.dataCtx.moveTo(canvasPos.x, canvasPos.y);
 
-        this.onMouseMove = function(ev, pos, imagePos) {
-            if (isDrawing === false)
-                return;
-            screen_pos = pos;
-            canvas_pos = wpd.graphicsWidget.screenToCanvasPx(pos.x, pos.y);
-            image_pos = imagePos;
-            clearTimeout(moveTimer);
-            moveTimer = setTimeout(mouseMoveHandler, 2);
-        };
+        this._ctx.oriDataCtx.strokeStyle = "rgba(255,255,0,0.5)";
+        this._ctx.oriDataCtx.lineWidth = lwidth;
+        this._ctx.oriDataCtx.beginPath();
+        this._ctx.oriDataCtx.moveTo(imagePos.x, imagePos.y);
+        this._ctx.dataCtx.globalCompositeOperation = "source-over";
+        this._ctx.oriDataCtx.globalCompositeOperation = "source-over";
+    }
 
-        this.onMouseUp = function(ev, pos, imagePos) {
-            clearTimeout(moveTimer);
-            ctx.dataCtx.closePath();
-            ctx.dataCtx.lineWidth = 1;
-            ctx.oriDataCtx.closePath();
-            ctx.oriDataCtx.lineWidth = 1;
-            isDrawing = false;
-        };
+    onMouseMove(ev, pos, imagePos) {
+        if (this._isDrawing === false)
+            return;
+        this._screenPos = pos;
+        this._canvasPos = wpd.graphicsWidget.screenToCanvasPx(pos.x, pos.y);
+        this._imagePos = imagePos;
+        clearTimeout(this._moveTimer);
+        this._moveTimer = setTimeout(() => this._mouseMoveHandler(), 2);
+    }
 
-        this.onMouseOut = function(ev, pos, imagePos) {
-            this.onMouseUp(ev, pos, imagePos);
-        };
+    onMouseUp(ev, pos, imagePos) {
+        clearTimeout(this._moveTimer);
+        this._ctx.dataCtx.closePath();
+        this._ctx.dataCtx.lineWidth = 1;
+        this._ctx.oriDataCtx.closePath();
+        this._ctx.oriDataCtx.lineWidth = 1;
+        this._isDrawing = false;
+    }
 
-        this.onRemove = function() {
-            document.getElementById('pen-mask').classList.remove('pressed-button');
-            document.getElementById('view-mask').classList.remove('pressed-button');
-            document.getElementById('mask-paint-container').style.display = 'none';
-            wpd.dataMask.grabMask();
-            wpd.toolbar.clear();
-        };
-    };
-    return Tool;
-})();
+    onMouseOut(ev, pos, imagePos) {
+        this.onMouseUp(ev, pos, imagePos);
+    }
 
-wpd.EraseMaskTool = (function() {
-    var Tool = function() {
-        var strokeWidth, ctx = wpd.graphicsWidget.getAllContexts(),
-            isDrawing = false,
-            moveTimer,
-            screen_pos, canvas_pos, image_pos, mouseMoveHandler = function() {
-                ctx.dataCtx.globalCompositeOperation = "destination-out";
-                ctx.oriDataCtx.globalCompositeOperation = "destination-out";
+    onRemove() {
+        document.getElementById('pen-mask').classList.remove('pressed-button');
+        document.getElementById('view-mask').classList.remove('pressed-button');
+        document.getElementById('mask-paint-container').style.display = 'none';
+        wpd.dataMask.grabMask();
+        wpd.toolbar.clear();
+    }
+};
 
-                ctx.dataCtx.strokeStyle = "rgba(255,255,0,1)";
-                ctx.dataCtx.lineTo(canvas_pos.x, canvas_pos.y);
-                ctx.dataCtx.stroke();
+wpd.EraseMaskTool = class {
+    constructor() {
+        this._ctx = wpd.graphicsWidget.getAllContexts();
+        this._isDrawing = false;
+        this._moveTimer = null;
+        this._screenPos = null;
+        this._canvasPos = null;
+        this._imagePos = null;
+    }
 
-                ctx.oriDataCtx.strokeStyle = "rgba(255,255,0,1)";
-                ctx.oriDataCtx.lineTo(image_pos.x, image_pos.y);
-                ctx.oriDataCtx.stroke();
-                ctx.dataCtx.globalCompositeOperation = "source-over";
-                ctx.oriDataCtx.globalCompositeOperation = "source-over";
-            };
+    _mouseMoveHandler() {
+        this._ctx.dataCtx.globalCompositeOperation = "destination-out";
+        this._ctx.oriDataCtx.globalCompositeOperation = "destination-out";
 
-        this.onAttach = function() {
-            wpd.graphicsWidget.setRepainter(new wpd.MaskPainter());
-            document.getElementById('erase-mask').classList.add('pressed-button');
-            document.getElementById('view-mask').classList.add('pressed-button');
-            document.getElementById('mask-erase-container').style.display = 'block';
-        };
+        this._ctx.dataCtx.strokeStyle = "rgba(255,255,0,1)";
+        this._ctx.dataCtx.lineTo(this._canvasPos.x, this._canvasPos.y);
+        this._ctx.dataCtx.stroke();
 
-        this.onMouseDown = function(ev, pos, imagePos) {
-            if (isDrawing === true)
-                return;
-            let lwidth = parseInt(document.getElementById('eraseThickness').value, 10);
-            let canvasPos = wpd.graphicsWidget.screenToCanvasPx(pos.x, pos.y);
-            isDrawing = true;
-            ctx.dataCtx.globalCompositeOperation = "destination-out";
-            ctx.oriDataCtx.globalCompositeOperation = "destination-out";
+        this._ctx.oriDataCtx.strokeStyle = "rgba(255,255,0,1)";
+        this._ctx.oriDataCtx.lineTo(this._imagePos.x, this._imagePos.y);
+        this._ctx.oriDataCtx.stroke();
+        this._ctx.dataCtx.globalCompositeOperation = "source-over";
+        this._ctx.oriDataCtx.globalCompositeOperation = "source-over";
+    }
 
-            ctx.dataCtx.strokeStyle = "rgba(0,0,0,1)";
-            ctx.dataCtx.lineWidth = lwidth * wpd.graphicsWidget.getZoomRatio();
-            ctx.dataCtx.beginPath();
-            ctx.dataCtx.moveTo(canvasPos.x, canvasPos.y);
+    onAttach() {
+        wpd.graphicsWidget.setRepainter(new wpd.MaskPainter());
+        document.getElementById('erase-mask').classList.add('pressed-button');
+        document.getElementById('view-mask').classList.add('pressed-button');
+        document.getElementById('mask-erase-container').style.display = 'block';
+    }
 
-            ctx.oriDataCtx.strokeStyle = "rgba(0,0,0,1)";
-            ctx.oriDataCtx.lineWidth = lwidth;
-            ctx.oriDataCtx.beginPath();
-            ctx.oriDataCtx.moveTo(imagePos.x, imagePos.y);
-            ctx.dataCtx.globalCompositeOperation = "source-over";
-            ctx.oriDataCtx.globalCompositeOperation = "source-over";
-        };
+    onMouseDown(ev, pos, imagePos) {
+        if (this._isDrawing === true)
+            return;
+        const lwidth = parseInt(document.getElementById('eraseThickness').value, 10);
+        const canvasPos = wpd.graphicsWidget.screenToCanvasPx(pos.x, pos.y);
+        this._isDrawing = true;
+        this._ctx.dataCtx.globalCompositeOperation = "destination-out";
+        this._ctx.oriDataCtx.globalCompositeOperation = "destination-out";
 
-        this.onMouseMove = function(ev, pos, imagePos) {
-            if (isDrawing === false)
-                return;
-            screen_pos = pos;
-            image_pos = imagePos;
-            canvas_pos = wpd.graphicsWidget.screenToCanvasPx(pos.x, pos.y);
-            clearTimeout(moveTimer);
-            moveTimer = setTimeout(mouseMoveHandler, 2);
-        };
+        this._ctx.dataCtx.strokeStyle = "rgba(0,0,0,1)";
+        this._ctx.dataCtx.lineWidth = lwidth * wpd.graphicsWidget.getZoomRatio();
+        this._ctx.dataCtx.beginPath();
+        this._ctx.dataCtx.moveTo(canvasPos.x, canvasPos.y);
 
-        this.onMouseOut = function(ev, pos, imagePos) {
-            this.onMouseUp(ev, pos, imagePos);
-        };
+        this._ctx.oriDataCtx.strokeStyle = "rgba(0,0,0,1)";
+        this._ctx.oriDataCtx.lineWidth = lwidth;
+        this._ctx.oriDataCtx.beginPath();
+        this._ctx.oriDataCtx.moveTo(imagePos.x, imagePos.y);
+        this._ctx.dataCtx.globalCompositeOperation = "source-over";
+        this._ctx.oriDataCtx.globalCompositeOperation = "source-over";
+    }
 
-        this.onMouseUp = function(ev, pos, imagePos) {
-            clearTimeout(moveTimer);
-            ctx.dataCtx.closePath();
-            ctx.dataCtx.lineWidth = 1;
-            ctx.oriDataCtx.closePath();
-            ctx.oriDataCtx.lineWidth = 1;
+    onMouseMove(ev, pos, imagePos) {
+        if (this._isDrawing === false)
+            return;
+        this._screenPos = pos;
+        this._imagePos = imagePos;
+        this._canvasPos = wpd.graphicsWidget.screenToCanvasPx(pos.x, pos.y);
+        clearTimeout(this._moveTimer);
+        this._moveTimer = setTimeout(() => this._mouseMoveHandler(), 2);
+    }
 
-            ctx.dataCtx.globalCompositeOperation = "source-over";
-            ctx.oriDataCtx.globalCompositeOperation = "source-over";
+    onMouseOut(ev, pos, imagePos) {
+        this.onMouseUp(ev, pos, imagePos);
+    }
 
-            isDrawing = false;
-        };
+    onMouseUp(ev, pos, imagePos) {
+        clearTimeout(this._moveTimer);
+        this._ctx.dataCtx.closePath();
+        this._ctx.dataCtx.lineWidth = 1;
+        this._ctx.oriDataCtx.closePath();
+        this._ctx.oriDataCtx.lineWidth = 1;
 
-        this.onRemove = function() {
-            document.getElementById('erase-mask').classList.remove('pressed-button');
-            document.getElementById('view-mask').classList.remove('pressed-button');
-            document.getElementById('mask-erase-container').style.display = 'none';
-            wpd.dataMask.grabMask();
-            wpd.toolbar.clear();
-        };
-    };
-    return Tool;
-})();
+        this._ctx.dataCtx.globalCompositeOperation = "source-over";
+        this._ctx.oriDataCtx.globalCompositeOperation = "source-over";
 
-wpd.ViewMaskTool = (function() {
-    var Tool = function() {
-        this.onAttach = function() {
-            wpd.graphicsWidget.setRepainter(new wpd.MaskPainter());
-            document.getElementById('view-mask').classList.add('pressed-button');
-        };
+        this._isDrawing = false;
+    }
 
-        this.onRemove = function() {
-            document.getElementById('view-mask').classList.remove('pressed-button');
-            wpd.dataMask.grabMask();
-        };
-    };
+    onRemove() {
+        document.getElementById('erase-mask').classList.remove('pressed-button');
+        document.getElementById('view-mask').classList.remove('pressed-button');
+        document.getElementById('mask-erase-container').style.display = 'none';
+        wpd.dataMask.grabMask();
+        wpd.toolbar.clear();
+    }
+};
 
-    return Tool;
-})();
+wpd.ViewMaskTool = class {
+    onAttach() {
+        wpd.graphicsWidget.setRepainter(new wpd.MaskPainter());
+        document.getElementById('view-mask').classList.add('pressed-button');
+    }
 
-wpd.MaskPainter = (function() {
-    var Painter = function() {
-        let ctx = wpd.graphicsWidget.getAllContexts();
-        let ds = wpd.tree.getActiveDataset();
-        let autoDetector = wpd.appData.getPlotData().getAutoDetectionDataForDataset(ds);
+    onRemove() {
+        document.getElementById('view-mask').classList.remove('pressed-button');
+        wpd.dataMask.grabMask();
+    }
+};
 
-        let painter = function() {
-            if (autoDetector.mask == null || autoDetector.mask.size === 0) {
-                return;
-            }
-            let imageSize = wpd.graphicsWidget.getImageSize();
-            let imgData = ctx.oriDataCtx.getImageData(0, 0, imageSize.width, imageSize.height);
-
-            for (let img_index of autoDetector.mask) {
-                imgData.data[img_index * 4] = 255;
-                imgData.data[img_index * 4 + 1] = 255;
-                imgData.data[img_index * 4 + 2] = 0;
-                imgData.data[img_index * 4 + 3] = 255 / 2;
-            }
-
-            ctx.oriDataCtx.putImageData(imgData, 0, 0);
-            wpd.graphicsWidget.copyImageDataLayerToScreen();
-        };
-
+wpd.MaskPainter = class {
+    constructor() {
+        this._ctx = wpd.graphicsWidget.getAllContexts();
+        const ds = wpd.tree.getActiveDataset();
+        this._autoDetector = wpd.appData.getPlotData().getAutoDetectionDataForDataset(ds);
         this.preventGrab = false;
-
         this.painterName = 'dataMaskPainter';
+    }
 
-        this.onRedraw = function() {
-            if (!this.preventGrab) {
-                wpd.dataMask.grabMask();
-            }
-            painter();
-        };
+    _painter() {
+        if (this._autoDetector.mask == null || this._autoDetector.mask.size === 0) {
+            return;
+        }
+        const imageSize = wpd.graphicsWidget.getImageSize();
+        const imgData = this._ctx.oriDataCtx.getImageData(0, 0, imageSize.width, imageSize.height);
 
-        this.onAttach = function() {
-            this.preventGrab = true;
-            wpd.graphicsWidget.resetData();
-            this.preventGrab = false;
-        };
-    };
-    return Painter;
-})();
+        for (let img_index of this._autoDetector.mask) {
+            imgData.data[img_index * 4] = 255;
+            imgData.data[img_index * 4 + 1] = 255;
+            imgData.data[img_index * 4 + 2] = 0;
+            imgData.data[img_index * 4 + 3] = 255 / 2;
+        }
+
+        this._ctx.oriDataCtx.putImageData(imgData, 0, 0);
+        wpd.graphicsWidget.copyImageDataLayerToScreen();
+    }
+
+    onRedraw() {
+        if (!this.preventGrab) {
+            wpd.dataMask.grabMask();
+        }
+        this._painter();
+    }
+
+    onAttach() {
+        this.preventGrab = true;
+        wpd.graphicsWidget.resetData();
+        this.preventGrab = false;
+    }
+};

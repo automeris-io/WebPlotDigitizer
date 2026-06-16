@@ -28,7 +28,7 @@ wpd.TernaryAxes = (function() {
             x0, y0, x1, y1, x2, y2, L, phi0, root3, isRange0to100, isOrientationNormal,
 
             processCalibration = function(cal, range100, is_normal) {
-                var cp0 = cal.getPoint(0),
+                const cp0 = cal.getPoint(0),
                     cp1 = cal.getPoint(1),
                     cp2 = cal.getPoint(2);
 
@@ -73,7 +73,7 @@ wpd.TernaryAxes = (function() {
         };
 
         this.pixelToData = function(pxi, pyi) {
-            var data = [],
+            let data = [],
                 rp, thetap, xx, yy, ap, bp, cp, bpt;
 
             let xp = parseFloat(pxi);
@@ -118,7 +118,7 @@ wpd.TernaryAxes = (function() {
         };
 
         this.pixelToLiveString = function(pxi, pyi) {
-            var dataVal = this.pixelToData(pxi, pyi);
+            const dataVal = this.pixelToData(pxi, pyi);
             return dataVal[0].toExponential(4) + ', ' + dataVal[1].toExponential(4) + ', ' +
                 dataVal[2].toExponential(4);
         };

@@ -40,7 +40,7 @@ wpd.BarAxes = (function() {
         this.calibrate = function(calibration, isLog, isRotated) {
             this.calibration = calibration;
             isCalibrated = false;
-            var cp1 = calibration.getPoint(0),
+            const cp1 = calibration.getPoint(0),
                 cp2 = calibration.getPoint(1);
 
             x1 = cp1.px;
@@ -77,7 +77,7 @@ wpd.BarAxes = (function() {
         };
 
         this.pixelToData = function(pxi, pyi) {
-            var data = [],
+            let data = [],
                 c_c2 = ((pyi - y1) * (y2 - y1) + (x2 - x1) * (pxi - x1)) /
                 ((y2 - y1) * (y2 - y1) + (x2 - x1) * (x2 - x1));
             // We could return X pixel value (or Y, depending on orientation) but that's not very
@@ -98,7 +98,7 @@ wpd.BarAxes = (function() {
         };
 
         this.pixelToLiveString = function(pxi, pyi) {
-            var dataVal = this.pixelToData(pxi, pyi);
+            const dataVal = this.pixelToData(pxi, pyi);
             return dataVal[0].toExponential(4);
         };
 
@@ -115,7 +115,7 @@ wpd.BarAxes = (function() {
         this.dataPointsLabelPrefix = 'Bar';
 
         this.calculateOrientation = function() { // Used by auto-extract algo to switch orientation.
-            var orientationAngle = wpd.taninverse(-(y2 - y1), x2 - x1) * 180 / Math.PI,
+            let orientationAngle = wpd.taninverse(-(y2 - y1), x2 - x1) * 180 / Math.PI,
                 orientation = {
                     axes: 'Y',
                     direction: 'increasing',
