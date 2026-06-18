@@ -127,7 +127,8 @@ wpd.dataSeriesManagement = (function() {
         if (wpd.appData.isMultipage()) {
             wpd.appData.getPageManager().addDatasetsToCurrentPage([ds]);
         }
-        wpd.tree.refreshPreservingSelection();
+        wpd.tree.refresh();
+        wpd.tree.selectPath("/" + wpd.gettext("datasets") + "/" + ds.name);
         // dispatch dataset add event
         wpd.events.dispatch("wpd.dataset.add", {
             dataset: ds
