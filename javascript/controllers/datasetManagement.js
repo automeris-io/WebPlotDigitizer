@@ -127,7 +127,8 @@ wpd.dataSeriesManagement = (function() {
         if (wpd.appData.isMultipage()) {
             wpd.appData.getPageManager().addDatasetsToCurrentPage([ds]);
         }
-        wpd.tree.refreshPreservingSelection();
+        wpd.tree.refresh();
+        wpd.tree.selectPath("/" + wpd.gettext("datasets") + "/" + ds.name);
         // dispatch dataset add event
         wpd.events.dispatch("wpd.dataset.add", {
             dataset: ds
@@ -145,11 +146,15 @@ wpd.dataSeriesManagement = (function() {
             let idx = getDatasetCount();
             const prefix = wpd.gettext("dataset") + " ";
             let i = 0;
+            let firstNewDataset = null;
             while (i < dsCount) {
                 let dsName = prefix + idx;
                 if (!datasetWithNameExists(dsName)) {
                     let ds = new wpd.Dataset();
                     ds.name = dsName;
+                    if (firstNewDataset == null) {
+                        firstNewDataset = ds;
+                    }
                     plotData.addDataset(ds);
                     const defaultAxes = getDefaultAxes();
                     if (defaultAxes != null) {
@@ -167,7 +172,10 @@ wpd.dataSeriesManagement = (function() {
                 }
                 idx++;
             }
-            wpd.tree.refreshPreservingSelection();
+            wpd.tree.refresh();
+            if (firstNewDataset != null) {
+                wpd.tree.selectPath("/" + wpd.gettext("datasets") + "/" + firstNewDataset.name);
+            }
         } else {
             wpd.messagePopup(wpd.gettext("add-dataset-error"),
                 wpd.gettext("add-dataset-count-error"),
