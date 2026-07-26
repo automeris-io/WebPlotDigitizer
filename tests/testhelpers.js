@@ -19,6 +19,16 @@
 
 var wpdtest = {};
 
+// Newer headless Chrome fires a real `beforeunload` on the test page while the
+// browser process is torn down after a successful singleRun. Karma's client
+// (context.js) treats any beforeunload as "full page reload" and reports a
+// false error even though all tests already passed (karma-runner/karma#3887).
+// Clearing the handler once QUnit reports completion avoids that false
+// positive while still catching genuine reloads that happen mid-run.
+QUnit.done(() => {
+    window.onbeforeunload = null;
+});
+
 wpdtest.fetchBlob = function(filename) {
     return new Promise((resolve, reject) => {
         fetch(filename).then(resp => resp.blob()).then((blob) => {
