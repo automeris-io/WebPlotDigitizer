@@ -64,6 +64,10 @@ wpd.graphicsWidget = (function() {
     const MAX_CANVAS_DIMENSION = 16384;
     const MAX_CANVAS_AREA = 268435456;
 
+    // never let the shorter image dimension shrink below this many px when
+    // zooming out - past this the image is imperceptible/unusable
+    const MIN_CANVAS_DIMENSION = 20;
+
     let aspectRatio = 1.0;
     let originalImageData = null;
     let zoomRatio = 1.0;
@@ -80,6 +84,10 @@ wpd.graphicsWidget = (function() {
     let mainRasterWidth = null;
     let mainRasterHeight = null;
 
+    // extra visual scale applied via CSS during an in-progress wheel-zoom
+    // preview (see onMouseWheel/resetWheelZoomPreview below); 1 when idle
+    let livePreviewScale = 1;
+
     function posn(ev) { // get screen pixel from event
         let mainCanvasPosition = $mainCanvas.getBoundingClientRect();
         return {
@@ -90,8 +98,14 @@ wpd.graphicsWidget = (function() {
 
     // screen px -> image px
     function screenToImagePx(screenX, screenY) {
-        const imageX = dpRatio * screenX / zoomRatio;
-        const imageY = dpRatio * screenY / zoomRatio;
+        // during an in-progress wheel-zoom preview, $canvasDiv is visually
+        // scaled by livePreviewScale via CSS but the canvases themselves
+        // (and zoomRatio) haven't been re-rendered yet - screenX/screenY
+        // already reflect that visual scaling (getBoundingClientRect() is
+        // transform-aware), so divide it back out to land on the right pixel
+        const effectiveZoomRatio = zoomRatio * livePreviewScale;
+        const imageX = dpRatio * screenX / effectiveZoomRatio;
+        const imageY = dpRatio * screenY / effectiveZoomRatio;
 
         if (rotation === 0) {
             // this function is often called frequently
@@ -123,14 +137,17 @@ wpd.graphicsWidget = (function() {
 
     // screen px -> canvas px
     function screenToCanvasPx(screenX, screenY) {
+        // see screenToImagePx() - screenX/screenY may reflect an in-progress
+        // wheel-zoom preview's CSS scaling, which needs to be divided back
+        // out since the canvas raster itself hasn't changed yet
         if (rotation === 0) {
             return {
-                x: screenX * dpRatio,
-                y: screenY * dpRatio
+                x: screenX * dpRatio / livePreviewScale,
+                y: screenY * dpRatio / livePreviewScale
             };
         } else {
             // divide by zoomRatio to end up into image scale. Then rotate to get into canvas orientation
-            let coords = getRotatedCoordinates(rotation, 0, dpRatio * screenX / zoomRatio, dpRatio * screenY / zoomRatio);
+            let coords = getRotatedCoordinates(rotation, 0, dpRatio * screenX / (zoomRatio * livePreviewScale), dpRatio * screenY / (zoomRatio * livePreviewScale));
 
             // scale with zoom ratio to get to canvas scale
             return {
@@ -370,6 +387,12 @@ wpd.graphicsWidget = (function() {
             return;
         }
 
+        // any real resize/redraw (whether via setZoomRatio, zoomFit, a
+        // rotation, or a plain data reset) invalidates an in-progress wheel
+        // preview's CSS transform - drop it so it isn't left stacked on top
+        // of freshly rendered content
+        resetWheelZoomPreview();
+
         // use provided width and height, if available
         // otherwise, use current zoomed width and height values
         const displayWidth = newWidth ?? (originalWidth * zoomRatio);
@@ -449,6 +472,104 @@ wpd.graphicsWidget = (function() {
         setZoomRatio(zoomRatio / 1.2);
     }
 
+    // wheel-zoom preview: trackpad gestures can fire wheel events far faster
+    // than the display refreshes, and a full zoom (resize + redraw + repaint
+    // of potentially several large canvases) is too expensive to run on
+    // every single one without dropping frames or freezing the tab. So an
+    // active gesture is rendered as a cheap CSS transform on $canvasDiv (all
+    // 5 stacked canvas layers move/scale together as one image, no canvas
+    // work involved), and only actually committed - resized, redrawn, and
+    // scrolled into the correct position - once the gesture pauses.
+    const WHEEL_ZOOM_COMMIT_DELAY_MS = 150;
+    let livePreviewBaseZoomRatio = 1;
+    let livePreviewAnchor = null; // {x, y} in posn()'s coordinate space, fixed for the gesture
+    let wheelPreviewRafId = null;
+    let wheelCommitTimer = null;
+
+    function isWheelZoomPreviewActive() {
+        return livePreviewAnchor != null;
+    }
+
+    // cancels any in-progress preview and restores $canvasDiv to its
+    // untransformed state, without committing a zoom change. Safe to call
+    // even when no preview is active - setZoomRatio() always calls this
+    // first so a "real" zoom from any source leaves consistent state.
+    function resetWheelZoomPreview() {
+        livePreviewAnchor = null;
+        livePreviewScale = 1;
+        if (wheelPreviewRafId != null) {
+            cancelAnimationFrame(wheelPreviewRafId);
+            wheelPreviewRafId = null;
+        }
+        if (wheelCommitTimer != null) {
+            clearTimeout(wheelCommitTimer);
+            wheelCommitTimer = null;
+        }
+        if ($canvasDiv != null) {
+            $canvasDiv.style.transform = '';
+            $canvasDiv.style.transformOrigin = '';
+        }
+    }
+
+    function applyWheelZoomPreviewTransform() {
+        wheelPreviewRafId = null;
+        if (!isWheelZoomPreviewActive()) {
+            return;
+        }
+        $canvasDiv.style.transform = 'scale(' + livePreviewScale + ')';
+    }
+
+    function commitWheelZoomPreview() {
+        wheelCommitTimer = null;
+        if (!isWheelZoomPreviewActive()) {
+            return;
+        }
+        const finalZoomRatio = livePreviewBaseZoomRatio * livePreviewScale;
+        const anchor = livePreviewAnchor;
+        setZoomRatio(finalZoomRatio, anchor);
+    }
+
+    function onMouseWheel(ev) {
+        // require a modifier so plain scrolling still pans the viewport as
+        // usual; browsers also report trackpad pinch-to-zoom gestures as
+        // wheel events with ctrlKey set, so this covers both cases
+        if (!ev.ctrlKey && !ev.metaKey) {
+            return;
+        }
+
+        if (originalImageData == null) {
+            return;
+        }
+
+        // prevent the page itself from zooming/scrolling
+        ev.preventDefault();
+
+        if (!isWheelZoomPreviewActive()) {
+            livePreviewBaseZoomRatio = zoomRatio;
+            livePreviewAnchor = posn(ev);
+            livePreviewScale = 1;
+            $canvasDiv.style.transformOrigin = livePreviewAnchor.x + 'px ' + livePreviewAnchor.y + 'px';
+        }
+
+        // scale zoom smoothly and proportionally to how far the wheel/trackpad
+        // moved, independent of how large a single deltaY "tick" is on this
+        // device, clamped so the eventual commit never exceeds the usual
+        // zoom ceiling/floor (avoids a jarring snap once it's committed)
+        const zoomFactor = Math.pow(1.05, -ev.deltaY / 100);
+        const targetZoomRatio = Math.min(
+            Math.max(livePreviewBaseZoomRatio * livePreviewScale * zoomFactor, getMinZoomRatio()),
+            getMaxZoomRatio()
+        );
+        livePreviewScale = targetZoomRatio / livePreviewBaseZoomRatio;
+
+        if (wheelPreviewRafId == null) {
+            wheelPreviewRafId = requestAnimationFrame(applyWheelZoomPreviewTransform);
+        }
+
+        clearTimeout(wheelCommitTimer);
+        wheelCommitTimer = setTimeout(commitWheelZoomPreview, WHEEL_ZOOM_COMMIT_DELAY_MS);
+    }
+
     function zoomFit() {
         let viewportSize = wpd.layoutManager.getGraphicsViewportSize();
         viewportSize.width *= dpRatio;
@@ -474,25 +595,53 @@ wpd.graphicsWidget = (function() {
         return Math.min(maxRatioByDimension, maxRatioByArea);
     }
 
-    function setZoomRatio(zratio) {
-        zratio = Math.min(zratio, getMaxZoomRatio());
+    function getMinZoomRatio() {
+        // for images already smaller than MIN_CANVAS_DIMENSION, cap the
+        // floor at true size (1.0) rather than forcing extra magnification -
+        // this floor exists to stop runaway zoom-out, not to guarantee a
+        // minimum zoom-in, and forcing more than 100% would make true size
+        // (the zoom100perc()/Ctrl+0 target) unreachable
+        return Math.min(MIN_CANVAS_DIMENSION / Math.min(originalWidth, originalHeight), 1.0);
+    }
 
-        // remember which image point is centered in the viewport so it can
-        // stay centered after the zoom level (and canvas size) changes
-        let imageCenter = null;
+    // anchorPos, if given, is a {x, y} point in the same coordinate space as
+    // posn() (i.e. screen px relative to the canvas's current on-screen
+    // top-left, unaffected by scroll) that should stay under the same spot
+    // in the viewport after the zoom change - e.g. the mouse cursor during a
+    // scroll-wheel zoom. Defaults to the viewport's center.
+    function setZoomRatio(zratio, anchorPos) {
+        // a "real" zoom commit from any source (buttons, a settled wheel
+        // gesture, zoomFit, etc.) always starts from a clean, untransformed
+        // state - this must happen before anchorPos is interpreted below,
+        // since anchorPos is expressed relative to the untransformed canvas
+        resetWheelZoomPreview();
+
+        zratio = Math.min(Math.max(zratio, getMinZoomRatio()), getMaxZoomRatio());
+
+        // remember where the anchor point is, both in image space (so it can
+        // be relocated after zooming) and relative to the viewport's visible
+        // top-left (so it stays under the same spot on screen, not just
+        // "somewhere in the viewport")
+        let imageAnchor = null;
+        let anchorOffsetX = 0;
+        let anchorOffsetY = 0;
         if ($graphicsContainer != null) {
-            const viewportCenterX = $graphicsContainer.scrollLeft + $graphicsContainer.clientWidth / 2;
-            const viewportCenterY = $graphicsContainer.scrollTop + $graphicsContainer.clientHeight / 2;
-            imageCenter = screenToImagePx(viewportCenterX, viewportCenterY);
+            const pos = anchorPos ?? {
+                x: $graphicsContainer.scrollLeft + $graphicsContainer.clientWidth / 2,
+                y: $graphicsContainer.scrollTop + $graphicsContainer.clientHeight / 2
+            };
+            anchorOffsetX = pos.x - $graphicsContainer.scrollLeft;
+            anchorOffsetY = pos.y - $graphicsContainer.scrollTop;
+            imageAnchor = screenToImagePx(pos.x, pos.y);
         }
 
         zoomRatio = zratio;
         rotateAndResize(0, originalWidth * zoomRatio, originalHeight * zoomRatio);
 
-        if (imageCenter != null) {
-            const newScreenCenter = imageToScreenPx(imageCenter.x, imageCenter.y);
-            $graphicsContainer.scrollLeft = newScreenCenter.x - $graphicsContainer.clientWidth / 2;
-            $graphicsContainer.scrollTop = newScreenCenter.y - $graphicsContainer.clientHeight / 2;
+        if (imageAnchor != null) {
+            const newScreenAnchor = imageToScreenPx(imageAnchor.x, imageAnchor.y);
+            $graphicsContainer.scrollLeft = newScreenAnchor.x - anchorOffsetX;
+            $graphicsContainer.scrollTop = newScreenAnchor.y - anchorOffsetY;
         }
     }
 
@@ -747,6 +896,13 @@ wpd.graphicsWidget = (function() {
         $canvasDiv = document.getElementById('canvasDiv');
         $graphicsContainer = document.getElementById('graphicsContainer');
 
+        // Ctrl/Cmd + scroll (or trackpad pinch) to zoom, centered on the cursor
+        if ($graphicsContainer != null) {
+            $graphicsContainer.addEventListener('wheel', onMouseWheel, {
+                passive: false
+            });
+        }
+
         // Extended crosshair
         document.addEventListener('keydown', function(ev) {
             if (isCanvasInFocus) {
@@ -795,7 +951,10 @@ wpd.graphicsWidget = (function() {
     }
 
     function loadImage(originalImage, savedRotation) {
-        if ($mainCanvas == null) {
+        // re-init if the canvas elements aren't the ones currently in the
+        // document (e.g. the page's canvas markup was rebuilt) - a no-op in
+        // normal app usage, where the canvases are static and never detached
+        if ($mainCanvas == null || !$mainCanvas.isConnected) {
             init();
         }
         removeTool();
@@ -1005,6 +1164,8 @@ wpd.graphicsWidget = (function() {
         toggleExtendedCrosshairBtn: toggleExtendedCrosshairBtn,
         setZoomRatio: setZoomRatio,
         getZoomRatio: getZoomRatio,
+        getMaxZoomRatio: getMaxZoomRatio,
+        getMinZoomRatio: getMinZoomRatio,
 
         rotateClockwise: rotateClockwise,
         rotateCounterClockwise: rotateCounterClockwise,

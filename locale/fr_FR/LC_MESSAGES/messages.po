@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-06-14 14:35-0700\n"
+"POT-Creation-Date: 2026-07-26 22:55-0700\n"
 "PO-Revision-Date: 2017-11-01 23:56-0500\n"
 "Last-Translator: \n"
 "Language: fr_FR\n"
@@ -16,7 +16,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.17.0\n"
+"Generated-By: Babel 2.11.0\n"
 
 #: templates/_base.html:26
 msgid "Web based tool to extract numerical data from plots and graph images."
@@ -30,6 +30,18 @@ msgstr ""
 msgid ""
 "Problems loading? Make sure you have a recent version of Google Chrome, "
 "Firefox, Safari or Microsoft Edge installed."
+msgstr ""
+
+#: templates/_base.html:83
+msgid "Zoom In (Ctrl/Cmd+Scroll)"
+msgstr ""
+
+#: templates/_base.html:84
+msgid "Zoom Out (Ctrl/Cmd+Scroll)"
+msgstr ""
+
+#: templates/_base.html:85
+msgid "View actual size"
 msgstr ""
 
 #: templates/_base.html:86
@@ -2790,5 +2802,17 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Simplified Chinese"
+#~ msgstr ""
+
+#~ msgid "View actual size (Ctrl/Cmd+0)"
+#~ msgstr ""
+
+#~ msgid "Zoom In (Ctrl/Cmd+Scroll or +)"
+#~ msgstr ""
+
+#~ msgid "Zoom Out (Ctrl/Cmd+Scroll or -)"
+#~ msgstr ""
+
+#~ msgid "View actual size (press 0)"
 #~ msgstr ""
 

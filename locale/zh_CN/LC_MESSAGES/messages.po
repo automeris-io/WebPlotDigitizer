@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  WebPlotDigitizer\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-06-14 14:35-0700\n"
+"POT-Creation-Date: 2026-07-26 22:55-0700\n"
 "PO-Revision-Date: 2024-03-18 21:06+0800\n"
 "Last-Translator: nkh0472 <nkh0472@hotmail.com>\n"
 "Language: zh_CN\n"
@@ -16,7 +16,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.17.0\n"
+"Generated-By: Babel 2.11.0\n"
 
 #: templates/_base.html:26
 msgid "Web based tool to extract numerical data from plots and graph images."
@@ -31,6 +31,18 @@ msgid ""
 "Problems loading? Make sure you have a recent version of Google Chrome, "
 "Firefox, Safari or Microsoft Edge installed."
 msgstr "启动错误？ 请确认您安装了最新版本的Google Chrome，Firefox，Safari 或 Microsoft Edge。"
+
+#: templates/_base.html:83
+msgid "Zoom In (Ctrl/Cmd+Scroll)"
+msgstr ""
+
+#: templates/_base.html:84
+msgid "Zoom Out (Ctrl/Cmd+Scroll)"
+msgstr ""
+
+#: templates/_base.html:85
+msgid "View actual size"
+msgstr ""
 
 #: templates/_base.html:86
 msgid "Fit"
@@ -1973,5 +1985,17 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Simplified Chinese"
+#~ msgstr ""
+
+#~ msgid "View actual size (Ctrl/Cmd+0)"
+#~ msgstr ""
+
+#~ msgid "Zoom In (Ctrl/Cmd+Scroll or +)"
+#~ msgstr ""
+
+#~ msgid "Zoom Out (Ctrl/Cmd+Scroll or -)"
+#~ msgstr ""
+
+#~ msgid "View actual size (press 0)"
 #~ msgstr ""
 

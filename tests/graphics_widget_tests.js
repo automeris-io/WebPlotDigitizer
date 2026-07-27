@@ -20,10 +20,20 @@
 QUnit.module(
     "Graphics widget tests", {
         beforeEach: () => {
-            // create canvas elements
+            // create graphics container + canvas elements, mirroring the
+            // production DOM nesting (#graphicsContainer > #canvasDiv >
+            // canvases) so that scroll/CSS-transform-dependent behavior
+            // (zoom anchoring, wheel-zoom preview) can be exercised for real
+            const graphicsContainer = document.createElement("div");
+            graphicsContainer.setAttribute("id", "graphicsContainer");
+            graphicsContainer.style.width = "400px";
+            graphicsContainer.style.height = "300px";
+            graphicsContainer.style.overflow = "auto";
+            document.body.appendChild(graphicsContainer);
+
             const canvasDiv = document.createElement("div");
             canvasDiv.setAttribute("id", "canvasDiv");
-            document.body.appendChild(canvasDiv);
+            graphicsContainer.appendChild(canvasDiv);
 
             canvasIDs.forEach((id, index) => {
                 canvasDiv.insertAdjacentHTML(
@@ -50,6 +60,7 @@ QUnit.module(
             });
 
             document.getElementById("canvasDiv").remove();
+            document.getElementById("graphicsContainer").remove();
 
             // restore mocks and fakes
             sinon.restore();
@@ -71,6 +82,35 @@ const canvasIDs = [
 // define image for use with testing
 const image = new Image();
 image.src = "../start.png";
+
+// builds a ctrl/cmd-modified wheel event positioned at the given point,
+// expressed in wpd.graphicsWidget.posn()'s coordinate space (CSS px
+// relative to #mainCanvas's current on-screen top-left)
+function wheelEventAt(pos, deltaY, modifiers = {}) {
+    const rect = document.getElementById("mainCanvas").getBoundingClientRect();
+    return new WheelEvent("wheel", {
+        deltaY,
+        clientX: rect.left + pos.x,
+        clientY: rect.top + pos.y,
+        bubbles: true,
+        cancelable: true,
+        ctrlKey: !!modifiers.ctrlKey,
+        metaKey: !!modifiers.metaKey
+    });
+}
+
+function dispatchWheel(pos, deltaY, modifiers) {
+    const ev = wheelEventAt(pos, deltaY, modifiers);
+    document.getElementById("graphicsContainer").dispatchEvent(ev);
+    return ev;
+}
+
+function assertClose(assert, actual, expected, tolerance, message) {
+    assert.ok(
+        Math.abs(actual - expected) <= tolerance,
+        `${message} (expected ${actual} to be within ${tolerance} of ${expected})`
+    );
+}
 
 QUnit.test("Load image", (assert) => {
     // load image
@@ -228,4 +268,247 @@ QUnit.test("Get rotated coordinates", (assert) => {
         y: 10
     };
     assert.deepEqual(results6, expected6, "270° rotation");
+});
+
+QUnit.test("Zoom keeps the same image point under a given screen anchor", (assert) => {
+    wpd.graphicsWidget.loadImage(image);
+
+    const graphicsContainer = document.getElementById("graphicsContainer");
+
+    // scroll away from the origin first so this can't pass by coincidence
+    graphicsContainer.scrollLeft = 100;
+    graphicsContainer.scrollTop = 50;
+
+    const anchorPos = {
+        x: 150,
+        y: 120
+    };
+    const anchorOffsetX = anchorPos.x - graphicsContainer.scrollLeft;
+    const anchorOffsetY = anchorPos.y - graphicsContainer.scrollTop;
+    const imageAnchorBefore = wpd.graphicsWidget.screenToImagePx(anchorPos.x, anchorPos.y);
+
+    wpd.graphicsWidget.setZoomRatio(1.5, anchorPos);
+
+    assert.equal(wpd.graphicsWidget.getZoomRatio(), 1.5, "zoom ratio updated");
+
+    // if the anchor point is still under the same spot in the viewport, it
+    // should now be at the same (scrollLeft/Top + offset) position
+    const postAnchorScreenX = graphicsContainer.scrollLeft + anchorOffsetX;
+    const postAnchorScreenY = graphicsContainer.scrollTop + anchorOffsetY;
+    const imageAnchorAfter = wpd.graphicsWidget.screenToImagePx(postAnchorScreenX, postAnchorScreenY);
+
+    assertClose(assert, imageAnchorAfter.x, imageAnchorBefore.x, 1, "anchor image x unchanged");
+    assertClose(assert, imageAnchorAfter.y, imageAnchorBefore.y, 1, "anchor image y unchanged");
+});
+
+QUnit.test("Wheel zoom requires a Ctrl/Cmd modifier", (assert) => {
+    wpd.graphicsWidget.loadImage(image);
+
+    const startingRatio = wpd.graphicsWidget.getZoomRatio();
+    const ev = dispatchWheel({
+        x: 100,
+        y: 100
+    }, -100, {});
+
+    assert.equal(ev.defaultPrevented, false, "unmodified wheel scroll is not intercepted");
+    assert.equal(wpd.graphicsWidget.getZoomRatio(), startingRatio, "zoom ratio unaffected");
+    assert.equal(document.getElementById("canvasDiv").style.transform, "", "no preview transform applied");
+});
+
+QUnit.test("Ctrl+wheel zoom defers the real commit and coalesces rapid events", (assert) => {
+    const clock = sinon.useFakeTimers({
+        toFake: ["setTimeout", "clearTimeout", "requestAnimationFrame", "cancelAnimationFrame"]
+    });
+
+    wpd.graphicsWidget.loadImage(image);
+    const startingRatio = wpd.graphicsWidget.getZoomRatio();
+
+    const ev = dispatchWheel({
+        x: 100,
+        y: 100
+    }, -100, {
+        ctrlKey: true
+    });
+
+    assert.equal(ev.defaultPrevented, true, "page zoom/scroll is prevented");
+    assert.equal(wpd.graphicsWidget.getZoomRatio(), startingRatio, "no commit happens synchronously");
+
+    // a second event arriving before the gesture settles should reset the
+    // idle timer rather than triggering its own commit
+    clock.tick(50);
+    dispatchWheel({
+        x: 100,
+        y: 100
+    }, -100, {
+        ctrlKey: true
+    });
+    assert.equal(wpd.graphicsWidget.getZoomRatio(), startingRatio, "still not committed while events keep arriving");
+
+    // let the gesture go idle
+    clock.tick(500);
+
+    const expectedRatio = startingRatio * Math.pow(1.05, 1) * Math.pow(1.05, 1);
+    assertClose(assert, wpd.graphicsWidget.getZoomRatio(), expectedRatio, 1e-9, "both wheel deltas were applied in one commit");
+});
+
+QUnit.test("Ctrl+wheel zoom shows a live CSS preview before committing", (assert) => {
+    const clock = sinon.useFakeTimers({
+        toFake: ["setTimeout", "clearTimeout", "requestAnimationFrame", "cancelAnimationFrame"]
+    });
+
+    wpd.graphicsWidget.loadImage(image);
+    const startingRatio = wpd.graphicsWidget.getZoomRatio();
+
+    dispatchWheel({
+        x: 100,
+        y: 100
+    }, -100, {
+        ctrlKey: true
+    });
+
+    // let the (rAF-batched) preview transform apply, but stay well under
+    // the idle-commit delay
+    clock.tick(20);
+    const canvasDiv = document.getElementById("canvasDiv");
+    assert.ok(canvasDiv.style.transform.indexOf("scale(") === 0, "a live scale preview is applied");
+    assert.equal(wpd.graphicsWidget.getZoomRatio(), startingRatio, "not committed yet");
+
+    // let the gesture settle
+    clock.tick(500);
+    assert.equal(canvasDiv.style.transform, "", "preview transform cleared after commit");
+    assert.notEqual(wpd.graphicsWidget.getZoomRatio(), startingRatio, "zoom ratio committed");
+});
+
+QUnit.test("Ctrl+wheel zoom is clamped to the maximum zoom ratio", (assert) => {
+    const clock = sinon.useFakeTimers({
+        toFake: ["setTimeout", "clearTimeout", "requestAnimationFrame", "cancelAnimationFrame"]
+    });
+
+    wpd.graphicsWidget.loadImage(image);
+
+    // an enormous delta should still only zoom in as far as the safe ceiling
+    dispatchWheel({
+        x: 100,
+        y: 100
+    }, -100000, {
+        ctrlKey: true
+    });
+    clock.tick(500);
+
+    assertClose(assert, wpd.graphicsWidget.getZoomRatio(), wpd.graphicsWidget.getMaxZoomRatio(), 1e-9, "zoom ratio clamped to the max");
+});
+
+QUnit.test("Ctrl+wheel zoom is clamped to the minimum zoom ratio", (assert) => {
+    const clock = sinon.useFakeTimers({
+        toFake: ["setTimeout", "clearTimeout", "requestAnimationFrame", "cancelAnimationFrame"]
+    });
+
+    wpd.graphicsWidget.loadImage(image);
+
+    // an enormous positive delta (zoom out) should still only zoom out as
+    // far as the safe floor, not to an empty/invisible image
+    dispatchWheel({
+        x: 100,
+        y: 100
+    }, 100000, {
+        ctrlKey: true
+    });
+    clock.tick(500);
+
+    assertClose(assert, wpd.graphicsWidget.getZoomRatio(), wpd.graphicsWidget.getMinZoomRatio(), 1e-9, "zoom ratio clamped to the min");
+});
+
+QUnit.test("setZoomRatio is clamped between the min and max zoom ratios", (assert) => {
+    wpd.graphicsWidget.loadImage(image);
+
+    wpd.graphicsWidget.setZoomRatio(0.0000001);
+    assertClose(assert, wpd.graphicsWidget.getZoomRatio(), wpd.graphicsWidget.getMinZoomRatio(), 1e-9, "clamped up to the min");
+
+    wpd.graphicsWidget.setZoomRatio(1e9);
+    assertClose(assert, wpd.graphicsWidget.getZoomRatio(), wpd.graphicsWidget.getMaxZoomRatio(), 1e-9, "clamped down to the max");
+});
+
+QUnit.test("100% zoom is always reachable, even for images smaller than the minimum canvas size", async (assert) => {
+    // synthesize an image smaller than MIN_CANVAS_DIMENSION (20px) on both sides
+    const tinyCanvas = document.createElement("canvas");
+    tinyCanvas.width = 16;
+    tinyCanvas.height = 16;
+    const tinyImage = new Image();
+    await new Promise((resolve) => {
+        tinyImage.onload = resolve;
+        tinyImage.src = tinyCanvas.toDataURL();
+    });
+
+    wpd.graphicsWidget.loadImage(tinyImage);
+
+    assert.equal(wpd.graphicsWidget.getMinZoomRatio(), 1, "the zoom-out floor never exceeds true size");
+
+    wpd.graphicsWidget.zoom100perc();
+    assert.equal(wpd.graphicsWidget.getZoomRatio(), 1, "100% is reachable, not clamped up to a larger minimum");
+});
+
+QUnit.test("screenToImagePx accounts for an in-progress wheel-zoom preview", (assert) => {
+    const clock = sinon.useFakeTimers({
+        toFake: ["setTimeout", "clearTimeout", "requestAnimationFrame", "cancelAnimationFrame"]
+    });
+
+    wpd.graphicsWidget.loadImage(image);
+
+    const queryPos = {
+        x: 50,
+        y: 40
+    };
+    const baseline = wpd.graphicsWidget.screenToImagePx(queryPos.x, queryPos.y);
+
+    const deltaY = -100;
+    const expectedLivePreviewScale = Math.pow(1.05, 1);
+    dispatchWheel({
+        x: 100,
+        y: 100
+    }, deltaY, {
+        ctrlKey: true
+    });
+
+    // the correction applies as soon as the gesture is registered - it
+    // doesn't depend on the (rAF-deferred) CSS transform having painted yet
+    const duringPreview = wpd.graphicsWidget.screenToImagePx(queryPos.x, queryPos.y);
+    assertClose(assert, duringPreview.x, baseline.x / expectedLivePreviewScale, 1e-9, "x corrected for live preview scale");
+    assertClose(assert, duringPreview.y, baseline.y / expectedLivePreviewScale, 1e-9, "y corrected for live preview scale");
+
+    // once committed, the same query should match the newly-committed zoom
+    // ratio directly (no further correction needed)
+    clock.tick(500);
+    const afterCommit = wpd.graphicsWidget.screenToImagePx(queryPos.x, queryPos.y);
+    const expectedAfterCommit = {
+        x: queryPos.x / wpd.graphicsWidget.getZoomRatio(),
+        y: queryPos.y / wpd.graphicsWidget.getZoomRatio()
+    };
+    assertClose(assert, afterCommit.x, expectedAfterCommit.x, 1e-9, "x matches committed zoom ratio");
+    assertClose(assert, afterCommit.y, expectedAfterCommit.y, 1e-9, "y matches committed zoom ratio");
+});
+
+QUnit.test("A real zoom mid-gesture cancels the pending wheel-zoom preview", (assert) => {
+    const clock = sinon.useFakeTimers({
+        toFake: ["setTimeout", "clearTimeout", "requestAnimationFrame", "cancelAnimationFrame"]
+    });
+
+    wpd.graphicsWidget.loadImage(image);
+
+    dispatchWheel({
+        x: 100,
+        y: 100
+    }, -100, {
+        ctrlKey: true
+    });
+    clock.tick(20);
+    assert.notEqual(document.getElementById("canvasDiv").style.transform, "", "preview is active");
+
+    // a real zoom from another source (e.g. the 100% button) interrupts the gesture
+    wpd.graphicsWidget.zoom100perc();
+    assert.equal(document.getElementById("canvasDiv").style.transform, "", "preview transform cleared immediately");
+    assert.equal(wpd.graphicsWidget.getZoomRatio(), 1, "zoom100perc's own ratio wins");
+
+    // the wheel gesture's now-cancelled idle timer must not fire a stale commit later
+    clock.tick(500);
+    assert.equal(wpd.graphicsWidget.getZoomRatio(), 1, "no stale commit from the interrupted gesture");
 });

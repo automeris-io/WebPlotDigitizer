@@ -80,9 +80,9 @@
                     <button type="button" onclick="wpd.graphicsWidget.rotateClockwise();" class="toolbar-button has-tooltip" data-tooltip="Rotate 90° clockwise">
                         <i class="bi bi-arrow-clockwise"></i>
                     </button>
-                    <button type="button" onclick="wpd.graphicsWidget.zoomIn();" class="toolbar-button has-tooltip" data-tooltip="Zoom In">+</button>
-                    <button type="button" onclick="wpd.graphicsWidget.zoomOut();" class="toolbar-button has-tooltip" data-tooltip="Zoom Out">-</button>
-                    <button type="button" onclick="wpd.graphicsWidget.zoom100perc();" class="toolbar-button has-tooltip" data-tooltip="View actual size">100%</button>
+                    <button type="button" onclick="wpd.graphicsWidget.zoomIn();" class="toolbar-button has-tooltip" data-tooltip="{{ _('Zoom In (Ctrl/Cmd+Scroll)') }}">+</button>
+                    <button type="button" onclick="wpd.graphicsWidget.zoomOut();" class="toolbar-button has-tooltip" data-tooltip="{{ _('Zoom Out (Ctrl/Cmd+Scroll)') }}">-</button>
+                    <button type="button" onclick="wpd.graphicsWidget.zoom100perc();" class="toolbar-button has-tooltip" data-tooltip="{{ _('View actual size') }}">100%</button>
                     <button type="button" onclick="wpd.graphicsWidget.zoomFit();" class="toolbar-button has-tooltip" data-tooltip="Fit image to screen">{{ _("Fit") }}</button>
                     <button onclick="wpd.graphicsWidget.toggleExtendedCrosshairBtn();" class="toolbar-button has-tooltip" style="background-image: url('images/crosshair.png'); background-repeat: no-repeat; background-position: center;" id="extended-crosshair-btn" data-tooltip="Toggle extended crosshair">&nbsp;</button>
                 </div>
