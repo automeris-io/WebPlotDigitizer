@@ -42,6 +42,7 @@ wpd.graphicsWidget = (function() {
     let $tempImageCanvas = null;
 
     let $canvasDiv = null;
+    let $graphicsContainer = null;
 
     let mainCtx = null;
     let dataCtx = null;
@@ -58,6 +59,11 @@ wpd.graphicsWidget = (function() {
     let originalWidth = 0.0;
     let originalHeight = 0.0;
 
+    // conservative canvas size limits shared by major browsers (e.g. Chrome
+    // caps width*height at 268435456, others cap a single side at ~16384/32767)
+    const MAX_CANVAS_DIMENSION = 16384;
+    const MAX_CANVAS_AREA = 268435456;
+
     let aspectRatio = 1.0;
     let originalImageData = null;
     let zoomRatio = 1.0;
@@ -68,6 +74,11 @@ wpd.graphicsWidget = (function() {
     let isCanvasInFocus = false;
     let rotation = 0;
     let dpRatio = 1;
+
+    // tracks the raster (backing store) size the main image canvas was last
+    // actually rendered at, see resizeMainCanvas()
+    let mainRasterWidth = null;
+    let mainRasterHeight = null;
 
     function posn(ev) { // get screen pixel from event
         let mainCanvasPosition = $mainCanvas.getBoundingClientRect();
@@ -184,13 +195,12 @@ wpd.graphicsWidget = (function() {
         $canvasDiv.style.width = cssWidth + 'px';
         $canvasDiv.style.height = cssHeight + 'px';
 
-        $mainCanvas.width = cwidth;
+        // note: $mainCanvas's raster is sized independently, see resizeMainCanvas()
         $dataCanvas.width = cwidth;
         $drawCanvas.width = cwidth;
         $hoverCanvas.width = cwidth;
         $topCanvas.width = cwidth;
 
-        $mainCanvas.height = cheight;
         $dataCanvas.height = cheight;
         $drawCanvas.height = cheight;
         $hoverCanvas.height = cheight;
@@ -208,14 +218,17 @@ wpd.graphicsWidget = (function() {
         $hoverCanvas.style.height = cssHeight + 'px';
         $topCanvas.style.height = cssHeight + 'px';
 
-        displayAspectRatio = cwidth / (cheight * 1.0);
-
         width = cwidth;
         height = cheight;
     }
 
     function resetAllLayers() {
         $mainCanvas.width = $mainCanvas.width;
+        // canvas content was just wiped - forget the cached raster size so
+        // the next resizeMainCanvas() call always redraws, even if the new
+        // image happens to land on the same pinned raster dimensions
+        mainRasterWidth = null;
+        mainRasterHeight = null;
         resetDrawingLayers();
     }
 
@@ -227,6 +240,24 @@ wpd.graphicsWidget = (function() {
         $oriDataCanvas.width = $oriDataCanvas.width;
     }
 
+    // resizes the main image canvas's raster (backing store) to mwidth x
+    // mheight, but only if it isn't already that size - this is the
+    // canvas that holds the (potentially large) photographic image, so
+    // skipping needless reallocation/clearing here matters for zoom
+    // performance. Returns true if the raster was actually (re)sized.
+    function resizeMainCanvas(mwidth, mheight) {
+        mwidth = parseInt(mwidth, 10);
+        mheight = parseInt(mheight, 10);
+        if (mwidth === mainRasterWidth && mheight === mainRasterHeight) {
+            return false;
+        }
+        $mainCanvas.width = mwidth;
+        $mainCanvas.height = mheight;
+        mainRasterWidth = mwidth;
+        mainRasterHeight = mheight;
+        return true;
+    }
+
     function drawImage(dx, dy) {
         if (originalImageData == null)
             return;
@@ -235,6 +266,10 @@ wpd.graphicsWidget = (function() {
         mainCtx.fillRect(0, 0, dx, dy);
         mainCtx.drawImage($oriImageCanvas, 0, 0, dx, dy);
 
+        repaintOverlays();
+    }
+
+    function repaintOverlays() {
         if (repaintHandler != null && repaintHandler.onRedraw != undefined) {
             repaintHandler.onRedraw();
         }
@@ -353,14 +388,42 @@ wpd.graphicsWidget = (function() {
 
         // get transformation matrix and set transform on canvas context
         const matrix = getRotationMatrix(rotation, displayWidth, displayHeight);
-        mainCtx.setTransform(matrix);
         dataCtx.setTransform(matrix);
         drawCtx.setTransform(matrix);
         hoverCtx.setTransform(matrix);
         topCtx.setTransform(matrix);
 
-        // draw the image with the rotation independent dimensions
-        drawImage(displayWidth, displayHeight);
+        // the main image canvas holds a (potentially huge) photographic
+        // image, which is by far the most expensive layer to redraw. Once
+        // zoomed in past 100%, magnifying further shows no new detail - the
+        // source image only has originalWidth x originalHeight pixels of
+        // information - so cap its raster at native resolution and let the
+        // browser scale the already-rendered bitmap up via CSS (handled by
+        // resize() above) instead of re-rendering a huge canvas on every
+        // zoom step
+        const mainRatio = Math.min(zoomRatio, 1.0);
+        const mainWidth = originalWidth * mainRatio;
+        const mainHeight = originalHeight * mainRatio;
+        const mainDimensions = rotation % 180 === 0 ? [mainWidth, mainHeight] : [mainHeight, mainWidth];
+
+        const mainRasterResized = resizeMainCanvas(...mainDimensions);
+        mainCtx.setTransform(getRotationMatrix(rotation, mainWidth, mainHeight));
+
+        if (originalImageData != null) {
+            if (mainRasterResized || deltaDegrees !== 0) {
+                // raster size changed (zoom crossed the 100% boundary, image
+                // rotated, or a new image was loaded) or the rotation changed -
+                // previously rendered pixels are no longer valid, so redraw
+                drawImage(mainWidth, mainHeight);
+            } else {
+                // pure zoom change while already above 100%: the existing
+                // raster is still valid and just needs to be stretched via CSS
+                // (already done by resize()); the other layers were still
+                // cleared by resize() above though, so their overlays need a
+                // repaint
+                repaintOverlays();
+            }
+        }
 
         // fire rotation event if image has been rotated
         if (deltaDegrees !== 0) {
@@ -405,9 +468,32 @@ wpd.graphicsWidget = (function() {
         setZoomRatio(1.0);
     }
 
+    function getMaxZoomRatio() {
+        const maxRatioByDimension = Math.min(MAX_CANVAS_DIMENSION / originalWidth, MAX_CANVAS_DIMENSION / originalHeight);
+        const maxRatioByArea = Math.sqrt(MAX_CANVAS_AREA / (originalWidth * originalHeight));
+        return Math.min(maxRatioByDimension, maxRatioByArea);
+    }
+
     function setZoomRatio(zratio) {
+        zratio = Math.min(zratio, getMaxZoomRatio());
+
+        // remember which image point is centered in the viewport so it can
+        // stay centered after the zoom level (and canvas size) changes
+        let imageCenter = null;
+        if ($graphicsContainer != null) {
+            const viewportCenterX = $graphicsContainer.scrollLeft + $graphicsContainer.clientWidth / 2;
+            const viewportCenterY = $graphicsContainer.scrollTop + $graphicsContainer.clientHeight / 2;
+            imageCenter = screenToImagePx(viewportCenterX, viewportCenterY);
+        }
+
         zoomRatio = zratio;
         rotateAndResize(0, originalWidth * zoomRatio, originalHeight * zoomRatio);
+
+        if (imageCenter != null) {
+            const newScreenCenter = imageToScreenPx(imageCenter.x, imageCenter.y);
+            $graphicsContainer.scrollLeft = newScreenCenter.x - $graphicsContainer.clientWidth / 2;
+            $graphicsContainer.scrollTop = newScreenCenter.y - $graphicsContainer.clientHeight / 2;
+        }
     }
 
     function getZoomRatio() {
@@ -600,7 +686,7 @@ wpd.graphicsWidget = (function() {
 
     function hoverOverCanvasHandler(ev) {
         clearTimeout(hoverTimer);
-        hoverTimer = setTimeout(hoverOverCanvas(ev), 10);
+        hoverTimer = setTimeout(() => hoverOverCanvas(ev), 10);
     }
 
     function dropHandler(ev) {
@@ -659,6 +745,7 @@ wpd.graphicsWidget = (function() {
         tempImageCtx = $tempImageCanvas.getContext('2d');
 
         $canvasDiv = document.getElementById('canvasDiv');
+        $graphicsContainer = document.getElementById('graphicsContainer');
 
         // Extended crosshair
         document.addEventListener('keydown', function(ev) {
