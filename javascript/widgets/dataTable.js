@@ -329,6 +329,75 @@ wpd.dataTable = (function() {
         $digitizedDataTable.value = tableText;
     }
 
+    // Same row/column values as makeTable(), but kept as native numbers/strings
+    // (no decimal-separator substitution) for use by the MAT/Excel/Python exporters.
+    function buildExportTable() {
+        if (sortedData == null) {
+            return null;
+        }
+
+        var numFormattingDigits =
+            parseInt(document.getElementById('data-number-format-digits').value, 10),
+            numFormattingStyle = document.getElementById('data-number-format-style').value,
+            rowi, coli, rowValues, dateFormattingStrings = [],
+            rows = [];
+
+        for (rowi = 0; rowi < sortedData.length; rowi++) {
+            rowValues = [];
+            for (coli = 0; coli < dataCache.fields.length; coli++) {
+                if (dataCache.fieldDateFormat[coli] != null) { // Date
+                    if (dateFormattingStrings[coli] === undefined) {
+                        dateFormattingStrings[coli] =
+                            document.getElementById('data-format-string-' + coli).value;
+                    }
+                    rowValues[coli] = wpd.dateConverter.formatDateNumber(
+                        sortedData[rowi][coli], dateFormattingStrings[coli]);
+                } else { // Non-date values
+                    let columnValue = sortedData[rowi][coli];
+                    if (typeof columnValue === 'string' || columnValue == null) {
+                        rowValues[coli] = columnValue;
+                    } else if (numFormattingStyle === 'fixed' && numFormattingDigits >= 0) {
+                        rowValues[coli] = parseFloat(columnValue.toFixed(numFormattingDigits));
+                    } else if (numFormattingStyle === 'precision' && numFormattingDigits >= 0) {
+                        rowValues[coli] = parseFloat(columnValue.toPrecision(numFormattingDigits));
+                    } else if (numFormattingStyle === 'exponential' && numFormattingDigits >= 0) {
+                        rowValues[coli] = parseFloat(columnValue.toExponential(
+                            numFormattingDigits));
+                    } else {
+                        rowValues[coli] = columnValue;
+                    }
+                }
+            }
+            rows.push(rowValues);
+        }
+
+        var datasetName =
+            selectedDataset != null ?
+            selectedDataset.name :
+            ((selectedMeasurement instanceof wpd.AngleMeasurement) ? "angles" : "distances");
+
+        return {
+            name: datasetName,
+            headers: dataCache.fields,
+            rows: rows
+        };
+    }
+
+    function download() {
+        var format = document.getElementById('data-table-download-format').value;
+
+        if (format === 'csv') {
+            generateCSV();
+            return;
+        }
+
+        var table = buildExportTable();
+        if (table == null) {
+            return;
+        }
+        wpd.tableExport.download(format, [table], table.name);
+    }
+
     function copyToClipboard() {
         var $digitizedDataTable = document.getElementById('digitizedDataTable');
         $digitizedDataTable.focus();
@@ -396,6 +465,7 @@ wpd.dataTable = (function() {
         copyToClipboard: copyToClipboard,
         generateCSV: generateCSV,
         exportToPlotly: exportToPlotly,
+        download: download,
         changeDataset: changeDataset
     };
 })();

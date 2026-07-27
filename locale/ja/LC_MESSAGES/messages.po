@@ -3,16 +3,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-07-26 23:55-0700\n"
+"POT-Creation-Date: 2026-07-27 00:32-0700\n"
 "PO-Revision-Date: 2026-07-26 23:59-0700\n"
 "Last-Translator: \n"
-"Language-Team: ja <LL@li.org>\n"
 "Language: ja\n"
+"Language-Team: ja <LL@li.org>\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
-"Generated-By: Babel 2.17.0\n"
+"Generated-By: Babel 2.11.0\n"
 
 #: templates/_base.html:26
 msgid "Web based tool to extract numerical data from plots and graph images."
@@ -111,7 +111,7 @@ msgstr "アカウント情報"
 msgid "Account"
 msgstr "アカウント"
 
-#: templates/_menubar.html:57 templates/_popups.html:544
+#: templates/_menubar.html:57 templates/_popups.html:556
 msgid "Preferences"
 msgstr "設定"
 
@@ -135,7 +135,7 @@ msgstr "前へ"
 msgid "Next"
 msgstr "次へ"
 
-#: templates/_navbar.html:29 templates/_popups.html:379
+#: templates/_navbar.html:29 templates/_popups.html:391
 msgid "Page Labels"
 msgstr "ページラベル"
 
@@ -161,14 +161,14 @@ msgstr "読み込み"
 
 #: templates/_popups.html:43 templates/_popups.html:77
 #: templates/_popups.html:88 templates/_popups.html:96
-#: templates/_popups.html:205 templates/_popups.html:219
-#: templates/_popups.html:275 templates/_popups.html:288
-#: templates/_popups.html:302 templates/_popups.html:317
-#: templates/_popups.html:329 templates/_popups.html:340
-#: templates/_popups.html:350 templates/_popups.html:361
-#: templates/_popups.html:393 templates/_popups.html:443
-#: templates/_popups.html:514 templates/_popups.html:530
-#: templates/_popups.html:555 templates/_strings.html:95
+#: templates/_popups.html:211 templates/_popups.html:225
+#: templates/_popups.html:281 templates/_popups.html:294
+#: templates/_popups.html:308 templates/_popups.html:323
+#: templates/_popups.html:341 templates/_popups.html:352
+#: templates/_popups.html:362 templates/_popups.html:373
+#: templates/_popups.html:405 templates/_popups.html:455
+#: templates/_popups.html:526 templates/_popups.html:542
+#: templates/_popups.html:567 templates/_strings.html:95
 msgid "Cancel"
 msgstr "キャンセル"
 
@@ -222,7 +222,7 @@ msgstr "例については、以下をご覧ください："
 msgid "WebPlotDigitizer repository"
 msgstr "WebPlotDigitizerリポジトリ"
 
-#: templates/_popups.html:88 templates/_popups.html:528
+#: templates/_popups.html:88 templates/_popups.html:540
 #: templates/_sidebars.html:80
 msgid "Run"
 msgstr "実行"
@@ -235,9 +235,9 @@ msgstr "ウェブカメラキャプチャ"
 msgid "Capture"
 msgstr "キャプチャ"
 
-#: templates/_popups.html:105 templates/_popups.html:274
-#: templates/_popups.html:287 templates/_popups.html:301
-#: templates/_popups.html:373 templates/_popups.html:540
+#: templates/_popups.html:105 templates/_popups.html:280
+#: templates/_popups.html:293 templates/_popups.html:307
+#: templates/_popups.html:385 templates/_popups.html:552
 #: templates/_strings.html:94
 msgid "OK"
 msgstr "OK"
@@ -246,7 +246,7 @@ msgstr "OK"
 msgid "Acquired Data"
 msgstr "取得したデータ"
 
-#: templates/_popups.html:128 templates/_popups.html:348
+#: templates/_popups.html:128 templates/_popups.html:360
 #: templates/_strings.html:69 templates/_tree.html:69
 msgid "Dataset"
 msgstr "データセット"
@@ -259,534 +259,548 @@ msgstr "変数"
 msgid "Copy to Clipboard"
 msgstr "クリップボードにコピー"
 
-#: templates/_popups.html:134 templates/_popups.html:327
-msgid "Download .CSV"
-msgstr ".CSVをダウンロード"
+#: templates/_popups.html:135 templates/_popups.html:334
+msgid "CSV"
+msgstr ""
 
-#: templates/_popups.html:135
+#: templates/_popups.html:136 templates/_popups.html:335
+msgid "MATLAB (.mat)"
+msgstr ""
+
+#: templates/_popups.html:137 templates/_popups.html:336
+msgid "Excel (.xlsx)"
+msgstr ""
+
+#: templates/_popups.html:138 templates/_popups.html:337
+msgid "Python (.py)"
+msgstr ""
+
+#: templates/_popups.html:140 templates/_popups.html:339
+#, fuzzy
+msgid "Download"
+msgstr "JSONをダウンロード"
+
+#: templates/_popups.html:141
 msgid "Graph in Plotly*"
-msgstr "Plotlyでグラフ化*"
+msgstr ""
 
-#: templates/_popups.html:136 templates/_popups.html:192
-#: templates/_popups.html:264
+#: templates/_popups.html:142 templates/_popups.html:198
+#: templates/_popups.html:270
 msgid "Close"
 msgstr "閉じる"
 
-#: templates/_popups.html:138
+#: templates/_popups.html:144
 msgid ""
-"*Plotly is a secure data analysis and graphing site with data sharing and "
-"access controls."
+"*Plotly is a secure data analysis and graphing site with data sharing and"
+" access controls."
 msgstr "*Plotlyは、データ共有とアクセス制御機能を備えた安全なデータ分析・グラフ作成サイトです。"
 
-#: templates/_popups.html:139
+#: templates/_popups.html:145
 msgid ""
-"Visit <a href=\"http://plot.ly\" target=\"plotlyWebsite\">http://plot.ly</a>"
-" for details."
+"Visit <a href=\"http://plot.ly\" "
+"target=\"plotlyWebsite\">http://plot.ly</a> for details."
 msgstr ""
 "詳細は<a href=\"http://plot.ly\" "
 "target=\"plotlyWebsite\">http://plot.ly</a>をご覧ください。"
 
-#: templates/_popups.html:143
+#: templates/_popups.html:149
 msgid "Sort"
 msgstr "並べ替え"
 
-#: templates/_popups.html:144
+#: templates/_popups.html:150
 msgid "Sort by"
 msgstr "並べ替え基準"
 
-#: templates/_popups.html:145
+#: templates/_popups.html:151
 msgid "Order"
 msgstr "順序"
 
-#: templates/_popups.html:147
+#: templates/_popups.html:153
 msgid "Ascending"
 msgstr "昇順"
 
-#: templates/_popups.html:148
+#: templates/_popups.html:154
 msgid "Descending"
 msgstr "降順"
 
-#: templates/_popups.html:152 templates/_popups.html:169
+#: templates/_popups.html:158 templates/_popups.html:175
 msgid "Format"
 msgstr "書式"
 
-#: templates/_popups.html:155
+#: templates/_popups.html:161
 msgid "Date Formatting"
 msgstr "日付書式"
 
-#: templates/_popups.html:159
+#: templates/_popups.html:165
 msgid "Number Formatting"
 msgstr "数値書式"
 
-#: templates/_popups.html:160
+#: templates/_popups.html:166
 msgid "Digits"
 msgstr "桁数"
 
-#: templates/_popups.html:162
+#: templates/_popups.html:168
 msgid "Ignore"
 msgstr "無視"
 
-#: templates/_popups.html:163
+#: templates/_popups.html:169
 msgid "Fixed"
 msgstr "固定小数点"
 
-#: templates/_popups.html:164
+#: templates/_popups.html:170
 msgid "Precision"
 msgstr "精度"
 
-#: templates/_popups.html:165
+#: templates/_popups.html:171
 msgid "Exponential"
 msgstr "指数表記"
 
-#: templates/_popups.html:168
+#: templates/_popups.html:174
 msgid "Column Separator"
 msgstr "列の区切り文字"
 
-#: templates/_popups.html:177
+#: templates/_popups.html:183
 msgid "WebPlotDigitizer - Extract Data From Charts"
 msgstr "WebPlotDigitizer - チャートからデータを抽出"
 
-#: templates/_popups.html:186
+#: templates/_popups.html:192
 msgid "Licenses:"
 msgstr "ライセンス："
 
-#: templates/_popups.html:188
+#: templates/_popups.html:194
 msgid ""
 "WebPlotDigitizer (frontend UI) is distributed under the <a "
-"href=\"https://www.gnu.org/licenses/agpl-3.0.en.html\" target=\"_blank\">GNU"
-" Affero General Public License Version 3.0</a>."
+"href=\"https://www.gnu.org/licenses/agpl-3.0.en.html\" "
+"target=\"_blank\">GNU Affero General Public License Version 3.0</a>."
 msgstr ""
 "WebPlotDigitizer（フロントエンドUI）は<a "
-"href=\"https://www.gnu.org/licenses/agpl-3.0.en.html\" target=\"_blank\">GNU"
-" Affero General Public License Version 3.0</a>の下で配布されています。"
+"href=\"https://www.gnu.org/licenses/agpl-3.0.en.html\" "
+"target=\"_blank\">GNU Affero General Public License Version "
+"3.0</a>の下で配布されています。"
 
-#: templates/_popups.html:189
+#: templates/_popups.html:195
 msgid ""
 "The AI Assist (server side backend) is proprietary software owned by "
 "Automeris LLC."
 msgstr "AIアシスト（サーバー側バックエンド）はAutomeris LLCが所有する独自ソフトウェアです。"
 
-#: templates/_popups.html:197
+#: templates/_popups.html:203
 msgid "Export JSON or Project File"
 msgstr "JSONまたはプロジェクトファイルをエクスポート"
 
-#: templates/_popups.html:198
+#: templates/_popups.html:204
 msgid ""
 "Export a JSON file containing the axes calibrations, digitized data and "
-"measurements. This JSON file can be loaded to resume work at a later time. "
-"You can also download a combined 'project file' which includes this JSON and"
-" also the image in a single TAR file."
-msgstr ""
-"軸の較正情報、デジタル化したデータ、測定結果を含むJSONファイルをエクスポートします。このJSONファイルを読み込むことで、後から作業を再開できます。また、このJSONと画像を1つのTARファイルにまとめた「プロジェクトファイル」をダウンロードすることもできます。"
+"measurements. This JSON file can be loaded to resume work at a later "
+"time. You can also download a combined 'project file' which includes this"
+" JSON and also the image in a single TAR file."
+msgstr "軸の較正情報、デジタル化したデータ、測定結果を含むJSONファイルをエクスポートします。このJSONファイルを読み込むことで、後から作業を再開できます。また、このJSONと画像を1つのTARファイルにまとめた「プロジェクトファイル」をダウンロードすることもできます。"
 
-#: templates/_popups.html:200
+#: templates/_popups.html:206
 msgid "Project name:"
 msgstr "プロジェクト名："
 
-#: templates/_popups.html:203
+#: templates/_popups.html:209
 msgid "Download JSON"
 msgstr "JSONをダウンロード"
 
-#: templates/_popups.html:204
+#: templates/_popups.html:210
 msgid "Download Project File (.tar)"
 msgstr "プロジェクトファイル（.tar）をダウンロード"
 
-#: templates/_popups.html:211 templates/_strings.html:23
+#: templates/_popups.html:217 templates/_strings.html:23
 msgid "Import JSON/Project"
 msgstr "JSON/プロジェクトをインポート"
 
-#: templates/_popups.html:212
+#: templates/_popups.html:218
 msgid "Load a previously exported JSON or project file (.tar)"
 msgstr "以前にエクスポートしたJSONまたはプロジェクトファイル（.tar）を読み込みます"
 
-#: templates/_popups.html:213
+#: templates/_popups.html:219
 msgid "(Note: This will clear any unsaved data in the current plot.)"
 msgstr "（注意：現在のプロットの未保存データは消去されます。）"
 
-#: templates/_popups.html:215
+#: templates/_popups.html:221
 msgid "JSON/Project File"
 msgstr "JSON/プロジェクトファイル"
 
-#: templates/_popups.html:218
+#: templates/_popups.html:224
 msgid "Import"
 msgstr "インポート"
 
-#: templates/_popups.html:225
+#: templates/_popups.html:231
 msgid "Keyboard Shortcuts"
 msgstr "キーボードショートカット"
 
-#: templates/_popups.html:226
+#: templates/_popups.html:232
 msgid ""
-"Click to select a data point. The following keys can then be used to adjust "
-"the position"
+"Click to select a data point. The following keys can then be used to "
+"adjust the position"
 msgstr "クリックしてデータ点を選択します。選択後、以下のキーで位置を調整できます"
 
-#: templates/_popups.html:230
+#: templates/_popups.html:236
 msgid "Cursor (Arrows)"
 msgstr "カーソル（矢印キー）"
 
-#: templates/_popups.html:231
+#: templates/_popups.html:237
 msgid "Move up/down/right/left"
 msgstr "上下左右に移動"
 
-#: templates/_popups.html:234
+#: templates/_popups.html:240
 msgid "Shift + Cursor"
 msgstr "Shift + カーソル"
 
-#: templates/_popups.html:235
+#: templates/_popups.html:241
 msgid "Faster rate of movement"
 msgstr "より速く移動"
 
-#: templates/_popups.html:239
+#: templates/_popups.html:245
 msgid "Select next point"
 msgstr "次の点を選択"
 
-#: templates/_popups.html:243
+#: templates/_popups.html:249
 msgid "Select previous point"
 msgstr "前の点を選択"
 
-#: templates/_popups.html:246
+#: templates/_popups.html:252
 msgid "Del/Backspace"
 msgstr "Del/Backspace"
 
-#: templates/_popups.html:247
+#: templates/_popups.html:253
 msgid "Delete point"
 msgstr "点を削除"
 
-#: templates/_popups.html:251
+#: templates/_popups.html:257
 msgid "Edit label (Bar Chart)"
 msgstr "ラベルを編集（棒グラフ）"
 
-#: templates/_popups.html:256
+#: templates/_popups.html:262
 msgid "Override value (When adjusting "
 msgstr "値を上書き（調整対象："
 
-#: templates/_popups.html:258
+#: templates/_popups.html:264
 msgid "non-Bar Chart points"
 msgstr "棒グラフ以外の点"
 
-#: templates/_popups.html:269
+#: templates/_popups.html:275
 msgid "Edit Label"
 msgstr "ラベルを編集"
 
-#: templates/_popups.html:271
+#: templates/_popups.html:277
 msgid "Label"
 msgstr "ラベル"
 
-#: templates/_popups.html:271
+#: templates/_popups.html:277
 msgid "Data Point"
 msgstr "データ点"
 
-#: templates/_popups.html:281
+#: templates/_popups.html:287
 msgid "Override Point Values"
 msgstr "点の値を上書き"
 
-#: templates/_popups.html:289 templates/_sidebars.html:178
+#: templates/_popups.html:295 templates/_sidebars.html:178
 msgid "Clear"
 msgstr "クリア"
 
-#: templates/_popups.html:295
+#: templates/_popups.html:301
 msgid "Perspective Transformation"
 msgstr "透視変換"
 
-#: templates/_popups.html:298
+#: templates/_popups.html:304
 msgid "Click on four corners of the region to be transformed as shown."
 msgstr "図のように、変換する領域の4つの角をクリックしてください。"
 
-#: templates/_popups.html:308
+#: templates/_popups.html:314
 msgid "Edit Existing Calibration?"
 msgstr "既存の較正を編集しますか？"
 
-#: templates/_popups.html:310
-msgid ""
-"Do you wish to tweak existing axes calibration or select a new axes type?"
+#: templates/_popups.html:316
+msgid "Do you wish to tweak existing axes calibration or select a new axes type?"
 msgstr "既存の軸較正を調整しますか、それとも新しい軸タイプを選択しますか？"
 
-#: templates/_popups.html:313
+#: templates/_popups.html:319
 msgid "Edit Calibration"
 msgstr "較正を編集"
 
-#: templates/_popups.html:315
+#: templates/_popups.html:321
 msgid "Change Axes Type"
 msgstr "軸タイプを変更"
 
-#: templates/_popups.html:323
+#: templates/_popups.html:329
 msgid "Export All Datasets"
 msgstr "すべてのデータセットをエクスポート"
 
-#: templates/_popups.html:324
+#: templates/_popups.html:330
 msgid "Export data from all datasets"
 msgstr "すべてのデータセットのデータをエクスポート"
 
-#: templates/_popups.html:328
+#: templates/_popups.html:340
 msgid "Export to Plotly"
-msgstr "Plotlyにエクスポート"
+msgstr ""
 
-#: templates/_popups.html:335 templates/_toolbars.html:31
+#: templates/_popups.html:347 templates/_toolbars.html:31
 #: templates/_tree.html:54
 msgid "Add Dataset"
 msgstr "データセットを追加"
 
-#: templates/_popups.html:336 templates/_popups.html:348
-#: templates/_popups.html:359
+#: templates/_popups.html:348 templates/_popups.html:360
+#: templates/_popups.html:371
 msgid "Name"
 msgstr "名前"
 
-#: templates/_popups.html:336
+#: templates/_popups.html:348
 msgid "New Dataset"
 msgstr "新しいデータセット"
 
-#: templates/_popups.html:336
+#: templates/_popups.html:348
 msgid "Add Single Dataset"
 msgstr "単一のデータセットを追加"
 
-#: templates/_popups.html:338
+#: templates/_popups.html:350
 msgid "Count"
 msgstr "個数"
 
-#: templates/_popups.html:338
+#: templates/_popups.html:350
 msgid "Add Multiple Datasets"
 msgstr "複数のデータセットを追加"
 
-#: templates/_popups.html:345 templates/_tree.html:74
+#: templates/_popups.html:357 templates/_tree.html:74
 msgid "Rename Dataset"
 msgstr "データセット名を変更"
 
-#: templates/_popups.html:350 templates/_popups.html:361
+#: templates/_popups.html:362 templates/_popups.html:373
 #: templates/_tree.html:46
 msgid "Rename"
 msgstr "名前を変更"
 
-#: templates/_popups.html:356
+#: templates/_popups.html:368
 msgid "Rename Axes"
 msgstr "軸名を変更"
 
-#: templates/_popups.html:359 templates/_strings.html:72
+#: templates/_popups.html:371 templates/_strings.html:72
 #: templates/_tree.html:34 templates/_tree.html:44 templates/_tree.html:71
 #: templates/_tree.html:86 templates/_tree.html:103
 msgid "Axes"
 msgstr "軸"
 
-#: templates/_popups.html:367 templates/_tree.html:29
+#: templates/_popups.html:379 templates/_tree.html:29
 msgid "Image Info"
 msgstr "画像情報"
 
-#: templates/_popups.html:370
+#: templates/_popups.html:382
 msgid "Dimensions:"
 msgstr "寸法："
 
-#: templates/_popups.html:370
+#: templates/_popups.html:382
 msgid "pixels"
 msgstr "ピクセル"
 
-#: templates/_popups.html:371
+#: templates/_popups.html:383
 msgid "Pages:"
 msgstr "ページ数："
 
-#: templates/_popups.html:371
+#: templates/_popups.html:383
 msgid "pages"
 msgstr "ページ"
 
-#: templates/_popups.html:380
+#: templates/_popups.html:392
 msgid ""
 "Relabel the current page number with an alphanumeric string. Optionally, "
 "relabel all page numbers in the image based on the current page (only "
 "supports integer values)."
-msgstr ""
-"現在のページ番号を英数字の文字列で付け直します。オプションで、現在のページを基準に画像内のすべてのページ番号を付け直すこともできます（整数値のみ対応）。"
+msgstr "現在のページ番号を英数字の文字列で付け直します。オプションで、現在のページを基準に画像内のすべてのページ番号を付け直すこともできます（整数値のみ対応）。"
 
-#: templates/_popups.html:382
+#: templates/_popups.html:394
 msgid "New page label:"
 msgstr "新しいページラベル："
 
-#: templates/_popups.html:386
+#: templates/_popups.html:398
 msgid "Relabel all pages"
 msgstr "すべてのページのラベルを付け直す"
 
-#: templates/_popups.html:390
+#: templates/_popups.html:402
 msgid "Relabel"
 msgstr "ラベルを付け直す"
 
-#: templates/_popups.html:391 templates/_sidebars.html:213
+#: templates/_popups.html:403 templates/_sidebars.html:213
 msgid "Reset"
 msgstr "リセット"
 
-#: templates/_popups.html:392
+#: templates/_popups.html:404
 msgid "Reset All"
 msgstr "すべてリセット"
 
-#: templates/_popups.html:400 templates/_sidebars.html:84
+#: templates/_popups.html:412 templates/_sidebars.html:84
 msgid "Point Groups"
 msgstr "点グループ"
 
-#: templates/_popups.html:405
+#: templates/_popups.html:417
 msgid ""
 "Point groups are groups of related data points such as standard error or "
 "confidence intervals."
 msgstr "点グループとは、標準誤差や信頼区間など、関連するデータ点をまとめたグループです。"
 
-#: templates/_popups.html:409
+#: templates/_popups.html:421
 msgid ""
 "To define a point group, enter a name in the text input below. Create "
 "additional point groups as necessary."
 msgstr "点グループを定義するには、下のテキスト欄に名前を入力してください。必要に応じてさらに点グループを作成できます。"
 
-#: templates/_popups.html:413
+#: templates/_popups.html:425
 msgid ""
-"E.g. Assume we have 3 point groups defined: Median, Standard error +1, and "
-"Standard error -1. Points would be entered in the order shown in the image "
-"to the right. For each set of points, the median value would first be "
-"recorded, then the standard error +1, and finally the standard error -1. The"
-" process would repeat for the next set of points."
-msgstr ""
-"例：中央値、標準誤差+1、標準誤差-1という3つの点グループが定義されているとします。点は右の画像に示す順序で入力されます。各点のセットについて、まず中央値、次に標準誤差+1、最後に標準誤差-1の順に記録されます。このプロセスが次の点のセットについて繰り返されます。"
+"E.g. Assume we have 3 point groups defined: Median, Standard error +1, "
+"and Standard error -1. Points would be entered in the order shown in the "
+"image to the right. For each set of points, the median value would first "
+"be recorded, then the standard error +1, and finally the standard error "
+"-1. The process would repeat for the next set of points."
+msgstr "例：中央値、標準誤差+1、標準誤差-1という3つの点グループが定義されているとします。点は右の画像に示す順序で入力されます。各点のセットについて、まず中央値、次に標準誤差+1、最後に標準誤差-1の順に記録されます。このプロセスが次の点のセットについて繰り返されます。"
 
-#: templates/_popups.html:428 templates/_strings.html:102
+#: templates/_popups.html:440 templates/_strings.html:102
 msgid "Group"
 msgstr "グループ"
 
-#: templates/_popups.html:431 templates/_strings.html:104
+#: templates/_popups.html:443 templates/_strings.html:104
 msgid "Primary Group"
 msgstr "主グループ"
 
-#: templates/_popups.html:439
+#: templates/_popups.html:451
 msgid "Add New Group"
 msgstr "新しいグループを追加"
 
-#: templates/_popups.html:442 templates/_popups.html:555
+#: templates/_popups.html:454 templates/_popups.html:567
 msgid "Save"
 msgstr "保存"
 
-#: templates/_popups.html:448
+#: templates/_popups.html:460
 msgid "Select Axes Type"
 msgstr "軸タイプを選択"
 
-#: templates/_popups.html:452
+#: templates/_popups.html:464
 msgid "2D XY Axes"
 msgstr "2D XY軸"
 
-#: templates/_popups.html:453
+#: templates/_popups.html:465
 msgid "Bar Chart"
 msgstr "棒グラフ"
 
-#: templates/_popups.html:454
+#: templates/_popups.html:466
 msgid "Polar Diagram"
 msgstr "極座標グラフ"
 
-#: templates/_popups.html:455
+#: templates/_popups.html:467
 msgid "Ternary Diagram"
 msgstr "三角図"
 
-#: templates/_popups.html:456
+#: templates/_popups.html:468
 msgid "Map (Scale Bar)"
 msgstr "地図（縮尺バー）"
 
-#: templates/_popups.html:457 templates/_strings.html:77
+#: templates/_popups.html:469 templates/_strings.html:77
 #: templates/_strings.html:91 templates/_tree.html:27
 msgid "Image"
 msgstr "画像"
 
-#: templates/_popups.html:458
+#: templates/_popups.html:470
 msgid "Circular Chart Recorder"
 msgstr "円形チャートレコーダー"
 
-#: templates/_popups.html:466
+#: templates/_popups.html:478
 msgid ""
-"Click four known points on the axes in the <font color=\"red\">order shown "
-"in red</font>. Two on the X axis (X1, X2) and two on the Y axis (Y1, Y2)"
+"Click four known points on the axes in the <font color=\"red\">order "
+"shown in red</font>. Two on the X axis (X1, X2) and two on the Y axis "
+"(Y1, Y2)"
 msgstr ""
 "軸上の既知の4点を<font "
 "color=\"red\">赤で示された順序</font>でクリックしてください。X軸上に2点（X1、X2）、Y軸上に2点（Y1、Y2）です。"
 
-#: templates/_popups.html:471
-msgid ""
-"Click on two known points (P1, P2) on the continuous axes along the bars"
+#: templates/_popups.html:483
+msgid "Click on two known points (P1, P2) on the continuous axes along the bars"
 msgstr "棒に沿った連続軸上の既知の2点（P1、P2）をクリックしてください"
 
-#: templates/_popups.html:476
+#: templates/_popups.html:488
 msgid "Click on the center, followed by two known points."
 msgstr "中心をクリックし、続けて既知の2点をクリックしてください。"
 
-#: templates/_popups.html:481
+#: templates/_popups.html:493
 msgid "Click on the two ends of the scale bar on the map."
 msgstr "地図上の縮尺バーの両端をクリックしてください。"
 
-#: templates/_popups.html:486
+#: templates/_popups.html:498
 msgid "Click on the three corners in the order shown above."
 msgstr "上に示された順序で3つの角をクリックしてください。"
 
-#: templates/_popups.html:493
+#: templates/_popups.html:505
 msgid "Click 'Calibrate' to set up a 1:1 mapping from image pixels to data"
 msgstr "「較正」をクリックすると、画像のピクセルとデータの1対1の対応を設定できます"
 
-#: templates/_popups.html:498
+#: templates/_popups.html:510
 msgid "Click on five points on the chart axes as shown:"
 msgstr "図のように、チャートの軸上の5点をクリックしてください："
 
-#: templates/_popups.html:501
+#: templates/_popups.html:513
 msgid ""
 "First three points at different radial positions but the same known time "
 "(T0)."
 msgstr "最初の3点は、半径方向の位置は異なりますが、同じ既知の時刻（T0）にあります。"
 
-#: templates/_popups.html:502
+#: templates/_popups.html:514
 msgid ""
-"Next two points on any times (T1, T2) but at the same radial position as R2."
+"Next two points on any times (T1, T2) but at the same radial position as "
+"R2."
 msgstr "次の2点は任意の時刻（T1、T2）ですが、R2と同じ半径方向の位置にあります。"
 
-#: templates/_popups.html:511 templates/_sidebars.html:302
+#: templates/_popups.html:523 templates/_sidebars.html:302
 #: templates/_sidebars.html:338 templates/_sidebars.html:368
 #: templates/_sidebars.html:432 templates/_sidebars.html:463
 #: templates/_sidebars.html:523
 msgid "Calibrate"
 msgstr "較正"
 
-#: templates/_popups.html:520
+#: templates/_popups.html:532
 msgid "AI Assist (Experimental)"
 msgstr "AIアシスト（実験的機能）"
 
-#: templates/_popups.html:521
+#: templates/_popups.html:533
 msgid ""
-"AI assist is an experimental feature that uses state-of-the-art multimodal "
-"AI models on your image to auto detect axes information and datasets. This "
-"feature is under active development and more capabilities will be added "
-"soon."
-msgstr ""
-"AIアシストは、画像に対して最先端のマルチモーダルAIモデルを使用し、軸の情報とデータセットを自動検出する実験的機能です。この機能は現在活発に開発中であり、今後さらに多くの機能が追加される予定です。"
+"AI assist is an experimental feature that uses state-of-the-art "
+"multimodal AI models on your image to auto detect axes information and "
+"datasets. This feature is under active development and more capabilities "
+"will be added soon."
+msgstr "AIアシストは、画像に対して最先端のマルチモーダルAIモデルを使用し、軸の情報とデータセットを自動検出する実験的機能です。この機能は現在活発に開発中であり、今後さらに多くの機能が追加される予定です。"
 
-#: templates/_popups.html:522
+#: templates/_popups.html:534
 msgid "Click run to attempt auto-generating Axes and Datasets for your image."
 msgstr "「実行」をクリックすると、画像から軸とデータセットの自動生成を試みます。"
 
-#: templates/_popups.html:524
+#: templates/_popups.html:536
 msgid "Quota used:"
 msgstr "使用済みクォータ："
 
-#: templates/_popups.html:535
+#: templates/_popups.html:547
 msgid "Custom X Values"
 msgstr "カスタムX値"
 
-#: templates/_popups.html:536
+#: templates/_popups.html:548
 msgid "Specify X values for data extraction, for example"
 msgstr "データ抽出用のX値を指定してください。例："
 
-#: templates/_popups.html:546
+#: templates/_popups.html:558
 msgid "Language"
 msgstr "言語"
 
-#: templates/_popups.html:548
+#: templates/_popups.html:560
 msgid "English"
 msgstr "英語"
 
-#: templates/_popups.html:549
+#: templates/_popups.html:561
 msgid "Simplified Chinese"
 msgstr "簡体字中国語"
 
-#: templates/_popups.html:553
+#: templates/_popups.html:565
 msgid "Note: You may need to hard-reload this page after saving changes"
 msgstr "注意：変更を保存した後、このページを強制的に再読み込みする必要がある場合があります"
 
-#: templates/_popups.html:553
+#: templates/_popups.html:565
 msgid "see how"
 msgstr "方法を見る"
 
@@ -798,8 +812,7 @@ msgstr "軸較正"
 msgid ""
 "Click points to select and use cursor keys to adjust positions. Use "
 "Shift+Arrow for faster movement. Click complete when finished."
-msgstr ""
-"点をクリックして選択し、カーソルキーで位置を調整します。Shift+矢印キーでより速く移動できます。完了したら「完了」をクリックしてください。"
+msgstr "点をクリックして選択し、カーソルキーで位置を調整します。Shift+矢印キーでより速く移動できます。完了したら「完了」をクリックしてください。"
 
 #: templates/_sidebars.html:24
 msgid "Complete!"
@@ -1077,8 +1090,8 @@ msgstr "？"
 
 #: templates/_sidebars.html:247
 msgid ""
-"Click and drag to mark the crop region. Press Enter to complete cropping, "
-"Esc to cancel"
+"Click and drag to mark the crop region. Press Enter to complete cropping,"
+" Esc to cancel"
 msgstr "クリックしてドラッグし、切り取り範囲を指定します。Enterキーで切り取りを確定、Escキーでキャンセルします"
 
 #: templates/_sidebars.html:252
@@ -1287,8 +1300,8 @@ msgstr "不安定なバージョンに関する警告！"
 
 #: templates/_strings.html:22
 msgid ""
-"You are using a beta version of WebPlotDigitizer. There may be some issues "
-"with the software that are expected."
+"You are using a beta version of WebPlotDigitizer. There may be some "
+"issues with the software that are expected."
 msgstr "WebPlotDigitizerのベータ版をご使用中です。ソフトウェアに予期される問題が含まれている場合があります。"
 
 #: templates/_strings.html:24
@@ -1309,8 +1322,8 @@ msgstr "無効な対数スケール値"
 
 #: templates/_strings.html:28
 msgid ""
-"Values on a log scale axis can not be zero as log(0) is undefined. Please "
-"enter a non-zero value."
+"Values on a log scale axis can not be zero as log(0) is undefined. Please"
+" enter a non-zero value."
 msgstr "log(0)は定義されないため、対数スケール軸の値をゼロにすることはできません。ゼロ以外の値を入力してください。"
 
 #: templates/_strings.html:29
@@ -1343,7 +1356,8 @@ msgstr "変換方程式"
 
 #: templates/_strings.html:36
 msgid ""
-"Transformation equations are available only after axes have been calibrated."
+"Transformation equations are available only after axes have been "
+"calibrated."
 msgstr "変換方程式は、軸が較正された後にのみ利用できます。"
 
 #: templates/_strings.html:37
@@ -1352,8 +1366,8 @@ msgstr "未対応の機能！"
 
 #: templates/_strings.html:38
 msgid ""
-"This feature has not been implemented in the current version. This may be "
-"available in a future release."
+"This feature has not been implemented in the current version. This may be"
+" available in a future release."
 msgstr "この機能は現在のバージョンには実装されていません。将来のリリースで利用可能になる場合があります。"
 
 #: templates/_strings.html:39
@@ -1366,8 +1380,8 @@ msgstr "エラー：無効なファイルです！"
 
 #: templates/_strings.html:41
 msgid ""
-"Please load a valid image file. Common image formats such as JPG, PNG, BMP, "
-"GIF etc. should work. Word documents are not accepted."
+"Please load a valid image file. Common image formats such as JPG, PNG, "
+"BMP, GIF etc. should work. Word documents are not accepted."
 msgstr "有効な画像ファイルを読み込んでください。JPG、PNG、BMP、GIFなどの一般的な画像形式が使用できます。Word文書は使用できません。"
 
 #: templates/_strings.html:42
@@ -1670,3 +1684,16 @@ msgstr "すべてクリア"
 #: templates/_tree.html:110
 msgid "Support WPD"
 msgstr "WPDを支援する"
+
+#~ msgid "Download .CSV"
+#~ msgstr ".CSVをダウンロード"
+
+#~ msgid "Export to Plotly"
+#~ msgstr "Plotlyにエクスポート"
+
+#~ msgid "Plotly*"
+#~ msgstr "Plotlyでグラフ化*"
+
+#~ msgid "Plotly"
+#~ msgstr ""
+
