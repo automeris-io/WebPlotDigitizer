@@ -201,13 +201,13 @@
 <!-- Export JSON -->
 <div id="export-json-window" class="popup" style="width:500px;">
     <div class="popupheading">{{ _("Export JSON or Project File") }}</div>
-    <p>{{ _("Export a JSON file containing the axes calibrations, digitized data and measurements. This JSON file can be loaded to resume work at a later time. You can also download a combined 'project file' which includes this JSON and also the image in a single TAR file.") }}</p>
+    <p>{{ _("Export a JSON file containing the axes calibrations, digitized data and measurements. This JSON file can be loaded to resume work at a later time. You can also download a combined 'project file' which includes this JSON and also the image in a single gzip-compressed TAR file.") }}</p>
     <br />
-    <p align="center">{{ _("Project name:") }} <input type="text" value="wpd_project" id="project-name-input" />.json/.tar</p>
+    <p align="center">{{ _("Project name:") }} <input type="text" value="wpd_project" id="project-name-input" />.json/.tar.gz</p>
     <br />
     <p align="center">
         <input type="button" value="{{ _("Download JSON") }}" onclick="wpd.saveResume.downloadJSON();" />
-        <input type="button" value="{{ _("Download Project File (.tar)") }}" onclick="wpd.saveResume.downloadProject();" />
+        <input type="button" value="{{ _("Download Project File (.tar.gz)") }}" onclick="wpd.saveResume.downloadProject();" />
         <input type="button" value="{{ _("Cancel") }}" onclick="wpd.popup.close('export-json-window');" />
     </p>
 </div>
@@ -215,7 +215,7 @@
 <!-- Import JSON -->
 <div id="import-json-window" class="popup" style="width:500px;">
     <div class="popupheading">{{ _("Import JSON/Project") }}</div>
-    <p>{{ _("Load a previously exported JSON or project file (.tar)") }} </p>
+    <p>{{ _("Load a previously exported JSON or project file (.tar or .tar.gz)") }} </p>
     <p>{{ _("(Note: This will clear any unsaved data in the current plot.)") }}</p>
     <p>&nbsp;</p>
     <p align="center">{{ _("JSON/Project File") }}: <input type="file" id="import-json-file" onchange="wpd.saveResume.read();" /></p>

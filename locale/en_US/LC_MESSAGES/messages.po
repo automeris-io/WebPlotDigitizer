@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-07-27 00:32-0700\n"
+"POT-Creation-Date: 2026-07-27 00:44-0700\n"
 "PO-Revision-Date: 2016-12-12 23:09-0600\n"
 "Last-Translator: \n"
 "Language: en_US\n"
@@ -388,7 +388,7 @@ msgid ""
 "Export a JSON file containing the axes calibrations, digitized data and "
 "measurements. This JSON file can be loaded to resume work at a later "
 "time. You can also download a combined 'project file' which includes this"
-" JSON and also the image in a single TAR file."
+" JSON and also the image in a single gzip-compressed TAR file."
 msgstr ""
 
 #: templates/_popups.html:206
@@ -400,7 +400,7 @@ msgid "Download JSON"
 msgstr ""
 
 #: templates/_popups.html:210
-msgid "Download Project File (.tar)"
+msgid "Download Project File (.tar.gz)"
 msgstr ""
 
 #: templates/_popups.html:217 templates/_strings.html:23
@@ -408,7 +408,7 @@ msgid "Import JSON/Project"
 msgstr ""
 
 #: templates/_popups.html:218
-msgid "Load a previously exported JSON or project file (.tar)"
+msgid "Load a previously exported JSON or project file (.tar or .tar.gz)"
 msgstr ""
 
 #: templates/_popups.html:219

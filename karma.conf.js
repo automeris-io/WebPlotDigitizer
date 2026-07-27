@@ -46,6 +46,7 @@ module.exports = function(config) {
             "javascript/core/point_detection/*.js",
             "javascript/services/saveResume.js",
             "javascript/services/events.js",
+            "javascript/services/compression.js",
             "javascript/services/zipWriter.js",
             "javascript/services/matWriter.js",
             "javascript/services/xlsxWriter.js",

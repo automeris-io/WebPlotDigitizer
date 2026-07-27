@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  WebPlotDigitizer\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-07-27 00:32-0700\n"
+"POT-Creation-Date: 2026-07-27 00:44-0700\n"
 "PO-Revision-Date: 2026-07-26 23:59-0700\n"
 "Last-Translator: nkh0472 <nkh0472@hotmail.com>\n"
 "Language: zh_CN\n"
@@ -386,11 +386,12 @@ msgid "Export JSON or Project File"
 msgstr "导出 JSON 或项目文件"
 
 #: templates/_popups.html:204
+#, fuzzy
 msgid ""
 "Export a JSON file containing the axes calibrations, digitized data and "
 "measurements. This JSON file can be loaded to resume work at a later "
 "time. You can also download a combined 'project file' which includes this"
-" JSON and also the image in a single TAR file."
+" JSON and also the image in a single gzip-compressed TAR file."
 msgstr ""
 "导出包含坐标轴标定，数字化数据和测量结果的 JSON 文件。 稍后该 JSON 文件可被导入以恢复工作。 您还可以单个 TAR "
 "文件的形式下载包含此 JSON 和图像的打包“项目文件”。"
@@ -404,7 +405,8 @@ msgid "Download JSON"
 msgstr "下载 JSON"
 
 #: templates/_popups.html:210
-msgid "Download Project File (.tar)"
+#, fuzzy
+msgid "Download Project File (.tar.gz)"
 msgstr "下载项目文件 (.tar)"
 
 #: templates/_popups.html:217 templates/_strings.html:23
@@ -412,7 +414,8 @@ msgid "Import JSON/Project"
 msgstr "导入 JSON / 项目"
 
 #: templates/_popups.html:218
-msgid "Load a previously exported JSON or project file (.tar)"
+#, fuzzy
+msgid "Load a previously exported JSON or project file (.tar or .tar.gz)"
 msgstr "加载之前导出的 JSON 或项目文件（.tar）"
 
 #: templates/_popups.html:219

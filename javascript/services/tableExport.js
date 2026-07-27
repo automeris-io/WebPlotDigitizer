@@ -127,12 +127,13 @@ wpd.tableExport = (function() {
     }
 
     // format: 'mat' | 'xlsx' | 'python'. CSV is handled separately by callers.
-    function download(format, tables, filenameBase) {
+    async function download(format, tables, filenameBase) {
         if (format === 'mat') {
             wpd.download.file(wpd.matWriter.build(tables), filenameBase + '.mat',
                 'application/x-matlab-data');
         } else if (format === 'xlsx') {
-            wpd.download.file(wpd.xlsxWriter.build(tables), filenameBase + '.xlsx',
+            const xlsxBytes = await wpd.xlsxWriter.build(tables);
+            wpd.download.file(xlsxBytes, filenameBase + '.xlsx',
                 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         } else if (format === 'python') {
             wpd.download.file(toPythonText(tables), filenameBase + '.py', 'text/x-python');

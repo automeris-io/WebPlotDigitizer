@@ -17,29 +17,43 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>
 */
 
-// Minimal store-method zip reader, used only to verify wpd.zipWriter/wpd.xlsxWriter
-// output without depending on a third-party unzip library.
-function readStoreZip(bytes) {
+// Zip reader used only to verify wpd.zipWriter/wpd.xlsxWriter output
+// without depending on a third-party unzip library. Understands both the
+// "store" (method 0) and "deflate" (method 8, inflated via the browser's
+// native DecompressionStream) entries zipWriter can produce.
+async function readZip(bytes) {
     var view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
     var entries = {};
+    var methods = {};
     var offset = 0;
     while (view.getUint32(offset, true) === 0x04034b50) {
+        var method = view.getUint16(offset + 8, true);
         var compSize = view.getUint32(offset + 18, true);
         var nameLen = view.getUint16(offset + 26, true);
         var extraLen = view.getUint16(offset + 28, true);
         var nameStart = offset + 30;
         var name = new TextDecoder().decode(bytes.subarray(nameStart, nameStart + nameLen));
         var dataStart = nameStart + nameLen + extraLen;
-        entries[name] = bytes.subarray(dataStart, dataStart + compSize);
+        var raw = bytes.subarray(dataStart, dataStart + compSize);
+
+        methods[name] = method;
+        if (method === 8) {
+            entries[name] = await wpd.compression.inflateRaw(raw);
+        } else {
+            entries[name] = raw;
+        }
         offset = dataStart + compSize;
     }
-    return entries;
+    return {
+        entries: entries,
+        methods: methods
+    };
 }
 
 QUnit.module("Table export tests");
 
-QUnit.test("zipWriter produces a readable archive", function(assert) {
-    var zipBytes = wpd.zipWriter.build([{
+QUnit.test("zipWriter produces a readable, compressed archive", async function(assert) {
+    var zipBytes = await wpd.zipWriter.build([{
             name: 'hello.txt',
             data: 'Hello, WPD!'
         },
@@ -49,10 +63,15 @@ QUnit.test("zipWriter produces a readable archive", function(assert) {
         }
     ]);
 
-    var entries = readStoreZip(zipBytes);
-    assert.equal(new TextDecoder().decode(entries['hello.txt']), 'Hello, WPD!', 'first entry ok');
-    assert.equal(new TextDecoder().decode(entries['dir/nested.txt']), 'nested content',
+    var zip = await readZip(zipBytes);
+    assert.equal(new TextDecoder().decode(zip.entries['hello.txt']), 'Hello, WPD!',
+        'first entry ok');
+    assert.equal(new TextDecoder().decode(zip.entries['dir/nested.txt']), 'nested content',
         'second entry ok');
+
+    if (wpd.compression.supportsDeflateRaw()) {
+        assert.equal(zip.methods['hello.txt'], 8, 'entry is DEFLATE-compressed when supported');
+    }
 
     // End of central directory record must be present.
     var eocdSig = 0x06054b50;
@@ -67,7 +86,8 @@ QUnit.test("zipWriter produces a readable archive", function(assert) {
     assert.ok(found, 'end of central directory record found');
 });
 
-QUnit.test("xlsxWriter produces a valid package with expected cell values", function(assert) {
+QUnit.test("xlsxWriter produces a valid package with expected cell values", async function(
+    assert) {
     var tables = [{
         name: 'Dataset 1',
         headers: ['X', 'Y'],
@@ -77,8 +97,9 @@ QUnit.test("xlsxWriter produces a valid package with expected cell values", func
         ]
     }];
 
-    var xlsxBytes = wpd.xlsxWriter.build(tables);
-    var entries = readStoreZip(xlsxBytes);
+    var xlsxBytes = await wpd.xlsxWriter.build(tables);
+    var zip = await readZip(xlsxBytes);
+    var entries = zip.entries;
 
     assert.ok(entries['[Content_Types].xml'] != null, 'content types part present');
     assert.ok(entries['xl/workbook.xml'] != null, 'workbook part present');
@@ -95,7 +116,7 @@ QUnit.test("xlsxWriter produces a valid package with expected cell values", func
     assert.ok(workbookXml.indexOf('name="Dataset 1"') >= 0, 'sheet named after dataset');
 });
 
-QUnit.test("xlsxWriter sanitizes and de-duplicates sheet names", function(assert) {
+QUnit.test("xlsxWriter sanitizes and de-duplicates sheet names", async function(assert) {
     var tables = [{
             name: 'a/b:c*d',
             headers: ['H'],
@@ -112,9 +133,9 @@ QUnit.test("xlsxWriter sanitizes and de-duplicates sheet names", function(assert
         }
     ];
 
-    var xlsxBytes = wpd.xlsxWriter.build(tables);
-    var entries = readStoreZip(xlsxBytes);
-    var workbookXml = new TextDecoder().decode(entries['xl/workbook.xml']);
+    var xlsxBytes = await wpd.xlsxWriter.build(tables);
+    var zip = await readZip(xlsxBytes);
+    var workbookXml = new TextDecoder().decode(zip.entries['xl/workbook.xml']);
 
     assert.ok(workbookXml.indexOf('a_b_c_d') >= 0, 'illegal characters replaced');
     assert.ok(/name="[^"]+"[^>]*\/>.*name="[^"]+"/.test(workbookXml.replace(/\n/g, '')) ||

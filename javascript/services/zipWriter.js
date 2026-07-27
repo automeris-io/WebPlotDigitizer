@@ -17,9 +17,11 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>
 */
 
-// Minimal ZIP archive writer (store method, no compression). Sufficient to
-// build well-formed .xlsx/.docx-style OOXML packages without a third-party
-// dependency.
+// Minimal ZIP archive writer. Entries are DEFLATE-compressed via the
+// browser's native Compression Streams API (wpd.compression) when
+// available, falling back to the uncompressed "store" method otherwise.
+// Sufficient to build well-formed .xlsx/.docx-style OOXML packages without
+// a third-party dependency.
 var wpd = wpd || {};
 
 wpd.zipWriter = (function() {
@@ -95,18 +97,27 @@ wpd.zipWriter = (function() {
     };
 
     // files: [{ name: 'xl/workbook.xml', data: string|Uint8Array }, ...]
-    function build(files) {
+    async function build(files) {
         var localWriter = new ByteWriter();
         var centralWriter = new ByteWriter();
         var offsets = [];
         var dt = dosDateTime();
+        var canDeflate = wpd.compression.supportsDeflateRaw();
         var i;
 
         for (i = 0; i < files.length; i++) {
             var nameBytes = toUTF8Bytes(files[i].name);
-            var data = (typeof files[i].data === 'string') ? toUTF8Bytes(files[i].data) : files[
-                i].data;
-            var crc = crc32(data);
+            var rawData = (typeof files[i].data === 'string') ? toUTF8Bytes(files[i].data) :
+                files[i].data;
+            var crc = crc32(rawData); // ZIP always CRCs the uncompressed data
+
+            var method = 0; // store
+            var storedData = rawData;
+            if (canDeflate) {
+                storedData = await wpd.compression.deflateRaw(rawData);
+                method = 8; // deflate
+            }
+
             var localOffset = localWriter.length;
             offsets.push(localOffset);
 
@@ -114,28 +125,28 @@ wpd.zipWriter = (function() {
             localWriter.pushUint32(0x04034b50);
             localWriter.pushUint16(20); // version needed
             localWriter.pushUint16(0x0800); // general purpose flag: UTF-8 filenames
-            localWriter.pushUint16(0); // compression method: store
+            localWriter.pushUint16(method);
             localWriter.pushUint16(dt.time);
             localWriter.pushUint16(dt.date);
             localWriter.pushUint32(crc);
-            localWriter.pushUint32(data.length); // compressed size
-            localWriter.pushUint32(data.length); // uncompressed size
+            localWriter.pushUint32(storedData.length); // compressed size
+            localWriter.pushUint32(rawData.length); // uncompressed size
             localWriter.pushUint16(nameBytes.length);
             localWriter.pushUint16(0); // extra field length
             localWriter.pushBytes(nameBytes);
-            localWriter.pushBytes(data);
+            localWriter.pushBytes(storedData);
 
             // Central directory header
             centralWriter.pushUint32(0x02014b50);
             centralWriter.pushUint16(20); // version made by
             centralWriter.pushUint16(20); // version needed
             centralWriter.pushUint16(0x0800);
-            centralWriter.pushUint16(0);
+            centralWriter.pushUint16(method);
             centralWriter.pushUint16(dt.time);
             centralWriter.pushUint16(dt.date);
             centralWriter.pushUint32(crc);
-            centralWriter.pushUint32(data.length);
-            centralWriter.pushUint32(data.length);
+            centralWriter.pushUint32(storedData.length);
+            centralWriter.pushUint32(rawData.length);
             centralWriter.pushUint16(nameBytes.length);
             centralWriter.pushUint16(0); // extra field length
             centralWriter.pushUint16(0); // comment length

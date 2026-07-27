@@ -103,7 +103,7 @@ wpd.xlsxWriter = (function() {
     }
 
     // tables: [{ name: string, headers: [string,...], rows: [[value,...],...] }, ...]
-    function build(tables) {
+    async function build(tables) {
         var usedNames = {};
         var sheetNames = tables.map(function(t) {
             return sanitizeSheetName(t.name, usedNames);
