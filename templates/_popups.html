@@ -23,19 +23,19 @@
 
 <!-- busy note -->
 <div id="wait">
-    <p>Processing...</p>
+    <p>{{ _("Processing...") }}</p>
 </div>
 
 <!-- Load Image -->
 <div id="loadNewImage" class="popup" style="width: 400px;">
     <div class="popupheading">{{ _("Load Image File(s)") }}</div>
-    <p align="center">Select image files or PDF documents</p>
+    <p align="center">{{ _("Select image files or PDF documents") }}</p>
     <p>&nbsp;</p>
     <p align="center">
         <input type="file" id="fileLoadBox" multiple onchange="wpd.imageManager.load();" />
     </p>
     <p>&nbsp;</p>
-    <p align="center">You can also drag and drop or paste images</p>
+    <p align="center">{{ _("You can also drag and drop or paste images") }}</p>
     <p>&nbsp;</p>
     <p align="center">
         <input type="button" value="{{ _("Load") }}" onclick="wpd.imageManager.load();" />
@@ -74,7 +74,7 @@
         </table>
     </center>
     <p>&nbsp;</p>
-    <p align="center"><input type="button" value="Apply" onclick="wpd.zoomView.applySettings();" /> <input type="button" value="{{ _("Cancel") }}" onclick="wpd.popup.close('zoom-settings-popup');" /></p>
+    <p align="center"><input type="button" value="{{ _("Apply") }}" onclick="wpd.zoomView.applySettings();" /> <input type="button" value="{{ _("Cancel") }}" onclick="wpd.popup.close('zoom-settings-popup');" /></p>
 </div>
 
 <!-- Run Script -->
@@ -166,7 +166,7 @@
                     </select>
                 </p>
                 <p>{{ _("Column Separator") }}: <input type="text" value=", " size="2" id="data-number-format-separator" /></p>
-                <p align="right"><input type="button" value="Format" onclick="wpd.dataTable.reSort();" /></p>
+                <p align="right"><input type="button" value="{{ _("Format") }}" onclick="wpd.dataTable.reSort();" /></p>
             </td>
         </tr>
     </table>
@@ -183,10 +183,10 @@
     <p align="center">Copyright 2026 Automeris LLC, California, USA &lt;plots@automeris.io&gt;</p>
     <p align="center"><a href="https://automeris.io" target="_blank">https://automeris.io</a></p>
     <p>&nbsp;</p>
-    <p>Licenses:</p>
+    <p>{{ _("Licenses:") }}</p>
     <ul>
-        <li>WebPlotDigitizer (frontend UI) is distributed under the <a href="https://www.gnu.org/licenses/agpl-3.0.en.html" target="_blank">GNU Affero General Public License Version 3.0</a>.</li>
-        <li>The AI Assist (server side backend) is proprietary software owned by Automeris LLC.</li>
+        <li>{{ _("WebPlotDigitizer (frontend UI) is distributed under the <a href=\"https://www.gnu.org/licenses/agpl-3.0.en.html\" target=\"_blank\">GNU Affero General Public License Version 3.0</a>.") }}</li>
+        <li>{{ _("The AI Assist (server side backend) is proprietary software owned by Automeris LLC.") }}</li>
     </ul>
     <p>&nbsp;</p>
     <p align="center"><input type="button" value="{{ _("Close") }}" onclick="wpd.popup.close('helpWindow');"></p>
@@ -197,7 +197,7 @@
     <div class="popupheading">{{ _("Export JSON or Project File") }}</div>
     <p>{{ _("Export a JSON file containing the axes calibrations, digitized data and measurements. This JSON file can be loaded to resume work at a later time. You can also download a combined 'project file' which includes this JSON and also the image in a single TAR file.") }}</p>
     <br />
-    <p align="center">Project name: <input type="text" value="wpd_project" id="project-name-input" />.json/.tar</p>
+    <p align="center">{{ _("Project name:") }} <input type="text" value="wpd_project" id="project-name-input" />.json/.tar</p>
     <br />
     <p align="center">
         <input type="button" value="{{ _("Download JSON") }}" onclick="wpd.saveResume.downloadJSON();" />
@@ -333,7 +333,7 @@
 <!-- Add dataset -->
 <div id="add-dataset-popup" class="popup" style="width:450px;">
     <div class="popupheading">{{ _("Add Dataset") }}</div>
-    <p>{{ _("Name") }}: <input type="text" id="add-single-dataset-name-input" value="New Dataset" /> <input type="button" value="{{ _("Add Single Dataset") }}" onclick="wpd.dataSeriesManagement.addSingleDataset();" /></p>
+    <p>{{ _("Name") }}: <input type="text" id="add-single-dataset-name-input" value="{{ _("New Dataset") }}" /> <input type="button" value="{{ _("Add Single Dataset") }}" onclick="wpd.dataSeriesManagement.addSingleDataset();" /></p>
     <br />
     <p>{{ _("Count") }}: <input type="text" id="add-multiple-datasets-count-input" value="1" /> <input type="button" value="{{ _("Add Multiple Datasets") }}" onclick="wpd.dataSeriesManagement.addMultipleDatasets();" /></p>
     <br />
@@ -345,7 +345,7 @@
     <div class="popupheading">{{ _("Rename Dataset") }}</div>
     <center>
         <br />
-        <p>{{ _("Name") }}: <input type="text" id="rename-dataset-name-input" value="Dataset" onkeypress="wpd.dataSeriesManagement.renameKeypress(event);" /></p>
+        <p>{{ _("Name") }}: <input type="text" id="rename-dataset-name-input" value="{{ _("Dataset") }}" onkeypress="wpd.dataSeriesManagement.renameKeypress(event);" /></p>
         <br />
         <p><input type="button" value="{{ _("Rename") }}" onclick="wpd.dataSeriesManagement.renameDataset();" /> <input type="button" value="{{ _("Cancel") }}" onclick="wpd.popup.close('rename-dataset-popup');" /></p>
     </center>
@@ -356,7 +356,7 @@
     <div class="popupheading">{{ _("Rename Axes") }}</div>
     <center>
         <br />
-        <p>{{ _("Name") }}: <input type="text" id="rename-axes-name-input" value="Axes" onkeypress="wpd.alignAxes.renameKeypress(event);" /></p>
+        <p>{{ _("Name") }}: <input type="text" id="rename-axes-name-input" value="{{ _("Axes") }}" onkeypress="wpd.alignAxes.renameKeypress(event);" /></p>
         <br />
         <p><input type="button" value="{{ _("Rename") }}" onclick="wpd.alignAxes.renameAxes();" /> <input type="button" value="{{ _("Cancel") }}" onclick="wpd.popup.close('rename-axes-popup');" /></p>
     </center>
@@ -367,8 +367,8 @@
     <div class="popupheading">{{ _("Image Info") }}</div>
     <center>
         <br />
-        <p>Dimensions: <span id="image-info-dimensions"></span> pixels</p>
-        <p class="paged" hidden>Pages: <span id="image-info-pages"></span> pages</p>
+        <p>{{ _("Dimensions:") }} <span id="image-info-dimensions"></span> {{ _("pixels") }}</p>
+        <p class="paged" hidden>{{ _("Pages:") }} <span id="image-info-pages"></span> {{ _("pages") }}</p>
         <br />
         <p><input type="button" value="{{ _("OK") }}" onclick="wpd.popup.close('image-info-popup');" /></p>
     </center>
@@ -379,11 +379,11 @@
     <div class="popupheading">{{ _("Page Labels") }}</div>
     <p>{{ _("Relabel the current page number with an alphanumeric string. Optionally, relabel all page numbers in the image based on the current page (only supports integer values).") }}</p>
     <br />
-    <p>New page label: <input id="image-page-relabel-input" type="text" onkeyup="wpd.appData.getPageManager().validateLabel(this.value)" /></p>
+    <p>{{ _("New page label:") }} <input id="image-page-relabel-input" type="text" onkeyup="wpd.appData.getPageManager().validateLabel(this.value)" /></p>
     <center>
         <p style="color: lightgray;">
             <input id="image-page-relabel-all-checkbox" type="checkbox" disabled />
-            <label for="image-page-relabel-all-checkbox">Relabel all pages</label>
+            <label for="image-page-relabel-all-checkbox">{{ _("Relabel all pages") }}</label>
         </p>
         <br />
         <p>
@@ -490,7 +490,7 @@
                 <p align="center">
                     <i class="bi bi-card-image" style="font-size: 220px; color: lightgray;"></i>
                 </p>
-                <p>Click 'Calibrate' to set up a 1:1 mapping from image pixels to data</p>
+                <p>{{ _("Click 'Calibrate' to set up a 1:1 mapping from image pixels to data") }}</p>
             </div>
             <!-- CIRCULAR CHART RECORDER -->
             <div class="calibrate-axes-option-info" id="calibrate-axes-info-circular-chart-recorder">

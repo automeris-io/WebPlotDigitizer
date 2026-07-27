@@ -3,8 +3,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WebPlotDigitizer\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-07-26 22:55-0700\n"
-"PO-Revision-Date: 2026-07-26 23:36-0700\n"
+"POT-Creation-Date: 2026-07-26 23:55-0700\n"
+"PO-Revision-Date: 2026-07-26 23:59-0700\n"
 "Last-Translator: nkh0472 <nkh0472@hotmail.com>\n"
 "Language-Team: zh_CN <LL@li.org>\n"
 "Language: zh_CN\n"
@@ -28,6 +28,14 @@ msgid ""
 "Firefox, Safari or Microsoft Edge installed."
 msgstr "启动错误？ 请确认您安装了最新版本的Google Chrome，Firefox，Safari 或 Microsoft Edge。"
 
+#: templates/_base.html:77
+msgid "Rotate 90° counter-clockwise"
+msgstr "逆时针旋转90°"
+
+#: templates/_base.html:80
+msgid "Rotate 90° clockwise"
+msgstr "顺时针旋转90°"
+
 #: templates/_base.html:83
 msgid "Zoom In (Ctrl/Cmd+Scroll)"
 msgstr "放大（Ctrl/Cmd+滚动）"
@@ -41,8 +49,20 @@ msgid "View actual size"
 msgstr "查看实际大小"
 
 #: templates/_base.html:86
+msgid "Fit image to screen"
+msgstr "使图像适应屏幕"
+
+#: templates/_base.html:86
 msgid "Fit"
 msgstr "适合"
+
+#: templates/_base.html:87
+msgid "Toggle extended crosshair"
+msgstr "切换扩展十字准线"
+
+#: templates/_base.html:127
+msgid "Change zoom settings"
+msgstr "更改缩放设置"
 
 #: templates/_menubar.html:21
 msgid "File"
@@ -81,6 +101,30 @@ msgstr "用户手册"
 msgid "Report Issues"
 msgstr "反馈问题"
 
+#: templates/_menubar.html:52
+msgid "Your Account"
+msgstr "您的账户"
+
+#: templates/_menubar.html:56
+msgid "Account"
+msgstr "账户"
+
+#: templates/_menubar.html:57 templates/_popups.html:544
+msgid "Preferences"
+msgstr "首选项"
+
+#: templates/_menubar.html:58
+msgid "Sign out"
+msgstr "退出登录"
+
+#: templates/_navbar.html:22
+msgid "Image:"
+msgstr "图像："
+
+#: templates/_navbar.html:25
+msgid "Page:"
+msgstr "页面："
+
 #: templates/_navbar.html:27
 msgid "Previous"
 msgstr "前一项"
@@ -93,9 +137,21 @@ msgstr "下一项"
 msgid "Page Labels"
 msgstr "页面标签"
 
+#: templates/_popups.html:26
+msgid "Processing..."
+msgstr "处理中..."
+
 #: templates/_popups.html:31
 msgid "Load Image File(s)"
 msgstr "加载图像文件"
+
+#: templates/_popups.html:32
+msgid "Select image files or PDF documents"
+msgstr "选择图像文件或 PDF 文档"
+
+#: templates/_popups.html:38
+msgid "You can also drag and drop or paste images"
+msgstr "您也可以拖放或粘贴图像"
 
 #: templates/_popups.html:41
 msgid "Load"
@@ -142,6 +198,10 @@ msgstr "红色"
 msgid "Yellow"
 msgstr "黄色"
 
+#: templates/_popups.html:77
+msgid "Apply"
+msgstr "应用"
+
 #: templates/_popups.html:82
 msgid "Run Script"
 msgstr "运行脚本"
@@ -184,8 +244,8 @@ msgstr "确认"
 msgid "Acquired Data"
 msgstr "采集数据"
 
-#: templates/_popups.html:128 templates/_strings.html:69
-#: templates/_tree.html:69
+#: templates/_popups.html:128 templates/_popups.html:348
+#: templates/_strings.html:69 templates/_tree.html:69
 msgid "Dataset"
 msgstr "数据集"
 
@@ -244,7 +304,7 @@ msgstr "升序"
 msgid "Descending"
 msgstr "降序"
 
-#: templates/_popups.html:152
+#: templates/_popups.html:152 templates/_popups.html:169
 msgid "Format"
 msgstr "格式"
 
@@ -284,6 +344,26 @@ msgstr "列分隔符"
 msgid "WebPlotDigitizer - Extract Data From Charts"
 msgstr "WebPlotDigitizer - 基于Web的图像数字化工具"
 
+#: templates/_popups.html:186
+msgid "Licenses:"
+msgstr "许可证："
+
+#: templates/_popups.html:188
+msgid ""
+"WebPlotDigitizer (frontend UI) is distributed under the <a "
+"href=\"https://www.gnu.org/licenses/agpl-3.0.en.html\" target=\"_blank\">GNU"
+" Affero General Public License Version 3.0</a>."
+msgstr ""
+"WebPlotDigitizer（前端界面）依据<a "
+"href=\"https://www.gnu.org/licenses/agpl-3.0.en.html\" target=\"_blank\">GNU"
+" Affero 通用公共许可证第 3.0 版</a>发布。"
+
+#: templates/_popups.html:189
+msgid ""
+"The AI Assist (server side backend) is proprietary software owned by "
+"Automeris LLC."
+msgstr "AI 辅助（服务器端后端）是 Automeris LLC 拥有的专有软件。"
+
 #: templates/_popups.html:197
 msgid "Export JSON or Project File"
 msgstr "导出 JSON 或项目文件"
@@ -298,13 +378,17 @@ msgstr ""
 "导出包含坐标轴标定，数字化数据和测量结果的 JSON 文件。 稍后该 JSON 文件可被导入以恢复工作。 您还可以单个 TAR 文件的形式下载包含此 "
 "JSON 和图像的打包“项目文件”。"
 
+#: templates/_popups.html:200
+msgid "Project name:"
+msgstr "项目名称："
+
 #: templates/_popups.html:203
 msgid "Download JSON"
 msgstr "下载 JSON"
 
 #: templates/_popups.html:204
 msgid "Download Project File (.tar)"
-msgstr "不是有效的项目文件格式！"
+msgstr "下载项目文件 (.tar)"
 
 #: templates/_popups.html:211 templates/_strings.html:23
 msgid "Import JSON/Project"
@@ -328,7 +412,7 @@ msgstr "导入"
 
 #: templates/_popups.html:225
 msgid "Keyboard Shortcuts"
-msgstr "查看键盘快捷键"
+msgstr "键盘快捷键"
 
 #: templates/_popups.html:226
 msgid ""
@@ -354,11 +438,11 @@ msgstr "快速移动"
 
 #: templates/_popups.html:239
 msgid "Select next point"
-msgstr "删除点"
+msgstr "选择下一个点"
 
 #: templates/_popups.html:243
 msgid "Select previous point"
-msgstr "删除点"
+msgstr "选择上一个点"
 
 #: templates/_popups.html:246
 msgid "Del/Backspace"
@@ -378,7 +462,7 @@ msgstr "覆盖值（当调整 "
 
 #: templates/_popups.html:258
 msgid "non-Bar Chart points"
-msgstr "清除数据点？"
+msgstr "非条形图数据点"
 
 #: templates/_popups.html:269
 msgid "Edit Label"
@@ -390,7 +474,7 @@ msgstr "标签"
 
 #: templates/_popups.html:271
 msgid "Data Point"
-msgstr "数据点数"
+msgstr "数据点"
 
 #: templates/_popups.html:281
 msgid "Override Point Values"
@@ -410,7 +494,7 @@ msgstr "如图所示，点击要变换区域的四个角。"
 
 #: templates/_popups.html:308
 msgid "Edit Existing Calibration?"
-msgstr "坐标轴标定"
+msgstr "编辑现有标定？"
 
 #: templates/_popups.html:310
 msgid ""
@@ -419,7 +503,7 @@ msgstr "你想要调整现有的坐标轴标定或选择新的坐标轴类型？
 
 #: templates/_popups.html:313
 msgid "Edit Calibration"
-msgstr "添加标定"
+msgstr "编辑标定"
 
 #: templates/_popups.html:315
 msgid "Change Axes Type"
@@ -437,18 +521,23 @@ msgstr "导出所有数据集"
 msgid "Export to Plotly"
 msgstr "导出到 Plotly"
 
-#: templates/_popups.html:335 templates/_tree.html:54
+#: templates/_popups.html:335 templates/_toolbars.html:31
+#: templates/_tree.html:54
 msgid "Add Dataset"
 msgstr "添加数据集"
 
 #: templates/_popups.html:336 templates/_popups.html:348
 #: templates/_popups.html:359
 msgid "Name"
-msgstr "重命名"
+msgstr "名称"
+
+#: templates/_popups.html:336
+msgid "New Dataset"
+msgstr "新数据集"
 
 #: templates/_popups.html:336
 msgid "Add Single Dataset"
-msgstr "管理数据集"
+msgstr "添加单个数据集"
 
 #: templates/_popups.html:338
 msgid "Count"
@@ -469,11 +558,33 @@ msgstr "重命名"
 
 #: templates/_popups.html:356
 msgid "Rename Axes"
-msgstr "重命名数据集"
+msgstr "重命名坐标轴"
+
+#: templates/_popups.html:359 templates/_strings.html:72
+#: templates/_tree.html:34 templates/_tree.html:44 templates/_tree.html:71
+#: templates/_tree.html:86 templates/_tree.html:103
+msgid "Axes"
+msgstr "坐标轴"
 
 #: templates/_popups.html:367 templates/_tree.html:29
 msgid "Image Info"
 msgstr "图像信息"
+
+#: templates/_popups.html:370
+msgid "Dimensions:"
+msgstr "尺寸："
+
+#: templates/_popups.html:370
+msgid "pixels"
+msgstr "像素"
+
+#: templates/_popups.html:371
+msgid "Pages:"
+msgstr "页数："
+
+#: templates/_popups.html:371
+msgid "pages"
+msgstr "页"
 
 #: templates/_popups.html:380
 msgid ""
@@ -481,6 +592,14 @@ msgid ""
 "relabel all page numbers in the image based on the current page (only "
 "supports integer values)."
 msgstr "用字母数字字符串重新标记当前页码。（可选）根据当前页面重新标记图像中的所有页码（仅支持整数值）。"
+
+#: templates/_popups.html:382
+msgid "New page label:"
+msgstr "新页面标签："
+
+#: templates/_popups.html:386
+msgid "Relabel all pages"
+msgstr "重新标记所有页面"
 
 #: templates/_popups.html:390
 msgid "Relabel"
@@ -546,7 +665,7 @@ msgstr "2D XY 坐标轴"
 
 #: templates/_popups.html:453
 msgid "Bar Chart"
-msgstr "循环制图"
+msgstr "条形图"
 
 #: templates/_popups.html:454
 msgid "Polar Diagram"
@@ -594,6 +713,10 @@ msgstr "点击地图上比例尺的两端。"
 msgid "Click on the three corners in the order shown above."
 msgstr "按照如上所示顺序，依次点击三个角。"
 
+#: templates/_popups.html:493
+msgid "Click 'Calibrate' to set up a 1:1 mapping from image pixels to data"
+msgstr "点击“标定”以建立图像像素与数据之间的一对一映射"
+
 #: templates/_popups.html:498
 msgid "Click on five points on the chart axes as shown:"
 msgstr "单击图表轴上的5个点，如图所示："
@@ -609,9 +732,12 @@ msgid ""
 "Next two points on any times (T1, T2) but at the same radial position as R2."
 msgstr "下2个点应在任意时间（T1，T2）上，但与R2大小相同。"
 
-#: templates/_popups.html:511
+#: templates/_popups.html:511 templates/_sidebars.html:302
+#: templates/_sidebars.html:338 templates/_sidebars.html:368
+#: templates/_sidebars.html:432 templates/_sidebars.html:463
+#: templates/_sidebars.html:523
 msgid "Calibrate"
-msgstr "未经标定的数据集！"
+msgstr "标定"
 
 #: templates/_popups.html:520
 msgid "AI Assist (Experimental)"
@@ -641,10 +767,6 @@ msgstr "自定义 X 值"
 #: templates/_popups.html:536
 msgid "Specify X values for data extraction, for example"
 msgstr "指定用于数据提取的 X 值，例如"
-
-#: templates/_popups.html:544
-msgid "Preferences"
-msgstr "首选项"
 
 #: templates/_popups.html:546
 msgid "Language"
@@ -708,7 +830,8 @@ msgstr "自动提取"
 msgid "Mask"
 msgstr "蒙板"
 
-#: templates/_sidebars.html:40 templates/_sidebars.html:177
+#: templates/_sidebars.html:40 templates/_sidebars.html:71
+#: templates/_sidebars.html:177
 msgid "Box"
 msgstr "方块"
 
@@ -746,7 +869,7 @@ msgstr "前景色"
 
 #: templates/_sidebars.html:55
 msgid "Background"
-msgstr "背景模式"
+msgstr "背景"
 
 #: templates/_sidebars.html:59 templates/_strings.html:73
 #: templates/_tree.html:62 templates/_tree.html:84
@@ -760,6 +883,26 @@ msgstr "颜色过滤"
 #: templates/_sidebars.html:63
 msgid "Algorithm"
 msgstr "算法"
+
+#: templates/_sidebars.html:69
+msgid "Template"
+msgstr "模板"
+
+#: templates/_sidebars.html:70
+msgid "Point"
+msgstr "点"
+
+#: templates/_sidebars.html:76
+msgid "Set Custom X Values"
+msgstr "设置自定义 X 值"
+
+#: templates/_sidebars.html:85
+msgid "Current Tuple:"
+msgstr "当前元组："
+
+#: templates/_sidebars.html:86
+msgid "Current Group:"
+msgstr "当前组："
 
 #: templates/_sidebars.html:88
 msgid "Prev Group"
@@ -789,17 +932,37 @@ msgstr "主色"
 msgid "Edit Image"
 msgstr "编辑图像"
 
+#: templates/_sidebars.html:120
+msgid "H. Flip"
+msgstr "水平翻转"
+
+#: templates/_sidebars.html:120
+msgid "V. Flip"
+msgstr "垂直翻转"
+
+#: templates/_sidebars.html:121 templates/_sidebars.html:238
+msgid "Crop"
+msgstr "剪裁"
+
+#: templates/_sidebars.html:122
+msgid "Restore"
+msgstr "还原"
+
+#: templates/_sidebars.html:123
+msgid "Save .PNG"
+msgstr "保存为 .PNG"
+
 #: templates/_sidebars.html:128
 msgid "Measure Distances"
 msgstr "测量距离"
 
 #: templates/_sidebars.html:130
 msgid "Add Pair"
-msgstr "新增测量"
+msgstr "添加点对"
 
 #: templates/_sidebars.html:131
 msgid "Delete Pair"
-msgstr "删除测量"
+msgstr "删除点对"
 
 #: templates/_sidebars.html:137
 msgid "Measure Angles"
@@ -807,11 +970,11 @@ msgstr "测量角度"
 
 #: templates/_sidebars.html:139
 msgid "Add Angle"
-msgstr "新增测量"
+msgstr "添加角度"
 
 #: templates/_sidebars.html:140
 msgid "Delete Angle"
-msgstr "删除测量"
+msgstr "删除角度"
 
 #: templates/_sidebars.html:146
 msgid "Measure Area/Perimeter"
@@ -835,11 +998,11 @@ msgstr "测量路径"
 
 #: templates/_sidebars.html:158 templates/_sidebars.html:167
 msgid "Add Path"
-msgstr "新增测量"
+msgstr "添加路径"
 
 #: templates/_sidebars.html:159 templates/_sidebars.html:168
 msgid "Delete Path"
-msgstr "删除测量"
+msgstr "删除路径"
 
 #: templates/_sidebars.html:165
 msgid "Measure Closed Path"
@@ -897,10 +1060,6 @@ msgstr "撤销"
 msgid "Redo"
 msgstr "重做"
 
-#: templates/_sidebars.html:238
-msgid "Crop"
-msgstr "剪裁"
-
 #: templates/_sidebars.html:239
 msgid "Fix Perspective"
 msgstr "修复透视"
@@ -912,6 +1071,180 @@ msgstr "旋转"
 #: templates/_sidebars.html:244
 msgid "?"
 msgstr "?"
+
+#: templates/_sidebars.html:247
+msgid ""
+"Click and drag to mark the crop region. Press Enter to complete cropping, "
+"Esc to cancel"
+msgstr "点击并拖动以标记裁剪区域。按 Enter 完成裁剪，按 Esc 取消"
+
+#: templates/_sidebars.html:252
+msgid "XY Axes Calibration"
+msgstr "XY 坐标轴标定"
+
+#: templates/_sidebars.html:253
+msgid "Specify four points: X1, X2 on X-axis and Y1, Y2 on Y-axis"
+msgstr "指定四个点：X 轴上的 X1、X2 和 Y 轴上的 Y1、Y2"
+
+#: templates/_sidebars.html:256
+msgid "X-Axis"
+msgstr "X 轴"
+
+#: templates/_sidebars.html:259 templates/_sidebars.html:281
+#: templates/_sidebars.html:317 templates/_sidebars.html:384
+msgid "Linear"
+msgstr "线性"
+
+#: templates/_sidebars.html:260 templates/_sidebars.html:282
+#: templates/_sidebars.html:318
+msgid "Log (any base)"
+msgstr "对数（任意底数）"
+
+#: templates/_sidebars.html:261 templates/_sidebars.html:283
+#: templates/_sidebars.html:319
+msgid "Date/Time"
+msgstr "日期/时间"
+
+#: templates/_sidebars.html:278
+msgid "Y-Axis"
+msgstr "Y 轴"
+
+#: templates/_sidebars.html:297
+msgid "Skip rotation correction"
+msgstr "跳过旋转校正"
+
+#: templates/_sidebars.html:306 templates/_sidebars.html:342
+#: templates/_sidebars.html:527
+msgid ""
+"Refer to the expected <a href=\"/docs/digitize/#input-format-for-"
+"calibration-values\" target=\"_blank\">input format for calibration "
+"values</a>, especially for dates and exponentials."
+msgstr ""
+"请参考<a href=\"/docs/digitize/#input-format-for-calibration-values\" "
+"target=\"_blank\">标定值的预期输入格式</a>，尤其是日期和指数值的格式。"
+
+#: templates/_sidebars.html:310
+msgid "Bar Chart Calibration"
+msgstr "条形图标定"
+
+#: templates/_sidebars.html:311
+msgid "Specify two points on the axes along the bars (P1, P2)"
+msgstr "指定沿条形的坐标轴上的两个点（P1、P2）"
+
+#: templates/_sidebars.html:314 templates/_sidebars.html:359
+#: templates/_sidebars.html:381 templates/_sidebars.html:441
+msgid "Scale"
+msgstr "比例"
+
+#: templates/_sidebars.html:333
+msgid "Rotated axes (not exactly vertical or horizontal)"
+msgstr "倾斜坐标轴（不完全垂直或水平）"
+
+#: templates/_sidebars.html:346
+msgid "Map Calibration"
+msgstr "地图标定"
+
+#: templates/_sidebars.html:347
+msgid "Specify two points on the scale bar/reference dimension (P1, P2)"
+msgstr "指定比例尺/参考尺寸上的两个点（P1、P2）"
+
+#: templates/_sidebars.html:350
+msgid "Origin"
+msgstr "原点"
+
+#: templates/_sidebars.html:353
+msgid "Bottom Left"
+msgstr "左下"
+
+#: templates/_sidebars.html:354
+msgid "Top Left"
+msgstr "左上"
+
+#: templates/_sidebars.html:363 templates/_sidebars.html:364
+msgid "Units"
+msgstr "单位"
+
+#: templates/_sidebars.html:373
+msgid "Polar Diagram Calibration"
+msgstr "极坐标图标定"
+
+#: templates/_sidebars.html:374
+msgid "Specify origin and two known points (P1, P2)"
+msgstr "指定原点和两个已知点（P1、P2）"
+
+#: templates/_sidebars.html:377
+msgid "Radial"
+msgstr "径向"
+
+#: templates/_sidebars.html:385
+msgid "Log"
+msgstr "对数"
+
+#: templates/_sidebars.html:401
+msgid "Angular"
+msgstr "角度"
+
+#: templates/_sidebars.html:405
+msgid "Unit"
+msgstr "单位"
+
+#: templates/_sidebars.html:408
+msgid "Degrees"
+msgstr "角度"
+
+#: templates/_sidebars.html:409
+msgid "Radians"
+msgstr "弧度"
+
+#: templates/_sidebars.html:414
+msgid "Orientation"
+msgstr "方向"
+
+#: templates/_sidebars.html:417 templates/_sidebars.html:497
+msgid "Anti-Clockwise"
+msgstr "逆时针方向"
+
+#: templates/_sidebars.html:418 templates/_sidebars.html:498
+msgid "Clockwise"
+msgstr "顺时针"
+
+#: templates/_sidebars.html:437
+msgid "Ternary Diagram Calibration"
+msgstr "三元图标定"
+
+#: templates/_sidebars.html:438
+msgid "Specify three points on corners of the ternary diagram (A, B, C)"
+msgstr "指定三元图三个顶角上的点（A、B、C）"
+
+#: templates/_sidebars.html:444
+msgid "0 to 1"
+msgstr "0 到 1"
+
+#: templates/_sidebars.html:445
+msgid "0 to 100"
+msgstr "0 到 100"
+
+#: templates/_sidebars.html:450
+msgid "Normal"
+msgstr "正向"
+
+#: templates/_sidebars.html:456
+msgid "Reverse"
+msgstr "反向"
+
+#: templates/_sidebars.html:468
+msgid "Circular Chart Calibration"
+msgstr "圆形图表标定"
+
+#: templates/_sidebars.html:469
+msgid ""
+"Specify 5 points: 3 at different values, but same time. 2 at different "
+"times, but same value as R2"
+msgstr "指定5个点：3个点在不同数值但相同时间，另外2个点在不同时间但与 R2 数值相同"
+
+#: templates/_sidebars.html:472
+msgid "Time"
+msgstr "时间"
 
 #: templates/_sidebars.html:476
 msgid "Chart Start Time (T_Start)"
@@ -941,13 +1274,9 @@ msgstr "1个月"
 msgid "Rotation Direction"
 msgstr "旋转方向"
 
-#: templates/_sidebars.html:497
-msgid "Anti-Clockwise"
-msgstr "逆时针方向"
-
-#: templates/_sidebars.html:498
-msgid "Clockwise"
-msgstr "顺时针"
+#: templates/_sidebars.html:506
+msgid "Value Range"
+msgstr "数值范围"
 
 #: templates/_strings.html:21
 msgid "Unstable version warning!"
@@ -1154,11 +1483,6 @@ msgstr "数据集"
 msgid "Measurements"
 msgstr "测量"
 
-#: templates/_strings.html:72 templates/_tree.html:34 templates/_tree.html:44
-#: templates/_tree.html:71 templates/_tree.html:86 templates/_tree.html:103
-msgid "Axes"
-msgstr "坐标轴"
-
 #: templates/_strings.html:74 templates/_tree.html:63 templates/_tree.html:93
 msgid "Angle"
 msgstr "角度"
@@ -1261,15 +1585,31 @@ msgstr "添加新元组"
 
 #: templates/_strings.html:106
 msgid "Template Matching"
-msgstr "设置日期格式"
+msgstr "模板匹配"
 
-#: templates/_strings.html:107
+#: templates/_strings.html:107 templates/_toolbars.html:36
 msgid "AI Assist"
 msgstr "AI 辅助"
 
 #: templates/_strings.html:108
 msgid "AI Assist failed! Please try again later."
 msgstr "AI 辅助失败！请稍后重试。"
+
+#: templates/_toolbars.html:22
+msgid "Load Image/PDF"
+msgstr "加载图像/PDF"
+
+#: templates/_toolbars.html:25
+msgid "Save Project"
+msgstr "保存项目"
+
+#: templates/_toolbars.html:28
+msgid "Add Axes Calibration"
+msgstr "添加坐标轴标定"
+
+#: templates/_toolbars.html:35
+msgid "Autogenerate Calibration and Datasets (Experimental)"
+msgstr "自动生成标定和数据集（实验性）"
 
 #: templates/_toolbars.html:44
 msgid "View Keyboard Shortcuts"

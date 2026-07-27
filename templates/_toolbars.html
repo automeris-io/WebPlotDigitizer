@@ -19,21 +19,21 @@
 
 <div id="quick-actions-toolbar" class="toolbar permanent-toolbar">
     <p>
-        <button onclick="wpd.popup.show('loadNewImage');" class="toolbar-button has-tooltip" data-tooltip="Load Image/PDF">
+        <button onclick="wpd.popup.show('loadNewImage');" class="toolbar-button has-tooltip" data-tooltip="{{ _('Load Image/PDF') }}">
             <i class="bi-image"></i> <span class="toolbar-button-label"></span>
         </button>
-        <button onclick="wpd.saveResume.save();" class="toolbar-button has-tooltip" data-tooltip="Save Project">
+        <button onclick="wpd.saveResume.save();" class="toolbar-button has-tooltip" data-tooltip="{{ _('Save Project') }}">
             <i class="bi-save"></i> <span class="toolbar-button-label"></span>
         </button>
-        <button onclick="wpd.calibrateAxesDialog.open();" class="toolbar-button has-tooltip" data-tooltip="Add Axes Calibration">
+        <button onclick="wpd.calibrateAxesDialog.open();" class="toolbar-button has-tooltip" data-tooltip="{{ _('Add Axes Calibration') }}">
             <i class="bi-plus-square"></i> <span class="toolbar-button-label"></span>
         </button>
-        <button onclick="wpd.dataSeriesManagement.showAddDataset();" class="toolbar-button has-tooltip" data-tooltip="Add Dataset">
+        <button onclick="wpd.dataSeriesManagement.showAddDataset();" class="toolbar-button has-tooltip" data-tooltip="{{ _('Add Dataset') }}">
             <i class="bi-database-add"></i> <span class="toolbar-button-label"></span>
         </button>
         {% if app_mode == "cloud" %}
-        <button onclick="wpd.ai.assist();" class="toolbar-button has-tooltip" data-tooltip="Autogenerate Calibration and Datasets (Experimental)">
-            AI Assist
+        <button onclick="wpd.ai.assist();" class="toolbar-button has-tooltip" data-tooltip="{{ _('Autogenerate Calibration and Datasets (Experimental)') }}">
+            {{ _("AI Assist") }}
         </button>
         {% endif %}
     </p>

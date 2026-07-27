@@ -3,8 +3,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-07-26 22:55-0700\n"
-"PO-Revision-Date: 2026-07-26 23:36-0700\n"
+"POT-Creation-Date: 2026-07-26 23:55-0700\n"
+"PO-Revision-Date: 2026-07-26 23:59-0700\n"
 "Last-Translator: \n"
 "Language-Team: fr_FR <LL@li.org>\n"
 "Language: fr_FR\n"
@@ -32,6 +32,14 @@ msgstr ""
 "Problèmes de chargement? Assurez-vous d'avoir installé une version récente "
 "de Google Chrome, Firefox, Safari ou Microsoft Edge."
 
+#: templates/_base.html:77
+msgid "Rotate 90° counter-clockwise"
+msgstr "Pivoter de 90° dans le sens antihoraire"
+
+#: templates/_base.html:80
+msgid "Rotate 90° clockwise"
+msgstr "Pivoter de 90° dans le sens horaire"
+
 #: templates/_base.html:83
 msgid "Zoom In (Ctrl/Cmd+Scroll)"
 msgstr "Zoom avant (Ctrl/Cmd+Molette)"
@@ -45,8 +53,20 @@ msgid "View actual size"
 msgstr "Afficher la taille réelle"
 
 #: templates/_base.html:86
+msgid "Fit image to screen"
+msgstr "Ajuster l'image à l'écran"
+
+#: templates/_base.html:86
 msgid "Fit"
 msgstr "Adapter"
+
+#: templates/_base.html:87
+msgid "Toggle extended crosshair"
+msgstr "Activer/désactiver le réticule étendu"
+
+#: templates/_base.html:127
+msgid "Change zoom settings"
+msgstr "Modifier les paramètres de zoom"
 
 #: templates/_menubar.html:21
 msgid "File"
@@ -85,6 +105,30 @@ msgstr "Manuel d'utilisateur"
 msgid "Report Issues"
 msgstr "Rapport des Problèmes"
 
+#: templates/_menubar.html:52
+msgid "Your Account"
+msgstr "Votre compte"
+
+#: templates/_menubar.html:56
+msgid "Account"
+msgstr "Compte"
+
+#: templates/_menubar.html:57 templates/_popups.html:544
+msgid "Preferences"
+msgstr "Préférences"
+
+#: templates/_menubar.html:58
+msgid "Sign out"
+msgstr "Se déconnecter"
+
+#: templates/_navbar.html:22
+msgid "Image:"
+msgstr "Image :"
+
+#: templates/_navbar.html:25
+msgid "Page:"
+msgstr "Page :"
+
 #: templates/_navbar.html:27
 msgid "Previous"
 msgstr "Précédent"
@@ -97,9 +141,21 @@ msgstr "Suivant"
 msgid "Page Labels"
 msgstr "Étiquettes de page"
 
+#: templates/_popups.html:26
+msgid "Processing..."
+msgstr "Traitement en cours..."
+
 #: templates/_popups.html:31
 msgid "Load Image File(s)"
 msgstr "Charger le(s) fichier(s) image"
+
+#: templates/_popups.html:32
+msgid "Select image files or PDF documents"
+msgstr "Sélectionnez des fichiers image ou des documents PDF"
+
+#: templates/_popups.html:38
+msgid "You can also drag and drop or paste images"
+msgstr "Vous pouvez également glisser-déposer ou coller des images"
 
 #: templates/_popups.html:41
 msgid "Load"
@@ -146,6 +202,10 @@ msgstr "Rouge"
 msgid "Yellow"
 msgstr "Jaune"
 
+#: templates/_popups.html:77
+msgid "Apply"
+msgstr "Appliquer"
+
 #: templates/_popups.html:82
 msgid "Run Script"
 msgstr "Exécuter le script"
@@ -190,8 +250,8 @@ msgstr "Ok"
 msgid "Acquired Data"
 msgstr "Données acquises"
 
-#: templates/_popups.html:128 templates/_strings.html:69
-#: templates/_tree.html:69
+#: templates/_popups.html:128 templates/_popups.html:348
+#: templates/_strings.html:69 templates/_tree.html:69
 msgid "Dataset"
 msgstr "Ensemble de Données"
 
@@ -252,7 +312,7 @@ msgstr "Ascendant"
 msgid "Descending"
 msgstr "Descendant"
 
-#: templates/_popups.html:152
+#: templates/_popups.html:152 templates/_popups.html:169
 msgid "Format"
 msgstr "Format"
 
@@ -292,6 +352,28 @@ msgstr "Séparateur de colonne"
 msgid "WebPlotDigitizer - Extract Data From Charts"
 msgstr "WebPlotDigitizer - Extraire des données de graphiques"
 
+#: templates/_popups.html:186
+msgid "Licenses:"
+msgstr "Licences :"
+
+#: templates/_popups.html:188
+msgid ""
+"WebPlotDigitizer (frontend UI) is distributed under the <a "
+"href=\"https://www.gnu.org/licenses/agpl-3.0.en.html\" target=\"_blank\">GNU"
+" Affero General Public License Version 3.0</a>."
+msgstr ""
+"WebPlotDigitizer (interface utilisateur) est distribué sous la <a "
+"href=\"https://www.gnu.org/licenses/agpl-3.0.en.html\" "
+"target=\"_blank\">licence publique générale GNU Affero version 3.0</a>."
+
+#: templates/_popups.html:189
+msgid ""
+"The AI Assist (server side backend) is proprietary software owned by "
+"Automeris LLC."
+msgstr ""
+"L'assistant IA (backend côté serveur) est un logiciel propriétaire "
+"appartenant à Automeris LLC."
+
 #: templates/_popups.html:197
 msgid "Export JSON or Project File"
 msgstr "Exporter JSON ou fichier de projet"
@@ -308,6 +390,10 @@ msgstr ""
 "le travail ultérieurement. Vous pouvez également télécharger un 'fichier de "
 "projet' combiné qui inclut ce fichier JSON et également l'image dans un seul"
 " fichier TAR."
+
+#: templates/_popups.html:200
+msgid "Project name:"
+msgstr "Nom du projet :"
 
 #: templates/_popups.html:203
 msgid "Download JSON"
@@ -455,7 +541,8 @@ msgstr "Exporter les données de tous les jeux de données"
 msgid "Export to Plotly"
 msgstr "Exporter vers Plotly"
 
-#: templates/_popups.html:335 templates/_tree.html:54
+#: templates/_popups.html:335 templates/_toolbars.html:31
+#: templates/_tree.html:54
 msgid "Add Dataset"
 msgstr "Ajouter Dataset"
 
@@ -463,6 +550,10 @@ msgstr "Ajouter Dataset"
 #: templates/_popups.html:359
 msgid "Name"
 msgstr "Nom"
+
+#: templates/_popups.html:336
+msgid "New Dataset"
+msgstr "Nouveau jeu de données"
 
 #: templates/_popups.html:336
 msgid "Add Single Dataset"
@@ -489,9 +580,31 @@ msgstr "Renommer"
 msgid "Rename Axes"
 msgstr "Renommer les axes"
 
+#: templates/_popups.html:359 templates/_strings.html:72
+#: templates/_tree.html:34 templates/_tree.html:44 templates/_tree.html:71
+#: templates/_tree.html:86 templates/_tree.html:103
+msgid "Axes"
+msgstr "Axes"
+
 #: templates/_popups.html:367 templates/_tree.html:29
 msgid "Image Info"
 msgstr "Informations sur l'image"
+
+#: templates/_popups.html:370
+msgid "Dimensions:"
+msgstr "Dimensions :"
+
+#: templates/_popups.html:370
+msgid "pixels"
+msgstr "pixels"
+
+#: templates/_popups.html:371
+msgid "Pages:"
+msgstr "Pages :"
+
+#: templates/_popups.html:371
+msgid "pages"
+msgstr "pages"
 
 #: templates/_popups.html:380
 msgid ""
@@ -502,6 +615,14 @@ msgstr ""
 "Renommer le numéro de la page actuelle avec une chaîne alphanumérique. Vous "
 "pouvez également renommer tous les numéros de page de l'image à partir de la"
 " page actuelle (valeurs entières uniquement)."
+
+#: templates/_popups.html:382
+msgid "New page label:"
+msgstr "Nouvelle étiquette de page :"
+
+#: templates/_popups.html:386
+msgid "Relabel all pages"
+msgstr "Renommer toutes les pages"
 
 #: templates/_popups.html:390
 msgid "Relabel"
@@ -627,6 +748,12 @@ msgstr "Cliquez sur les deux extrémités de la barre d'échelle sur la carte."
 msgid "Click on the three corners in the order shown above."
 msgstr "Cliquez sur les trois coins dans l'ordre indiqué ci-dessus."
 
+#: templates/_popups.html:493
+msgid "Click 'Calibrate' to set up a 1:1 mapping from image pixels to data"
+msgstr ""
+"Cliquez sur « Calibrer » pour établir une correspondance 1:1 entre les "
+"pixels de l'image et les données"
+
 #: templates/_popups.html:498
 msgid "Click on five points on the chart axes as shown:"
 msgstr "Cliquez sur cinq points des axes du graphique comme indiqué :"
@@ -646,7 +773,10 @@ msgstr ""
 "Les deux points suivants à des instants quelconques (T1, T2) mais à la même "
 "position radiale que R2."
 
-#: templates/_popups.html:511
+#: templates/_popups.html:511 templates/_sidebars.html:302
+#: templates/_sidebars.html:338 templates/_sidebars.html:368
+#: templates/_sidebars.html:432 templates/_sidebars.html:463
+#: templates/_sidebars.html:523
 msgid "Calibrate"
 msgstr "Calibrer"
 
@@ -683,10 +813,6 @@ msgstr "Valeurs X personnalisées"
 #: templates/_popups.html:536
 msgid "Specify X values for data extraction, for example"
 msgstr "Spécifiez les valeurs X pour l'extraction des données, par exemple"
-
-#: templates/_popups.html:544
-msgid "Preferences"
-msgstr "Préférences"
 
 #: templates/_popups.html:546
 msgid "Language"
@@ -755,7 +881,8 @@ msgstr "Extraction automatique"
 msgid "Mask"
 msgstr "Masque"
 
-#: templates/_sidebars.html:40 templates/_sidebars.html:177
+#: templates/_sidebars.html:40 templates/_sidebars.html:71
+#: templates/_sidebars.html:177
 msgid "Box"
 msgstr "Boîte"
 
@@ -808,6 +935,26 @@ msgstr "Filtre des couleurs"
 msgid "Algorithm"
 msgstr "Algorithme"
 
+#: templates/_sidebars.html:69
+msgid "Template"
+msgstr "Modèle"
+
+#: templates/_sidebars.html:70
+msgid "Point"
+msgstr "Point"
+
+#: templates/_sidebars.html:76
+msgid "Set Custom X Values"
+msgstr "Définir des valeurs X personnalisées"
+
+#: templates/_sidebars.html:85
+msgid "Current Tuple:"
+msgstr "N-uplet actuel :"
+
+#: templates/_sidebars.html:86
+msgid "Current Group:"
+msgstr "Groupe actuel :"
+
 #: templates/_sidebars.html:88
 msgid "Prev Group"
 msgstr "Groupe précédent"
@@ -835,6 +982,26 @@ msgstr "Couleur dominate"
 #: templates/_sidebars.html:119
 msgid "Edit Image"
 msgstr "Modifier l'image"
+
+#: templates/_sidebars.html:120
+msgid "H. Flip"
+msgstr "Retourner H."
+
+#: templates/_sidebars.html:120
+msgid "V. Flip"
+msgstr "Retourner V."
+
+#: templates/_sidebars.html:121 templates/_sidebars.html:238
+msgid "Crop"
+msgstr "Rogner"
+
+#: templates/_sidebars.html:122
+msgid "Restore"
+msgstr "Restaurer"
+
+#: templates/_sidebars.html:123
+msgid "Save .PNG"
+msgstr "Enregistrer en .PNG"
 
 #: templates/_sidebars.html:128
 msgid "Measure Distances"
@@ -944,10 +1111,6 @@ msgstr "Annuler"
 msgid "Redo"
 msgstr "Rétablir"
 
-#: templates/_sidebars.html:238
-msgid "Crop"
-msgstr "Rogner"
-
 #: templates/_sidebars.html:239
 msgid "Fix Perspective"
 msgstr "Corriger la perspective"
@@ -959,6 +1122,187 @@ msgstr "Pivoter"
 #: templates/_sidebars.html:244
 msgid "?"
 msgstr "?"
+
+#: templates/_sidebars.html:247
+msgid ""
+"Click and drag to mark the crop region. Press Enter to complete cropping, "
+"Esc to cancel"
+msgstr ""
+"Cliquez et faites glisser pour délimiter la zone à rogner. Appuyez sur "
+"Entrée pour terminer le rognage, ou Échap pour annuler"
+
+#: templates/_sidebars.html:252
+msgid "XY Axes Calibration"
+msgstr "Calibration des axes XY"
+
+#: templates/_sidebars.html:253
+msgid "Specify four points: X1, X2 on X-axis and Y1, Y2 on Y-axis"
+msgstr "Spécifiez quatre points : X1, X2 sur l'axe X et Y1, Y2 sur l'axe Y"
+
+#: templates/_sidebars.html:256
+msgid "X-Axis"
+msgstr "Axe X"
+
+#: templates/_sidebars.html:259 templates/_sidebars.html:281
+#: templates/_sidebars.html:317 templates/_sidebars.html:384
+msgid "Linear"
+msgstr "Linéaire"
+
+#: templates/_sidebars.html:260 templates/_sidebars.html:282
+#: templates/_sidebars.html:318
+msgid "Log (any base)"
+msgstr "Logarithmique (base quelconque)"
+
+#: templates/_sidebars.html:261 templates/_sidebars.html:283
+#: templates/_sidebars.html:319
+msgid "Date/Time"
+msgstr "Date/Heure"
+
+#: templates/_sidebars.html:278
+msgid "Y-Axis"
+msgstr "Axe Y"
+
+#: templates/_sidebars.html:297
+msgid "Skip rotation correction"
+msgstr "Ignorer la correction de rotation"
+
+#: templates/_sidebars.html:306 templates/_sidebars.html:342
+#: templates/_sidebars.html:527
+msgid ""
+"Refer to the expected <a href=\"/docs/digitize/#input-format-for-"
+"calibration-values\" target=\"_blank\">input format for calibration "
+"values</a>, especially for dates and exponentials."
+msgstr ""
+"Reportez-vous au <a href=\"/docs/digitize/#input-format-for-calibration-"
+"values\" target=\"_blank\">format d'entrée attendu pour les valeurs de "
+"calibration</a>, notamment pour les dates et les exposants."
+
+#: templates/_sidebars.html:310
+msgid "Bar Chart Calibration"
+msgstr "Calibration du diagramme à barres"
+
+#: templates/_sidebars.html:311
+msgid "Specify two points on the axes along the bars (P1, P2)"
+msgstr "Spécifiez deux points sur les axes le long des barres (P1, P2)"
+
+#: templates/_sidebars.html:314 templates/_sidebars.html:359
+#: templates/_sidebars.html:381 templates/_sidebars.html:441
+msgid "Scale"
+msgstr "Échelle"
+
+#: templates/_sidebars.html:333
+msgid "Rotated axes (not exactly vertical or horizontal)"
+msgstr "Axes inclinés (ni exactement verticaux ni horizontaux)"
+
+#: templates/_sidebars.html:346
+msgid "Map Calibration"
+msgstr "Calibration de la carte"
+
+#: templates/_sidebars.html:347
+msgid "Specify two points on the scale bar/reference dimension (P1, P2)"
+msgstr ""
+"Spécifiez deux points sur l'échelle graphique/la dimension de référence (P1,"
+" P2)"
+
+#: templates/_sidebars.html:350
+msgid "Origin"
+msgstr "Origine"
+
+#: templates/_sidebars.html:353
+msgid "Bottom Left"
+msgstr "En bas à gauche"
+
+#: templates/_sidebars.html:354
+msgid "Top Left"
+msgstr "En haut à gauche"
+
+#: templates/_sidebars.html:363 templates/_sidebars.html:364
+msgid "Units"
+msgstr "Unités"
+
+#: templates/_sidebars.html:373
+msgid "Polar Diagram Calibration"
+msgstr "Calibration du diagramme polaire"
+
+#: templates/_sidebars.html:374
+msgid "Specify origin and two known points (P1, P2)"
+msgstr "Spécifiez l'origine et deux points connus (P1, P2)"
+
+#: templates/_sidebars.html:377
+msgid "Radial"
+msgstr "Radial"
+
+#: templates/_sidebars.html:385
+msgid "Log"
+msgstr "Logarithmique"
+
+#: templates/_sidebars.html:401
+msgid "Angular"
+msgstr "Angulaire"
+
+#: templates/_sidebars.html:405
+msgid "Unit"
+msgstr "Unité"
+
+#: templates/_sidebars.html:408
+msgid "Degrees"
+msgstr "Degrés"
+
+#: templates/_sidebars.html:409
+msgid "Radians"
+msgstr "Radians"
+
+#: templates/_sidebars.html:414
+msgid "Orientation"
+msgstr "Orientation"
+
+#: templates/_sidebars.html:417 templates/_sidebars.html:497
+msgid "Anti-Clockwise"
+msgstr "Anti-horaire"
+
+#: templates/_sidebars.html:418 templates/_sidebars.html:498
+msgid "Clockwise"
+msgstr "Sens horaire"
+
+#: templates/_sidebars.html:437
+msgid "Ternary Diagram Calibration"
+msgstr "Calibration du diagramme ternaire"
+
+#: templates/_sidebars.html:438
+msgid "Specify three points on corners of the ternary diagram (A, B, C)"
+msgstr "Spécifiez trois points aux sommets du diagramme ternaire (A, B, C)"
+
+#: templates/_sidebars.html:444
+msgid "0 to 1"
+msgstr "0 à 1"
+
+#: templates/_sidebars.html:445
+msgid "0 to 100"
+msgstr "0 à 100"
+
+#: templates/_sidebars.html:450
+msgid "Normal"
+msgstr "Normal"
+
+#: templates/_sidebars.html:456
+msgid "Reverse"
+msgstr "Inversé"
+
+#: templates/_sidebars.html:468
+msgid "Circular Chart Calibration"
+msgstr "Calibration du diagramme circulaire"
+
+#: templates/_sidebars.html:469
+msgid ""
+"Specify 5 points: 3 at different values, but same time. 2 at different "
+"times, but same value as R2"
+msgstr ""
+"Spécifiez 5 points : 3 à des valeurs différentes mais au même instant. 2 à "
+"des instants différents mais à la même valeur que R2"
+
+#: templates/_sidebars.html:472
+msgid "Time"
+msgstr "Temps"
 
 #: templates/_sidebars.html:476
 msgid "Chart Start Time (T_Start)"
@@ -988,13 +1332,9 @@ msgstr "1 mois"
 msgid "Rotation Direction"
 msgstr "Sens de rotation"
 
-#: templates/_sidebars.html:497
-msgid "Anti-Clockwise"
-msgstr "Anti-horaire"
-
-#: templates/_sidebars.html:498
-msgid "Clockwise"
-msgstr "Sens horaire"
+#: templates/_sidebars.html:506
+msgid "Value Range"
+msgstr "Plage de valeurs"
 
 #: templates/_strings.html:21
 msgid "Unstable version warning!"
@@ -1216,11 +1556,6 @@ msgstr "Jeux de données"
 msgid "Measurements"
 msgstr "Mesures"
 
-#: templates/_strings.html:72 templates/_tree.html:34 templates/_tree.html:44
-#: templates/_tree.html:71 templates/_tree.html:86 templates/_tree.html:103
-msgid "Axes"
-msgstr "Axes"
-
 #: templates/_strings.html:74 templates/_tree.html:63 templates/_tree.html:93
 msgid "Angle"
 msgstr "Angle"
@@ -1325,13 +1660,30 @@ msgstr "nouveau n-uplet"
 msgid "Template Matching"
 msgstr "Correspondance de modèles"
 
-#: templates/_strings.html:107
+#: templates/_strings.html:107 templates/_toolbars.html:36
 msgid "AI Assist"
 msgstr "Assistant IA"
 
 #: templates/_strings.html:108
 msgid "AI Assist failed! Please try again later."
 msgstr "Échec de l'assistant IA ! Veuillez réessayer plus tard."
+
+#: templates/_toolbars.html:22
+msgid "Load Image/PDF"
+msgstr "Charger une image/un PDF"
+
+#: templates/_toolbars.html:25
+msgid "Save Project"
+msgstr "Enregistrer le projet"
+
+#: templates/_toolbars.html:28
+msgid "Add Axes Calibration"
+msgstr "Ajouter une calibration d'axes"
+
+#: templates/_toolbars.html:35
+msgid "Autogenerate Calibration and Datasets (Experimental)"
+msgstr ""
+"Générer automatiquement la calibration et les jeux de données (expérimental)"
 
 #: templates/_toolbars.html:44
 msgid "View Keyboard Shortcuts"
