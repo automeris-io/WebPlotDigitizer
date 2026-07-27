@@ -21,6 +21,9 @@ pybabel update -l de_DE -d ./locale/ -i ./locale/messages.pot
 pybabel update -l ja -d ./locale/ -i ./locale/messages.pot
 pybabel update -l ru -d ./locale/ -i ./locale/messages.pot
 
+echo "Compiling translation files..."
+pybabel compile -d ./locale/
+
 echo "Rendering HTML Pages..."
 python3 renderHTML.py
 

@@ -1,7 +1,7 @@
 /*
     WebPlotDigitizer - web based chart data extraction software (and more)
     
-    Copyright (C) 2025 Ankit Rohatgi
+    Copyright (C) 2026 Ankit Rohatgi
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as published by
@@ -44,6 +44,50 @@ wpd.dataExport = (function() {
             }
         }
         return val;
+    }
+
+    function getDatasetTables() {
+        let plotData = wpd.appData.getPlotData();
+        let dsColl = plotData.getDatasets();
+        let tables = [];
+
+        for (let i = 0; i < dsColl.length; i++) {
+            let axes = plotData.getAxesForDataset(dsColl[i]);
+            if (axes == null)
+                continue;
+            let axLab = axes.getAxesLabels();
+            let pts = dsColl[i].getCount();
+            let rows = [];
+            for (let j = 0; j < pts; j++) {
+                let px = dsColl[i].getPixel(j);
+                rows.push(getValueAtPixel(j, axes, px));
+            }
+            tables.push({
+                name: dsColl[i].name,
+                headers: axLab,
+                rows: rows
+            });
+        }
+
+        return tables;
+    }
+
+    function download() {
+        let format = document.getElementById('export-all-data-format').value;
+        wpd.popup.close('export-all-data-popup');
+
+        if (format === 'csv') {
+            generateCSV();
+            return;
+        }
+
+        let tables = getDatasetTables();
+        if (tables.length === 0) {
+            wpd.messagePopup.show(wpd.gettext('no-datasets-to-export-error'),
+                wpd.gettext('no-datasets-to-export'));
+            return;
+        }
+        wpd.tableExport.download(format, tables, 'wpd_datasets');
     }
 
     function generateCSV() {
@@ -167,6 +211,7 @@ wpd.dataExport = (function() {
     return {
         show: show,
         generateCSV: generateCSV,
-        exportToPlotly: exportToPlotly
+        exportToPlotly: exportToPlotly,
+        download: download
     };
 })();

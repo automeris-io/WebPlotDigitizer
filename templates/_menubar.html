@@ -1,7 +1,7 @@
 {#
     WebPlotDigitizer - web based chart data extraction software (and more)
 
-    Copyright (C) 2025 Ankit Rohatgi
+    Copyright (C) 2026 Ankit Rohatgi
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as published by
@@ -49,13 +49,13 @@
 {% if app_mode == 'cloud' %}
 <div class="wpd-menu">
     <div class="wpd-menu-header">
-        <span title="Your Account"><i class="bi bi-person-circle"></i></span>
+        <span title="{{ _('Your Account') }}"><i class="bi bi-person-circle"></i></span>
     </div>
     <div class="wpd-menu-dropdown">
         <ul>
-            <li onclick="window.open('/account', '_blank');">Account</li>
-            <li onclick="wpd.showPrefs();">Preferences</li>
-            <li onclick="window.open('/api/logout', '_self');">Sign out</li>
+            <li onclick="window.open('/account', '_blank');">{{ _("Account") }}</li>
+            <li onclick="wpd.showPrefs();">{{ _("Preferences") }}</li>
+            <li onclick="window.open('/api/logout', '_self');">{{ _("Sign out") }}</li>
         </ul>
     </div>
 </div>

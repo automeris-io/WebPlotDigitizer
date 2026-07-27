@@ -1,7 +1,7 @@
 /*
     WebPlotDigitizer - web based chart data extraction software (and more)
     
-    Copyright (C) 2025 Ankit Rohatgi
+    Copyright (C) 2026 Ankit Rohatgi
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as published by
@@ -65,7 +65,7 @@ wpd.saveResume = (function() {
         wpd.popup.close('export-json-window');
     }
 
-    function _writeAndDownloadTar(projectName, json, imageFiles, imageFileNames) {
+    async function _writeAndDownloadTar(projectName, json, imageFiles, imageFileNames) {
         // projectInfo
         let projectInfo =
             JSON.stringify({
@@ -82,10 +82,20 @@ wpd.saveResume = (function() {
         for (let i = 0; i < imageFiles.length; i++) {
             tarWriter.addFile(projectName + '/' + imageFileNames[i], imageFiles[i]);
         }
-        return tarWriter.download(projectName + '.tar');
+        const tarBytes = await tarWriter.write();
+
+        if (wpd.compression.supportsGzip()) {
+            const gzBytes = await wpd.compression.gzip(tarBytes);
+            wpd.download.file(gzBytes, projectName + '.tar.gz', 'application/gzip');
+        } else {
+            // Older browsers without the Compression Streams API: fall
+            // back to an uncompressed .tar, which readProjectFile() also
+            // still accepts.
+            wpd.download.file(tarBytes, projectName + '.tar', 'application/x-tar');
+        }
     }
 
-    function downloadProject() {
+    async function downloadProject() {
         // get project name
         const projectName =
             stripIllegalCharacters(document.getElementById('project-name-input').value);
@@ -93,15 +103,16 @@ wpd.saveResume = (function() {
         // get JSON
         const json = generateJSON();
 
-        // get images, write everything to a tar, and initiate download
+        // get images, write everything to a tar(.gz), and initiate download
         wpd.busyNote.show();
-        wpd.graphicsWidget.getImageFiles().then(imageFiles => {
-            const imageFileNames = imageFiles.map(file => file.name);
-            _writeAndDownloadTar(projectName, json, imageFiles, imageFileNames).then(
-                wpd.busyNote.close()
-            );
-        });
         wpd.popup.close('export-json-window');
+        try {
+            const imageFiles = await wpd.graphicsWidget.getImageFiles();
+            const imageFileNames = imageFiles.map(file => file.name);
+            await _writeAndDownloadTar(projectName, json, imageFiles, imageFileNames);
+        } finally {
+            wpd.busyNote.close();
+        }
     }
 
     function readJSONFileOnly(jsonFile) {
@@ -120,47 +131,73 @@ wpd.saveResume = (function() {
         fileReader.readAsText(jsonFile);
     }
 
-    function readProjectFile(file) {
+    function _readFileAsArrayBuffer(file) {
+        return new Promise((resolve, reject) => {
+            const fileReader = new FileReader();
+            fileReader.onload = () => resolve(fileReader.result);
+            fileReader.onerror = () => reject(fileReader.error);
+            fileReader.readAsArrayBuffer(file);
+        });
+    }
+
+    async function readProjectFile(file) {
         wpd.busyNote.show();
-        var tarReader = new tarball.TarReader();
-        tarReader.readFile(file).then(
-            function(fileInfo) {
-                wpd.busyNote.close();
-                const infoIndex = fileInfo.findIndex(info => info.name.endsWith('/info.json'));
-                if (infoIndex >= 0) {
-                    const projectName = fileInfo[infoIndex].name.replace('/info.json', '');
+        let fileInfo, tarReader;
+        try {
+            let bytes = new Uint8Array(await _readFileAsArrayBuffer(file));
 
-                    let wpdimages = [];
-                    fileInfo.filter((info) => {
-                        return info.type === 'file' && !info.name.endsWith('.json');
-                    }).forEach((info) => {
-                        let mimeType = '';
-                        if (info.name.endsWith('.pdf')) {
-                            mimeType = 'application/pdf';
-                        } else {
-                            mimeType = 'image/png';
-                        }
-                        const nameRegexp = new RegExp(projectName + '/', 'i');
-                        const wpdimage = tarReader.getFileBlob(info.name, mimeType);
-                        wpdimage.name = info.name.replace(nameRegexp, '');
-                        wpdimages.push(wpdimage);
-                    });
-
-                    let wpdjson = JSON.parse(tarReader.getTextFile(projectName + '/wpd.json'));
-
-                    wpd.imageManager.initializeFileManager(wpdimages);
-                    wpd.imageManager.loadFromFile(wpdimages[0], true).then(() => {
-                        resumeFromJSON(wpdjson);
-                        wpd.tree.refresh();
-                        wpd.messagePopup.show(wpd.gettext('import-json'),
-                            wpd.gettext('json-data-loaded'));
-                        afterProjectLoaded();
-                    });
+            // Accept both a plain .tar (older exports, or browsers without
+            // the Compression Streams API) and a gzip-compressed .tar.gz,
+            // sniffed by magic number rather than trusting file.name/type.
+            if (wpd.compression.isGzip(bytes)) {
+                if (!wpd.compression.supportsGzip()) {
+                    wpd.messagePopup.show(wpd.gettext('invalid-project'),
+                        wpd.gettext('invalid-project-msg'));
+                    return;
                 }
-            },
-            function(err) {
-                console.log(err);
+                bytes = await wpd.compression.gunzip(bytes);
+            }
+
+            tarReader = new tarball.TarReader();
+            fileInfo = tarReader.readArrayBuffer(bytes.buffer);
+        } catch (err) {
+            console.log(err);
+            return;
+        } finally {
+            wpd.busyNote.close();
+        }
+
+        const infoIndex = fileInfo.findIndex(info => info.name.endsWith('/info.json'));
+        if (infoIndex >= 0) {
+            const projectName = fileInfo[infoIndex].name.replace('/info.json', '');
+
+            let wpdimages = [];
+            fileInfo.filter((info) => {
+                return info.type === 'file' && !info.name.endsWith('.json');
+            }).forEach((info) => {
+                let mimeType = '';
+                if (info.name.endsWith('.pdf')) {
+                    mimeType = 'application/pdf';
+                } else {
+                    mimeType = 'image/png';
+                }
+                const nameRegexp = new RegExp(projectName + '/', 'i');
+                const wpdimage = tarReader.getFileBlob(info.name, mimeType);
+                wpdimage.name = info.name.replace(nameRegexp, '');
+                wpdimages.push(wpdimage);
             });
+
+            let wpdjson = JSON.parse(tarReader.getTextFile(projectName + '/wpd.json'));
+
+            wpd.imageManager.initializeFileManager(wpdimages);
+            wpd.imageManager.loadFromFile(wpdimages[0], true).then(() => {
+                resumeFromJSON(wpdjson);
+                wpd.tree.refresh();
+                wpd.messagePopup.show(wpd.gettext('import-json'),
+                    wpd.gettext('json-data-loaded'));
+                afterProjectLoaded();
+            });
+        }
     }
 
     function afterProjectLoaded() {
@@ -176,18 +213,15 @@ wpd.saveResume = (function() {
         wpd.popup.close('import-json-window');
         if ($fileInput.files.length === 1) {
             let file = $fileInput.files[0];
-            let fileType = file.type;
-            if (fileType == "" || fileType == null) {
-                // Chrome on Windows
-                if (file.name.endsWith(".json")) {
-                    fileType = "application/json";
-                } else if (file.name.endsWith(".tar")) {
-                    fileType = "application/x-tar";
-                }
-            }
-            if (fileType == "application/json") {
+            // Browsers report inconsistent (or empty) MIME types for
+            // .tar/.tar.gz/.tgz uploads, so route by extension instead;
+            // readProjectFile() itself sniffs the gzip magic number to
+            // decide whether decompression is needed.
+            const name = file.name.toLowerCase();
+            if (name.endsWith(".json")) {
                 readJSONFileOnly(file);
-            } else if (fileType == "application/x-tar") {
+            } else if (name.endsWith(".tar") || name.endsWith(".tar.gz") || name.endsWith(
+                    ".tgz")) {
                 readProjectFile(file);
             } else {
                 wpd.messagePopup.show(wpd.gettext("invalid-project"),

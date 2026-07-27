@@ -2,7 +2,7 @@
 <!--
     WebPlotDigitizer - web based chart data extraction software (and more)
 
-    Copyright (C) 2025 Ankit Rohatgi
+    Copyright (C) 2026 Ankit Rohatgi
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as published by
@@ -19,7 +19,7 @@
 -->
 <html>
 
-{% set wpdVersion = '5.3' %}
+{% set wpdVersion = '5.4' %}
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -29,7 +29,7 @@
     <meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="pragma" content="no-cache" />
     <meta http-equiv="expires" content="-1" />
-    <title>WebPlotDigitizer - Copyright 2010-2025 Ankit Rohatgi</title>
+    <title>WebPlotDigitizer - Copyright 2010-2026 Ankit Rohatgi</title>
     <link rel="stylesheet" href="node_modules/bootstrap-icons/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="styles/styles.css" type="text/css" media="screen" />
     <link rel="stylesheet" href="styles/widgets.css" type="text/css" media="screen" />
@@ -74,17 +74,17 @@
                 </div>
 
                 <div style="display: inline-block; width: 220px; text-align: right; padding-top: 9px;">
-                    <button type="button" onclick="wpd.graphicsWidget.rotateCounterClockwise();" class="toolbar-button has-tooltip" data-tooltip="Rotate 90° counter-clockwise">
+                    <button type="button" onclick="wpd.graphicsWidget.rotateCounterClockwise();" class="toolbar-button has-tooltip" data-tooltip="{{ _('Rotate 90° counter-clockwise') }}">
                         <i class="bi bi-arrow-counterclockwise"></i>
                     </button>
-                    <button type="button" onclick="wpd.graphicsWidget.rotateClockwise();" class="toolbar-button has-tooltip" data-tooltip="Rotate 90° clockwise">
+                    <button type="button" onclick="wpd.graphicsWidget.rotateClockwise();" class="toolbar-button has-tooltip" data-tooltip="{{ _('Rotate 90° clockwise') }}">
                         <i class="bi bi-arrow-clockwise"></i>
                     </button>
-                    <button type="button" onclick="wpd.graphicsWidget.zoomIn();" class="toolbar-button has-tooltip" data-tooltip="Zoom In">+</button>
-                    <button type="button" onclick="wpd.graphicsWidget.zoomOut();" class="toolbar-button has-tooltip" data-tooltip="Zoom Out">-</button>
-                    <button type="button" onclick="wpd.graphicsWidget.zoom100perc();" class="toolbar-button has-tooltip" data-tooltip="View actual size">100%</button>
-                    <button type="button" onclick="wpd.graphicsWidget.zoomFit();" class="toolbar-button has-tooltip" data-tooltip="Fit image to screen">{{ _("Fit") }}</button>
-                    <button onclick="wpd.graphicsWidget.toggleExtendedCrosshairBtn();" class="toolbar-button has-tooltip" style="background-image: url('images/crosshair.png'); background-repeat: no-repeat; background-position: center;" id="extended-crosshair-btn" data-tooltip="Toggle extended crosshair">&nbsp;</button>
+                    <button type="button" onclick="wpd.graphicsWidget.zoomIn();" class="toolbar-button has-tooltip" data-tooltip="{{ _('Zoom In (Ctrl/Cmd+Scroll)') }}">+</button>
+                    <button type="button" onclick="wpd.graphicsWidget.zoomOut();" class="toolbar-button has-tooltip" data-tooltip="{{ _('Zoom Out (Ctrl/Cmd+Scroll)') }}">-</button>
+                    <button type="button" onclick="wpd.graphicsWidget.zoom100perc();" class="toolbar-button has-tooltip" data-tooltip="{{ _('View actual size') }}">100%</button>
+                    <button type="button" onclick="wpd.graphicsWidget.zoomFit();" class="toolbar-button has-tooltip" data-tooltip="{{ _('Fit image to screen') }}">{{ _("Fit") }}</button>
+                    <button onclick="wpd.graphicsWidget.toggleExtendedCrosshairBtn();" class="toolbar-button has-tooltip" style="background-image: url('images/crosshair.png'); background-repeat: no-repeat; background-position: center;" id="extended-crosshair-btn" data-tooltip="{{ _('Toggle extended crosshair') }}">&nbsp;</button>
                 </div>
 
             </div>
@@ -124,7 +124,7 @@
             </div>
 
             <div id="zoom-settings-container">
-                <button id="zoom-settings-button" class="has-tooltip" onclick="wpd.zoomView.showSettingsWindow();" data-tooltip="Change zoom settings">
+                <button id="zoom-settings-button" class="has-tooltip" onclick="wpd.zoomView.showSettingsWindow();" data-tooltip="{{ _('Change zoom settings') }}">
                     <i class="bi bi-gear-fill"></i>
                 </button>
             </div>

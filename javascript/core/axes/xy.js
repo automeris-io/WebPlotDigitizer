@@ -1,7 +1,7 @@
 /*
     WebPlotDigitizer - web based chart data extraction software (and more)
     
-    Copyright (C) 2025 Ankit Rohatgi
+    Copyright (C) 2026 Ankit Rohatgi
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as published by
@@ -45,7 +45,7 @@ wpd.XYAxes = (function() {
                     return false;
                 }
 
-                var cp1 = cal.getPoint(0),
+                let cp1 = cal.getPoint(0),
                     cp2 = cal.getPoint(1),
                     cp3 = cal.getPoint(2),
                     cp4 = cal.getPoint(3),
@@ -172,7 +172,7 @@ wpd.XYAxes = (function() {
         };
 
         this.pixelToData = function(pxi, pyi) {
-            var data = [],
+            let data = [],
                 xp, yp, xf, yf, dat_vec;
 
             xp = parseFloat(pxi);
@@ -202,7 +202,7 @@ wpd.XYAxes = (function() {
         };
 
         this.dataToPixel = function(x, y) {
-            var xf, yf, dat_vec, rtnPix;
+            let xf, yf, dat_vec, rtnPix;
 
             if (isLogScaleX) {
                 x = isLogScaleXNegative ? Math.log(-x) / Math.log(10) : Math.log(x) / Math.log(10);
@@ -224,8 +224,8 @@ wpd.XYAxes = (function() {
         };
 
         this.pixelToLiveString = function(pxi, pyi) {
-            var rtnString = '',
-                dataVal = this.pixelToData(pxi, pyi);
+            let rtnString = '';
+            const dataVal = this.pixelToData(pxi, pyi);
             if (isXDate) {
                 rtnString += wpd.dateConverter.formatDateNumber(dataVal[0], initialFormattingX);
             } else {

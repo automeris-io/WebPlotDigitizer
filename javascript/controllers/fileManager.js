@@ -1,7 +1,7 @@
 /*
     WebPlotDigitizer - web based chart data extraction software (and more)
     
-    Copyright (C) 2025 Ankit Rohatgi
+    Copyright (C) 2026 Ankit Rohatgi
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as published by
@@ -332,7 +332,7 @@ wpd.FileManager = class {
                     filePromise = new Promise((resolve, reject) => {
                         let reader = new FileReader();
                         reader.onload = function() {
-                            pdfjsLib.getDocument(reader.result).promise.then(pdf => resolve(pdf));
+                            pdfjsLib.getDocument({ url: reader.result }).promise.then(pdf => resolve(pdf));
                         };
                         reader.readAsDataURL(this.files[index]);
                     });

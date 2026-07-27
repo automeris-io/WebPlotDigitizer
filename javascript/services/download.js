@@ -1,7 +1,7 @@
 /*
     WebPlotDigitizer - web based chart data extraction software (and more)
     
-    Copyright (C) 2025 Ankit Rohatgi
+    Copyright (C) 2026 Ankit Rohatgi
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as published by
@@ -47,12 +47,26 @@ wpd.download = (function() {
         textFile(csvData, filename);
     }
 
+    // Binary-safe download, e.g. for a Uint8Array produced by matWriter/xlsxWriter.
+    function file(data, filename, mimeType) {
+        let $downloadElem = document.createElement('a');
+        $downloadElem.href = URL.createObjectURL(new Blob([data], {
+            type: mimeType || "application/octet-stream"
+        }));
+        $downloadElem.download = stripIllegalCharacters(filename);
+        $downloadElem.style.display = "none";
+        document.body.appendChild($downloadElem);
+        $downloadElem.click();
+        document.body.removeChild($downloadElem);
+    }
+
     function stripIllegalCharacters(filename) {
         return filename.replace(/[^a-zA-Z\d+\.\-_\s]/g, "_");
     }
 
     return {
         json: json,
-        csv: csv
+        csv: csv,
+        file: file
     };
 })();

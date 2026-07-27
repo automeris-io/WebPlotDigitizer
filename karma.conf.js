@@ -1,7 +1,7 @@
 /*
     WebPlotDigitizer - web based chart data extraction software (and more)
     
-    Copyright (C) 2025 Ankit Rohatgi
+    Copyright (C) 2026 Ankit Rohatgi
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as published by
@@ -46,6 +46,11 @@ module.exports = function(config) {
             "javascript/core/point_detection/*.js",
             "javascript/services/saveResume.js",
             "javascript/services/events.js",
+            "javascript/services/compression.js",
+            "javascript/services/zipWriter.js",
+            "javascript/services/matWriter.js",
+            "javascript/services/xlsxWriter.js",
+            "javascript/services/tableExport.js",
             "javascript/widgets/*.js",
             "javascript/tools/base/*.js",
             "javascript/tools/*.js",

@@ -1,7 +1,7 @@
 /*
     WebPlotDigitizer - web based chart data extraction software (and more)
     
-    Copyright (C) 2025 Ankit Rohatgi
+    Copyright (C) 2026 Ankit Rohatgi
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as published by
@@ -45,7 +45,7 @@ wpd.imageOps = (function() {
         for (rowi = 0; rowi < iheight / 2; rowi++) {
             for (coli = 0; coli < iwidth; coli++) {
                 index = 4 * (rowi * iwidth + coli);
-                mindex = 4 * ((iheight - (rowi + 2)) * iwidth + coli);
+                mindex = 4 * ((iheight - 1 - rowi) * iwidth + coli);
                 for (p = 0; p < 4; p++) {
                     tval = idata.data[index + p];
                     idata.data[index + p] = idata.data[mindex + p];
